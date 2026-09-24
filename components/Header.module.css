@@ -1,0 +1,38 @@
+.header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px clamp(24px, 4vw, 64px); min-height: 112px; background: var(--green-800); color: white; }
+.brandRow { display: flex; align-items: center; gap: 24px; }
+.logo { width: 108px; height: auto; object-fit: contain; }
+.social { display: flex; }
+.desktopNav { display: flex; align-items: center; gap: clamp(20px, 3vw, 42px); font-weight: 600; }
+.navLink, .dropdownButton { color: white; text-decoration: none; white-space: nowrap; padding: 12px 0; }
+.navLink:hover, .dropdownButton:hover { color: #a9e4d2; }
+.dropdownButton { display: flex; align-items: center; gap: 5px; background: transparent; border: 0; cursor: pointer; }
+.mobileToggle { display: none; }
+.mobileNav { display: none; }
+
+/* Zijwaarts openende submenu's (desktop "Verduurzamen"-dropdown, zoals
+   de navigatie oorspronkelijk was): "Maatregelen" opent Isolatie/
+   Installaties, elk daarvan opent op hover de losse maatregelitems. */
+.flyoutTrigger { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 14px; font-weight: 600; color: var(--gijs-donkergroen); text-decoration: none; padding: 9px 16px; cursor: pointer; background: transparent; border: 0; text-align: left; }
+.flyoutTrigger:focus-visible, .megaLink:focus-visible, .dropdownButton:focus-visible { outline: 3px solid var(--accent-500); outline-offset: 2px; }
+.flyoutTrigger:hover { background: var(--accent-050); color: var(--accent-700); }
+.flyoutPanel { position: absolute; left: 100%; top: -9px; min-width: 210px; background: white; border-radius: var(--radius-card); border: 1px solid var(--grey-200); box-shadow: var(--shadow-2); padding: 8px; z-index: 60; }
+.megaLink { display: block; font-size: 14px; font-weight: 500; color: var(--gijs-donkergroen); text-decoration: none; padding: 7px 8px; border-radius: 8px; }
+.megaLink:hover { background: var(--accent-050); color: var(--accent-700); }
+
+@media (max-width: 1100px) {
+  .social { display: none; }
+  .header { min-height: 88px; padding: 12px 24px; }
+  .brandRow { width: 100%; justify-content: space-between; }
+  .logo { width: 86px; height: auto; }
+  .desktopNav { display: none; }
+  .mobileToggle { display: block; background: transparent; border: 0; color: white; cursor: pointer; padding: 8px; }
+  .mobileNav { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100svh - 88px); overflow-y: auto; padding: 16px 24px 24px; background: white; color: var(--green-800); box-shadow: var(--shadow-3); }
+}
+
+/* Mobiele geneste accordion (Verduurzamen > Isolatie/Installaties) */
+.mobileAccordionButton { display: flex; align-items: center; justify-content: space-between; width: 100%; background: transparent; border: 0; text-align: left; font: inherit; font-weight: 600; color: var(--gijs-donkergroen); cursor: pointer; padding: 14px 0; border-bottom: 1px solid var(--grey-100); min-height: 48px; }
+.mobileAccordionPanel { display: flex; flex-direction: column; padding: 4px 0 8px; }
+.mobileSubButton { display: flex; align-items: center; justify-content: space-between; width: 100%; background: transparent; border: 0; text-align: left; font: inherit; font-weight: 600; font-size: 14px; color: var(--gijs-donkergroen); cursor: pointer; padding: 12px 8px; min-height: 44px; }
+.mobileSubPanel { display: flex; flex-direction: column; padding: 0 8px 8px 20px; }
+.mobileSubPanel a { display: block; padding: 10px 0; min-height: 40px; font-size: 14px; color: var(--gijs-donkergroen); text-decoration: none; }
+.mobileSubPanel a:hover { color: var(--accent-700); }

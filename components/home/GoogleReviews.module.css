@@ -1,0 +1,13 @@
+.section { background:#f4f7f2; padding:56px 24px; }
+.inner { max-width:1152px; margin:auto; }
+.summary { display:flex; flex-wrap:wrap; align-items:center; gap:12px 24px; }
+.summary h2 { font-size:clamp(26px,3vw,40px); font-weight:700; }
+.summary a,.review a { color:var(--green-800); text-decoration:underline; text-underline-offset:3px; }
+.source { margin:20px 0 10px; height:18px; width:auto; }
+.notice { color:#555; font-size:13px; margin-bottom:24px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr)); gap:20px; }
+.review { padding:24px; background:white; border:1px solid #d8e2d8; border-radius:18px; }
+.author { display:flex; gap:12px; align-items:center; margin-bottom:16px; font-weight:600; }
+.avatar { width:36px; height:36px; border-radius:50%; }
+.review blockquote { font-size:17px; line-height:1.6; margin:16px 0; white-space:pre-line; }
+.review small { display:block; margin-top:12px; color:#555; }

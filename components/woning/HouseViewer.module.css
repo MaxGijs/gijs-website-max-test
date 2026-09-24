@@ -1,0 +1,42 @@
+.viewer { min-width:0; border-radius:24px; background:var(--white); border:1px solid var(--border-default); padding:24px; color:var(--green-900); }
+.viewer h2 { font-size:clamp(21px,2vw,28px); font-weight:700; line-height:1.2; }
+.instructions { font-size:15px; line-height:1.5; margin-top:10px; max-width:44ch; color:var(--grey-600); }
+.viewLabel { font-size:13px; font-weight:600; margin-top:12px; color:var(--accent-800); }
+.crewButton { position:absolute; top:6px; left:16px; border:1px solid var(--border-default); padding:10px 14px; border-radius:10px; background:white; color:var(--green-900); cursor:pointer; font-size:14px; }
+/* Rustig, licht neutraal vlak achter de woning met een zeer subtiel grid —
+   geeft de 3D-woning "grond" zonder futuristisch/gaming aan te voelen. Het
+   grid zit op een eigen laag (::before) zodat alleen het grid naar de
+   randen uitfaded, niet de woning zelf die erboven wordt getekend. */
+.scene { height:clamp(270px,calc(100svh - 360px),410px); position:relative; margin:16px -16px 0; border-radius:16px; overflow:hidden; background:var(--surface-tint); }
+.scene::before {
+  content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(var(--border-default) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-default) 1px, transparent 1px);
+  background-size:32px 32px;
+  background-position:center;
+  -webkit-mask-image:radial-gradient(ellipse at center, black 45%, transparent 85%);
+  mask-image:radial-gradient(ellipse at center, black 45%, transparent 85%);
+}
+.scene canvas { position:relative; z-index:1; }
+.controls,.zones { display:flex; flex-wrap:wrap; gap:8px; }
+.controls button,.zones button,.touchToggle { border:1px solid var(--border-default); padding:10px 14px; min-height:44px; border-radius:10px; background:white; color:var(--green-900); cursor:pointer; font-weight:600; }
+.controls button:hover,.zones button:hover { background:var(--surface-tint); }
+.zones button[aria-pressed=true] { background:var(--green-800); color:white; }
+.caption { font-size:13px; line-height:1.5; margin:14px 0; color:var(--grey-600); }
+.touchToggle { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:13px; }
+.loading { position:absolute; top:40%; width:100%; text-align:center; padding:20px; background:var(--white); border-radius:12px; }
+.profileDetail { margin-top:16px; font-size:14px; }
+.profileDetail summary { cursor:pointer; font-weight:600; padding:12px 0; }
+.profileComparison { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin:16px 0; }
+.profileComparison strong { display:block; margin-top:14px; }
+.oldProfile,.newProfile { display:grid; place-items:center; width:100%; height:105px; background:#83acb8; border:5px solid #d4c8ad; color:#16392f; }
+.newProfile { border:12px ridge #f7f7ef; outline:1px solid #afbab1; box-shadow:inset 0 0 0 3px #2a3432; }
+.unavailable { min-height:260px; display:flex; flex-direction:column; justify-content:center; gap:16px; }
+@media(max-width:600px) { .viewer { padding:20px; } .scene { height:310px; } .controls button { padding:9px 12px; } }
+
+.profileDetail summary { display:block; background:var(--accent-700); color:white; border-radius:var(--radius-control); padding:17px 24px; font-size:18px; font-weight:700; cursor:pointer; text-align:center; box-shadow:0 4px 12px #123a2420; }
+.profileDetail summary:hover { background:#104c3a; }
+.profileDetail summary:focus-visible { outline:3px solid #35ad83; outline-offset:4px; }
+.profileDetail[open] summary { margin-bottom:20px; }
+.controls button[aria-pressed=true]{background:var(--accent-700);color:white}
