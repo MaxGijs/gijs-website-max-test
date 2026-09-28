@@ -8,7 +8,7 @@ export default function AboutName() {
   return (
     <section className="bg-white">
       <div className="max-w-2xl mx-auto px-6 py-12 text-center">
-        <p className="text-sm font-semibold tracking-[var(--ls-eyebrow)] uppercase text-[var(--accent-700)] mb-2">
+        <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)] mb-2">
           Onze naam
         </p>
         <h2 className="text-[var(--fs-500)] font-bold text-[var(--gijs-donkergroen)] mb-2">

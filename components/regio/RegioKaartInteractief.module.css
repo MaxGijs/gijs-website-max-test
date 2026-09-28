@@ -1,0 +1,60 @@
+/* Interactieve Nederland → Overijssel → gemeente kaart (uitbreiding van de
+   bestaande /regio-kaart, zie RegioKaartInteractief.tsx). Puur CSS voor de
+   zoom/crossfade-overgangen; geen animatiebibliotheek. */
+
+.stage {
+  position: relative;
+  width: 100%;
+}
+
+.laag {
+  position: relative;
+  width: 100%;
+}
+
+.laagUit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* De <g> met alle provincies/gemeenten: een transform hierop is wél via CSS
+   animeerbaar (in tegenstelling tot viewBox), dat geeft de "inzoom". */
+.zoomGroep {
+  transition: transform 650ms cubic-bezier(0.22, 0.7, 0.2, 1);
+  transform-box: fill-box;
+}
+
+.fadeIn {
+  animation: gijsFadeIn 450ms ease both;
+}
+.fadeOut {
+  animation: gijsFadeOut 450ms ease both;
+}
+@keyframes gijsFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes gijsFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.vorm {
+  cursor: pointer;
+  transition: fill 150ms ease, stroke 150ms ease;
+  outline: none;
+}
+.vorm:focus-visible {
+  stroke: var(--gijs-donkergroen);
+  stroke-width: 6;
+}
+
+.vormInactief {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zoomGroep { transition: none; }
+  .fadeIn, .fadeOut { animation: none; }
+}

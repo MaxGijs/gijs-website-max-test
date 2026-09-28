@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return createMetadata(
     regioPad(p.slug, g.slug, k.slug),
     `Isolatie in ${k.naam} | Gijs`,
-    `Je woning isoleren in ${k.naam}, gemeente ${g.naam}? Lees welke isolatiemaatregelen er zijn en laat Gijs uitzoeken welke gemeentelijke regelingen mogelijk gelden.`,
+    `Je woning isoleren in ${k.naam}, gemeente ${g.naam}? Lees welke isolatiemaatregelen er zijn. Gemeentelijke subsidies controleer je bij de gemeente ${g.naam}.`,
     k.indexeerbaar && g.indexeerbaar,
     { path: k.afbeelding, alt: `Plaatsnaambord ${k.naam}` },
   );
@@ -53,15 +53,15 @@ export default async function PlaatsPage({ params }: Props) {
 
         <header className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-center mb-14">
           <div className="flex flex-col gap-4 max-w-2xl">
-            <p className="text-xs font-bold tracking-[0.12em] uppercase text-[var(--accent-700)]">{k.naam}, gemeente {g.naam}</p>
+            <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{k.naam}, gemeente {g.naam}</p>
             <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-heading)] text-[var(--gijs-donkergroen)]">
               Isolatie in {k.naam}
             </h1>
             <p className="text-zinc-600">
               {k.naam} hoort bij de gemeente{" "}
               <Link href={gemeenteUrl} className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">{g.naam}</Link>.
-              Wil je je woning in {k.naam} beter isoleren? Hieronder vind je de isolatiemaatregelen en hoe Gijs uitzoekt
-              welke gemeentelijke regelingen mogelijk voor jouw woning gelden.
+              Wil je je woning in {k.naam} beter isoleren? Hieronder vind je de isolatiemaatregelen. Gemeentelijke
+              subsidies en regelingen controleer je bij je eigen gemeente.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
               <Button href="/contact#energiescan" variant="accent" size="lg" iconRight="arrow-right">Plan een gratis energiescan</Button>
@@ -78,13 +78,11 @@ export default async function PlaatsPage({ params }: Props) {
           />
         </header>
 
-        {g.contact_subsidie_via_gijs && (
-          <GemeentelijkeSubsidies
-            gemeente={g.naam}
-            locatie={`${k.naam} (gemeente ${g.naam})`}
-            relatie={`Gemeentelijke subsidies voor inwoners van ${k.naam} worden bepaald door de gemeente ${g.naam}.`}
-          />
-        )}
+        <GemeentelijkeSubsidies
+          gemeente={g.naam}
+          officieleUrl={g.officieleSubsidieUrl}
+          relatie={`${k.naam} valt onder de gemeente ${g.naam}. Voor eventuele gemeentelijke subsidies of regelingen raadpleeg je daarom de actuele informatie van de gemeente ${g.naam}.`}
+        />
 
         <IsolatieMaatregelen
           titel={`Isoleren in ${k.naam}`}

@@ -1,4 +1,4 @@
-import { Group, Mesh, MeshStandardMaterial, Object3D } from "three";
+import { Box3, Group, Mesh, MeshStandardMaterial, Object3D } from "three";
 import type { HouseType } from "./woning-types";
 
 function dispose(object:Object3D){object.traverse(part=>{if((part as Mesh).isMesh){const mesh=part as Mesh;if(mesh.geometry.userData.owned)mesh.geometry.dispose();for(const material of Array.isArray(mesh.material)?mesh.material:[mesh.material])material.dispose();}});}
@@ -25,7 +25,10 @@ export function applyAttachedVariant(scene:Group,source:Group,type:HouseType,sca
     }
   }
   if(type==="tussenwoning"){
-    const pump=scene.getObjectByName("Warmtepomp_DeWarmte");if(pump){pump.position.x=1.8;pump.position.z=-4.5;pump.rotation.y=Math.PI;}
+    // Geen vrije zijgevel: buitenunit tegen de achtergevel, links van de
+    // achterdeur. Rechts van de deur staat de thuisbatterij; de eerdere
+    // x=1.8 zette de unit half in de batterij en pal naast de deur.
+    const pump=scene.getObjectByName("Warmtepomp_DeWarmte");if(pump){pump.position.x=-1.6;pump.position.z=-4.5;pump.rotation.y=Math.PI;}
     if(!scan){const neighbour=scene.getObjectByName("Buurwoning_rij");if(neighbour){const right=independentCopy(neighbour);right.name="Buurwoning_rechts";right.scale.x*=-1;scene.add(right);}}
   }else if(!scan){
     for(const part of [...scene.children])if(part.name.startsWith("Buurwoning")){dispose(part);scene.remove(part);}
@@ -36,10 +39,12 @@ export function applyAttachedVariant(scene:Group,source:Group,type:HouseType,sca
       copy.traverse(child=>{if((child as Mesh).isMesh){const mesh=child as Mesh;for(const mat of Array.isArray(mesh.material)?mesh.material:[mesh.material])if((mat as MeshStandardMaterial).isMeshStandardMaterial)(mat as MeshStandardMaterial).color.multiplyScalar(.9);}});
       neighbour.add(copy);
     }
-    // Dichterbij dan de eerdere -7.5: bij de rustcamera van de landingspagina
-    // (nog niet gescrold, dus nog geen uitgezoomde weergave) viel de
-    // gespiegelde buurwoning grotendeels buiten beeld, waardoor twee-onder-
-    // een-kap nauwelijks van een vrijstaande woning te onderscheiden was.
-    neighbour.scale.x=-1;neighbour.position.x=-6.2;scene.add(neighbour);
+    // Spiegel precies tegen de buitenkant van de gedeelde muur. De eerdere
+    // vaste waarde (-6.2) lag binnen die muur, waardoor beide helften zo'n
+    // 35 cm in elkaar schoven — zichtbaar bij de voordeuren met luifel.
+    scene.updateMatrixWorld(true);
+    const muur=scene.getObjectByName("Buitengevel_links");
+    const spiegelX=muur?new Box3().setFromObject(muur).min.x:-3.1;
+    neighbour.scale.x=-1;neighbour.position.x=2*spiegelX;scene.add(neighbour);
   }
 }

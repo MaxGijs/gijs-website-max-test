@@ -197,7 +197,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="INSTALLATIES"
+        label="Installaties"
         title="Hybride warmtepomp voor jouw woning"
         subtitle="Hybride warmtepomp plaatsen in één dag"
         intro="Een hybride warmtepomp werkt samen met je cv-ketel: de warmtepomp haalt warmte uit de buitenlucht, de cv-ketel springt bij wanneer dat nodig is. Gijs werkt hiervoor samen met DeWarmte."
@@ -307,7 +307,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             </div>
             <div className="flex flex-col gap-6">
               <div>
-                <p className="text-xs font-bold uppercase tracking-wide text-[var(--accent-700)]">{dewarmteAO.merk}</p>
+                <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{dewarmteAO.merk}</p>
                 <h3 className="font-bold text-2xl text-[var(--gijs-donkergroen)]">{dewarmteAO.naam}</h3>
                 <p className="text-zinc-600 mt-1">{dewarmteAO.ondertitel}</p>
               </div>
@@ -375,7 +375,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
                   <Image src={product.image} alt={product.imageAlt} width={600} height={450} className="max-w-[85%] max-h-[85%] object-contain" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wide text-[var(--accent-700)]">{product.merk}</p>
+                  <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{product.merk}</p>
                   <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{product.naam}</h3>
                   <p className="text-sm text-zinc-600 mt-1">{product.ondertitel}</p>
                 </div>

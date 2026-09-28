@@ -28,6 +28,23 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
     });
   }
 
+  // Thuisbatterij: Gijs plaatst de Sigenergy SigenStor. Die is wit met
+  // lichtgrijze onderkant en een klein donker display (zie
+  // public/productbladen/thuisbatterij-sigenstor.png). Het GLB-model had een
+  // zwarte kast met een groene strip; hier gecorrigeerd voor homepage én scan.
+  scene.getObjectByName("Thuisbatterij")?.traverse(part => {
+    const mesh = part as Mesh;
+    if (!mesh.isMesh) return;
+    const kleur = mesh.name === "batterij_accent" ? "#353b40" : mesh.name === "batterij_voet" ? "#b9bec2" : "#eceeec";
+    for (const materiaal of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+      const m = materiaal as MeshStandardMaterial;
+      if (!m.isMeshStandardMaterial) continue;
+      m.color.set(kleur);
+      m.metalness = 0;
+      m.roughness = mesh.name === "batterij_accent" ? 0.35 : 0.55;
+    }
+  });
+
   const dormer = scene.getObjectByName("Dakkapel");
   if (dormer) {
     const box = new Box3().setFromObject(dormer);
@@ -46,6 +63,12 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
     // Keep the outdoor unit visible beside the free side facade in the story's fixed camera.
     const heatPump = scene.getObjectByName("Warmtepomp_DeWarmte");
     if (heatPump) heatPump.position.z = 1.7;
+    // De achterdeur staat (via distinguishDoors) op x=1.6; het grote
+    // achterraam op de begane grond (Raam_achter_03, zie house-facades.ts)
+    // loopt van x=-2.0 tot x=0.1. De enige vrije muurstrook op de begane
+    // grond ligt daartussen; de thuisbatterij komt daar te staan.
+    const battery = scene.getObjectByName("Thuisbatterij");
+    if (battery) battery.position.x = 0.58;
     for (const child of scene.children) {
       if (child.name.startsWith("Zonnepaneel") && child.position.z > 0) child.position.x = Math.sign(child.position.x) * 1.95;
     }

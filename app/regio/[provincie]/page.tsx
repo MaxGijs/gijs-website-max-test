@@ -33,14 +33,14 @@ export default async function ProvinciePage({ params }: Props) {
       <RegioMain>
         <RegioBreadcrumb crumbs={[{ naam: "Home", url: "/" }, { naam: "Regio", url: "/regio" }, { naam: p.naam, url: regioPad(p.slug) }]} />
         <header className="flex flex-col gap-4 max-w-3xl mb-14">
-          <p className="text-xs font-bold tracking-[0.12em] uppercase text-[var(--accent-700)]">Provincie {p.naam}</p>
+          <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Provincie {p.naam}</p>
           <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-heading)] text-[var(--gijs-donkergroen)]">
             Isoleren en verduurzamen in {p.naam}
           </h1>
           <p className="text-zinc-600">
             Wil je je woning in {p.naam} beter isoleren? Kies hieronder je gemeente. Daar lees je welke
-            isolatiemaatregelen er zijn, hoe landelijke subsidies werken en hoe Gijs uitzoekt welke gemeentelijke
-            regelingen mogelijk voor jouw woning gelden.
+            isolatiemaatregelen er zijn en hoe landelijke subsidies werken. Gemeentelijke subsidies verschillen per
+            gemeente: die controleer je bij je eigen gemeente.
           </p>
           <p className="text-zinc-600">
             Het kantoor van Gijs zit aan de {CONTACT.street} in Hengelo. Voor de energiescan aan huis werkt Gijs

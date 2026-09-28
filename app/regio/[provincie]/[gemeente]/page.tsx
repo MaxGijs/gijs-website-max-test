@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return createMetadata(
     regioPad(p.slug, g.slug),
     `Isolatie in ${g.naam} | Gijs`,
-    `Je woning isoleren in ${g.naam}? Lees over dak-, spouw- en vloerisolatie, isolatieglas en kozijnen, en laat Gijs uitzoeken welke gemeentelijke regelingen mogelijk gelden.`,
+    `Je woning isoleren in ${g.naam}? Lees over dak-, spouw- en vloerisolatie, isolatieglas en kozijnen, en over landelijke subsidies. Gemeentelijke regelingen controleer je bij je eigen gemeente.`,
     g.indexeerbaar,
     bord ? { path: bord.afbeelding, alt: `Plaatsnaambord ${bord.naam}` } : undefined,
   );
@@ -44,9 +44,9 @@ export default async function GemeentePage({ params }: Props) {
   const hoofdkern = plaatsen.find(k => k.slug === g.slug);
 
   const faq: FAQItem[] = [
-    { question: `Welke gemeentelijke subsidies gelden in ${g.naam}?`, answer: "Gemeentelijke subsidies en regelingen verschillen per gemeente en kunnen veranderen. Gijs kan voor jouw woning uitzoeken welke regelingen mogelijk van toepassing zijn. Gebruik hiervoor de knop \"Laat Gijs mijn subsidies uitzoeken\" op deze pagina." },
+    { question: `Welke gemeentelijke subsidies gelden in ${g.naam}?`, answer: `Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Deze verschillen per gemeente en kunnen veranderen. Controleer daarom altijd de actuele mogelijkheden bij de gemeente ${g.naam} zelf.` },
     { question: "Welke isolatie past bij mijn woning?", answer: "Dat hangt af van je woning. Tijdens de gratis energiescan aan huis bekijkt een adviseur van Gijs wat technisch bij je woning past." },
-    { question: "Is de energiescan aan huis gratis en vrijblijvend?", answer: "Ja. De energiescan is gratis en vrijblijvend, ter waarde van €289. Je bespreekt je woning en wensen met een adviseur." },
+    { question: "Is de energiescan aan huis gratis en vrijblijvend?", answer: "Ja. De energiescan is gratis en vrijblijvend, ter waarde van €350. Je bespreekt je woning en wensen met een adviseur." },
     { question: "Moet ik eerst de digitale woningscan doen?", answer: "Nee. Je kunt direct contact opnemen. De digitale woningscan is een optionele voorbereiding waarin je wensen verzamelt, geen technische beoordeling van je huis." },
   ];
 
@@ -61,14 +61,13 @@ export default async function GemeentePage({ params }: Props) {
 
         <header className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-center mb-14">
           <div className="flex flex-col gap-4 max-w-2xl">
-            <p className="text-xs font-bold tracking-[0.12em] uppercase text-[var(--accent-700)]">Gemeente {g.naam}</p>
+            <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Gemeente {g.naam}</p>
             <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-heading)] text-[var(--gijs-donkergroen)]">
               Isoleren in {g.naam}
             </h1>
             <p className="text-zinc-600">
-              Wil je je woning in {g.naam} beter isoleren? Hier lees je welke isolatiemaatregelen er zijn, hoe
-              landelijke subsidies werken en hoe Gijs uitzoekt welke gemeentelijke regelingen mogelijk voor jouw woning
-              gelden.
+              Wil je je woning in {g.naam} beter isoleren? Hier lees je welke isolatiemaatregelen er zijn en hoe
+              landelijke subsidies werken. Gemeentelijke subsidies en regelingen controleer je bij je eigen gemeente.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
               <Button href="/contact#energiescan" variant="accent" size="lg" iconRight="arrow-right">Plan een gratis energiescan</Button>
@@ -93,7 +92,7 @@ export default async function GemeentePage({ params }: Props) {
           intro="Isoleren kan op verschillende plekken in huis. Welke maatregel bij jouw woning past, bekijkt Gijs tijdens de energiescan."
         />
         <LandelijkeSubsidies />
-        {g.contact_subsidie_via_gijs && <GemeentelijkeSubsidies gemeente={g.naam} locatie={`gemeente ${g.naam}`} />}
+        <GemeentelijkeSubsidies gemeente={g.naam} officieleUrl={g.officieleSubsidieUrl} />
 
         <GemeenteKaart provincie={p} gemeente={g} />
 

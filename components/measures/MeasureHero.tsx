@@ -41,7 +41,7 @@ export function MeasureHero({
   return (
     <header className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-10 items-start py-6 md:py-8">
       <div className="flex flex-col gap-3">
-        <p className="text-xs font-bold tracking-[0.14em] uppercase text-[var(--accent-700)]">{label}</p>
+        <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{label}</p>
         <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">
           {title}
         </h1>

@@ -120,7 +120,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="INSTALLATIES"
+        label="Installaties"
         title="Vloerverwarming voor jouw woning"
         subtitle="Comfortabele warmte vanuit de vloer, zonder radiatoren"
         intro="Vloerverwarming verdeelt warmte vanuit je vloer, via leidingen die zijn ingefreesd in een geschikte bestaande vloer of ingebouwd in een nieuwe vloeropbouw. Voor de dekvloer boven de leidingen werkt Gijs onder meer met eco2floor, een gietdekvloer die snel droogt en goed geschikt is voor vloerverwarming."

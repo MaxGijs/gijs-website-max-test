@@ -82,18 +82,18 @@ export default function ZoWerktGijs() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="gijs-card flex flex-col gap-2">
-                <p className="text-xs font-bold tracking-[0.12em] uppercase text-[var(--accent-700)]">Woning</p>
+                <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Woning</p>
                 <p className="font-semibold text-[var(--gijs-donkergroen)]">{JAN_JANSSEN_VOORBEELD.adres}</p>
                 <p className="text-sm text-zinc-600">{JAN_JANSSEN_VOORBEELD.woningtype}</p>
               </div>
               <div className="gijs-card flex flex-col gap-2">
-                <p className="text-xs font-bold tracking-[0.12em] uppercase text-[var(--accent-700)]">Mijn woningplan</p>
+                <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Mijn woningplan</p>
                 <ul className="flex flex-col gap-1.5 text-sm text-zinc-600">
                   {JAN_JANSSEN_VOORBEELD.woningplan.map((regel) => <li key={regel}>{regel}</li>)}
                 </ul>
               </div>
               <div className="gijs-card flex flex-col gap-2">
-                <p className="text-xs font-bold tracking-[0.12em] uppercase text-[var(--accent-700)]">Rapport (voorbeeld)</p>
+                <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Rapport (voorbeeld)</p>
                 <ul className="flex flex-col gap-1.5 text-sm text-zinc-600">
                   {JAN_JANSSEN_VOORBEELD.rapport.map((regel) => <li key={regel}>{regel}</li>)}
                 </ul>

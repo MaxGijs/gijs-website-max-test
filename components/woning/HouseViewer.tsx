@@ -10,6 +10,9 @@ import { HOUSE_MODELS } from "@/lib/woning-types";
 import { useWoningDraft } from "./WoningDraftProvider";
 import { HouseOrbitControls } from "./HouseOrbitControls";
 import { makeInsulationCrew } from "@/lib/insulation-crew";
+import { maakRealistisch } from "@/lib/house-realism";
+import { inLaag } from "@/lib/house-states";
+import { HouseDaglicht } from "./HouseDaglicht";
 import styles from "./HouseViewer.module.css";
 
 type Props = {
@@ -25,7 +28,12 @@ type Props = {
 function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAanwezig = true, aanbouwAanwezig = true }: Props & { onLoaded: () => void }) {
   const { draft } = useWoningDraft();
   const gltf = useLoader(GLTFLoader, HOUSE_MODELS[draft.houseType].url);
-  const model = useMemo(() => prepareHouse(gltf.scene, draft.houseType, true), [gltf, draft.houseType]);
+  // Zelfde woning als op de landingspagina: zelfde model, zelfde realistische
+  // materialen (lib/house-realism.ts) en hetzelfde daglicht (HouseDaglicht).
+  const model = useMemo(() => {
+    const huis = prepareHouse(gltf.scene, draft.houseType, true);
+    return { ...huis, texturen: maakRealistisch(huis.scene) };
+  }, [gltf, draft.houseType]);
   const crew = useMemo(() => makeInsulationCrew(draft.houseType),[draft.houseType]);
   const crewTime = useRef(3.4);
   const hadCavity = useRef(selectedMeasureIds.includes("gevelisolatie"));
@@ -33,17 +41,17 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAanwezig 
   const fillPlane=useMemo(()=>new Plane(new Vector3(0,-1,0),0),[]);
   const parts = useMemo(() => model.scene.children.map(root => ({
     root, origin: root.position.clone(), scale: root.scale.clone(),
-    materials: (() => { const result: { mat: MeshStandardMaterial; color: Color; name: string }[] = []; root.traverse(part => {
+    materials: (() => { const result: { mat: MeshStandardMaterial; color: Color; name: string; opacity: number; transparent: boolean }[] = []; root.traverse(part => {
       if (!(part as Mesh).isMesh) return;
       const mesh = part as Mesh;
-      for (const mat of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) if ((mat as MeshStandardMaterial).isMeshStandardMaterial) result.push({ mat: mat as MeshStandardMaterial, color: (mat as MeshStandardMaterial).color.clone(), name: part.name });
+      for (const mat of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) if ((mat as MeshStandardMaterial).isMeshStandardMaterial) result.push({ mat: mat as MeshStandardMaterial, color: (mat as MeshStandardMaterial).color.clone(), name: part.name, opacity: mat.opacity, transparent: mat.transparent });
     }); return result; })()
   })), [model]);
   const amounts = useRef<Record<string, number>>({});
   const initialized = useRef(false);
   const reduced = useRef(false);
   const { invalidate } = useThree();
-  useEffect(() => { onLoaded(); return () => disposeHouse(model.scene); }, [model, onLoaded]);
+  useEffect(() => { onLoaded(); return () => { disposeHouse(model.scene); model.texturen.forEach(t => t.dispose()); }; }, [model, onLoaded]);
   useEffect(() => () => disposeHouse(crew.crew),[crew]);
   useEffect(() => {
     const selected=selectedMeasureIds.includes("gevelisolatie");
@@ -81,16 +89,19 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAanwezig 
       if (name.startsWith("Dakkapel") && !dakkapelAanwezig) root.visible = false;
       if (root.userData.dormerPanel && !dakkapelAanwezig) root.visible = false;
       if (name === "Garage" && !aanbouwAanwezig) root.visible = false;
-      const installation = name.startsWith("Zonnepaneel") ? "zonnepanelen" : name.startsWith("Warmtepomp") ? "warmtepomp" : name === "Thuisbatterij" ? "thuisbatterij" : null;
+      const installation = inLaag(name, "solar-panels") ? "zonnepanelen" : inLaag(name, "heat-pump") ? "warmtepomp" : inLaag(name, "battery") ? "thuisbatterij" : null;
       if (installation) { root.visible = a[installation] > .001; root.scale.multiplyScalar(Math.max(.001, a[installation])); }
       if (/^(Dakisolatie)/.test(name)) { root.visible = a.dakisolatie > .001;root.position.y+=a.dakisolatie*1.2; }
       const cavity=/^(Spouwisolatie|Zijgevel_garage_isolatie)/.test(name);
       if(cavity)root.visible=selectedCavity&&(fill>0||a.gevelisolatie>.001);
-      if (name === "Vloerisolatie") { root.visible = a.vloerisolatie > .001; root.position.y -= a.vloerisolatie*.55; }
+      // Vloerisolatie: het huis tilt op van de fundering; de isolatie blijft
+      // iets achter, zodat je haar als losse laag tussen huis en fundering ziet.
+      if (name === "Vloerisolatie") { root.visible = a.vloerisolatie > .001; root.position.y += a.vloerisolatie*.5; }
+      else if (!root.userData.garagePanel && installation !== "warmtepomp" && !/^(Fundering|Buurwoning|Garage|Zijgevel_garage)/.test(name)) root.position.y += a.vloerisolatie*1.1;
       if (name === "Vloerverwarming") { root.visible = a.vloerverwarming > .001; }
       if (name === "Vloer") root.position.y += a.vloerverwarming*.18;
-      if (name === "Vloerconstructie") root.position.y -= a.vloerisolatie*.2 + a.vloerverwarming*.12;
-      if (name.startsWith("Fundering")) root.position.y -= a.vloerisolatie*.85 + a.vloerverwarming*.12;
+      if (name === "Vloerconstructie") root.position.y -= a.vloerverwarming*.12;
+      if (name.startsWith("Fundering")) root.position.y -= a.vloerverwarming*.12;
       if(name==="Dakconstructie")root.position.y+=a.dakisolatie*.45;
       if(/^(Dakpannen|Tengellatten|Panlatten|Dakkapel|Schoorsteen|Dakgoot)/.test(name)||(name.startsWith("Zonnepaneel")&&!root.userData.garagePanel))root.position.y+=a.dakisolatie*2.4;
       const outer = !root.userData.sharedWall && (name.startsWith("Buitengevel") || name === "Zijgevel_garage_buiten");
@@ -105,14 +116,14 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAanwezig 
         else if (name.includes("rechts")) root.position.x += a.gevelisolatie*.65;
         else if (name.includes("links")) root.position.x -= a.gevelisolatie*.65;
       }
-      for (const { mat, color, name: partName } of materials) {
+      for (const { mat, color, name: partName, opacity: basisOpacity, transparent: basisTransparent } of materials) {
         const glass = /glas/i.test(partName);
         mat.color.copy(color);
         if (window&&glass) mat.color.lerp(new Color("#6eb5cd"), a["glas-kozijnen"]);
         if(cavity)mat.color.lerp(new Color("#4baa71"),a.gevelisolatie);
         mat.clippingPlanes=cavity&&filling?[fillPlane]:null;
-        mat.transparent = outer;
-        mat.opacity = outer ? 1-(filling&&t>=1?.8:a.gevelisolatie*.65) : 1;
+        mat.transparent = outer || basisTransparent;
+        mat.opacity = outer ? 1-(filling&&t>=1?.8:a.gevelisolatie*.65) : basisOpacity;
         mat.depthWrite = mat.opacity > .5;
       }
     }
@@ -153,35 +164,30 @@ export function HouseViewer(props: Props) {
     return () => media.removeEventListener("change", update);
   }, []);
   return <div className={`${styles.viewer} ${props.className ?? ""}`}>
-    <h2>Bekijk je woning in 360°</h2>
-    <p className={styles.instructions}>{touch ? "Veeg om rond te kijken. Knijp om in of uit te zoomen." : "Sleep om rond te kijken en zoom in om de details te ontdekken."}</p>
-    <p className={styles.viewLabel} role="status">{view}</p>
+    <h2 className="sr-only">Illustratieve woningweergave</h2>
+    <p className="sr-only" role="status">{view}</p>
     <ViewerBoundary>
       <div className={styles.scene} role="group" aria-label={`3D-weergave van je ${HOUSE_MODELS[draft.houseType].label.toLowerCase()}`}>
-        <Canvas onCreated={({gl})=>{gl.localClippingEnabled=true;}} camera={{ position: [4.1, 2.8, 5.2], fov: 42 }} frameloop="demand" dpr={[1, 2]} style={{ touchAction: touch && !touchActive ? "pan-y" : "none" }} fallback={<p aria-hidden="true">3D niet beschikbaar. Gebruik de maatregelenknoppen hieronder.</p>}>
-          <ambientLight intensity={1.1} />
-          <directionalLight position={[5, 8, 5]} intensity={1.9} />
-          <directionalLight position={[-5, 3, -3]} intensity={0.7} />
+        <Canvas onCreated={({gl})=>{gl.localClippingEnabled=true;}} camera={{ position: [4.1, 2.8, 5.2], fov: 42 }} shadows="percentage" frameloop="demand" dpr={touch ? [1, 1.5] : [1, 1.75]} style={{ touchAction: touch && !touchActive ? "pan-y" : "none" }} fallback={<p aria-hidden="true">3D niet beschikbaar. Je kunt de scan gewoon gebruiken.</p>}>
+          <HouseDaglicht mobiel={touch} bereik={4} />
           <Suspense fallback={null}><Model {...props} selectedMeasureIds={compareOriginal?props.selectedMeasureIds.filter(id=>id!=="glas-kozijnen"):props.selectedMeasureIds} replayCrew={replayCrew} onLoaded={onLoaded} /></Suspense>
           <HouseOrbitControls enabled={!touch || touchActive} command={command} onView={setView} />
         </Canvas>
         {loaded !== draft.houseType && <p className={styles.loading} role="status">Je woning wordt geladen…</p>}
         {props.selectedMeasureIds.includes("gevelisolatie") && <button type="button" className={styles.crewButton} onClick={() => { act("front"); setReplayCrew(i=>i+1); }}>Bekijk de monteur · 3 sec.</button>}
-        {touch && <button className={styles.touchToggle} onClick={() => setTouchActive(!touchActive)} type="button">{touchActive ? "Klaar met rondkijken" : "Tik om de woning te draaien"}</button>}
+        {touch && <button className={styles.touchToggle} onClick={() => setTouchActive(!touchActive)} type="button" aria-pressed={touchActive}>{touchActive ? "Klaar met draaien" : "Draai de woning"}</button>}
       </div>
       <div className={styles.controls} aria-label="Woning bekijken">
         <button type="button" onClick={() => act("front")}>Voorkant</button>
+        <button type="button" onClick={() => act("side")}>Zijkant</button>
         <button type="button" onClick={() => act("back")}>Achterkant</button>
         <button type="button" onClick={() => act("below")}>Onderkant</button>
-        <button type="button" onClick={() => act("left")} aria-label="Draai woning naar links">↶</button>
-        <button type="button" onClick={() => act("right")} aria-label="Draai woning naar rechts">↷</button>
-        <button type="button" onClick={() => act("in")} aria-label="Zoom in">+</button>
-        <button type="button" onClick={() => act("out")} aria-label="Zoom uit">−</button>
-        <button type="button" onClick={() => act("reset")}>Beginstand</button>
+        <button type="button" className={styles.icoon} aria-label="Inzoomen" onClick={() => act("in")}>+</button>
+        <button type="button" className={styles.icoon} aria-label="Uitzoomen" onClick={() => act("out")}>−</button>
+        <button type="button" className={styles.icoon} aria-label="Terug naar beginstand" onClick={() => act("reset")}>↺</button>
       </div>
     </ViewerBoundary>
-    <p className={styles.caption}>{HOUSE_MODELS[draft.houseType].label} · voorbeeldmodel van jouw gekozen woningtype</p>
-    {(draft.houseType==="tussenwoning"||draft.houseType==="twee-onder-een-kap")&&<p className={styles.caption}>{draft.houseType==="tussenwoning"?"Aangrenzende woningen aan beide zijkanten.":"Aangrenzende woning links, gezien vanaf de voorkant."} De grijze muur geeft de gedeelde zijde aan. Deze krijgt geen buitengevelisolatie in dit voorbeeld.</p>}
+    <p className={styles.caption}><strong>{HOUSE_MODELS[draft.houseType].label}</strong> · {touch ? "Tik op \"Draai de woning\" om te draaien." : "Sleep om te draaien."} Illustratieve weergave, niet exact jouw woning.{(draft.houseType==="tussenwoning"||draft.houseType==="twee-onder-een-kap")&&" De grijze muur is de gedeelde muur met de buren."}</p>
     {props.selectedMeasureIds.includes("glas-kozijnen")&&<details className={styles.profileDetail} onToggle={e=>{if(!e.currentTarget.open)setCompareOriginal(false);}}><summary>Bekijk vóór en na →</summary><p>Zo ziet je woning eruit met nieuwe ramen en kozijnen. Wissel hieronder: de kijkhoek blijft hetzelfde.</p><div className={styles.controls}><button aria-pressed={compareOriginal} onClick={()=>setCompareOriginal(true)}>Bestaand</button><button aria-pressed={!compareOriginal} onClick={()=>setCompareOriginal(false)}>Nieuw</button></div><div className={styles.profileComparison}><div><span className={styles.oldProfile}>Glas</span><strong>Bestaand</strong><p>Een eenvoudig bestaand profiel.</p></div><div><span className={styles.newProfile}>Glas</span><strong>Nieuw · kunststof kozijn</strong><p>Witte profielen met meer diepte en zichtbare glasrubbers.</p></div></div><p>Schematisch detail; kleur en uitvoering bespreek je met Gijs.</p></details>}
   </div>;
 }

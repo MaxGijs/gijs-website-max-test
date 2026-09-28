@@ -309,7 +309,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="MAATREGEL"
+        label="Maatregel"
         title={title}
         subtitle="Zonnepanelen plaatsen in één dag"
         intro="Gijs plaatst zonnepanelen van JA Solar, Aiko en Jinko. Hieronder lees je hoe zonnepanelen werken, welke panelen Gijs gebruikt en hoe de installatie verloopt."

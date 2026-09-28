@@ -273,10 +273,10 @@ export default function Header() {
 
   return (
     <header className={styles.header} onKeyDown={event => { if (event.key === "Escape" && mobileOpen) { setMobileOpen(false); mobileToggle.current?.focus(); } }}>
-      {/* Hoofdbalk: hoogte = --header-h (76px), logo groter */}
+      {/* Hoofdbalk: licht en doorschijnend, 72px hoog (mobiel 64px). */}
       <div className={styles.brandRow}>
         <Link href="/" className="no-underline flex items-center">
-          <Image src="/logo-white.png" alt="Gijs" width={912} height={520} style={{ height: "auto" }} className={styles.logo} priority />
+          <Image src="/logo.png" alt="Gijs" width={912} height={520} style={{ height: "auto" }} className={styles.logo} priority />
         </Link>
 
         {/* Social media (op verzoek van Max), rechtsboven naast het
@@ -322,7 +322,7 @@ export default function Header() {
               het "Gratis energiescan"-blok onderaan de homepage. Vanaf
               een andere pagina navigeert dit eerst naar home en scrollt
               de browser daarna naar het anker. */}
-          <Button href="/contact#energiescan" variant="accent" size="md">
+          <Button href="/contact#energiescan" variant="primary" size="sm">
             Plan een gratis energiescan
           </Button>
         </div>

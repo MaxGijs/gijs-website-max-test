@@ -161,7 +161,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="MAATREGEL"
+        label="Maatregel"
         title={title}
         subtitle="Isolatieglas plaatsen in één dag"
         intro="Gijs plaatst isolatieglas in één dag. Hieronder lees je hoe het werkt, welke glassoorten er zijn en hoe de uitvoering en de energiescan verlopen."

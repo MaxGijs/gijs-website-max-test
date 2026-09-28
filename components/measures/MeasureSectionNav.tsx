@@ -47,7 +47,7 @@ export function MeasureSectionNav({ sections }: { sections: { id: string; label:
   return (
     <nav
       aria-label="Onderdelen van deze pagina"
-      className="flex gap-6 overflow-x-auto whitespace-nowrap border-y border-[var(--border-default)] bg-white py-3 md:sticky md:top-28 md:z-30"
+      className="flex gap-6 overflow-x-auto whitespace-nowrap border-y border-[var(--border-default)] bg-white py-3 md:sticky md:top-[72px] md:z-30"
     >
       {sections.map(section => {
         const isActive = section.id === active;

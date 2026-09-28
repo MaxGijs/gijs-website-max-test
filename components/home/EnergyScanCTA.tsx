@@ -4,7 +4,7 @@ import { Icon } from "@/components/ds/core/Icon";
 
 export default function EnergyScanCTA() {
   return (
-    <section id="gratis-energiescan" className="relative bg-[var(--grey-050)] scroll-mt-32">
+    <section id="gratis-energiescan" className="relative bg-[#f4f6f5] scroll-mt-32">
       <a
         href="/contact"
         aria-label="Neem contact op met Gijs"
@@ -14,12 +14,12 @@ export default function EnergyScanCTA() {
         <span className="hidden sm:inline">Neem contact op</span>
       </a>
 
-      <div className="max-w-3xl mx-auto px-6 py-[var(--section-y)] flex flex-col items-center text-center gap-5">
-        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €289</Badge>
-        <h2 className="text-[var(--fs-display-2)] font-bold text-[var(--gijs-donkergroen)]">
+      <div className="max-w-3xl mx-auto px-6 py-24 sm:py-32 flex flex-col items-center text-center gap-6">
+        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €350</Badge>
+        <h2 className="text-[clamp(2.5rem,1.6rem+3vw,4rem)] leading-[1.05] tracking-[-0.035em] font-bold text-[var(--gijs-donkergroen)] [text-wrap:balance]">
           Gratis energiescan aan huis
         </h2>
-        <p className="max-w-xl text-zinc-700">
+        <p className="max-w-xl text-[clamp(18px,1.4vw,21px)] leading-normal text-[var(--text-muted)]">
           Bespreek je huis en je wensen met een adviseur van Gijs. Je digitale
           woningplan helpt je om het gesprek voor te bereiden.
         </p>

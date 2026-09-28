@@ -9,7 +9,7 @@ export function parseHouseType(value: unknown): HouseType | undefined {
   return typeof value === "string" && Object.hasOwn(HOUSE_MODELS,value) ? value as HouseType : undefined;
 }
 export const baseHouseType = (type:HouseType): "hoekwoning"|"vrijstaand" => type === "vrijstaand" || type === "twee-onder-een-kap" ? "vrijstaand" : "hoekwoning";
-export type WoningDraft = { postcode: string; huisnummer: string; houseType: HouseType; akkoordVoorwaarden: boolean };
+export type WoningDraft = { postcode: string; huisnummer: string; houseType: HouseType };
 // Keep the height familiar, while giving the example homes distinct footprints.
 export const HOUSE_PROPORTIONS: Record<HouseType,[number,number,number]> = {
   tussenwoning:[.95,1,1],

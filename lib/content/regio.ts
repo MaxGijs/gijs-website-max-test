@@ -21,7 +21,11 @@ export type RegioGemeente = {
   naam: string;
   provincie: string;
   plaatsen: string[];
-  contact_subsidie_via_gijs: boolean;
+  // Alleen invullen met een geverifieerde, officiële link van de gemeente
+  // zelf (bijv. www.<gemeente>.nl/subsidie...). Zonder deze link toont de
+  // gemeentelijke-subsidiesectie geen knop — Gijs zoekt gemeentelijke
+  // subsidies niet voor de klant uit en verzint geen gemeentelink.
+  officieleSubsidieUrl?: string;
   gepubliceerd: boolean;
   indexeerbaar: boolean;
 };
@@ -58,7 +62,6 @@ export const REGIO_GEMEENTEN: RegioGemeente[] = LOKALE_SEO_GEMEENTEN.map(g => {
     naam: g.naam,
     provincie: "overijssel",
     plaatsen: g.kernen.map(k => slugify(k.naam)),
-    contact_subsidie_via_gijs: true,
     gepubliceerd: !!pub,
     indexeerbaar: !!pub?.indexeerbaar,
   };
@@ -94,11 +97,3 @@ export const REGIO_INDEXEERBARE_PADEN = [
   ...REGIO_GEMEENTEN.filter(g => g.gepubliceerd && g.indexeerbaar).map(g => regioPad(g.provincie, g.slug)),
   ...REGIO_PLAATSEN.filter(p => p.gepubliceerd && p.indexeerbaar).map(p => regioPad(p.provincie, p.gemeente, p.slug)),
 ];
-
-// Mailto voor het gemeentelijke subsidie-serviceblok. Tekst zoals aangeleverd;
-// [naam] blijft staan zodat de bewoner die zelf invult.
-export function subsidieMailto(email: string, gemeente: string, locatie: string) {
-  const onderwerp = `Gemeentelijke subsidies voor mijn woning in ${gemeente}`;
-  const tekst = `Goedendag,\n\nIk wil graag weten welke gemeentelijke subsidies of regelingen mogelijk gelden voor mijn woning in ${locatie}.\n\nKunnen jullie dit voor mij uitzoeken?\n\nMet vriendelijke groet,\n\n[naam]`;
-  return `mailto:${email}?subject=${encodeURIComponent(onderwerp)}&body=${encodeURIComponent(tekst)}`;
-}

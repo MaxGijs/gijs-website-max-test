@@ -1,9 +1,8 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ds/core/Button";
-import { Checkbox } from "@/components/ds/forms/Checkbox";
 import { useWoningDraft } from "@/components/woning/WoningDraftProvider";
 
 // Werkende prototypeflow achter de hero-CTA: er is nog geen echte
@@ -20,21 +19,16 @@ export default function AddressScan({ className = "", onNavigate }: { className?
   const router = useRouter();
   const id = useId();
   const { draft, setDraft } = useWoningDraft();
-  const { postcode, huisnummer, akkoordVoorwaarden } = draft;
-  // Rustige, niet-blokkerende statustekst i.p.v. een harde alert wanneer
-  // iemand toch op "Start met mijn woning" klikt zonder akkoord (de knop
-  // is al disabled, maar een druk op Enter kan het formulier alsnog
-  // proberen te verzenden — zie opdracht item 3).
-  const [foutmelding, setFoutmelding] = useState("");
+  const { postcode, huisnummer, houseType } = draft;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!postcode.trim() || !huisnummer.trim()) return;
-    if (!akkoordVoorwaarden) { setFoutmelding("Vink eerst aan dat je akkoord gaat, dan kun je verder."); return; }
-    setFoutmelding("");
+    // Het gekozen woningtype gaat mee, zodat de scan het niet opnieuw vraagt.
     const params = new URLSearchParams({
       postcode: postcode.trim(),
       huisnummer: huisnummer.trim(),
+      woningtype: houseType,
     });
     onNavigate?.();
     router.push(`/woning?${params.toString()}`);
@@ -69,23 +63,10 @@ export default function AddressScan({ className = "", onNavigate }: { className?
         />
         </label>
       </div>
-      {/*
-        Prototype-placeholder: /algemene-voorwaarden bevat nog geen
-        definitieve juridische tekst (zie die pagina zelf — "wordt
-        gepubliceerd zodra de definitieve tekst is vastgesteld"). Dit
-        akkoord is dus al wel technisch verplicht vóór de start van de
-        scan, maar moet naar de echte voorwaardentekst/-link wijzen zodra
-        die er is. Dezelfde tekst/link als in StapBevestigen.tsx, bewust
-        niet opnieuw verzonnen.
-      */}
-      <Checkbox
-        required
-        checked={akkoordVoorwaarden}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setDraft(current => ({ ...current, akkoordVoorwaarden: e.target.checked })); if (e.target.checked) setFoutmelding(""); }}
-        label={<>Ik ga akkoord met de <a className="underline" href="/algemene-voorwaarden" target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>algemene voorwaarden</a></>}
-      />
-      {foutmelding && <p role="status" className="text-sm text-[var(--status-error)]">{foutmelding}</p>}
-      <Button type="submit" variant="accent" size="lg" fullWidth iconRight="arrow-right" disabled={!akkoordVoorwaarden}>
+      {/* Het akkoord met de algemene voorwaarden stond hier én in stap 1 van de
+          scan (dubbel). Beide zijn weggehaald; privacy, voorwaarden en
+          Cyclomedia-gebruik worden later juridisch beoordeeld. */}
+      <Button type="submit" variant="accent" size="lg" fullWidth iconRight="arrow-right">
         Start de woningscan
       </Button>
     </form>

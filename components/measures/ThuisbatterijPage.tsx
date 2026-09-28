@@ -189,7 +189,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="INSTALLATIES"
+        label="Installaties"
         title="Thuisbatterij voor jouw woning"
         subtitle="Sla je energie op voor later gebruik"
         intro="Een thuisbatterij slaat elektriciteit op. Je energiegebruik en wat je wilt bereiken vormen het vertrekpunt voor het advies. Gijs plaatst hiervoor de SigenStor van Sigenergy."
@@ -309,7 +309,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
               />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-wide text-[var(--accent-700)]">{SIGENSTOR.merk}</p>
+              <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{SIGENSTOR.merk}</p>
               <h3 className="font-bold text-2xl text-[var(--gijs-donkergroen)]">{SIGENSTOR.naam}</h3>
               <p className="text-zinc-600 mt-1">{SIGENSTOR.ondertitel}</p>
             </div>

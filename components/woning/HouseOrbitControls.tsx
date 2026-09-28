@@ -61,6 +61,7 @@ export function HouseOrbitControls({
     if (action === "reset") controls.reset();
     if (action === "front") camera.position.set(0,1.8,7);
     if (action === "back") camera.position.set(0,1.8,-7);
+    if (action === "side") camera.position.set(7,1.8,0.6);
     if (action === "below") camera.position.set(4,-4,5);
     if (action === "left" || action === "right") {
       const angle = action === "left" ? -Math.PI / 8 : Math.PI / 8;

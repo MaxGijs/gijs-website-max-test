@@ -16,11 +16,12 @@ export default function Footer() {
             Samen maken we je huis fijner.
           </p>
           <div className="mt-4"><SocialLinks /></div>
-          <h4 className="font-semibold mt-6 mb-3 text-white">Contact</h4>
+          <h4 className="font-semibold mt-6 mb-3 text-white">Gijs – Groen in je straat</h4>
           <address className="not-italic text-sm leading-7 text-white/90">
             {CONTACT.street}<br />{CONTACT.city}<br />
             <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a><br />
             <a href={CONTACT.phoneHref}>Tel: {CONTACT.phone}</a>
+            {CONTACT.kvk && <><br />KvK: {CONTACT.kvk}</>}
           </address>
         </div>
 

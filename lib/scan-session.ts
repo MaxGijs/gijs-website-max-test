@@ -1,10 +1,9 @@
 import { HOUSE_MODELS, parseHouseType, type HouseType } from "./woning-types";
 import { MEASURES, MEASURE_GROUPS } from "./measures";
 
-// De maatregellijst en groepsindeling komen sinds week 3 uit
-// lib/measures.ts (de gedeelde "measure_catalog"), zodat dezelfde
-// maatregel overal dezelfde id, label en zone heeft — zie het
-// bestandscommentaar daar voor de reden.
+// De maatregellijst en groepsindeling komen uit lib/measures.ts (de
+// gedeelde "measure_catalog"), zodat dezelfde maatregel overal dezelfde id,
+// label en zone heeft.
 export const SCAN_MEASURES = MEASURES;
 export const SCAN_GROUPS = MEASURE_GROUPS.map((g) => ({
   label: g.label,
@@ -12,262 +11,211 @@ export const SCAN_GROUPS = MEASURE_GROUPS.map((g) => ({
   ids: MEASURES.filter((m) => m.group === g.id).map((m) => m.id),
 }));
 
+// Stap 2 "Jouw wensen": doelen en ambities van de bewoner. Energieneutraal
+// wonen staat hier als wens, niet als losse technische maatregel.
 export const SCAN_WISHES = [
-  "Minder tocht",
-  "Een warmere vloer",
+  "Lagere energiekosten",
+  "Meer wooncomfort",
   "Minder gas gebruiken",
-  "Zelf stroom opwekken",
+  "Zelf energie opwekken",
+  "Zo energieneutraal mogelijk wonen",
 ];
 
+/**
+ * Antwoord op een woningvraag. "onbekend" = de bewoner koos "Ik weet het
+ * niet"; dat is iets anders dan "nee" en wordt ook zo bewaard.
+ * null = de vraag is (nog) niet beantwoord.
+ */
+export type Antwoord = "ja" | "nee" | "onbekend";
+
+// Zeven stappen, één logische klantreis (zie WoningFlow.tsx).
+export const SCAN_STAPPEN = [
+  "Jouw woning",
+  "Jouw wensen",
+  "Woning aanvullen",
+  "Wat is al aanwezig?",
+  "Wat wil je verbeteren?",
+  "Resultaat",
+  "Jouw woningplan",
+] as const;
+export const STAP = { woning: 0, wensen: 1, aanvullen: 2, aanwezig: 3, verbeteren: 4, resultaat: 5, plan: 6 } as const;
+
 export type ScanSession = {
-  version: 5;
+  version: 6;
   step: number;
   reached: number;
+  /** Gezet bij "Wijzigen" vanuit het woningplan: de stap toont dan "Terug naar mijn woningplan". */
+  terugNaarPlan: boolean;
 
   postcode: string;
   huisnummer: string;
   houseType: HouseType;
-
-  /** Bevestigd via "Ja, dit is mijn woning" (stap Woning) — pas daarna tonen we de controleerbare velden. */
+  addressLabel: string;
+  manualAddress: boolean;
+  /** Afgerond in stap 1 met "Ja, dit klopt". Wordt daarna niet opnieuw gevraagd. */
   woningBevestigd: boolean;
 
+  wishes: string[];
+  /** "Ik weet het nog niet" bij de wensen. */
+  wensenOnbekend: boolean;
+
+  dakkapel: Antwoord | null;
+  garage: Antwoord | null;
+  aanbouw: Antwoord | null;
+  kruipruimte: Antwoord | null;
+  spouwmuur: Antwoord | null;
+  /** Optioneel, alleen als de bewoner het weet. Leeg = niet ingevuld. */
   bouwjaar: string;
   woonoppervlakte: string;
   monument: string;
-  kruipruimte: string;
-  typeMuren: string;
-  /** Uit "Bouw jouw woning". Standaard true: bestaande modellen tonen de dakkapel altijd al, dus dit verandert niets totdat de bewoner het bewust uitzet. */
-  dakkapelAanwezig: boolean;
-  /** Uit "Bouw jouw woning". Heeft alleen zichtbaar effect bij een vrijstaand-achtig woningtype (garage-groep in dat model). */
-  aanbouwAanwezig: boolean;
-
-  verwarming: string;
-  installatiejaarCv: string;
-  warmteafgifte: string;
-  warmWater: string;
 
   bestaandeMaatregelen: string[];
-  /** Alleen relevant/getoond wanneer "zonnepanelen" in bestaandeMaatregelen staat. */
+  /** "Ik weet het niet precies" bij wat al aanwezig is. */
+  aanwezigOnbekend: boolean;
   zonnepanelenAantal: string;
-
+  verwarming: string;
+  warmteafgifte: string;
+  warmWater: string;
   aantalBewoners: string;
   elektriciteitsverbruik: string;
   gasverbruik: string;
   elektriciteitsprijs: string;
   gasprijs: string;
-  energielabel: string;
 
   measures: string[];
-  name: string;
-  addressLabel: string;
-  contact: string;
-  wishes: string[];
   advice: boolean;
-  manualAddress: boolean;
-  /** Verplicht vóór de scan; zonder dit kan de bewoner nooit voorbij stap 0 komen (zie readScan). */
-  akkoordVoorwaarden: boolean;
+  name: string;
+  contact: string;
 };
 
-export const SCAN_KEY = "gijs-woningscan-v2";
+// Nieuwe sleutel: oudere sessies (andere stapindeling) starten opnieuw in
+// plaats van op een verkeerde stap te landen.
+export const SCAN_KEY = "gijs-woningscan-v3";
 
-export const freshScan = (
-  postcode = "",
-  huisnummer = "",
-  houseType: HouseType = "hoekwoning"
-): ScanSession => ({
-  version: 5,
+export const freshScan = (postcode = "", huisnummer = "", houseType: HouseType = "hoekwoning"): ScanSession => ({
+  version: 6,
   step: 0,
   reached: 0,
-
+  terugNaarPlan: false,
   postcode,
   huisnummer,
   houseType,
-
+  addressLabel: "",
+  manualAddress: false,
   woningBevestigd: false,
-
+  wishes: [],
+  wensenOnbekend: false,
+  dakkapel: null,
+  garage: null,
+  aanbouw: null,
+  kruipruimte: null,
+  spouwmuur: null,
   bouwjaar: "",
   woonoppervlakte: "",
   monument: "",
-  kruipruimte: "",
-  typeMuren: "",
-  dakkapelAanwezig: true,
-  aanbouwAanwezig: true,
-
+  bestaandeMaatregelen: [],
+  aanwezigOnbekend: false,
+  zonnepanelenAantal: "",
   verwarming: "",
-  installatiejaarCv: "",
   warmteafgifte: "",
   warmWater: "",
-
-  bestaandeMaatregelen: [],
-  zonnepanelenAantal: "",
-
   aantalBewoners: "",
   elektriciteitsverbruik: "",
   gasverbruik: "",
   elektriciteitsprijs: "",
   gasprijs: "",
-  energielabel: "",
-
   measures: [],
-  name: "",
-  addressLabel: "",
-  contact: "",
-  wishes: [],
   advice: false,
-  manualAddress: false,
-  akkoordVoorwaarden: false,
+  name: "",
+  contact: "",
 });
+
+const tekst = (v: unknown) => (typeof v === "string" ? v : "");
+const antwoord = (v: unknown): Antwoord | null => (v === "ja" || v === "nee" || v === "onbekend" ? v : null);
+const lijst = (v: unknown, toegestaan: (s: string) => boolean) =>
+  Array.isArray(v) ? [...new Set(v.filter((s: unknown): s is string => typeof s === "string" && toegestaan(s)))] : [];
+const bekendeMaatregel = (id: string) => SCAN_MEASURES.some((m) => m.id === id);
 
 export function readScan(raw: string | null): ScanSession | null {
   try {
     const v = JSON.parse(raw ?? "null");
-
-    // Vorige versie had 6 stappen (0-5); deze versie heeft er 7 (0-6) met
-    // een nieuwe stap "Bouw jouw woning" ertussen, dus dezelfde stapindex
-    // betekent nu iets anders — geen zinvolle migratie mogelijk, dus een
-    // oudere sessie start gewoon opnieuw in plaats van op een verkeerde
-    // stap te landen.
-    if (
-      !v ||
-      v.version !== 5 ||
-      !parseHouseType(v.houseType) ||
-      !Number.isInteger(v.step) ||
-      !Number.isInteger(v.reached) ||
-      v.step < 0 ||
-      v.step > v.reached ||
-      v.reached > 6 ||
-      typeof v.postcode !== "string" ||
-      typeof v.huisnummer !== "string" ||
-      !Array.isArray(v.measures)
-    ) {
+    const laatste = SCAN_STAPPEN.length - 1;
+    if (!v || v.version !== 6 || !parseHouseType(v.houseType) || !Number.isInteger(v.step) || !Number.isInteger(v.reached) || v.step < 0 || v.step > v.reached || v.reached > laatste || typeof v.postcode !== "string" || typeof v.huisnummer !== "string") {
       return null;
     }
-
-    // Zonder akkoord kan de bewoner nooit voorbij stap 0 (Adres) zijn
-    // gekomen — een opgeslagen step/reached die dat wel suggereert (bijv.
-    // een sessie van vóór dit akkoord bestond) is dus niet te vertrouwen
-    // en wordt teruggezet naar het begin in plaats van de bewoner een
-    // scan te laten hervatten die nooit geaccepteerd is.
-    const akkoordVoorwaarden = v.akkoordVoorwaarden === true;
-
+    const bevestigd = v.woningBevestigd === true;
+    // Zonder bevestigde woning kan de bewoner niet voorbij stap 1 zijn.
+    const step = bevestigd ? v.step : 0;
     return {
       ...freshScan(v.postcode, v.huisnummer, v.houseType),
-
-      step: akkoordVoorwaarden ? v.step : 0,
-      reached: akkoordVoorwaarden ? v.reached : 0,
-      akkoordVoorwaarden,
-
-      woningBevestigd: v.woningBevestigd === true,
-
-      bouwjaar: typeof v.bouwjaar === "string" ? v.bouwjaar : "",
-      woonoppervlakte:
-        typeof v.woonoppervlakte === "string" ? v.woonoppervlakte : "",
-      monument: typeof v.monument === "string" ? v.monument : "",
-      kruipruimte: typeof v.kruipruimte === "string" ? v.kruipruimte : "",
-      typeMuren: typeof v.typeMuren === "string" ? v.typeMuren : "",
-      dakkapelAanwezig: typeof v.dakkapelAanwezig === "boolean" ? v.dakkapelAanwezig : true,
-      aanbouwAanwezig: typeof v.aanbouwAanwezig === "boolean" ? v.aanbouwAanwezig : true,
-
-      verwarming: typeof v.verwarming === "string" ? v.verwarming : "",
-      installatiejaarCv:
-        typeof v.installatiejaarCv === "string" ? v.installatiejaarCv : "",
-      warmteafgifte:
-        typeof v.warmteafgifte === "string" ? v.warmteafgifte : "",
-      warmWater: typeof v.warmWater === "string" ? v.warmWater : "",
-
-      bestaandeMaatregelen: Array.isArray(v.bestaandeMaatregelen)
-        ? v.bestaandeMaatregelen.filter(
-            (item: unknown) => typeof item === "string"
-          )
-        : [],
-      zonnepanelenAantal:
-        typeof v.zonnepanelenAantal === "string" ? v.zonnepanelenAantal : "",
-
-      aantalBewoners:
-        typeof v.aantalBewoners === "string" ? v.aantalBewoners : "",
-      elektriciteitsverbruik:
-        typeof v.elektriciteitsverbruik === "string"
-          ? v.elektriciteitsverbruik
-          : "",
-      gasverbruik:
-        typeof v.gasverbruik === "string" ? v.gasverbruik : "",
-      elektriciteitsprijs:
-        typeof v.elektriciteitsprijs === "string"
-          ? v.elektriciteitsprijs
-          : "",
-      gasprijs: typeof v.gasprijs === "string" ? v.gasprijs : "",
-      energielabel: typeof v.energielabel === "string" ? v.energielabel : "",
-
-      measures: [
-        ...new Set<string>(
-          v.measures.filter((id: unknown) =>
-            SCAN_MEASURES.some((m) => m.id === id)
-          )
-        ),
-      ],
-
-      name: typeof v.name === "string" ? v.name : "",
-      addressLabel:
-        typeof v.addressLabel === "string" ? v.addressLabel : "",
-      contact: typeof v.contact === "string" ? v.contact : "",
-
-      wishes: Array.isArray(v.wishes)
-        ? v.wishes.filter(
-            (w: unknown) =>
-              typeof w === "string" && SCAN_WISHES.includes(w)
-          )
-        : [],
-
-      advice: v.advice === true,
+      step,
+      reached: bevestigd ? v.reached : 0,
+      terugNaarPlan: v.terugNaarPlan === true && bevestigd,
+      addressLabel: tekst(v.addressLabel),
       manualAddress: v.manualAddress === true,
+      woningBevestigd: bevestigd,
+      wishes: lijst(v.wishes, (w) => SCAN_WISHES.includes(w)),
+      wensenOnbekend: v.wensenOnbekend === true,
+      dakkapel: antwoord(v.dakkapel),
+      garage: antwoord(v.garage),
+      aanbouw: antwoord(v.aanbouw),
+      kruipruimte: antwoord(v.kruipruimte),
+      spouwmuur: antwoord(v.spouwmuur),
+      bouwjaar: tekst(v.bouwjaar),
+      woonoppervlakte: tekst(v.woonoppervlakte),
+      monument: tekst(v.monument),
+      bestaandeMaatregelen: lijst(v.bestaandeMaatregelen, bekendeMaatregel),
+      aanwezigOnbekend: v.aanwezigOnbekend === true,
+      zonnepanelenAantal: tekst(v.zonnepanelenAantal),
+      verwarming: tekst(v.verwarming),
+      warmteafgifte: tekst(v.warmteafgifte),
+      warmWater: tekst(v.warmWater),
+      aantalBewoners: tekst(v.aantalBewoners),
+      elektriciteitsverbruik: tekst(v.elektriciteitsverbruik),
+      gasverbruik: tekst(v.gasverbruik),
+      elektriciteitsprijs: tekst(v.elektriciteitsprijs),
+      gasprijs: tekst(v.gasprijs),
+      measures: lijst(v.measures, bekendeMaatregel),
+      advice: v.advice === true,
+      name: tekst(v.name),
+      contact: tekst(v.contact),
     };
   } catch {
     return null;
   }
 }
 
-export const sameAddress = (
-  a: Pick<ScanSession, "postcode" | "huisnummer">,
-  b: Pick<ScanSession, "postcode" | "huisnummer">
-) =>
-  a.postcode.replace(/\s/g, "").toUpperCase() ===
-    b.postcode.replace(/\s/g, "").toUpperCase() &&
-  a.huisnummer.trim().toUpperCase() ===
-    b.huisnummer.trim().toUpperCase();
+export const sameAddress = (a: Pick<ScanSession, "postcode" | "huisnummer">, b: Pick<ScanSession, "postcode" | "huisnummer">) =>
+  a.postcode.replace(/\s/g, "").toUpperCase() === b.postcode.replace(/\s/g, "").toUpperCase() &&
+  a.huisnummer.trim().toUpperCase() === b.huisnummer.trim().toUpperCase();
+
+/** Leesbare tekst voor een ja/nee/onbekend-antwoord. */
+export const antwoordTekst = (a: Antwoord | null) => (a === "ja" ? "Ja" : a === "nee" ? "Nee" : a === "onbekend" ? "Weet ik niet" : "Niet ingevuld");
 
 export function scanMessage(s: ScanSession) {
+  const namen = (ids: string[]) => SCAN_MEASURES.filter((m) => ids.includes(m.id)).map((m) => m.label).join(", ");
   return [
     "Hoi Gijs, ik wil graag een gratis energiescan aan huis bespreken.",
     "",
     "Naam: " + (s.name.trim() || "Nog in te vullen"),
     "Contact: " + (s.contact.trim() || "Nog in te vullen"),
-    "Adres: " +
-      (s.addressLabel || s.postcode + " " + s.huisnummer) +
-      (s.manualAddress ? " (handmatig ingevuld)" : ""),
+    "Adres: " + (s.addressLabel || s.postcode + " " + s.huisnummer) + (s.manualAddress ? " (handmatig ingevuld)" : ""),
     "Woningtype: " + HOUSE_MODELS[s.houseType].label,
-    "Bouwjaar: " + (s.bouwjaar || "Nog niet ingevuld"),
-    "Woonoppervlakte: " +
-      (s.woonoppervlakte ? s.woonoppervlakte + " m²" : "Nog niet ingevuld"),
-    "Energielabel: " + (s.energielabel || "Nog niet ingevuld"),
-    "Aantal bewoners: " + (s.aantalBewoners || "Nog niet ingevuld"),
-    "Gasverbruik: " +
-      (s.gasverbruik ? s.gasverbruik + " m³" : "Nog niet ingevuld"),
-    "Elektriciteitsverbruik: " +
-      (s.elektriciteitsverbruik
-        ? s.elektriciteitsverbruik + " kWh"
-        : "Nog niet ingevuld"),
-    "Wensen: " + (s.wishes.join(", ") || "Samen bespreken"),
-    "Al aanwezig: " +
-      (SCAN_MEASURES.filter((m) => s.bestaandeMaatregelen.includes(m.id))
-        .map((m) => m.label)
-        .join(", ") || "Nog niet aangegeven") +
-      (s.bestaandeMaatregelen.includes("zonnepanelen") && s.zonnepanelenAantal
-        ? ` (${s.zonnepanelenAantal} panelen)`
-        : ""),
-    "Interesse in: " +
-      (SCAN_MEASURES.filter((m) => s.measures.includes(m.id))
-        .map((m) => m.label)
-        .join(", ") || "Advies over de mogelijkheden"),
+    "Dakkapel: " + antwoordTekst(s.dakkapel),
+    "Garage: " + antwoordTekst(s.garage),
+    "Aanbouw: " + antwoordTekst(s.aanbouw),
+    "Kruipruimte: " + antwoordTekst(s.kruipruimte),
+    "Spouwmuren: " + antwoordTekst(s.spouwmuur),
+    "Bouwjaar: " + (s.bouwjaar || "Niet ingevuld"),
+    "Woonoppervlakte: " + (s.woonoppervlakte ? s.woonoppervlakte + " m²" : "Niet ingevuld"),
+    "Wensen: " + (s.wishes.join(", ") || (s.wensenOnbekend ? "Weet ik nog niet" : "Samen bespreken")),
+    "Al aanwezig: " + (namen(s.bestaandeMaatregelen) || (s.aanwezigOnbekend ? "Weet ik niet precies" : "Nog niet aangegeven")) +
+      (s.bestaandeMaatregelen.includes("zonnepanelen") && s.zonnepanelenAantal ? ` (${s.zonnepanelenAantal} panelen)` : ""),
+    "Verwarming: " + (s.verwarming || "Niet ingevuld"),
+    "Aantal bewoners: " + (s.aantalBewoners || "Niet ingevuld"),
+    "Gasverbruik: " + (s.gasverbruik ? s.gasverbruik + " m³" : "Niet ingevuld"),
+    "Elektriciteitsverbruik: " + (s.elektriciteitsverbruik ? s.elektriciteitsverbruik + " kWh" : "Niet ingevuld"),
+    "Wil verbeteren: " + (namen(s.measures) || "Advies over de mogelijkheden"),
     s.advice ? "Ik ontvang graag hulp bij het kiezen." : "",
   ]
     .filter((line, i) => line || i === 1)

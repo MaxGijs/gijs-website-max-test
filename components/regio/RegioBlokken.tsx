@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { JsonLd } from "@/components/SeoSchema";
 import { SITE_URL } from "@/lib/seo";
-import { CONTACT } from "@/lib/content/contact";
 import { ZO_WERKT_GIJS_FASEN } from "@/lib/content/zo-werkt-gijs";
-import { subsidieMailto } from "@/lib/content/regio";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
@@ -64,7 +62,7 @@ export function IsolatieMaatregelen({ titel, intro }: { titel: string; intro: st
           <li key={m.slug}>
             <Link href={"/maatregelen/" + m.slug} className="no-underline group block h-full">
               <Card className="h-full flex flex-col gap-2 !p-6 transition-shadow group-hover:shadow-[var(--shadow-2)]">
-                <span className="text-xs font-bold tracking-[0.12em] uppercase text-[var(--accent-700)]">{m.naam}</span>
+                <span className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{m.naam}</span>
                 <span className="font-bold text-lg text-[var(--gijs-donkergroen)]">{m.beeld}</span>
                 <span className="text-sm text-zinc-600 flex-1">{m.tekst}</span>
                 <span className="mt-2 text-sm font-semibold text-[var(--accent-700)] inline-flex items-center gap-1">
@@ -105,21 +103,29 @@ export function LandelijkeSubsidies() {
   );
 }
 
-export function GemeentelijkeSubsidies({ gemeente, locatie, relatie }: { gemeente: string; locatie: string; relatie?: string }) {
+// Neutraal informatieblok: Gijs zoekt gemeentelijke subsidies niet voor de
+// klant uit en garandeert niets. Alleen als er voor deze gemeente een
+// geverifieerde, officiële gemeentelijke bron is (officieleUrl), toont het
+// blok een link daarnaartoe — anders geen knop. Geen mailflow, geen CTA
+// naar Gijs.
+export function GemeentelijkeSubsidies({ gemeente, relatie, officieleUrl }: { gemeente: string; relatie?: string; officieleUrl?: string }) {
   return (
     <section id="gemeentelijke-subsidies" className="scroll-mt-40 mb-14">
       <Card variant="tint" className="flex flex-col md:flex-row md:items-center gap-6 !p-8">
         <div className="md:flex-1 flex flex-col gap-3 max-w-2xl">
-          <h2 className={H2}>Gemeentelijke subsidies in {gemeente}</h2>
+          <h2 className={H2}>Gemeentelijke subsidies</h2>
           {relatie && <p className="text-zinc-700 font-medium">{relatie}</p>}
           <p className="text-zinc-600">
-            Gemeentelijke subsidies en regelingen verschillen per gemeente en kunnen veranderen. Gijs kan voor jouw
-            woning uitzoeken welke regelingen mogelijk van toepassing zijn.
+            Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Deze
+            verschillen per gemeente en kunnen veranderen. Controleer daarom altijd de actuele mogelijkheden bij
+            jouw eigen gemeente.
           </p>
         </div>
-        <Button href={subsidieMailto(CONTACT.email, gemeente, locatie)} variant="accent" size="lg" iconLeft="email" className="shrink-0 max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal">
-          Laat Gijs mijn subsidies uitzoeken
-        </Button>
+        {officieleUrl && (
+          <a href={officieleUrl} target="_blank" rel="noopener noreferrer" aria-label={`Bekijk subsidies bij gemeente ${gemeente} (opent in nieuw tabblad)`} className="gijs-btn gijs-btn--accent gijs-btn--lg shrink-0 max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">
+            Bekijk subsidies bij jouw gemeente
+          </a>
+        )}
       </Card>
     </section>
   );
@@ -150,7 +156,7 @@ export function EnergiescanBlok() {
   return (
     <section id="energiescan" className="scroll-mt-40 mb-14">
       <div className="rounded-[var(--radius-xl)] bg-[var(--grey-050)] px-6 py-10 md:px-12 flex flex-col items-center text-center gap-4">
-        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €289</Badge>
+        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €350</Badge>
         <h2 className={H2}>Gratis energiescan aan huis</h2>
         <p className="max-w-xl text-zinc-700">
           Een adviseur van Gijs bekijkt je woning en bespreekt met je welke maatregelen technisch passen.

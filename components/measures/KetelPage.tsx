@@ -63,7 +63,7 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="INSTALLATIES"
+        label="Installaties"
         title="Ketel"
         subtitle="Zorgt voor warmte in je huis"
         intro="Een cv-ketel verwarmt je woning en levert warm water. Gijs werkt met combiketels van Intergas."
@@ -139,7 +139,7 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
             {KETELS.map(ketel => (
               <Card key={ketel.naam} className="flex flex-col gap-4 !p-7">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wide text-[var(--accent-700)]">{ketel.merk}</p>
+                  <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{ketel.merk}</p>
                   <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)]">{ketel.naam}</h3>
                   <p className="text-sm text-zinc-600 mt-1">{ketel.type} · {ketel.warmwater}</p>
                 </div>

@@ -156,7 +156,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="MAATREGEL"
+        label="Maatregel"
         title={title}
         subtitle="Een warmere vloer, minder warmteverlies"
         intro="Gijs brengt vloerisolatie aan de onderzijde van de begane grondvloer aan, vanuit de kruipruimte. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."

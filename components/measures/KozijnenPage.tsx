@@ -157,7 +157,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="MAATREGEL"
+        label="Maatregel"
         title={title}
         subtitle="Kunststof en aluminium kozijnen"
         intro="Gijs plaatst kunststof en aluminium kozijnen, inclusief deuren en schuifpuien. Hieronder lees je welke profielen en producten er zijn en hoe de plaatsing verloopt."

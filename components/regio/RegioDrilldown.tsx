@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { NL_PROVINCIES } from "@/lib/content/nl-provincies";
+import { NL_PROVINCIES, NL_LABELPUNTEN } from "@/lib/content/nl-provincies";
 import { getProvincie, alleGemeentenVan, plaatsenVan, regioPad, type RegioProvincie, type RegioGemeente } from "@/lib/content/regio";
 import { Icon } from "@/components/ds/core/Icon";
 import { H2 } from "@/components/regio/RegioBlokken";
@@ -48,6 +48,7 @@ export function NederlandKaart() {
                 </path>
               );
             }
+            const label = NL_LABELPUNTEN[p.id];
             return (
               <Link key={p.id} href={regioPad(provincie.slug)} aria-label={`Isoleren en verduurzamen in ${provincie.naam}`} className="outline-none">
                 <path
@@ -57,6 +58,11 @@ export function NederlandKaart() {
                   strokeLinejoin="round"
                   className="fill-[var(--accent-600)] transition-colors hover:fill-[var(--accent-700)] focus-visible:fill-[var(--gijs-donkergroen)] cursor-pointer"
                 />
+                {label && (
+                  <text x={label.x} y={label.y} textAnchor="middle" dominantBaseline="middle" className="fill-white text-[26px] font-bold pointer-events-none select-none">
+                    {provincie.naam}
+                  </text>
+                )}
                 <title>{`Isoleren en verduurzamen in ${provincie.naam}`}</title>
               </Link>
             );

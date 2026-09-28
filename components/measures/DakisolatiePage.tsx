@@ -159,7 +159,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="MAATREGEL"
+        label="Maatregel"
         title={title}
         subtitle="Meer wooncomfort, minder warmteverlies via het dak"
         intro="Gijs isoleert het dak aan de binnenzijde. Hieronder lees je hoe het werkt, welk systeem bij jouw dakconstructie past en hoe de uitvoering en de energiescan verlopen."

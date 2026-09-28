@@ -137,7 +137,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
       </nav>
 
       <MeasureHero
-        label="MAATREGEL"
+        label="Maatregel"
         title={title}
         subtitle="Meer wooncomfort, minder geluid van buiten"
         intro="Spouwmuurisolatie maakt je woning comfortabeler en energiezuiniger door de spouw te vullen met isolatiemateriaal. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."

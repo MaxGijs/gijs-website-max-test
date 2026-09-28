@@ -9,8 +9,9 @@
 // op de ene plek anders heet of andere voorbeeldbedragen heeft dan op
 // de andere.
 //
-// Bedragen zijn nog steeds bewust fictief (zie computeWoningplanTotals
-// hieronder) — geen echte Gijs-rekenmotor, geen echt prijsboek.
+// Er staan bewust geen prijzen, besparingen of terugverdientijden in: die
+// zijn (nog) niet door Gijs vrijgegeven. Subsidie per m² staat in
+// lib/content/subsidie-per-m2.ts (uit het subsidieoverzicht van Gijs).
 // ════════════════════════════════════════════════════════════════
 
 export type WoningZoneId = "dak" | "gevel" | "vloer" | "kozijnen" | "installaties";
@@ -48,10 +49,6 @@ export type Measure = {
   text: string;
   /** Langere, neutrale omschrijving voor het woningplan (geen resultaatclaims). */
   omschrijving: string;
-  /** Voorbeeldbedrag, geen echte Gijs-prijs. */
-  brutoInvestering: number;
-  /** Voorbeeldbedrag, geen echte besparingsclaim. */
-  besparingPerJaar: number;
   /** false = (nog) geen zichtbare verandering op het 3D-model. */
   zichtbaarIn3D: boolean;
 };
@@ -64,8 +61,6 @@ export const MEASURES: Measure[] = [
     label: "Zonnepanelen",
     text: "Voeg panelen toe aan het dak voor eigen stroom.",
     omschrijving: "Zonnepanelen op het dakvlak.",
-    brutoInvestering: 6000,
-    besparingPerJaar: 500,
     zichtbaarIn3D: true,
   },
   {
@@ -75,8 +70,6 @@ export const MEASURES: Measure[] = [
     label: "Warmtepomp",
     text: "Bekijk de buitenunit naast je woning.",
     omschrijving: "Hybride warmtepomp naast (of in plaats van) de ketel.",
-    brutoInvestering: 8000,
-    besparingPerJaar: 600,
     zichtbaarIn3D: true,
   },
   {
@@ -86,19 +79,15 @@ export const MEASURES: Measure[] = [
     label: "Dakisolatie",
     text: "Bekijk de isolatielaag onder de dakbedekking.",
     omschrijving: "Isolatie aan de binnen- of buitenzijde van het dak.",
-    brutoInvestering: 5000,
-    besparingPerJaar: 500,
     zichtbaarIn3D: true,
   },
   {
     id: "gevelisolatie",
     zone: "gevel",
     group: "isolatie",
-    label: "Spouwisolatie",
+    label: "Spouwmuurisolatie",
     text: "Kijk tussen de muren naar de extra isolatielaag.",
     omschrijving: "Spouwmuurisolatie van de buitengevel.",
-    brutoInvestering: 3000,
-    besparingPerJaar: 300,
     zichtbaarIn3D: true,
   },
   {
@@ -108,19 +97,15 @@ export const MEASURES: Measure[] = [
     label: "Vloerisolatie",
     text: "Bekijk de isolatie onder de begane grond.",
     omschrijving: "Isolatie onder de begane grondvloer.",
-    brutoInvestering: 2000,
-    besparingPerJaar: 200,
     zichtbaarIn3D: true,
   },
   {
     id: "glas-kozijnen",
     zone: "kozijnen",
     group: "isolatie",
-    label: "Glas en kozijnen",
+    label: "Isolatieglas en kozijnen",
     text: "Geef de woning herkenbaar nieuwe ramen en kozijnen.",
     omschrijving: "Triple glas in nieuwe kozijnen.",
-    brutoInvestering: 10000,
-    besparingPerJaar: 400,
     zichtbaarIn3D: true,
   },
   {
@@ -130,8 +115,6 @@ export const MEASURES: Measure[] = [
     label: "Vloerverwarming",
     text: "Bekijk de leidingen in de dekvloer, onder de afwerkvloer.",
     omschrijving: "Vloerverwarming als vervanging van of aanvulling op radiatoren.",
-    brutoInvestering: 4000,
-    besparingPerJaar: 150,
     zichtbaarIn3D: true,
   },
   {
@@ -141,8 +124,6 @@ export const MEASURES: Measure[] = [
     label: "Thuisbatterij",
     text: "Bekijk de buitenkast naast de warmtepomp.",
     omschrijving: "Opslag van eigen zonnestroom voor later gebruik.",
-    brutoInvestering: 7000,
-    besparingPerJaar: 150,
     zichtbaarIn3D: true,
   },
 ];
@@ -153,59 +134,4 @@ export function measuresForZone(zone: WoningZoneId): Measure[] {
 
 export function measuresForGroup(group: MeasureGroupId): Measure[] {
   return MEASURES.filter((m) => m.group === group);
-}
-
-export type WoningplanTotals = {
-  brutoInvestering: number;
-  besparingPerJaar: number;
-  subsidieVoorbeeld: number;
-  nettoInvestering: number;
-  financieringslastPerMaand: number;
-  nettoMaandeffectPerMaand: number;
-  energieverbruikIndicatieKwh: number;
-  /** null zolang er niets geselecteerd is of er niets te besparen valt (voorkomt delen door 0 / oneindig). */
-  terugverdientijdJaar: number | null;
-};
-
-/**
- * Illustratieve, lokale optelsom — GEEN rekenmotor. Er bestaat nog geen
- * echte Gijs-rekenmotor (zie Productbriefing sectie 8); deze functie
- * dient alleen om te laten zien HOE resultaten later gepresenteerd
- * kunnen worden, met duidelijk fictieve voorbeeldbedragen.
- *
- * De subsidie is een vast, verzonnen percentage (15%) los van elke
- * echte regeling (geen ISDE of andere naam) — puur om de opbouw van
- * het rijtje bruto -> subsidie -> netto te kunnen tonen.
- */
-export function computeWoningplanTotals(selectedIds: string[]): WoningplanTotals {
-  const selected = MEASURES.filter((m) => selectedIds.includes(m.id));
-  const brutoInvestering = selected.reduce((sum, m) => sum + m.brutoInvestering, 0);
-  const besparingPerJaar = selected.reduce((sum, m) => sum + m.besparingPerJaar, 0);
-  const subsidieVoorbeeld = Math.round(brutoInvestering * 0.15);
-  const nettoInvestering = brutoInvestering - subsidieVoorbeeld;
-  const financieringslastPerMaand = Math.round(nettoInvestering / 120); // indicatief, 10 jaar, exclusief rente
-  const nettoMaandeffectPerMaand = Math.round(financieringslastPerMaand - besparingPerJaar / 12);
-  const baselineKwh = 12000; // indicatief basisverbruik, zelfde orde van grootte als prototype 1
-  const reductie = Math.min(selected.length * 0.08, 0.4);
-  const energieverbruikIndicatieKwh = Math.round(baselineKwh * (1 - reductie));
-  const terugverdientijdJaar = besparingPerJaar > 0 ? Math.round((nettoInvestering / besparingPerJaar) * 10) / 10 : null;
-
-  return {
-    brutoInvestering,
-    besparingPerJaar,
-    subsidieVoorbeeld,
-    nettoInvestering,
-    financieringslastPerMaand,
-    nettoMaandeffectPerMaand,
-    energieverbruikIndicatieKwh,
-    terugverdientijdJaar,
-  };
-}
-
-export function formatEuro(bedrag: number): string {
-  return new Intl.NumberFormat("nl-NL", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(bedrag);
 }
