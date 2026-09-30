@@ -46,6 +46,7 @@ export function maakMonteur(): Monteur {
     benen.push({ boven: been, onder: knie });
   }
   root.visible = false;
+  root.scale.setScalar(0.92);
   return { root, houding, romp, armen, benen, materialen };
 }
 
@@ -71,26 +72,46 @@ export function zetZichtbaarheid(materialen: Material[], zicht: number) {
   for (const m of materialen) m.opacity = zicht;
 }
 
-/** Klimmen: armen en benen om en om, lichaam iets naar de ladder toe. */
+/** Isolatieplaat (geel), plat; afmetingen in meters. */
+export function maakPlaat(breed: number, lang: number) {
+  const mat = new MeshStandardMaterial({ color: "#e2c46f", roughness: 0.9, metalness: 0, transparent: true });
+  const geo = new BoxGeometry(breed, 0.05, lang);
+  geo.userData.owned = true;
+  const plaat = new Mesh(geo, mat);
+  plaat.castShadow = true;
+  plaat.visible = false;
+  return { plaat, materialen: [mat] as Material[] };
+}
+
+const recht = (m: Monteur) => { m.houding.position.set(0, 0, 0); m.houding.rotation.set(0, 0, 0); };
+
+/** Rustig klimmen: armen en benen om en om, lichaam iets naar de ladder toe. */
 export function poseKlimmen(m: Monteur, fase: number) {
-  m.houding.rotation.set(0, 0, 0);
+  recht(m);
   m.romp.rotation.x = 0.12;
-  m.armen.forEach((a, i) => { const s = Math.sin(fase + i * Math.PI); a.boven.rotation.x = -2.35 + 0.35 * s; a.onder.rotation.x = -0.35 - 0.25 * s; });
-  m.benen.forEach((b, i) => { const s = Math.sin(fase + i * Math.PI + Math.PI); b.boven.rotation.x = -0.7 + 0.45 * s; b.onder.rotation.x = 1.0 - 0.45 * s; });
+  m.armen.forEach((a, i) => { const s = Math.sin(fase + i * Math.PI); a.boven.rotation.x = -2.2 + 0.22 * s; a.onder.rotation.x = -0.4 - 0.15 * s; });
+  m.benen.forEach((b, i) => { const s = Math.sin(fase + i * Math.PI + Math.PI); b.boven.rotation.x = -0.55 + 0.3 * s; b.onder.rotation.x = 0.85 - 0.3 * s; });
 }
 
-/** Rustig staan (bovenaan de ladder, even om zich heen kijken). */
-export function poseStaan(m: Monteur) {
-  m.houding.rotation.set(0, 0, 0);
-  m.romp.rotation.x = 0.05;
-  m.armen.forEach(a => { a.boven.rotation.x = -1.9; a.onder.rotation.x = -0.4; });
-  m.benen.forEach((b, i) => { b.boven.rotation.x = i ? -0.35 : 0; b.onder.rotation.x = i ? 0.5 : 0; });
+/** Bovenaan de ladder: naar voren reiken om iets op het dak te leggen (s = 0..1). */
+export function poseReiken(m: Monteur, s: number) {
+  recht(m);
+  m.romp.rotation.x = 0.12 + 0.25 * s;
+  m.armen.forEach(a => { a.boven.rotation.x = -2.0 + 0.5 * s; a.onder.rotation.x = -0.3; });
+  m.benen.forEach((b, i) => { b.boven.rotation.x = i ? -0.4 : -0.1; b.onder.rotation.x = i ? 0.6 : 0.15; });
 }
 
-/** Kruipen op de buik (commandokruip), met het hoofd iets omhoog. */
+/** Op handen en knieën kruipen (lage kruipruimte): romp horizontaal, armen en benen om en om. */
 export function poseKruipen(m: Monteur, fase: number) {
-  m.houding.rotation.set(Math.PI / 2 - 0.08, 0, 0);
-  m.romp.rotation.x = 0;
-  m.armen.forEach((a, i) => { const s = Math.sin(fase + i * Math.PI); a.boven.rotation.x = -2.7 + 0.5 * s; a.onder.rotation.x = -0.9 + 0.5 * s; });
-  m.benen.forEach((b, i) => { const s = Math.sin(fase + i * Math.PI); b.boven.rotation.x = 0.25 * s; b.onder.rotation.x = 0.55 + 0.45 * s; });
+  m.houding.position.set(0, -0.48, 0);
+  m.houding.rotation.set(0, 0, 0);
+  m.romp.rotation.x = Math.PI / 2 + 0.1;
+  m.armen.forEach((a, i) => { const s = Math.sin(fase + i * Math.PI); a.boven.rotation.x = -Math.PI / 2 - 0.22 * s; a.onder.rotation.x = -0.35; });
+  m.benen.forEach((b, i) => { const s = Math.sin(fase + i * Math.PI); b.boven.rotation.x = 0.5 + 0.18 * s; b.onder.rotation.x = 1.07 - 0.12 * s; });
+}
+
+/** Geknield in de kruipruimte een plaat omhoog tillen (s = 0..1: armen van omlaag naar omhoog). */
+export function poseTillen(m: Monteur, s: number) {
+  poseKruipen(m, 0);
+  m.armen.forEach(a => { a.boven.rotation.x = -Math.PI / 2 - Math.PI * s; a.onder.rotation.x = -0.15; });
 }
