@@ -1,9 +1,11 @@
-import { Box3, BoxGeometry, CanvasTexture, CylinderGeometry, Group, Mesh, MeshStandardMaterial, RepeatWrapping, SphereGeometry, SRGBColorSpace, type Material, type Object3D, type Texture } from "three";
+import { Box3, BoxGeometry, CanvasTexture, CylinderGeometry, Group, Mesh, MeshStandardMaterial, Raycaster, RepeatWrapping, SphereGeometry, SRGBColorSpace, Vector3, type Material, type Object3D, type Texture } from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { disposeHouse } from "@/lib/house-model";
+import { bestratingTextuur, klinkerTextuur } from "@/lib/house-realism";
 
 // Bouwstenen voor de poppenhuis-doorsnede (PROTOTYPE, branch homepage-cutaway-test):
-// grondblok met kruipruimte en eenvoudig ingerichte verdiepingen.
+// grondblok met kruipruimte, tuin en terras, en verdiepingen ingedeeld zoals in een
+// Nederlandse rijwoning.
 // Alle maten in meters, in de coördinaten van public/models/gijs-hoekwoning.glb
 // (gemeten uit het model zelf).
 
@@ -20,8 +22,8 @@ export const M = {
   maaiveld: -2.61,
   kruipBodem: -3.5,
 };
-/** Waar de binnenmuren staan: tussen woonkamer en keuken, en tussen slaapkamer en badkamer. */
-export const WAND_BG = -1.0, WAND_V1 = 0.25;
+/** Binnenmuur op de verdieping tussen slaapkamer (voor) en badkamer (achter). */
+const WAND_V1 = 0.25;
 
 export type V3 = [number, number, number];
 
@@ -63,6 +65,7 @@ export function maakTexturen() {
     aarde: textuur((c, s) => { c.fillStyle = "#6f5139"; c.fillRect(0, 0, s, s); ruis(c, s, ["#5a3f2b", "#86664a", "#4b3422", "#9a7a5a"], 2600, 3); }, [2, 1]),
     gras: textuur((c, s) => { c.fillStyle = "#6e8f47"; c.fillRect(0, 0, s, s); ruis(c, s, ["#5d7d3a", "#7fa052", "#557434", "#8aa95e"], 3200, 2); }, [4, 4]),
     zand: textuur((c, s) => { c.fillStyle = "#a89a80"; c.fillRect(0, 0, s, s); ruis(c, s, ["#8f8168", "#bcae93", "#7d705a"], 3200, 3); }, [4, 4]),
+    stuc: textuur((c, s) => { c.fillStyle = "#e7e2d9"; c.fillRect(0, 0, s, s); ruis(c, s, ["#ddd7cd", "#efebe4", "#d9d3c8"], 5200, 2); }, [3, 3]),
   };
 }
 
@@ -76,8 +79,8 @@ export function maakMaterialen(t: ReturnType<typeof maakTexturen>) {
     gras: m("#ffffff", { map: t.gras, roughness: 1 }),
     zand: m("#ffffff", { map: t.zand, roughness: 1 }),
     beton: m("#74716b", { roughness: 0.95 }),
-    stuc: m("#e4ded4", { roughness: 0.95 }),
-    plafond: m("#efebe4", { roughness: 0.95 }),
+    stuc: m("#ffffff", { map: t.stuc, roughness: 0.95 }),
+    plafond: m("#f7f4ee", { map: t.stuc, roughness: 0.95 }),
     stof: m("#b3aa9d", { roughness: 1 }),
     stofDonker: m("#8d857a", { roughness: 1 }),
     kussen: m("#e7e1d6", { roughness: 1 }),
@@ -85,6 +88,7 @@ export function maakMaterialen(t: ReturnType<typeof maakTexturen>) {
     plaid: m("#c9b79c", { roughness: 1 }),
     walnoot: m("#5b4331", { roughness: 0.6 }),
     eiken: m("#b08a63", { roughness: 0.65 }),
+    vuren: m("#c9a47a", { roughness: 0.8 }),
     wit: m("#f4f3ef", { roughness: 0.45 }),
     sanitair: m("#fbfbfa", { roughness: 0.2 }),
     antraciet: m("#34383b", { roughness: 0.5 }),
@@ -97,6 +101,7 @@ export function maakMaterialen(t: ReturnType<typeof maakTexturen>) {
     kleed: m("#d9ccb6", { roughness: 1 }),
     kleedGrijs: m("#c3bfb6", { roughness: 1 }),
     spiegel: m("#cfd8dc", { roughness: 0.05, metalness: 0.9 }),
+    glas: m("#dde8ea", { roughness: 0.05, transparent: true, opacity: 0.28 }),
     boek1: m("#3f5d53"), boek2: m("#c6a15b"), boek3: m("#8e4d3b"), boek4: m("#d9d4c7"),
   };
 }
@@ -140,14 +145,36 @@ function stoel(g: Object3D, mat: Materialen, [x, y, z]: V3, richting: 1 | -1) {
   blok(g, [x - 0.21, y + 0.49, z - 0.21 * richting - 0.02], [x + 0.21, y + 0.9, z - 0.21 * richting + 0.02], mat.eiken, 0.02);
 }
 
-// Grondblok (zoals een architectuurmaquette), afgesneden op dezelfde lijn als de woning.
-export function bouwGrond(g: Group, mat: Materialen) {
-  const xl = M.gevelLinks - 1.4, zv = M.gevelVoor + 2.4, za = M.gevelAchter - 1.6, bodem = -4.55, grasOnder = M.maaiveld - 0.12;
+type Strook = { x0: number; x1: number };
+type Radiator = { x0: number; x1: number; y0: number; y1: number; z0: number; z1: number };
+type Gording = { x0: number; x1: number; z: number; y: number; breed: number; hoog: number };
+
+/** Bestrating met eigen herhaling, zodat klinkers en tegels overal even groot zijn. */
+function bestrating(g: Group, bron: Texture, a: V3, b: V3, tegelMaat: [number, number], texturen: Texture[]) {
+  const t = bron.clone();
+  t.repeat.set(Math.abs(b[0] - a[0]) / tegelMaat[0], Math.abs(b[2] - a[2]) / tegelMaat[1]);
+  t.needsUpdate = true;
+  texturen.push(t);
+  blok(g, a, b, new MeshStandardMaterial({ map: t, roughness: 0.95, metalness: 0 }));
+}
+
+// Grondblok (zoals een architectuurmaquette) onder de woning én de buurwoning, afgesneden op
+// dezelfde lijn als de open kopgevel. Voortuin met tegelpad naar elke voordeur en een stoep,
+// achter een terras: zoals bij een Nederlandse rijwoning.
+function bouwGrond(g: Group, mat: Materialen, deuren: Strook[], texturen: Texture[]) {
+  const xl = -8.0, zv = M.gevelVoor + 2.6, za = M.gevelAchter - 1.8, bodem = -4.55, grasOnder = M.maaiveld - 0.12;
   blok(g, [xl, bodem, za], [M.open, M.kruipBodem, zv], mat.aarde);
   for (const [a, b] of [[[xl, M.kruipBodem, M.gevelVoor], [M.open, grasOnder, zv]], [[xl, M.kruipBodem, za], [M.open, grasOnder, M.gevelAchter]], [[xl, M.kruipBodem, M.gevelAchter], [M.gevelLinks, grasOnder, M.gevelVoor]]] as [V3, V3][]) {
     blok(g, a, b, mat.aarde);
     blok(g, [a[0], grasOnder, a[2]], [b[0], M.maaiveld, b[2]], mat.gras);
   }
+  const klinkers = klinkerTextuur(), tegels = bestratingTextuur();
+  texturen.push(klinkers, tegels);
+  const onder = M.maaiveld - 0.02, boven = M.maaiveld + 0.015, stoep = zv - 1.2;
+  bestrating(g, klinkers, [xl, onder, stoep], [M.open, boven, zv], [3.2, 3.2], texturen);
+  for (const d of deuren) bestrating(g, klinkers, [d.x0 - 0.1, onder, M.gevelVoor], [d.x1 + 0.1, boven, stoep], [3.2, 3.2], texturen);
+  bestrating(g, tegels, [M.gevelLinks, onder, M.gevelAchter - 1.4], [M.open, boven, M.gevelAchter], [12.8, 3.2], texturen);
+
   // Funderingsbalken onder voor-, achter- en linkergevel; de kruipruimte ertussen, met een zandbodem.
   const eind = M.open - 0.002;
   blok(g, [M.gevelLinks, M.kruipBodem, M.voor - 0.08], [eind, M.vloerOnder, M.gevelVoor], mat.beton);
@@ -158,57 +185,73 @@ export function bouwGrond(g: Group, mat: Materialen) {
   blok(g, [M.links + 0.08, M.kruipBodem, M.achter + 0.08], [eind, M.kruipBodem + 0.05, M.voor - 0.08], mat.zand);
 }
 
-// Afwerking en indeling per verdieping. Binnenmuren lopen tot precies de open gevel.
-export function bouwInterieur(g: Group, mat: Materialen) {
+/** Rechte trap tegen de woningscheidende muur: eiken treden, witte stootborden, trapbomen en leuning. */
+function trap(g: Group, mat: Materialen, x0: number, x1: number, zOnder: number, yOnder: number, yBoven: number, treden: number) {
+  const stijg = (yBoven - yOnder) / treden, aantrede = 0.235;
+  for (let i = 0; i < treden - 1; i++) {
+    const top = yOnder + (i + 1) * stijg, z = zOnder + i * aantrede;
+    blok(g, [x0 + 0.04, top - stijg + 0.04, z - 0.012], [x1 - 0.05, top - 0.04, z + 0.006], mat.wit);
+    blok(g, [x0 + 0.04, top - 0.04, z - 0.02], [x1 - 0.03, top, z + aantrede + 0.02], mat.eiken, 0.006);
+  }
+  const lengte = (treden - 1) * aantrede, hoogte = (treden - 1) * stijg;
+  const hoek = Math.atan2(hoogte, lengte), l = Math.hypot(lengte, hoogte);
+  const schuin = (x: number, dikte: number, hoog: number, dy: number, m: Material) => {
+    const deel = blok(g, [-dikte / 2, -hoog / 2, -l / 2], [dikte / 2, hoog / 2, l / 2], m);
+    deel.position.set(x, yOnder + hoogte / 2 + dy, zOnder + lengte / 2);
+    deel.rotation.x = -hoek;
+  };
+  schuin(x1 - 0.025, 0.05, 0.28, -0.06, mat.wit);
+  schuin(x0 + 0.02, 0.04, 0.28, -0.06, mat.wit);
+  schuin(x1 - 0.02, 0.05, 0.05, 0.92, mat.eiken);
+  for (let i = 1; i < treden - 1; i += 2) {
+    const top = yOnder + (i + 1) * stijg, z = zOnder + i * aantrede + aantrede / 2;
+    blok(g, [x1 - 0.04, top, z - 0.015], [x1 - 0.01, top + 0.9, z + 0.015], mat.wit);
+  }
+}
+
+function radiator(g: Group, mat: Materialen, r: Radiator) {
+  blok(g, [r.x0, r.y0, r.z0], [r.x1, r.y1, r.z1], mat.wit, 0.01);
+  for (let x = r.x0 + 0.05; x < r.x1 - 0.03; x += 0.06) blok(g, [x, r.y0 + 0.02, r.z0 - 0.003], [x + 0.012, r.y1 - 0.02, r.z1 + 0.003], mat.stuc);
+}
+
+// Indeling zoals in een Nederlandse rijwoning. Binnenmuren lopen tot precies de open gevel.
+// Begane grond: open trap tegen de woningscheidende muur, woonkamer voor, open keuken achter.
+// Verdieping: overloopwand met deuren, slaapkamer voor, badkamer achter.
+// Zolder: werkplek onder de dakkapel, wasmachine met droger en het boilervat van de warmtepomp.
+function bouwInterieur(g: Group, mat: Materialen, radiatoren: Radiator[], vensterbanken: Radiator[], gordingen: Gording[], tegels: (a: V3, b: V3) => void) {
   const x0 = M.links, x1 = M.open - 0.003;
-  // Vloeren (hout, badkamer tegels) en plafonds.
+  const overloop = -1.45; // wand tussen overloop (met trapgat) en de kamers op de verdieping
+  // Vloeren en plafonds.
   blok(g, [x0, M.bg, M.achter], [x1, M.bg + 0.012, M.voor], mat.hout);
-  blok(g, [x0, M.v1, WAND_V1], [x1, M.v1 + 0.012, M.voor], mat.hout);
-  blok(g, [x0, M.v1, M.achter], [x1, M.v1 + 0.012, WAND_V1], mat.tegel);
+  blok(g, [x0, M.v1, M.achter], [x1, M.v1 + 0.012, M.voor], mat.hout);
+  blok(g, [overloop, M.v1 + 0.012, M.achter], [x1, M.v1 + 0.016, WAND_V1], mat.tegel);
   blok(g, [x0, M.zolder, M.achter + 0.2], [x1, M.zolder + 0.012, M.voor - 0.2], mat.hout);
   blok(g, [x0, M.plafondBg - 0.012, M.achter], [x1, M.plafondBg, M.voor], mat.plafond);
   blok(g, [x0, M.plafondV1 - 0.012, M.achter], [x1, M.plafondV1, M.voor], mat.plafond);
-
-  // Binnenmuren met een deuropening bij de linkermuur.
-  const wand = (z: number, onder: number, boven: number) => {
-    blok(g, [x0, onder, z - 0.05], [x0 + 0.12, boven, z + 0.05], mat.stuc);
-    blok(g, [x0 + 1.02, onder, z - 0.05], [x1, boven, z + 0.05], mat.stuc);
-    blok(g, [x0 + 0.12, onder + 2.1, z - 0.05], [x0 + 1.02, boven, z + 0.05], mat.stuc);
-  };
-  wand(WAND_BG, M.bg, M.plafondBg);
-  wand(WAND_V1, M.v1, M.plafondV1);
-
-  // Begane grond, woonkamer (voor).
-  const y = M.bg + 0.012;
-  blok(g, [-1.35, y, 0.05], [1.35, y + 0.012, 2.25], mat.kleed);
-  blok(g, [-1.2, y, -0.93], [1.1, y + 0.42, -0.08], mat.stof, 0.06);
-  blok(g, [-1.2, y + 0.38, -0.93], [1.1, y + 0.86, -0.72], mat.stof, 0.07);
-  blok(g, [-1.38, y, -0.93], [-1.2, y + 0.62, -0.08], mat.stof, 0.06);
-  blok(g, [1.1, y, -0.93], [1.28, y + 0.62, -0.08], mat.stof, 0.06);
-  for (const [a, b] of [[-1.15, -0.4], [-0.38, 0.35], [0.37, 1.07]]) blok(g, [a, y + 0.42, -0.74], [b, y + 0.52, -0.1], mat.kussen, 0.05);
-  blok(g, [0.55, y + 0.52, -0.72], [0.95, y + 0.8, -0.6], mat.stofDonker, 0.05);
-  // Salontafel, fauteuil, dressoir, boekenkast, lamp en plant.
-  blok(g, [-0.5, y + 0.34, 0.55], [0.5, y + 0.38, 1.15], mat.walnoot, 0.02);
-  blok(g, [-0.44, y, 0.61], [0.44, y + 0.34, 1.09], mat.walnoot, 0.02);
-  blok(g, [0.95, y, 1.55], [1.75, y + 0.4, 2.35], mat.stofDonker, 0.07);
-  blok(g, [0.95, y + 0.36, 2.15], [1.75, y + 0.8, 2.35], mat.stofDonker, 0.07);
-  blok(g, [-0.9, y, M.voor - 0.42], [0.6, y + 0.52, M.voor - 0.02], mat.walnoot, 0.02);
-  blok(g, [x0, y, 0.2], [x0 + 0.36, y + 1.9, 1.9], mat.eiken, 0.01);
-  for (let plank = 0; plank < 4; plank++) {
-    const py = y + 0.2 + plank * 0.44;
-    blok(g, [x0 + 0.34, py, 0.24], [x0 + 0.37, py + 0.02, 1.86], mat.walnoot);
-    let z = 0.3;
-    for (let i = 0; i < 7 && z < 1.75; i++) { const breed = 0.06 + ((i * 7 + plank * 3) % 4) * 0.02; blok(g, [x0 + 0.05, py + 0.02, z], [x0 + 0.3, py + 0.28 + (i % 3) * 0.04, z + breed], [mat.boek1, mat.boek2, mat.boek3, mat.boek4][(i + plank) % 4]); z += breed + 0.015; }
+  for (const r of radiatoren) radiator(g, mat, r);
+  for (const b of vensterbanken) blok(g, [b.x0, b.y0, b.z0], [b.x1, b.y1, b.z1], mat.wit, 0.005);
+  // Kapconstructie: gordingen en nokbalk, van de linker kopgevel tot aan de doorsnede.
+  for (const d of gordingen) blok(g, [d.x0, d.y - d.hoog, d.z - d.breed / 2], [d.x1, d.y, d.z + d.breed / 2], mat.vuren);
+  // Plinten langs de wanden, per verdieping.
+  for (const [vloer, van] of [[M.bg, x0], [M.v1, overloop + 0.1]] as [number, number][]) {
+    blok(g, [van, vloer, M.voor - 0.012], [x1, vloer + 0.08, M.voor], mat.wit);
+    blok(g, [van, vloer, M.achter], [x1, vloer + 0.08, M.achter + 0.012], mat.wit);
   }
-  lamp(g, mat, [-1.7, y, -0.5], 1.5);
-  plant(g, mat, [2.0, y, M.voor - 0.4], 1.2);
-  plant(g, mat, [0.3, y + 0.52, M.voor - 0.22], 0.45);
 
-  // Begane grond, keuken (achter).
-  blok(g, [x0, y, M.achter + 0.05], [x0 + 0.62, y + 0.86, WAND_BG - 0.25], mat.wit, 0.01);
-  blok(g, [x0, y + 0.86, M.achter + 0.05], [x0 + 0.65, y + 0.9, WAND_BG - 0.25], mat.antraciet);
-  blok(g, [x0, y + 1.45, M.achter + 0.05], [x0 + 0.36, y + 2.15, WAND_BG - 0.25], mat.wit, 0.01);
-  cilinder(g, [x0 + 0.3, y + 0.9, -2.2], 0.28, 0.012, 0.012, mat.messing);
+  // Begane grond: trap, keuken, eettafel, zithoek.
+  const y = M.bg + 0.012;
+  trap(g, mat, x0, x0 + 0.88, -0.95, y, M.v1 + 0.012, 14);
+  blok(g, [x0, y, M.achter + 0.05], [x0 + 0.62, y + 0.86, -1.36], mat.wit, 0.01);
+  blok(g, [x0, y + 0.86, M.achter + 0.05], [x0 + 0.65, y + 0.9, -1.36], mat.antraciet);
+  blok(g, [x0, y + 1.45, M.achter + 0.05], [x0 + 0.36, y + 2.15, -1.36], mat.wit, 0.01);
+  blok(g, [x0, y, -1.34], [x0 + 0.66, y + 2.1, -1.0], mat.wit, 0.01);
+  cilinder(g, [x0 + 0.3, y + 0.9, -2.3], 0.28, 0.012, 0.012, mat.messing);
+  // Keuken: spoelbak, inductiekookplaat, oven, grepen en tegels tussen aanrecht en bovenkasten.
+  blok(g, [x0 + 0.12, y + 0.884, -2.6], [x0 + 0.5, y + 0.904, -2.05], mat.antraciet, 0.01);
+  blok(g, [x0 + 0.08, y + 0.9, -3.3], [x0 + 0.56, y + 0.906, -2.75], mat.zwart, 0.005);
+  blok(g, [x0 + 0.62, y + 0.25, -3.28], [x0 + 0.626, y + 0.78, -2.77], mat.zwart);
+  for (let zg = M.achter + 0.35; zg < -1.5; zg += 0.6) blok(g, [x0 + 0.62, y + 0.8, zg - 0.12], [x0 + 0.635, y + 0.815, zg + 0.12], mat.messing);
+  tegels([x0, y + 0.9, M.achter + 0.05], [x0 + 0.008, y + 1.45, -1.36]);
   blok(g, [-0.35, y + 0.72, -2.75], [1.15, y + 0.76, -1.85], mat.eiken, 0.015);
   for (const [dx, dz] of [[-0.3, -2.7], [1.1, -2.7], [-0.3, -1.9], [1.1, -1.9]]) blok(g, [dx - 0.03, y, dz - 0.03], [dx + 0.03, y + 0.72, dz + 0.03], mat.walnoot);
   stoel(g, mat, [0.05, y, -3.05], 1); stoel(g, mat, [0.75, y, -3.05], 1);
@@ -216,36 +259,66 @@ export function bouwInterieur(g: Group, mat: Materialen) {
   cilinder(g, [0.4, M.plafondBg - 0.62, -2.3], 0.6, 0.006, 0.006, mat.zwart);
   cilinder(g, [0.4, M.plafondBg - 0.8, -2.3], 0.2, 0.24, 0.1, mat.antraciet);
   plant(g, mat, [0.4, y + 0.76, -2.3], 0.35);
+  // Zithoek: bank met de rug naar de keuken, kijkend naar de voorgevel.
+  blok(g, [-0.95, y, 0.35], [2.05, y + 0.012, 2.6], mat.kleed);
+  blok(g, [-0.85, y, -0.25], [1.35, y + 0.42, 0.6], mat.stof, 0.06);
+  blok(g, [-0.85, y + 0.38, -0.25], [1.35, y + 0.86, -0.05], mat.stof, 0.07);
+  blok(g, [-1.03, y, -0.25], [-0.85, y + 0.62, 0.6], mat.stof, 0.06);
+  blok(g, [1.35, y, -0.25], [1.53, y + 0.62, 0.6], mat.stof, 0.06);
+  for (const [a, b] of [[-0.8, -0.08], [-0.06, 0.64], [0.66, 1.3]]) blok(g, [a, y + 0.42, -0.06], [b, y + 0.52, 0.56], mat.kussen, 0.05);
+  blok(g, [-0.1, y + 0.34, 1.15], [0.9, y + 0.38, 1.75], mat.walnoot, 0.02);
+  blok(g, [-0.04, y, 1.21], [0.84, y + 0.34, 1.69], mat.walnoot, 0.02);
+  // Fauteuil bij het raam (niet voor de trapkast, waar de thuisbatterij staat).
+  blok(g, [0.25, y, 2.45], [0.95, y + 0.4, 3.1], mat.stofDonker, 0.07);
+  blok(g, [0.25, y + 0.36, 2.92], [0.95, y + 0.8, 3.1], mat.stofDonker, 0.07);
+  lamp(g, mat, [1.8, y, 0.05], 1.5);
+  plant(g, mat, [2.05, y, M.voor - 0.45], 1.2);
 
-  // Verdieping, slaapkamer (voor).
+  // Verdieping: overloopwand met twee deuropeningen, binnenmuur tussen slaapkamer en badkamer.
   const v = M.v1 + 0.012;
-  blok(g, [0.4, v, 2.1], [2.2, v + 0.012, 3.3], mat.kleedGrijs);
-  blok(g, [x0 + 0.02, v, 1.15], [x0 + 0.1, v + 1.05, 2.95], mat.stofDonker, 0.03);
-  blok(g, [x0 + 0.1, v, 1.2], [-0.25, v + 0.32, 2.9], mat.eiken, 0.03);
-  blok(g, [x0 + 0.14, v + 0.32, 1.24], [-0.3, v + 0.55, 2.86], mat.beddengoed, 0.06);
-  blok(g, [-1.55, v + 0.5, 1.22], [-0.28, v + 0.6, 2.88], mat.kussen, 0.05);
-  blok(g, [-0.85, v + 0.52, 1.22], [-0.3, v + 0.64, 2.88], mat.plaid, 0.05);
-  blok(g, [x0 + 0.2, v + 0.55, 1.35], [x0 + 0.62, v + 0.72, 1.95], mat.beddengoed, 0.07);
-  blok(g, [x0 + 0.2, v + 0.55, 2.1], [x0 + 0.62, v + 0.72, 2.7], mat.beddengoed, 0.07);
-  for (const z of [0.72, 3.02]) {
-    blok(g, [x0 + 0.02, v, z], [x0 + 0.47, v + 0.5, z + 0.42], mat.walnoot, 0.02);
-    lamp(g, mat, [x0 + 0.24, v + 0.5, z + 0.21], 0.32);
+  const wandX = (za: number, zb: number) => blok(g, [overloop, v, za], [overloop + 0.1, M.plafondV1, zb], mat.stuc);
+  wandX(M.achter, -0.85); wandX(0.05, 2.5); wandX(3.35, M.voor);
+  for (const [za, zb] of [[-0.85, 0.05], [2.5, 3.35]]) blok(g, [overloop, v + 2.1, za], [overloop + 0.1, M.plafondV1, zb], mat.stuc);
+  blok(g, [overloop + 0.1, v, WAND_V1 - 0.05], [x1, M.plafondV1, WAND_V1 + 0.05], mat.stuc);
+  // Binnendeuren (dicht) met een wit kozijn en een deurkruk aan de kamerzijde.
+  for (const [za, zb] of [[-0.85, 0.05], [2.5, 3.35]]) {
+    blok(g, [overloop - 0.01, v, za], [overloop + 0.115, v + 2.14, za + 0.05], mat.wit);
+    blok(g, [overloop - 0.01, v, zb - 0.05], [overloop + 0.115, v + 2.14, zb], mat.wit);
+    blok(g, [overloop - 0.01, v + 2.09, za], [overloop + 0.115, v + 2.14, zb], mat.wit);
+    blok(g, [overloop + 0.03, v + 0.01, za + 0.05], [overloop + 0.07, v + 2.09, zb - 0.05], mat.wit, 0.005);
+    blok(g, [overloop + 0.07, v + 1.02, zb - 0.2], [overloop + 0.1, v + 1.04, zb - 0.08], mat.messing);
   }
-  blok(g, [0.35, v, WAND_V1 + 0.06], [2.1, v + 2.1, WAND_V1 + 0.66], mat.wit, 0.01);
-  for (const x of [0.93, 1.52]) blok(g, [x - 0.004, v + 0.05, WAND_V1 + 0.665], [x + 0.004, v + 2.05, WAND_V1 + 0.67], mat.stofDonker);
-  plant(g, mat, [2.05, v, M.voor - 0.35], 0.9);
+  // Slaapkamer.
+  const k = overloop + 0.1;
+  blok(g, [0.85, v, 1.1], [2.25, v + 0.012, 2.9], mat.kleedGrijs);
+  blok(g, [k, v, 0.8], [k + 0.08, v + 1.05, 2.5], mat.stofDonker, 0.03);
+  blok(g, [k + 0.08, v, 0.85], [k + 2.1, v + 0.32, 2.45], mat.eiken, 0.03);
+  blok(g, [k + 0.12, v + 0.32, 0.89], [k + 2.06, v + 0.55, 2.41], mat.beddengoed, 0.06);
+  blok(g, [k + 0.75, v + 0.5, 0.87], [k + 2.08, v + 0.6, 2.43], mat.kussen, 0.05);
+  blok(g, [k + 1.45, v + 0.52, 0.87], [k + 2.07, v + 0.64, 2.43], mat.plaid, 0.05);
+  blok(g, [k + 0.18, v + 0.55, 1.0], [k + 0.6, v + 0.72, 1.6], mat.beddengoed, 0.07);
+  blok(g, [k + 0.18, v + 0.55, 1.7], [k + 0.6, v + 0.72, 2.3], mat.beddengoed, 0.07);
+  blok(g, [k + 0.02, v, WAND_V1 + 0.08], [k + 0.47, v + 0.5, 0.7], mat.walnoot, 0.02);
+  lamp(g, mat, [k + 0.24, v + 0.5, 0.49], 0.32);
+  blok(g, [1.15, v, WAND_V1 + 0.06], [2.4, v + 2.1, WAND_V1 + 0.66], mat.wit, 0.01);
+  for (const x of [1.57, 1.99]) blok(g, [x - 0.004, v + 0.05, WAND_V1 + 0.665], [x + 0.004, v + 2.05, WAND_V1 + 0.67], mat.stofDonker);
+  plant(g, mat, [2.1, v, M.voor - 0.4], 0.9);
+  // Badkamer: tegelwand, bad, douche met glazen wand, toilet en wastafelmeubel.
+  tegels([k, v, M.achter], [x1, v + 1.9, M.achter + 0.008]);
+  blok(g, [k + 0.02, v, M.achter + 0.02], [k + 1.72, v + 0.56, M.achter + 0.78], mat.sanitair, 0.05);
+  blok(g, [k + 0.1, v + 0.4, M.achter + 0.1], [k + 1.64, v + 0.5, M.achter + 0.7], mat.tegel, 0.03);
+  blok(g, [1.5, v, M.achter + 0.02], [2.45, v + 0.05, -2.62], mat.sanitair, 0.01);
+  blok(g, [1.5, v + 0.05, -2.64], [2.45, v + 2.0, -2.61], mat.glas);
+  blok(g, [1.47, v + 0.05, M.achter + 0.02], [1.5, v + 2.0, -2.61], mat.glas);
+  blok(g, [2.0, v + 1.6, M.achter + 0.03], [2.3, v + 1.63, M.achter + 0.3], mat.messing);
+  blok(g, [k + 0.02, v, -2.2], [k + 0.64, v + 0.42, -1.82], mat.sanitair, 0.08);
+  blok(g, [k, v + 0.42, -2.2], [k + 0.18, v + 0.8, -1.82], mat.sanitair, 0.04);
+  blok(g, [0.3, v + 0.45, -0.33], [1.3, v + 0.85, WAND_V1 - 0.05], mat.walnoot, 0.02);
+  blok(g, [0.28, v + 0.85, -0.35], [1.32, v + 0.89, WAND_V1 - 0.05], mat.sanitair, 0.01);
+  blok(g, [0.4, v + 1.2, WAND_V1 - 0.07], [1.2, v + 1.95, WAND_V1 - 0.05], mat.spiegel);
+  plant(g, mat, [2.1, v, -0.25], 0.6);
 
-  // Verdieping, badkamer (achter).
-  blok(g, [x0 + 0.02, v, M.achter + 0.02], [-0.6, v + 0.56, M.achter + 0.8], mat.sanitair, 0.05);
-  blok(g, [x0 + 0.1, v + 0.4, M.achter + 0.1], [-0.68, v + 0.5, M.achter + 0.72], mat.tegel, 0.03);
-  blok(g, [x0, v + 0.45, -1.7], [x0 + 0.5, v + 0.85, -0.7], mat.walnoot, 0.02);
-  blok(g, [x0, v + 0.85, -1.72], [x0 + 0.52, v + 0.89, -0.68], mat.sanitair, 0.01);
-  blok(g, [x0 + 0.003, v + 1.2, -1.6], [x0 + 0.02, v + 2.0, -0.8], mat.spiegel);
-  blok(g, [x0, v, -0.45], [x0 + 0.62, v + 0.42, -0.08], mat.sanitair, 0.08);
-  blok(g, [x0, v + 0.42, -0.45], [x0 + 0.18, v + 0.8, -0.08], mat.sanitair, 0.04);
-  plant(g, mat, [1.9, v, M.achter + 0.4], 0.6);
-
-  // Zolder: werkplek onder de dakkapel.
+  // Zolder: werkplek onder de dakkapel, was- en droogtoren, boilervat van de warmtepomp.
   const z = M.zolder + 0.012;
   blok(g, [-1.4, z, 0.4], [1.4, z + 0.012, 2.3], mat.kleed);
   blok(g, [-0.75, z + 0.72, 1.2], [0.75, z + 0.76, 1.85], mat.eiken, 0.015);
@@ -255,34 +328,138 @@ export function bouwInterieur(g: Group, mat: Materialen) {
   cilinder(g, [0.0, z, 0.75], 0.42, 0.04, 0.04, mat.antraciet);
   blok(g, [-0.24, z + 0.42, 0.52], [0.24, z + 0.5, 0.98], mat.zwart, 0.04);
   blok(g, [-0.24, z + 0.5, 0.52], [0.24, z + 1.05, 0.58], mat.zwart, 0.04);
-  blok(g, [-1.6, z, -2.55], [1.6, z + 0.55, -2.2], mat.eiken, 0.01);
+  for (const [onder, boven] of [[0, 0.85], [0.86, 1.7]]) {
+    blok(g, [1.55, z + onder, -1.3], [2.15, z + boven, -0.7], mat.wit, 0.02);
+    const deur = cilinder(g, [0, 0, 0], 0.02, 0.19, 0.19, mat.antraciet);
+    deur.rotation.z = Math.PI / 2;
+    deur.position.set(2.16, z + (onder + boven) / 2, -1.0);
+  }
+  cilinder(g, [0.85, z, -1.0], 1.6, 0.28, 0.28, mat.wit);
+  cilinder(g, [0.85, z + 1.6, -1.0], 0.04, 0.2, 0.05, mat.stuc);
+  blok(g, [-1.6, z, -2.55], [0.2, z + 0.55, -2.2], mat.eiken, 0.01);
   plant(g, mat, [-1.4, z, 1.9], 0.9);
-  plant(g, mat, [1.2, z + 0.55, -2.38], 0.4);
 }
 
 export function maakCutaway(scene: Object3D) {
   const weg = (o: Object3D) => { disposeHouse(o); o.removeFromParent(); };
-  // De complete rechter kopgevel (met zijramen en regenpijpen), de buurwoning en de oude, massieve fundering.
-  for (const o of [...scene.children]) {
-    if (/^(Buitengevel_rechts|Spouwisolatie_rechts|Binnenmuur_rechts|Regenpijpen|Buurwoning|Fundering)/.test(o.name)) { weg(o); continue; }
-    if (/^Raam/.test(o.name) && o.position.x > 2) weg(o);
+  const texturen = maakTexturen();
+  const mat = maakMaterialen(texturen);
+  const extra: Texture[] = [];
+  // De oude, massieve fundering verdwijnt (funderingsbalken en kruipruimte nemen het over).
+  for (const o of [...scene.children]) if (/^Fundering/.test(o.name)) weg(o);
+  scene.updateMatrixWorld(true);
+  const lokaal = (o: Object3D) => { const b = new Box3().setFromObject(o); b.min.divide(scene.scale); b.max.divide(scene.scale); return b; };
+
+  // Warmtepomp op de vrije strook van de achtergevel (tussen het grote raam en de achterdeur,
+  // waar de thuisbatterij stond). De thuisbatterij gaat naar binnen, in de trapkast.
+  const pomp = scene.getObjectByName("Warmtepomp_DeWarmte");
+  const batterij = scene.getObjectByName("Thuisbatterij");
+  if (pomp && batterij) {
+    const vrij = lokaal(batterij), p = lokaal(pomp);
+    pomp.position.x += (vrij.min.x + vrij.max.x) / 2 - (p.min.x + p.max.x) / 2;
+    pomp.position.z += M.gevelAchter - 0.06 - p.max.z;
+    batterij.rotation.y -= Math.PI / 2;
+    scene.updateMatrixWorld(true);
+    const b = lokaal(batterij);
+    batterij.position.x += M.links + 0.07 - b.min.x;
+    batterij.position.z += 1.15 - b.min.z;
+    batterij.position.y += M.bg + 0.012 - b.min.y;
+    scene.updateMatrixWorld(true);
   }
-  // Losse zijramen die als kind van een groep bestaan, en het plintdeel langs de weggehaalde gevel.
-  for (const naam of ["Raam_rechts_01", "Raam_rechts_02", "Raam_rechts_03", "Raam_rechts_zolder"]) { const o = scene.getObjectByName(naam); if (o) weg(o); }
+
+  // Radiatoren onder de ramen van begane grond en verdieping (op de plek van de echte ramen).
+  const radiatoren: Radiator[] = [];
+  const vensterbanken: Radiator[] = [];
+  for (const o of scene.children) {
+    if (!/^Raam_(voor|achter)/.test(o.name)) continue;
+    const b = lokaal(o), voor = b.min.z > 0;
+    const vloer = b.min.y < M.plafondBg ? M.bg : b.min.y < M.plafondV1 ? M.v1 : null;
+    if (vloer === null) continue;
+    const links = vloer === M.bg ? (voor ? M.links + 1.0 : M.links + 0.75) : -1.3;
+    const r = { x0: Math.max(b.min.x + 0.1, links), x1: Math.min(b.max.x - 0.1, M.open - 0.08), y0: vloer + 0.16, y1: Math.min(vloer + 0.72, b.min.y - 0.08), z0: voor ? M.voor - 0.1 : M.achter + 0.03, z1: voor ? M.voor - 0.03 : M.achter + 0.1 };
+    if (r.x1 - r.x0 > 0.4 && r.y1 - r.y0 > 0.25) radiatoren.push(r);
+    // Vensterbank aan de binnenkant, alleen bij ramen met een borstwering.
+    if (b.min.y > vloer + 0.3) vensterbanken.push({
+      x0: Math.max(b.min.x - 0.03, M.links), x1: Math.min(b.max.x + 0.03, M.open - 0.005), y0: b.min.y - 0.03, y1: b.min.y,
+      z0: voor ? M.voor - 0.2 : M.achter - 0.01, z1: voor ? M.voor + 0.01 : M.achter + 0.2,
+    });
+  }
+
+  // Gordingen en nokbalk tegen de onderkant van de dakconstructie (gemeten met een straal omhoog),
+  // onderbroken bij de dakkapel.
+  const gordingen: Gording[] = [];
+  const kap = scene.getObjectByName("Dakconstructie");
+  const dakkapel = scene.getObjectByName("Dakkapel");
+  const kapel = dakkapel ? lokaal(dakkapel) : null;
+  if (kap) {
+    const straal = new Raycaster();
+    for (const [z, breed, hoog] of [[-1.8, 0.08, 0.2], [0, 0.1, 0.22], [1.8, 0.08, 0.2]]) {
+      straal.set(new Vector3(-1.8, M.zolder + 0.2, z).multiply(scene.scale), new Vector3(0, 1, 0));
+      const raak = straal.intersectObject(kap, true)[0];
+      if (!raak) continue;
+      const y = raak.point.y / scene.scale.y - 0.003;
+      const stukken: [number, number][] = kapel && z > kapel.min.z && z < kapel.max.z ? [[M.links, kapel.min.x], [kapel.max.x, M.open - 0.003]] : [[M.links, M.open - 0.003]];
+      for (const [x0, x1] of stukken) gordingen.push({ x0, x1, z, y, breed, hoog });
+    }
+  }
+  // Wandtegels met een vaste tegelmaat (15 cm), ongeacht de grootte van het vlak.
+  const tegels = (grens: Group) => (a: V3, b: V3) => {
+    const d = [Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1]), Math.abs(b[2] - a[2])];
+    const dun = d.indexOf(Math.min(...d));
+    const t = texturen.tegel.clone();
+    t.repeat.set((dun === 0 ? d[2] : d[0]) / 0.6, (dun === 1 ? d[2] : d[1]) / 0.6);
+    t.needsUpdate = true;
+    extra.push(t);
+    blok(grens, a, b, new MeshStandardMaterial({ map: t, roughness: 0.35, metalness: 0 }));
+  };
+  const deuren = [scene.getObjectByName("Voordeur"), ...scene.getObjectsByProperty("name", "buur_Voordeur")]
+    .filter((d): d is Object3D => !!d).map(d => { const b = lokaal(d); return { x0: b.min.x, x1: b.max.x }; });
+
+  // De complete rechter kopgevel (met zijramen, regenpijpen en het plintdeel) gaat in één groep,
+  // zodat hij bij het scrollen in zijn geheel kan wegschuiven. Plus een funderingsbalk eronder,
+  // die in de dichte stand de kruipruimte afsluit.
+  const kopgevel = new Group(); kopgevel.name = "Kopgevel";
+  scene.add(kopgevel);
+  for (const o of [...scene.children]) {
+    if (/^(Buitengevel_rechts|Spouwisolatie_rechts|Binnenmuur_rechts|Regenpijpen|Raam_rechts)/.test(o.name) || (/^Raam/.test(o.name) && o.position.x > 2)) kopgevel.attach(o);
+  }
+  const plintRechts: Mesh[] = [];
   scene.getObjectByName("Plinten")?.traverse(part => {
     const mesh = part as Mesh;
     if (!mesh.isMesh) return;
     mesh.geometry.computeBoundingBox();
     const b = mesh.geometry.boundingBox!;
-    if (b.max.z - b.min.z > 3 && b.min.x > 2.2) mesh.visible = false;
+    if (b.max.z - b.min.z > 3 && b.min.x > 2.2) plintRechts.push(mesh);
   });
-  // Warmtepomp tegen de achtergevel (rechts van de achterdeur, bij de open kant), zodat hij niet voor de open kant staat.
-  const pomp = scene.getObjectByName("Warmtepomp_DeWarmte");
-  if (pomp) {
-    scene.updateMatrixWorld(true);
-    const b = new Box3().setFromObject(pomp);
-    pomp.position.z += M.gevelAchter - 0.1 - b.max.z / scene.scale.z;
-    pomp.position.x += 2.28 - (b.min.x + b.max.x) / 2 / scene.scale.x;
+  for (const mesh of plintRechts) kopgevel.attach(mesh);
+  blok(kopgevel, [M.open, M.kruipBodem, M.gevelAchter], [-M.gevelLinks, M.maaiveld + 0.005, M.gevelVoor], mat.beton.clone());
+  // Eigen, doorzichtig te maken materialen voor de kopgevel (andere onderdelen delen soms hetzelfde materiaal).
+  const vervangen = new Set<Material>();
+  const kopMaterialen: Material[] = [];
+  kopgevel.traverse(part => {
+    const mesh = part as Mesh;
+    if (!mesh.isMesh) return;
+    const lijst = (Array.isArray(mesh.material) ? mesh.material : [mesh.material]).map(m => {
+      vervangen.add(m);
+      const kopie = m.clone();
+      kopie.userData.basisOpacity = kopie.opacity;
+      kopie.transparent = true;
+      kopMaterialen.push(kopie);
+      return kopie;
+    });
+    mesh.material = Array.isArray(mesh.material) ? lijst : lijst[0];
+  });
+  const inGebruik = new Set<Material>();
+  scene.traverse(part => { const mesh = part as Mesh; if (mesh.isMesh) for (const m of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) inGebruik.add(m); });
+  for (const m of vervangen) if (!inGebruik.has(m)) m.dispose();
+
+  // Zonnepanelen volledig zwart (full black), zoals Gijs ze plaatst.
+  for (const o of scene.children) {
+    if (!o.name.startsWith("Zonnepaneel")) continue;
+    o.traverse(part => {
+      const mesh = part as Mesh;
+      if (mesh.isMesh) for (const m of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) if (m.isMeshStandardMaterial) { m.map = null; m.color.set("#15181c"); m.roughness = 0.32; m.metalness = 0.15; m.needsUpdate = true; }
+    });
   }
   // Alle isolatie (dak, spouw, vloer) in één herkenbare gele isolatiekleur.
   for (const o of scene.children) {
@@ -297,15 +474,20 @@ export function maakCutaway(scene: Object3D) {
     scene.getObjectByName(naam)?.traverse(part => {
       const mesh = part as Mesh;
       if (!mesh.isMesh) return;
-      for (const m of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) { if (!m.isMeshStandardMaterial) continue; m.map = null; m.color.set("#e4ded4"); m.roughness = 0.95; m.needsUpdate = true; }
+      for (const m of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) { if (!m.isMeshStandardMaterial) continue; m.map = texturen.stuc; m.color.set("#ffffff"); m.roughness = 0.95; m.needsUpdate = true; }
     });
   }
-  const texturen = maakTexturen();
-  const mat = maakMaterialen(texturen);
   const grond = new Group(); grond.name = "Maquette_grond";
   const interieur = new Group(); interieur.name = "Interieur";
-  bouwGrond(grond, mat);
-  bouwInterieur(interieur, mat);
+  bouwGrond(grond, mat, deuren, extra);
+  bouwInterieur(interieur, mat, radiatoren, vensterbanken, gordingen, tegels(interieur));
   scene.add(grond, interieur);
-  return Object.values(texturen) as Texture[];
+  return { texturen: [...(Object.values(texturen) as Texture[]), ...extra], kopgevel, kopMaterialen };
+}
+
+/** Kopgevel openen (0 = dicht, 1 = open): schuift naar buiten en vervaagt, daarna uit beeld. */
+export function zetKopgevel(kopgevel: Object3D, materialen: Material[], open: number) {
+  kopgevel.position.x = open * 2.2;
+  kopgevel.visible = open < 0.995;
+  for (const m of materialen) m.opacity = (m.userData.basisOpacity as number) * (1 - open);
 }
