@@ -13,6 +13,7 @@ import { HOUSE_MODELS } from "@/lib/woning-types";
 import { MAATREGEL_TITELS, type MaatregelTitel } from "@/lib/content/maatregel-titels";
 import { HouseDaglicht } from "@/components/woning/HouseDaglicht";
 import { M, maakCutaway, zetKopgevel, type V3 } from "./maquette";
+import { maakLadder, maakMonteur, poseKlimmen, poseKruipen, poseStaan, zetZichtbaarheid } from "./monteur";
 import basis from "../HouseModelPrototype.module.css";
 import styles from "./HomeCutawayTest.module.css";
 
@@ -86,7 +87,7 @@ function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bounds: Bo
   standen[STAP.dak] = stand(lok([M.open, 4.1, 1.8]), [0.95, 0.24, 0.24], L3 * 1.35);
   standen[STAP.zon] = stand(zonLook, [0.34, 0.66, 0.68], L2 * 0.78);
   standen[STAP.spouw] = stand(lok([M.open, -0.2, M.gevelVoor + 0.35]), [0.88, 0.16, 0.45], L3 * 0.6);
-  standen[STAP.vloer] = stand(lok([M.open, -2.95, 1.1]), [0.93, 0.14, 0.34], L3 * 1.05);
+  standen[STAP.vloer] = stand(lok([M.open, -3.1, 1.3]), [0.95, 0.05, 0.3], L3 * 0.95);
   standen[STAP.pomp] = pomp ? stand(doos(pomp).c, [0.5, 0.34, -0.8], L3 * 0.95) : overzicht(1);
   standen[STAP.batterij] = batterij ? stand(doos(batterij).c, [0.92, 0.22, 0.32], L3 * 0.62) : overzicht(1);
   standen[EIND] = overzicht(1.03);
@@ -94,7 +95,7 @@ function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bounds: Bo
   // Lagen die per hoofdstuk uit elkaar schuiven (lokale eenheden van het model), zoals op de homepage.
   const bewegingen: Beweging[] = [];
   const schuif = (naam: RegExp, offset: V3, stap: number) => { for (const o of scene.children) if (naam.test(o.name)) bewegingen.push({ object: o, origin: o.position.clone(), offset: new Vector3(...offset), stap }); };
-  schuif(/^(Dakpannen|Dakkapel|Schoorsteen|Dakgoot|Zonnepaneel)/, [0, 0.95, 0], STAP.dak);
+  schuif(/^(Dakpannen|Dakkapel|Schoorsteen|Zonnepaneel)/, [0, 0.95, 0], STAP.dak);
   schuif(/^Panlatten$/, [0, 0.7, 0], STAP.dak);
   schuif(/^Tengellatten$/, [0, 0.48, 0], STAP.dak);
   schuif(/^Dakisolatie$/, [0, 0.26, 0], STAP.dak);
@@ -170,9 +171,11 @@ function Woning({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: Ref
   const gestart = useRef(false);
   const actieveStap = useRef(-1);
   const bereikt = useRef(0);
+  // Korte actie van de monteur bij dak- en vloerisolatie (t in seconden; start na een korte pauze, als de camera er is).
+  const actie = useRef<{ soort: "dak" | "vloer"; t: number } | null>(null);
   const minder = useRef(false);
   const { invalidate, camera, size } = useThree();
-  const tijdelijk = useRef({ pos: new Vector3(), look: new Vector3(), punt: new Vector3() });
+  const tijdelijk = useRef({ pos: new Vector3(), look: new Vector3(), punt: new Vector3(), hulp: new Vector3() });
 
   const opgebouwd = useMemo(() => {
     const { scene, scale, position, bounds } = prepareHouse(gltf.scene, "hoekwoning");
@@ -212,7 +215,14 @@ function Woning({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: Ref
         for (const mat of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) { mat.transparent = true; groep.materialen.add(mat); }
       });
     }
-    return { scene, scale, position, route, highlight, installaties, cutaway, texturen: [...realistisch, ...cutaway.texturen] };
+    // Monteur en ladder voor de korte acties (dak op, kruipruimte in); alleen zichtbaar tijdens de actie.
+    const monteur = maakMonteur();
+    const ladderVoet = new Vector3(2.0, M.maaiveld, M.gevelVoor + 1.4), ladderTop = new Vector3(2.0, 2.63, 4.06);
+    const { ladder, materialen: ladderMaterialen } = maakLadder(ladderVoet.distanceTo(ladderTop));
+    ladder.position.copy(ladderVoet);
+    ladder.rotation.x = -Math.atan2(ladderVoet.z - ladderTop.z, ladderTop.y - ladderVoet.y);
+    scene.add(monteur.root, ladder);
+    return { scene, scale, position, route, highlight, installaties, cutaway, monteur, ladder, ladderMaterialen, ladderVoet, ladderTop, texturen: [...realistisch, ...cutaway.texturen] };
   }, [gltf]);
   const { scene, scale, position, route } = opgebouwd;
   useEffect(() => {
@@ -246,11 +256,52 @@ function Woning({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: Ref
     return () => { window.removeEventListener("scroll", update); window.removeEventListener("resize", update); media.removeEventListener("change", update); };
   }, [sectie, invalidate]);
 
+  // Korte actie: bij dakisolatie de ladder op en het dak op stappen, bij vloerisolatie door de kruipruimte kruipen.
+  const OP_LADDER = new Vector3(0, 0, 0.3);
+  const speelActie = (delta: number, dakLift: number) => {
+    const { monteur: mt, ladder, ladderMaterialen, ladderVoet, ladderTop } = opgebouwd;
+    const a = actie.current;
+    const verberg = () => { mt.root.visible = false; ladder.visible = false; };
+    if (!a) return verberg();
+    a.t += Math.min(delta, 0.05);
+    const t = a.t, duur = a.soort === "dak" ? 2.2 : 2.0;
+    if (t < 0) return verberg();
+    if (t > duur) { actie.current = null; return verberg(); }
+    const zicht = clamp(t / 0.15) * (1 - clamp((t - (duur - 0.3)) / 0.3));
+    mt.root.visible = true;
+    zetZichtbaarheid(mt.materialen, zicht);
+    mt.root.rotation.set(0, Math.PI, 0);
+    const hulp = tijdelijk.current.hulp;
+    if (a.soort === "dak") {
+      ladder.visible = true;
+      zetZichtbaarheid(ladderMaterialen, zicht);
+      if (t < 1.3) {
+        mt.root.position.lerpVectors(ladderVoet, ladderTop, 0.3 + (t / 1.3) * 0.62).add(OP_LADDER);
+        poseKlimmen(mt, t * 9);
+      } else {
+        // Van de ladder de dakhelling op (bovenkant pannen, inclusief het optillen van de dakstap).
+        const s = ease((t - 1.3) / 0.5);
+        hulp.lerpVectors(ladderVoet, ladderTop, 0.92).add(OP_LADDER);
+        const dakZ = 3.35, dakY = 2.85 + ((4.39 - dakZ) / 4.39) * 2.49 + 0.95 * dakLift - 0.04;
+        mt.root.position.set(ladderTop.x, hulp.y + (dakY - hulp.y) * s, hulp.z + (dakZ - hulp.z) * s);
+        if (s < 1) poseKlimmen(mt, t * 9); else poseStaan(mt);
+      }
+    } else {
+      ladder.visible = false;
+      mt.root.position.set(1.75, M.kruipBodem + 0.12, 3.3 - 1.3 * clamp(t / duur));
+      poseKruipen(mt, t * 7);
+    }
+  };
+
   useFrame((_, delta) => {
     voortgang.current += (doel.current - voortgang.current) * (minder.current ? 1 : 1 - Math.exp(-8 * delta));
     const p = voortgang.current;
     const stap = Math.max(0, Math.min(EIND, Math.floor(p + 0.001)));
-    if (stap !== actieveStap.current) { actieveStap.current = stap; onStap(stap); }
+    if (stap !== actieveStap.current) {
+      actieveStap.current = stap;
+      onStap(stap);
+      actie.current = !minder.current && (stap === STAP.dak || stap === STAP.vloer) ? { soort: stap === STAP.dak ? "dak" : "vloer", t: -0.45 } : null;
+    }
 
     // Camera: vaste stand per stap, rustige overgang terwijl de volgende stap in beeld schuift.
     const t = stap === 0 ? 0 : ease((p - stap) / 0.35);
@@ -298,7 +349,8 @@ function Woning({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: Ref
       a.punt.style.opacity = String(sterkte);
     }
 
-    if (Math.abs(doel.current - voortgang.current) > 0.0001) invalidate();
+    speelActie(delta, actief(p, STAP.dak));
+    if (Math.abs(doel.current - voortgang.current) > 0.0001 || actie.current) invalidate();
   });
 
   return (
