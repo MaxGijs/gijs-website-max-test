@@ -7,6 +7,7 @@
 .label span { font-size: 13px; line-height: 1.4; color: var(--text-muted); }
 .bijschrift { margin-top: 10px; text-align: center; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
 .subsidie { margin-top: 14px; max-width: 44ch; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
+.meerLink { gap: 6px; }
 @media (max-width: 767px) {
   /* Woning op mobiel groter in beeld dan op de huidige homepage (34svh), zodat doorsnede en labels leesbaar zijn. */
   aside.beeldKolom { height: 46svh; min-height: 280px; }

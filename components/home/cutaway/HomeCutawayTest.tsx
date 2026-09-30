@@ -112,7 +112,7 @@ export default function HomeCutawayTest({ children }: { children?: ReactNode }) 
               <p className={basis.description}>{m.titel.uitleg}</p>
               <p className={basis.benefit}>{m.benefit}</p>
               {subsidieRegel(m.subsidie) && <p className={styles.subsidie}>{subsidieRegel(m.subsidie)} Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.</p>}
-              <Link className={basis.maatregelCta} href={`/maatregelen/${m.titel.slug}`}>{m.titel.cta} <span aria-hidden="true">→</span></Link>
+              <Link className={`${basis.textLink} ${styles.meerLink}`} href={`/maatregelen/${m.titel.slug}`}>Meer over {m.titel.naam.toLowerCase()} <span aria-hidden="true">→</span></Link>
             </section>
           ))}
           <section className={basis.options} data-stap={EIND}>
