@@ -1,6 +1,6 @@
 import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata("/");
-import HouseModelPrototype from "@/components/home/HouseModelPrototype";
+import HomeCutawayTest from "@/components/home/cutaway/HomeCutawayTest";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -14,7 +14,7 @@ export default function Home() {
       <Header />
 
       <main className="flex-1">
-        <HouseModelPrototype>
+        <HomeCutawayTest>
 
         {/* Sociale bewijskracht: bestaande Google-beoordeling van Gijs. */}
         <GoogleReviewsSummary />
@@ -31,7 +31,7 @@ export default function Home() {
             de "start met mijn woning"-CTA (die staat al in de hero en
             in de uitlegsectie hierboven). */}
         <EnergyScanCTA />
-        </HouseModelPrototype>
+        </HomeCutawayTest>
       </main>
 
       <Footer />

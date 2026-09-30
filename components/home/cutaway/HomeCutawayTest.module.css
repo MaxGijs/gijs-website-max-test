@@ -1,0 +1,44 @@
+.verhaal { --kop: 72px; --vlak: #f4f6f5; --glas: rgba(255,255,255,.78); --glas-rand: rgba(19,62,53,.08); --zacht: 0 10px 40px rgba(19,62,53,.08); position: relative; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.3fr); background: #fff; color: var(--text-body); }
+.tekstKolom { grid-column: 1; grid-row: 1; min-width: 0; padding-bottom: 48px; }
+.beeldKolom { grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: var(--kop); height: calc(100svh - var(--kop)); min-height: 380px; padding: 20px 20px 28px 0; display: flex; }
+.beeld { position: relative; flex: 1; min-height: 0; border-radius: 32px; overflow: hidden; background: #fbfcfb; }
+.halo { position: absolute; inset: 8% -4%; border-radius: 50%; background: radial-gradient(ellipse, #e6eee5 0%, #eff3ee 45%, transparent 70%); pointer-events: none; }
+.badge { position: absolute; z-index: 2; top: 14px; left: 12px; padding: 7px 14px; border-radius: 999px; background: rgba(19,62,53,.88); color: #fff; font-size: 12px; font-weight: 700; pointer-events: none; }
+.legenda { position: absolute; z-index: 2; left: 50%; bottom: 18px; transform: translateX(-50%); max-width: calc(100% - 32px); padding: 10px 18px; border-radius: 999px; background: var(--glas); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border: 1px solid var(--glas-rand); box-shadow: var(--zacht); color: var(--gijs-donkergroen); font-size: 14px; font-weight: 600; text-align: center; pointer-events: none; }
+.laden { position: absolute; top: 45%; left: 50%; transform: translateX(-50%); white-space: nowrap; padding: 12px 22px; background: var(--glas); border: 1px solid var(--glas-rand); border-radius: 999px; box-shadow: var(--zacht); font-size: 14px; font-weight: 600; color: var(--gijs-donkergroen); }
+.melding { position: absolute; inset: 35% 10%; font-size: 16px; }
+
+.paneel { min-height: calc(100svh - var(--kop)); padding: 96px clamp(28px, 5vw, 96px); display: flex; flex-direction: column; justify-content: center; }
+.eyebrow { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 16px; color: var(--accent-700); }
+.titel { font-size: clamp(2.5rem, 1.4rem + 3vw, 4.25rem); font-weight: var(--fw-bold); line-height: 1.04; letter-spacing: -0.035em; color: var(--gijs-donkergroen); text-wrap: balance; }
+.tekst { font-size: clamp(19px, 1.4vw, 22px); line-height: 1.5; margin-top: 22px; max-width: 40ch; color: var(--text-muted); text-wrap: pretty; }
+.lagen { margin-top: 24px; font-size: 15px; font-weight: 600; color: var(--gijs-donkergroen); }
+.link { align-self: start; margin-top: 20px; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; color: var(--accent-700); text-decoration: none; }
+.link:hover { text-decoration: underline; }
+.scanKaart { margin-top: 32px; max-width: 480px; background: var(--vlak); border-radius: 28px; padding: 32px; }
+.scanTitel { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--gijs-donkergroen); margin-bottom: 8px; }
+.scanIntro { font-size: 15px; line-height: 1.5; color: var(--text-muted); margin-bottom: 20px; }
+.noot { padding: 0 clamp(28px, 5vw, 96px); font-size: 13px; line-height: 1.5; color: var(--text-muted); max-width: 60ch; }
+.verhaal a:focus-visible, .verhaal button:focus-visible { outline: 2px solid #278362; outline-offset: 4px; }
+
+@media (max-width: 1100px) { .verhaal { --kop: 64px; } }
+@media (max-width: 1000px) and (min-width: 768px) { .paneel { padding-inline: 24px; } .beeldKolom { padding-right: 8px; } }
+/* Mobiel: woning bovenin vast in beeld, de tekst schuift eronder langs. */
+@media (max-width: 767px) {
+  .verhaal { --kop: 64px; display: block; }
+  .beeldKolom { z-index: 20; height: 46svh; min-height: 260px; padding: 0 12px 8px; background: rgba(255,255,255,.94); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--glas-rand); }
+  .beeld { border-radius: 20px; }
+  .legenda { display: none; }
+  .paneel { min-height: 70svh; padding: 48px 24px 56px; justify-content: flex-start; }
+  .titel { font-size: 36px; line-height: 1.06; }
+  .eyebrow { font-size: 15px; margin-bottom: 12px; }
+  .tekst { font-size: 18px; margin-top: 16px; }
+  .scanKaart { margin-top: 24px; padding: 24px; border-radius: 24px; }
+  .noot { padding: 0 24px; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .paneel > * { animation: opkomen linear both; animation-timeline: view(); animation-range: entry 0% entry 80%; }
+  }
+}
+@keyframes opkomen { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
