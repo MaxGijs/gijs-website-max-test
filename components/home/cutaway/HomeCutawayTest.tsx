@@ -1,371 +1,339 @@
 "use client";
+/* eslint-disable react-hooks/immutability -- Three.js scene clones are intentionally animated outside React rendering. */
 
-import { Component, Suspense, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Component, Suspense, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { Box3, BoxGeometry, CanvasTexture, CylinderGeometry, Group, Mesh, MeshStandardMaterial, RepeatWrapping, SphereGeometry, SRGBColorSpace, Vector3, type Material, type Object3D, type Texture } from "three";
+import { Box3, Color, Mesh, MeshStandardMaterial, Vector3, type Object3D } from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import Link from "next/link";
+import AddressScan from "@/components/AddressScan";
+import { Accordion, type AccordionItem } from "@/components/ds/navigation/Accordion";
+import styles from "../HouseModelPrototype.module.css";
 import { prepareHouse, disposeHouse } from "@/lib/house-model";
 import { maakRealistisch } from "@/lib/house-realism";
-import { HOUSE_MODELS } from "@/lib/woning-types";
+import { M, maakCutaway, type V3 } from "./maquette";
+
+// PROTOTYPE (branch homepage-cutaway-test): een kopie van de homepage-woning
+// (components/home/HouseModelPrototype.tsx, dat bestand blijft ongewijzigd)
+// met dezelfde teksten, hoofdstukken en scrolllogica, maar de woning is
+// opengesplit als poppenhuis: de rechter kopgevel is weggehaald, met een
+// grondblok, kruipruimte en ingerichte verdiepingen (zie ./maquette.ts).
+// Per hoofdstuk zoomt de camera in op dat onderdeel in de doorsnede.
+import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
+import { MAATREGEL_TITELS, type MaatregelTitel } from "@/lib/content/maatregel-titels";
+import { useWoningDraft } from "@/components/woning/WoningDraftProvider";
 import { HouseDaglicht } from "@/components/woning/HouseDaglicht";
-import styles from "./HomeCutawayTest.module.css";
 
-// PROTOTYPE (branch homepage-cutaway-test): één statische "poppenhuis"-
-// doorsnede van dezelfde Gijs-hoekwoning. Geen clipping: de complete
-// rechter kopgevel (buitenmuur, spouwisolatie, binnenmuur, zijramen) wordt
-// weggehaald. De vloeren, voor- en achtergevel en dakvlakken van het model
-// eindigen al precies op die lijn, zodat de doorsnede vanzelf netjes is.
-// Daaronder komt een grondblok met kruipruimte, en binnen eenvoudige kamers.
-// Alle maten in meters, in de coördinaten van public/models/gijs-hoekwoning.glb
-// (gemeten uit het model zelf).
+// De volgorde van de hoofdstukken is ook de camera-route langs de woning:
+// voorkant → raam (kozijn, dan glas) → omhoog naar het dak → zonnepanelen →
+// omlaag langs de zijgevel → begane grond → warmtepomp → thuisbatterij →
+// terug naar het totaalbeeld. Naam, titel en uitleg per maatregel komen uit
+// lib/content/maatregel-titels.ts (dezelfde teksten als in de woningscan).
+type Focus = "huis" | "kozijn" | "glas" | "dak" | "zon" | "spouw" | "vloer" | "pomp" | "batterij";
+const steps: { focus: Focus; label: string; maatregel: MaatregelTitel | null; benefit: string }[] = [
+  { focus: "huis", label: "Je huis", maatregel: null, benefit: "" },
+  { focus: "kozijn", label: MAATREGEL_TITELS.kozijnen.naam, maatregel: MAATREGEL_TITELS.kozijnen, benefit: "Minder kou bij het raam." },
+  { focus: "glas", label: MAATREGEL_TITELS.isolatieglas.naam, maatregel: MAATREGEL_TITELS.isolatieglas, benefit: "Warmer bij het raam." },
+  { focus: "dak", label: MAATREGEL_TITELS.dakisolatie.naam, maatregel: MAATREGEL_TITELS.dakisolatie, benefit: "Minder warmte die via het dak verdwijnt." },
+  { focus: "zon", label: MAATREGEL_TITELS.zonnepanelen.naam, maatregel: MAATREGEL_TITELS.zonnepanelen, benefit: "Je wekt zelf een deel van je stroom op." },
+  { focus: "spouw", label: MAATREGEL_TITELS.spouwmuurisolatie.naam, maatregel: MAATREGEL_TITELS.spouwmuurisolatie, benefit: "Je woning koelt minder snel af." },
+  { focus: "vloer", label: MAATREGEL_TITELS.vloerisolatie.naam, maatregel: MAATREGEL_TITELS.vloerisolatie, benefit: "Meer comfort voor je voeten." },
+  { focus: "pomp", label: MAATREGEL_TITELS.warmtepomp.naam, maatregel: MAATREGEL_TITELS.warmtepomp, benefit: "Minder gas nodig om je woning te verwarmen." },
+  { focus: "batterij", label: MAATREGEL_TITELS.thuisbatterij.naam, maatregel: MAATREGEL_TITELS.thuisbatterij, benefit: "Zelf opgewekte stroom bewaren." },
+];
+// Volgorde van de woningtypes in de keuze op de landingspagina.
+const WONINGTYPE_VOLGORDE: HouseType[] = ["tussenwoning", "hoekwoning", "twee-onder-een-kap", "vrijstaand"];
+// Index van de afsluitende sectie (#woning-opties): camera zoomt terug uit.
+const EIND = steps.length;
+const H = Object.fromEntries(steps.map((s, i) => [s.focus, i])) as Record<Focus, number>;
 
-const M = {
-  open: 2.49, // lijn waar vloeren en voor-/achtergevel eindigen
-  links: -2.38, // binnenkant linkermuur
-  voor: 3.58, // binnenkant voorgevel
-  achter: -3.58, // binnenkant achtergevel
-  gevelVoor: 3.84, gevelAchter: -3.84, gevelLinks: -2.64,
-  bg: -2.57, plafondBg: -0.08, // begane grond: bovenkant vloer, onderkant verdiepingsvloer
-  v1: 0.08, plafondV1: 2.44, // verdieping
-  zolder: 2.6,
-  vloerOnder: -2.85, // onderkant vloerisolatie
-  maaiveld: -2.61,
-  kruipBodem: -3.5,
-};
-/** Waar de binnenmuren staan: tussen woonkamer en keuken, en tussen slaapkamer en badkamer. */
-const WAND_BG = -1.0, WAND_V1 = 0.25;
+// "Wat past bij jouw woning?": per categorie een crawlbare link naar de
+// maatregelpagina. Daar verdiept de bezoeker zich en kiest daarna tussen
+// woningscan en gratis energiescan. Vloerverwarming staat bewust niet in
+// deze lijst: daar is nog geen inhoudelijk besluit over.
+const MAATREGEL_CATEGORIEEN: { id: string; label: string; items: MaatregelTitel[] }[] = [
+  { id: "isolatie", label: "Isolatie", items: [MAATREGEL_TITELS.dakisolatie, MAATREGEL_TITELS.spouwmuurisolatie, MAATREGEL_TITELS.vloerisolatie, MAATREGEL_TITELS.isolatieglas, MAATREGEL_TITELS.kozijnen] },
+  { id: "installaties", label: "Installaties", items: [MAATREGEL_TITELS.warmtepomp, MAATREGEL_TITELS.zonnepanelen, MAATREGEL_TITELS.thuisbatterij] },
+];
 
-type V3 = [number, number, number];
+const MAATREGEL_ACCORDION_ITEMS: AccordionItem[] = MAATREGEL_CATEGORIEEN.map(categorie => ({
+  id: categorie.id,
+  question: categorie.label,
+  answer: (
+    <ul className={styles.categoryList}>
+      {categorie.items.map(item => <li key={item.slug}><Link href={`/maatregelen/${item.slug}`}>{item.naam}</Link></li>)}
+    </ul>
+  ),
+}));
 
-// Rustige, eenvoudige texturen (procedureel, geen downloads).
-function textuur(teken: (c: CanvasRenderingContext2D, s: number) => void, herhaal: [number, number], s = 256) {
-  const canvas = document.createElement("canvas");
-  canvas.width = canvas.height = s;
-  const c = canvas.getContext("2d")!;
-  teken(c, s);
-  const t = new CanvasTexture(canvas);
-  t.wrapS = t.wrapT = RepeatWrapping;
-  t.repeat.set(...herhaal);
-  t.colorSpace = SRGBColorSpace;
-  t.anisotropy = 4;
-  return t;
-}
-const ruis = (c: CanvasRenderingContext2D, s: number, kleuren: string[], n: number, grootte: number) => {
-  for (let i = 0; i < n; i++) { c.fillStyle = kleuren[i % kleuren.length]; c.globalAlpha = 0.18 + Math.random() * 0.25; c.fillRect(Math.random() * s, Math.random() * s, grootte, grootte); }
-  c.globalAlpha = 1;
-};
-function maakTexturen() {
-  return {
-    hout: textuur((c, s) => {
-      const planken = 6;
-      for (let i = 0; i < planken; i++) {
-        const tint = ["#a9825d", "#b48d66", "#a07852", "#b8916a", "#a58059", "#ad8761"][i];
-        c.fillStyle = tint; c.fillRect(0, (i * s) / planken, s, s / planken);
-        c.strokeStyle = "rgba(60,40,20,.12)";
-        for (let n = 0; n < 7; n++) { c.beginPath(); const y = (i * s) / planken + Math.random() * (s / planken); c.moveTo(0, y); c.bezierCurveTo(s * 0.3, y + 3, s * 0.6, y - 3, s, y + 1); c.stroke(); }
-        c.fillStyle = "rgba(50,32,18,.35)"; c.fillRect(0, (i * s) / planken, s, 1.5);
-        const naad = ((i * 97) % 5) / 5 * s; c.fillRect(naad, (i * s) / planken, 1.5, s / planken);
-      }
-    }, [3, 3]),
-    tegel: textuur((c, s) => {
-      c.fillStyle = "#d9d6d0"; c.fillRect(0, 0, s, s);
-      c.strokeStyle = "#b9b5ae"; c.lineWidth = 2;
-      for (let i = 0; i <= 4; i++) { c.beginPath(); c.moveTo((i * s) / 4, 0); c.lineTo((i * s) / 4, s); c.moveTo(0, (i * s) / 4); c.lineTo(s, (i * s) / 4); c.stroke(); }
-    }, [5, 8]),
-    aarde: textuur((c, s) => { c.fillStyle = "#6f5139"; c.fillRect(0, 0, s, s); ruis(c, s, ["#5a3f2b", "#86664a", "#4b3422", "#9a7a5a"], 2600, 3); }, [2, 1]),
-    gras: textuur((c, s) => { c.fillStyle = "#6e8f47"; c.fillRect(0, 0, s, s); ruis(c, s, ["#5d7d3a", "#7fa052", "#557434", "#8aa95e"], 3200, 2); }, [4, 4]),
-    zand: textuur((c, s) => { c.fillStyle = "#a89a80"; c.fillRect(0, 0, s, s); ruis(c, s, ["#8f8168", "#bcae93", "#7d705a"], 3200, 3); }, [4, 4]),
+const clamp = (n: number) => Math.max(0, Math.min(1, n));
+const ease = (n: number) => { const t = clamp(n); return t * t * (3 - 2 * t); };
+
+// Hoe sterk een hoofdstuk actief is bij voortgang p: loopt op nadat de
+// camera is aangekomen, blijft staan tijdens het lezen en zakt weg zodra de
+// volgende sectie begint. Zo staat er steeds maar één onderdeel "open".
+const actief = (p: number, hoofdstuk: number) => ease((p - hoofdstuk - 0.12) / 0.3) * (1 - ease((p - hoofdstuk - 0.97) / 0.12));
+
+const FOV = 30; // smal beeldveld: rustige architectuurweergave, geen groothoek
+type Stand = { pos: Vector3; look: Vector3 };
+type Kant = "rechts" | "links" | "voor";
+type Beweging = { object: Object3D; origin: Vector3; offset: Vector3; hoofdstuk: number };
+
+// Camera-route per woningtype, afgeleid uit het model zelf (raam, dak,
+// zonnepanelen, vrije zijgevel, warmtepomp, batterij verschillen per type).
+// Drie zoomniveaus: L1 volledige woning, L2 bouwdeel, L3 maatregel.
+function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bounds: Box3) {
+  const wereld = (v: Vector3) => v.clone().multiplyScalar(schaal).add(positie);
+  const doos = (o: Object3D) => { const b = new Box3().setFromObject(o); return { min: wereld(b.min), max: wereld(b.max), c: wereld(b.getCenter(new Vector3())) }; };
+  const huis = { min: wereld(bounds.min), max: wereld(bounds.max) };
+  const midden = huis.min.clone().add(huis.max).multiplyScalar(0.5);
+  const maat = huis.max.clone().sub(huis.min);
+  const straal = maat.length() / 2;
+  const basis = (straal / Math.sin((FOV / 2) * (Math.PI / 180))) * 0.95;
+  const L2 = basis * 0.5, L3 = basis * 0.32;
+  const kind = (n: string) => scene.children.find(o => o.name === n) ?? null;
+
+  // De open kopgevel zit rechts: daar staat de camera.
+  const kant: Kant = "rechts";
+  const s = 1;
+  // Punt in modelcoördinaten (meters, zie ./maquette.ts) naar wereldcoördinaten.
+  const lok = (p: V3) => wereld(new Vector3(...p).multiply(scene.scale));
+  const stand = (look: Vector3, richting: [number, number, number], afstand: number): Stand => ({ look, pos: look.clone().add(new Vector3(...richting).normalize().multiplyScalar(afstand)) });
+
+  // Duidelijk raam aan de voorkant: het grootste raam in de voorgevel.
+  const voorRamen = scene.children.filter(o => /^Raam/.test(o.name)).map(o => ({ o, d: doos(o) })).filter(({ d }) => d.c.z > midden.z + maat.z * 0.3);
+  voorRamen.sort((a, b) => (b.d.max.x - b.d.min.x) * (b.d.max.y - b.d.min.y) - (a.d.max.x - a.d.min.x) * (a.d.max.y - a.d.min.y));
+  const raam = voorRamen[0]?.o ?? kind("Voordeur");
+  const raamC = raam ? doos(raam).c : midden.clone();
+
+  const pan = kind("Dakpannen") ? doos(kind("Dakpannen")!) : { min: huis.min, max: huis.max, c: midden };
+  const dakLook = new Vector3(pan.c.x, pan.min.y + (pan.max.y - pan.min.y) * 0.5, pan.c.z + (pan.max.z - pan.c.z) * 0.3);
+  const panelen = scene.children.filter(o => o.name.startsWith("Zonnepaneel") && !o.userData.garagePanel).map(doos).filter(d => d.c.y > midden.y && d.c.z > midden.z);
+  const zonLook = panelen.length ? panelen.reduce((acc, d) => acc.add(d.c), new Vector3()).multiplyScalar(1 / panelen.length) : dakLook.clone();
+
+  // Doorsnede-standen: recht op de open kopgevel, dicht op het onderdeel.
+  // Dak: de dakopbouw (pannen, latten, isolatie, constructie) in doorsnede.
+  const dakDoorsnede = stand(lok([M.open, 4.1, 1.9]), [0.95, 0.22, 0.22], L3 * 1.1);
+  // Muur: recht op het uiteinde van de voorgevel, waar buitenmuur, spouwisolatie en binnenmuur naast elkaar zitten.
+  const spouw = stand(lok([M.open, -0.2, M.gevelVoor + 0.35]), [0.88, 0.16, 0.45], L3 * 0.52);
+  // Vloer: de vloeropbouw met de isolatie eronder en de kruipruimte.
+  const vloer = stand(lok([M.open, -2.95, 1.1]), [0.93, 0.14, 0.34], L3 * 0.95);
+  // Overzicht: de hele doorsnede, van dak tot grondblok.
+  const eiland = lok([M.gevelLinks - 1.4, -4.55, M.gevelAchter - 1.6]).distanceTo(lok([M.open, 5.34, M.gevelVoor + 2.4])) / 2;
+  const overzichtAfstand = (eiland / Math.sin((FOV / 2) * (Math.PI / 180))) * 0.74;
+  const overzicht = (factor = 1) => stand(lok([-0.2, -0.2, 0.1]), [0.9, 0.2, 0.36], overzichtAfstand * factor);
+
+  // Installatie in close-up: camera staat aan de kant waar hij hangt, met
+  // nog een stuk gevel in beeld.
+  const closeUp = (naam: string, fallback: Stand) => {
+    const o = kind(naam);
+    if (!o) return fallback;
+    const d = doos(o);
+    const uit = new Vector3(d.c.x - midden.x, 0, d.c.z - midden.z).normalize().multiplyScalar(0.85);
+    return stand(d.c, [uit.x, 0.32, uit.z + 0.25], L3 * 0.85);
   };
+
+  const standen: Stand[] = [];
+  standen[0] = overzicht();
+  standen[H.kozijn] = stand(raamC, [0.3 * s, 0.1, 0.95], L3);
+  standen[H.glas] = stand(raamC.clone(), [0.3 * s, 0.1, 0.95], L3 * 0.78);
+  standen[H.dak] = dakDoorsnede;
+  standen[H.zon] = stand(zonLook, [0.34 * s, 0.66, 0.68], L2 * 0.78);
+  standen[H.spouw] = spouw;
+  standen[H.vloer] = vloer;
+  standen[H.pomp] = closeUp("Warmtepomp_DeWarmte", vloer);
+  standen[H.batterij] = closeUp("Thuisbatterij", standen[H.pomp]);
+  standen[EIND] = overzicht(1.03);
+  return { standen, midden, kant, s, raam, huis, maat };
 }
 
-type Materialen = ReturnType<typeof maakMaterialen>;
-function maakMaterialen(t: ReturnType<typeof maakTexturen>) {
-  const m = (kleur: string, extra: Partial<MeshStandardMaterial> = {}) => Object.assign(new MeshStandardMaterial({ color: kleur, roughness: 0.85, metalness: 0 }), extra);
-  return {
-    hout: m("#ffffff", { map: t.hout, roughness: 0.7 }),
-    tegel: m("#ffffff", { map: t.tegel, roughness: 0.4 }),
-    aarde: m("#ffffff", { map: t.aarde, roughness: 1 }),
-    gras: m("#ffffff", { map: t.gras, roughness: 1 }),
-    zand: m("#ffffff", { map: t.zand, roughness: 1 }),
-    beton: m("#74716b", { roughness: 0.95 }),
-    stuc: m("#e4ded4", { roughness: 0.95 }),
-    plafond: m("#efebe4", { roughness: 0.95 }),
-    stof: m("#b3aa9d", { roughness: 1 }),
-    stofDonker: m("#8d857a", { roughness: 1 }),
-    kussen: m("#e7e1d6", { roughness: 1 }),
-    beddengoed: m("#f3f0ea", { roughness: 1 }),
-    plaid: m("#c9b79c", { roughness: 1 }),
-    walnoot: m("#5b4331", { roughness: 0.6 }),
-    eiken: m("#b08a63", { roughness: 0.65 }),
-    wit: m("#f4f3ef", { roughness: 0.45 }),
-    sanitair: m("#fbfbfa", { roughness: 0.2 }),
-    antraciet: m("#34383b", { roughness: 0.5 }),
-    zwart: m("#1d1f21", { roughness: 0.35 }),
-    messing: m("#b89a62", { roughness: 0.35, metalness: 0.6 }),
-    kap: m("#efe7d8", { roughness: 0.9 }),
-    blad: m("#4f7a45", { roughness: 0.9 }),
-    bladLicht: m("#6a9657", { roughness: 0.9 }),
-    pot: m("#d8d2c8", { roughness: 0.8 }),
-    kleed: m("#d9ccb6", { roughness: 1 }),
-    kleedGrijs: m("#c3bfb6", { roughness: 1 }),
-    spiegel: m("#cfd8dc", { roughness: 0.05, metalness: 0.9 }),
-    boek1: m("#3f5d53"), boek2: m("#c6a15b"), boek3: m("#8e4d3b"), boek4: m("#d9d4c7"),
-  };
+// Tussen twee standen bewegen via een boog rond de woning (hoek, straal en
+// hoogte apart interpoleren) in plaats van een rechte lijn: zo gaat de
+// camera altijd om de woning heen en nooit door een muur.
+function mengStanden(a: Stand, b: Stand, t: number, midden: Vector3, pos: Vector3, look: Vector3) {
+  const ha = Math.atan2(a.pos.x - midden.x, a.pos.z - midden.z), hb = Math.atan2(b.pos.x - midden.x, b.pos.z - midden.z);
+  let d = hb - ha;
+  while (d > Math.PI) d -= Math.PI * 2;
+  while (d < -Math.PI) d += Math.PI * 2;
+  const ra = Math.hypot(a.pos.x - midden.x, a.pos.z - midden.z), rb = Math.hypot(b.pos.x - midden.x, b.pos.z - midden.z);
+  const hoek = ha + d * t, r = ra + (rb - ra) * t;
+  pos.set(midden.x + Math.sin(hoek) * r, a.pos.y + (b.pos.y - a.pos.y) * t, midden.z + Math.cos(hoek) * r);
+  look.lerpVectors(a.look, b.look, t);
 }
 
-function eigen(mesh: Mesh) { mesh.geometry.userData.owned = true; mesh.castShadow = true; mesh.receiveShadow = true; return mesh; }
-/** Blok tussen twee hoekpunten; `r` > 0 maakt de randen zacht afgerond (meubels). */
-function blok(ouder: Object3D, a: V3, b: V3, mat: Material, r = 0) {
-  const [w, h, d] = [Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1]), Math.abs(b[2] - a[2])];
-  const geo = r > 0 ? new RoundedBoxGeometry(w, h, d, 3, Math.min(r, w / 2.1, h / 2.1, d / 2.1)) : new BoxGeometry(w, h, d);
-  const mesh = eigen(new Mesh(geo, mat));
-  mesh.position.set((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2);
-  ouder.add(mesh);
-  return mesh;
-}
-function cilinder(ouder: Object3D, [x, y, z]: V3, hoogte: number, rOnder: number, rBoven: number, mat: Material) {
-  const mesh = eigen(new Mesh(new CylinderGeometry(rBoven, rOnder, hoogte, 28), mat));
-  mesh.position.set(x, y + hoogte / 2, z);
-  ouder.add(mesh);
-  return mesh;
-}
-function bol(ouder: Object3D, [x, y, z]: V3, r: number, mat: Material, schaal: V3 = [1, 1, 1]) {
-  const mesh = eigen(new Mesh(new SphereGeometry(r, 20, 14), mat));
-  mesh.position.set(x, y, z); mesh.scale.set(...schaal);
-  ouder.add(mesh);
-  return mesh;
-}
-function plant(g: Object3D, mat: Materialen, [x, y, z]: V3, h = 1) {
-  cilinder(g, [x, y, z], 0.32 * h, 0.13 * h, 0.17 * h, mat.pot);
-  bol(g, [x, y + 0.62 * h, z], 0.26 * h, mat.blad, [1, 1.35, 1]);
-  bol(g, [x + 0.12 * h, y + 0.48 * h, z + 0.08 * h], 0.2 * h, mat.bladLicht);
-  bol(g, [x - 0.1 * h, y + 0.8 * h, z - 0.06 * h], 0.17 * h, mat.bladLicht);
-}
-function lamp(g: Object3D, mat: Materialen, [x, y, z]: V3, hoogte: number) {
-  cilinder(g, [x, y, z], 0.03, 0.16, 0.16, mat.antraciet);
-  cilinder(g, [x, y, z], hoogte, 0.012, 0.012, mat.messing);
-  cilinder(g, [x, y + hoogte - 0.05, z], 0.26, 0.2, 0.13, mat.kap);
-}
-function stoel(g: Object3D, mat: Materialen, [x, y, z]: V3, richting: 1 | -1) {
-  blok(g, [x - 0.21, y + 0.44, z - 0.21], [x + 0.21, y + 0.49, z + 0.21], mat.eiken, 0.02);
-  for (const [dx, dz] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) blok(g, [x + dx - 0.02, y, z + dz - 0.02], [x + dx + 0.02, y + 0.44, z + dz + 0.02], mat.walnoot);
-  blok(g, [x - 0.21, y + 0.49, z - 0.21 * richting - 0.02], [x + 0.21, y + 0.9, z - 0.21 * richting + 0.02], mat.eiken, 0.02);
-}
-
-// Grondblok (zoals een architectuurmaquette), afgesneden op dezelfde lijn als de woning.
-function bouwGrond(g: Group, mat: Materialen) {
-  const xl = M.gevelLinks - 1.4, zv = M.gevelVoor + 2.4, za = M.gevelAchter - 1.6, bodem = -4.55, grasOnder = M.maaiveld - 0.12;
-  blok(g, [xl, bodem, za], [M.open, M.kruipBodem, zv], mat.aarde);
-  for (const [a, b] of [[[xl, M.kruipBodem, M.gevelVoor], [M.open, grasOnder, zv]], [[xl, M.kruipBodem, za], [M.open, grasOnder, M.gevelAchter]], [[xl, M.kruipBodem, M.gevelAchter], [M.gevelLinks, grasOnder, M.gevelVoor]]] as [V3, V3][]) {
-    blok(g, a, b, mat.aarde);
-    blok(g, [a[0], grasOnder, a[2]], [b[0], M.maaiveld, b[2]], mat.gras);
+// Welke onderdelen per hoofdstuk bewegen (lokale eenheden van het model).
+// Zelfde principe als de homepage (lagen schuiven uit elkaar), maar klein
+// genoeg om in de doorsnede in beeld te blijven:
+// Dak: pannen, panlatten, tengellatten en isolatie tillen trapsgewijs op.
+// Spouw: de buitenmuur van de voorgevel schuift naar voren, de spouwisolatie
+// half zo ver, de binnenmuur blijft staan. Aan de open kant zie je dan
+// buitenmuur | spouwisolatie | binnenmuur naast elkaar.
+// Vloer: de vloerisolatie zakt iets onder de vloer, in de kruipruimte.
+function bewegingen(scene: Object3D): Beweging[] {
+  const lijst: Beweging[] = [];
+  const voeg = (object: Object3D, offset: Vector3, hoofdstuk: number) => lijst.push({ object, origin: object.position.clone(), offset, hoofdstuk });
+  for (const object of scene.children) {
+    const n = object.name;
+    if (/^(Dakpannen|Dakkapel|Schoorsteen|Dakgoot|Zonnepaneel)/.test(n)) voeg(object, new Vector3(0, 0.95, 0), H.dak);
+    else if (n === "Panlatten") voeg(object, new Vector3(0, 0.7, 0), H.dak);
+    else if (n === "Tengellatten") voeg(object, new Vector3(0, 0.48, 0), H.dak);
+    else if (n === "Dakisolatie") voeg(object, new Vector3(0, 0.26, 0), H.dak);
+    else if (n === "Buitengevel_voor") voeg(object, new Vector3(0, 0, 0.85), H.spouw);
+    else if (n === "Spouwisolatie_voor") voeg(object, new Vector3(0, 0, 0.42), H.spouw);
+    else if (n === "Vloerisolatie") voeg(object, new Vector3(0, -0.22, 0), H.vloer);
   }
-  // Funderingsbalken onder voor-, achter- en linkergevel; de kruipruimte ertussen, met een zandbodem.
-  const eind = M.open - 0.002;
-  blok(g, [M.gevelLinks, M.kruipBodem, M.voor - 0.08], [eind, M.vloerOnder, M.gevelVoor], mat.beton);
-  blok(g, [M.gevelLinks, M.vloerOnder, M.voor + 0.12], [eind, M.maaiveld + 0.005, M.gevelVoor], mat.beton);
-  blok(g, [M.gevelLinks, M.kruipBodem, M.gevelAchter], [eind, M.vloerOnder, M.achter + 0.08], mat.beton);
-  blok(g, [M.gevelLinks, M.vloerOnder, M.gevelAchter], [eind, M.maaiveld + 0.005, M.achter - 0.12], mat.beton);
-  blok(g, [M.gevelLinks, M.kruipBodem, M.achter + 0.08], [M.links + 0.08, M.vloerOnder, M.voor - 0.08], mat.beton);
-  blok(g, [M.links + 0.08, M.kruipBodem, M.achter + 0.08], [eind, M.kruipBodem + 0.05, M.voor - 0.08], mat.zand);
+  return lijst;
 }
 
-// Afwerking en indeling per verdieping. Binnenmuren lopen tot precies de open gevel.
-function bouwInterieur(g: Group, mat: Materialen) {
-  const x0 = M.links, x1 = M.open - 0.003;
-  // Vloeren (hout, badkamer tegels) en plafonds.
-  blok(g, [x0, M.bg, M.achter], [x1, M.bg + 0.012, M.voor], mat.hout);
-  blok(g, [x0, M.v1, WAND_V1], [x1, M.v1 + 0.012, M.voor], mat.hout);
-  blok(g, [x0, M.v1, M.achter], [x1, M.v1 + 0.012, WAND_V1], mat.tegel);
-  blok(g, [x0, M.zolder, M.achter + 0.2], [x1, M.zolder + 0.012, M.voor - 0.2], mat.hout);
-  blok(g, [x0, M.plafondBg - 0.012, M.achter], [x1, M.plafondBg, M.voor], mat.plafond);
-  blok(g, [x0, M.plafondV1 - 0.012, M.achter], [x1, M.plafondV1, M.voor], mat.plafond);
-
-  // Binnenmuren met een deuropening bij de linkermuur.
-  const wand = (z: number, onder: number, boven: number) => {
-    blok(g, [x0, onder, z - 0.05], [x0 + 0.12, boven, z + 0.05], mat.stuc);
-    blok(g, [x0 + 1.02, onder, z - 0.05], [x1, boven, z + 0.05], mat.stuc);
-    blok(g, [x0 + 0.12, onder + 2.1, z - 0.05], [x0 + 1.02, boven, z + 0.05], mat.stuc);
-  };
-  wand(WAND_BG, M.bg, M.plafondBg);
-  wand(WAND_V1, M.v1, M.plafondV1);
-
-  // Begane grond, woonkamer (voor).
-  const y = M.bg + 0.012;
-  blok(g, [-1.35, y, 0.05], [1.35, y + 0.012, 2.25], mat.kleed);
-  blok(g, [-1.2, y, -0.93], [1.1, y + 0.42, -0.08], mat.stof, 0.06);
-  blok(g, [-1.2, y + 0.38, -0.93], [1.1, y + 0.86, -0.72], mat.stof, 0.07);
-  blok(g, [-1.38, y, -0.93], [-1.2, y + 0.62, -0.08], mat.stof, 0.06);
-  blok(g, [1.1, y, -0.93], [1.28, y + 0.62, -0.08], mat.stof, 0.06);
-  for (const [a, b] of [[-1.15, -0.4], [-0.38, 0.35], [0.37, 1.07]]) blok(g, [a, y + 0.42, -0.74], [b, y + 0.52, -0.1], mat.kussen, 0.05);
-  blok(g, [0.55, y + 0.52, -0.72], [0.95, y + 0.8, -0.6], mat.stofDonker, 0.05);
-  // Salontafel, fauteuil, dressoir, boekenkast, lamp en plant.
-  blok(g, [-0.5, y + 0.34, 0.55], [0.5, y + 0.38, 1.15], mat.walnoot, 0.02);
-  blok(g, [-0.44, y, 0.61], [0.44, y + 0.34, 1.09], mat.walnoot, 0.02);
-  blok(g, [0.95, y, 1.55], [1.75, y + 0.4, 2.35], mat.stofDonker, 0.07);
-  blok(g, [0.95, y + 0.36, 2.15], [1.75, y + 0.8, 2.35], mat.stofDonker, 0.07);
-  blok(g, [-0.9, y, M.voor - 0.42], [0.6, y + 0.52, M.voor - 0.02], mat.walnoot, 0.02);
-  blok(g, [x0, y, 0.2], [x0 + 0.36, y + 1.9, 1.9], mat.eiken, 0.01);
-  for (let plank = 0; plank < 4; plank++) {
-    const py = y + 0.2 + plank * 0.44;
-    blok(g, [x0 + 0.34, py, 0.24], [x0 + 0.37, py + 0.02, 1.86], mat.walnoot);
-    let z = 0.3;
-    for (let i = 0; i < 7 && z < 1.75; i++) { const breed = 0.06 + ((i * 7 + plank * 3) % 4) * 0.02; blok(g, [x0 + 0.05, py + 0.02, z], [x0 + 0.3, py + 0.28 + (i % 3) * 0.04, z + breed], [mat.boek1, mat.boek2, mat.boek3, mat.boek4][(i + plank) % 4]); z += breed + 0.015; }
-  }
-  lamp(g, mat, [-1.7, y, -0.5], 1.5);
-  plant(g, mat, [2.0, y, M.voor - 0.4], 1.2);
-  plant(g, mat, [0.3, y + 0.52, M.voor - 0.22], 0.45);
-
-  // Begane grond, keuken (achter).
-  blok(g, [x0, y, M.achter + 0.05], [x0 + 0.62, y + 0.86, WAND_BG - 0.25], mat.wit, 0.01);
-  blok(g, [x0, y + 0.86, M.achter + 0.05], [x0 + 0.65, y + 0.9, WAND_BG - 0.25], mat.antraciet);
-  blok(g, [x0, y + 1.45, M.achter + 0.05], [x0 + 0.36, y + 2.15, WAND_BG - 0.25], mat.wit, 0.01);
-  cilinder(g, [x0 + 0.3, y + 0.9, -2.2], 0.28, 0.012, 0.012, mat.messing);
-  blok(g, [-0.35, y + 0.72, -2.75], [1.15, y + 0.76, -1.85], mat.eiken, 0.015);
-  for (const [dx, dz] of [[-0.3, -2.7], [1.1, -2.7], [-0.3, -1.9], [1.1, -1.9]]) blok(g, [dx - 0.03, y, dz - 0.03], [dx + 0.03, y + 0.72, dz + 0.03], mat.walnoot);
-  stoel(g, mat, [0.05, y, -3.05], 1); stoel(g, mat, [0.75, y, -3.05], 1);
-  stoel(g, mat, [0.05, y, -1.55], -1); stoel(g, mat, [0.75, y, -1.55], -1);
-  cilinder(g, [0.4, M.plafondBg - 0.62, -2.3], 0.6, 0.006, 0.006, mat.zwart);
-  cilinder(g, [0.4, M.plafondBg - 0.8, -2.3], 0.2, 0.24, 0.1, mat.antraciet);
-  plant(g, mat, [0.4, y + 0.76, -2.3], 0.35);
-
-  // Verdieping, slaapkamer (voor).
-  const v = M.v1 + 0.012;
-  blok(g, [0.4, v, 2.1], [2.2, v + 0.012, 3.3], mat.kleedGrijs);
-  blok(g, [x0 + 0.02, v, 1.15], [x0 + 0.1, v + 1.05, 2.95], mat.stofDonker, 0.03);
-  blok(g, [x0 + 0.1, v, 1.2], [-0.25, v + 0.32, 2.9], mat.eiken, 0.03);
-  blok(g, [x0 + 0.14, v + 0.32, 1.24], [-0.3, v + 0.55, 2.86], mat.beddengoed, 0.06);
-  blok(g, [-1.55, v + 0.5, 1.22], [-0.28, v + 0.6, 2.88], mat.kussen, 0.05);
-  blok(g, [-0.85, v + 0.52, 1.22], [-0.3, v + 0.64, 2.88], mat.plaid, 0.05);
-  blok(g, [x0 + 0.2, v + 0.55, 1.35], [x0 + 0.62, v + 0.72, 1.95], mat.beddengoed, 0.07);
-  blok(g, [x0 + 0.2, v + 0.55, 2.1], [x0 + 0.62, v + 0.72, 2.7], mat.beddengoed, 0.07);
-  for (const z of [0.72, 3.02]) {
-    blok(g, [x0 + 0.02, v, z], [x0 + 0.47, v + 0.5, z + 0.42], mat.walnoot, 0.02);
-    lamp(g, mat, [x0 + 0.24, v + 0.5, z + 0.21], 0.32);
-  }
-  blok(g, [0.35, v, WAND_V1 + 0.06], [2.1, v + 2.1, WAND_V1 + 0.66], mat.wit, 0.01);
-  for (const x of [0.93, 1.52]) blok(g, [x - 0.004, v + 0.05, WAND_V1 + 0.665], [x + 0.004, v + 2.05, WAND_V1 + 0.67], mat.stofDonker);
-  plant(g, mat, [2.05, v, M.voor - 0.35], 0.9);
-
-  // Verdieping, badkamer (achter).
-  blok(g, [x0 + 0.02, v, M.achter + 0.02], [-0.6, v + 0.56, M.achter + 0.8], mat.sanitair, 0.05);
-  blok(g, [x0 + 0.1, v + 0.4, M.achter + 0.1], [-0.68, v + 0.5, M.achter + 0.72], mat.tegel, 0.03);
-  blok(g, [x0, v + 0.45, -1.7], [x0 + 0.5, v + 0.85, -0.7], mat.walnoot, 0.02);
-  blok(g, [x0, v + 0.85, -1.72], [x0 + 0.52, v + 0.89, -0.68], mat.sanitair, 0.01);
-  blok(g, [x0 + 0.003, v + 1.2, -1.6], [x0 + 0.02, v + 2.0, -0.8], mat.spiegel);
-  blok(g, [x0, v, -0.45], [x0 + 0.62, v + 0.42, -0.08], mat.sanitair, 0.08);
-  blok(g, [x0, v + 0.42, -0.45], [x0 + 0.18, v + 0.8, -0.08], mat.sanitair, 0.04);
-  plant(g, mat, [1.9, v, M.achter + 0.4], 0.6);
-
-  // Zolder: werkplek onder de dakkapel.
-  const z = M.zolder + 0.012;
-  blok(g, [-1.4, z, 0.4], [1.4, z + 0.012, 2.3], mat.kleed);
-  blok(g, [-0.75, z + 0.72, 1.2], [0.75, z + 0.76, 1.85], mat.eiken, 0.015);
-  for (const [dx, dz] of [[-0.7, 1.25], [0.7, 1.25], [-0.7, 1.8], [0.7, 1.8]]) blok(g, [dx - 0.025, z, dz - 0.025], [dx + 0.025, z + 0.72, dz + 0.025], mat.walnoot);
-  blok(g, [-0.3, z + 0.76, 1.35], [0.12, z + 0.775, 1.65], mat.antraciet, 0.005);
-  lamp(g, mat, [0.52, z + 0.76, 1.6], 0.42);
-  cilinder(g, [0.0, z, 0.75], 0.42, 0.04, 0.04, mat.antraciet);
-  blok(g, [-0.24, z + 0.42, 0.52], [0.24, z + 0.5, 0.98], mat.zwart, 0.04);
-  blok(g, [-0.24, z + 0.5, 0.52], [0.24, z + 1.05, 0.58], mat.zwart, 0.04);
-  blok(g, [-1.6, z, -2.55], [1.6, z + 0.55, -2.2], mat.eiken, 0.01);
-  plant(g, mat, [-1.4, z, 1.9], 0.9);
-  plant(g, mat, [1.2, z + 0.55, -2.38], 0.4);
-}
-
-function maakCutaway(scene: Object3D) {
-  const weg = (o: Object3D) => { disposeHouse(o); o.removeFromParent(); };
-  // De complete rechter kopgevel (met zijramen en regenpijpen), de buurwoning en de oude, massieve fundering.
-  for (const o of [...scene.children]) {
-    if (/^(Buitengevel_rechts|Spouwisolatie_rechts|Binnenmuur_rechts|Regenpijpen|Buurwoning|Fundering)/.test(o.name)) { weg(o); continue; }
-    if (/^Raam/.test(o.name) && o.position.x > 2) weg(o);
-  }
-  // Losse zijramen die als kind van een groep bestaan, en het plintdeel langs de weggehaalde gevel.
-  for (const naam of ["Raam_rechts_01", "Raam_rechts_02", "Raam_rechts_03", "Raam_rechts_zolder"]) { const o = scene.getObjectByName(naam); if (o) weg(o); }
-  scene.getObjectByName("Plinten")?.traverse(part => {
-    const mesh = part as Mesh;
-    if (!mesh.isMesh) return;
-    mesh.geometry.computeBoundingBox();
-    const b = mesh.geometry.boundingBox!;
-    if (b.max.z - b.min.z > 3 && b.min.x > 2.2) mesh.visible = false;
-  });
-  // Warmtepomp tegen de achtergevel (links van de achterdeur), zodat hij niet voor de open kant staat.
-  const pomp = scene.getObjectByName("Warmtepomp_DeWarmte");
-  if (pomp) {
-    scene.updateMatrixWorld(true);
-    const b = new Box3().setFromObject(pomp);
-    pomp.position.z += M.gevelAchter - 0.1 - b.max.z / scene.scale.z;
-    pomp.position.x += -1.5 - (b.min.x + b.max.x) / 2 / scene.scale.x;
-  }
-  // Vloerisolatie in de gebruikelijke gele kleur, zodat je hem vanuit de kruipruimte herkent.
-  scene.getObjectByName("Vloerisolatie")?.traverse(part => {
-    const mesh = part as Mesh;
-    if (mesh.isMesh) for (const m of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) if (m.isMeshStandardMaterial) m.color.set("#e2c46f");
-  });
-  // Binnenkant van de buitenmuren als gestucte wanden.
-  for (const naam of ["Binnenmuur_voor", "Binnenmuur_achter", "Bouwmuur_links"]) {
-    scene.getObjectByName(naam)?.traverse(part => {
+// Per hoofdstuk de materialen die subtiel oplichten (iets lichter, eigen
+// kleur, geen groene gloed of outline).
+function markeringen(scene: Object3D, route: ReturnType<typeof bouwRoute>) {
+  const kaart = new Map<number, MeshStandardMaterial[]>();
+  const voeg = (hoofdstuk: number, object: Object3D | null | undefined, filter: (m: MeshStandardMaterial) => boolean = () => true, eigenKleur = false) => {
+    object?.traverse(part => {
       const mesh = part as Mesh;
       if (!mesh.isMesh) return;
-      for (const m of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) { if (!m.isMeshStandardMaterial) continue; m.map = null; m.color.set("#e4ded4"); m.roughness = 0.95; m.needsUpdate = true; }
+      for (const m of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) {
+        if (!m?.isMeshStandardMaterial || !filter(m)) continue;
+        m.emissive.copy(m.color);
+        if (!eigenKleur) m.emissive.lerp(new Color("#ffffff"), 0.45);
+        m.userData.markering = eigenKleur ? 0.6 : m.map ? 0.12 : 0.3;
+        m.emissiveIntensity = 0;
+        kaart.set(hoofdstuk, [...(kaart.get(hoofdstuk) ?? []), m]);
+      }
     });
-  }
-  const texturen = maakTexturen();
-  const mat = maakMaterialen(texturen);
-  const grond = new Group(); grond.name = "Maquette_grond";
-  const interieur = new Group(); interieur.name = "Interieur";
-  bouwGrond(grond, mat);
-  bouwInterieur(interieur, mat);
-  scene.add(grond, interieur);
-  return Object.values(texturen) as Texture[];
+  };
+  const kind = (n: string) => scene.children.find(o => o.name === n);
+  voeg(H.kozijn, route.raam, m => !m.transparent);
+  voeg(H.glas, route.raam, m => m.transparent);
+  voeg(H.dak, kind("Dakisolatie"), undefined, true);
+  for (const o of scene.children) if (o.name.startsWith("Zonnepaneel")) voeg(H.zon, o);
+  voeg(H.spouw, kind("Spouwisolatie_voor"), undefined, true);
+  voeg(H.vloer, kind("Vloerisolatie"), undefined, true);
+  voeg(H.pomp, kind("Warmtepomp_DeWarmte"));
+  voeg(H.batterij, kind("Thuisbatterij"));
+  return kaart;
 }
 
-const FOV = 28;
-// Labels naast de open gevel (lokale modelcoördinaten), zodat de lagen ook zonder beeld te lezen zijn.
-const LAGEN: { naam: string; punt: V3 }[] = [
-  { naam: "Zolder en dak", punt: [M.open, 3.6, M.gevelAchter - 0.9] },
-  { naam: "Verdieping", punt: [M.open, 1.25, M.gevelAchter - 1.2] },
-  { naam: "Begane grond", punt: [M.open, -1.3, M.gevelAchter - 1.4] },
-  { naam: "Vloer en kruipruimte", punt: [M.open, -3.2, M.gevelAchter - 1.2] },
-];
-type LabelPositie = { naam: string; x: number; y: number };
+type ModelProps = {
+  section: RefObject<HTMLElement | null>;
+  onStep: (step: number) => void;
+  modelUrl: string;
+  houseType: HouseType;
+  onLoaded: () => void;
+  revealed: RefObject<number>;
+  mobiel: boolean;
+};
 
-function Maquette({ mobiel, onLabels, onGeladen }: { mobiel: boolean; onLabels: (l: LabelPositie[]) => void; onGeladen: () => void }) {
-  const gltf = useLoader(GLTFLoader, HOUSE_MODELS.hoekwoning.url);
-  const { camera, size, invalidate } = useThree();
-  const laatste = useRef("");
+function House({ section, onStep, modelUrl, houseType, onLoaded, revealed, mobiel }: ModelProps) {
+  const gltf = useLoader(GLTFLoader, modelUrl);
+  const progress = useRef(0);
+  const target = useRef(0);
+  const initialized = useRef(false);
+  const active = useRef(-1);
+  const reduced = useRef(false);
+  const { invalidate, camera } = useThree();
+  const scratch = useRef({ pos: new Vector3(), look: new Vector3() });
   const opgebouwd = useMemo(() => {
-    const { scene, scale, position } = prepareHouse(gltf.scene, "hoekwoning");
+    const { scene, scale, position, bounds } = prepareHouse(gltf.scene, houseType);
+    // Eerst realistische materialen, dan opensplitsen (kopgevel weg, grondblok en interieur erbij).
     const texturen = [...maakRealistisch(scene), ...maakCutaway(scene)];
-    const wereld = (p: V3) => new Vector3(...p).multiply(scene.scale).multiplyScalar(scale).add(position);
-    return { scene, scale, position, texturen, wereld };
-  }, [gltf]);
-  const { scene, scale, position, wereld } = opgebouwd;
-  useEffect(() => { onGeladen(); return () => { disposeHouse(scene); opgebouwd.texturen.forEach(t => t.dispose()); }; }, [scene, opgebouwd, onGeladen]);
+    const route = bouwRoute(scene, scale, position, bounds);
+    const beweging = bewegingen(scene);
+    const markering = markeringen(scene, route);
+    // Installaties worden pas zichtbaar bij hun eigen hoofdstuk, zodat de
+    // woning eerst als gewone woning leest.
+    const installaties = new Map<number, { objecten: Object3D[]; materialen: Set<MeshStandardMaterial> }>();
+    for (const object of scene.children) {
+      const hoofdstuk = object.name.startsWith("Zonnepaneel") ? H.zon : object.name.startsWith("Warmtepomp") ? H.pomp : object.name === "Thuisbatterij" ? H.batterij : -1;
+      if (hoofdstuk < 0) continue;
+      const groep = installaties.get(hoofdstuk) ?? { objecten: [], materialen: new Set<MeshStandardMaterial>() };
+      groep.objecten.push(object);
+      object.visible = false;
+      object.traverse(kind => {
+        const mesh = kind as Mesh;
+        if (!mesh.isMesh) return;
+        for (const m of (Array.isArray(mesh.material) ? mesh.material : [mesh.material]) as MeshStandardMaterial[]) { m.transparent = true; groep.materialen.add(m); }
+      });
+      installaties.set(hoofdstuk, groep);
+    }
+    return { scene, scale, position, texturen, route, beweging, markering, installaties };
+  }, [gltf, houseType]);
+  const { scene, scale, position, route } = opgebouwd;
+  useEffect(() => {
+    onLoaded();
+    return () => { disposeHouse(scene); opgebouwd.texturen.forEach(t => t.dispose()); };
+  }, [scene, onLoaded, opgebouwd]);
 
-  // Vaste camera: schuin op de open kopgevel, de voorgevel links in beeld.
-  useLayoutEffect(() => {
-    const kijk = wereld([-0.2, -0.2, 0.1]);
-    const richting = new Vector3(0.9, 0.2, 0.36).normalize();
-    const straal = wereld([M.gevelLinks - 1.4, -4.55, M.gevelAchter - 1.6]).distanceTo(wereld([M.open, 5.34, M.gevelVoor + 2.4])) / 2;
-    const afstand = (straal / Math.sin((FOV / 2) * (Math.PI / 180))) * (mobiel ? 0.98 : 0.74);
-    camera.position.copy(kijk).addScaledVector(richting, afstand);
-    camera.lookAt(kijk);
-    camera.updateProjectionMatrix();
-    invalidate();
-  }, [camera, wereld, mobiel, invalidate, size]);
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      reduced.current = media.matches;
+      const element = section.current;
+      if (!element) return;
+      const top = parseFloat(getComputedStyle(element).getPropertyValue("--house-header")) || 0;
+      const focus = top + (window.innerHeight - top) * (window.innerWidth < 768 ? 0.64 : 0.45);
+      let next = 0;
+      for (const panel of element.querySelectorAll<HTMLElement>("[data-house-progress]")) {
+        const rect = panel.getBoundingClientRect();
+        const index = Number(panel.dataset.houseProgress);
+        if (rect.top <= focus) next = index + (index > 0 ? clamp((focus - rect.top) / Math.max(1, rect.height * 0.6)) * 0.95 : 0);
+      }
+      target.current = next;
+      if (!initialized.current) { progress.current = next; initialized.current = true; }
+      invalidate();
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    media.addEventListener("change", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      media.removeEventListener("change", update);
+    };
+  }, [section, invalidate]);
 
-  useFrame(() => {
-    // Labels binnen het beeld houden (ruimte voor het langste label).
-    const lijst = LAGEN.map(l => { const p = wereld(l.punt).project(camera); return { naam: l.naam, x: Math.min(Math.round((p.x + 1) / 2 * size.width), size.width - 210), y: Math.round((1 - p.y) / 2 * size.height) }; });
-    const sleutel = JSON.stringify(lijst);
-    if (sleutel !== laatste.current) { laatste.current = sleutel; onLabels(lijst); }
+  useFrame((_, delta) => {
+    progress.current += (target.current - progress.current) * (reduced.current ? 1 : 1 - Math.exp(-9 * delta));
+    const p = progress.current;
+    const sectie = Math.max(0, Math.min(EIND, Math.floor(p + 0.001)));
+    const hoofdstuk = sectie >= EIND ? 0 : sectie;
+    if (hoofdstuk !== active.current) { active.current = hoofdstuk; onStep(hoofdstuk); }
+
+    // Camera: gebruiker bestuurt niets. Aan het begin van een nieuwe sectie
+    // beweegt de camera rustig naar de volgende vaste stand en blijft daarna
+    // stil staan zodat de tekst gelezen kan worden. Geen beweging in de hero.
+    const van = route.standen[Math.max(0, sectie - 1)], naar = route.standen[sectie];
+    const t = sectie === 0 ? 1 : ease((p - sectie) / 0.35);
+    mengStanden(van, naar, t, route.midden, scratch.current.pos, scratch.current.look);
+    // Mobiel: iets verder weg, zodat er in het kleinere beeld genoeg context blijft.
+    if (mobiel) scratch.current.pos.sub(scratch.current.look).multiplyScalar(1.12).add(scratch.current.look);
+    camera.position.copy(scratch.current.pos);
+    camera.lookAt(scratch.current.look);
+
+    // Een onderdeel kan in meerdere hoofdstukken bewegen: verschuivingen tellen op.
+    for (const { object, origin } of opgebouwd.beweging) object.position.copy(origin);
+    for (const { object, offset, hoofdstuk: h } of opgebouwd.beweging) object.position.addScaledVector(offset, actief(p, h));
+    for (const [h, materialen] of opgebouwd.markering) {
+      const sterkte = actief(p, h);
+      for (const m of materialen) m.emissiveIntensity = sterkte * (m.userData.markering as number);
+    }
+
+    // Bereikte installaties blijven zichtbaar (ook in het eindbeeld).
+    revealed.current = Math.max(revealed.current, p);
+    for (const [h, { objecten, materialen }] of opgebouwd.installaties) {
+      const zicht = ease((revealed.current - h) / 0.3);
+      for (const m of materialen) m.opacity = zicht;
+      for (const o of objecten) o.visible = zicht > 0.01;
+    }
+
+    if (Math.abs(target.current - progress.current) > 0.0001) invalidate();
   });
-
   return (
     <>
-      <HouseDaglicht kant="rechts" mobiel={mobiel} bereik={5} />
-      {/* Licht vanaf de open kant, mét schaduw: zo krijgen de kamers diepte en staan meubels op de vloer. */}
+      <HouseDaglicht kant={route.kant} mobiel={mobiel} />
+      {/* Licht vanaf de open kant, met schaduw: de kamers krijgen anders geen daglicht. */}
       <directionalLight position={[6, 3.6, 2.4]} intensity={1.35} color="#fff3e2" castShadow shadow-mapSize={mobiel ? [1024, 1024] : [2048, 2048]} shadow-bias={-0.0005} shadow-normalBias={0.02} shadow-radius={3}>
         <orthographicCamera attach="shadow-camera" args={[-3.2, 3.2, 3.2, -3.2, 0.5, 20]} />
       </directionalLight>
@@ -374,20 +342,22 @@ function Maquette({ mobiel, onLabels, onGeladen }: { mobiel: boolean; onLabels: 
   );
 }
 
-class ModelFout extends Component<{ children: ReactNode }, { mislukt: boolean }> {
-  state = { mislukt: false };
-  static getDerivedStateFromError() { return { mislukt: true }; }
+class ModelErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
   render() {
-    if (this.state.mislukt) return <p role="alert" className={styles.melding}>De 3D-woning kan niet worden geladen.</p>;
+    if (this.state.failed) return <p role="alert" className={styles.fallback}>De 3D-woning kan niet worden geladen. Je kunt hieronder wel alle onderdelen lezen.</p>;
     return this.props.children;
   }
 }
 
 export default function HomeCutawayTest({ children }: { children?: ReactNode }) {
+  const section = useRef<HTMLElement>(null);
+  const revealed = useRef(0);
+  const dialog = useRef<HTMLDialogElement>(null);
+  // Mobiel: lichtere schaduwkaart, lagere pixeldichtheid en iets ruimere
+  // camerastanden (zie House). Geen vrije rotatie of zoom, ook niet op touch.
   const [mobiel, setMobiel] = useState(false);
-  const [labels, setLabels] = useState<LabelPositie[]>([]);
-  const [geladen, setGeladen] = useState(false);
-  const onGeladen = useMemo(() => () => setGeladen(true), []);
   useEffect(() => {
     const media = window.matchMedia("(max-width: 767px)");
     const update = () => setMobiel(media.matches);
@@ -395,32 +365,149 @@ export default function HomeCutawayTest({ children }: { children?: ReactNode }) 
     media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
+  const [step, setStep] = useState(0);
+  const { draft, setDraft } = useWoningDraft();
+  const houseType = draft.houseType;
+  // De doorsnede is voorlopig alleen voor de hoekwoning uitgewerkt; de keuze gaat wel mee naar de scan.
+  const modelUrl = HOUSE_MODELS.hoekwoning.url;
+  const [loadedModel, setLoadedModel] = useState("");
+  const onLoaded = useMemo(() => () => setLoadedModel(modelUrl), [modelUrl]);
+  const [barVisible, setBarVisible] = useState(false);
+  const previousOverflow = useRef("");
+  const scanOpen = useRef(false);
+
+  const openScan = () => {
+    if (!dialog.current || dialog.current.open) return;
+    previousOverflow.current = document.body.style.overflow;
+    dialog.current.showModal();
+    scanOpen.current = true;
+    document.body.style.overflow = "hidden";
+  };
+  const restoreScroll = () => { document.body.style.overflow = previousOverflow.current; scanOpen.current = false; };
+  useEffect(() => () => { if (scanOpen.current) document.body.style.overflow = previousOverflow.current; }, []);
+  useEffect(() => {
+    const update = () => {
+      const story = section.current;
+      const hero = story?.querySelector("[data-house-progress='0']");
+      const end = document.getElementById("na-de-woning");
+      setBarVisible(Boolean(hero && end && hero.getBoundingClientRect().bottom < 120 && end.getBoundingClientRect().top > window.innerHeight));
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => { window.removeEventListener("scroll", update); window.removeEventListener("resize", update); };
+  }, []);
 
   return (
     <>
-      <section className={styles.sectie} aria-labelledby="cutaway-titel">
-        <div className={styles.intro}>
-          <p className={styles.eyebrow}>Groen in je straat</p>
-          <h1 id="cutaway-titel" className={styles.titel}>Kijk in je woning.</h1>
-          <p className={styles.tekst}>Van dak tot kruipruimte: zie hoe een woning is opgebouwd en waar je kunt verduurzamen.</p>
-        </div>
-        <div className={styles.beeld} role="img" aria-label="Doorsnede van de Gijs-woning met zolder, verdieping, begane grond en kruipruimte">
-          <span className={styles.badge}>Prototype · illustratief, niet je echte woning</span>
-          <ModelFout>
-            <Canvas camera={{ fov: FOV, near: 0.05, far: 60 }} shadows="percentage" frameloop="demand" dpr={mobiel ? [1, 1.5] : [1, 2]} style={{ touchAction: "pan-y" }}>
-              <Suspense fallback={null}><Maquette mobiel={mobiel} onLabels={setLabels} onGeladen={onGeladen} /></Suspense>
-            </Canvas>
-          </ModelFout>
-          {!geladen && <p role="status" className={styles.laden}>Je woning wordt geladen…</p>}
-          {geladen && labels.map(l => (
-            <span key={l.naam} className={styles.label} style={{ left: l.x, top: l.y }} aria-hidden="true">{l.naam}</span>
+      <section ref={section} id="woning-prototype" className={styles.story} aria-label="Ontdek je woning">
+        <aside className={styles.visualColumn} aria-label="Je woning tijdens de reis">
+          <div
+            className={styles.visual}
+            aria-label={step === 0 ? "3D-voorbeeldwoning van Gijs" : `3D-woning, met de nadruk op ${steps[step].label.toLowerCase()}`}
+          >
+            <div className={styles.halo} />
+            <span className={styles.illustratiefBadge}>Illustratief, niet je echte woning</span>
+            <ModelErrorBoundary key={modelUrl}>
+              <Canvas camera={{ position: [4, 3, 5], fov: FOV, near: 0.05, far: 60 }} shadows="percentage" frameloop="demand" dpr={mobiel ? [1, 1.5] : [1, 1.75]} style={{ touchAction: "pan-y" }} fallback={<p aria-hidden="true" className={styles.fallback}>3D is niet beschikbaar. De uitleg en de scan kun je gewoon gebruiken.</p>}>
+                <Suspense fallback={null}><House key={modelUrl} section={section} onStep={setStep} modelUrl={modelUrl} houseType="hoekwoning" onLoaded={onLoaded} revealed={revealed} mobiel={mobiel} /></Suspense>
+              </Canvas>
+            {loadedModel !== modelUrl && <p role="status" className={styles.loading}>Je woning wordt geladen…</p>}
+            </ModelErrorBoundary>
+            {step > 0 && <span className={styles.label}>{steps[step].label}</span>}
+          </div>
+          <p className={styles.modelNote}><strong>Illustratieve woningweergave.</strong> Deze 3D-woning laat zien waar onderdelen ongeveer zitten; het is geen foto of tekening van een echt huis. Scroll om de woning van binnen te bekijken.</p>
+          <a href="#woning-opties" className={styles.jump}>Bekijk de mogelijkheden ↓</a>
+        </aside>
+        <div className={styles.narrative}>
+          <section className={styles.panel} data-house-progress="0">
+            <p className={styles.eyebrow}>Groen in je straat</p>
+            <h1 className={styles.title}>Verduurzaam je woning.</h1>
+            <p className={styles.description}>Lagere energiekosten, meer wooncomfort of zo energieneutraal mogelijk wonen? Ontdek stap voor stap welke maatregelen daarbij kunnen helpen.</p>
+            <fieldset className={styles.woningtypeKeuze}>
+              <legend className={styles.woningtypeLegend}>Welk woningtype lijkt op jouw woning?</legend>
+              <div className={styles.woningtypeKnoppen}>
+                {WONINGTYPE_VOLGORDE.map(type => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={styles.woningtypeKnop}
+                    aria-pressed={houseType === type}
+                    onClick={() => setDraft(current => ({ ...current, houseType: type }))}
+                  >
+                    <span className={styles.woningtypeVinkje} aria-hidden="true">{houseType === type ? "✓" : ""}</span>
+                    {HOUSE_MODELS[type].label}
+                  </button>
+                ))}
+              </div>
+              <p className={styles.woningtypeHint}>Gekozen: <strong>{HOUSE_MODELS[houseType].label}</strong>. In deze test laat de 3D-woning altijd een hoekwoning zien. Dit is een illustratieve woningweergave, geen exacte weergave van jouw woning.</p>
+            </fieldset>
+            <div className={styles.scanCard}>
+              <h2 className={styles.scanCardTitle}>Start de digitale woningscan</h2>
+              <p className={styles.scanCardIntro}>Vul je adres in en ontdek in een paar minuten wat er mogelijk is voor jouw woning.</p>
+              <AddressScan />
+            </div>
+            <p className={styles.checkNote}>Een digitale woningscan als voorbereiding op advies van Gijs. Het gekozen woningtype neem je mee naar de scan; daar kun je het nog wijzigen.</p>
+            <a className={styles.textLink} href="#woning-verhaal">Neem een kijkje in de woning ↓</a>
+          </section>
+          <section id="woning-verhaal" className={styles.panel} data-house-progress="0">
+            <p className={styles.eyebrow}>Je hoeft geen expert te zijn</p>
+            <h2 className={styles.title}>Een fijne woning begint bij begrijpen.</h2>
+            <p className={styles.description}>Waar blijft de warmte? Via je dak, muren, vloer en ramen kan warmte ontsnappen. Isolatie helpt die binnen te houden.</p>
+            <p className={styles.description}>Zelf stroom maken? Dat doen zonnepanelen met zonlicht. Een warmtepomp gebruikt stroom om warmte van buiten naar binnen te brengen.</p>
+            <p className={styles.description}>Kijk mee in de woning. Zo ontdek je waar iedere oplossing zit en wat jij ervan merkt.</p>
+            <button className={styles.inlineScan} onClick={openScan}>Liever meteen jouw woning bekijken? Start de woningscan →</button>
+          </section>
+          {steps.slice(1).map((item, index) => item.maatregel && (
+            <section key={item.focus} id={`woning-onderdeel-${index + 1}`} className={styles.panel} data-house-progress={index + 1}>
+              <p className={styles.eyebrow}>Onderdeel {index + 1} van {steps.length - 1}</p>
+              <h2 className={styles.maatregelKop}>
+                <span className={styles.maatregelNaam}>{item.maatregel.naam}</span><span className="sr-only">: </span>
+                <span className={styles.title}>{item.maatregel.titel}</span>
+              </h2>
+              <p className={styles.description}>{item.maatregel.uitleg}</p>
+              <p className={styles.benefit}>{item.benefit}</p>
+              <Link className={styles.maatregelCta} href={`/maatregelen/${item.maatregel.slug}`}>{item.maatregel.cta} <span aria-hidden="true">→</span></Link>
+            </section>
           ))}
+          <section id="woning-opties" className={styles.options} data-house-progress={EIND}>
+            <p className={styles.eyebrow}>Van ontdekken naar jouw mogelijkheden</p>
+            <h2 className={styles.title}>Wat past bij jouw woning?</h2>
+            <p className={styles.description}>Je hoeft niet alles tegelijk te doen. Klap een categorie open en kies een maatregel om er meer over te lezen.</p>
+            <Accordion items={MAATREGEL_ACCORDION_ITEMS} className={styles.optionAccordion} />
+            <div className={styles.startWoning}>
+              {draft.postcode && draft.huisnummer ? (
+                <>
+                  <h3 className={styles.startHeading}>Ga verder met jouw woning</h3>
+                  <p className={styles.startIntro}>Je vulde {draft.postcode} {draft.huisnummer} in als adres, als {HOUSE_MODELS[houseType].label.toLowerCase()}.</p>
+                  <button type="button" className={styles.cta} onClick={openScan}>Ga verder met mijn woning →</button>
+                </>
+              ) : (
+                <>
+                  <h3 className={styles.startHeading}>Klaar om te beginnen?</h3>
+                  <p className={styles.startIntro}>Vul hierboven je adres in, of start direct de digitale woningscan.</p>
+                  <button type="button" className={styles.cta} onClick={openScan}>Start de woningscan →</button>
+                </>
+              )}
+              <p className={styles.startNote}>Illustratieve woningweergave, geen exacte weergave van jouw woning.</p>
+            </div>
+          </section>
         </div>
-        <ul className={styles.lagenLijst}>
-          {LAGEN.map(l => <li key={l.naam}>{l.naam}</li>)}
-        </ul>
       </section>
-      <div>{children}</div>
+      <div id="na-de-woning" className={styles.support}>{children}</div>
+      <div className={styles.scanBar} hidden={!barVisible}>
+        <span>Wat kan er met jouw woning?</span>
+        <button type="button" onClick={openScan}>Start de woningscan <span aria-hidden="true">→</span></button>
+      </div>
+      <dialog ref={dialog} className={styles.dialog} aria-labelledby="woning-scan-title" onClose={restoreScroll} onClick={event => { if (event.target === dialog.current) dialog.current?.close(); }}>
+        <div className={styles.dialogBody}>
+          <button className={styles.close} type="button" aria-label="Sluit scan" onClick={() => dialog.current?.close()}>×</button>
+          <p className={styles.eyebrow}>Jouw woning als vertrekpunt</p>
+          <h2 id="woning-scan-title">Wat kan er met jouw woning?</h2>
+          <p>Vul je adres in en ga verder met de digitale woningscan. Je woningtype kies je in de scan zelf, bij &quot;Bouw jouw woning&quot;.</p>
+          <AddressScan onNavigate={() => dialog.current?.close()} />
+        </div>
+      </dialog>
     </>
   );
 }
