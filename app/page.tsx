@@ -25,7 +25,7 @@ export default function Home() {
         {/* Eenheid: bestaand Gijs-beeld. */}
         <EenheidBanner />
 
-        {/* Wederkerigheid: gratis energiescan t.w.v. € 350. Dit is
+        {/* Wederkerigheid: gratis energiescan t.w.v. € 349. Dit is
             bewust de laatste sectie vóór de footer — de pagina sluit af
             met "iets gratis krijgen", niet met een derde herhaling van
             de "start met mijn woning"-CTA (die staat al in de hero en
