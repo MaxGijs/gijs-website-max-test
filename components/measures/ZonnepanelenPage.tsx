@@ -12,6 +12,7 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails } from "@/components/measures/TechnicalDetails";
+import { FeatureList } from "@/components/measures/FeatureList";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -65,7 +66,7 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // eerdere volledige-paginascreenshot). Geen stockbeelden, geen AI-beelden.
 // Een echte woningfoto met zonnepanelen (hero) is door de opdrachtgever
 // aangekondigd maar op het moment van deze wijziging nog niet aangeleverd
-// in het project — zodra deze aanwezig is in public/productbladen,
+// in het project — zodra deze aanwezig is in public/images/maatregelen/zonnepanelen,
 // vervangt hij het huidige tijdelijke herobeeld. De aangekondigde
 // systeem-uitlegvisual IS inmiddels aangeleverd
 // (zonnepanelen-uitlegvisual.png, Gijs-huisstijl) en is verwerkt in de
@@ -218,12 +219,12 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // bestanden (stap-1.svg, stap-2/3/4/5/6-zonnepanelen.svg) zijn
 // verwijderd. Titels ongewijzigd overgenomen.
 const UITVOERING_STAPPEN = [
-  { bestand: "zonnepanelen-stap-1.svg", label: "Aankomst" },
-  { bestand: "zonnepanelen-stap-2.svg", label: "Voorbereiden" },
-  { bestand: "zonnepanelen-stap-3.svg", label: "Monteren" },
-  { bestand: "zonnepanelen-stap-4.svg", label: "Panelen leggen" },
-  { bestand: "zonnepanelen-stap-5.svg", label: "Controle" },
-  { bestand: "zonnepanelen-stap-6.svg", label: "Genieten" },
+  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-1.svg", label: "Aankomst" },
+  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-2.svg", label: "Voorbereiden" },
+  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-3.svg", label: "Monteren" },
+  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-4.svg", label: "Panelen leggen" },
+  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-5.svg", label: "Controle" },
+  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-6.svg", label: "Genieten" },
 ];
 
 // Bron: "alle_brochures_in_1.pdf", pagina 4 — "Even wat belangrijke
@@ -257,7 +258,7 @@ const NA_INSTALLATIE = [
 const VOORDELEN = [
   { icon: "zap", title: "Eigen elektriciteit opwekken", text: "Zet zonlicht om in elektriciteit die je zelf in huis gebruikt." },
   { icon: "shield-check", title: "Bestand tegen weersinvloeden", text: "Getest op mechanische belasting door wind, sneeuw en hagelinslag." },
-  { icon: "award", title: "Lange garantietermijn", text: "25 jaar productgarantie en 30 jaar vermogensgarantie op alle merken." },
+  { icon: "award", title: "Lange garantietermijn", text: "25 jaar productgarantie en 30 jaar vermogensgarantie op alle panelen." },
 ];
 
 export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
@@ -280,7 +281,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
     { question: "Hoe lopen de kabels naar de meterkast?", answer: "Er worden gaten geboord door het dak voor de kabel. Vanaf daar worden kabels naar de meterkast getrokken; Gijs probeert deze zoveel mogelijk in het huis te verwerken (uit het zicht), al kan dit niet altijd worden gegarandeerd." },
     { question: "Moet ik mijn zonnepanelen zelf aanmelden?", answer: "Ja. Vanwege de privacywetgeving mogen Gijs en de installateur dit niet voor je doen. Je meldt de zonnepanelen zelf aan via www.energieleveren.nl." },
     { question: "Hoe werkt de monitoring?", answer: "Het kan zijn dat de omvormer na oplevering nog geregistreerd moet worden om te kunnen monitoren; houd hiervoor je mail in de gaten." },
-    { question: "Welke zonnepanelen gebruikt Gijs?", answer: "Gijs plaatst zonnepanelen van JA Solar, Aiko en Jinko." },
+    { question: "Welke zonnepanelen gebruikt Gijs?", answer: "Gijs plaatst verschillende soorten zonnepanelen, waaronder dubbelglas panelen en volledig zwarte panelen." },
     { question: "Wat doet de omvormer?", answer: "De omvormer maakt de stroom van de zonnepanelen bruikbaar voor je woning." },
     { question: "Wat betekent Wp?", answer: "Wp staat voor wattpiek: het vermogen dat een zonnepaneel onder standaard testomstandigheden kan leveren." },
     { question: item.question, answer: item.answer },
@@ -312,10 +313,10 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
         label="Maatregel"
         title={title}
         subtitle="Zonnepanelen plaatsen in één dag"
-        intro="Gijs plaatst zonnepanelen van JA Solar, Aiko en Jinko. Hieronder lees je hoe zonnepanelen werken, welke panelen Gijs gebruikt en hoe de installatie verloopt."
+        intro="Gijs plaatst verschillende soorten zonnepanelen. Hieronder lees je hoe zonnepanelen werken, welke panelen Gijs gebruikt en hoe de installatie verloopt."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/zonnepanelen-hero-v2.png"
+        image="/images/maatregelen/zonnepanelen/zonnepanelen-hero-v2.png"
         imageAlt="Een Gijs-installateur plaatst zonnepanelen op een schuin dak"
       />
 
@@ -335,27 +336,22 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
               thuisbatterij? Dan kan overtollige stroom worden opgeslagen voor later gebruik.
             </p>
             <p className="text-lg text-zinc-600 leading-relaxed">
-              Gijs plaatst panelen van JA Solar, Aiko en Jinko. Wat past, hangt af van je dak en de constructie.
+              Gijs plaatst verschillende soorten panelen. Wat past, hangt af van je dak en de constructie.
               Daar hoef je zelf niet technisch uit te komen: tijdens een energiescan aan huis bekijkt een expert van
               Gijs het dak en de beschikbare ruimte, en bespreekt welke oplossing past.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10 mb-10">
-            {[
-              { icon: "sun", title: "Zonnecellen", text: "Zetten het zonlicht om in elektriciteit." },
-              { icon: "layers", title: "Beschermglas", text: "Gehard glas met anti-reflectiecoating beschermt de cellen." },
-              { icon: "square", title: "Aluminium frame", text: "Houdt het paneel stevig bij elkaar." },
-              { icon: "cable", title: "Aansluitkast", text: "Hier komen de kabels samen richting de omvormer." },
-            ].map(deel => (
-              <div key={deel.title} className="flex flex-col gap-3">
-                <span className="w-16 h-16 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name={deel.icon} size="xl" />
-                </span>
-                <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{deel.title}</h3>
-                <p className="text-base text-zinc-600 leading-relaxed">{deel.text}</p>
-              </div>
-            ))}
+          <div className="mt-10 mb-10">
+            <FeatureList
+              columns={4}
+              items={[
+                { icon: "sun", title: "Zonnecellen", text: "Zetten het zonlicht om in elektriciteit." },
+                { icon: "layers", title: "Beschermglas", text: "Gehard glas met anti-reflectiecoating beschermt de cellen." },
+                { icon: "square", title: "Aluminium frame", text: "Houdt het paneel stevig bij elkaar." },
+                { icon: "cable", title: "Aansluitkast", text: "Hier komen de kabels samen richting de omvormer." },
+              ]}
+            />
           </div>
 
           <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] max-w-[1000px] mx-auto">
@@ -363,7 +359,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
                 de opdrachtgever heeft alleen de hoekafronding van de
                 labels/badges aangepast (uitlegvisuals.zip). */}
             <Image
-              src="/productbladen/zonnepanelen-uitlegvisual.svg"
+              src="/images/maatregelen/zonnepanelen/zonnepanelen-uitlegvisual.svg"
               alt="Schema van een zonnepanelensysteem: van de zonnepanelen via de regelaar en een thuisbatterij naar de omvormer, en van daaruit via de meterkast naar de apparaten in huis"
               width={2000}
               height={882}
@@ -403,24 +399,14 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
 
         <section id="voordelen" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {VOORDELEN.map(voordeel => (
-              <Card key={voordeel.title} className="flex flex-col gap-5 !p-8">
-                <span className="w-16 h-16 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name={voordeel.icon} size="xl" />
-                </span>
-                <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)]">{voordeel.title}</h3>
-                <p className="text-zinc-600 leading-relaxed">{voordeel.text}</p>
-              </Card>
-            ))}
-          </div>
+          <FeatureList columns={3} items={VOORDELEN} />
         </section>
 
         <div className="rounded-[var(--radius-xl)] bg-[var(--surface-muted)]/60 px-5 py-10 md:px-10 md:py-12 mb-16">
         <section id="producten" className="scroll-mt-40">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Welke zonnepanelen gebruikt Gijs?</h2>
           <p className="text-zinc-600 mb-8 max-w-2xl">
-            Gijs plaatst zonnepanelen van JA Solar, Aiko en Jinko. Elk merk heeft eigen technische eigenschappen; geen
+            Gijs plaatst verschillende soorten zonnepanelen. Elk paneel heeft eigen technische eigenschappen; geen
             van deze panelen wordt hieronder als beste keuze aangewezen. Dat bekijkt Gijs samen met jou.
           </p>
 
@@ -473,8 +459,8 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
                   </table>
                 </div>
                 <p className="text-xs text-zinc-500">
-                  Jinko&apos;s twee productlijnen (Tiger Neo 54HL4-B en 54HL4R-B) zijn hierboven samengevat tot één rij; de
-                  volledige, losse gegevens per productlijn staan hieronder.
+                  Het all-black zonnepaneel is er in twee uitvoeringen. Die zijn hierboven samengevat tot één rij; de
+                  volledige, losse gegevens per uitvoering staan hieronder.
                 </p>
               </div>
               {ZONNEPANEEL_PRODUCTEN.map(product => (
@@ -489,7 +475,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
                     <table className="w-full text-left border-collapse min-w-[640px]">
                       <thead>
                         <tr className="bg-[var(--surface-muted)]">
-                          <th scope="col" className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">Type</th>
+                          <th scope="col" className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">Uitvoering</th>
                           <th scope="col" className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">Pmax (STC)</th>
                           <th scope="col" className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">Pmax (NOCT)</th>
                           <th scope="col" className="px-5 py-4 text-xs font-semibold uppercase tracking-wide text-zinc-500">Voc</th>
@@ -570,17 +556,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
           <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
             Ook na de oplevering zijn er een paar dingen om in de gaten te houden.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {NA_INSTALLATIE.map(punt => (
-              <Card key={punt.title} className="flex flex-col gap-4 !p-7">
-                <span className="w-16 h-16 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name={punt.icon} size="xl" />
-                </span>
-                <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{punt.title}</h3>
-                <p className="text-base text-zinc-600 leading-relaxed">{punt.text}</p>
-              </Card>
-            ))}
-          </div>
+          <FeatureList columns={3} items={NA_INSTALLATIE} />
         </section>
 
         <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">
@@ -612,7 +588,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Passen zonnepanelen bij jouw woning?</h2>

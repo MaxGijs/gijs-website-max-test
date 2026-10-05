@@ -16,21 +16,22 @@ import basis from "../HouseModelPrototype.module.css";
 // De 3D-poppenhuiswoning van de homepage-test, apart geladen (next/dynamic)
 // zodat de hero en de adresinvoer niet op de Three.js-code hoeven te wachten.
 
-const GIJS_GROEN = new Color("#0a8a5f");
+export const GIJS_GROEN = new Color("#0a8a5f");
 // Hoe sterk de groene zweem per onderdeel is: op zwarte panelen en glas veel zwakker, anders kleuren ze groen.
-const HIGHLIGHT: Partial<Record<Sleutel, number>> = { zon: 0.1, glas: 0.18, pomp: 0.14 };
+export const HIGHLIGHT: Partial<Record<Sleutel, number>> = { zon: 0.1, glas: 0.18, pomp: 0.14 };
 
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 const ease = (n: number) => { const t = clamp(n); return t * t * (3 - 2 * t); };
 // Hoe sterk een stap actief is: rustig in na aankomst van de camera, rustig uit bij de volgende stap.
 const actief = (p: number, stap: number) => ease((p - stap - 0.12) / 0.3) * (1 - ease((p - stap - 0.92) / 0.14));
 
-const FOV = 30;
-type Stand = { pos: Vector3; look: Vector3 };
-type Anker = { object: Object3D; lokaal: Vector3 };
+export const FOV = 30;
+export type Stand = { pos: Vector3; look: Vector3 };
+export type Anker = { object: Object3D; lokaal: Vector3 };
 type Beweging = { object: Object3D; origin: Vector3; offset: Vector3; stap: number };
 
-function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bounds: Box3) {
+// Geëxporteerd voor het Anime.js-prototype (./anime-prototype), dat dezelfde camerastanden en lagen hergebruikt.
+export function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bounds: Box3) {
   const wereld = (v: Vector3) => v.clone().multiplyScalar(schaal).add(positie);
   const lok = (p: V3) => wereld(new Vector3(...p).multiply(scene.scale));
   const doos = (o: Object3D) => { const b = new Box3().setFromObject(o); return { min: wereld(b.min), max: wereld(b.max), c: wereld(b.getCenter(new Vector3())) }; };
@@ -127,7 +128,7 @@ function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bounds: Bo
 }
 
 // Tussen twee standen via een boog rond de woning, zodat de camera nooit door een muur gaat.
-function mengStanden(a: Stand, b: Stand, t: number, midden: Vector3, pos: Vector3, look: Vector3) {
+export function mengStanden(a: Stand, b: Stand, t: number, midden: Vector3, pos: Vector3, look: Vector3) {
   const ha = Math.atan2(a.pos.x - midden.x, a.pos.z - midden.z), hb = Math.atan2(b.pos.x - midden.x, b.pos.z - midden.z);
   let d = hb - ha;
   while (d > Math.PI) d -= Math.PI * 2;
@@ -280,8 +281,9 @@ function Woning({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: Ref
   return (
     <>
       <HouseDaglicht kant="rechts" mobiel={mobiel} bereik={5} />
-      {/* Licht vanaf de open kant, met schaduw: de kamers krijgen anders geen daglicht. */}
-      <directionalLight position={[6, 3.6, 2.4]} intensity={1.35} color="#fff3e2" castShadow shadow-mapSize={mobiel ? [1024, 1024] : [2048, 2048]} shadow-bias={-0.0005} shadow-normalBias={0.02} shadow-radius={3}>
+      {/* Licht vanaf de open kant, met schaduw: de kamers krijgen anders geen daglicht.
+          1024² (was 2048² op desktop) met halve radius: zelfde breedte van de schaduwrand, 4x minder texels. */}
+      <directionalLight position={[6, 3.6, 2.4]} intensity={1.35} color="#fff3e2" castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0005} shadow-normalBias={0.02} shadow-radius={mobiel ? 3 : 1.5}>
         <orthographicCamera attach="shadow-camera" args={[-3.2, 3.2, 3.2, -3.2, 0.5, 20]} />
       </directionalLight>
       <group scale={scale} position={position}><primitive object={scene} /></group>
@@ -289,7 +291,7 @@ function Woning({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: Ref
   );
 }
 
-class ModelFout extends Component<{ children: ReactNode }, { mislukt: boolean }> {
+export class ModelFout extends Component<{ children: ReactNode }, { mislukt: boolean }> {
   state = { mislukt: false };
   static getDerivedStateFromError() { return { mislukt: true }; }
   render() {
@@ -301,7 +303,7 @@ class ModelFout extends Component<{ children: ReactNode }, { mislukt: boolean }>
 export default function WoningScene({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: RefObject<HTMLElement | null>; onStap: (stap: number) => void; onGeladen: () => void; mobiel: boolean; annotaties: RefObject<Record<string, Annotatie>> }) {
   return (
     <ModelFout>
-      <Canvas camera={{ position: [4, 3, 5], fov: FOV, near: 0.05, far: 60 }} shadows="soft" frameloop="demand" dpr={mobiel ? [1, 1.5] : [1, 1.75]} style={{ touchAction: "pan-y" }} fallback={<p className={basis.fallback}>3D is niet beschikbaar. De uitleg kun je gewoon lezen.</p>}>
+      <Canvas camera={{ position: [4, 3, 5], fov: FOV, near: 0.05, far: 60 }} shadows="percentage" frameloop="demand" dpr={[1, 1.5]} style={{ touchAction: "pan-y" }} fallback={<p className={basis.fallback}>3D is niet beschikbaar. De uitleg kun je gewoon lezen.</p>}>
         <Suspense fallback={null}><Woning sectie={sectie} onStap={onStap} onGeladen={onGeladen} mobiel={mobiel} annotaties={annotaties} /></Suspense>
       </Canvas>
     </ModelFout>

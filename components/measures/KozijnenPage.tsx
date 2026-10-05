@@ -97,10 +97,10 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // overgenomen: "Inmeten ramen", "Uitleg en keuze", "Plaatsing",
 // "Oplevering".
 const UITVOERING_STAPPEN = [
-  { bestand: "kozijnen-stap-1.svg", label: "Inmeten ramen" },
-  { bestand: "kozijnen-stap-2.svg", label: "Uitleg en keuze" },
-  { bestand: "kozijnen-stap-3.svg", label: "Plaatsing" },
-  { bestand: "kozijnen-stap-4.svg", label: "Oplevering" },
+  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-1.svg", label: "Inmeten ramen" },
+  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-2.svg", label: "Uitleg en keuze" },
+  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-3.svg", label: "Plaatsing" },
+  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-4.svg", label: "Oplevering" },
 ];
 
 export function KozijnenPage({ item }: { item: MeasurePageItem }) {
@@ -163,7 +163,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         intro="Gijs plaatst kunststof en aluminium kozijnen, inclusief deuren en schuifpuien. Hieronder lees je welke profielen en producten er zijn en hoe de plaatsing verloopt."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/kozijnen-hero.jpg"
+        image="/images/maatregelen/kozijnen/kozijnen-hero.jpg"
         imageAlt="Nieuw geplaatst kozijn met raam en voordeur"
       />
 
@@ -222,7 +222,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
             <div>
               <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] aspect-[8/5] flex items-center justify-center">
                 <Image
-                  src="/productbladen/verschillen-ander-profiel.png"
+                  src="/images/maatregelen/kozijnen/verschillen-ander-profiel.png"
                   alt="Doorsnede van een ander kunststof kozijnprofiel: niet waterdicht, geen geïsoleerd profiel, 5 afdichtingen"
                   width={862}
                   height={459}
@@ -235,7 +235,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
             <div>
               <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] aspect-[8/5] flex items-center justify-center">
                 <Image
-                  src="/productbladen/verschillen-gijs-profiel.png"
+                  src="/images/maatregelen/kozijnen/verschillen-gijs-profiel.png"
                   alt="Doorsnede van het kozijnprofiel van Gijs: waterdicht, geïsoleerd profiel, 7 afdichtingen"
                   width={955}
                   height={594}
@@ -251,7 +251,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
               <h3 className="font-bold text-[var(--gijs-donkergroen)] mb-1">Afdichting</h3>
               <p className="text-sm text-zinc-600">
                 Het kozijnprofiel van Gijs heeft 7 afdichtingspunten en is daarmee waterdicht. Dat merk je aan
-                minder kans op tocht en vocht bij het kozijn. Het Schüco-profiel in deze vergelijking, dat Gijs
+                minder kans op tocht en vocht bij het kozijn. Het andere profiel in deze vergelijking, dat Gijs
                 niet gebruikt, heeft 5 afdichtingen en is niet waterdicht.
               </p>
             </div>
@@ -259,7 +259,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
               <h3 className="font-bold text-[var(--gijs-donkergroen)] mb-1">Geïsoleerd profiel</h3>
               <p className="text-sm text-zinc-600">
                 Het profiel van Gijs is geïsoleerd, wat helpt om warmte beter binnen te houden. Bij het
-                Schüco-profiel in deze vergelijking is dat niet het geval.
+                andere profiel in deze vergelijking is dat niet het geval.
               </p>
             </div>
           </div>
@@ -268,11 +268,11 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         <section id="producten" className="scroll-mt-40 mb-14">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Welke soorten kozijnen biedt Gijs?</h2>
           <p className="text-zinc-600 mb-8 max-w-2xl">
-            Gijs werkt met de productlijn HR IsoFrame, in drie niveaus. Daarnaast zijn er kunststof en aluminium
+            Gijs werkt met kozijnen in drie niveaus. Daarnaast zijn er kunststof en aluminium
             profielsystemen en kunnen deuren en schuifpuien worden meegenomen.
           </p>
 
-          <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)] mb-4">HR IsoFrame: Basic, Standard en Comfort</h3>
+          <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)] mb-4">Drie niveaus: Basic, Standard en Comfort</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             {HR_ISOFRAME_TIERS.map(tier => (
               <MaterialCard
@@ -328,7 +328,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
                   </p>
                   <div className="rounded-[var(--radius-card)] bg-[var(--surface-muted)] aspect-[4/3] p-6 flex items-center justify-center">
                     <Image
-                      src="/productbladen/kozijnen-profieldoorsnede.jpg"
+                      src="/images/maatregelen/kozijnen/kozijnen-profieldoorsnede.jpg"
                       alt="Doorsnede van een geïsoleerd kunststof kozijnprofiel met meerdere kamers en glas"
                       width={600}
                       height={600}
@@ -366,7 +366,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
               <div>
                 <h4 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-4">Aluminium</h4>
                 <p className="text-zinc-600 max-w-2xl">
-                  Voor aluminium kozijnen wordt onder meer het Aluprof MB-79N raam-deursysteem gebruikt. Dit systeem
+                  Voor aluminium kozijnen wordt onder meer een aluminium raam- en deursysteem gebruikt. Dit systeem
                   is er in meerdere thermische varianten en heeft een warmte-isolatie vanaf Uw 0,64 W/(m²K) voor
                   ramen en Uf vanaf 0,83 W/(m²K). Aluminium is lichter dan kunststof en geschikt voor grotere
                   constructies.
@@ -405,14 +405,14 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
             <Card className="flex flex-col gap-4">
               <div className="rounded-[var(--radius-md)] overflow-hidden bg-[var(--surface-muted)] aspect-square flex items-center justify-center">
-                <Image src="/productbladen/draaikiep.png" alt="Voorbeeld van een kunststof draaikiepraam" width={400} height={400} className="max-w-[90%] max-h-[90%] object-contain" />
+                <Image src="/images/maatregelen/kozijnen/draaikiep.png" alt="Voorbeeld van een kunststof draaikiepraam" width={400} height={400} className="max-w-[90%] max-h-[90%] object-contain" />
               </div>
               <h4 className="font-bold text-[var(--gijs-donkergroen)]">Draaikiepraam</h4>
               <p className="text-sm text-zinc-600">Een draaikiepraam is er in dezelfde profielsystemen als de kozijnen.</p>
             </Card>
             <Card className="flex flex-col gap-4">
               <div className="rounded-[var(--radius-md)] overflow-hidden bg-[var(--surface-muted)] aspect-square flex items-center justify-center">
-                <Image src="/productbladen/schuifpui.png" alt="Voorbeeld van een kunststof schuifpui" width={400} height={400} className="max-w-[90%] max-h-[90%] object-contain" />
+                <Image src="/images/maatregelen/kozijnen/schuifpui.png" alt="Voorbeeld van een kunststof schuifpui" width={400} height={400} className="max-w-[90%] max-h-[90%] object-contain" />
               </div>
               <h4 className="font-bold text-[var(--gijs-donkergroen)]">Schuifpui</h4>
               <p className="text-sm text-zinc-600">Kunststof schuifpui-profielen zijn er in de uitvoeringen Comfort en Premium.</p>
@@ -430,10 +430,10 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
           <p className="text-zinc-600 mb-6 max-w-2xl">Een aantal eerder geplaatste kozijnen en deuren, zo zien ze eruit in echte woningen.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
-              { src: "/productbladen/kozijnen-referentie-1.jpg", alt: "Referentieproject met kunststof kozijnen en voordeur" },
-              { src: "/productbladen/kozijnen-referentie-3.jpg", alt: "Referentieproject met kunststof kozijn, close-up" },
-              { src: "/productbladen/kozijnen-referentie-4.jpg", alt: "Referentieproject met kunststof kozijnen en voordeur, Delfzijl" },
-              { src: "/productbladen/kozijnen-referentie-5.jpg", alt: "Referentieproject met kunststof kozijn en voordeur, close-up" },
+              { src: "/images/maatregelen/kozijnen/kozijnen-referentie-1.jpg", alt: "Referentieproject met kunststof kozijnen en voordeur" },
+              { src: "/images/maatregelen/kozijnen/kozijnen-referentie-3.jpg", alt: "Referentieproject met kunststof kozijn, close-up" },
+              { src: "/images/maatregelen/kozijnen/kozijnen-referentie-4.jpg", alt: "Referentieproject met kunststof kozijnen en voordeur, Delfzijl" },
+              { src: "/images/maatregelen/kozijnen/kozijnen-referentie-5.jpg", alt: "Referentieproject met kunststof kozijn en voordeur, close-up" },
             ].map(ref => (
               <div key={ref.src} className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] aspect-[4/3]">
                 <Image src={ref.src} alt={ref.alt} width={800} height={600} className="w-full h-full object-cover" />
@@ -483,7 +483,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Welke kozijnen passen bij jouw woning?</h2>

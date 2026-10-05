@@ -70,3 +70,79 @@ export function JaNeeVraag({ vraag, uitleg, waarde, onChange }: { vraag: string;
     </fieldset>
   );
 }
+
+/** Compacte ja/nee/weet-ik-niet-vraag voor in een raster (echte radioknoppen). */
+export function KeuzeRij({ vraag, uitleg, waarde, onChange }: { vraag: string; uitleg?: string; waarde: Antwoord | null; onChange: (a: Antwoord) => void }) {
+  const naam = useId();
+  const opties: { waarde: Antwoord; label: string }[] = [
+    { waarde: "ja", label: "Ja" },
+    { waarde: "nee", label: "Nee" },
+    { waarde: "onbekend", label: "Weet ik niet" },
+  ];
+  return (
+    <fieldset className="min-w-0 border-0 p-0">
+      <legend className="gijs-label">{vraag}</legend>
+      {uitleg && <p className="mt-1 text-[13px] text-[var(--text-muted)]">{uitleg}</p>}
+      <div className="mt-2 grid grid-cols-3 gap-1 rounded-[14px] bg-[var(--grey-050)] p-1">
+        {opties.map(optie => (
+          <label key={optie.waarde} className="flex min-h-11 cursor-pointer items-center justify-center rounded-[10px] px-2 text-center text-[14px] font-semibold text-[var(--gijs-donkergroen)] has-[:checked]:bg-white has-[:checked]:shadow-[var(--shadow-1)] has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-[var(--accent-600)]">
+            <input type="radio" name={naam} className="sr-only" checked={waarde === optie.waarde} onChange={() => onChange(optie.waarde)} />
+            {optie.label}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+/**
+ * Compacte keuzerij met vrije opties (geen vaste Antwoord-waarden), voor
+ * dingen die van buitenaf gewoon te zien zijn: dakkapel (aantal), garage en
+ * aanbouw (ja/nee), en bij een hoekwoning aan welke kant de buurwoning
+ * staat. Bij "namelijk" verschijnt een tekstveld zodra die optie gekozen is.
+ */
+export function OptieToggle({ vraag, uitleg, opties, waarde, onChange, namelijk }: { vraag: string; uitleg?: string; opties: readonly string[]; waarde: string; onChange: (v: string) => void; namelijk?: { trigger: string; waarde: string; onChange: (v: string) => void } }) {
+  const naam = useId();
+  return (
+    <fieldset className="min-w-0 border-0 p-0">
+      <legend className="gijs-label">{vraag}</legend>
+      {uitleg && <p className="mt-1 text-[13px] text-[var(--text-muted)]">{uitleg}</p>}
+      <div className="mt-2 grid gap-1 rounded-[14px] bg-[var(--grey-050)] p-1" style={{ gridTemplateColumns: `repeat(${opties.length}, minmax(0,1fr))` }}>
+        {opties.map(optie => (
+          <label key={optie} className="flex min-h-11 cursor-pointer items-center justify-center rounded-[10px] px-2 text-center text-[14px] font-semibold text-[var(--gijs-donkergroen)] has-[:checked]:bg-white has-[:checked]:shadow-[var(--shadow-1)] has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-[var(--accent-600)]">
+            <input type="radio" name={naam} className="sr-only" checked={waarde === optie} onChange={() => onChange(optie)} />
+            {optie}
+          </label>
+        ))}
+      </div>
+      {namelijk && waarde === namelijk.trigger && (
+        <label className="mt-2 flex flex-col gap-1 text-[13px] font-semibold text-[var(--gijs-donkergroen)]">
+          <span>{namelijk.trigger}, namelijk</span>
+          <input className="gijs-input" maxLength={120} value={namelijk.waarde} onChange={e => namelijk.onChange(e.target.value)} autoFocus />
+        </label>
+      )}
+    </fieldset>
+  );
+}
+
+/**
+ * Verplicht verbruiksveld met "Help me schatten": vult een voorstel in dat
+ * de bewoner daarna nog kan aanpassen.
+ */
+export function VerbruikVeld({ id, label, eenheid, waarde, onChange, schatting, fout }: { id: string; label: string; eenheid: string; waarde: string; onChange: (v: string) => void; schatting: number | null; fout?: string }) {
+  return (
+    <div className="gijs-field-wrap">
+      <label className="gijs-label" htmlFor={id}>{label}</label>
+      <span className="gijs-input-group">
+        <input id={id} className={`gijs-input pr-[92px] ${fout ? "gijs-input--invalid" : ""}`} inputMode="numeric" required aria-invalid={fout ? true : undefined} aria-describedby={fout ? `${id}-fout` : undefined} value={waarde} onChange={e => onChange(e.target.value)} />
+        <span className="gijs-input-group__suffix">{eenheid}</span>
+      </span>
+      {fout && <span id={`${id}-fout`} className="gijs-error">{fout}</span>}
+      {schatting !== null && (
+        <button type="button" className="self-start min-h-11 text-[15px] font-semibold text-[var(--accent-700)] underline" onClick={() => onChange(String(schatting))}>
+          Help me schatten
+        </button>
+      )}
+    </div>
+  );
+}

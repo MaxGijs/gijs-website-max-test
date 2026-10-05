@@ -29,6 +29,7 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails } from "@/components/measures/TechnicalDetails";
+import { FeatureList } from "@/components/measures/FeatureList";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -81,7 +82,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
     { id: "past-het", label: "Past het bij mij?" },
     { id: "voordelen", label: "De voordelen" },
     { id: "uitvoering", label: "Uitvoering" },
-    { id: "eco2floor", label: "eco2floor" },
+    { id: "gietdekvloer", label: "Gietdekvloer" },
     { id: "verdeler", label: "Verdeler & warmtebron" },
     { id: "drogen-en-opstarten", label: "Drogen en opstarten" },
     { id: "vloerafwerking", label: "Vloerafwerking" },
@@ -92,7 +93,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
   const faqItems: FAQItem[] = [
     { question: "Hoe lang duurt het voordat ik vloerbedekking mag leggen?", answer: "Dat hangt af van de gekozen afwerking. Een tegelvloer kan na ongeveer 1 week, overige afwerkingen zoals tapijt of parket na ongeveer 2 weken, mits het restvochtgehalte op orde is. Dit wordt vastgesteld met een CM-meting, niet met een elektronische (indicatieve) meting." },
     { question: "Moet ik een speciale verdeler hebben voor mijn warmtepomp?", answer: "Ja. Een verdeler voor een cv-ketel (hoge temperatuur) is niet hetzelfde als een verdeler voor een warmtepomp (lage temperatuur verwarming en/of hoge temperatuur koeling). Gijs kiest de juiste verdeler bij je warmtebron." },
-    { question: "Kan vloerverwarming ook koelen?", answer: "Bij een warmtepomp met een geschikte verdeler (zoals de RIHO VK-verdeler) kan de vloer ook passief koelen. Bij een verdeler voor een cv-ketel is dat niet het geval." },
+    { question: "Kan vloerverwarming ook koelen?", answer: "Bij een warmtepomp met een geschikte verdeler kan de vloer ook passief koelen. Bij een verdeler voor een cv-ketel is dat niet het geval." },
     { question: "Is het opstartprotocol verplicht?", answer: "Het wordt aanbevolen om het opstartprotocol minimaal één keer volledig te doorlopen vóór de vloer verder wordt afgewerkt. Dit verkort de droogtijd en helpt spanningen in de vloer te verminderen, die anders tot scheurvorming zouden kunnen leiden." },
     { question: "Wat is een verdeler?", answer: "De verdeler zorgt dat elke kamer via de leidingen genoeg warm water krijgt, zodat de vloer overal gelijkmatig warm wordt." },
     { question: "Wat betekent laag temperatuur verwarming?", answer: "Dit is verwarming die werkt met een lagere watertemperatuur dan een traditionele cv-ketel, zoals bij een warmtepomp. Vloerverwarming is hier goed geschikt voor." },
@@ -123,10 +124,10 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         label="Installaties"
         title="Vloerverwarming voor jouw woning"
         subtitle="Comfortabele warmte vanuit de vloer, zonder radiatoren"
-        intro="Vloerverwarming verdeelt warmte vanuit je vloer, via leidingen die zijn ingefreesd in een geschikte bestaande vloer of ingebouwd in een nieuwe vloeropbouw. Voor de dekvloer boven de leidingen werkt Gijs onder meer met eco2floor, een gietdekvloer die snel droogt en goed geschikt is voor vloerverwarming."
+        intro="Vloerverwarming verdeelt warmte vanuit je vloer, via leidingen die zijn ingefreesd in een geschikte bestaande vloer of ingebouwd in een nieuwe vloeropbouw. Voor de dekvloer boven de leidingen werkt Gijs onder meer met een gietdekvloer die snel droogt en goed geschikt is voor vloerverwarming."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/vloerverwarming-hero.png"
+        image="/images/maatregelen/vloerverwarming/vloerverwarming-hero.png"
         imageAlt="Een Gijs-installateur giet de dekvloer over de vloerverwarmingsleidingen"
       />
 
@@ -154,22 +155,13 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
 
         <section id="systeemopbouw" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Hoe wordt de vloer opgebouwd?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="flex flex-col gap-3 !p-7">
-              <span className="w-14 h-14 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                <Icon name="layout-grid" size="lg" />
-              </span>
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">In een bestaande vloer</h3>
-              <p className="text-base text-zinc-600 leading-relaxed">{SYSTEEMOPBOUW.bestaandeVloer}</p>
-            </Card>
-            <Card className="flex flex-col gap-3 !p-7">
-              <span className="w-14 h-14 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                <Icon name="square" size="lg" />
-              </span>
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">In een nieuwe vloeropbouw</h3>
-              <p className="text-base text-zinc-600 leading-relaxed">{SYSTEEMOPBOUW.nieuweOpbouw}</p>
-            </Card>
-          </div>
+          <FeatureList
+            columns={2}
+            items={[
+              { icon: "layout-grid", title: "In een bestaande vloer", text: SYSTEEMOPBOUW.bestaandeVloer },
+              { icon: "square", title: "In een nieuwe vloeropbouw", text: SYSTEEMOPBOUW.nieuweOpbouw },
+            ]}
+          />
           <p className="text-sm text-zinc-500 max-w-2xl mt-6">{SYSTEEMOPBOUW.isolatiebeton}</p>
         </section>
 
@@ -203,29 +195,20 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
 
         <section id="voordelen" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">De voordelen</h2>
-          <p className="text-zinc-600 mb-6 max-w-2xl">Voordelen van de eco2floor-dekvloer die Gijs bij vloerverwarming toepast:</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VOORDELEN.map(voordeel => (
-              <Card key={voordeel} className="flex flex-col gap-4 !p-7">
-                <span className="w-14 h-14 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name="zap" size="lg" />
-                </span>
-                <p className="font-bold text-[var(--gijs-donkergroen)] leading-snug">{voordeel}</p>
-              </Card>
-            ))}
-          </div>
+          <p className="text-zinc-600 mb-6 max-w-2xl">Voordelen van de gietdekvloer die Gijs bij vloerverwarming toepast:</p>
+          <FeatureList columns={4} items={VOORDELEN.map(voordeel => ({ icon: "zap", title: voordeel }))} />
         </section>
 
         <section id="uitvoering" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
-          <p className="text-lg text-zinc-600 mb-10 max-w-2xl">Gijs plaatst de vloerverwarming en de eco2floor-dekvloer volgens een vaste aanpak.</p>
+          <p className="text-lg text-zinc-600 mb-10 max-w-2xl">Gijs plaatst de vloerverwarming en de gietdekvloer volgens een vaste aanpak.</p>
           <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
         </section>
 
-        <section id="eco2floor" className="scroll-mt-40 mb-16">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">eco2floor: de dekvloer boven de leidingen</h2>
+        <section id="gietdekvloer" className="scroll-mt-40 mb-16">
+          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Gietdekvloer: de dekvloer boven de leidingen</h2>
           <p className="text-lg text-zinc-600 mb-8 max-w-2xl">
-            eco2floor is een vloeibare dekvloer die om de vloerverwarmingsleidingen heen wordt gegoten. Deze vloer
+            Een gietdekvloer is een vloeibare dekvloer die om de vloerverwarmingsleidingen heen wordt gegoten. Deze vloer
             geeft de warmte van de vloerverwarming goed door aan de kamer, en is daarom een goede combinatie met
             vloerverwarming.
           </p>
@@ -238,7 +221,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
             ))}
           </div>
           <Card variant="tint" className="!p-7 mb-8">
-            <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-3">Niet doen met eco2floor</h3>
+            <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-3">Niet doen met een gietdekvloer</h3>
             <ul className="flex flex-col gap-2.5">
               {ECOFLOOR_NIET_DOEN.map(v => (
                 <li key={v} className="flex items-start gap-2 text-base text-zinc-700">
@@ -249,7 +232,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
             </ul>
           </Card>
 
-          <TechnicalDetails id="eco2floor-technisch">
+          <TechnicalDetails id="gietdekvloer-technisch">
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
               {ECOFLOOR_TECHNISCH.map(rij => (
                 <li key={rij.label} className="flex items-start justify-between gap-3 border-b border-[var(--border-default)] pb-2">
@@ -301,7 +284,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
               </li>
               <li className="flex items-start gap-3 text-base text-zinc-700">
                 <Icon name="thermometer" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                <span><strong className="text-[var(--gijs-donkergroen)]">Opstartprotocol-watertemperatuur:</strong> een tijdelijke, stapsgewijze temperatuurcurve die alleen wordt gebruikt vlak na het storten van een nieuwe eco2floor-vloer, om deze goed te laten drogen. Geen permanente instelling, zie hieronder.</span>
+                <span><strong className="text-[var(--gijs-donkergroen)]">Opstartprotocol-watertemperatuur:</strong> een tijdelijke, stapsgewijze temperatuurcurve die alleen wordt gebruikt vlak na het storten van een nieuwe gietdekvloer, om deze goed te laten drogen. Geen permanente instelling, zie hieronder.</span>
               </li>
             </ul>
           </TechnicalDetails>
@@ -330,7 +313,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         <section id="drogen-en-opstarten" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Drogen en opstarten</h2>
           <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
-            Na het storten van de eco2floor-vloer moet het restvocht eruit voordat je een vloerbedekking mag
+            Na het storten van de gietdekvloer moet het restvocht eruit voordat je een vloerbedekking mag
             aanbrengen. Met vloerverwarming kan dat sneller, mits je de vloer volgens een vast opstartprotocol
             opwarmt en weer afkoelt. Alle temperaturen hieronder zijn <strong>watertemperaturen</strong>, niet de
             instelling van je kamerthermostaat.
@@ -388,7 +371,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
                   <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Type vloerbedekking</th>
                   <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Toelichting</th>
                   <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Vereiste waarde</th>
-                  <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Technisch mogelijk bij eco2floor</th>
+                  <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Technisch mogelijk bij een gietdekvloer</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--border-default)]">
@@ -469,7 +452,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past vloerverwarming bij jouw woning?</h2>

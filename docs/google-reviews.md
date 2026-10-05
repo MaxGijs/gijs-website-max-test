@@ -17,4 +17,4 @@ Google levert maximaal vijf reviews op relevantie. De homepage toont die selecti
 
 Voor publicatie: neem de toepasselijke Google-voorwaarden en privacyverwijzing op in de publieke voorwaarden/privacyverklaring; controleer de EEA-voorwaarden van het gebruikte account. Die pagina's vallen buiten deze prototypewijziging.
 
-Bronnen: [Place Details](https://developers.google.com/maps/documentation/places/web-service/place-details), [bronvermelding en beleid](https://developers.google.com/maps/documentation/places/web-service/policies). Het officiële ongewijzigde logo staat in `public/google-maps-attribution.svg`.
+Bronnen: [Place Details](https://developers.google.com/maps/documentation/places/web-service/place-details), [bronvermelding en beleid](https://developers.google.com/maps/documentation/places/web-service/policies). Het officiële ongewijzigde logo staat in `public/images/shared/reviews/google-maps-attribution.svg`.

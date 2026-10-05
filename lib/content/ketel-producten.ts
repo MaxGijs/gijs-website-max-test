@@ -7,6 +7,10 @@
 //   Omschrijving, kenmerken en specificaties (tabelwaarden gecontroleerd in de
 //   productdata van de pagina zelf).
 // Geen eigen aanvullingen, geen rangorde en geen uitspraak over wanneer Gijs welke ketel inzet.
+// Merk/naam zijn de modelnamen uit de hierboven geciteerde Warmteservice-URL's
+// ("Intergas-Kombi-Kompakt-HRE-28-24..." / "...HRE-36-30..."), niet apart verzonnen.
+// Productfoto's: aangeleverd (public/images/maatregelen/ketel), 2026-10-05 —
+// "de twee meest verkochte ketels".
 export type KetelProduct = {
   merk: string;
   naam: string;
@@ -14,6 +18,8 @@ export type KetelProduct = {
   warmwater: string;
   kenmerken: string[];
   technisch: { label: string; waarde: string }[];
+  image: string;
+  imageAlt: string;
 };
 
 const ROOKGAS_UITVOERINGEN = "2 × 80 mm excentrisch, 60/100 mm concentrisch of 80/125 mm concentrisch";
@@ -30,6 +36,8 @@ export const KETELS: KetelProduct[] = [
       { label: "Warmwaterklasse", waarde: "CW4" },
       { label: "Rookgasaansluiting", waarde: ROOKGAS_UITVOERINGEN },
     ],
+    image: "/images/maatregelen/ketel/ketel-intergas-hre-28-24.png",
+    imageAlt: "Intergas Kombi Kompakt HRE 28/24 hr-combiketel",
   },
   {
     merk: "Intergas",
@@ -57,5 +65,7 @@ export const KETELS: KetelProduct[] = [
       { label: "Pomp", waarde: "A-label pomp" },
       { label: "Rookgasaansluiting", waarde: ROOKGAS_UITVOERINGEN },
     ],
+    image: "/images/maatregelen/ketel/ketel-intergas-hre-36-30.png",
+    imageAlt: "Intergas Kombi Kompakt HRE 36/30 hr-combiketel",
   },
 ];

@@ -17,8 +17,8 @@
 import type { HouseType } from "./woning-types";
 import type { Antwoord } from "./scan-session";
 
-/** Waar een waarde vandaan komt. Later uit te breiden met BAG, Cyclomedia, Gijs-opname. */
-export type Bron = "bewoner" | "adresregister";
+/** Waar een waarde vandaan komt. Later uit te breiden met Cyclomedia, Gijs-opname. */
+export type Bron = "bewoner" | "adresregister" | "bag";
 
 export type Betrouwbaarheid = "hoog" | "gemiddeld" | "laag";
 
@@ -44,9 +44,15 @@ const vandaag = () => new Date().toISOString().slice(0, 10);
 const nietIngevuld = <T,>(): Datapunt<T> => ({ waarde: null, bron: null, datum: null, betrouwbaarheid: null, status: "niet_ingevuld" });
 
 /** Vrije invoer van de bewoner (leeg = niet ingevuld). */
-export function vanBewoner<T>(waarde: T | null | undefined): Datapunt<T> {
+export function vanBewoner<T>(waarde: T | null | undefined, bron: Bron = "bewoner"): Datapunt<T> {
   if (waarde === null || waarde === undefined || waarde === "") return nietIngevuld<T>();
-  return { waarde, bron: "bewoner", datum: vandaag(), betrouwbaarheid: "hoog", status: "bevestigd" };
+  return { waarde, bron, datum: vandaag(), betrouwbaarheid: "hoog", status: "bevestigd" };
+}
+
+/** Ja/Nee → Datapunt<boolean>. Voor dingen die van buitenaf te zien zijn (garage, aanbouw): geen "onbekend". */
+export function vanJaNee(waarde: string): Datapunt<boolean> {
+  if (waarde !== "Ja" && waarde !== "Nee") return nietIngevuld<boolean>();
+  return { waarde: waarde === "Ja", bron: "bewoner", datum: vandaag(), betrouwbaarheid: "hoog", status: "bevestigd" };
 }
 
 /** Ja/Nee/Ik weet het niet → Datapunt<boolean>. "Ik weet het niet" is onbekend, niet "nee". */
@@ -61,7 +67,8 @@ export function vanAntwoord(antwoord: Antwoord | null): Datapunt<boolean> {
 export type Woningdossier = {
   adres: { postcode: string; huisnummer: string; label: string; handmatig: boolean; bron: Bron };
   woningtype: Datapunt<HouseType>;
-  dakkapel: Datapunt<boolean>;
+  /** "Geen", "1", "2" of een eigen omschrijving bij "Meerdere". */
+  dakkapel: Datapunt<string>;
   garage: Datapunt<boolean>;
   aanbouw: Datapunt<boolean>;
   kruipruimte: Datapunt<boolean>;
@@ -71,9 +78,10 @@ export type Woningdossier = {
   monumentstatus: Datapunt<string>;
   wensen: Datapunt<string[]>;
   energieprofiel: {
-    verwarming: Datapunt<string>;
-    warmteafgifte: Datapunt<string>;
-    warmWater: Datapunt<string>;
+    /** Meerdere tegelijk mogelijk (bv. cv-ketel én houtkachel). */
+    verwarming: Datapunt<string[]>;
+    warmteafgifte: Datapunt<string[]>;
+    warmWater: Datapunt<string[]>;
   };
   /** Maatregel-id's (lib/measures.ts) die al aanwezig zijn. Worden niet opnieuw als nieuwe maatregel voorgesteld. */
   bestaandeMaatregelen: Datapunt<string[]>;
@@ -84,19 +92,22 @@ export type Woningdossier = {
 type DossierInput = {
   adres: { postcode: string; huisnummer: string; label: string; handmatig: boolean };
   houseType: HouseType;
-  dakkapel: Antwoord | null;
-  garage: Antwoord | null;
-  aanbouw: Antwoord | null;
+  dakkapel: string;
+  dakkapelAantal: string;
+  garage: string;
+  aanbouw: string;
   kruipruimte: Antwoord | null;
   spouwmuur: Antwoord | null;
   bouwjaar: string;
+  /** True zodra bouwjaar/woonoppervlakte automatisch via het Kadaster (BAG) zijn opgehaald. */
+  bagOpgehaald: boolean;
   woonoppervlakte: string;
   monument: string;
   wensen: string[];
   wensenOnbekend: boolean;
-  verwarming: string;
-  warmteafgifte: string;
-  warmWater: string;
+  verwarming: string[];
+  warmteafgifte: string[];
+  warmWater: string[];
   bestaandeMaatregelen: string[];
   aanwezigOnbekend: boolean;
   gewenstMaatregelen: string[];
@@ -120,22 +131,24 @@ function vanLijst(waarden: string[], onbekend: boolean): Datapunt<string[]> {
 }
 
 export function maakWoningdossier(input: DossierInput): Woningdossier {
+  const dakkapelWaarde = input.dakkapel === "Meerdere" && input.dakkapelAantal.trim() ? `Meerdere: ${input.dakkapelAantal.trim()}` : input.dakkapel;
+  const woningBron: Bron = input.bagOpgehaald ? "bag" : "bewoner";
   return {
     adres: { ...input.adres, bron: input.adres.handmatig ? "bewoner" : "adresregister" },
     woningtype: vanBewoner(input.houseType),
-    dakkapel: vanAntwoord(input.dakkapel),
-    garage: vanAntwoord(input.garage),
-    aanbouw: vanAntwoord(input.aanbouw),
+    dakkapel: vanBewoner(dakkapelWaarde),
+    garage: vanJaNee(input.garage),
+    aanbouw: vanJaNee(input.aanbouw),
     kruipruimte: vanAntwoord(input.kruipruimte),
     spouwmuur: vanAntwoord(input.spouwmuur),
-    bouwjaar: vanBewoner(getal(input.bouwjaar)),
-    woonoppervlakte: vanBewoner(getal(input.woonoppervlakte)),
+    bouwjaar: vanBewoner(getal(input.bouwjaar), woningBron),
+    woonoppervlakte: vanBewoner(getal(input.woonoppervlakte), woningBron),
     monumentstatus: vanKeuze(input.monument),
     wensen: vanLijst(input.wensen, input.wensenOnbekend),
     energieprofiel: {
-      verwarming: vanKeuze(input.verwarming),
-      warmteafgifte: vanKeuze(input.warmteafgifte),
-      warmWater: vanKeuze(input.warmWater),
+      verwarming: vanBewoner(input.verwarming.length ? input.verwarming : null),
+      warmteafgifte: vanBewoner(input.warmteafgifte.length ? input.warmteafgifte : null),
+      warmWater: vanBewoner(input.warmWater.length ? input.warmWater : null),
     },
     bestaandeMaatregelen: vanLijst(input.bestaandeMaatregelen, input.aanwezigOnbekend),
     gewenstMaatregelen: input.gewenstMaatregelen,

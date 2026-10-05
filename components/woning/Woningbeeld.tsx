@@ -1,27 +1,26 @@
+/* eslint-disable @next/next/no-img-element -- externe straatbeeld-URL, wordt niet door next/image geoptimaliseerd. */
 import { Icon } from "@/components/ds/core/Icon";
+import { straatbeeldUrl } from "@/lib/straatbeeld";
 
-// Beeld van de daadwerkelijke locatie in stap 1 ("Klopt dit?"), bedoeld voor
-// het Cyclomedia-panorama. Er is nog geen Cyclomedia-koppeling: dit
-// component is bewust het enige aansluitpunt. Vervang de placeholder door
-// het panorama zodra de koppeling (en de juridische toets van het gebruik)
-// rond is; de rest van de flow hoeft dan niet te wijzigen.
-//
-// Belangrijk onderscheid voor de bewoner:
-//   dit beeld        = de echte locatie/woning
-//   Gijs 3D-model    = illustratieve woningweergave
+// Foto van de echte woning in stap 1 ("Klopt dit?"). Zolang er geen
+// straatbeeldkoppeling is (lib/straatbeeld.ts), staat hier een placeholder
+// in hetzelfde kader, zodat de rest van de scan niet hoeft te wijzigen.
 export function Woningbeeld({ adresLabel }: { adresLabel: string }) {
+  const url = straatbeeldUrl(adresLabel);
   return (
-    <figure className="m-0 flex items-start gap-3 p-4 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-[var(--surface-muted)]">
-      <span className="shrink-0 w-11 h-11 rounded-full bg-white border border-[var(--border-default)] flex items-center justify-center">
-        <Icon name="map" size="md" />
-      </span>
-      <figcaption className="text-[15px]">
-        <p className="font-semibold text-[var(--gijs-donkergroen)]">Straatbeeld van de locatie</p>
-        <p className="text-[var(--grey-800)]">
-          Hier komt een straatbeeld (panorama) van {adresLabel || "je adres"}, zodat je kunt zien of dit je woning is.
-          Dat beeld is nog niet gekoppeld.
-        </p>
-      </figcaption>
+    <figure className="m-0 overflow-hidden rounded-[24px] bg-[var(--grey-050)]">
+      {url ? (
+        <img src={url} alt={`Straatbeeld van ${adresLabel}`} className="block aspect-[4/3] w-full object-cover" />
+      ) : (
+        <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 bg-[linear-gradient(160deg,#eef3f0,#e2ebe6)] px-6 text-center">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/80 text-[var(--accent-700)] shadow-[var(--shadow-1)]">
+            <Icon name="map" size="lg" />
+          </span>
+          <p className="text-[15px] font-semibold text-[var(--gijs-donkergroen)]">Foto van {adresLabel || "je woning"}</p>
+          <p className="max-w-[34ch] text-[13px] text-[var(--text-muted)]">Hier verschijnt straks een foto van je woning. De koppeling hiervoor is nog niet actief.</p>
+        </div>
+      )}
+      <figcaption className="px-4 py-3 text-[13px] text-[var(--text-muted)]">{adresLabel}</figcaption>
     </figure>
   );
 }

@@ -54,7 +54,7 @@ export default async function PlaatsPage({ params }: Props) {
         <header className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-center mb-14">
           <div className="flex flex-col gap-4 max-w-2xl">
             <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{k.naam}, gemeente {g.naam}</p>
-            <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-heading)] text-[var(--gijs-donkergroen)]">
+            <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">
               Isolatie in {k.naam}
             </h1>
             <p className="text-zinc-600">

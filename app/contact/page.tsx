@@ -22,10 +22,11 @@ export default function Contact() {
         <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] p-8"><h2 className="text-[length:var(--fs-display-3)] text-[var(--gijs-donkergroen)] mb-5">Hier vind je Gijs</h2>
           <address className="not-italic text-lg leading-9">Kantooradres<br/>{CONTACT.street}<br />{CONTACT.city}<br />
             <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a><br /><a href={CONTACT.phoneHref}>Tel: {CONTACT.phone}</a>
+            {CONTACT.kvk && <><br />KvK: {CONTACT.kvk}</>}
           </address><p className="mt-4 leading-relaxed">Ons kantoor is geen reguliere bezoeklocatie. Telefonisch of online helpen we je graag, ook met vragen over bestaande afspraken.</p><div className="mt-5"><SocialLinks /></div>
         </section>
         <section id="contactformulier" className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] p-6 md:p-8 scroll-mt-36 self-start"><h2 className="mb-3 text-[length:var(--fs-display-3)] text-[var(--gijs-donkergroen)]">Vertel ons over je huis</h2><p className="mb-6">Een vraag of een eerste idee is genoeg. Hieronder kun je je bericht alvast opstellen.</p><ContactForm/></section>
-        <section id="energiescan" className="py-4 scroll-mt-36 md:col-span-2"><h2 className="text-[length:var(--fs-display-3)] text-[var(--gijs-donkergroen)] mb-4">Gratis energiescan aan huis</h2><p className="mb-4 text-xl font-semibold">Gratis en vrijblijvend, ter waarde van €350.</p><p className="mb-4">Je kunt direct contact opnemen. De digitale woningscan is geen verplichte voorbereiding.</p>
+        <section id="energiescan" className="py-4 scroll-mt-36 md:col-span-2"><h2 className="text-[length:var(--fs-display-3)] text-[var(--gijs-donkergroen)] mb-4">Gratis energiescan aan huis</h2><p className="mb-4 text-xl font-semibold">Gratis en vrijblijvend, ter waarde van €349.</p><p className="mb-4">Je kunt direct contact opnemen. De digitale woningscan is geen verplichte voorbereiding.</p>
           <p className="text-lg mb-6">Met de digitale woningscan bekijk je mogelijkheden op een voorbeeldwoning. Voor persoonlijk advies over jouw eigen huis kun je een gratis energiescan aan huis bespreken.</p>
           <div className="flex flex-wrap gap-3"><Button variant="accent" size="lg" href="/woning" iconRight="arrow-right">Start de woningscan</Button><Button variant="secondary" size="lg" href={CONTACT.phoneHref} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">Bel om een energiescan te plannen</Button></div>
         </section>

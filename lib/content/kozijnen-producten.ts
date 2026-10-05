@@ -25,7 +25,7 @@ export type HrIsoFrameTier = {
 // Bron: "HR IsoFrame Producten.pdf" (3 pagina's, één per niveau).
 export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
   {
-    naam: "HR IsoFrame Basic",
+    naam: "Kozijn Basic",
     tagline: "Inclusief HR++ glas van 24 mm dikte",
     kernkenmerken: [
       "HR++ glas, 24 mm dikte",
@@ -45,7 +45,7 @@ export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
     subsidie: "€ 35,- per m²",
   },
   {
-    naam: "HR IsoFrame Standard",
+    naam: "Kozijn Standard",
     tagline: "Inclusief HR++ Warm-Edge glas van 24 mm dikte",
     kernkenmerken: [
       "HR++ Warm-Edge glas, 24 mm dikte",
@@ -53,7 +53,7 @@ export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
       "Kerntrekbeveiliging op alle deuren (SKG***)",
     ],
     kenmerken: [
-      "16% hogere isolatiewaarde dan HR IsoFrame Basic",
+      "16% hogere isolatiewaarde dan Basic",
       "Voorzien van versterking",
       "HR++ Warm-Edge glas 24 mm dikte met Ug-waarde 1,1",
       "Verdekt hang- en sluitwerk, extra middendichting",
@@ -66,7 +66,7 @@ export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
     subsidie: "€ 35,- per m²",
   },
   {
-    naam: "HR IsoFrame Comfort",
+    naam: "Kozijn Comfort",
     tagline: "Inclusief triple glas van 42 mm dikte",
     kernkenmerken: [
       "Triple glas, 42 mm dikte",
@@ -74,7 +74,7 @@ export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
       "Kerntrekbeveiliging op alle deuren (SKG***)",
     ],
     kenmerken: [
-      "32% hogere isolatiewaarde dan HR IsoFrame Basic",
+      "32% hogere isolatiewaarde dan Basic",
       "Voorzien van Thermofibra®-versterking",
       "Triple glas 42 mm dikte met Ug-waarde 0,6",
       "ActivPilot Giant (180 kg) hang- en sluitwerk",

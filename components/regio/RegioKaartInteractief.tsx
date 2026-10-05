@@ -11,7 +11,7 @@ import styles from "./RegioKaartInteractief.module.css";
 // Uitbreiding van de bestaande Nederlandkaart (NederlandKaart in
 // RegioDrilldown.tsx — data en styling hergebruikt, niet opnieuw getekend):
 // een klik op Overijssel zoomt vloeiend in, waarna de echte gemeentegrenzen
-// van Overijssel verschijnen (public/productbladen/overijssel51.svg, zie
+// van Overijssel verschijnen (public/images/regio/overijssel51.svg, zie
 // lib/content/overijssel-gemeenten-shapes.ts voor de bron/verificatie).
 // Beide kaartlagen blijven gemonteerd en faden in/uit (crossfade) terwijl de
 // Nederlandlaag tegelijk inzoomt via een CSS-transform — zo blijft de

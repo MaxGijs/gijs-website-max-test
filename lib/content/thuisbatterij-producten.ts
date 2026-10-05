@@ -12,11 +12,11 @@
 export type ThuisbatterijKenmerk = { titel: string; tekst: string };
 
 export const SIGENSTOR = {
-  merk: "Sigenergy",
-  naam: "SigenStor",
+  merk: "Thuisbatterij",
+  naam: "Modulaire thuisbatterij",
   ondertitel: "Modulaire, stapelbare thuisbatterij",
-  image: "/productbladen/thuisbatterij-sigenstor.png",
-  imageAlt: "Sigenergy SigenStor thuisbatterij",
+  image: "/images/maatregelen/thuisbatterij/thuisbatterij-sigenstor.png",
+  imageAlt: "Modulaire, stapelbare thuisbatterij",
   // Bron: Sigenergy Infoblad, pagina 1-2. Kwalitatieve kenmerken, geen
   // verzonnen capaciteit/vermogen. IP66 is in de zin zelf uitgelegd
   // (vereenvoudiging voor leken, geen wijziging van de brongegevens).
@@ -28,7 +28,7 @@ export const SIGENSTOR = {
   ] as string[],
   // Bron: Sigenergy Infoblad, pagina 2 — de drie werkmodi die het infoblad noemt.
   werkmodi: [
-    { titel: "Sigen AI-modus", tekst: "Past het gebruik automatisch aan op basis van energieverbruikspatronen." },
+    { titel: "AI-modus", tekst: "Past het gebruik automatisch aan op basis van energieverbruikspatronen." },
     { titel: "TOU-modus", tekst: "Time of Use: afgestemd op de elektriciteitstarieven op verschillende momenten van de dag." },
     { titel: "Max. eigen verbruik", tekst: "Gericht op het zoveel mogelijk zelf verbruiken van opgewekte energie." },
   ] as ThuisbatterijKenmerk[],
@@ -42,5 +42,5 @@ export const SIGENSTOR = {
   ] as string[],
   // Bron: Sigenergy Infoblad, pagina 2. "*Onder specifieke voorwaarden."
   levenscyclus: "10.000 keer levenscyclus per batterijcel*",
-  levenscyclusNoot: "*Onder specifieke voorwaarden, zoals vermeld door Sigenergy.",
+  levenscyclusNoot: "*Onder specifieke voorwaarden, zoals vermeld door de fabrikant.",
 };

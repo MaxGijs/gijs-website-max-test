@@ -11,7 +11,7 @@ export default function Footer() {
     <footer className="gijs-footer text-white" style={{ backgroundColor: "var(--gijs-donkergroen)" }}>
       <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
-          <Image src="/logo-white.png" alt="Gijs" width={912} height={520} style={{ height: "auto" }} className="mb-4 h-auto w-[108px]" />
+          <Image src="/images/shared/logo/logo-white.png" alt="Gijs" width={912} height={520} style={{ height: "auto" }} className="mb-4 h-auto w-[108px]" />
           <p className="text-sm text-white/70 max-w-[30ch]">
             Samen maken we je huis fijner.
           </p>

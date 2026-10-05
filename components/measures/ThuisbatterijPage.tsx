@@ -12,6 +12,7 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { UitvoeringStappen, type UitvoeringStap } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails, TechnicalDetailRow } from "@/components/measures/TechnicalDetails";
+import { FeatureList } from "@/components/measures/FeatureList";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -99,12 +100,12 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // Kozijnen), met de nieuwe procesvisuals uit de "thuisbatterij"-map.
 // Labels en volgorde exact zoals aangeleverd.
 const UITVOERING_STAPPEN: UitvoeringStap[] = [
-  { bestand: "thuisbatterij-stap-1.svg", label: "Aankomst" },
-  { bestand: "thuisbatterij-stap-2.svg", label: "Uitleg" },
-  { bestand: "thuisbatterij-stap-3.svg", label: "Voorbereiding" },
-  { bestand: "thuisbatterij-stap-4.svg", label: "Batterij plaatsen" },
-  { bestand: "thuisbatterij-stap-5.svg", label: "Controle" },
-  { bestand: "thuisbatterij-stap-6.svg", label: "Oplevering" },
+  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-1.svg", label: "Aankomst" },
+  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-2.svg", label: "Uitleg" },
+  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-3.svg", label: "Voorbereiding" },
+  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-4.svg", label: "Batterij plaatsen" },
+  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-5.svg", label: "Controle" },
+  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-6.svg", label: "Oplevering" },
 ];
 
 // Bron: "alle_brochures_in_1.pdf", pagina 2-3 — "Voordat we een
@@ -150,7 +151,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
     { id: "wat-is-het", label: "Wat is het?" },
     { id: "past-het", label: "Past het bij mij?" },
     { id: "voordelen", label: "De voordelen" },
-    { id: "sigenergy", label: "Sigenergy" },
+    { id: "de-thuisbatterij", label: "De thuisbatterij" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
     { id: "voorwaarden", label: "Voorwaarden" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
@@ -158,9 +159,9 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
 
   const faqItems: FAQItem[] = [
     { question: "Wat is een thuisbatterij?", answer: "Een thuisbatterij slaat elektriciteit op, zodat je deze op een later moment kunt gebruiken. Je energiegebruik en wat je wilt bereiken vormen het vertrekpunt voor het advies." },
-    { question: "Welke thuisbatterij gebruikt Gijs?", answer: "Gijs plaatst de SigenStor van Sigenergy, een modulaire en stapelbare thuisbatterij." },
+    { question: "Welke thuisbatterij gebruikt Gijs?", answer: "Gijs plaatst een modulaire en stapelbare thuisbatterij." },
     { question: "Heb ik met een thuisbatterij altijd stroom bij een storing?", answer: item.answer },
-    { question: "Kan ik mijn elektrische auto opladen vanuit de thuisbatterij?", answer: "De SigenStor ondersteunt bidirectioneel laden en ontladen, ook wel V2X genoemd, waardoor opladen vanuit de batterij mogelijk is." },
+    { question: "Kan ik mijn elektrische auto opladen vanuit de thuisbatterij?", answer: "De thuisbatterij die Gijs plaatst ondersteunt bidirectioneel laden en ontladen, ook wel V2X genoemd, waardoor opladen vanuit de batterij mogelijk is." },
     { question: "Wat betekent V2X?", answer: "V2X staat voor bidirectioneel laden en ontladen: stroom kan niet alleen naar, maar ook vanuit bijvoorbeeld een elektrische auto stromen." },
     { question: "Werkt de thuisbatterij samen met zonnepanelen?", answer: "Ja. De batterij kan je energieverbruik thuis compenseren met zelf opgewekte zonne-energie." },
     { question: "Hoe verloopt de installatie?", answer: "Gijs plaatst de thuisbatterij in één dag: aankomst, uitleg, voorbereiding, de batterij plaatsen en aansluiten, het systeem instellen en controleren, en opleveren." },
@@ -192,11 +193,11 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
         label="Installaties"
         title="Thuisbatterij voor jouw woning"
         subtitle="Sla je energie op voor later gebruik"
-        intro="Een thuisbatterij slaat elektriciteit op. Je energiegebruik en wat je wilt bereiken vormen het vertrekpunt voor het advies. Gijs plaatst hiervoor de SigenStor van Sigenergy."
+        intro="Een thuisbatterij slaat elektriciteit op. Je energiegebruik en wat je wilt bereiken vormen het vertrekpunt voor het advies. Gijs plaatst hiervoor een modulaire thuisbatterij."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/thuisbatterij-hero-v2.png"
-        imageAlt="Een Gijs-installateur sluit een Sigenergy SigenStor thuisbatterij aan"
+        image="/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png"
+        imageAlt="Een Gijs-installateur sluit een thuisbatterij aan"
       />
 
       <div>
@@ -211,8 +212,8 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
             <p className="text-lg text-zinc-600 leading-relaxed">
               Een thuisbatterij bewaart elektriciteit, bijvoorbeeld zelf opgewekte zonnestroom die je niet meteen
               gebruikt. Die opgeslagen stroom kun je later alsnog in je woning gebruiken. Het systeem regelt
-              automatisch wanneer stroom wordt opgeslagen of gebruikt. Gijs plaatst hiervoor de SigenStor van
-              Sigenergy.
+              automatisch wanneer stroom wordt opgeslagen of gebruikt. Gijs plaatst hiervoor een modulaire
+              thuisbatterij.
             </p>
             <p className="text-lg text-zinc-600 leading-relaxed">
               Of een thuisbatterij bij je past, hangt af van je energiegebruik en wat je wilt bereiken. Daar hoef je
@@ -221,16 +222,8 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-10 mb-10">
-            {ONDERDELEN.map(deel => (
-              <div key={deel.title} className="flex flex-col gap-3">
-                <span className="w-14 h-14 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name={deel.icon} size="lg" />
-                </span>
-                <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{deel.title}</h3>
-                <p className="text-base text-zinc-600 leading-relaxed">{deel.text}</p>
-              </div>
-            ))}
+          <div className="mt-10 mb-10">
+            <FeatureList columns={5} items={ONDERDELEN} />
           </div>
 
           <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] max-w-[1000px] mx-auto">
@@ -239,7 +232,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
                 bestaande badges uit hetzelfde bestand (groep
                 #gijs-badges-1-2-3); de tekening zelf is ongewijzigd. */}
             <Image
-              src="/productbladen/thuisbatterij-uitlegvisual-v2.svg"
+              src="/images/maatregelen/thuisbatterij/thuisbatterij-uitlegvisual-v2.svg"
               alt="Schema van een thuisbatterijsysteem: van (1) de zonnepanelen via (2) de regelaar naar (3) de thuisbatterij, en van daaruit via (4) de omvormer en (5) de meterkast naar (6) de apparaten in huis"
               width={2000}
               height={881}
@@ -279,23 +272,13 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
 
         <section id="voordelen" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VOORDELEN.map(voordeel => (
-              <Card key={voordeel.title} className="flex flex-col gap-4 !p-7">
-                <span className="w-14 h-14 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name={voordeel.icon} size="lg" />
-                </span>
-                <h3 className="font-bold text-[var(--gijs-donkergroen)]">{voordeel.title}</h3>
-                <p className="text-sm text-zinc-600 leading-relaxed">{voordeel.text}</p>
-              </Card>
-            ))}
-          </div>
+          <FeatureList columns={4} items={VOORDELEN} />
         </section>
 
-        <section id="sigenergy" className="scroll-mt-40 mb-16">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Sigenergy bij Gijs</h2>
+        <section id="de-thuisbatterij" className="scroll-mt-40 mb-16">
+          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">De thuisbatterij van Gijs</h2>
           <p className="text-lg text-zinc-600 mb-8 max-w-2xl">
-            Gijs plaatst de {SIGENSTOR.naam} van {SIGENSTOR.merk}, een modulaire en stapelbare thuisbatterij.
+            Gijs plaatst een modulaire en stapelbare thuisbatterij.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-center mb-8">
             <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
@@ -431,7 +414,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past een thuisbatterij bij jouw woning?</h2>

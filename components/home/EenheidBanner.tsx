@@ -3,14 +3,13 @@ import Image from "next/image";
 import { Icon } from "@/components/ds/core/Icon";
 
 // Aangeleverd Gijs-beeld (duurzame wijk aan het water, woningen met
-// zonnepanelen) uit de marketing-ZIP — vervangt de eerdere bannerfoto
-// op verzoek van Max.
+// zonnepanelen) uit de marketing-ZIP.
 export default function EenheidBanner() {
   return (
     <section className="bg-white px-4 sm:px-6 py-16 sm:py-24">
       <div className="relative mx-auto w-full max-w-[1280px] aspect-[851/315] max-h-[460px] overflow-hidden rounded-[24px] sm:rounded-[32px]">
         <Image
-          src="/duurzame-wijk.png"
+          src="/images/over-gijs/hero/duurzame-wijk.png"
           alt="Duurzame wijk aan het water met woningen met zonnepanelen"
           fill
           className="object-cover"

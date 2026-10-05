@@ -15,7 +15,7 @@ export default function EnergyScanCTA() {
       </a>
 
       <div className="max-w-3xl mx-auto px-6 py-24 sm:py-32 flex flex-col items-center text-center gap-6">
-        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €350</Badge>
+        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €349</Badge>
         <h2 className="text-[clamp(2.5rem,1.6rem+3vw,4rem)] leading-[1.05] tracking-[-0.035em] font-bold text-[var(--gijs-donkergroen)] [text-wrap:balance]">
           Gratis energiescan aan huis
         </h2>

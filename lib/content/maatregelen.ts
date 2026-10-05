@@ -18,7 +18,7 @@ export const MAATREGELEN: Maatregel[] = [
     beschrijving: "Houd de warmte binnen en bespaar op je energierekening.",
     // Zelfde hero-foto als de dakisolatiepagina zelf, voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png",
+    afbeelding: "/images/maatregelen/dakisolatie/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png",
     icon: "home",
   },
   {
@@ -26,7 +26,7 @@ export const MAATREGELEN: Maatregel[] = [
     beschrijving: "Een comfortabeler huis met minder warmteverlies.",
     // Zelfde hero-foto als de spouwmuurisolatiepagina zelf, voor
     // visuele herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/spouwmuurisolatie-aanbrengen-gijs.png",
+    afbeelding: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png",
     icon: "brick-wall",
   },
   {
@@ -34,13 +34,13 @@ export const MAATREGELEN: Maatregel[] = [
     beschrijving: "Een warmer huis en minder kou vanuit de kruipruimte.",
     // Zelfde hero-foto als de vloerisolatiepagina zelf, voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/hero_vloerisolatie.png",
+    afbeelding: "/images/maatregelen/vloerisolatie/hero_vloerisolatie.png",
     icon: "layers",
   },
   {
     titel: "Glas en kozijnen",
     beschrijving: "Meer comfort en een lagere energierekening.",
-    afbeelding: "/maatregel-glas-kozijnen.png",
+    afbeelding: "/images/home/maatregelen/maatregel-glas-kozijnen.png",
     icon: "app-window",
   },
   {
@@ -48,7 +48,7 @@ export const MAATREGELEN: Maatregel[] = [
     beschrijving: "Minder warmteverlies en meer comfort bij het raam.",
     // Zelfde hero-foto als de isolatieglaspagina zelf, voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/isolatieglas.png",
+    afbeelding: "/images/maatregelen/glas/isolatieglas.png",
     icon: "app-window",
   },
   {
@@ -56,7 +56,7 @@ export const MAATREGELEN: Maatregel[] = [
     beschrijving: "Kunststof en aluminium kozijnen, deuren en schuifpuien.",
     // Zelfde hero-foto als de kozijnenpagina zelf, voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/kozijnen-hero.jpg",
+    afbeelding: "/images/maatregelen/kozijnen/kozijnen-hero.jpg",
     icon: "app-window",
   },
   {
@@ -65,7 +65,7 @@ export const MAATREGELEN: Maatregel[] = [
     // Zelfde hero-foto als de warmtepomppagina zelf (een echte Gijs-
     // installatiefoto, aangeleverd via Archief.zip), voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/warmtepomp-hero.png",
+    afbeelding: "/images/maatregelen/warmtepomp/warmtepomp-hero.png",
     icon: "fan",
   },
   {
@@ -74,7 +74,7 @@ export const MAATREGELEN: Maatregel[] = [
     // Zelfde hero-foto als de zonnepanelenpagina zelf (een echte Gijs-
     // installatiefoto, aangeleverd via Archief.zip), voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/zonnepanelen-hero-v2.png",
+    afbeelding: "/images/maatregelen/zonnepanelen/zonnepanelen-hero-v2.png",
     icon: "sun",
   },
   {
@@ -83,7 +83,7 @@ export const MAATREGELEN: Maatregel[] = [
     // Zelfde hero-foto als de vloerverwarmingpagina zelf (een echte
     // Gijs-installatiefoto, aangeleverd via Archief.zip), voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/productbladen/vloerverwarming-hero.png",
+    afbeelding: "/images/maatregelen/vloerverwarming/vloerverwarming-hero.png",
     icon: "thermometer",
   },
   {
@@ -93,7 +93,7 @@ export const MAATREGELEN: Maatregel[] = [
     // Gijs-installatiefoto van een Sigenergy SigenStor, aangeleverd via
     // Archief.zip), voor visuele herkenbaarheid tussen overzicht en
     // detailpagina.
-    afbeelding: "/productbladen/thuisbatterij-hero-v2.png",
+    afbeelding: "/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png",
     icon: "battery-charging",
   },
 ];

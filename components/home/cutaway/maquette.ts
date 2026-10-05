@@ -1,12 +1,13 @@
-import { Box3, BoxGeometry, CanvasTexture, CylinderGeometry, Group, Mesh, MeshStandardMaterial, Raycaster, RepeatWrapping, SphereGeometry, SRGBColorSpace, Vector3, type Material, type Object3D, type Texture } from "three";
+import { Box3, BoxGeometry, CanvasTexture, CylinderGeometry, Group, Mesh, MeshStandardMaterial, Raycaster, RepeatWrapping, SphereGeometry, SRGBColorSpace, Vector3, type BufferGeometry, type Material, type Object3D, type Texture } from "three";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { disposeHouse } from "@/lib/house-model";
 import { bestratingTextuur, klinkerTextuur } from "@/lib/house-realism";
 
 // Bouwstenen voor de poppenhuis-doorsnede (PROTOTYPE, branch homepage-cutaway-test):
 // grondblok met kruipruimte, tuin en terras, en verdiepingen ingedeeld zoals in een
 // Nederlandse rijwoning.
-// Alle maten in meters, in de coördinaten van public/models/gijs-hoekwoning.glb
+// Alle maten in meters, in de coördinaten van public/models/woning/gijs-hoekwoning.glb
 // (gemeten uit het model zelf).
 
 export const M = {
@@ -149,13 +150,55 @@ type Strook = { x0: number; x1: number };
 type Radiator = { x0: number; x1: number; y0: number; y1: number; z0: number; z1: number };
 type Gording = { x0: number; x1: number; z: number; y: number; breed: number; hoog: number };
 
+/**
+ * Textuurherhaling in de UV's van één blok zetten in plaats van in een eigen textuurkloon
+ * (texture.repeat doet uv * repeat; offset is overal 0, dus het beeld is identiek). Zo kunnen
+ * alle blokken met dezelfde textuur één materiaal delen en samengevoegd worden (voegSamen).
+ */
+function herhaalUv(geo: BufferGeometry, u: number, v: number) {
+  const uv = geo.getAttribute("uv");
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * u, uv.getY(i) * v);
+  uv.needsUpdate = true;
+}
+
 /** Bestrating met eigen herhaling, zodat klinkers en tegels overal even groot zijn. */
-function bestrating(g: Group, bron: Texture, a: V3, b: V3, tegelMaat: [number, number], texturen: Texture[]) {
-  const t = bron.clone();
-  t.repeat.set(Math.abs(b[0] - a[0]) / tegelMaat[0], Math.abs(b[2] - a[2]) / tegelMaat[1]);
-  t.needsUpdate = true;
-  texturen.push(t);
-  blok(g, a, b, new MeshStandardMaterial({ map: t, roughness: 0.95, metalness: 0 }));
+function bestrating(g: Group, materiaal: Material, a: V3, b: V3, tegelMaat: [number, number]) {
+  const mesh = blok(g, a, b, materiaal);
+  herhaalUv(mesh.geometry, Math.abs(b[0] - a[0]) / tegelMaat[0], Math.abs(b[2] - a[2]) / tegelMaat[1]);
+}
+
+/**
+ * Voegt alle losse, statische maquette-meshes in `groep` met hetzelfde materiaal samen tot één mesh
+ * (zelfde vertexposities, normalen en UV's, alleen in groepscoördinaten). Scheelt per frame honderden
+ * draw calls, in de hoofdpass én in elke schaduwpass. Alleen voor onderdelen die niet los bewegen,
+ * oplichten of verdwijnen: niets in Interieur of Maquette_grond wordt los geanimeerd. Doorzichtige
+ * materialen (glas) blijven los, zodat three.js ze per stuk op diepte blijft sorteren.
+ */
+function voegSamen(groep: Group) {
+  const perMateriaal = new Map<Material, Mesh[]>();
+  for (const kind of groep.children) {
+    const mesh = kind as Mesh;
+    if (!mesh.isMesh || Array.isArray(mesh.material) || mesh.material.transparent || mesh.children.length) continue;
+    const lijst = perMateriaal.get(mesh.material) ?? [];
+    lijst.push(mesh);
+    perMateriaal.set(mesh.material, lijst);
+  }
+  for (const [materiaal, meshes] of perMateriaal) {
+    if (meshes.length < 2) continue;
+    // RoundedBoxGeometry is niet-geïndexeerd, Box/Cylinder/Sphere wel: bij een mix alles niet-geïndexeerd
+    // maken (dezelfde driehoeken, alleen zonder gedeelde vertices), anders weigert mergeGeometries.
+    const gemengd = meshes.some(m => m.geometry.index === null);
+    const delen = meshes.map(m => {
+      m.updateMatrix();
+      const geo = gemengd && m.geometry.index !== null ? m.geometry.toNonIndexed() : m.geometry.clone();
+      return geo.applyMatrix4(m.matrix);
+    });
+    const samen = mergeGeometries(delen, false);
+    for (const d of delen) d.dispose();
+    if (!samen) continue; // onverenigbare geometrie: dan blijven de losse meshes gewoon staan
+    for (const m of meshes) { m.geometry.dispose(); m.removeFromParent(); }
+    groep.add(eigen(new Mesh(samen, materiaal)));
+  }
 }
 
 // Grondblok (zoals een architectuurmaquette) onder de woning én de buurwoning, afgesneden op
@@ -170,10 +213,13 @@ function bouwGrond(g: Group, mat: Materialen, deuren: Strook[], texturen: Textur
   }
   const klinkers = klinkerTextuur(), tegels = bestratingTextuur();
   texturen.push(klinkers, tegels);
+  // Eén gedeeld materiaal per bestratingsoort; de herhaling per strook zit in de UV's (herhaalUv).
+  const klinkerMat = new MeshStandardMaterial({ map: klinkers, roughness: 0.95, metalness: 0 });
+  const tegelMat = new MeshStandardMaterial({ map: tegels, roughness: 0.95, metalness: 0 });
   const onder = M.maaiveld - 0.02, boven = M.maaiveld + 0.015, stoep = zv - 1.2;
-  bestrating(g, klinkers, [xl, onder, stoep], [M.open, boven, zv], [3.2, 3.2], texturen);
-  for (const d of deuren) bestrating(g, klinkers, [d.x0 - 0.1, onder, M.gevelVoor], [d.x1 + 0.1, boven, stoep], [3.2, 3.2], texturen);
-  bestrating(g, tegels, [M.gevelLinks, onder, M.gevelAchter - 1.4], [M.open, boven, M.gevelAchter], [12.8, 3.2], texturen);
+  bestrating(g, klinkerMat, [xl, onder, stoep], [M.open, boven, zv], [3.2, 3.2]);
+  for (const d of deuren) bestrating(g, klinkerMat, [d.x0 - 0.1, onder, M.gevelVoor], [d.x1 + 0.1, boven, stoep], [3.2, 3.2]);
+  bestrating(g, tegelMat, [M.gevelLinks, onder, M.gevelAchter - 1.4], [M.open, boven, M.gevelAchter], [12.8, 3.2]);
 
   // Funderingsbalken onder voor-, achter- en linkergevel; de kruipruimte ertussen, met een zandbodem.
   const eind = M.open - 0.002;
@@ -351,11 +397,15 @@ export function maakCutaway(scene: Object3D) {
   const lokaal = (o: Object3D) => { const b = new Box3().setFromObject(o); b.min.divide(scene.scale); b.max.divide(scene.scale); return b; };
 
   // Warmtepomp op de vrije strook van de achtergevel (tussen het grote raam en de achterdeur,
-  // waar de thuisbatterij stond). De thuisbatterij gaat naar binnen, in de trapkast.
+  // waar de thuisbatterij stond). De thuisbatterij gaat naar binnen, in de trapkast. Een
+  // kwartslag zodat de lange zijde tegen de gevel staat (zoals een echte buitenunit).
   const pomp = scene.getObjectByName("Warmtepomp_DeWarmte");
   const batterij = scene.getObjectByName("Thuisbatterij");
   if (pomp && batterij) {
-    const vrij = lokaal(batterij), p = lokaal(pomp);
+    const vrij = lokaal(batterij);
+    pomp.rotation.y += Math.PI / 2;
+    scene.updateMatrixWorld(true);
+    const p = lokaal(pomp);
     pomp.position.x += (vrij.min.x + vrij.max.x) / 2 - (p.min.x + p.max.x) / 2;
     pomp.position.z += M.gevelAchter - 0.06 - p.max.z;
     batterij.rotation.y -= Math.PI / 2;
@@ -402,15 +452,18 @@ export function maakCutaway(scene: Object3D) {
       for (const [x0, x1] of stukken) gordingen.push({ x0, x1, z, y, breed, hoog });
     }
   }
-  // Wandtegels met een vaste tegelmaat (15 cm), ongeacht de grootte van het vlak.
+  // Wandtegels met een vaste tegelmaat (15 cm), ongeacht de grootte van het vlak. Eén gedeeld
+  // materiaal (textuur zonder eigen herhaling); de herhaling per wand zit in de UV's (herhaalUv).
+  const wandTegel = texturen.tegel.clone();
+  wandTegel.repeat.set(1, 1);
+  wandTegel.needsUpdate = true;
+  extra.push(wandTegel);
+  const wandTegelMat = new MeshStandardMaterial({ map: wandTegel, roughness: 0.35, metalness: 0 });
   const tegels = (grens: Group) => (a: V3, b: V3) => {
     const d = [Math.abs(b[0] - a[0]), Math.abs(b[1] - a[1]), Math.abs(b[2] - a[2])];
     const dun = d.indexOf(Math.min(...d));
-    const t = texturen.tegel.clone();
-    t.repeat.set((dun === 0 ? d[2] : d[0]) / 0.6, (dun === 1 ? d[2] : d[1]) / 0.6);
-    t.needsUpdate = true;
-    extra.push(t);
-    blok(grens, a, b, new MeshStandardMaterial({ map: t, roughness: 0.35, metalness: 0 }));
+    const mesh = blok(grens, a, b, wandTegelMat);
+    herhaalUv(mesh.geometry, (dun === 0 ? d[2] : d[0]) / 0.6, (dun === 1 ? d[2] : d[1]) / 0.6);
   };
   const deuren = [scene.getObjectByName("Voordeur"), ...scene.getObjectsByProperty("name", "buur_Voordeur")]
     .filter((d): d is Object3D => !!d).map(d => { const b = lokaal(d); return { x0: b.min.x, x1: b.max.x }; });
@@ -481,6 +534,9 @@ export function maakCutaway(scene: Object3D) {
   const interieur = new Group(); interieur.name = "Interieur";
   bouwGrond(grond, mat, deuren, extra);
   bouwInterieur(interieur, mat, radiatoren, vensterbanken, gordingen, tegels(interieur));
+  // Statische maquette: per materiaal één mesh (de kopgevel en alle modelonderdelen blijven los).
+  voegSamen(grond);
+  voegSamen(interieur);
   scene.add(grond, interieur);
   return { texturen: [...(Object.values(texturen) as Texture[]), ...extra], kopgevel, kopMaterialen };
 }

@@ -20,5 +20,23 @@ export default function nextConfig(phase: string): NextConfig {
         { source: "/maatregelen/spouwisolatie", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
       ];
     },
+    async headers() {
+      // Bewust geen Content-Security-Policy hier: de site laadt scripts/beelden
+      // van meerdere externe bronnen (Google Places/Street View, Supabase,
+      // Resend, PDOK/BAG/EP-Online via de server, lettertypen) en een te
+      // strenge CSP zou Next.js/Three.js of die koppelingen kunnen breken
+      // zonder eerst een volledige inventarisatie van alle bronnen.
+      return [
+        {
+          source: "/:path*",
+          headers: [
+            { key: "X-Content-Type-Options", value: "nosniff" },
+            { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+            { key: "X-Frame-Options", value: "SAMEORIGIN" },
+            { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+          ],
+        },
+      ];
+    },
   };
 }

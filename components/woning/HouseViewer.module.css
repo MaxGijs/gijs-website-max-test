@@ -1,4 +1,5 @@
 .viewer { min-width:0; border-radius:28px; background:#f4f6f5; padding:16px; color:var(--green-900); }
+.illustratiefBadge { position:absolute; z-index:2; top:12px; right:12px; padding:7px 14px; border-radius:999px; background:rgba(19,62,53,.88); color:#fff; font-size:12px; font-weight:700; letter-spacing:.01em; pointer-events:none; }
 .crewButton { position:absolute; z-index:2; top:12px; left:12px; border:1px solid rgba(19,62,53,.08); padding:9px 16px; border-radius:999px; background:rgba(255,255,255,.8); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); font-weight:600; color:var(--green-900); cursor:pointer; font-size:14px; }
 /* Rustig, licht neutraal vlak achter de woning met een zeer subtiel grid —
    geeft de 3D-woning "grond" zonder futuristisch/gaming aan te voelen. Het

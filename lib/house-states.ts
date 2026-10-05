@@ -1,4 +1,4 @@
-// Gedeelde "lagen" van het ene Gijs-woningmodel (public/models/*.glb), zodat
+// Gedeelde "lagen" van het ene Gijs-woningmodel (public/models/woning/*.glb), zodat
 // landingspagina, woningscan en later configurator en woningplan over
 // dezelfde onderdelen praten in plaats van elk hun eigen naamlogica.
 // Een laag koppelt een begrijpelijke naam aan objectnamen in het model.

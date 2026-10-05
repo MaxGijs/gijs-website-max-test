@@ -1,9 +1,9 @@
 export type HouseType = "hoekwoning" | "vrijstaand" | "tussenwoning" | "twee-onder-een-kap";
 export const HOUSE_MODELS: Record<HouseType, { label: string; url: string }> = {
-  hoekwoning: { label: "Hoekwoning", url: "/models/gijs-hoekwoning.glb" },
-  tussenwoning: { label: "Tussenwoning", url: "/models/gijs-hoekwoning.glb" },
-  "twee-onder-een-kap": { label: "Twee-onder-een-kap", url: "/models/gijs-vrijstaandewoning.glb" },
-  vrijstaand: { label: "Vrijstaande woning", url: "/models/gijs-vrijstaandewoning.glb" },
+  hoekwoning: { label: "Hoekwoning", url: "/models/woning/gijs-hoekwoning.glb" },
+  tussenwoning: { label: "Tussenwoning", url: "/models/woning/gijs-hoekwoning.glb" },
+  "twee-onder-een-kap": { label: "Twee-onder-een-kap", url: "/models/woning/gijs-vrijstaandewoning.glb" },
+  vrijstaand: { label: "Vrijstaande woning", url: "/models/woning/gijs-vrijstaandewoning.glb" },
 };
 export function parseHouseType(value: unknown): HouseType | undefined {
   return typeof value === "string" && Object.hasOwn(HOUSE_MODELS,value) ? value as HouseType : undefined;

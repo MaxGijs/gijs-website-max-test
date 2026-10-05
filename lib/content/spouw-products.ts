@@ -9,9 +9,9 @@
 // beschrijvende alt-tekst per productfoto (geen keyword stuffing).
 export const SPOUW_PRODUCTS = [
   {
-    name: "HR EcoWool",
-    image: "/productbladen/spouwmuurisolatie-hr-ecowool.png",
-    alt: "HR EcoWool glaswolvlokken voor spouwmuurisolatie",
+    name: "Glaswolvlokken",
+    image: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-hr-ecowool.png",
+    alt: "Glaswolvlokken voor spouwmuurisolatie",
     // In de praktijk de meest gebruikte toepassing voor het na-isoleren
     // van een ongeïsoleerde spouw — daarom als eerste genoemd, met een
     // licht getinte kaart en een subtiel label, zonder dit als
@@ -27,9 +27,9 @@ export const SPOUW_PRODUCTS = [
     ],
   },
   {
-    name: "HR EcoPearl",
-    image: "/productbladen/spouwmuurisolatie-hr-ecopearl.png",
-    alt: "HR EcoPearl isolatieparels voor de spouw",
+    name: "EPS-isolatieparels",
+    image: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-hr-ecopearl.png",
+    alt: "EPS-isolatieparels voor de spouw",
     highlight: false,
     text: "Donkergrijze EPS-isolatieparels met grafiet, die tijdens het inblazen met een bindmiddel worden verlijmd tot een stabiele isolatielaag.",
     benefits: [
@@ -39,9 +39,9 @@ export const SPOUW_PRODUCTS = [
     ],
   },
   {
-    name: "HR IsoFoam",
-    image: "/productbladen/spouwmuurisolatie-hr-isofoam.png",
-    alt: "HR IsoFoam isolatieschuim voor spouwmuurisolatie",
+    name: "PUR-isolatieschuim",
+    image: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-hr-isofoam.png",
+    alt: "PUR-isolatieschuim voor spouwmuurisolatie",
     highlight: false,
     text: "Opencellig PUR-isolatieschuim dat via kleine vulopeningen in de spouw wordt aangebracht en daar expandeert.",
     benefits: [

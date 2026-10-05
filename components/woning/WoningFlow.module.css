@@ -1,18 +1,11 @@
 .flow { color:var(--green-900); max-width:1200px; margin:auto; padding:40px 24px 72px; background:var(--white); }
 .intro { max-width:640px; margin-bottom:8px; }
-.intro h1 { font-size:clamp(26px,3vw,40px); line-height:1.2; font-weight:700; margin:8px 0 12px; }
 .flow h1,.flow h2,.flow h3 { color:var(--green-900); }
 .heading { font-size:clamp(25px,2.8vw,34px); font-weight:700; line-height:1.2; margin:8px 0 32px; scroll-margin-top:140px; }
 .grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:48px; align-items:start; }
 @media(min-width:768px) { .grid > :first-child { position:sticky; top:128px; } }
 .panel { min-width:0; max-width:560px; }
 .panel p { line-height:1.6; }
-.options { display:flex; flex-direction:column; gap:10px; margin:20px 0; }
-.option { display:flex; align-items:start; gap:14px; padding:16px; border:1px solid var(--border-default); border-radius:14px; cursor:pointer; background:var(--white); }
-.option:has(input:checked) { border-color:var(--accent-600); background:var(--surface-tint); }
-.option input { width:22px; height:22px; margin-top:3px; flex-shrink:0; accent-color:var(--accent-600); }
-.option strong { display:block; font-size:18px; }
-.option small { display:block; font-size:14px; line-height:1.5; margin-top:5px; }
 .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:32px; }
 .button { border:1px solid var(--border-default); border-radius:30px; min-height:48px; padding:12px 22px; cursor:pointer; background:white; color:var(--green-900); font-weight:600; text-decoration:none; }
 .primary { background:var(--green-800); color:white; border-color:var(--green-800); }
@@ -22,14 +15,9 @@
 .note { margin-top:16px; font-size:15px; line-height:1.55; color:var(--grey-800); }
 .flow button:focus-visible,.flow a:focus-visible,.flow input:focus-visible { outline:3px solid var(--accent-600); outline-offset:3px; }
 @media(max-width:767px) { .flow { padding:28px 16px 56px; } .grid { grid-template-columns:1fr; gap:32px; } .panel { max-width:none; } .heading { scroll-margin-top:108px; } }
-.measureGroup { margin:32px 0 0; padding:0; border:0; }
-.measureGroup legend { font-size:23px; font-weight:700; }
 .measureGroup .note { margin-top:6px; }
-.measureGroup .options { margin-top:14px; }
-.planGrid{grid-template-columns:1fr;max-width:640px;margin:auto}.planGrid>:first-child{position:static}
 .textButton{display:block;text-decoration:underline;font-weight:600;cursor:pointer;padding:12px 0}
-.editHouse,.planMeasure{padding:18px 20px;background:var(--white);border:1px solid var(--border-default);border-radius:14px;margin:20px 0}
-.editHouse summary,.planMeasure summary,.planViewer>summary{cursor:pointer;font-weight:600}.planMeasure p{margin-top:12px}.planViewer{padding:18px;border:1px solid var(--border-default);border-radius:20px}.planViewer[open]>summary{margin-bottom:20px}
+.editHouse summary,.planMeasure summary,.planViewer>summary{cursor:pointer;font-weight:600}.planViewer{padding:18px;border:1px solid var(--border-default);border-radius:20px}.planViewer[open]>summary{margin-bottom:20px}
 .wishes{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 24px}
 .wishes label{display:flex;align-items:center;gap:8px;border:1px solid var(--border-default);padding:10px 14px;border-radius:24px;cursor:pointer;background:var(--white)}
 .wishes input{accent-color:var(--accent-600)}
@@ -54,8 +42,8 @@
 
 /* ── Klantreis-stappen (65/70+: grote tekst, één hoofdvraag, duidelijke vervolgstap) ── */
 .stapTeller{font-size:16px;font-weight:600;color:var(--grey-800);margin:0}
-.stapVraag{font-size:23px;font-weight:700;line-height:1.3;margin:0 0 8px}
 .uitleg{font-size:17px;line-height:1.6;color:var(--grey-800);margin:0 0 12px}
+.bagNoot{font-size:14px;line-height:1.5;color:var(--grey-800);background:var(--grey-100);border-radius:10px;padding:10px 14px;margin:0 0 14px}
 .vraagGroep{margin:8px 0 24px;padding:0;border:0}
 .vraagGroep legend{font-size:21px;font-weight:700;margin-bottom:6px;color:var(--green-900)}
 .keuzeLijst{display:grid;gap:12px;margin:12px 0}
@@ -69,27 +57,63 @@
 .optioneel{margin:24px 0 8px;padding:16px 18px;border:1px solid var(--border-default);border-radius:14px;background:var(--white)}
 .optioneel>summary{cursor:pointer;font-size:17px;font-weight:600;min-height:32px}
 .optioneel[open]>summary{margin-bottom:8px}
-/* Maatregelkaart: MAATREGELNAAM, creatieve titel, korte uitleg. */
-.maatregelNaam{display:block;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--accent-700)}
-.maatregelTitel{display:block;font-size:19px;font-weight:700;line-height:1.3;margin-top:4px;color:var(--green-900)}
-.resultaatLijst{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:14px}
-.resultaatKaart{padding:18px 20px;border:1px solid var(--border-default);border-radius:14px;background:var(--white)}
-.resultaatKaart p{margin-top:10px;font-size:16px}
-.resultaatKaart .subsidie{padding:10px 14px;border-radius:12px;background:var(--surface-tint);color:var(--green-900)}
-.meerLink{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:8px;font-weight:700;color:var(--green-800);text-decoration:underline}
-/* Woningplan: overzicht met gerichte "Wijzigen" per onderdeel. */
-.planBlok{padding:18px 20px;border:1px solid var(--border-default);border-radius:14px;background:var(--white);margin:16px 0}
-.planBlokKop{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
-.planBlokKop h3{font-size:20px;font-weight:700;margin:0}
-.planBlok p{font-size:17px;margin:0}
-.wijzigKnop{min-height:44px;padding:8px 14px;border:2px solid var(--green-800);border-radius:999px;background:var(--white);color:var(--green-800);font-size:15px;font-weight:700;cursor:pointer}
-.wijzigKnop:hover{background:var(--surface-tint)}
-.planLijst{margin:0;display:grid;gap:8px}
-.planLijst>div{display:grid;grid-template-columns:minmax(120px,160px) 1fr;gap:12px;font-size:17px}
-.planLijst dt{font-weight:600;color:var(--grey-800)}
-.planLijst dd{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
 @media(max-width:480px){.planLijst>div{grid-template-columns:1fr;gap:2px}}
-.resultaatKaart .wijziging{font-size:14px;color:var(--text-muted)}
-.bekijktGijs{margin-top:10px;font-size:15px}
-.bekijktGijs summary{cursor:pointer;font-weight:600;color:var(--accent-700);padding:6px 0}
-.bekijktGijs p{margin-top:6px;font-size:15px;line-height:1.55;color:var(--text-muted)}
+.sectie{margin-top:48px}
+.sectie:first-of-type{margin-top:24px}
+.sectieKop{font-size:23px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;margin:0 0 8px;color:var(--gijs-donkergroen)}
+.optioneelLabel{font-size:14px;font-weight:600;color:var(--text-subtle);letter-spacing:0;margin-left:6px}
+.veldRaster{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px 16px;margin-top:18px}
+.chipRaster{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:14px}
+.chipRaster :global(.gijs-check){align-items:center;min-height:52px}
+.bron{margin-top:18px;padding:16px 18px;border-radius:18px;background:var(--grey-050);font-size:14px;line-height:1.55;color:var(--text-muted)}
+.bron summary{cursor:pointer;font-weight:600;color:var(--accent-700);font-size:15px}
+.bron ul{list-style:disc;padding-left:20px;margin:12px 0;display:grid;gap:6px}
+.bron a{color:var(--accent-700);text-decoration:underline}
+.bron :global(.gijs-field-wrap){margin:12px 0}
+.kosten{margin-top:18px!important;font-size:clamp(30px,3.5vw,40px);font-weight:700;letter-spacing:-0.03em;color:var(--gijs-donkergroen);line-height:1.1}
+.kosten span{font-size:17px;font-weight:600;color:var(--text-muted);letter-spacing:0}
+
+/* Stap 3 "Jouw woningplan": samenvatting rechts (op mobiel bovenaan), keuzes en aanvraag links. */
+.plan{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"hoofd zij";gap:48px;align-items:start}
+.planHoofd{grid-area:hoofd;min-width:0;max-width:640px}
+.planZij{grid-area:zij;display:grid;gap:16px;position:sticky;top:96px}
+.samenvatting{padding:20px 22px;border-radius:24px;background:var(--grey-050)}
+.samenvattingKop{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.samenvattingKop h3{font-size:17px;font-weight:700;letter-spacing:-0.01em;margin:0}
+.tekstLink{background:none;border:0;padding:6px 0;min-height:32px;font-size:14px;font-weight:600;color:var(--accent-700);text-decoration:underline;cursor:pointer}
+.kerncijfers{display:flex;flex-wrap:wrap;gap:6px 20px;margin:10px 0 0}
+.kerncijfers div{display:flex;gap:6px;font-size:15px}
+.kerncijfers dt{color:var(--text-muted)}
+.kerncijfers dd{margin:0;font-weight:600}
+.woningLijst{display:grid;gap:8px;margin:10px 0 0;font-size:15px}
+.woningLijst div{display:grid;grid-template-columns:96px 1fr;gap:8px}
+.woningLijst dt{color:var(--text-muted)}
+.woningLijst dd{margin:0}
+.kleineNoot{margin-top:10px;font-size:13px;line-height:1.5;color:var(--text-muted)}
+.planTitel{font-size:23px;font-weight:700;letter-spacing:-0.02em;margin:0 0 6px}
+.keuzeGroep{margin-top:22px}
+.keuzeGroep h4{font-size:14px;font-weight:600;color:var(--text-muted);margin:0 0 8px}
+.keuzeRijen{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.keuzeRijen + .keuzeRijen,.keuzeGroep + .keuzeRijen{margin-top:8px}
+.keuzeRij{position:relative;display:flex;align-items:center;gap:12px}
+.keuzeBeeld{width:112px;height:112px;border-radius:12px;object-fit:cover;flex-shrink:0}
+.keuzeRij :global(.gijs-check){flex:1;align-items:center;min-height:112px;padding-right:112px}
+.keuzeRij :global(.gijs-check__title){font-size:16px}
+.keuzeRij :global(.gijs-check__desc){font-size:13px}
+.infoLink{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:600;color:var(--accent-700);text-decoration:underline}
+.aanvraag{margin-top:48px;padding:28px;border-radius:28px;background:var(--grey-050)}
+.aanvraag .field input{background:#fff}
+.aanvraagVelden{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
+.woningSamenvatting{padding:16px 18px;margin-bottom:16px;border-radius:16px;background:#fff}
+.woningSamenvattingLabel{margin:0 0 4px;font-size:13px;font-weight:600;color:var(--text-muted)}
+.woningSamenvattingAdres{margin:0;font-size:17px;font-weight:700;color:var(--gijs-donkergroen)}
+.woningSamenvattingRij{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:2px;flex-wrap:wrap}
+.woningSamenvattingRij p{margin:0;color:var(--text-muted)}
+.succesPaneel{padding:20px 22px;border-radius:16px;background:var(--accent-050);border:1px solid var(--accent-200)}
+.succesPaneel p{margin:0;font-size:16px;font-weight:600;color:var(--gijs-donkergroen)}
+.directContact{margin-top:24px;padding-top:20px;border-top:1px solid var(--border-default);display:flex;flex-direction:column;gap:6px}
+.directContactLabel{margin:0;font-size:15px;color:var(--text-muted)}
+.directContactBel{font-size:22px;font-weight:700;color:var(--gijs-donkergroen);text-decoration:none}
+.directContactBel:hover{text-decoration:underline}
+.whatsappLink{font-size:15px;font-weight:600;color:var(--accent-700);text-decoration:underline;width:fit-content}
+@media(max-width:900px){.plan{grid-template-columns:1fr;grid-template-areas:"zij" "hoofd";gap:28px}.planZij{position:static}.planHoofd{max-width:none}.aanvraag{padding:22px}}

@@ -12,10 +12,10 @@
 /* Zijwaarts openende submenu's (desktop "Verduurzamen"-dropdown, zoals
    de navigatie oorspronkelijk was): "Maatregelen" opent Isolatie/
    Installaties, elk daarvan opent op hover de losse maatregelitems. */
-.flyoutTrigger { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 14px; font-weight: 600; color: var(--gijs-donkergroen); text-decoration: none; padding: 9px 16px; cursor: pointer; background: transparent; border: 0; text-align: left; }
+.flyoutTrigger { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 14px; font-weight: 600; color: var(--gijs-donkergroen); text-decoration: none; padding: 9px 16px; cursor: pointer; background: transparent; border: 0; border-radius: var(--radius-sm); text-align: left; }
 .flyoutTrigger:focus-visible, .megaLink:focus-visible, .dropdownButton:focus-visible { outline: 3px solid var(--accent-500); outline-offset: 2px; }
 .flyoutTrigger:hover { background: var(--accent-050); color: var(--accent-700); }
-.flyoutPanel { position: absolute; left: 100%; top: -9px; min-width: 210px; background: white; border-radius: var(--radius-card); border: 1px solid var(--grey-200); box-shadow: var(--shadow-2); padding: 8px; z-index: 60; }
+.flyoutPanel { position: absolute; left: calc(100% + 6px); top: 0; min-width: 210px; background: white; border-radius: var(--radius-card); border: 1px solid var(--grey-200); box-shadow: var(--shadow-2); padding: 8px; z-index: 60; }
 .megaLink { display: block; font-size: 14px; font-weight: 500; color: var(--gijs-donkergroen); text-decoration: none; padding: 7px 8px; border-radius: 8px; }
 .megaLink:hover { background: var(--accent-050); color: var(--accent-700); }
 

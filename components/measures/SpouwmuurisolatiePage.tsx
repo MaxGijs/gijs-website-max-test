@@ -12,6 +12,8 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
+import { FeatureList } from "@/components/measures/FeatureList";
+import { StatRow } from "@/components/measures/StatRow";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -56,12 +58,12 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // stap-4-spouwisolatie.svg) zijn verwijderd. Titels ongewijzigd
 // overgenomen: stap 3 heet nog steeds "Boorgaten maken".
 const UITVOERING_STAPPEN = [
-  { bestand: "spouwmuurisolatie-stap-1.svg", label: "Aankomst" },
-  { bestand: "spouwmuurisolatie-stap-2.svg", label: "Uitleg" },
-  { bestand: "spouwmuurisolatie-stap-3.svg", label: "Boorgaten maken" },
-  { bestand: "spouwmuurisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
-  { bestand: "spouwmuurisolatie-stap-5.svg", label: "Controle" },
-  { bestand: "spouwmuurisolatie-stap-6.svg", label: "Oplevering" },
+  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-1.svg", label: "Aankomst" },
+  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-2.svg", label: "Uitleg" },
+  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-3.svg", label: "Boorgaten maken" },
+  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
+  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-5.svg", label: "Controle" },
+  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-6.svg", label: "Oplevering" },
 ];
 
 // Aanvullende voorwaarden — pagina 2, identiek in alle drie productbladen.
@@ -85,7 +87,7 @@ const VOORWAARDEN_RECHTS = [
 // een voordeel dat dak- en vloerisolatie niet delen.
 const VOORDELEN = [
   { icon: "thermometer", title: "Meer wooncomfort", text: "Een gelijkmatigere temperatuur in huis en minder koude buitenmuren." },
-  { icon: "volume-2", title: "Minder geluid van buiten", text: "HR EcoWool isoleert niet alleen thermisch, maar ook akoestisch." },
+  { icon: "volume-2", title: "Minder geluid van buiten", text: "Glaswolvlokken isoleren niet alleen thermisch, maar ook akoestisch." },
   { icon: "wind", title: "Minder warmteverlies", text: "Je woning verliest minder warmte via de buitenmuren." },
 ];
 
@@ -143,7 +145,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
         intro="Spouwmuurisolatie maakt je woning comfortabeler en energiezuiniger door de spouw te vullen met isolatiemateriaal. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/spouwmuurisolatie-aanbrengen-gijs.png"
+        image="/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png"
         imageAlt="Spouwmuurisolatie wordt via een boorgat in de gevel aangebracht"
         imageCaption="Isolatiemateriaal wordt via een boorgat aangebracht"
       />
@@ -165,8 +167,8 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
           </p>
           <p className="text-zinc-600">
             De ruimte tussen de binnenmuur en de buitenmuur van je woning heet de spouw. Via kleine vulopeningen
-            in de buitengevel wordt die ruimte gevuld met isolatiemateriaal. Gijs werkt hiervoor met HR EcoWool,
-            HR EcoPearl en HR IsoFoam.
+            in de buitengevel wordt die ruimte gevuld met isolatiemateriaal. Gijs werkt hiervoor met glaswolvlokken,
+            EPS-isolatieparels en PUR-isolatieschuim.
           </p>
           <p className="text-zinc-600">
             Niet elk materiaal past bij elke spouw: dat hangt af van de spouw en de staat van je gevel. Daar hoef je
@@ -179,7 +181,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
               de opdrachtgever heeft alleen de hoekafronding van de
               labels/badges aangepast (uitlegvisuals.zip). */}
           <Image
-            src="/productbladen/spouwmuurisolatie-uitlegvisual.svg"
+            src="/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-uitlegvisual.svg"
             alt="Uitleg van binnenmuur, isolatiemateriaal, boorgat en buitenmuur bij spouwmuurisolatie"
             width={4753}
             height={2522}
@@ -213,17 +215,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
 
       <section id="voordelen" className="scroll-mt-40 mb-14">
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {VOORDELEN.map(voordeel => (
-            <Card key={voordeel.title} className="flex flex-col gap-5 !p-8">
-              <span className="w-16 h-16 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                <Icon name={voordeel.icon} size="xl" />
-              </span>
-              <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)]">{voordeel.title}</h3>
-              <p className="text-zinc-600 leading-relaxed">{voordeel.text}</p>
-            </Card>
-          ))}
-        </div>
+        <FeatureList columns={3} items={VOORDELEN} />
       </section>
 
       <section id="hoe-werkt-het" className="scroll-mt-40 mb-14">
@@ -303,23 +295,15 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
           geldt ook als je een isolatiemaatregel combineert met de installatie van een warmtepomp. Gijs vraagt
           hiervoor subsidie aan binnen 24 maanden nadat je de eerste maatregel uitvoert.
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-4xl mb-6">
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Bedrag wat je kunt ontvangen</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 40 – € 1.615</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Per m² met 1 maatregel</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 5,25</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Per m² met 2 maatregelen</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 10,50</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Aantal m² met subsidie</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">10 t/m 170 m²</span>
-          </Card>
+        <div className="mb-8">
+          <StatRow
+            items={[
+              { label: "Bedrag wat je kunt ontvangen", value: "€ 40 – € 1.615" },
+              { label: "Per m² met 1 maatregel", value: "€ 5,25" },
+              { label: "Per m² met 2 maatregelen", value: "€ 10,50" },
+              { label: "Aantal m² met subsidie", value: "10 t/m 170 m²" },
+            ]}
+          />
         </div>
         <p className="text-sm text-zinc-500 max-w-2xl">
           Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Onze dienstverlening beperkt zich
@@ -364,7 +348,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past spouwmuurisolatie bij jouw woning?</h2>

@@ -1,5 +1,5 @@
 // Officiële gemeentegrenzen van Overijssel, uit het aangeleverde bestand
-// public/productbladen/overijssel51.svg (kaart van d-maps.com, © d-maps.com —
+// public/images/regio/overijssel51.svg (kaart van d-maps.com, © d-maps.com —
 // zie de toelichting in het eindverslag over het gebruik/attributie van deze
 // bron). ViewBox van de brondata: 0 0 29700 21000 (afmeting van het A0-vel).
 //

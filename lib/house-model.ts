@@ -2,13 +2,19 @@ import { Box3, Group, Mesh, MeshStandardMaterial, Object3D, Vector3, type Materi
 import { baseHouseType, HOUSE_PROPORTIONS, type HouseType } from "./woning-types";
 import { applyAttachedVariant } from "./house-variants";
 import { updateCornerFacade, openDetachedWindows } from "./house-facades";
-import { updateDetachedFacade, distinguishDoors, addDormerPanels, finishDetachedHouse, addPlasticProfiles } from "./house-details";
+import { updateDetachedFacade, distinguishDoors, addDormerPanels, finishDetachedHouse, addPlasticProfiles, openPlintBijDeuren, addGevelbekleding, addLuifel, addAanbouw } from "./house-details";
 
 // Work on an independent clone: neither animations nor highlights may mutate the loader cache.
-export function prepareHouse(source: Group, type: HouseType, scan = false) {
+export function prepareHouse(source: Group, type: HouseType, scan = false, hoekZijde?: "Links" | "Rechts") {
   const requestedType=type;
   type=baseHouseType(type);
   const scene = source.clone(true);
+  // Rijwoningen (hoek- en tussenwoning) krijgen Nederlandse materialen en details naar referentiefoto's.
+  scene.userData.nlRij = type === "hoekwoning";
+  // Vrijstaand en twee-onder-een-kap: eigen stijl naar de referentiefoto's (zandkleurige steen, houten topgevel).
+  scene.userData.nlVrij = type === "vrijstaand";
+  // Elk woningtype een eigen uitstraling naar de referentiefoto's (zie STIJLEN in house-realism.ts).
+  scene.userData.stijl = requestedType;
   scene.traverse(object => {
     if ((object as Mesh).isMesh) {
       const mesh = object as Mesh;
@@ -30,7 +36,7 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
 
   // Thuisbatterij: Gijs plaatst de Sigenergy SigenStor. Die is wit met
   // lichtgrijze onderkant en een klein donker display (zie
-  // public/productbladen/thuisbatterij-sigenstor.png). Het GLB-model had een
+  // public/images/maatregelen/thuisbatterij/thuisbatterij-sigenstor.png). Het GLB-model had een
   // zwarte kast met een groene strip; hier gecorrigeerd voor homepage én scan.
   scene.getObjectByName("Thuisbatterij")?.traverse(part => {
     const mesh = part as Mesh;
@@ -55,11 +61,23 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
     dormer.scale.multiply(factor);
     dormer.position.add(pivot.clone().multiply(new Vector3(1, 1, 1).sub(factor)));
     dormer.position.y += 0.35;
+    // Rijwoningen hebben in het GLB maar één dakkapel; voor "2 dakkapellen" in de
+    // scan komt er een tweede, identieke kopie naast de eerste (alleen in de scan,
+    // dus alleen als de bewoner dat kan kiezen). Vrijstaande woningen hebben al
+    // een voor- en achterdakkapel (zie finishDetachedHouse) en hoeven dit niet.
+    if (scan && type === "hoekwoning") {
+      const tweede = dormer.clone(true);
+      tweede.name = "Dakkapel_2";
+      tweede.traverse(part => { if ((part as Mesh).isMesh) { const mesh = part as Mesh; mesh.material = Array.isArray(mesh.material) ? mesh.material.map(m => m.clone()) : mesh.material.clone(); } });
+      scene.add(tweede);
+    }
   }
 
   if (type === "hoekwoning") {
     updateCornerFacade(scene);
     distinguishDoors(scene,type);
+    openPlintBijDeuren(scene);
+    if (requestedType === "tussenwoning") addLuifel(scene);
     // Keep the outdoor unit visible beside the free side facade in the story's fixed camera.
     const heatPump = scene.getObjectByName("Warmtepomp_DeWarmte");
     if (heatPump) heatPump.position.z = 1.7;
@@ -78,9 +96,23 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
       const neighbourBody = neighbour.getObjectByName("buur_romp");
       const width = 5.28;
       const centre = -width;
-      if (neighbourBody) { neighbourBody.scale.x = width / 4.2; neighbourBody.position.x = centre; }
+      if (neighbourBody) {
+        neighbourBody.scale.x = width / 4.2; neighbourBody.position.x = centre;
+        // De muren van de buurwoning stopten 44 cm onder het dakvlak (zichtbare wig lucht onder het dak).
+        // Trek de bovenkant op tot tegen de onderkant van de dakschilden.
+        const romp = neighbourBody as Mesh;
+        romp.geometry = romp.geometry.clone();
+        romp.geometry.userData.owned = true;
+        const pos = romp.geometry.getAttribute("position");
+        for (let i = 0; i < pos.count; i++) if (pos.getY(i) > 2.6) pos.setY(i, pos.getY(i) + 0.44);
+        pos.needsUpdate = true;
+        romp.geometry.computeVertexNormals();
+        romp.geometry.computeBoundingBox();
+      }
       for (const child of [...neighbour.children]) {
         if (/^buur_(deur|kozijn|glas)/.test(child.name)) neighbour.remove(child);
+        // Naamloze delen zijn de windveren: die horen op de (verbrede) kopgevel, niet midden op het dak.
+        if ((child as Mesh).isMesh && !child.name.startsWith("buur_")) child.position.x = centre - width / 2;
         if (/^buur_(dakschild|goot|nok|plint)/.test(child.name)) {
           child.position.x = centre;
           child.scale.x = child.name === "buur_plint" ? width / 4.2 : width / 4.34;
@@ -90,6 +122,8 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
         if (/^(Raam_(voor|achter)_|Voordeur$|Achterdeur$)/.test(child.name)) {
           const copy = child.clone(true);
           copy.position.x += centre;
+          // De buurwoning is een massief blok zonder gaten: zet de (verzonken) kozijnen weer op de gevel.
+          copy.position.z += Math.sign(copy.position.z) * 0.07;
           copy.name = `buur_${child.name}`;
           neighbour.add(copy);
         }
@@ -122,7 +156,9 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
     }
     updateDetachedFacade(scene);
     distinguishDoors(scene,type);
+    openPlintBijDeuren(scene);
     openDetachedWindows(scene);
+    addGevelbekleding(scene, requestedType === "twee-onder-een-kap" ? ["rechts"] : ["links", "rechts"]);
     finishDetachedHouse(scene);
   }
 
@@ -137,14 +173,30 @@ export function prepareHouse(source: Group, type: HouseType, scan = false) {
     left.geometry = (source.getObjectByName("Buitengevel_rechts") as Mesh).geometry;
     left.material = Array.isArray(right.material) ? right.material.map(m => m.clone()) : right.material.clone();
     scene.add(left);
+    // De bouwmuur deelde zijn buitenvlak met deze gekloonde gevel, wat flikkerde (z-fighting).
+    // Laat de bouwmuur nu achter de gevel beginnen; de binnenkant blijft op dezelfde plek.
+    const bouwmuur = scene.getObjectByName("Bouwmuur_links");
+    if (bouwmuur) {
+      scene.updateMatrixWorld(true);
+      const huid = new Box3().setFromObject(left), muur = new Box3().setFromObject(bouwmuur);
+      const f = (muur.max.x - huid.max.x - 0.005) / (muur.max.x - muur.min.x);
+      if (f > 0.05 && f < 1) {
+        const p = bouwmuur.position.x;
+        bouwmuur.scale.x *= f;
+        bouwmuur.position.x += muur.max.x - (p + (muur.max.x - p) * f);
+      }
+    }
   }
   if (scan || requestedType==="vrijstaand") for (const child of [...scene.children]) if (child.name.startsWith("Buurwoning")) { disposeHouse(child); scene.remove(child); }
-  applyAttachedVariant(scene,source,requestedType,scan);
+  applyAttachedVariant(scene,source,requestedType,scan,hoekZijde);
+  // Aanbouw is alleen in de scan te kiezen; na de gedeelde muren, zodat die ook bij de aanbouw grijs worden.
+  if (scan) addAanbouw(scene);
   scene.scale.set(...HOUSE_PROPORTIONS[requestedType]);
   scene.updateMatrixWorld(true);
   const bounds = new Box3();
   for (const child of scene.children) {
-    if (!child.name.startsWith("Buurwoning")) bounds.expandByObject(child);
+    // Buurwoningen en de (optionele) aanbouw tellen niet mee, zodat de woning in beeld hetzelfde blijft.
+    if (!/^(Buurwoning|Aanbouw|Fundering_aanbouw)/.test(child.name)) bounds.expandByObject(child);
   }
   const size = bounds.getSize(new Vector3());
   const scale = scan ? 3.3 / Math.max(size.x, size.y, size.z) : 3 / Math.max(12.1, size.x, size.y, size.z);

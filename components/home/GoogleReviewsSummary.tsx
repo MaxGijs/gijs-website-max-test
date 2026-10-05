@@ -30,7 +30,7 @@ export default function GoogleReviewsSummary() {
           <p>{data.rating !== undefined ? <strong>{data.rating.toLocaleString("nl-NL")} uit 5</strong> : "Nog geen beoordeling"}{data.userRatingCount !== undefined && ` · ${data.userRatingCount} reviews`}</p>
           <a href={data.googleMapsUri} target="_blank" rel="noopener noreferrer">Bekijk alle reviews</a>
         </div>
-        <img src="/google-maps-attribution.svg" alt="Google Maps" className={styles.source} />
+        <img src="/images/shared/reviews/google-maps-attribution.svg" alt="Google Maps" className={styles.source} />
         <p className={styles.notice}>Een selectie van maximaal vijf reviews, door Google gerangschikt op relevantie.</p>
         <div className={styles.grid}>{data.reviews?.slice(0, 5).map(review => <article key={review.name} className={styles.review}>
           <div className={styles.author}>

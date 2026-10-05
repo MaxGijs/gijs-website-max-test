@@ -12,6 +12,8 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
+import { FeatureList } from "@/components/measures/FeatureList";
+import { StatRow } from "@/components/measures/StatRow";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -70,12 +72,12 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // aparte notitie onder de stappenrij staan in plaats van stilzwijgend te
 // laten vervallen.
 const UITVOERING_STAPPEN = [
-  { bestand: "vloerisolatie-stap-1.svg", label: "Aankomst" },
-  { bestand: "vloerisolatie-stap-2.svg", label: "Uitleg" },
-  { bestand: "vloerisolatie-stap-3.svg", label: "Voorbereiden" },
-  { bestand: "vloerisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
-  { bestand: "vloerisolatie-stap-5.svg", label: "Controle" },
-  { bestand: "vloerisolatie-stap-6.svg", label: "Oplevering" },
+  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-1.svg", label: "Aankomst" },
+  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-2.svg", label: "Uitleg" },
+  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-3.svg", label: "Voorbereiden" },
+  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
+  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-5.svg", label: "Controle" },
+  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-6.svg", label: "Oplevering" },
 ];
 
 // Aanvullende voorwaarden — pagina 2 van de drie productbladen. De
@@ -126,10 +128,10 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
   // relevant feit dat nergens anders op de pagina naar voren kwam.
   const faqItems: FAQItem[] = [
     { question: "Is mijn kruipruimte geschikt voor vloerisolatie?", answer: "Dat hangt af van de bereikbaarheid, ventilatie en staat van de kruipruimte. Gijs beoordeelt dit tijdens de energiescan. Dit is geen definitief technisch advies vooraf." },
-    { question: "Welke materialen gebruikt Gijs?", answer: "Gijs werkt onder andere met GijsFloor, HR EcoSpray en Icynene. Welk materiaal past, hangt af van de vloer en de kruipruimte." },
-    { question: "Kan vloerisolatie bij een houten vloer?", answer: "Ja, GijsFloor kan bijvoorbeeld worden toegepast onder zowel houten als steenachtige begane grondvloeren." },
-    { question: "Is vloerisolatie stofvrij te verwerken?", answer: "Bij GijsFloor komt tijdens de verwerking geen (fijn)stof vrij en is het materiaal hypoallergeen." },
-    { question: "Is spuitschuim zoals HR EcoSpray veilig?", answer: "Gezondheidsklachten bij spuitschuim ontstaan vrijwel alleen wanneer de twee grondstoffen ter plaatse in de verkeerde verhouding worden gemengd. Onafhankelijk onderzoek laat zien dat de kans op klachten bij correcte verwerking klein is. Daarom wordt geadviseerd om tijdens het spuiten zelf niet in de woning aanwezig te zijn." },
+    { question: "Welke materialen gebruikt Gijs?", answer: "Gijs werkt onder andere met reflecterende folie-isolatie, PUR-schuim en opencellige schuimsprayisolatie. Welk materiaal past, hangt af van de vloer en de kruipruimte." },
+    { question: "Kan vloerisolatie bij een houten vloer?", answer: "Ja, reflecterende folie-isolatie kan bijvoorbeeld worden toegepast onder zowel houten als steenachtige begane grondvloeren." },
+    { question: "Is vloerisolatie stofvrij te verwerken?", answer: "Bij reflecterende folie-isolatie komt tijdens de verwerking geen (fijn)stof vrij en is het materiaal hypoallergeen." },
+    { question: "Is spuitschuim veilig?", answer: "Gezondheidsklachten bij spuitschuim ontstaan vrijwel alleen wanneer de twee grondstoffen ter plaatse in de verkeerde verhouding worden gemengd. Onafhankelijk onderzoek laat zien dat de kans op klachten bij correcte verwerking klein is. Daarom wordt geadviseerd om tijdens het spuiten zelf niet in de woning aanwezig te zijn." },
     { question: item.question, answer: item.answer },
   ];
 
@@ -162,7 +164,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
         intro="Gijs brengt vloerisolatie aan de onderzijde van de begane grondvloer aan, vanuit de kruipruimte. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/hero_vloerisolatie.png"
+        image="/images/maatregelen/vloerisolatie/hero_vloerisolatie.png"
         imageAlt="Vloerisolatie wordt vanuit de kruipruimte tegen de onderzijde van de vloer aangebracht"
         imageCaption="Isolatiemateriaal wordt tegen de onderzijde van de vloer aangebracht"
       />
@@ -184,7 +186,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
           </p>
           <p className="text-zinc-600">
             Het isolatiemateriaal wordt aan de onderkant van de begane grondvloer aangebracht, vanuit de
-            kruipruimte. Gijs werkt hiervoor met GijsFloor, HR EcoSpray en Icynene, die elk op een eigen manier
+            kruipruimte. Gijs werkt hiervoor met folie-isolatie, PUR-schuim en schuimsprayisolatie, die elk op een eigen manier
             worden aangebracht.
           </p>
           <p className="text-zinc-600">
@@ -198,7 +200,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
               de opdrachtgever heeft alleen de hoekafronding van de
               labels/badges aangepast (uitlegvisuals.zip). */}
           <Image
-            src="/productbladen/vloerisolatie-uitlegvisual.svg"
+            src="/images/maatregelen/vloerisolatie/vloerisolatie-uitlegvisual.svg"
             alt="Uitleg van begane grondvloer, vloerisolatie en kruipruimte"
             width={6747}
             height={3188}
@@ -245,16 +247,8 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
 
       <section id="voordelen" className="scroll-mt-40 mb-14">
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
-          {VOORDELEN.map(voordeel => (
-            <Card key={voordeel.title} className="flex flex-col gap-5 !p-8">
-              <span className="w-16 h-16 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                <Icon name={voordeel.icon} size="xl" />
-              </span>
-              <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)]">{voordeel.title}</h3>
-              <p className="text-zinc-600 leading-relaxed">{voordeel.text}</p>
-            </Card>
-          ))}
+        <div className="max-w-2xl">
+          <FeatureList columns={2} items={VOORDELEN} />
         </div>
       </section>
 
@@ -267,7 +261,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
             toelichting (responsive gedrag, aspect-ratio-fix). */}
         <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
         <p className="text-sm text-zinc-500 mt-4 max-w-2xl">
-          Bij spuitschuim-systemen (HR EcoSpray, Icynene) wordt geadviseerd om tijdens de werkzaamheden niet in de
+          Bij spuitschuim-systemen (PUR-schuim en schuimsprayisolatie) wordt geadviseerd om tijdens de werkzaamheden niet in de
           woning aanwezig te zijn.
         </p>
       </section>
@@ -320,7 +314,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
             </ul>
           </Card>
           <Card>
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 mb-3">Aanvullend bij HR EcoSpray en Icynene</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 mb-3">Aanvullend bij PUR-schuim en schuimsprayisolatie</p>
             <ul className="flex flex-col gap-3">
               {VOORWAARDEN_SPUITSYSTEMEN.map(voorwaarde => (
                 <li key={voorwaarde} className="flex items-start gap-3 text-zinc-700">
@@ -340,23 +334,15 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
           geldt ook als je een isolatiemaatregel combineert met de installatie van een warmtepomp. Gijs vraagt
           hiervoor subsidie aan binnen 24 maanden nadat je de eerste maatregel uitvoert.
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-4xl mb-6">
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Bedrag wat je kunt ontvangen</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 110 – € 1.690</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Per m² met 1 maatregel</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 5,50</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Per m² met 2 maatregelen</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 11</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Aantal m² met subsidie</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">20 t/m 130 m²</span>
-          </Card>
+        <div className="mb-8">
+          <StatRow
+            items={[
+              { label: "Bedrag wat je kunt ontvangen", value: "€ 110 – € 1.690" },
+              { label: "Per m² met 1 maatregel", value: "€ 5,50" },
+              { label: "Per m² met 2 maatregelen", value: "€ 11" },
+              { label: "Aantal m² met subsidie", value: "20 t/m 130 m²" },
+            ]}
+          />
         </div>
         <p className="text-sm text-zinc-500 max-w-2xl">
           Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Onze dienstverlening beperkt zich
@@ -401,7 +387,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past vloerisolatie bij jouw woning?</h2>

@@ -109,14 +109,14 @@ function NavDropdown({ label, items }: NavGroup) {
       </button>
       {open && (
         <div
-          className="absolute left-0 top-full mt-1 min-w-[220px] bg-white rounded-[var(--radius-card)] border border-[var(--grey-200)] shadow-[var(--shadow-2)] py-2 z-50"
+          className="absolute left-0 top-full mt-1 min-w-[220px] bg-white rounded-[var(--radius-card)] border border-[var(--grey-200)] shadow-[var(--shadow-2)] p-2 z-50"
         >
           {items.map((item) => (
             <NavItemLink
               key={item.href}
               item={item}
               onClick={() => setOpen(false)}
-              className="block no-underline px-4 py-2 text-sm font-medium text-[var(--gijs-donkergroen)] hover:bg-[var(--accent-050)] hover:text-[var(--accent-700)]"
+              className="block no-underline rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium text-[var(--gijs-donkergroen)] hover:bg-[var(--accent-050)] hover:text-[var(--accent-700)]"
             />
           ))}
         </div>
@@ -215,7 +215,7 @@ function VerduurzamenDropdown({ label }: { label: string }) {
         <Icon name="chevron-down" size="md" />
       </button>
       {open && (
-        <div className="absolute left-0 top-full mt-1 min-w-[220px] bg-white rounded-[var(--radius-card)] border border-[var(--grey-200)] shadow-[var(--shadow-2)] py-2 z-50">
+        <div className="absolute left-0 top-full mt-1 min-w-[220px] bg-white rounded-[var(--radius-card)] border border-[var(--grey-200)] shadow-[var(--shadow-2)] p-2 z-50">
           <FlyoutRow label="Maatregelen" href="/maatregelen" onNavigate={close}>
             <FlyoutRow label="Isolatie" onNavigate={close}>
               {ISOLATIE_ITEMS.map(item => (
@@ -237,7 +237,7 @@ function VerduurzamenDropdown({ label }: { label: string }) {
               key={item.href}
               item={item}
               onClick={close}
-              className="block no-underline px-4 py-2 text-sm font-medium text-[var(--gijs-donkergroen)] hover:bg-[var(--accent-050)] hover:text-[var(--accent-700)]"
+              className="block no-underline rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium text-[var(--gijs-donkergroen)] hover:bg-[var(--accent-050)] hover:text-[var(--accent-700)]"
             />
           ))}
         </div>
@@ -276,7 +276,7 @@ export default function Header() {
       {/* Hoofdbalk: licht en doorschijnend, 72px hoog (mobiel 64px). */}
       <div className={styles.brandRow}>
         <Link href="/" className="no-underline flex items-center">
-          <Image src="/logo.png" alt="Gijs" width={912} height={520} style={{ height: "auto" }} className={styles.logo} priority />
+          <Image src="/images/shared/logo/logo.png" alt="Gijs" width={912} height={520} style={{ height: "auto" }} className={styles.logo} priority />
         </Link>
 
         {/* Social media (op verzoek van Max), rechtsboven naast het

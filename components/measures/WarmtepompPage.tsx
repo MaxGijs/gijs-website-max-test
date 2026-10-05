@@ -12,6 +12,8 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { UitvoeringStappen, type UitvoeringStap } from "@/components/measures/UitvoeringStappen";
 import { TechnicalDetails, TechnicalDetailRow } from "@/components/measures/TechnicalDetails";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
+import { FeatureList } from "@/components/measures/FeatureList";
+import { StatRow } from "@/components/measures/StatRow";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -105,12 +107,12 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // "Dubbele Pomp MP" (nichetoepassing), klantreviews/sterrenscores, en
 // alle prijzen/meerkosten/onderhoudscontract-tarieven.
 const UITVOERING_STAPPEN: UitvoeringStap[] = [
-  { bestand: "warmtepomp-stap-1.svg", label: "Aankomst" },
-  { bestand: "warmtepomp-stap-2.svg", label: "Uitleg" },
-  { bestand: "warmtepomp-stap-3.svg", label: "Voorbereiding" },
-  { bestand: "warmtepomp-stap-4.svg", label: "Buitenunit plaatsen" },
-  { bestand: "warmtepomp-stap-5.svg", label: "Opleveren" },
-  { bestand: "warmtepomp-stap-6.svg", label: "Genieten" },
+  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-1.svg", label: "Aankomst" },
+  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-2.svg", label: "Uitleg" },
+  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-3.svg", label: "Voorbereiding" },
+  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-4.svg", label: "Buitenunit plaatsen" },
+  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-5.svg", label: "Opleveren" },
+  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-6.svg", label: "Genieten" },
 ];
 
 // Bron: "alle_brochures_in_1.pdf", pagina 44 — "Aanvullende voorwaarden
@@ -152,7 +154,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
     { id: "wat-is-het", label: "Wat is het?" },
     { id: "past-het", label: "Past het bij mij?" },
     { id: "voordelen", label: "De voordelen" },
-    { id: "dewarmte", label: "DeWarmte" },
+    { id: "meest-geplaatst", label: "Meest geplaatst" },
     { id: "andere-warmtepompen", label: "Andere warmtepompen" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
     { id: "voorwaarden", label: "Voorwaarden" },
@@ -166,8 +168,8 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
     { question: "Blijft mijn cv-ketel aanwezig?", answer: "Ja. Bij een gecombineerde installatie zorgt de warmtepomp grotendeels voor de verwarming van de woning, en levert de cv-ketel het warme water en eventuele bijverwarming bij lage buitentemperaturen. Het schakelen tussen cv-ketel en warmtepomp gebeurt automatisch." },
     { question: "Is mijn woning geschikt voor een hybride warmtepomp?", answer: "De woning moet voldoende geïsoleerd zijn en je bestaande verwarmingssysteem moet geschikt zijn. Dit wordt vooraf beoordeeld tijdens een digitale inspectie." },
     { question: "Waar komt de buitenunit te staan?", answer: "Een geschikte locatie voor het buitendeel wordt aangewezen door de uitvoerder." },
-    { question: "Hoe groot is de warmtepomp?", answer: "Dat verschilt per merk en model. Bekijk de afmetingen per product hieronder bij DeWarmte en de andere warmtepompen die Gijs plaatst." },
-    { question: "Hoeveel geluid maakt de warmtepomp?", answer: "Ook dit verschilt per merk en model; de exacte dB(A)-waarden per product en meetafstand staan hieronder. DeWarmte heeft bijvoorbeeld een stille modus die 's nachts (23.00-07.00 uur) automatisch inschakelt." },
+    { question: "Hoe groot is de warmtepomp?", answer: "Dat verschilt per merk en model. Bekijk hieronder de afmetingen van elke warmtepomp die Gijs plaatst." },
+    { question: "Hoeveel geluid maakt de warmtepomp?", answer: "Ook dit verschilt per merk en model; de exacte dB(A)-waarden per product en meetafstand staan hieronder. De warmtepomp die Gijs het meest plaatst heeft bijvoorbeeld een stille modus die 's nachts (23.00-07.00 uur) automatisch inschakelt." },
     { question: "Hoe verloopt de installatie?", answer: "Gijs plaatst de hybride warmtepomp in één dag, volgens een vaste aanpak: aankomst, uitleg, voorbereiding van het leidingwerk, het plaatsen en aansluiten van de buitenunit, inregelen en opleveren." },
     { question: "Is een onderhoudscontract nodig?", answer: "Ja, voor een optimale werking sluit de opdrachtgever een onderhoudscontract af." },
     { question: "Kan ik subsidie krijgen voor een hybride warmtepomp?", answer: "Ja, via de ISDE-subsidie. Het basisbedrag is € 1.250, met een geschatte subsidie tot € 2.000 afhankelijk van het vermogen van de warmtepomp. Gijs ondersteunt bij de aanvraag, maar kan toekenning niet garanderen." },
@@ -200,11 +202,11 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
         label="Installaties"
         title="Hybride warmtepomp voor jouw woning"
         subtitle="Hybride warmtepomp plaatsen in één dag"
-        intro="Een hybride warmtepomp werkt samen met je cv-ketel: de warmtepomp haalt warmte uit de buitenlucht, de cv-ketel springt bij wanneer dat nodig is. Gijs werkt hiervoor samen met DeWarmte."
+        intro="Een hybride warmtepomp werkt samen met je cv-ketel: de warmtepomp haalt warmte uit de buitenlucht, de cv-ketel springt bij wanneer dat nodig is. Gijs werkt hiervoor samen met een vaste warmtepomppartner."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/warmtepomp-hero.png"
-        imageAlt="Een Gijs-installateur plaatst een DeWarmte-warmtepomp tegen de gevel van een woning"
+        image="/images/maatregelen/warmtepomp/warmtepomp-hero.png"
+        imageAlt="Een Gijs-installateur plaatst een hybride warmtepomp tegen de gevel van een woning"
       />
 
       <div>
@@ -218,8 +220,8 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             </p>
             <p className="text-lg text-zinc-600 leading-relaxed">
               Bij een hybride warmtepomp blijft je cv-ketel aanwezig. De cv-ketel springt bij wanneer dat nodig is,
-              en schakelen tussen de warmtepomp en de cv-ketel gebeurt automatisch. Gijs plaatst vooral de DeWarmte
-              Pomp AO, en daarnaast hybride warmtepompen van Remeha en Intergas.
+              en schakelen tussen de warmtepomp en de cv-ketel gebeurt automatisch. Gijs plaatst vooral één vaste
+              hybride warmtepomp, en daarnaast een paar andere hybride warmtepompen.
             </p>
             <p className="text-lg text-zinc-600 leading-relaxed">
               Of een hybride warmtepomp past, hangt af van je woning en je huidige verwarming. Daar hoef je zelf niet
@@ -228,21 +230,16 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
-            {[
-              { icon: "square", title: "Buitenunit", text: "Haalt warmte uit de buitenlucht." },
-              { icon: "layout-grid", title: "Binnenunit", text: "Verbindt de warmtepomp met de cv-installatie." },
-              { icon: "flame", title: "CV-ketel", text: "Je bestaande ketel springt bij wanneer nodig." },
-              { icon: "thermometer", title: "Thermostaat", text: "Bedient de installatie in huis." },
-            ].map(deel => (
-              <div key={deel.title} className="flex flex-col gap-3">
-                <span className="w-14 h-14 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name={deel.icon} size="lg" />
-                </span>
-                <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{deel.title}</h3>
-                <p className="text-base text-zinc-600 leading-relaxed">{deel.text}</p>
-              </div>
-            ))}
+          <div className="mt-10">
+            <FeatureList
+              columns={4}
+              items={[
+                { icon: "square", title: "Buitenunit", text: "Haalt warmte uit de buitenlucht." },
+                { icon: "layout-grid", title: "Binnenunit", text: "Verbindt de warmtepomp met de cv-installatie." },
+                { icon: "flame", title: "CV-ketel", text: "Je bestaande ketel springt bij wanneer nodig." },
+                { icon: "thermometer", title: "Thermostaat", text: "Bedient de installatie in huis." },
+              ]}
+            />
           </div>
         </section>
 
@@ -276,23 +273,14 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
 
         <section id="voordelen" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VOORDELEN.map(voordeel => (
-              <Card key={voordeel} className="flex flex-col gap-4 !p-7">
-                <span className="w-14 h-14 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                  <Icon name="zap" size="lg" />
-                </span>
-                <p className="font-bold text-[var(--gijs-donkergroen)] leading-snug">{voordeel}</p>
-              </Card>
-            ))}
-          </div>
+          <FeatureList columns={4} items={VOORDELEN.map(voordeel => ({ icon: "zap", title: voordeel }))} />
         </section>
 
-        <section id="dewarmte" className="scroll-mt-40 mb-16">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">DeWarmte bij Gijs</h2>
+        <section id="meest-geplaatst" className="scroll-mt-40 mb-16">
+          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">De warmtepomp die Gijs het meest plaatst</h2>
           <p className="text-lg text-zinc-600 mb-8 max-w-2xl">
-            Gijs werkt samen met DeWarmte. De DeWarmte Pomp AO is de hybride warmtepomp die Gijs het meest plaatst.
-            Sinds kort levert DeWarmte ook de grotere Pomp MP, geschikt voor de allergrootste woningen.
+            Gijs werkt samen met een vaste warmtepomppartner. Deze hybride warmtepomp plaatst Gijs het meest.
+            Sinds kort is er ook een grotere uitvoering, geschikt voor de allergrootste woningen.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-center mb-10">
             <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
@@ -345,7 +333,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
           </Card>
 
           <div className="mt-6">
-            <TechnicalDetails id="dewarmte-technisch">
+            <TechnicalDetails id="meest-geplaatst-technisch">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
                 {[dewarmteAO, dewarmteMP].map(product => (
                   <div key={product.naam}>
@@ -365,7 +353,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
         <section id="andere-warmtepompen" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Andere warmtepompen van Gijs</h2>
           <p className="text-zinc-600 mb-8 max-w-2xl">
-            Naast DeWarmte plaatst Gijs ook hybride warmtepompen van Remeha en Intergas. Geen van deze producten
+            Naast deze warmtepomp plaatst Gijs ook andere hybride warmtepompen. Geen van deze producten
             wordt hieronder als beste keuze aangewezen. Dat bekijkt Gijs samen met jou.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -447,13 +435,8 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             Dan verdubbelt het subsidiebedrag voor isolatie. Gijs vraagt de subsidie aan binnen 24 maanden nadat je de
             eerste maatregel uitvoert.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-3xl mb-6">
-            {SUBSIDIE_TABEL.map(rij => (
-              <Card key={rij.vermogen} className="flex flex-col gap-3 text-center !p-6">
-                <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Geschatte subsidie bij {rij.vermogen}</span>
-                <span className="text-3xl font-extrabold text-[var(--gijs-donkergroen)]">{rij.bedrag}</span>
-              </Card>
-            ))}
+          <div className="mb-8">
+            <StatRow items={SUBSIDIE_TABEL.map(rij => ({ label: `Geschatte subsidie bij ${rij.vermogen}`, value: rij.bedrag }))} />
           </div>
           <p className="text-sm text-zinc-500 max-w-2xl">
             Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Onze dienstverlening beperkt zich tot
@@ -496,7 +479,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past een hybride warmtepomp bij jouw woning?</h2>

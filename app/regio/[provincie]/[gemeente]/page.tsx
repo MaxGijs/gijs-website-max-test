@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { createMetadata } from "@/lib/seo";
 import { REGIO_GEMEENTEN, getProvincie, getGemeente, plaatsenVan, regioPad } from "@/lib/content/regio";
 import { GemeenteKaart } from "@/components/regio/RegioDrilldown";
-import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, GemeentelijkeSubsidies, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
+import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, GemeentelijkeSubsidies, WoningenInGemeente, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { Button } from "@/components/ds/core/Button";
 
@@ -46,7 +46,7 @@ export default async function GemeentePage({ params }: Props) {
   const faq: FAQItem[] = [
     { question: `Welke gemeentelijke subsidies gelden in ${g.naam}?`, answer: `Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Deze verschillen per gemeente en kunnen veranderen. Controleer daarom altijd de actuele mogelijkheden bij de gemeente ${g.naam} zelf.` },
     { question: "Welke isolatie past bij mijn woning?", answer: "Dat hangt af van je woning. Tijdens de gratis energiescan aan huis bekijkt een adviseur van Gijs wat technisch bij je woning past." },
-    { question: "Is de energiescan aan huis gratis en vrijblijvend?", answer: "Ja. De energiescan is gratis en vrijblijvend, ter waarde van €350. Je bespreekt je woning en wensen met een adviseur." },
+    { question: "Is de energiescan aan huis gratis en vrijblijvend?", answer: "Ja. De energiescan is gratis en vrijblijvend, ter waarde van €349. Je bespreekt je woning en wensen met een adviseur." },
     { question: "Moet ik eerst de digitale woningscan doen?", answer: "Nee. Je kunt direct contact opnemen. De digitale woningscan is een optionele voorbereiding waarin je wensen verzamelt, geen technische beoordeling van je huis." },
   ];
 
@@ -62,7 +62,7 @@ export default async function GemeentePage({ params }: Props) {
         <header className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-center mb-14">
           <div className="flex flex-col gap-4 max-w-2xl">
             <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Gemeente {g.naam}</p>
-            <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-heading)] text-[var(--gijs-donkergroen)]">
+            <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">
               Isoleren in {g.naam}
             </h1>
             <p className="text-zinc-600">
@@ -86,6 +86,8 @@ export default async function GemeentePage({ params }: Props) {
             />
           )}
         </header>
+
+        <WoningenInGemeente gemeente={g.naam} slug={g.slug} />
 
         <IsolatieMaatregelen
           titel="Welke isolatiemaatregelen zijn er?"

@@ -12,6 +12,8 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
+import { FeatureList } from "@/components/measures/FeatureList";
+import { StatRow } from "@/components/measures/StatRow";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -67,16 +69,16 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // vervangt: elk bestand bevat nu icoon + nummerbadge + titel + een korte
 // uitlegzin (voorheen alleen icoon + badge + titel, geen uitleg). Alle 6
 // bestanden zijn hernoemd naar dakisolatie-stap-1.svg t/m -stap-6.svg
-// (zie public/productbladen/proces/); de vorige set (stap-1.svg t/m
+// (zie public/images/maatregelen/dakisolatie/proces/); de vorige set (stap-1.svg t/m
 // stap-6.svg) is verwijderd. Titels en uitlegzinnen zijn ongewijzigd
 // overgenomen zoals aangeleverd (niet herschreven).
 const UITVOERING_STAPPEN = [
-  { bestand: "dakisolatie-stap-1.svg", label: "Aankomst" },
-  { bestand: "dakisolatie-stap-2.svg", label: "Uitleg" },
-  { bestand: "dakisolatie-stap-3.svg", label: "Voorbereiden" },
-  { bestand: "dakisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
-  { bestand: "dakisolatie-stap-5.svg", label: "Controle" },
-  { bestand: "dakisolatie-stap-6.svg", label: "Oplevering" },
+  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-1.svg", label: "Aankomst" },
+  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-2.svg", label: "Uitleg" },
+  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-3.svg", label: "Voorbereiden" },
+  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
+  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-5.svg", label: "Controle" },
+  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-6.svg", label: "Oplevering" },
 ];
 // Aanvullende voorwaarden — pagina 2 van de drie productbladen (wording
 // verschilt per blad; hier samengevat op de gemeenschappelijke thema's).
@@ -129,8 +131,8 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
   // voorbereiding → overige).
   const faqItems: FAQItem[] = [
     { question: "Is mijn dak geschikt voor dakisolatie?", answer: "Dat hangt af van de bestaande dakconstructie en de staat van het dak. Gijs beoordeelt dit tijdens de energiescan. Dit is geen definitief technisch advies vooraf." },
-    { question: "Welke soorten dakisolatie gebruikt Gijs?", answer: "Gijs werkt onder andere met houtvezelisolatie (HR Wood-Fibre), inblaaswol (HR TimberWool) en reflecterende folie-isolatie (HR EcoFoil Roof). Welk systeem past, hangt af van je dakconstructie." },
-    { question: "Is dakisolatie brandveilig?", answer: "Dat hangt af van het gekozen materiaal. HR TimberWool is bijvoorbeeld onbrandbaar (brandklasse A1). Tijdens de energiescan bekijkt Gijs welk systeem bij jouw dak past." },
+    { question: "Welke soorten dakisolatie gebruikt Gijs?", answer: "Gijs werkt onder andere met houtvezelisolatie, inblaaswol en reflecterende folie-isolatie. Welk systeem past, hangt af van je dakconstructie." },
+    { question: "Is dakisolatie brandveilig?", answer: "Dat hangt af van het gekozen materiaal. Inblaaswol is bijvoorbeeld onbrandbaar (brandklasse A1). Tijdens de energiescan bekijkt Gijs welk systeem bij jouw dak past." },
     { question: "Wat moet ik vooraf voorbereiden?", answer: "Zorg dat de te isoleren oppervlakken bereikbaar zijn en dat zolderruimtes, vliering en knieschotten leeg zijn. Het dak moet asbestvrij zijn." },
     { question: "Wordt de binnenzijde afgewerkt?", answer: "Niet altijd. Bij sommige systemen blijft een folie- en lattenconstructie zichtbaar; de (eind)afwerking is dan voor rekening van de opdrachtgever." },
     { question: item.question, answer: item.answer },
@@ -165,7 +167,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
         intro="Gijs isoleert het dak aan de binnenzijde. Hieronder lees je hoe het werkt, welk systeem bij jouw dakconstructie past en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
-        image="/productbladen/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png"
+        image="/images/maatregelen/dakisolatie/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png"
         imageAlt="Plaatsen van dakisolatie aan de binnenzijde van een woning"
         imageCaption="Isolatiemateriaal wordt tussen de dakconstructie aangebracht"
       />
@@ -187,8 +189,8 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
           </p>
           <p className="text-zinc-600">
             Gijs isoleert het dak aan de binnenzijde. Het isolatiemateriaal komt tussen of tegen de bestaande
-            dakconstructie. Gijs werkt hiervoor met houtvezel (HR Wood-Fibre), isolatiewol (HR TimberWool) of een
-            reflecterend foliesysteem (HR EcoFoil Roof).
+            dakconstructie. Gijs werkt hiervoor met houtvezel, isolatiewol of een
+            reflecterend foliesysteem.
           </p>
           <p className="text-zinc-600">
             Bij sommige systemen blijft een folie- en lattenconstructie zichtbaar; de (eind)afwerking van de
@@ -205,7 +207,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
               de opdrachtgever heeft alleen de hoekafronding van de
               labels/badges aangepast (uitlegvisuals.zip). */}
           <Image
-            src="/productbladen/dakisolatie-uitlegvisual.svg"
+            src="/images/maatregelen/dakisolatie/dakisolatie-uitlegvisual.svg"
             alt="Uitleg van dakpannen, isolatiemateriaal, dakconstructie en binnenafwerking bij dakisolatie"
             width={5969}
             height={2744}
@@ -251,16 +253,8 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
 
       <section id="voordelen" className="scroll-mt-40 mb-14">
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
-          {VOORDELEN.map(voordeel => (
-            <Card key={voordeel.title} className="flex flex-col gap-5 !p-8">
-              <span className="w-16 h-16 rounded-full bg-[var(--accent-050)] text-[var(--green-800)] flex items-center justify-center">
-                <Icon name={voordeel.icon} size="xl" />
-              </span>
-              <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)]">{voordeel.title}</h3>
-              <p className="text-zinc-600 leading-relaxed">{voordeel.text}</p>
-            </Card>
-          ))}
+        <div className="max-w-2xl">
+          <FeatureList columns={2} items={VOORDELEN} />
         </div>
       </section>
 
@@ -340,23 +334,15 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
           geldt ook als je een isolatiemaatregel combineert met de installatie van een warmtepomp. Gijs vraagt
           hiervoor subsidie aan binnen 24 maanden nadat je de eerste maatregel uitvoert.
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-4xl mb-6">
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Bedrag wat je kunt ontvangen</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 325 – € 6.500</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Per m² met 1 maatregel</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 16,25</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Per m² met 2 maatregelen</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">€ 32,50</span>
-          </Card>
-          <Card className="flex flex-col gap-2 text-center !p-6">
-            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Aantal m² met subsidie</span>
-            <span className="text-2xl font-bold text-[var(--gijs-donkergroen)]">20 t/m 200 m²</span>
-          </Card>
+        <div className="mb-8">
+          <StatRow
+            items={[
+              { label: "Bedrag wat je kunt ontvangen", value: "€ 325 – € 6.500" },
+              { label: "Per m² met 1 maatregel", value: "€ 16,25" },
+              { label: "Per m² met 2 maatregelen", value: "€ 32,50" },
+              { label: "Aantal m² met subsidie", value: "20 t/m 200 m²" },
+            ]}
+          />
         </div>
         <p className="text-sm text-zinc-500 max-w-2xl">
           Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Onze dienstverlening beperkt zich
@@ -401,7 +387,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
           <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/huisscan.png" alt="" width={34} height={34} />
+            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
           </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past dakisolatie bij jouw woning?</h2>

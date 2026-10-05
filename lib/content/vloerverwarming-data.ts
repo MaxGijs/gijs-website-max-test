@@ -69,10 +69,10 @@ export type VerdelerGroep = {
 // omschrijving (debietregeling, hydraulische neutraliteit, pompmodel/
 // -standen) staat hieronder bij `technisch`.
 export const VERDELER_CVKETEL: VerdelerGroep = {
-  naam: "RIHO Boxer-verdeler",
+  naam: "Verdeler voor een cv-ketel",
   toepassing: "Voor een woning met een cv-ketel.",
-  image: "/productbladen/vloerverwarming-verdeler-cvketel.png",
-  imageAlt: "RIHO Boxer-verdeler voor vloerverwarming op een cv-ketel",
+  image: "/images/maatregelen/vloerverwarming/vloerverwarming-verdeler-cvketel.png",
+  imageAlt: "Verdeler voor vloerverwarming op een cv-ketel",
   kenmerken: [
     "De temperatuur van het water naar de vloerverwarming is in te stellen tussen 20 en 50°C",
     "Elke kamer krijgt via een eigen aansluiting genoeg warm water",
@@ -86,7 +86,7 @@ export const VERDELER_CVKETEL: VerdelerGroep = {
     { label: "Breedte", waarde: "240 mm (2 groepen) tot 890 mm (15 groepen)" },
     { label: "Debietregeling", waarde: "Instelbaar per verwarmingsgroep" },
     { label: "Hydraulische afstemming", waarde: "100% hydraulisch neutraal: beïnvloedt de doorstroming in het cv-systeem niet" },
-    { label: "Circulatiepomp", waarde: "Grundfos UPM3 · Stand 1: max. 1,5 m opvoerhoogte / 3,4 m³/h · Stand 2: max. 3 m / 2,8 m³/h · Stand 3: max. 4,5 m / 2 m³/h · Stand 4: automatisch" },
+    { label: "Circulatiepomp", waarde: "Stand 1: max. 1,5 m opvoerhoogte / 3,4 m³/h · Stand 2: max. 3 m / 2,8 m³/h · Stand 3: max. 4,5 m / 2 m³/h · Stand 4: automatisch" },
   ],
 };
 
@@ -95,10 +95,10 @@ export const VERDELER_CVKETEL: VerdelerGroep = {
 // zijn bewust consumentvriendelijk samengevat; de volledige technische
 // omschrijving staat hieronder bij `technisch`.
 export const VERDELER_WARMTEPOMP: VerdelerGroep = {
-  naam: "RIHO VK-verdeler",
+  naam: "Verdeler voor een warmtepomp",
   toepassing: "Voor een woning met een warmtepomp of een ander lage-temperatuursysteem.",
-  image: "/productbladen/vloerverwarming-verdeler-warmtepomp.png",
-  imageAlt: "RIHO VK-verdeler voor vloerverwarming op een warmtepomp, ook geschikt om te koelen",
+  image: "/images/maatregelen/vloerverwarming/vloerverwarming-verdeler-warmtepomp.png",
+  imageAlt: "Verdeler voor vloerverwarming op een warmtepomp, ook geschikt om te koelen",
   kenmerken: [
     "Kan de vloer ook laten koelen, als de rest van het systeem dat ondersteunt",
     "De temperatuur van het water wordt geregeld door de warmtepomp zelf",
@@ -121,7 +121,7 @@ export const VERDELER_WARMTEPOMP: VerdelerGroep = {
 // als aparte derde categorie (spec vraagt om het bij 2 categorieën te
 // houden en er geen technische catalogus van te maken).
 export const VERDELER_LTV_NOOT =
-  "Er bestaat ook een RIHO Boxer LTV-verdeler, die geschikt is voor zowel een hoge temperatuur systeem (cv-ketel) als een lage temperatuur verwarmings- en/of hoge temperatuur koelingsysteem (warmtepomp). Welke verdeler het beste past, bepaalt Gijs per situatie.";
+  "Er bestaat ook een verdeler die geschikt is voor zowel een hoge temperatuur systeem (cv-ketel) als een lage temperatuur verwarmings- en/of hoge temperatuur koelingsysteem (warmtepomp). Welke verdeler het beste past, bepaalt Gijs per situatie.";
 
 // Plain-taal intro voor de verdeler-sectie (vereenvoudiging voor leken),
 // afgeleid van de functiebeschrijving die in alle 4 RIHO-productbladen
@@ -214,22 +214,22 @@ export const ECOFLOOR_NIET_DOEN: string[] = [
 // vloeren").
 export const SYSTEEMOPBOUW = {
   bestaandeVloer: "In een geschikte bestaande vloer kunnen de leidingen worden ingefreesd. Een volledig nieuwe vloeropbouw is dan niet vanzelfsprekend nodig.",
-  nieuweOpbouw: "In een nieuwe vloeropbouw bekijkt Gijs welke onderbouw en dekvloer bij je woning passen. Schuimbeton (isolatiebeton), zandcementdekvloeren en eco2floor worden bij Gijs uitsluitend toegepast in combinatie met vloerverwarming.",
+  nieuweOpbouw: "In een nieuwe vloeropbouw bekijkt Gijs welke onderbouw en dekvloer bij je woning passen. Schuimbeton (isolatiebeton), zandcementdekvloeren en gietdekvloeren worden bij Gijs uitsluitend toegepast in combinatie met vloerverwarming.",
   isolatiebeton: "Bij het renoveren van een houten vloer kan de kruipruimte worden voorzien van isolatiebeton (schuimbeton) als stabiele, isolerende basis. De vloerverwarming kan hier optioneel in worden aangebracht, voordat de dekvloer volgt.",
 };
 
 // Bron: de aangeleverde procesvisuals voor vloerverwarming (7 stappen,
-// public/productbladen/proces/vloerverwarming-stap-N.svg). Nummer, icoon,
+// public/images/maatregelen/vloerverwarming/proces/vloerverwarming-stap-N.svg). Nummer, icoon,
 // titel en uitleg zitten in de afbeelding zelf; labels hieronder alleen
 // voor de alt-tekst.
 export const UITVOERING_STAPPEN: UitvoeringStap[] = [
-  { bestand: "vloerverwarming-stap-1.svg", label: "Aankomst" },
-  { bestand: "vloerverwarming-stap-2.svg", label: "Uitleg" },
-  { bestand: "vloerverwarming-stap-3.svg", label: "Voorbereiden" },
-  { bestand: "vloerverwarming-stap-4.svg", label: "Leidingen plaatsen" },
-  { bestand: "vloerverwarming-stap-5.svg", label: "Controleren" },
-  { bestand: "vloerverwarming-stap-6.svg", label: "Storten & afwerken" },
-  { bestand: "vloerverwarming-stap-7.svg", label: "Drogen & opstarten" },
+  { bestand: "maatregelen/vloerverwarming/proces/vloerverwarming-stap-1.svg", label: "Aankomst" },
+  { bestand: "maatregelen/vloerverwarming/proces/vloerverwarming-stap-2.svg", label: "Uitleg" },
+  { bestand: "maatregelen/vloerverwarming/proces/vloerverwarming-stap-3.svg", label: "Voorbereiden" },
+  { bestand: "maatregelen/vloerverwarming/proces/vloerverwarming-stap-4.svg", label: "Leidingen plaatsen" },
+  { bestand: "maatregelen/vloerverwarming/proces/vloerverwarming-stap-5.svg", label: "Controleren" },
+  { bestand: "maatregelen/vloerverwarming/proces/vloerverwarming-stap-6.svg", label: "Storten & afwerken" },
+  { bestand: "maatregelen/vloerverwarming/proces/vloerverwarming-stap-7.svg", label: "Drogen & opstarten" },
 ];
 
 // Praktische aandachtspunten — samengevat uit eco2floor-opstartprotocol.pdf

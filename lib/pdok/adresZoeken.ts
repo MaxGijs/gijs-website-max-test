@@ -32,6 +32,10 @@ export type PdokAdres = {
   postcode: string;
   /** Woonplaats zoals PDOK die teruggeeft. */
   woonplaats: string;
+  /** BAG-nummeraanduiding-id, voor de optionele BAG-verrijking (bouwjaar/oppervlakte). Leeg als PDOK 'm niet meegaf. */
+  nummeraanduidingId: string;
+  /** BAG-adresseerbaarobject-id (verblijfsobject), voor de optionele EP-Online-verrijking (energielabel/woningtype). Leeg als PDOK 'm niet meegaf. */
+  adresseerbaarObjectId: string;
 };
 
 export type AdresZoekResultaat =
@@ -119,6 +123,8 @@ export async function zoekAdres(
   const postcodeGevonden = typeof doc.postcode === "string" ? doc.postcode : postcode;
   const woonplaats = typeof doc.woonplaatsnaam === "string" ? doc.woonplaatsnaam : "";
   const id = typeof doc.id === "string" ? doc.id : `${postcodeGevonden}-${huisNlt}`;
+  const nummeraanduidingId = typeof doc.nummeraanduiding_id === "string" ? doc.nummeraanduiding_id : "";
+  const adresseerbaarObjectId = typeof doc.adresseerbaarobject_id === "string" ? doc.adresseerbaarobject_id : "";
 
   if (!straatnaam || !woonplaats) {
     return { status: "niet-gevonden" };
@@ -131,6 +137,8 @@ export async function zoekAdres(
       straatEnHuisnummer: `${straatnaam} ${huisNlt}`.trim(),
       postcode: postcodeGevonden,
       woonplaats,
+      nummeraanduidingId,
+      adresseerbaarObjectId,
     },
   };
 }

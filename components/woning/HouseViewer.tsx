@@ -19,21 +19,25 @@ type Props = {
   selectedMeasureIds: string[];
   className?: string;
   replayCrew?: number;
-  /** Standaard true (bestaande modellen hebben de dakkapel altijd al gebakken in de GLB). */
-  dakkapelAanwezig?: boolean;
+  /** 0 = geen dakkapel, 1 of 2 = zoveel dakkapellen tonen. Standaard 1 (bestaande modellen hebben er altijd al één gebakken in de GLB). */
+  dakkapelAantal?: number;
   /** Standaard true; heeft alleen zichtbaar effect bij een vrijstaand-achtig woningtype (de garage-groep). */
+  garageAanwezig?: boolean;
+  /** Standaard false: de illustratieve aanbouw tegen de achtergevel, alleen in de scan. */
   aanbouwAanwezig?: boolean;
+  /** Alleen bij een hoekwoning: aan welke kant de buurwoning staat. */
+  hoekZijde?: "Links" | "Rechts";
 };
 
-function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAanwezig = true, aanbouwAanwezig = true }: Props & { onLoaded: () => void }) {
+function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 1, garageAanwezig = true, aanbouwAanwezig = false, hoekZijde }: Props & { onLoaded: () => void }) {
   const { draft } = useWoningDraft();
   const gltf = useLoader(GLTFLoader, HOUSE_MODELS[draft.houseType].url);
   // Zelfde woning als op de landingspagina: zelfde model, zelfde realistische
   // materialen (lib/house-realism.ts) en hetzelfde daglicht (HouseDaglicht).
   const model = useMemo(() => {
-    const huis = prepareHouse(gltf.scene, draft.houseType, true);
+    const huis = prepareHouse(gltf.scene, draft.houseType, true, hoekZijde);
     return { ...huis, texturen: maakRealistisch(huis.scene) };
-  }, [gltf, draft.houseType]);
+  }, [gltf, draft.houseType, hoekZijde]);
   const crew = useMemo(() => makeInsulationCrew(draft.houseType),[draft.houseType]);
   const crewTime = useRef(3.4);
   const hadCavity = useRef(selectedMeasureIds.includes("gevelisolatie"));
@@ -66,7 +70,7 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAanwezig 
     update(); media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, [invalidate]);
-  useEffect(() => { invalidate(); }, [selectedMeasureIds, dakkapelAanwezig, aanbouwAanwezig, invalidate]);
+  useEffect(() => { invalidate(); }, [selectedMeasureIds, dakkapelAantal, garageAanwezig, aanbouwAanwezig, invalidate]);
   useFrame((_, delta) => {
     let moving = false;
     const selectedCavity=selectedMeasureIds.includes("gevelisolatie");
@@ -86,22 +90,38 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAanwezig 
     for (const { root, origin, scale, materials } of parts) {
       const name = root.name;
       root.position.copy(origin); root.scale.copy(scale); root.visible = true;
-      if (name.startsWith("Dakkapel") && !dakkapelAanwezig) root.visible = false;
-      if (root.userData.dormerPanel && !dakkapelAanwezig) root.visible = false;
-      if (name === "Garage" && !aanbouwAanwezig) root.visible = false;
+      // Rijwoningen: "Dakkapel" en "Dakkapel_2" staan naast elkaar op dezelfde
+      // dakkant (alleen "Dakkapel_2" bestaat pas als de bewoner 2 koos, zie
+      // house-model.ts) en schuiven dan uit elkaar. Vrijstaande woningen
+      // hebben in plaats daarvan een vaste voor- en achterdakkapel
+      // ("Dakkapel"/"Dakkapel_voor"): bij "1" is dat de achterdakkapel
+      // ("Dakkapel"), "Dakkapel_voor" komt er pas bij "2" (of "Meerdere") bij.
+      if (name === "Dakkapel" || name === "Dakkapel_2") {
+        root.visible = dakkapelAantal >= (name === "Dakkapel_2" ? 2 : 1);
+        if (dakkapelAantal >= 2) root.position.x += name === "Dakkapel_2" ? 0.65 : -0.65;
+      } else if (name === "Dakkapel_voor") {
+        root.visible = dakkapelAantal >= 2;
+      }
+      const dormerNaam = root.userData.dormerNaam as string | undefined;
+      if (dormerNaam && (dormerNaam === "Dakkapel" || dormerNaam === "Dakkapel_2") && dakkapelAantal >= 2) root.position.x += dormerNaam === "Dakkapel_2" ? 0.65 : -0.65;
+      // Zelfde drempel als de dakkapel zelf hierboven: "Dakkapel" (basis) >=1, "Dakkapel_2"/"Dakkapel_voor" (tweede) >=2.
+      const dormerZichtbaar = !dormerNaam || dakkapelAantal >= (dormerNaam === "Dakkapel" ? 1 : 2);
+      if (name === "Garage" && !garageAanwezig) root.visible = false;
+      if (name === "Aanbouw" || name === "Fundering_aanbouw") root.visible = aanbouwAanwezig;
+      if (aanbouwAanwezig && root.userData.onderAanbouw) root.visible = false;
+      if (aanbouwAanwezig && root.userData.aanbouwPositie) { root.position.x = root.userData.aanbouwPositie[0]; root.position.z = root.userData.aanbouwPositie[1]; }
       const installation = inLaag(name, "solar-panels") ? "zonnepanelen" : inLaag(name, "heat-pump") ? "warmtepomp" : inLaag(name, "battery") ? "thuisbatterij" : null;
-      if (installation) { root.visible = a[installation] > .001; root.scale.multiplyScalar(Math.max(.001, a[installation])); }
+      if (installation) { root.visible = a[installation] > .001 && !(root.userData.garagePanel && !garageAanwezig) && dormerZichtbaar; root.scale.multiplyScalar(Math.max(.001, a[installation])); }
       if (/^(Dakisolatie)/.test(name)) { root.visible = a.dakisolatie > .001;root.position.y+=a.dakisolatie*1.2; }
       const cavity=/^(Spouwisolatie|Zijgevel_garage_isolatie)/.test(name);
       if(cavity)root.visible=selectedCavity&&(fill>0||a.gevelisolatie>.001);
       // Vloerisolatie: het huis tilt op van de fundering; de isolatie blijft
       // iets achter, zodat je haar als losse laag tussen huis en fundering ziet.
       if (name === "Vloerisolatie") { root.visible = a.vloerisolatie > .001; root.position.y += a.vloerisolatie*.5; }
-      else if (!root.userData.garagePanel && installation !== "warmtepomp" && !/^(Fundering|Buurwoning|Garage|Zijgevel_garage)/.test(name)) root.position.y += a.vloerisolatie*1.1;
+      else if (!root.userData.garagePanel && installation !== "warmtepomp" && !/^(Fundering|Buurwoning|Garage)/.test(name)) root.position.y += a.vloerisolatie*1.1;
       if (name === "Vloerverwarming") { root.visible = a.vloerverwarming > .001; }
       if (name === "Vloer") root.position.y += a.vloerverwarming*.18;
       if (name === "Vloerconstructie") root.position.y -= a.vloerverwarming*.12;
-      if (name.startsWith("Fundering")) root.position.y -= a.vloerverwarming*.12;
       if(name==="Dakconstructie")root.position.y+=a.dakisolatie*.45;
       if(/^(Dakpannen|Tengellatten|Panlatten|Dakkapel|Schoorsteen|Dakgoot)/.test(name)||(name.startsWith("Zonnepaneel")&&!root.userData.garagePanel))root.position.y+=a.dakisolatie*2.4;
       const outer = !root.userData.sharedWall && (name.startsWith("Buitengevel") || name === "Zijgevel_garage_buiten");
@@ -168,6 +188,7 @@ export function HouseViewer(props: Props) {
     <p className="sr-only" role="status">{view}</p>
     <ViewerBoundary>
       <div className={styles.scene} role="group" aria-label={`3D-weergave van je ${HOUSE_MODELS[draft.houseType].label.toLowerCase()}`}>
+        <span className={styles.illustratiefBadge}>Illustratief, niet je echte woning</span>
         <Canvas onCreated={({gl})=>{gl.localClippingEnabled=true;}} camera={{ position: [4.1, 2.8, 5.2], fov: 42 }} shadows="percentage" frameloop="demand" dpr={touch ? [1, 1.5] : [1, 1.75]} style={{ touchAction: touch && !touchActive ? "pan-y" : "none" }} fallback={<p aria-hidden="true">3D niet beschikbaar. Je kunt de scan gewoon gebruiken.</p>}>
           <HouseDaglicht mobiel={touch} bereik={4} />
           <Suspense fallback={null}><Model {...props} selectedMeasureIds={compareOriginal?props.selectedMeasureIds.filter(id=>id!=="glas-kozijnen"):props.selectedMeasureIds} replayCrew={replayCrew} onLoaded={onLoaded} /></Suspense>
@@ -187,7 +208,7 @@ export function HouseViewer(props: Props) {
         <button type="button" className={styles.icoon} aria-label="Terug naar beginstand" onClick={() => act("reset")}>↺</button>
       </div>
     </ViewerBoundary>
-    <p className={styles.caption}><strong>{HOUSE_MODELS[draft.houseType].label}</strong> · {touch ? "Tik op \"Draai de woning\" om te draaien." : "Sleep om te draaien."} Illustratieve weergave, niet exact jouw woning.{(draft.houseType==="tussenwoning"||draft.houseType==="twee-onder-een-kap")&&" De grijze muur is de gedeelde muur met de buren."}</p>
+    <p className={styles.caption}><strong>{HOUSE_MODELS[draft.houseType].label}</strong> · {touch ? "Tik op \"Draai de woning\" om te draaien." : "Sleep om te draaien."} Dit is een illustratieve weergave: ze laat zien waar onderdelen ongeveer zitten, maar is geen exacte kopie van jouw eigen woning.{(draft.houseType==="tussenwoning"||draft.houseType==="twee-onder-een-kap"||(draft.houseType==="hoekwoning"&&props.hoekZijde))&&" De grijze muur is de gedeelde muur met de buren."}</p>
     {props.selectedMeasureIds.includes("glas-kozijnen")&&<details className={styles.profileDetail} onToggle={e=>{if(!e.currentTarget.open)setCompareOriginal(false);}}><summary>Bekijk vóór en na →</summary><p>Zo ziet je woning eruit met nieuwe ramen en kozijnen. Wissel hieronder: de kijkhoek blijft hetzelfde.</p><div className={styles.controls}><button aria-pressed={compareOriginal} onClick={()=>setCompareOriginal(true)}>Bestaand</button><button aria-pressed={!compareOriginal} onClick={()=>setCompareOriginal(false)}>Nieuw</button></div><div className={styles.profileComparison}><div><span className={styles.oldProfile}>Glas</span><strong>Bestaand</strong><p>Een eenvoudig bestaand profiel.</p></div><div><span className={styles.newProfile}>Glas</span><strong>Nieuw · kunststof kozijn</strong><p>Witte profielen met meer diepte en zichtbare glasrubbers.</p></div></div><p>Schematisch detail; kleur en uitvoering bespreek je met Gijs.</p></details>}
   </div>;
 }

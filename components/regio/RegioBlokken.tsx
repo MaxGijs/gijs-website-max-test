@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { JsonLd } from "@/components/SeoSchema";
 import { SITE_URL } from "@/lib/seo";
-import { ZO_WERKT_GIJS_FASEN } from "@/lib/content/zo-werkt-gijs";
+import { HOOFDSTUKKEN } from "@/lib/content/zo-werkt-gijs";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import { Badge } from "@/components/ds/core/Badge";
+import { StatRow } from "@/components/measures/StatRow";
+import { WONINGVOORRAAD_GEMEENTEN } from "@/lib/content/regio-woningvoorraad";
 
 // Gedeelde blokken voor de regio-templates (provincie, gemeente, plaats).
 // Alle teksten komen uit bestaande, bevestigde Gijs-content (maatregel-
@@ -103,6 +105,37 @@ export function LandelijkeSubsidies() {
   );
 }
 
+// Echte, bronvermelde woningvoorraadcijfers (geen subsidiebedragen, die
+// veranderen niet elke maand) — zorgt voor een feitelijk verschil tussen
+// gemeentepagina's in plaats van alleen een andere plaatsnaam. Toont niets
+// als er voor deze gemeente geen data is (zie lib/content/regio-woningvoorraad.ts).
+export function WoningenInGemeente({ gemeente, slug }: { gemeente: string; slug: string }) {
+  const data = WONINGVOORRAAD_GEMEENTEN[slug];
+  if (!data) return null;
+  const voor1975 = Math.round((data.percentageVoor1975 / 100) * data.totaalWoningen).toLocaleString("nl-NL");
+  return (
+    <section id="woningen-in-gemeente" className="scroll-mt-40 mb-14">
+      <h2 className={H2 + " mb-2"}>Woningen in {gemeente}</h2>
+      <p className="text-zinc-600 max-w-2xl mb-6">
+        Gemeente {gemeente} telt {data.totaalWoningen.toLocaleString("nl-NL")} woningen, waarvan {data.percentageKoopwoningen}%
+        koopwoning. Ongeveer {data.percentageVoor1975}% ({voor1975} woningen) is gebouwd vóór 1975 — woningen van die
+        leeftijd hebben vaak nog geen of weinig isolatie, omdat spouwmuurisolatie pas vanaf de jaren zeventig gangbaar werd.
+      </p>
+      <StatRow
+        items={[
+          { label: "Woningen", value: data.totaalWoningen.toLocaleString("nl-NL") },
+          { label: "Gebouwd vóór 1975", value: `${data.percentageVoor1975}%` },
+          { label: "Meest voorkomend type", value: data.meestVoorkomendType },
+          { label: "Gemiddelde WOZ-waarde", value: data.gemiddeldeWozWaarde },
+        ]}
+      />
+      <p className="text-xs text-zinc-500 mt-4">
+        Bron: <a href={data.bronUrl} target="_blank" rel="noopener noreferrer" className={LINK}>CBS/Kadaster-cijfers via AlleCijfers.nl</a>, peildatum {data.peildatum}.
+      </p>
+    </section>
+  );
+}
+
 // Neutraal informatieblok: Gijs zoekt gemeentelijke subsidies niet voor de
 // klant uit en garandeert niets. Alleen als er voor deze gemeente een
 // geverifieerde, officiële gemeentelijke bron is (officieleUrl), toont het
@@ -136,7 +169,7 @@ export function ZoWerktGijsKort() {
     <section id="zo-werkt-gijs" className="scroll-mt-40 mb-14">
       <h2 className={H2 + " mb-6"}>Zo werkt Gijs</h2>
       <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {ZO_WERKT_GIJS_FASEN.map(fase => (
+        {HOOFDSTUKKEN.map(fase => (
           <li key={fase.nummer} className="flex items-center gap-4">
             <span className="shrink-0 w-10 h-10 rounded-full bg-[var(--gijs-accentgroen)] text-white font-bold flex items-center justify-center">
               {fase.nummer}
@@ -156,7 +189,7 @@ export function EnergiescanBlok() {
   return (
     <section id="energiescan" className="scroll-mt-40 mb-14">
       <div className="rounded-[var(--radius-xl)] bg-[var(--grey-050)] px-6 py-10 md:px-12 flex flex-col items-center text-center gap-4">
-        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €350</Badge>
+        <Badge tone="accent">Gratis en vrijblijvend · ter waarde van €349</Badge>
         <h2 className={H2}>Gratis energiescan aan huis</h2>
         <p className="max-w-xl text-zinc-700">
           Een adviseur van Gijs bekijkt je woning en bespreekt met je welke maatregelen technisch passen.

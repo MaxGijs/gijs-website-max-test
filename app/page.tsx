@@ -1,6 +1,8 @@
-import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, SEO_INDEXABLE } from "@/lib/seo";
 export const metadata = pageMetadata("/");
-import HomeCutawayTest from "@/components/home/cutaway/HomeCutawayTest";
+// PROTOTYPE (branch animejs-poppenhuis-prototype): Anime.js-poppenhuis i.p.v. HomeCutawayTest.
+// Terugzetten: importeer weer HomeCutawayTest uit "@/components/home/cutaway/HomeCutawayTest".
+import AnimePoppenhuis from "@/components/home/cutaway/anime-prototype/AnimePoppenhuis";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -14,7 +16,7 @@ export default function Home() {
       <Header />
 
       <main className="flex-1">
-        <HomeCutawayTest>
+        <AnimePoppenhuis productie={SEO_INDEXABLE}>
 
         {/* Sociale bewijskracht: bestaande Google-beoordeling van Gijs. */}
         <GoogleReviewsSummary />
@@ -31,7 +33,7 @@ export default function Home() {
             de "start met mijn woning"-CTA (die staat al in de hero en
             in de uitlegsectie hierboven). */}
         <EnergyScanCTA />
-        </HomeCutawayTest>
+        </AnimePoppenhuis>
       </main>
 
       <Footer />

@@ -2,7 +2,7 @@
 // → plaats. Eén template per niveau (app/regio/...), geen losse page.tsx per
 // plaats. Namen, gemeente-plaatsrelaties en plaatsnaamborden komen uit de
 // aangeleverde "Gemeenteborden"-set (lib/content/lokale-seo.ts,
-// public/gemeenteborden/<Gemeente>/<Kern>.png). Er wordt hier niets aan
+// public/images/regio/gemeenteborden/<Gemeente>/<Kern>.png). Er wordt hier niets aan
 // toegevoegd dat niet in die set staat.
 //
 // Twee vlaggen per gemeente en plaats:
@@ -50,7 +50,25 @@ export const REGIO_PROVINCIES: RegioProvincie[] = [
 // Een plaats met dezelfde naam als de gemeente (bijv. Borne in Borne) krijgt
 // geen eigen plaatspagina: die valt samen met de gemeentepagina.
 const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<string, { indexeerbaar: boolean }> }> = {
-  borne: { indexeerbaar: true, plaatsen: { hertme: { indexeerbaar: true } } },
+  // Plaatsen staan bewust op indexeerbaar: false — dunne pagina's (noindex,
+  // follow via createMetadata's robots.follow:true), totdat ze net als de
+  // gemeentepagina's eigen, unieke content krijgen. Ze blijven wel
+  // gepubliceerd (bestaan en worden gelinkt), alleen niet in de sitemap
+  // (zie REGIO_INDEXEERBARE_PADEN hieronder, die op indexeerbaar filtert).
+  borne: { indexeerbaar: true, plaatsen: { hertme: { indexeerbaar: false }, zenderen: { indexeerbaar: false } } },
+  hengelo: { indexeerbaar: true, plaatsen: {} },
+  enschede: { indexeerbaar: true, plaatsen: {} },
+  "hof-van-twente": { indexeerbaar: true, plaatsen: { bentelo: { indexeerbaar: false }, delden: { indexeerbaar: false }, diepenheim: { indexeerbaar: false }, goor: { indexeerbaar: false }, hengevelde: { indexeerbaar: false }, markelo: { indexeerbaar: false } } },
+};
+
+// Geverifieerde officiële subsidiepagina's per gemeente (zelf nagekeken,
+// geen bedragen of voorwaarden overgenomen — zie RegioGemeente.officieleSubsidieUrl).
+const OFFICIELE_SUBSIDIE_URL: Record<string, string> = {
+  borne: "https://www.borne.nl/nip-isolatieactie",
+  enschede: "https://www.enschede.nl/subsidie-voor-isolatie",
+  hengelo: "https://www.hengelo.nl/duurzaam/hulp-bij-verduurzamen/subsidies.html",
+  oldenzaal: "https://www.oldenzaal.nl/subsidie-isolatie-eigen-woning",
+  "hof-van-twente": "https://www.hofvantwente.nl/direct-regelen/wonen-en-leven/duurzaamheid/subsidies-verduurzaming-woning/",
 };
 
 // Alle gemeenten in de Gemeenteborden-set liggen in Twente, provincie Overijssel.
@@ -62,6 +80,7 @@ export const REGIO_GEMEENTEN: RegioGemeente[] = LOKALE_SEO_GEMEENTEN.map(g => {
     naam: g.naam,
     provincie: "overijssel",
     plaatsen: g.kernen.map(k => slugify(k.naam)),
+    officieleSubsidieUrl: OFFICIELE_SUBSIDIE_URL[slug],
     gepubliceerd: !!pub,
     indexeerbaar: !!pub?.indexeerbaar,
   };

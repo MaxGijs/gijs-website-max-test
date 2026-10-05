@@ -6,7 +6,7 @@ export function JsonLd({data}:{data:Record<string,unknown>}) {
 }
 export default function SeoSchema(){
  return <JsonLd data={{"@context":"https://schema.org","@graph":[
- {"@type":"Organization","@id":SITE_URL+"/#organization",name:"Gijs",url:SITE_URL,logo:SITE_URL+"/logo-white.png",telephone:CONTACT.phoneHref.replace("tel:",""),email:CONTACT.email,address:{"@type":"PostalAddress",streetAddress:CONTACT.street,postalCode:"7556 BN",addressLocality:"Hengelo",addressCountry:"NL"},sameAs:SOCIAL_LINKS.map(link=>link.href)},
+ {"@type":"Organization","@id":SITE_URL+"/#organization",name:"Gijs",url:SITE_URL,logo:SITE_URL+"/images/shared/logo/logo-white.png",telephone:CONTACT.phoneHref.replace("tel:",""),email:CONTACT.email,...(CONTACT.kvk&&{identifier:{"@type":"PropertyValue",name:"KvK",value:CONTACT.kvk}}),address:{"@type":"PostalAddress",streetAddress:CONTACT.street,postalCode:"7556 BN",addressLocality:"Hengelo",addressCountry:"NL"},sameAs:SOCIAL_LINKS.map(link=>link.href)},
  {"@type":"WebSite","@id":SITE_URL+"/#website",name:"Gijs",url:SITE_URL,inLanguage:"nl-NL",publisher:{"@id":SITE_URL+"/#organization"}}
  ]}}/>;
 }

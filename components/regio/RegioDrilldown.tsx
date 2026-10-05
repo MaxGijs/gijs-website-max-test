@@ -103,7 +103,7 @@ export function ProvincieKaart({ provincie }: { provincie: RegioProvincie }) {
       <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8 items-start">
         <figure className="flex flex-col gap-2 max-w-[200px] mx-auto lg:mx-0">
           <Image
-            src="/kaarten/overijssel-in-nederland.webp"
+            src="/images/regio/kaarten/overijssel-in-nederland.webp"
             alt={`Ligging van de provincie ${provincie.naam} in Nederland`}
             width={1280}
             height={1350}

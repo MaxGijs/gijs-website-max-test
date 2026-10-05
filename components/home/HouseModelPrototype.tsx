@@ -10,7 +10,7 @@ import AddressScan from "@/components/AddressScan";
 import { Accordion, type AccordionItem } from "@/components/ds/navigation/Accordion";
 import styles from "./HouseModelPrototype.module.css";
 import { prepareHouse, disposeHouse } from "@/lib/house-model";
-import { maakRealistisch, grasTextuur, bestratingTextuur, contactschaduwTextuur } from "@/lib/house-realism";
+import { maakRealistisch, grasTextuur, bestratingTextuur, contactschaduwTextuur, klinkerTextuur, uitloopTextuur } from "@/lib/house-realism";
 import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
 import { MAATREGEL_TITELS, type MaatregelTitel } from "@/lib/content/maatregel-titels";
 import { useWoningDraft } from "@/components/woning/WoningDraftProvider";
@@ -148,7 +148,11 @@ function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bounds: Bo
   standen[H.pomp] = closeUp("Warmtepomp_DeWarmte", vloer);
   standen[H.batterij] = closeUp("Thuisbatterij", standen[H.pomp]);
   standen[EIND] = stand(heroLook.clone(), [0.52 * s, 0.5, 0.7], L1 * 1.03);
-  return { standen, midden, kant, s, raam, huis, maat, fundering };
+  // Voordeuren van de woning en de buurwoningen (voor de tuinpaden) en de garagedeur (voor de oprit).
+  const deuren = [kind("Voordeur"), ...scene.getObjectsByProperty("name", "buur_Voordeur")].filter((d): d is Object3D => !!d).map(doos);
+  const garageDeur = scene.getObjectByName("Garagedeur");
+  const garagedeur = garageDeur ? doos(garageDeur) : null;
+  return { standen, midden, kant, s, raam, huis, maat, fundering, deuren, garagedeur };
 }
 
 // Tussen twee standen bewegen via een boog rond de woning (hoek, straal en
@@ -194,7 +198,7 @@ function bewegingen(scene: Object3D, route: ReturnType<typeof bouwRoute>, schaal
     // Isolatie blijft, net als bij dak en spouw, iets achter bij de rest van het
     // huis: zo ontstaat een zichtbare laag tussen de fundering en de vloer.
     if (inLaag(n, "floor-insulation")) { voeg(object, new Vector3(0, VLOER_TIL * 0.45, 0), H.vloer); }
-    else if (!object.userData.garagePanel && !inLaag(n, "heat-pump") && !/^(Fundering|Buurwoning|Garage|Zijgevel_garage)/.test(n)) voeg(object, new Vector3(0, VLOER_TIL, 0), H.vloer);
+    else if (!object.userData.garagePanel && !inLaag(n, "heat-pump") && !/^(Fundering|Buurwoning|Garage)/.test(n)) voeg(object, new Vector3(0, VLOER_TIL, 0), H.vloer);
     if (object.userData.garagePanel || object.userData.sharedWall) continue;
     if (/^(Dakpannen|Tengellatten|Panlatten|Dakkapel|Schoorsteen|Dakgoot|Zonnepaneel)/.test(n)) { voeg(object, new Vector3(0, 2.2, 0), H.dak); continue; }
     if (n === "Dakisolatie") { voeg(object, new Vector3(0, 1.2, 0), H.dak); continue; }
@@ -243,11 +247,35 @@ function markeringen(scene: Object3D, route: ReturnType<typeof bouwRoute>) {
 
 // Eenvoudige omgeving: gazon dat zacht uitloopt, een strook bestrating voor
 // de woning en een zachte contactschaduw onder de gevels.
-function Ondergrond({ route, breedte }: { route: ReturnType<typeof bouwRoute>; breedte: number }) {
-  const texturen = useMemo(() => ({ gras: grasTextuur(), tegels: bestratingTextuur(), schaduw: contactschaduwTextuur() }), []);
-  useEffect(() => () => { texturen.gras.dispose(); texturen.tegels.dispose(); texturen.schaduw.dispose(); }, [texturen]);
+// Rijwoningen (nl): een klinkerstoep langs de straat en een tuinpad dat bij de
+// voordeur uitkomt, naar de referentiefoto's. `eenheid` = wereldmaat van 1 meter.
+function Ondergrond({ route, breedte, nl, eenheid }: { route: ReturnType<typeof bouwRoute>; breedte: number; nl: boolean; eenheid: number }) {
+  const e = eenheid;
+  // Stoep op ruim 2 m voor de gevel; tuinpaden lopen van de stoep tot aan elke voordeur, de oprit tot de garagedeur.
+  const stoepVoor = route.huis.max.z + 2.2 * e;
+  const { texturen, paden } = useMemo(() => {
+    const klinkers = klinkerTextuur();
+    klinkers.repeat.set((breedte + 1.2) / (3.2 * eenheid), 0.5);
+    const paden = [
+      ...route.deuren.map(d => ({ x: d.c.x, breedte: 1.1 * eenheid, start: d.min.z })),
+      ...(route.garagedeur ? [{ x: route.garagedeur.c.x, breedte: route.garagedeur.max.x - route.garagedeur.min.x + 0.4 * eenheid, start: route.garagedeur.min.z }] : []),
+    ].map(p => {
+      const lengte = Math.max(0.2 * eenheid, route.huis.max.z + 2.2 * eenheid - p.start);
+      // Eigen herhaling per pad (zelfde afbeelding), zodat klinkers op pad en oprit even groot zijn.
+      const textuur = klinkers.clone();
+      textuur.repeat.set(p.breedte / (3.2 * eenheid), lengte / (3.2 * eenheid));
+      return { ...p, lengte, textuur };
+    });
+    return {
+      texturen: { gras: grasTextuur(nl), tegels: bestratingTextuur(), schaduw: contactschaduwTextuur(), klinkers, uitloop: uitloopTextuur() },
+      paden,
+    };
+  }, [nl, breedte, eenheid, route]);
+  useEffect(() => () => { Object.values(texturen).forEach(t => t.dispose()); paden.forEach(p => p.textuur.dispose()); }, [texturen, paden]);
   const f = route.fundering;
-  const y = f.min.y + (f.max.y - f.min.y) * 0.45;
+  // Maaiveld net onder de muurvoet (25 cm boven de fundering), zodat de fundering
+  // onder de grond zit en de voordeur gelijkvloers met een klein opstapje staat.
+  const y = nl ? f.max.y + 0.23 * e : f.min.y + (f.max.y - f.min.y) * 0.45;
   const straal = Math.hypot(breedte, route.maat.z) * 0.95;
   return (
     <group>
@@ -255,10 +283,25 @@ function Ondergrond({ route, breedte }: { route: ReturnType<typeof bouwRoute>; b
         <circleGeometry args={[straal, 64]} />
         <meshStandardMaterial map={texturen.gras} transparent depthWrite={false} roughness={1} metalness={0} />
       </mesh>
-      <mesh rotation-x={-Math.PI / 2} position={[route.midden.x, y + 0.004, route.huis.max.z + 0.3]} receiveShadow renderOrder={1}>
-        <planeGeometry args={[breedte + 1.2, 0.5]} />
-        <meshStandardMaterial map={texturen.tegels} transparent depthWrite={false} roughness={0.9} metalness={0} />
-      </mesh>
+      {nl ? (
+        <>
+          <mesh rotation-x={-Math.PI / 2} position={[route.midden.x, y + 0.004, stoepVoor + 0.8 * e]} receiveShadow renderOrder={1}>
+            <planeGeometry args={[breedte + 1.2, 1.6 * e]} />
+            <meshStandardMaterial map={texturen.klinkers} alphaMap={texturen.uitloop} transparent depthWrite={false} roughness={0.95} metalness={0} />
+          </mesh>
+          {paden.map(p => (
+            <mesh key={`${p.x}-${p.start}`} rotation-x={-Math.PI / 2} position={[p.x, y + 0.006, p.start + p.lengte / 2]} receiveShadow renderOrder={1}>
+              <planeGeometry args={[p.breedte, p.lengte]} />
+              <meshStandardMaterial map={p.textuur} roughness={0.95} metalness={0} />
+            </mesh>
+          ))}
+        </>
+      ) : (
+        <mesh rotation-x={-Math.PI / 2} position={[route.midden.x, y + 0.004, route.huis.max.z + 0.3]} receiveShadow renderOrder={1}>
+          <planeGeometry args={[breedte + 1.2, 0.5]} />
+          <meshStandardMaterial map={texturen.tegels} transparent depthWrite={false} roughness={0.9} metalness={0} />
+        </mesh>
+      )}
       <mesh rotation-x={-Math.PI / 2} position={[route.midden.x, y + 0.008, route.midden.z]} renderOrder={2}>
         <planeGeometry args={[route.maat.x * 1.45, route.maat.z * 1.45]} />
         <meshBasicMaterial map={texturen.schaduw} transparent depthWrite={false} />
@@ -387,7 +430,7 @@ function House({ section, onStep, modelUrl, houseType, onLoaded, revealed, mobie
   return (
     <>
       <HouseDaglicht kant={route.kant} mobiel={mobiel} />
-      <Ondergrond route={route} breedte={opgebouwd.breedte} />
+      <Ondergrond route={route} breedte={opgebouwd.breedte} nl={scene.userData.nlRij === true || scene.userData.nlVrij === true} eenheid={scale * scene.scale.x} />
       <group scale={scale} position={position}><primitive object={scene} /></group>
     </>
   );
@@ -457,6 +500,7 @@ export default function HouseModelPrototype({ children }: { children?: ReactNode
             aria-label={step === 0 ? "3D-voorbeeldwoning van Gijs" : `3D-woning, met de nadruk op ${steps[step].label.toLowerCase()}`}
           >
             <div className={styles.halo} />
+            <span className={styles.illustratiefBadge}>Illustratief, niet je echte woning</span>
             <ModelErrorBoundary key={modelUrl}>
               <Canvas camera={{ position: [4, 3, 5], fov: FOV, near: 0.05, far: 60 }} shadows="percentage" frameloop="demand" dpr={mobiel ? [1, 1.5] : [1, 1.75]} style={{ touchAction: "pan-y" }} fallback={<p aria-hidden="true" className={styles.fallback}>3D is niet beschikbaar. De uitleg en de scan kun je gewoon gebruiken.</p>}>
                 <Suspense fallback={null}><House key={modelUrl} section={section} onStep={setStep} modelUrl={modelUrl} houseType={houseType} onLoaded={onLoaded} revealed={revealed} mobiel={mobiel} /></Suspense>
@@ -465,7 +509,7 @@ export default function HouseModelPrototype({ children }: { children?: ReactNode
             </ModelErrorBoundary>
             {step > 0 && <span className={styles.label}>{steps[step].label}</span>}
           </div>
-          <p className={styles.modelNote}><strong>Illustratieve woningweergave.</strong> Scroll om de woning van binnen te bekijken.</p>
+          <p className={styles.modelNote}><strong>Illustratieve woningweergave.</strong> Deze 3D-woning laat zien waar onderdelen ongeveer zitten; het is geen foto of tekening van een echt huis. Scroll om de woning van binnen te bekijken.</p>
           <a href="#woning-opties" className={styles.jump}>Bekijk de mogelijkheden ↓</a>
         </aside>
         <div className={styles.narrative}>

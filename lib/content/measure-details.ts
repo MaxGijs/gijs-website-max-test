@@ -8,15 +8,15 @@ export const MEASURE_DETAILS: Record<string, { types: string[]; execution: strin
     execution: "Tijdens de opname bekijken we de isolatie, radiatoren of vloerverwarming en de ruimte voor binnen- en buitenonderdelen en eventueel een warmwatervat. We bespreken plaatsing en leidingwerk voordat er wordt geïnstalleerd. Op de uitvoeringsdag komt de installateur meestal tussen 08:00 en 09:00 uur aan, lichten we eerst toe wat er gaat gebeuren en bereiden we het leidingwerk voor. Daarna wordt de buitenunit geplaatst en aangesloten op de cv-installatie, ingeregeld, en samen met jou nagelopen en opgeleverd.",
   },
   Dakisolatie: {
-    types: ["Houtvezel: de aangeleverde mogelijkheden omvatten biobased Wood-Fibre.", "Isolatiewol: Knauf Timberframe (HR Timberframe) en Knauf Naturoll 035 (HR NatuWool).", "Andere aangeboden systemen zijn HR Ecofoil Roof en Icynene (HR IcyFoam). We beoordelen per dak welke toepassing mogelijk is."],
+    types: ["Houtvezel: biobased houtvezelisolatie.", "Isolatiewol: inblaaswol en glaswol.", "Andere aangeboden systemen zijn reflecterende folie-isolatie en schuimisolatie. We beoordelen per dak welke toepassing mogelijk is."],
     execution: "We bekijken bestaande isolatie, de dakopbouw, afwerking en bereikbaarheid. Ook dakramen en de dakkapel worden besproken. Vervolgens spreken we af hoe de isolatie en afwerking worden aangebracht. Op de uitvoeringsdag komt de installateur meestal tussen 08:00 en 09:00 uur aan, lichten we eerst toe wat er gaat gebeuren en isoleren we het dak. Het isolatiemateriaal wordt netjes afgedicht, waarna we het werk samen met jou nalopen en opleveren.",
   },
   Spouwisolatie: {
-    types: ["Glaswol: Knauf Supafil 033 / HR EcoWool.", "EPS-parels: HR EcoPearl.", "Schuimisolatie: HR EcoFoam. Bekijk hieronder de materialen en doorsneden."],
+    types: ["Glaswol: glaswolvlokken.", "EPS-parels: EPS-isolatieparels met grafiet.", "Schuimisolatie: PUR-isolatieschuim. Bekijk hieronder de materialen en doorsneden."],
     execution: "Na de opname en voorbereiding worden kleine gaten in de voegen gemaakt. Via die gaten wordt het gekozen materiaal in de spouw aangebracht. De gaten worden afgewerkt en het werk wordt nagelopen. De installateur komt hiervoor meestal tussen 08:00 en 09:00 uur aan en licht van tevoren toe wat er precies gaat gebeuren, waarna rondom de woning wordt gelopen om het werk naar tevredenheid op te leveren.",
   },
   Vloerisolatie: {
-    types: ["Vloerisolatie komt aan de onderzijde van de vloer. De bronnen noemen HR Eco-spray, Icynene en HR Eco-foil floor.", "Bodemisolatie komt op de bodem van de kruipruimte, bijvoorbeeld met HR EcoPearl-parels. Dit is een andere plek en aanpak dan isolatie direct onder de vloer."],
+    types: ["Vloerisolatie komt aan de onderzijde van de vloer. De bronnen noemen PUR-schuim, schuimsprayisolatie en reflecterende folie-isolatie.", "Bodemisolatie komt op de bodem van de kruipruimte, bijvoorbeeld met EPS-isolatieparels. Dit is een andere plek en aanpak dan isolatie direct onder de vloer."],
     execution: "We bekijken de vloerconstructie, bereikbaarheid en vochtomstandigheden van de kruipruimte. Daarna bespreken we de geschikte aanpak en voorbereiding. Op de uitvoeringsdag komt de installateur meestal tussen 08:00 en 09:00 uur aan, wordt de kruipruimte nagelopen op bijzonderheden en het isolatiemateriaal aangebracht; bij de oplevering vertellen we precies wat er is gedaan. Overweeg je een nieuwe vloer met vloerverwarming? Bekijk dan het onderdeel Vloerverwarming.",
   },
   Isolatieglas: {
@@ -24,11 +24,11 @@ export const MEASURE_DETAILS: Record<string, { types: string[]; execution: strin
     execution: "Voor de plaatsing wordt het glas ingemeten; de inmeter neemt hiervoor telefonisch contact op. Op de uitvoeringsdag komt de installateur meestal tussen 08:00 en 09:00 uur aan, licht toe wat er gaat gebeuren, haalt de oude beglazing weg en plaatst het nieuwe isolatieglas. Daarna wordt het werk nagelopen en opgeleverd.",
   },
   Kozijnen: {
-    types: ["Kunststof kozijnen: goedkoper en beter bestand tegen zilte lucht, in 70, 85 of 120 mm inbouwdiepte.", "Aluminium kozijnen: lichter van gewicht en geschikter voor grote constructies, onder meer met het Aluprof MB-79N-systeem.", "Ook deuren en schuifpuien kunnen worden meegenomen."],
+    types: ["Kunststof kozijnen: goedkoper en beter bestand tegen zilte lucht, in 70, 85 of 120 mm inbouwdiepte.", "Aluminium kozijnen: lichter van gewicht en geschikter voor grote constructies.", "Ook deuren en schuifpuien kunnen worden meegenomen."],
     execution: "De ramen worden ingemeten, waarna samen met jou wordt bepaald welk profiel en welke uitvoering passen. Daarna wordt het nieuwe kozijn geplaatst en afgewerkt, en wordt het werk nagelopen en opgeleverd.",
   },
   Vloerverwarming: {
-    types: ["In een geschikte bestaande vloer: bijvoorbeeld door de leidingen in te frezen. Een volledig nieuwe vloeropbouw is dan niet vanzelfsprekend nodig.", "In een nieuwe vloeropbouw: we bekijken welke onderbouw en dekvloer bij je woning passen. Bij Gijs worden schuimbeton, zandcementdekvloeren en Eco2floor uitsluitend toegepast in combinatie met vloerverwarming."],
+    types: ["In een geschikte bestaande vloer: bijvoorbeeld door de leidingen in te frezen. Een volledig nieuwe vloeropbouw is dan niet vanzelfsprekend nodig.", "In een nieuwe vloeropbouw: we bekijken welke onderbouw en dekvloer bij je woning passen. Bij Gijs worden schuimbeton, zandcementdekvloeren en gietdekvloeren uitsluitend toegepast in combinatie met vloerverwarming."],
     execution: "We beoordelen de bestaande vloer, beschikbare opbouw en aansluiting op de verwarming. Daarna bespreken we de uitvoering en de voorbereiding voor de uiteindelijke afwerkvloer. Of levering en plaatsing van die afwerkvloer onderdeel van de opdracht zijn, wordt apart afgesproken.",
   },
   Thuisbatterij: {

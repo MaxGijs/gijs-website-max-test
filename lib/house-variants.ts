@@ -8,7 +8,24 @@ function independentCopy(object:Object3D){
   return copy;
 }
 
-export function applyAttachedVariant(scene:Group,source:Group,type:HouseType,scan:boolean){
+export function applyAttachedVariant(scene:Group,source:Group,type:HouseType,scan:boolean,hoekZijde?:"Links"|"Rechts"){
+  // Bij een hoekwoning bepaalt de bewoner zelf aan welke kant de buurwoning staat (alleen in de scan,
+  // dus alleen als hoekZijde is meegegeven); zonder die keuze blijft een hoekwoning zoals voorheen.
+  if(type==="hoekwoning"){
+    if(!hoekZijde)return;
+    const side=hoekZijde==="Rechts"?"rechts":"links";
+    for(const part of [...scene.children]){
+      if(part.name.startsWith(`Raam_${side}_`)||part.name===`Spouwisolatie_${side}`){dispose(part);scene.remove(part);}
+    }
+    const wall=scene.getObjectByName(`Buitengevel_${side}`) as Mesh;
+    const original=source.getObjectByName(`Buitengevel_${side}`) as Mesh|undefined;
+    if(wall){
+      if(original){if(wall.geometry.userData.owned)wall.geometry.dispose();wall.geometry=original.geometry;}
+      wall.userData.sharedWall=true;
+      if(scan){for(const material of Array.isArray(wall.material)?wall.material:[wall.material]){const mat=material as MeshStandardMaterial;mat.map=null;mat.color.set("#bdc6bd");}}
+    }
+    return;
+  }
   if(type!=="tussenwoning"&&type!=="twee-onder-een-kap")return;
   const sharedSides=type==="tussenwoning"?["links","rechts"]:["links"];
   for(const side of sharedSides){

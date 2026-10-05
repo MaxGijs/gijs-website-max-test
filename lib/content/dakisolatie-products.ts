@@ -13,11 +13,11 @@
 // twee zijn daarom bewust niet als materiaalkaart opgenomen.
 export const DAK_PRODUCTS = [
   {
-    name: "HR Wood-Fibre",
+    name: "Houtvezelisolatie",
     group: "Houtvezel",
     badge: "Houtvezel, inblaastoepassing",
-    image: "/productbladen/woodfibre.png",
-    alt: "HR Wood-Fibre houtvezelisolatie voor dakisolatie",
+    image: "/images/maatregelen/dakisolatie/woodfibre.png",
+    alt: "Houtvezelisolatie voor dakisolatie",
     text: "Houtvezelisolatie voor inblaastoepassingen, geschikt voor het isoleren van gesloten holle ruimtes en als liggende isolatie in horizontale constructies.",
     benefits: [
       "Uitstekende warmte-isolatie en warmte-accumulatievermogen",
@@ -27,11 +27,11 @@ export const DAK_PRODUCTS = [
     ],
   },
   {
-    name: "HR TimberWool",
+    name: "Inblaaswol",
     group: "Isolatiewol",
     badge: "Isolatiewol, inblaastoepassing",
-    image: "/productbladen/TimberWool.png",
-    alt: "HR TimberWool inblaaswol voor dakisolatie",
+    image: "/images/maatregelen/dakisolatie/TimberWool.png",
+    alt: "Inblaaswol voor dakisolatie",
     text: "Inblaaswol voor het thermisch en akoestisch na-isoleren van hellende dakconstructies en houten verdiepingsvloeren, toepasbaar bij een framediepte van 70 tot 350 mm.",
     benefits: [
       "Hoge thermische en akoestische isolatiewaarde",
@@ -41,11 +41,11 @@ export const DAK_PRODUCTS = [
     ],
   },
   {
-    name: "HR EcoFoil Roof",
+    name: "Reflecterende folie-isolatie",
     group: "Andere systemen",
     badge: "Reflecterend foliesysteem",
-    image: "/productbladen/pif_folie_voorbeeld-removebg-preview.png",
-    alt: "HR EcoFoil Roof reflecterende folie-isolatie voor dakisolatie",
+    image: "/images/maatregelen/dakisolatie/pif_folie_voorbeeld-removebg-preview.png",
+    alt: "Reflecterende folie-isolatie voor dakisolatie",
     text: "Dampdichte en vochtwerende isolatie die aan de binnenzijde van hellende daken kan worden toegepast, opgebouwd uit meerdere lagen warmte-reflecterend aluminium.",
     benefits: [
       "Zeer flexibel en makkelijk op maat te snijden",

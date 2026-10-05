@@ -1,5 +1,5 @@
 // Landelijke subsidie per m², overgenomen uit het subsidieoverzicht van Gijs
-// (public/productbladen/subsidie/subsidieoverzicht-1.png en -2.png). Alleen
+// (public/images/kennis/subsidie/subsidieoverzicht-1.png en -2.png). Alleen
 // maatregelen die daar een bedrag per m² hebben staan hier; warmtepomp,
 // zonnepanelen, vloerverwarming en thuisbatterij bewust niet.
 export type SubsidiePerM2 = { soort?: string; een: string; meer: string; oppervlak: string };

@@ -1,5 +1,5 @@
 // Dataset voor lokale SEO (Twente), aangeleverd als "Gemeenteborden"-
-// beeldset (zie public/gemeenteborden/<Gemeente>/<Kern>.png — simpele,
+// beeldset (zie public/images/regio/gemeenteborden/<Gemeente>/<Kern>.png — simpele,
 // zelf ontworpen plaatsnaambord-graphics, geen foto's, dus zonder
 // auteursrechtelijk risico).
 //
@@ -13,7 +13,7 @@
 export type LokaleSeoKern = { naam: string; bord: string };
 export type LokaleSeoGemeente = { naam: string; kernen: LokaleSeoKern[] };
 
-const bord = (gemeente: string, kern: string) => `/gemeenteborden/${gemeente}/${kern}.png`;
+const bord = (gemeente: string, kern: string) => `/images/regio/gemeenteborden/${gemeente}/${kern}.png`;
 const kernen = (gemeente: string, namen: string[]): LokaleSeoKern[] =>
   namen.map(naam => ({ naam, bord: bord(gemeente, naam) }));
 

@@ -1,0 +1,15 @@
+/* TIJDELIJK: testmenu voor het Anime.js-prototype. Bewust "ontwikkelaarsachtig" (gestippelde rand, monospace). */
+.nav { position: fixed; right: 12px; top: 50%; transform: translateY(-50%); z-index: 70; max-width: 168px; padding: 8px; border: 2px dashed #c2410c; border-radius: 10px; background: #fff7ed; color: #7c2d12; font: 12px/1.3 ui-monospace, SFMono-Regular, Menlo, monospace; box-shadow: 0 6px 20px rgba(0,0,0,.12); }
+.nav summary { cursor: pointer; font-weight: 700; }
+.knoppen { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+.knoppen button { cursor: pointer; text-align: left; padding: 5px 8px; border: 1px solid #fdba74; border-radius: 6px; background: #fff; color: inherit; font: inherit; }
+.knoppen button[aria-pressed="true"] { background: #c2410c; border-color: #c2410c; color: #fff; }
+.knoppen button:focus-visible { outline: 2px solid #c2410c; outline-offset: 2px; }
+.noot { margin-top: 6px; font-size: 10px; opacity: .8; }
+@media (max-width: 767px) {
+  /* Mobiel: onderaan, horizontaal scrollbaar, boven de zwevende scanbalk. */
+  .nav { top: auto; bottom: 84px; right: 8px; left: 8px; transform: none; max-width: none; padding: 6px; }
+  .knoppen { flex-direction: row; overflow-x: auto; }
+  .knoppen button { flex: none; }
+  .noot { display: none; }
+}

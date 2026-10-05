@@ -10,8 +10,5 @@ export const CONTACT = {
   email: "info@groeninjestraat.nl",
   phone: "074 - 234 0 777",
   phoneHref: "tel:+31742340777",
-  // TODO: KvK-nummer van Gijs nog laten bevestigen. Staat nergens in het
-  // aangeleverde materiaal, dus bewust leeg: de footer toont de KvK-regel
-  // pas zodra hier een bevestigd nummer staat. Nooit een nummer gokken.
-  kvk: "",
+  kvk: "86736094",
 };

@@ -15,7 +15,11 @@ export type UitvoeringStap = {
 // lichtgroene uitlegvlak begint daarna (gemeten op isolatieglas-stap-5/6.svg).
 const UITLEG_CROP_FRACTIE = 0.647;
 
-const PROCES_DIR = path.join(process.cwd(), "public", "productbladen", "proces");
+// `bestand` is een pad relatief aan public/images (bijv.
+// "maatregelen/dakisolatie/proces/dakisolatie-stap-1.svg"); de gedeelde
+// pijl staat in public/images/shared/icons/pijl.svg.
+const IMAGES_DIR = path.join(process.cwd(), "public", "images");
+const PIJL_BESTAND = "shared/icons/pijl.svg";
 
 // De stap-SVG's en pijl.svg worden rechtstreeks (inline) in de pagina gezet
 // in plaats van via <img src="...svg">. Reden: bij een extern ingeladen
@@ -25,7 +29,7 @@ const PROCES_DIR = path.join(process.cwd(), "public", "productbladen", "proces")
 // dat sluit een categorie "ziet er ergens anders toch iets zachter uit" uit.
 // De tekening zelf verandert hierdoor niet: exact dezelfde bestandsinhoud.
 function inlineSvg(bestand: string, opts: { className: string; ariaLabel?: string }) {
-  const raw = fs.readFileSync(path.join(PROCES_DIR, bestand), "utf8");
+  const raw = fs.readFileSync(path.join(IMAGES_DIR, bestand), "utf8");
   const start = raw.indexOf("<svg");
   let svg = raw.slice(start).replace(/<script[\s\S]*?<\/script>/gi, "");
   const aria = opts.ariaLabel
@@ -95,7 +99,7 @@ export function UitvoeringStappen({ stappen }: { stappen: UitvoeringStap[] }) {
               aria-hidden="true"
               className="flex justify-center py-5 sm:hidden xl:relative xl:mx-2 xl:block xl:w-7 xl:shrink-0 xl:py-0"
               dangerouslySetInnerHTML={{
-                __html: inlineSvg("pijl.svg", {
+                __html: inlineSvg(PIJL_BESTAND, {
                   className:
                     "h-6 w-auto max-w-none rotate-90 xl:absolute xl:inset-x-0 xl:top-[33%] xl:h-auto xl:w-full xl:-translate-y-1/2 xl:rotate-0",
                 }),

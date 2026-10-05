@@ -4,6 +4,7 @@
 .visual { position: relative; flex: 1; min-height: 0; border-radius: 32px; overflow: hidden; }
 .halo { position: absolute; inset: 8% -4%; border-radius: 50%; background: radial-gradient(ellipse, #e6eee5 0%, #eff3ee 45%, transparent 70%); pointer-events: none; }
 .label { position: absolute; top: 14px; right: 12px; width: 196px; text-align: center; padding: 10px 14px; border-radius: 999px; background: var(--glas); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border: 1px solid var(--glas-rand); box-shadow: var(--zacht); color: var(--gijs-donkergroen); font-size: 14px; font-weight: 600; letter-spacing: -0.01em; pointer-events: none; }
+.illustratiefBadge { position: absolute; z-index: 2; top: 14px; left: 12px; padding: 7px 14px; border-radius: 999px; background: rgba(19,62,53,.88); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .01em; pointer-events: none; }
 .modelNote { text-align: center; font-size: 13px; line-height: 1.5; color: var(--text-muted); margin-top: 8px; }
 .jump { text-align: center; font-size: 13px; color: var(--accent-700); margin-top: 12px; text-decoration: none; }
 /* Woningtype-keuze: vier grote knoppen, altijd zichtbaar, met duidelijke
