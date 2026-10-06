@@ -5,3 +5,5 @@
 .orientation{margin-top:28px;background:var(--grey-050);border-radius:var(--radius-xl);padding:32px}.orientation h2{font-size:var(--fs-500);margin:0 0 16px}.orientationGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.orientationItem{background:var(--surface-card);border:0;border-radius:var(--radius-lg);padding:18px}.orientationItem p{margin:0 0 10px;font-weight:var(--fw-semibold);font-size:var(--fs-200)}.orientationItem .orientationLinks{display:flex;flex-direction:column;gap:6px}.orientationItem a{font-size:var(--fs-100);font-weight:var(--fw-semibold);text-decoration:underline;text-underline-offset:3px;color:var(--accent-700)}
 @media(max-width:900px){.orientationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.orientation{padding:18px 16px;margin-top:20px}.orientationGrid{grid-template-columns:1fr;gap:10px}}
+.faqGroep{margin:32px 0 4px;font-size:13px;font-weight:var(--fw-bold);text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted)}
+.faqGroep:first-of-type{margin-top:4px}

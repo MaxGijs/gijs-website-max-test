@@ -18,7 +18,7 @@ import { FOCUS, STATEN, type Regie } from "./staten";
 import basis from "../../HouseModelPrototype.module.css";
 
 /*
- * PROTOTYPE (branch animejs-poppenhuis-prototype): het poppenhuis met Anime.js v4.
+ * PROTOTYPE (branch animejs-poppenhuis-prototype): de homepage_woning met Anime.js v4.
  *
  * Eén lus: R3F (frameloop="demand") is de enige render- én animatielus voor de woning.
  * - De 3D-overgangen zijn Anime.js-timelines met autoplay: false. Ze komen nooit in de Anime.js-engine;
@@ -65,6 +65,12 @@ function Woning({ sectie, onStaat, onGeladen, mobiel, annotaties, regie }: Props
       vuil: false,
       minder: false,
       direct: true,
+      // Thuisbatterij <-> overzicht springt van een close-up in de trapkast naar een wijds
+      // exterieurbeeld: een rechtstreekse boog (mengStanden) sneed daarbij door de gevel, omdat de
+      // straal halverwege al krimpt terwijl de hoek nog draait. omkeer+tussenstand splitsen die ene
+      // overgang in twee veilige helften, zie useFrame hieronder. Geen andere overgang gebruikt dit.
+      omkeer: false,
+      tussenstand: null as Stand | null,
       labelAan: {} as Record<string, boolean>,
       labelMaat: new Map<string, { w: number; h: number }>(),
     };
@@ -83,11 +89,24 @@ function Woning({ sectie, onStaat, onGeladen, mobiel, annotaties, regie }: Props
   useEffect(() => {
     naarRef.current = (i: number) => {
       if (i === r.doel || !STATEN[i]) return;
+      const vorigeId = STATEN[r.doel]?.id;
       r.doel = i;
       onStaat(i);
       if (!d.lichten.length) wereld.traverse(o => { const l = o as Light; if (l.isLight) d.lichten.push({ licht: l, basis: l.intensity }); });
       r.van = { pos: r.huidig.pos.clone(), look: r.huidig.look.clone() };
       r.naar = d.standen[i];
+      r.omkeer = (vorigeId === "batterij" && STATEN[i].id === "overzicht") || (vorigeId === "overzicht" && STATEN[i].id === "batterij");
+      if (r.omkeer) {
+        // Fase 1 (t<0.5): rechte lijn terug, zelfde hoek rond de woning, zelfde kijkrichting —
+        // puur verder weg, geen draai. Fase 2 (t>=0.5): normale boog (mengStanden) van dit
+        // tussenpunt naar de eindstand, op een constante (dus veilige) straal.
+        const ha = Math.atan2(r.van.pos.x - d.midden.x, r.van.pos.z - d.midden.z);
+        const rb = Math.hypot(r.naar.pos.x - d.midden.x, r.naar.pos.z - d.midden.z);
+        r.tussenstand = {
+          pos: new Vector3(d.midden.x + Math.sin(ha) * rb, r.van.pos.y, d.midden.z + Math.cos(ha) * rb),
+          look: r.van.look.clone(),
+        };
+      }
       r.tl?.cancel();
       r.tl = bouwOvergang(d, STATEN[i], mobiel ? KLEIN : 1);
       r.start = performance.now();
@@ -147,7 +166,16 @@ function Woning({ sectie, onStaat, onGeladen, mobiel, annotaties, regie }: Props
 
     // 2. Proxywaarden toepassen. Camera: boog rond de woning, zoals op de huidige homepage.
     const { pos, punt } = tijdelijk.current;
-    mengStanden(r.van, r.naar, d.camera.t, d.midden, r.huidig.pos, r.huidig.look);
+    if (r.omkeer && r.tussenstand) {
+      if (d.camera.t < 0.5) {
+        r.huidig.pos.lerpVectors(r.van.pos, r.tussenstand.pos, d.camera.t / 0.5);
+        r.huidig.look.copy(r.van.look);
+      } else {
+        mengStanden(r.tussenstand, r.naar, (d.camera.t - 0.5) / 0.5, d.midden, r.huidig.pos, r.huidig.look);
+      }
+    } else {
+      mengStanden(r.van, r.naar, d.camera.t, d.midden, r.huidig.pos, r.huidig.look);
+    }
     pos.copy(r.huidig.pos);
     if (mobiel) pos.sub(r.huidig.look).multiplyScalar(1.12).add(r.huidig.look);
     camera.position.copy(pos);
@@ -195,7 +223,7 @@ function Woning({ sectie, onStaat, onGeladen, mobiel, annotaties, regie }: Props
   return (
     <>
       {/* Zelfde lichtopstelling als de huidige homepage. Dit licht vanaf de open kant geeft als enige
-          schaduw binnen het poppenhuis (de zon komt van de dichte kant), dus het blijft schaduw werpen.
+          schaduw binnen de homepage_woning (de zon komt van de dichte kant), dus het blijft schaduw werpen.
           1024² (was 2048² op desktop) met halve radius: zelfde breedte van de schaduwrand, 4x minder texels. */}
       <HouseDaglicht kant="rechts" mobiel={mobiel} bereik={5} />
       <directionalLight position={[6, 3.6, 2.4]} intensity={1.35} color="#fff3e2" castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0005} shadow-normalBias={0.02} shadow-radius={mobiel ? 3 : 1.5}>

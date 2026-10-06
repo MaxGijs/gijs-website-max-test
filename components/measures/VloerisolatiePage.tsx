@@ -13,6 +13,8 @@ import { MaterialCard } from "@/components/measures/MaterialCard";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
+import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
+import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import { StatRow } from "@/components/measures/StatRow";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
@@ -163,7 +165,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
         subtitle="Een warmere vloer, minder warmteverlies"
         intro="Gijs brengt vloerisolatie aan de onderzijde van de begane grondvloer aan, vanuit de kruipruimte. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
         image="/images/maatregelen/vloerisolatie/hero_vloerisolatie.png"
         imageAlt="Vloerisolatie wordt vanuit de kruipruimte tegen de onderzijde van de vloer aangebracht"
         imageCaption="Isolatiemateriaal wordt tegen de onderzijde van de vloer aangebracht"
@@ -252,7 +254,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
         </div>
       </section>
 
-      <section id="hoe-werkt-het" className="scroll-mt-40 mb-14">
+      <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
         <p className="text-zinc-600 mb-10 max-w-2xl">Gijs werkt volgens een vaste aanpak. Zo weet je precies wat je kunt verwachten.</p>
         {/* Gedeeld component, gebruikt door alle isolatiepagina's, zodat de
@@ -296,35 +298,17 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
         </p>
       </section>
 
-      <section id="voorwaarden" className="scroll-mt-40 mb-14">
+      <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
         <p className="text-zinc-600 mb-6 max-w-2xl">
           Voor een goede uitvoering gelden een paar praktische voorwaarden.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 mb-3">Voor alle systemen</p>
-            <ul className="flex flex-col gap-3">
-              {VOORWAARDEN_ALGEMEEN.map(voorwaarde => (
-                <li key={voorwaarde} className="flex items-start gap-3 text-zinc-700">
-                  <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                  <span>{voorwaarde}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
-          <Card>
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 mb-3">Aanvullend bij PUR-schuim en schuimsprayisolatie</p>
-            <ul className="flex flex-col gap-3">
-              {VOORWAARDEN_SPUITSYSTEMEN.map(voorwaarde => (
-                <li key={voorwaarde} className="flex items-start gap-3 text-zinc-700">
-                  <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                  <span>{voorwaarde}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
-        </div>
+        <VoorwaardenKolommen
+          groepen={[
+            { label: "Voor alle systemen", items: VOORWAARDEN_ALGEMEEN },
+            { label: "Aanvullend bij PUR-schuim en schuimsprayisolatie", items: VOORWAARDEN_SPUITSYSTEMEN },
+          ]}
+        />
       </section>
 
       <section id="subsidie" className="scroll-mt-40 mb-14">
@@ -358,7 +342,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
         </p>
       </section>
 
-      <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">
+      <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>
         <div className="grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 items-start">
           <div>
@@ -375,7 +359,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <Button href="/contact#energiescan" variant="accent">Plan een gratis energiescan</Button>
+            <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>

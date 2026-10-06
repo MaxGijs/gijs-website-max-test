@@ -2,7 +2,7 @@
 .legend { padding: 0; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; color: var(--gijs-donkergroen); }
 .uitleg { margin-top: 4px; font-size: 15px; color: var(--text-muted); }
 .kaarten { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
-.kaart { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 10px; min-height: 132px; padding: 18px 12px 14px; border-radius: 18px; background: var(--grey-050); color: var(--gijs-donkergroen); text-align: center; cursor: pointer; box-shadow: inset 0 0 0 0 transparent; transition: background .2s ease, box-shadow .2s ease; }
+.kaart { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 10px; min-width: 0; min-height: 132px; padding: 18px 12px 14px; border-radius: 18px; background: var(--grey-050); color: var(--gijs-donkergroen); text-align: center; cursor: pointer; box-shadow: inset 0 0 0 0 transparent; transition: background .2s ease, box-shadow .2s ease; }
 .kaart:hover { background: var(--grey-100); }
 .kaart input { position: absolute; opacity: 0; width: 0; height: 0; }
 .kaart:has(input:checked) { background: #fff; box-shadow: inset 0 0 0 2px var(--gijs-donkergroen), var(--shadow-1); }
@@ -12,5 +12,5 @@
 /* De aangeleverde SVG's hebben een witte achtergrond: multiply laat die wegvallen tegen de kaart. */
 .pictogram { height: 56px; width: auto; max-width: 100%; flex: none; mix-blend-mode: multiply; }
 .andersVeld { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--gijs-donkergroen); max-width: 360px; }
-.label { font-size: 14px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
+.label { max-width: 100%; font-size: 14px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; }
 @media (max-width: 600px) { .kaarten { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kaart { min-height: 120px; } }

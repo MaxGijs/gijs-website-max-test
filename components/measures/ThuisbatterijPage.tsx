@@ -13,6 +13,8 @@ import { UitvoeringStappen, type UitvoeringStap } from "@/components/measures/Ui
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails, TechnicalDetailRow } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
+import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
+import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -195,7 +197,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
         subtitle="Sla je energie op voor later gebruik"
         intro="Een thuisbatterij slaat elektriciteit op. Je energiegebruik en wat je wilt bereiken vormen het vertrekpunt voor het advies. Gijs plaatst hiervoor een modulaire thuisbatterij."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
         image="/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png"
         imageAlt="Een Gijs-installateur sluit een thuisbatterij aan"
       />
@@ -348,44 +350,26 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
           </TechnicalDetails>
         </section>
 
-        <section id="hoe-werkt-het" className="scroll-mt-40 mb-16">
+        <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
           <p className="text-lg text-zinc-600 mb-10 max-w-2xl">Gijs plaatst de thuisbatterij in één dag, volgens een vaste aanpak.</p>
           <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
         </section>
 
-        <section id="voorwaarden" className="scroll-mt-40 mb-16">
+        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
           <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
             Voor een goede uitvoering gelden een paar praktische voorwaarden.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="!p-8">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-4">Voor de installatie</h3>
-              <ul className="flex flex-col gap-4">
-                {VOORWAARDEN_VOOR.map(v => (
-                  <li key={v} className="flex items-start gap-3 text-base text-zinc-700">
-                    <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                    <span>{v}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-            <Card className="!p-8">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-4">Tijdens de installatie</h3>
-              <ul className="flex flex-col gap-4">
-                {VOORWAARDEN_TIJDENS.map(v => (
-                  <li key={v} className="flex items-start gap-3 text-base text-zinc-700">
-                    <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                    <span>{v}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </div>
+          <VoorwaardenKolommen
+            groepen={[
+              { label: "Voor de installatie", items: VOORWAARDEN_VOOR },
+              { label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS },
+            ]}
+          />
         </section>
 
-        <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">
+        <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>
           <div className="grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 items-start">
             <div>
@@ -402,7 +386,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Plan een gratis energiescan</Button>
+              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

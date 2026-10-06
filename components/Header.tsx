@@ -217,14 +217,14 @@ function VerduurzamenDropdown({ label }: { label: string }) {
       {open && (
         <div className="absolute left-0 top-full mt-1 min-w-[220px] bg-white rounded-[var(--radius-card)] border border-[var(--grey-200)] shadow-[var(--shadow-2)] p-2 z-50">
           <FlyoutRow label="Maatregelen" href="/maatregelen" onNavigate={close}>
-            <FlyoutRow label="Isolatie" onNavigate={close}>
+            <FlyoutRow label="Isolatie" href="/maatregelen#isolatie" onNavigate={close}>
               {ISOLATIE_ITEMS.map(item => (
                 <Link key={item.href} href={item.href} onClick={close} className={styles.megaLink}>
                   {item.label}
                 </Link>
               ))}
             </FlyoutRow>
-            <FlyoutRow label="Installaties" onNavigate={close}>
+            <FlyoutRow label="Installaties" href="/maatregelen#installaties" onNavigate={close}>
               {INSTALLATIES_ITEMS.map(item => (
                 <Link key={item.href} href={item.href} onClick={close} className={styles.megaLink}>
                   {item.label}
@@ -246,16 +246,27 @@ function VerduurzamenDropdown({ label }: { label: string }) {
   );
 }
 
-// Mobiele geneste accordion: één buitenste sectie (bijv. "Isolatie") die
-// open/dicht klapt en daarbinnen de losse maatregellinks toont.
-function MobileSubAccordion({ label, items, onNavigate }: { label: string; items: NavLink[]; onNavigate: () => void }) {
+// Mobiele geneste accordion: één buitenste sectie (bijv. "Isolatie"). De
+// categorienaam zelf is een gewone link naar de bestaande overzichtspagina
+// (zelfde "/maatregelen#isolatie"-anchor als desktop); de chevron ernaast
+// is een los knopje dat alleen de onderliggende maatregellinks open/dicht
+// klapt, zodat beide acties bereikbaar blijven.
+function MobileSubAccordion({ label, href, items, onNavigate }: { label: string; href: string; items: NavLink[]; onNavigate: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <button type="button" onClick={() => setOpen(v => !v)} aria-expanded={open} className={styles.mobileSubButton}>
-        {label}
-        <Icon name={open ? "chevron-up" : "chevron-down"} size="sm" />
-      </button>
+      <div className={styles.mobileSubRow}>
+        <Link href={href} onClick={onNavigate} className={styles.mobileSubLink}>{label}</Link>
+        <button
+          type="button"
+          onClick={() => setOpen(v => !v)}
+          aria-expanded={open}
+          aria-label={`${open ? "Verberg" : "Toon"} maatregelen binnen ${label}`}
+          className={styles.mobileSubToggle}
+        >
+          <Icon name={open ? "chevron-up" : "chevron-down"} size="sm" />
+        </button>
+      </div>
       {open && (
         <div className={styles.mobileSubPanel}>
           {items.map(item => (
@@ -323,7 +334,7 @@ export default function Header() {
               een andere pagina navigeert dit eerst naar home en scrollt
               de browser daarna naar het anker. */}
           <Button href="/contact#energiescan" variant="primary" size="sm">
-            Plan een gratis energiescan
+            Vraag een gratis energiescan aan
           </Button>
         </div>
       </nav>
@@ -356,8 +367,8 @@ export default function Header() {
                   <Link href="/maatregelen" onClick={closeMenu} className="block no-underline text-sm font-semibold text-[var(--accent-700)] py-2">
                     Maatregelen: bekijk alle mogelijkheden
                   </Link>
-                  <MobileSubAccordion label="Isolatie" items={ISOLATIE_ITEMS} onNavigate={closeMenu} />
-                  <MobileSubAccordion label="Installaties" items={INSTALLATIES_ITEMS} onNavigate={closeMenu} />
+                  <MobileSubAccordion label="Isolatie" href="/maatregelen#isolatie" items={ISOLATIE_ITEMS} onNavigate={closeMenu} />
+                  <MobileSubAccordion label="Installaties" href="/maatregelen#installaties" items={INSTALLATIES_ITEMS} onNavigate={closeMenu} />
                   <div className="flex flex-col pb-2">
                     {VERDUURZAMEN_FOOTER_LINKS.map(item => (
                       <NavItemLink
@@ -385,7 +396,7 @@ export default function Header() {
               </div>
             );
           })}
-          <div onClick={() => setMobileOpen(false)}><Button href="/contact#energiescan" variant="accent" size="md" fullWidth className="mt-3">Plan een gratis energiescan</Button></div>
+          <div onClick={() => setMobileOpen(false)}><Button href="/contact#energiescan" variant="accent" size="md" fullWidth className="mt-3">Vraag een gratis energiescan aan</Button></div>
           <div className="mt-4"><SocialLinks /></div>
         </nav>
       )}

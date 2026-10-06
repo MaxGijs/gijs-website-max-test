@@ -68,6 +68,6 @@ export default function MeasureExplorer() {
         <div className={styles.cardBody}><h3>{item.name}</h3><p>{item.result}</p><span>Lees meer over {item.name.toLowerCase()} <span aria-hidden="true">→</span></span></div>
       </Link>)}</div>
     </section>)}
-    <section className={styles.cta}><div><h2>Twijfel je wat past?</h2><p>Je hoeft nog geen maatregel of merk te kiezen. Bespreek je huis en je wensen met Gijs.</p></div><Link className={styles.button} href="/contact#energiescan">Plan een gratis energiescan →</Link></section>
+    <section className={styles.cta}><div><h2>Twijfel je wat past?</h2><p>Je hoeft nog geen maatregel of merk te kiezen. Bespreek je huis en je wensen met Gijs.</p></div><Link className={styles.button} href="/contact#energiescan">Vraag een gratis energiescan aan →</Link></section>
   </div>;
 }

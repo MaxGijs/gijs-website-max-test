@@ -70,7 +70,8 @@
 @media (max-width: 1100px) { .story { --house-header: 64px; } }
 @media (max-width: 767px) {
   .story { --house-header: 64px; display: block; }
-  .visualColumn { z-index: 20; height: 34svh; min-height: 200px; padding: 0 12px 6px; background: rgba(255,255,255,.92); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--glas-rand); }
+  /* Geen backdrop-filter: blur op een sticky element moet bij elk scrollframe opnieuw worden berekend en maakt scrollen op mobiel schokkerig. */
+  .visualColumn { z-index: 20; height: 34svh; min-height: 200px; padding: 0 12px 6px; background: #fff; border-bottom: 1px solid var(--glas-rand); }
   .visual { min-height: 170px; border-radius: 20px; }
   .jump { display: none; }
   .modelNote { font-size: 13px; margin-top: 2px; }

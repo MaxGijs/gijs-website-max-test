@@ -162,7 +162,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         subtitle="Kunststof en aluminium kozijnen"
         intro="Gijs plaatst kunststof en aluminium kozijnen, inclusief deuren en schuifpuien. Hieronder lees je welke profielen en producten er zijn en hoe de plaatsing verloopt."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Plan een gratis energiescan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
         image="/images/maatregelen/kozijnen/kozijnen-hero.jpg"
         imageAlt="Nieuw geplaatst kozijn met raam en voordeur"
       />
@@ -471,7 +471,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Plan een gratis energiescan</Button>
+              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

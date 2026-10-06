@@ -1,7 +1,7 @@
 import type { Sleutel } from "../stappen";
 
 /*
- * PROTOTYPE (branch animejs-poppenhuis-prototype): Anime.js v4 op het bestaande poppenhuis.
+ * PROTOTYPE (branch animejs-poppenhuis-prototype): Anime.js v4 op de bestaande homepage_woning.
  * Wegwerpcode om te beoordelen of Anime.js past bij de echte interactieve woning.
  * Verwijderen = deze map weg + in app/page.tsx weer HomeCutawayTest renderen.
  *
@@ -32,7 +32,7 @@ import type { Sleutel } from "../stappen";
  *                   gemeubileerde interieur (maquette.ts) te verschuiven of erdoorheen te prikken.
  *  8 Warmtepomp     Warmtepomp_DeWarmte (+ Warmtepomp_binnenunit) verschijnt (opacity, kleine schaalbeweging).
  *  9 Thuisbatterij  Thuisbatterij (in de trapkast, zie maquette.ts) verschijnt op dezelfde manier.
- * 10 Overzicht      alles rustig terug naar het open poppenhuis met alle installaties; camera = route.standen[EIND].
+ * 10 Overzicht      alles rustig terug naar de open homepage_woning met alle installaties; camera = route.standen[EIND].
  *
  * Installaties verschijnen bij hun eigen hoofdstuk en blijven daarna staan (net als op de huidige homepage).
  * Het bouwdeel in focus krijgt een groene zweem en een annotatielijn; de rest dimt licht (lichtsterkte).

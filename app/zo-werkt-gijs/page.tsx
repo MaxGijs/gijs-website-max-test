@@ -78,7 +78,19 @@ export default function ZoWerktGijs() {
                 </p>
               </div>
             </div>
-            <AddressScan className="bg-[var(--grey-050)] rounded-[var(--radius-media)] p-6 sm:p-8 w-full" />
+            <div className="flex flex-col gap-6 w-full">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-media)] bg-[var(--surface-muted)]">
+                <Image
+                  src="/images/zo-werkt-gijs/zo_werkt_gijs_hero.jpeg"
+                  alt="Twee bewoners bekijken samen hun woning vanaf de stoep"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                  priority
+                />
+              </div>
+              <AddressScan className="bg-[var(--grey-050)] rounded-[var(--radius-media)] p-6 sm:p-8 w-full" />
+            </div>
           </div>
         </section>
 
@@ -93,8 +105,11 @@ export default function ZoWerktGijs() {
               <p className={tekst}>{ch1.tekst}</p>
             </div>
             <div className={`flex flex-col gap-6 ${styles.opkomen}`}>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-media)] bg-[var(--surface-muted)]">
-                <Image src="/images/zo-werkt-gijs/woning/hero-verduurzaamd-huis.png" alt="Een bewoner bekijkt zijn woning, met een informatiebord van Gijs in de tuin" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover object-[72%_50%]" />
+              <div className="relative aspect-square overflow-hidden rounded-[var(--radius-media)] bg-[var(--surface-muted)]">
+                {/* Uitgesneden op het rechterdeel van de foto: het linkerdeel van het origineel
+                    toont een verzonnen "Gijs"-tuinbord dat niet bestaat (geen echt beeldmateriaal
+                    of marketingmateriaal) en dus niet gesuggereerd mag worden. */}
+                <Image src="/images/zo-werkt-gijs/woning/hero-verduurzaamd-huis.png" alt="Een bewoner bekijkt met zijn kind op de arm zijn woning met zonnepanelen" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover object-[100%_50%]" />
               </div>
               <WoningdossierLijst
                 velden={[

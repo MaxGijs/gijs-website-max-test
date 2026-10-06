@@ -16,7 +16,7 @@ export default function Footer() {
             Samen maken we je huis fijner.
           </p>
           <div className="mt-4"><SocialLinks /></div>
-          <h4 className="font-semibold mt-6 mb-3 text-white">Gijs – Groen in je straat</h4>
+          <h3 className="font-semibold mt-6 mb-3 text-white">Gijs – Groen in je straat</h3>
           <address className="not-italic text-sm leading-7 text-white/90">
             {CONTACT.street}<br />{CONTACT.city}<br />
             <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a><br />
@@ -26,7 +26,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-3 text-white">Maatregelen</h4>
+          <h3 className="font-semibold mb-3 text-white">Maatregelen</h3>
           <ul className="flex flex-col gap-2 text-sm text-white/80">
             <li><Link href="/maatregelen#isolatie" className="no-underline hover:text-white">Isolatie</Link></li>
             <li><Link href="/maatregelen#installaties" className="no-underline hover:text-white">Installaties</Link></li>
@@ -36,7 +36,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-3 text-white">Kennis</h4>
+          <h3 className="font-semibold mb-3 text-white">Kennis</h3>
           <ul className="flex flex-col gap-2 text-sm text-white/80">
             <li><Link href="/kennis#keuzehulpen" className="no-underline hover:text-white">Waar begin je?</Link></li>
             <li><Link href="/kennis#subsidies" className="no-underline hover:text-white">Subsidies & financiering</Link></li>
@@ -45,7 +45,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-3 text-white">Vertrouwen</h4>
+          <h3 className="font-semibold mb-3 text-white">Vertrouwen</h3>
           <ul className="flex flex-col gap-2 text-sm text-white/80">
             <li>
               <a href={PRIVACY_URL} target="_blank" rel="noopener noreferrer" className="no-underline hover:text-white">

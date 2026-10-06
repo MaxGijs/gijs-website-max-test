@@ -27,6 +27,14 @@ type Props = {
   aanbouwAanwezig?: boolean;
   /** Alleen bij een hoekwoning: aan welke kant de buurwoning staat. */
   hoekZijde?: "Links" | "Rechts";
+  /**
+   * Compacte weergave (mobiele sticky mini-woning tijdens de scanvragen): kleiner canvas, geen
+   * bedieningsknoppen/bijschrift/monteur-knop, geen slepen (orbit staat uit) en dpr vast op 1 — geen
+   * tweede Three.js-scene, gewoon dezelfde scene lichter getekend. Een "Bekijk woning"-knop schakelt
+   * terug naar de normale weergave (zie onBekijkWoning).
+   */
+  compact?: boolean;
+  onBekijkWoning?: () => void;
 };
 
 function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 1, garageAanwezig = true, aanbouwAanwezig = false, hoekZijde }: Props & { onLoaded: () => void }) {
@@ -166,7 +174,7 @@ class ViewerBoundary extends Component<{ children: ReactNode }, { failed: boolea
   render() { return this.state.failed ? <div className={styles.unavailable}><p>De 3D-woning is nu niet beschikbaar.</p><p>Je kunt de scan en de maatregelen hieronder gewoon gebruiken.</p></div> : this.props.children; }
 }
 
-export function HouseViewer(props: Props) {
+export function HouseViewer({ compact = false, onBekijkWoning, ...props }: Props) {
   const { draft } = useWoningDraft();
   const [loaded, setLoaded] = useState("");
   const [touch, setTouch] = useState(false);
@@ -183,22 +191,23 @@ export function HouseViewer(props: Props) {
     update(); media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, []);
-  return <div className={`${styles.viewer} ${props.className ?? ""}`}>
+  return <div className={`${styles.viewer} ${compact ? styles.compact : ""} ${props.className ?? ""}`}>
     <h2 className="sr-only">Illustratieve woningweergave</h2>
     <p className="sr-only" role="status">{view}</p>
     <ViewerBoundary>
-      <div className={styles.scene} role="group" aria-label={`3D-weergave van je ${HOUSE_MODELS[draft.houseType].label.toLowerCase()}`}>
-        <span className={styles.illustratiefBadge}>Illustratief, niet je echte woning</span>
-        <Canvas onCreated={({gl})=>{gl.localClippingEnabled=true;}} camera={{ position: [4.1, 2.8, 5.2], fov: 42 }} shadows="percentage" frameloop="demand" dpr={touch ? [1, 1.5] : [1, 1.75]} style={{ touchAction: touch && !touchActive ? "pan-y" : "none" }} fallback={<p aria-hidden="true">3D niet beschikbaar. Je kunt de scan gewoon gebruiken.</p>}>
+      <div className={`${styles.scene} ${compact ? styles.sceneCompact : ""}`} role="group" aria-label={`3D-weergave van je ${HOUSE_MODELS[draft.houseType].label.toLowerCase()}`}>
+        {!compact && <span className={styles.illustratiefBadge}>Illustratief, niet je echte woning</span>}
+        <Canvas onCreated={({gl})=>{gl.localClippingEnabled=true;}} camera={{ position: [4.1, 2.8, 5.2], fov: 42 }} shadows="percentage" frameloop="demand" dpr={compact ? [1, 1] : touch ? [1, 1.5] : [1, 1.75]} style={{ touchAction: compact || (touch && !touchActive) ? "pan-y" : "none" }} fallback={<p aria-hidden="true">3D niet beschikbaar. Je kunt de scan gewoon gebruiken.</p>}>
           <HouseDaglicht mobiel={touch} bereik={4} />
           <Suspense fallback={null}><Model {...props} selectedMeasureIds={compareOriginal?props.selectedMeasureIds.filter(id=>id!=="glas-kozijnen"):props.selectedMeasureIds} replayCrew={replayCrew} onLoaded={onLoaded} /></Suspense>
-          <HouseOrbitControls enabled={!touch || touchActive} command={command} onView={setView} />
+          <HouseOrbitControls enabled={!compact && (!touch || touchActive)} command={command} onView={setView} />
         </Canvas>
         {loaded !== draft.houseType && <p className={styles.loading} role="status">Je woning wordt geladen…</p>}
-        {props.selectedMeasureIds.includes("gevelisolatie") && <button type="button" className={styles.crewButton} onClick={() => { act("front"); setReplayCrew(i=>i+1); }}>Bekijk de monteur · 3 sec.</button>}
-        {touch && <button className={styles.touchToggle} onClick={() => setTouchActive(!touchActive)} type="button" aria-pressed={touchActive}>{touchActive ? "Klaar met draaien" : "Draai de woning"}</button>}
+        {!compact && props.selectedMeasureIds.includes("gevelisolatie") && <button type="button" className={styles.crewButton} onClick={() => { act("front"); setReplayCrew(i=>i+1); }}>Bekijk de monteur · 3 sec.</button>}
+        {!compact && touch && <button className={styles.touchToggle} onClick={() => setTouchActive(!touchActive)} type="button" aria-pressed={touchActive}>{touchActive ? "Klaar met draaien" : "Draai de woning"}</button>}
+        {compact && <button type="button" className={styles.bekijkKnop} onClick={onBekijkWoning}>Bekijk woning</button>}
       </div>
-      <div className={styles.controls} aria-label="Woning bekijken">
+      {!compact && <div className={styles.controls} aria-label="Woning bekijken">
         <button type="button" onClick={() => act("front")}>Voorkant</button>
         <button type="button" onClick={() => act("side")}>Zijkant</button>
         <button type="button" onClick={() => act("back")}>Achterkant</button>
@@ -206,9 +215,9 @@ export function HouseViewer(props: Props) {
         <button type="button" className={styles.icoon} aria-label="Inzoomen" onClick={() => act("in")}>+</button>
         <button type="button" className={styles.icoon} aria-label="Uitzoomen" onClick={() => act("out")}>−</button>
         <button type="button" className={styles.icoon} aria-label="Terug naar beginstand" onClick={() => act("reset")}>↺</button>
-      </div>
+      </div>}
     </ViewerBoundary>
-    <p className={styles.caption}><strong>{HOUSE_MODELS[draft.houseType].label}</strong> · {touch ? "Tik op \"Draai de woning\" om te draaien." : "Sleep om te draaien."} Dit is een illustratieve weergave: ze laat zien waar onderdelen ongeveer zitten, maar is geen exacte kopie van jouw eigen woning.{(draft.houseType==="tussenwoning"||draft.houseType==="twee-onder-een-kap"||(draft.houseType==="hoekwoning"&&props.hoekZijde))&&" De grijze muur is de gedeelde muur met de buren."}</p>
-    {props.selectedMeasureIds.includes("glas-kozijnen")&&<details className={styles.profileDetail} onToggle={e=>{if(!e.currentTarget.open)setCompareOriginal(false);}}><summary>Bekijk vóór en na →</summary><p>Zo ziet je woning eruit met nieuwe ramen en kozijnen. Wissel hieronder: de kijkhoek blijft hetzelfde.</p><div className={styles.controls}><button aria-pressed={compareOriginal} onClick={()=>setCompareOriginal(true)}>Bestaand</button><button aria-pressed={!compareOriginal} onClick={()=>setCompareOriginal(false)}>Nieuw</button></div><div className={styles.profileComparison}><div><span className={styles.oldProfile}>Glas</span><strong>Bestaand</strong><p>Een eenvoudig bestaand profiel.</p></div><div><span className={styles.newProfile}>Glas</span><strong>Nieuw · kunststof kozijn</strong><p>Witte profielen met meer diepte en zichtbare glasrubbers.</p></div></div><p>Schematisch detail; kleur en uitvoering bespreek je met Gijs.</p></details>}
+    {!compact && <p className={styles.caption}><strong>{HOUSE_MODELS[draft.houseType].label}</strong> · {touch ? "Tik op \"Draai de woning\" om te draaien." : "Sleep om te draaien."} Dit is een illustratieve weergave: ze laat zien waar onderdelen ongeveer zitten, maar is geen exacte kopie van jouw eigen woning.{(draft.houseType==="tussenwoning"||draft.houseType==="twee-onder-een-kap"||(draft.houseType==="hoekwoning"&&props.hoekZijde))&&" De grijze muur is de gedeelde muur met de buren."}</p>}
+    {!compact && props.selectedMeasureIds.includes("glas-kozijnen")&&<details className={styles.profileDetail} onToggle={e=>{if(!e.currentTarget.open)setCompareOriginal(false);}}><summary>Bekijk vóór en na →</summary><p>Zo ziet je woning eruit met nieuwe ramen en kozijnen. Wissel hieronder: de kijkhoek blijft hetzelfde.</p><div className={styles.controls}><button aria-pressed={compareOriginal} onClick={()=>setCompareOriginal(true)}>Bestaand</button><button aria-pressed={!compareOriginal} onClick={()=>setCompareOriginal(false)}>Nieuw</button></div><div className={styles.profileComparison}><div><span className={styles.oldProfile}>Glas</span><strong>Bestaand</strong><p>Een eenvoudig bestaand profiel.</p></div><div><span className={styles.newProfile}>Glas</span><strong>Nieuw · kunststof kozijn</strong><p>Witte profielen met meer diepte en zichtbare glasrubbers.</p></div></div><p>Schematisch detail; kleur en uitvoering bespreek je met Gijs.</p></details>}
   </div>;
 }

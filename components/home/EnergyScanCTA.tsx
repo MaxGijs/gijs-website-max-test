@@ -24,7 +24,7 @@ export default function EnergyScanCTA() {
           woningplan helpt je om het gesprek voor te bereiden.
         </p>
         <Button href="/contact#energiescan" variant="primary" size="lg" iconRight="arrow-right">
-          Plan een gratis energiescan
+          Vraag een gratis energiescan aan
         </Button>
       </div>
     </section>

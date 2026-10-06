@@ -6,11 +6,11 @@ import Link from "next/link";
 import AddressScan from "@/components/AddressScan";
 import { MAATREGELEN, subsidieRegel, type Annotatie } from "../stappen";
 import { FOCUS, STATEN, type Regie } from "./staten";
-import PoppenhuisDevNav from "./PoppenhuisDevNav";
+import HomepageWoningDevNav from "./HomepageWoningDevNav";
 import basis from "../../HouseModelPrototype.module.css";
 import styles from "../HomeCutawayTest.module.css";
 
-// PROTOTYPE (branch animejs-poppenhuis-prototype): het homepage-poppenhuis met een gescripte reeks van
+// PROTOTYPE (branch animejs-poppenhuis-prototype): de homepage_woning, met een gescripte reeks van
 // 11 staten (gesloten, open, 8 maatregelen, overzicht), geanimeerd met Anime.js v4. Zelfde hero, adresinvoer, scanbalk en scandialoog als
 // HomeCutawayTest en dezelfde 8 maatregelteksten. Anime.js zit uitsluitend in de
 // apart geladen scène (./AnimeWoningScene.tsx), niet in deze pagina-code.
@@ -21,7 +21,7 @@ const maatregel = (sleutel: string) => MAATREGELEN.find(m => m.sleutel === sleut
 // Alle 8 maatregelen, in de volgorde van stappen.ts (= staten 2 t/m 9).
 const HOOFDSTUKKEN = FOCUS.map(maatregel);
 
-export default function AnimePoppenhuis({ children, productie = false }: { children?: ReactNode; productie?: boolean }) {
+export default function HomepageWoning({ children, productie = false }: { children?: ReactNode; productie?: boolean }) {
   const sectie = useRef<HTMLElement>(null);
   const dialoog = useRef<HTMLDialogElement>(null);
   const annotaties = useRef<Record<string, Annotatie>>({});
@@ -40,15 +40,20 @@ export default function AnimePoppenhuis({ children, productie = false }: { child
   // Zwevende scanbalk, zoals op de homepage: zichtbaar na de hero, tot het einde van het woningverhaal.
   const [balk, setBalk] = useState(false);
   useEffect(() => {
-    const update = () => {
-      const hero = sectie.current?.querySelector("[data-staat='0']");
-      const einde = document.getElementById("na-de-woning");
-      setBalk(Boolean(hero && einde && hero.getBoundingClientRect().bottom < 120 && einde.getBoundingClientRect().top > window.innerHeight));
+    const hero = sectie.current?.querySelector("[data-staat='0']");
+    const einde = document.getElementById("na-de-woning");
+    if (!hero || !einde) return;
+    // Hooguit één meting per frame, hoe vaak het scroll-event ook vuurt.
+    let frame = 0;
+    const meet = () => {
+      frame = 0;
+      setBalk(hero.getBoundingClientRect().bottom < 120 && einde.getBoundingClientRect().top > window.innerHeight);
     };
-    update();
+    const update = () => { if (!frame) frame = requestAnimationFrame(meet); };
+    meet();
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", update);
-    return () => { window.removeEventListener("scroll", update); window.removeEventListener("resize", update); };
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", update); window.removeEventListener("resize", update); };
   }, []);
   const vorigeOverflow = useRef("");
   const openScan = () => {
@@ -62,7 +67,7 @@ export default function AnimePoppenhuis({ children, productie = false }: { child
   const annotatie = (sleutel: string) => annotaties.current[sleutel] ??= { lijn: null, punt: null, label: null };
   const beeldLabel = actieve
     ? `Doorsnede van de woning, met de nadruk op ${actieve.titel.naam.toLowerCase()}`
-    : staat === 0 ? "Illustratieve woning van Gijs" : "Opengewerkte woning van Gijs, als poppenhuis";
+    : staat === 0 ? "Illustratieve woning van Gijs" : "Opengewerkte woning van Gijs";
 
   return (
     <>
@@ -105,7 +110,7 @@ export default function AnimePoppenhuis({ children, productie = false }: { child
             <p className={basis.checkNote}>Daarna plan je een gratis energiescan aan huis, ter waarde van €349. Je woningtype wordt in de scan automatisch opgehaald.</p>
             <a className={basis.textLink} href="#woning-verhaal">Neem een kijkje in de woning ↓</a>
           </section>
-          {/* Staat 1, open poppenhuis. */}
+          {/* Staat 1, open homepage_woning. */}
           <section id="woning-verhaal" className={basis.panel} data-staat={1}>
             <p className={basis.eyebrow}>Je hoeft geen expert te zijn</p>
             <h2 className={basis.title}>Een fijne woning begint bij begrijpen.</h2>
@@ -128,7 +133,7 @@ export default function AnimePoppenhuis({ children, productie = false }: { child
               <Link className={`${basis.textLink} ${styles.meerLink}`} href={`/maatregelen/${m.titel.slug}`}>Meer over {m.titel.naam.toLowerCase()} <span aria-hidden="true">→</span></Link>
             </section>
           ))}
-          {/* Staat 10, overzicht: rustig open poppenhuis, met de woningscan. */}
+          {/* Staat 10, overzicht: rustig open homepage_woning, met de woningscan. */}
           <section className={basis.options} data-staat={STATEN.length - 1}>
             <h2 className={basis.title}>Ontdek wat er mogelijk is voor jouw woning</h2>
             <p className={basis.description}>Vul je adres in. In de woningscan zie je in een paar minuten wat er voor jouw woning kan. Daarna plan je een gratis energiescan aan huis, ter waarde van €349.</p>
@@ -154,7 +159,7 @@ export default function AnimePoppenhuis({ children, productie = false }: { child
         </div>
       </dialog>
       {/* TIJDELIJK testmenu, alleen voor dit prototype. */}
-      {geladen && <PoppenhuisDevNav regie={regie} staat={staat} productie={productie} />}
+      {geladen && <HomepageWoningDevNav regie={regie} staat={staat} productie={productie} />}
     </>
   );
 }

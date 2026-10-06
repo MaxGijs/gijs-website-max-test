@@ -97,6 +97,15 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
   const [aanvraagFouten, setAanvraagFouten] = useState<{ naam?: string; contact?: string }>({});
   const [versturen, setVersturen] = useState(false);
   const [woonsituatieId, setWoonsituatieId] = useState<string | undefined>();
+  const [mobiel, setMobiel] = useState(false);
+  const [woningUitgeklapt, setWoningUitgeklapt] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const update = () => setMobiel(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
   const fieldId = useId();
   const first = useRef(true);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -167,6 +176,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
   // Dakkapel/garage zijn van buitenaf te zien: alleen "Geen"/"Nee" haalt het onderdeel uit de illustratieve weergave.
   // "Meerdere" toont er 2: meer dakkapellen kan de illustratieve woning niet laten zien.
   const dakkapelAantal = scan.dakkapel === "Geen" || !scan.dakkapel ? 0 : scan.dakkapel === "1" ? 1 : 2;
+  const compact = mobiel && !woningUitgeklapt;
   const viewer = (
     <HouseViewer
       selectedMeasureIds={zichtbareMaatregelen}
@@ -174,8 +184,21 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
       garageAanwezig={scan.garage !== "Nee"}
       aanbouwAanwezig={scan.aanbouw !== "Nee"}
       hoekZijde={scan.houseType === "hoekwoning" ? ((scan.hoekZijde || "Links") as "Links" | "Rechts") : undefined}
+      compact={compact}
+      onBekijkWoning={() => setWoningUitgeklapt(true)}
     />
   );
+  // Mobiel: woning blijft als compacte sticky balk zichtbaar tijdens het scrollen door de
+  // vragen/het plan (sectie 7/8 van de opdracht), i.p.v. bovenaan te verdwijnen. "Bekijk
+  // woning" klapt dezelfde viewer tijdelijk groter uit, in de normale paginaflow (niet sticky),
+  // met een "Verklein"-knop om weer compact te maken. Desktop: ongewijzigd (styles.grid regelt
+  // de sticky kolom al via CSS).
+  const woningWeergave = mobiel ? (
+    <div className={compact ? styles.woningSticky : styles.woningUitgeklapt}>
+      {viewer}
+      {!compact && <button type="button" className={styles.tekstLink} onClick={() => setWoningUitgeklapt(false)}>Verklein woningweergave</button>}
+    </div>
+  ) : viewer;
   const setHouseType = (houseType: HouseType) => patch({ houseType, woningtypeBron: "handmatig" });
   const setAutoHouseType = (houseType: HouseType) => patch({ houseType, woningtypeBron: "automatisch" });
   const titelVan = (id: string) => SCAN_TITELS[id] ?? { naam: SCAN_MEASURES.find(m => m.id === id)?.label ?? id, titel: "", uitleg: "", slug: "", cta: "" };
@@ -266,7 +289,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
 
       {scan.step === STAP.gegevens && (
         <div className={styles.grid}>
-          {viewer}
+          {woningWeergave}
           <div className={styles.panel}>
             <p className={styles.uitleg}>Controleer je woning en vul je verbruik in. Daarna zie je direct je woningplan.</p>
 
@@ -422,7 +445,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                 <div><dt>Wat je al hebt gedaan</dt><dd>{scan.bestaandeMaatregelen.length ? scan.bestaandeMaatregelen.map(id => titelVan(id).naam).join(", ") : scan.aanwezigOnbekend ? "Weet ik niet precies" : "Nog niets"}</dd></div>
               </dl>
             </section>
-            <details className={styles.planViewer}><summary>Bekijk de woningweergave</summary>{viewer}</details>
+            {mobiel ? woningWeergave : <details className={styles.planViewer}><summary>Bekijk de woningweergave</summary>{viewer}</details>}
           </aside>
 
           <div className={styles.planHoofd}>
@@ -471,7 +494,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
             </section>
 
             <section className={styles.aanvraag}>
-              <h3 className={styles.planTitel}>Plan een gratis energiescan</h3>
+              <h3 className={styles.planTitel}>Vraag een gratis energiescan aan</h3>
               <div className={styles.woningSamenvatting}>
                 <p className={styles.woningSamenvattingLabel}>Voor deze woning</p>
                 <p className={styles.woningSamenvattingAdres}>{scan.addressLabel || `${scan.postcode} ${scan.huisnummer}`}</p>

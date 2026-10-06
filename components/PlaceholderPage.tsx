@@ -71,7 +71,7 @@ export default function PlaceholderPage({
             <h2>Even samen naar je huis kijken?</h2>
             <p>Bespreek een gratis en vrijblijvende energiescan aan huis, ter waarde van &euro;349.</p>
           </div>
-          <Link href="/contact#energiescan" className={styles.button}>Plan een gratis energiescan &rarr;</Link>
+          <Link href="/contact#energiescan" className={styles.button}>Vraag een gratis energiescan aan &rarr;</Link>
         </section>
       </main>
       <Footer />

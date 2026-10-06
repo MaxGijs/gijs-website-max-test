@@ -195,7 +195,7 @@ export function EnergiescanBlok() {
           Een adviseur van Gijs bekijkt je woning en bespreekt met je welke maatregelen technisch passen.
         </p>
         <Button href="/contact#energiescan" variant="accent" size="lg" iconRight="arrow-right">
-          Plan een gratis energiescan
+          Vraag een gratis energiescan aan
         </Button>
       </div>
     </section>

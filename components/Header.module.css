@@ -32,7 +32,12 @@
 /* Mobiele geneste accordion (Verduurzamen > Isolatie/Installaties) */
 .mobileAccordionButton { display: flex; align-items: center; justify-content: space-between; width: 100%; background: transparent; border: 0; text-align: left; font: inherit; font-weight: 600; color: var(--gijs-donkergroen); cursor: pointer; padding: 14px 0; border-bottom: 1px solid var(--grey-100); min-height: 48px; }
 .mobileAccordionPanel { display: flex; flex-direction: column; padding: 4px 0 8px; }
-.mobileSubButton { display: flex; align-items: center; justify-content: space-between; width: 100%; background: transparent; border: 0; text-align: left; font: inherit; font-weight: 600; font-size: 14px; color: var(--gijs-donkergroen); cursor: pointer; padding: 12px 8px; min-height: 44px; }
+.mobileSubRow { display: flex; align-items: stretch; }
+.mobileSubLink { flex: 1; display: flex; align-items: center; font: inherit; font-weight: 600; font-size: 14px; color: var(--gijs-donkergroen); text-decoration: none; padding: 12px 8px; min-height: 44px; }
+.mobileSubLink:hover { color: var(--accent-700); }
+.mobileSubToggle { display: flex; align-items: center; justify-content: center; width: 44px; min-height: 44px; background: transparent; border: 0; color: var(--gijs-donkergroen); cursor: pointer; }
+.mobileSubToggle:hover { color: var(--accent-700); }
+.mobileSubToggle:focus-visible, .mobileSubLink:focus-visible { outline: 3px solid var(--accent-500); outline-offset: -2px; }
 .mobileSubPanel { display: flex; flex-direction: column; padding: 0 8px 8px 20px; }
 .mobileSubPanel a { display: block; padding: 10px 0; min-height: 40px; font-size: 14px; color: var(--gijs-donkergroen); text-decoration: none; }
 .mobileSubPanel a:hover { color: var(--accent-700); }

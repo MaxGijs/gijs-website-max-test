@@ -16,10 +16,8 @@ export type UitvoeringStap = {
 const UITLEG_CROP_FRACTIE = 0.647;
 
 // `bestand` is een pad relatief aan public/images (bijv.
-// "maatregelen/dakisolatie/proces/dakisolatie-stap-1.svg"); de gedeelde
-// pijl staat in public/images/shared/icons/pijl.svg.
+// "maatregelen/dakisolatie/proces/dakisolatie-stap-1.svg").
 const IMAGES_DIR = path.join(process.cwd(), "public", "images");
-const PIJL_BESTAND = "shared/icons/pijl.svg";
 
 // De stap-SVG's en pijl.svg worden rechtstreeks (inline) in de pagina gezet
 // in plaats van via <img src="...svg">. Reden: bij een extern ingeladen
@@ -43,24 +41,37 @@ function inlineSvg(bestand: string, opts: { className: string; ariaLabel?: strin
 }
 
 // Gedeelde "Hoe verloopt de uitvoering?"-rij voor alle maatregelpagina's.
+// - Mobiel (< sm): horizontaal swipebaar met CSS scroll-snap, geen eigen
+//   carousel-logica. Kaart ca. 78vw breed (max 280px): ruim 1 kaart in
+//   beeld, met een stukje van de volgende ernaast als "er komt meer"-hint.
+//   -mx-6/px-6 laat de rij edge-to-edge scrollen; alle maatregelpagina's
+//   hebben hetzelfde main-element met px-6, dus dat is veilig om hier aan
+//   te nemen (zie de aanroepende *Page.tsx-bestanden).
 // - Vaste stapbreedte op desktop (geen flex-1): meer stappen maakt de rij
 //   breder, niet elke stap groter, en alle pagina's hebben dezelfde schaal.
-// - pijl.svg staat in een eigen kolom tussen de stappen. Elke stap-SVG heeft
-//   een volledig witte achtergrond; een pijl die over de rand van een stap
-//   hangt, wordt door de volgende stap afgedekt.
-// - Pijl op 33% van de hoogte: het midden van het donkere icoonbolletje.
-// Tablet: twee rijen (kolommen = helft van het aantal stappen), gecentreerd.
-// Pas vanaf xl één rij, zodat de uitleg tussen 1024 en 1280px leesbaar blijft.
+// - Een dunne tijdlijnlijn (geen pijl-in-cirkel) staat in een eigen kolom
+//   tussen de stappen (vanaf xl, zie hieronder), op 33% van de hoogte: het
+//   midden van het donkere icoonbolletje in de stap-illustratie zelf.
+// Tablet: twee rijen (kolommen = helft van het aantal stappen), gecentreerd,
+// zonder pijl. Pas vanaf xl één rij met pijl, zodat de uitleg tussen 1024
+// en 1280px leesbaar blijft.
 export function UitvoeringStappen({ stappen }: { stappen: UitvoeringStap[] }) {
   const kolommen = Math.ceil(stappen.length / 2);
   return (
     <ol
-      className="flex flex-col items-center sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-6 sm:gap-y-8 xl:flex-nowrap xl:items-stretch xl:gap-0"
+      className="flex flex-row items-stretch gap-4 overflow-x-auto -mx-6 px-6 pb-1 snap-x snap-mandatory sm:flex-wrap sm:items-center sm:overflow-visible sm:mx-0 sm:px-0 sm:pb-0 sm:gap-x-6 sm:gap-y-8 sm:justify-center sm:snap-none xl:flex-nowrap xl:items-stretch xl:gap-0"
       style={{ "--stap-tablet": `min(180px, calc((100% - ${(kolommen - 1) * 1.5}rem) / ${kolommen}))` } as CSSProperties}
+      tabIndex={0}
+      aria-label={`Stappen van de uitvoering, ${stappen.length} in totaal. Met pijltjestoetsen te scrollen.`}
     >
       {stappen.map((stap, i) => (
         <Fragment key={stap.bestand}>
-          <li className="w-52 sm:w-(--stap-tablet) xl:w-[140px] xl:min-w-0">
+          <li className="w-[78vw] max-w-[280px] shrink-0 snap-start sm:w-(--stap-tablet) sm:max-w-none sm:shrink sm:snap-align-none xl:w-[140px] xl:min-w-0">
+            {/* Stapnummer + titel staan al in de SVG getekend (vector, geen echte tekstnode) en
+                via aria-label op die SVG. Deze regel maakt diezelfde twee gegevens ook als
+                gewone, selecteerbare/crawlbare DOM-tekst leesbaar, zonder de visuele SVG te
+                vervangen en zonder nieuwe uitlegzinnen te verzinnen. */}
+            <p className="sr-only">Stap {i + 1}: {stap.label}</p>
             <div className="aspect-[285/352] w-full flex flex-col">
               {stap.uitlegOverride ? (
                 <>
@@ -95,16 +106,12 @@ export function UitvoeringStappen({ stappen }: { stappen: UitvoeringStap[] }) {
             </div>
           </li>
           {i < stappen.length - 1 ? (
-            <li
-              aria-hidden="true"
-              className="flex justify-center py-5 sm:hidden xl:relative xl:mx-2 xl:block xl:w-7 xl:shrink-0 xl:py-0"
-              dangerouslySetInnerHTML={{
-                __html: inlineSvg(PIJL_BESTAND, {
-                  className:
-                    "h-6 w-auto max-w-none rotate-90 xl:absolute xl:inset-x-0 xl:top-[33%] xl:h-auto xl:w-full xl:-translate-y-1/2 xl:rotate-0",
-                }),
-              }}
-            />
+            <li aria-hidden="true" className="hidden xl:relative xl:mx-1 xl:block xl:w-6 xl:shrink-0">
+              {/* Rustige tijdlijnlijn i.p.v. een pijl-in-cirkel: dezelfde hoogte (33%, het
+                  midden van het donkere icoonbolletje in de stap-illustratie zelf) als
+                  voorheen de pijl, alleen minder "AI/UI-component"-achtig. */}
+              <div className="absolute inset-x-0 top-[33%] h-px -translate-y-1/2 bg-[var(--border-default)]" />
+            </li>
           ) : null}
         </Fragment>
       ))}

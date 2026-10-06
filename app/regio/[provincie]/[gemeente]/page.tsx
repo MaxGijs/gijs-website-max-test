@@ -70,7 +70,7 @@ export default async function GemeentePage({ params }: Props) {
               landelijke subsidies werken. Gemeentelijke subsidies en regelingen controleer je bij je eigen gemeente.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
-              <Button href="/contact#energiescan" variant="accent" size="lg" iconRight="arrow-right">Plan een gratis energiescan</Button>
+              <Button href="/contact#energiescan" variant="accent" size="lg" iconRight="arrow-right">Vraag een gratis energiescan aan</Button>
               <Button href="#gemeentelijke-subsidies" variant="secondary" size="lg">Gemeentelijke subsidies</Button>
             </div>
           </div>

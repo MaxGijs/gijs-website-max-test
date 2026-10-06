@@ -15,6 +15,14 @@
 .note { margin-top:16px; font-size:15px; line-height:1.55; color:var(--grey-800); }
 .flow button:focus-visible,.flow a:focus-visible,.flow input:focus-visible { outline:3px solid var(--accent-600); outline-offset:3px; }
 @media(max-width:767px) { .flow { padding:28px 16px 56px; } .grid { grid-template-columns:1fr; gap:32px; } .panel { max-width:none; } .heading { scroll-margin-top:108px; } }
+
+/* Mobiele compacte woningweergave tijdens de scanvragen/het woningplan (sectie 7/8 van de
+   opdracht): blijft zichtbaar tijdens het scrollen i.p.v. bovenaan te verdwijnen. Zelfde
+   HouseViewer-instance, alleen compact getekend (zie HouseViewer.tsx `compact`-prop) — geen
+   tweede 3D-scene. */
+.woningSticky { position:sticky; top:64px; z-index:40; background:var(--white); margin:0 -16px 16px; padding:8px 16px 4px; }
+.woningUitgeklapt { margin-bottom:24px; display:flex; flex-direction:column; gap:8px; }
+.woningUitgeklapt .tekstLink { align-self:flex-start; }
 .measureGroup .note { margin-top:6px; }
 .textButton{display:block;text-decoration:underline;font-weight:600;cursor:pointer;padding:12px 0}
 .editHouse summary,.planMeasure summary,.planViewer>summary{cursor:pointer;font-weight:600}.planViewer{padding:18px;border:1px solid var(--border-default);border-radius:20px}.planViewer[open]>summary{margin-bottom:20px}

@@ -96,4 +96,15 @@ export const MAATREGELEN: Maatregel[] = [
     afbeelding: "/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png",
     icon: "battery-charging",
   },
+  {
+    titel: "Ketel",
+    beschrijving: "Zorgt voor warmte in je huis.",
+    // Zelfde hero-foto als de ketelpagina zelf (een echte Gijs-
+    // installatiefoto, aangeleverd via Archief.zip), voor visuele
+    // herkenbaarheid tussen overzicht en detailpagina. Ontbrak nog: het
+    // ketel-kaartje op /maatregelen toonde hierdoor alleen het generieke
+    // placeholder-icoon (zie MeasureImage.tsx) in plaats van deze foto.
+    afbeelding: "/images/maatregelen/ketel/ketel-hero.png",
+    icon: "flame",
+  },
 ];

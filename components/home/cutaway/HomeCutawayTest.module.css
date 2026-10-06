@@ -11,7 +11,7 @@
 @media (max-width: 767px) {
   /* Woning op mobiel groter in beeld dan op de huidige homepage (34svh), zodat doorsnede en labels leesbaar zijn. */
   aside.beeldKolom { height: 46svh; min-height: 280px; }
-  .label { max-width: 180px; padding: 7px 10px; border-radius: 12px; }
+  .label { max-width: 180px; padding: 7px 10px; border-radius: 12px; background: rgba(255,255,255,.96); -webkit-backdrop-filter: none; backdrop-filter: none; }
   .label strong { font-size: 13px; }
   .label span { font-size: 12px; }
   .bijschrift { font-size: 12px; margin-top: 2px; }
