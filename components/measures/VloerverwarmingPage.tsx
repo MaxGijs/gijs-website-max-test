@@ -30,9 +30,56 @@ import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
+import { VoorwaardenMobielAccordion, type VoorwaardenMobielPaneel } from "@/components/measures/VoorwaardenMobielAccordion";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
+
+// Mobiele tikbare kopbalken voor "Voorbereiding en aandachtspunten" (vervangt op mobiel de
+// infographic hieronder). "Vóór en tijdens" heeft nog geen eigen mobiele afbeelding, dus die
+// groep blijft op mobiel een gewone (zichtbare) lijst — net als voorheen, nu alleen achter een
+// tikbare kopbalk i.p.v. een losse kaart. "Na de uitvoering" gebruikt wel de aangeleverde
+// afbeelding, met dezelfde tekst als sr-only back-up.
+const VOORBEREIDING_MOBIEL_PANELEN: VoorwaardenMobielPaneel[] = [
+  {
+    id: "voor",
+    label: "Vóór en tijdens de uitvoering",
+    trigger: { src: "/images/maatregelen/vloerverwarming/voorbereiding-mobiel-trigger-voor.png", width: 830, height: 73 },
+    inhoud: (
+      <ul className="flex flex-col gap-4">
+        {AANDACHTSPUNTEN_VOOR.map(v => (
+          <li key={v} className="flex items-start gap-3 text-base text-zinc-700">
+            <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
+            <span>{v}</span>
+          </li>
+        ))}
+      </ul>
+    ),
+  },
+  {
+    id: "na",
+    label: "Na de uitvoering",
+    trigger: { src: "/images/maatregelen/vloerverwarming/voorbereiding-mobiel-trigger-na.png", width: 830, height: 73 },
+    inhoud: (
+      <>
+        {/* alt="": dezelfde inhoud staat hieronder als echte (sr-only) tekst. */}
+        <Image
+          src="/images/maatregelen/vloerverwarming/voorbereiding-mobiel-inhoud-na.png"
+          alt=""
+          width={742}
+          height={537}
+          quality={100}
+          className="w-full h-auto"
+        />
+        <ul className="sr-only">
+          {AANDACHTSPUNTEN_NA.map(v => (
+            <li key={v}>{v}</li>
+          ))}
+        </ul>
+      </>
+    ),
+  },
+];
 
 // Vloerverwarmingpagina, volledig herbouwd op basis van 9 brongegevens
 // aangeleverd via "Archief.zip" (public/productbladen/vloerverwarming-src),
@@ -397,29 +444,33 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         <section id="voorbereiding" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en aandachtspunten</h2>
           <p className="text-lg text-zinc-600 mb-6 max-w-2xl">Een paar praktische punten om rekening mee te houden.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="!p-8">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-4">Vóór en tijdens de uitvoering</h3>
-              <ul className="flex flex-col gap-4">
-                {AANDACHTSPUNTEN_VOOR.map(v => (
-                  <li key={v} className="flex items-start gap-3 text-base text-zinc-700">
-                    <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                    <span>{v}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-            <Card className="!p-8">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-4">Na de uitvoering</h3>
-              <ul className="flex flex-col gap-4">
-                {AANDACHTSPUNTEN_NA.map(v => (
-                  <li key={v} className="flex items-start gap-3 text-base text-zinc-700">
-                    <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                    <span>{v}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
+          {/* alt="": de volledige inhoud staat hieronder als echte (sr-only) tekst. quality=100:
+              diagram met tekst en dunne lijnen, waar standaard WebP/AVIF-compressie (kwaliteit 75)
+              zichtbaar zachtere randen geeft. */}
+          <Image
+            src="/images/maatregelen/vloerverwarming/voorbereiding-infographic.png"
+            alt=""
+            width={2052}
+            height={650}
+            quality={100}
+            className="hidden w-full h-auto lg:block"
+          />
+          <div className="hidden lg:block sr-only">
+            <h3>Vóór en tijdens de uitvoering</h3>
+            <ul>
+              {AANDACHTSPUNTEN_VOOR.map(v => (
+                <li key={v}>{v}</li>
+              ))}
+            </ul>
+            <h3>Na de uitvoering</h3>
+            <ul>
+              {AANDACHTSPUNTEN_NA.map(v => (
+                <li key={v}>{v}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="lg:hidden">
+            <VoorwaardenMobielAccordion panelen={VOORBEREIDING_MOBIEL_PANELEN} />
           </div>
         </section>
 

@@ -118,7 +118,7 @@ export function WoningenInGemeente({ gemeente, slug }: { gemeente: string; slug:
       <h2 className={H2 + " mb-2"}>Woningen in {gemeente}</h2>
       <p className="text-zinc-600 max-w-2xl mb-6">
         Gemeente {gemeente} telt {data.totaalWoningen.toLocaleString("nl-NL")} woningen, waarvan {data.percentageKoopwoningen}%
-        koopwoning. Ongeveer {data.percentageVoor1975}% ({voor1975} woningen) is gebouwd vóór 1975 — woningen van die
+        koopwoning. Ongeveer {data.percentageVoor1975}% ({voor1975} woningen) is gebouwd vóór 1975. Woningen van die
         leeftijd hebben vaak nog geen of weinig isolatie, omdat spouwmuurisolatie pas vanaf de jaren zeventig gangbaar werd.
       </p>
       <StatRow

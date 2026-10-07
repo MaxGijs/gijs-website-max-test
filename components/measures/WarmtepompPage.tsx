@@ -132,6 +132,7 @@ const VOORWAARDEN_TIJDENS = [
   "Mits van toepassing wordt de oude ketel verwijderd.",
   "Er is een toilet beschikbaar voor de uitvoerders.",
   "De werkruimte is voor aanvang asbestvrij.",
+  "Gijs legt voor de start uit wat er gaat gebeuren.",
 ];
 
 // Bron: "alle_brochures_in_1.pdf", pagina 44 — "Subsidiemogelijkheden bij
@@ -399,17 +400,50 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
           <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
         </section>
 
-        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
-          <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
-            Voor een goede uitvoering gelden een paar praktische voorwaarden.
-          </p>
-          <VoorwaardenKolommen
-            groepen={[
-              { label: "Voor de installatie", items: VOORWAARDEN_VOOR },
-              { label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS },
-            ]}
-          />
+        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER} grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-14 lg:items-center`}>
+          <div>
+            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
+            <p className="text-lg text-zinc-600 max-w-2xl">
+              Voor een goede uitvoering gelden een paar praktische voorwaarden.
+            </p>
+          </div>
+          <div>
+            {/* alt="": de volledige inhoud staat hieronder als echte (sr-only) tekst. quality=100:
+                diagram met tekst en dunne lijnen, waar standaard WebP/AVIF-compressie (kwaliteit
+                75) zichtbaar zachtere randen geeft. */}
+            <Image
+              src="/images/maatregelen/warmtepomp/voorwaarden-infographic.png"
+              alt=""
+              width={2052}
+              height={840}
+              quality={100}
+              className="hidden w-full h-auto lg:block"
+            />
+            <div className="hidden lg:block sr-only">
+              <VoorwaardenKolommen
+                groepen={[
+                  { label: "Voor de installatie", items: VOORWAARDEN_VOOR },
+                  { label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS },
+                ]}
+              />
+            </div>
+            {/* Mobiel: nog geen aparte "tijdens"-afbeelding aangeleverd, dus die groep blijft op
+                mobiel een gewone (zichtbare) lijst onder de "voor"-afbeelding. */}
+            <div className="flex flex-col gap-6 lg:hidden">
+              <Image
+                src="/images/maatregelen/warmtepomp/voorwaarden-mobiel-voor.png"
+                alt=""
+                width={742}
+                height={951}
+                quality={100}
+                className="w-full h-auto"
+              />
+              <div className="sr-only">
+                <VoorwaardenKolommen groepen={[{ label: "Voor de installatie", items: VOORWAARDEN_VOOR }]} />
+              </div>
+              <VoorwaardenKolommen groepen={[{ label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS }]} />
+            </div>
+          </div>
         </section>
 
         <section id="subsidie" className="scroll-mt-40 mb-16">

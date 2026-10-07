@@ -14,6 +14,7 @@ import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails, TechnicalDetailRow } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
 import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
+import { VoorwaardenMobielAccordion, type VoorwaardenMobielPaneel } from "@/components/measures/VoorwaardenMobielAccordion";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
@@ -124,6 +125,42 @@ const VOORWAARDEN_TIJDENS = [
   "Er worden gaten geboord door de gevels voor het aanleggen van kabels.",
   "Kabels lopen naar de meterkast, zoveel mogelijk uit het zicht (niet altijd te garanderen).",
   "Het systeem wordt werkend opgeleverd; wees aanwezig voor de app-uitleg.",
+];
+
+// Mobiele tikbare kopbalken voor "Voorbereiding en voorwaarden" (vervangt op mobiel de
+// infographic hieronder). Afbeeldingen door Max aangeleverd; de bestaande VOORWAARDEN_VOOR/
+// TIJDENS-tekst hierboven blijft de sr-only back-up voor screenreaders/crawlers.
+const VOORWAARDEN_MOBIEL_PANELEN: VoorwaardenMobielPaneel[] = [
+  {
+    id: "voor",
+    label: "Voor de installatie",
+    trigger: { src: "/images/maatregelen/thuisbatterij/voorwaarden-mobiel-trigger-voor.png", width: 926, height: 73 },
+    inhoud: (
+      <Image
+        src="/images/maatregelen/thuisbatterij/voorwaarden-mobiel-inhoud-voor.png"
+        alt=""
+        width={744}
+        height={721}
+        quality={100}
+        className="w-full h-auto"
+      />
+    ),
+  },
+  {
+    id: "tijdens",
+    label: "Tijdens de installatie",
+    trigger: { src: "/images/maatregelen/thuisbatterij/voorwaarden-mobiel-trigger-tijdens.png", width: 792, height: 73 },
+    inhoud: (
+      <Image
+        src="/images/maatregelen/thuisbatterij/voorwaarden-mobiel-inhoud-tijdens.png"
+        alt=""
+        width={742}
+        height={723}
+        quality={100}
+        className="w-full h-auto"
+      />
+    ),
+  },
 ];
 
 // Voordelen: bewust voorzichtig geformuleerd (geen kwantificering, geen
@@ -356,17 +393,37 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
           <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
         </section>
 
-        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
-          <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
-            Voor een goede uitvoering gelden een paar praktische voorwaarden.
-          </p>
-          <VoorwaardenKolommen
-            groepen={[
-              { label: "Voor de installatie", items: VOORWAARDEN_VOOR },
-              { label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS },
-            ]}
-          />
+        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER} grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-14 lg:items-center`}>
+          <div>
+            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
+            <p className="text-lg text-zinc-600 max-w-2xl">
+              Voor een goede uitvoering gelden een paar praktische voorwaarden.
+            </p>
+          </div>
+          <div>
+            {/* alt="": de volledige inhoud staat hieronder als echte (sr-only) tekst. quality=100:
+                diagram met tekst en dunne lijnen, waar standaard WebP/AVIF-compressie (kwaliteit
+                75) zichtbaar zachtere randen geeft. */}
+            <Image
+              src="/images/maatregelen/thuisbatterij/voorwaarden-infographic.png"
+              alt=""
+              width={2160}
+              height={837}
+              quality={100}
+              className="hidden w-full h-auto lg:block"
+            />
+            <div className="hidden lg:block sr-only">
+              <VoorwaardenKolommen
+                groepen={[
+                  { label: "Voor de installatie", items: VOORWAARDEN_VOOR },
+                  { label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS },
+                ]}
+              />
+            </div>
+            <div className="lg:hidden">
+              <VoorwaardenMobielAccordion panelen={VOORWAARDEN_MOBIEL_PANELEN} />
+            </div>
+          </div>
         </section>
 
         <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>

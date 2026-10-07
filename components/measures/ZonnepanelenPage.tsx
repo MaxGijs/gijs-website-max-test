@@ -14,6 +14,7 @@ import { TechnicalDetails } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
+import { VoorwaardenMobielAccordion, type VoorwaardenMobielPaneel } from "@/components/measures/VoorwaardenMobielAccordion";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
@@ -265,6 +266,32 @@ const NA_INSTALLATIE = [
   { icon: "user-check", title: "Zelf aanmelden", text: "Meld de zonnepanelen zelf aan via www.energieleveren.nl. Vanwege de privacywetgeving mag Gijs dit niet voor je doen." },
   { icon: "sparkles", title: "Schoonhouden", text: "Een regenbui houdt de panelen al aardig schoon; laat hardnekkig vuil professioneel reinigen." },
   { icon: "mail", title: "Omvormer registreren", text: "De omvormer moet mogelijk geregistreerd worden om te kunnen monitoren; let op je mail na oplevering." },
+];
+
+// Mobiele tikbare kopbalken voor "Voorbereiding en voorwaarden" (vervangt op mobiel de volledige
+// infographic hierboven): dezelfde inhoud, alleen per fase opengeklapt i.p.v. alles in één lange
+// afbeelding. Afbeeldingen door Max aangeleverd; alt/sr-only-tekst hierboven blijft de bron van
+// waarheid voor screenreaders/crawlers.
+const VOORWAARDEN_MOBIEL_PANELEN: VoorwaardenMobielPaneel[] = [
+  {
+    id: "voor",
+    label: "Voor de installatie",
+    trigger: { src: "/images/maatregelen/zonnepanelen/voorwaarden-mobiel-trigger-voor.png", width: 740, height: 70 },
+    // alt="": dezelfde inhoud staat elders op de pagina als echte (sr-only) tekst.
+    inhoud: <Image src="/images/maatregelen/zonnepanelen/voorwaarden-mobiel-inhoud-voor.png" alt="" width={742} height={907} quality={100} className="w-full h-auto" />,
+  },
+  {
+    id: "tijdens",
+    label: "Tijdens de installatie",
+    trigger: { src: "/images/maatregelen/zonnepanelen/voorwaarden-mobiel-trigger-tijdens.png", width: 778, height: 70 },
+    inhoud: <Image src="/images/maatregelen/zonnepanelen/voorwaarden-mobiel-inhoud-tijdens.png" alt="" width={752} height={907} quality={100} className="w-full h-auto" />,
+  },
+  {
+    id: "na",
+    label: "Na de installatie",
+    trigger: { src: "/images/maatregelen/zonnepanelen/voorwaarden-mobiel-trigger-na.png", width: 823, height: 70 },
+    inhoud: <Image src="/images/maatregelen/zonnepanelen/voorwaarden-mobiel-inhoud-na.png" alt="" width={742} height={899} quality={100} className="w-full h-auto" />,
+  },
 ];
 
 // Voordelen: elk direct te herleiden tot de aangeleverde bronnen (geen
@@ -565,17 +592,17 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
           <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
         </section>
 
-        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
-          <div className="max-w-2xl mb-10">
-            <Eyebrow>Goed om te weten</Eyebrow>
+        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER} grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-14 lg:items-center`}>
+          <div>
             <h2 className={`${H2_SMAL} mb-3`}>Voorbereiding en voorwaarden</h2>
             <p className="text-zinc-600">
-              Voor een goede uitvoering gelden een paar praktische voorwaarden, zowel voor als tijdens de werkzaamheden — en ook na de oplevering zijn er een paar dingen om in de gaten te houden.
+              Voor een goede uitvoering gelden een paar praktische voorwaarden, zowel voor als tijdens de werkzaamheden. Ook na de oplevering zijn er een paar dingen om in de gaten te houden.
             </p>
           </div>
-          <div className="max-w-[800px] mx-auto">
+          <div>
             {/* alt="": de volledige inhoud staat hieronder als echte (sr-only) tekst, dus deze
-                afbeelding is voor screenreaders decoratief/dubbel. */}
+                afbeelding is voor screenreaders decoratief/dubbel. Alleen op lg+: op mobiel toont
+                VoorwaardenMobielAccordion hieronder dezelfde inhoud als tikbare kopbalken. */}
             {/* quality=100: dit is een diagram met tekst en dunne lijnen, waar de standaard
                 WebP/AVIF-compressie (kwaliteit 75) zichtbaar zachtere randen geeft. */}
             <Image
@@ -584,10 +611,14 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
               width={2214}
               height={1462}
               quality={100}
-              className="w-full h-auto"
+              className="hidden w-full h-auto lg:block"
             />
-            {/* Dezelfde inhoud als in de afbeelding, als echte (visueel verborgen) DOM-tekst voor
-                screenreaders/crawlers — zie ook UitvoeringStappen.tsx voor hetzelfde patroon. */}
+            <div className="lg:hidden">
+              <VoorwaardenMobielAccordion panelen={VOORWAARDEN_MOBIEL_PANELEN} />
+            </div>
+            {/* Dezelfde inhoud als in de afbeeldingen hierboven, als echte (visueel verborgen)
+                DOM-tekst voor screenreaders/crawlers — zie ook UitvoeringStappen.tsx voor
+                hetzelfde patroon. */}
             <div className="sr-only">
               <VoorwaardenKolommen
                 groepen={[
