@@ -18,6 +18,12 @@ export default function nextConfig(phase: string): NextConfig {
         // Hernoemd voor duidelijkere, SEO-vriendelijkere URL (bevatte niet
         // het woord "muur"). 301 zodat bestaande links/bookmarks blijven werken.
         { source: "/maatregelen/spouwisolatie", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
+        // Juridische documenten linken bewust rechtstreeks naar het originele PDF-document i.p.v.
+        // een eigen opgemaakte pagina — dat oogt voor dit soort documenten geloofwaardiger. Niet
+        // "permanent" (307): dit zijn geen vaste URL's, de bestandsnaam kan wijzigen zodra er een
+        // nieuwe versie komt (zie public/documenten/).
+        { source: "/algemene-voorwaarden", destination: "/documenten/algemene-voorwaarden-gijs.pdf", permanent: false },
+        { source: "/avg-verklaring", destination: "/documenten/avg-verklaring-gijs.pdf", permanent: false },
       ];
     },
     async headers() {

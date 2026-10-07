@@ -20,6 +20,7 @@ export default function ContactForm() {
       email: data.get("email"),
       telefoon: data.get("phone"),
       bericht: data.get("message"),
+      bedrijf: data.get("company"),
     }).catch(() => ({ verstuurd: false, fout: "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks." }));
     setVersturen(false);
     if (ok) { setVerstuurd(true); form.current?.reset(); return; }
@@ -35,6 +36,12 @@ export default function ContactForm() {
   }
 
   return <form ref={form} onSubmit={submit} className="grid gap-5" aria-describedby="contact-status">
+    {/* Honeypot: voor mensen onzichtbaar (geen display:none, dat herkennen sommige bots), maar
+        formulier-bots vullen dit vaak automatisch in. Zie lib/contact-mail.ts. */}
+    <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+      <label htmlFor="contact-company">Bedrijf</label>
+      <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+    </div>
     <label className="grid gap-2 font-semibold" htmlFor="contact-name">Naam<input id="contact-name" name="name" autoComplete="name" required maxLength={100} className={field}/></label>
     <label className="grid gap-2 font-semibold" htmlFor="contact-email">E-mailadres<input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} className={field}/></label>
     <label className="grid gap-2 font-semibold" htmlFor="contact-phone">Telefoonnummer (optioneel)<input id="contact-phone" name="phone" type="tel" autoComplete="tel" maxLength={40} className={field}/></label>

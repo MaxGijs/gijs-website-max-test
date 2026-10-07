@@ -3,6 +3,7 @@ import "server-only";
 
 import { Resend } from "resend";
 import { EMAIL } from "@/lib/opslag-hulp";
+import { magDoorgaan } from "@/lib/rate-limit";
 
 // Stuurt het contactformulier (app/contact/page.tsx -> components/ContactForm.tsx) als één
 // interne e-mail naar Gijs. Zelfde architectuur als de energiescanaanvraag
@@ -25,9 +26,15 @@ const tekst = (v: unknown, max: number) => (typeof v === "string" ? v.trim().sli
 const escapeHtml = (v: string): string =>
   v.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 
-export type ContactInvoer = { naam: unknown; email: unknown; telefoon: unknown; bericht: unknown };
+export type ContactInvoer = { naam: unknown; email: unknown; telefoon: unknown; bericht: unknown; bedrijf?: unknown };
 
 export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ verstuurd: boolean; fout?: string }> {
+  // Honeypot: "bedrijf" is een veld dat voor mensen onzichtbaar is (zie ContactForm.tsx) maar dat
+  // formulier-bots vaak automatisch invullen. Gevuld = bot: doe alsof het gelukt is (geen hint
+  // voor de bot dat hij geblokkeerd is), maar verstuur niets.
+  if (tekst(invoer.bedrijf, 200)) return { verstuurd: true };
+  if (!(await magDoorgaan("contact"))) return { verstuurd: false, fout: OPSLAGFOUT };
+
   // Nooit de browser vertrouwen: lengte en vorm hier opnieuw afdwingen, los van de HTML-maxLength/type="email".
   const naam = tekst(invoer.naam, MAX.naam);
   const email = tekst(invoer.email, MAX.email);

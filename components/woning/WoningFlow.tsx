@@ -107,6 +107,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     return () => media.removeEventListener("change", update);
   }, []);
   const fieldId = useId();
+  const honeypotRef = useRef<HTMLInputElement>(null);
   const first = useRef(true);
   const heading = useRef<HTMLHeadingElement>(null);
   const scroll = useRef(false);
@@ -237,7 +238,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     setVersturen(true);
     setStatus("");
     const sessieMetAfgerond = { ...scan, scanAfgerond: true };
-    const { verstuurd, fout } = await verstuurEnergiescanAanvraag(JSON.stringify(sessieMetAfgerond))
+    const { verstuurd, fout } = await verstuurEnergiescanAanvraag(JSON.stringify(sessieMetAfgerond), honeypotRef.current?.value)
       .catch(() => ({ verstuurd: false, fout: "De aanvraag kon niet worden opgeslagen. Bel of mail Gijs voor een echte afspraak." }));
     setVersturen(false);
     // Na een geslaagde aanvraag staan deze gegevens al veilig in Supabase; de
@@ -510,6 +511,13 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                 </div>
               ) : (
                 <form onSubmit={verstuurAanvraag} noValidate>
+                  {/* Honeypot: voor mensen onzichtbaar (geen display:none, dat herkennen sommige
+                      bots), maar formulier-bots vullen dit vaak automatisch in. Zie
+                      lib/energiescan-opslag.ts. */}
+                  <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+                    <label htmlFor={`${fieldId}-website`}>Website</label>
+                    <input ref={honeypotRef} id={`${fieldId}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
+                  </div>
                   <div className={styles.aanvraagVelden}>
                     <Field label="Naam" htmlFor={`${fieldId}-naam`} error={aanvraagFouten.naam}>
                       <Input id={`${fieldId}-naam`} autoComplete="name" maxLength={100} invalid={!!aanvraagFouten.naam}

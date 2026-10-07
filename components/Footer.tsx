@@ -52,8 +52,16 @@ export default function Footer() {
                 Privacy
               </a>
             </li>
-            <li><Link href="/algemene-voorwaarden" className="no-underline hover:text-white">Algemene voorwaarden</Link></li>
-            <li><Link href="/avg-verklaring" className="no-underline hover:text-white">AVG-verklaring</Link></li>
+            <li>
+              <a href="/documenten/algemene-voorwaarden-gijs.pdf" target="_blank" rel="noopener noreferrer" className="no-underline hover:text-white">
+                Algemene voorwaarden
+              </a>
+            </li>
+            <li>
+              <a href="/documenten/avg-verklaring-gijs.pdf" target="_blank" rel="noopener noreferrer" className="no-underline hover:text-white">
+                AVG-verklaring
+              </a>
+            </li>
             <li><Link href="/cookies" className="no-underline hover:text-white">Cookies</Link></li>
             <li><Link href="/disclaimer" className="no-underline hover:text-white">Disclaimer</Link></li>
             <li><Link href="/toegankelijkheid" className="no-underline hover:text-white">Toegankelijkheid</Link></li>
