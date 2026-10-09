@@ -25,7 +25,7 @@ import { join, extname, relative } from "node:path";
 
 const ROOT = process.cwd();
 const SCAN_DIRS = ["app", "components", "lib"];
-const EXTENSIONS = new Set([".ts", ".tsx"]);
+const EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx"]);
 
 const CHECKS = [
   {
@@ -56,6 +56,12 @@ const CHECKS = [
     // aanroepende server-pagina productie=SEO_INDEXABLE doorgeeft. Diezelfde
     // gerichte herkenning als bij de placeholder-review hierboven.
     negeerAls: [/if\s*\(\s*productie\s*\)\s*return\s*null/],
+  },
+  {
+    // Iconen komen uit het lokale lucide-react-pakket (zie Icon.jsx); een
+    // runtime-fetch naar unpkg.com hoort niet meer in renderbare code.
+    categorie: "externe unpkg.com-afhankelijkheid in renderbare code",
+    patterns: [/unpkg\.com/],
   },
 ];
 

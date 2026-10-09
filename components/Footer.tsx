@@ -28,7 +28,7 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-3 text-white">Maatregelen</h3>
           <ul className="flex flex-col gap-2 text-sm text-white/80">
-            <li><Link href="/maatregelen#isolatie" className="no-underline hover:text-white">Isolatie</Link></li>
+            <li><Link href="/maatregelen#isolatie" className="no-underline hover:text-white">Isolaties</Link></li>
             <li><Link href="/maatregelen#installaties" className="no-underline hover:text-white">Installaties</Link></li>
             <li><Link href="/maatregelen" className="no-underline hover:text-white">Alle maatregelen</Link></li>
             <li><Link href="/regio" className="no-underline hover:text-white">Isoleren in jouw regio</Link></li>

@@ -19,6 +19,7 @@ export function MaterialCard({
   highlight = false,
   badge,
   headingLevel: Heading = "h3",
+  className = "",
 }: {
   name: string;
   description: string;
@@ -28,9 +29,10 @@ export function MaterialCard({
   highlight?: boolean;
   badge?: string;
   headingLevel?: "h3" | "h4";
+  className?: string;
 }) {
   return (
-    <Card variant={highlight ? "tint" : "default"} className="flex flex-col gap-4">
+    <Card variant={highlight ? "tint" : "default"} className={`flex flex-col gap-4 ${className}`.trim()}>
       {image && (
         <div className="rounded-[var(--radius-md)] overflow-hidden bg-[var(--surface-muted)] aspect-square flex items-center justify-center">
           <Image src={image} alt={imageAlt} width={600} height={600} className="max-w-[90%] max-h-[90%] object-contain" />

@@ -516,7 +516,7 @@ export default function HouseModelPrototype({ children }: { children?: ReactNode
           <section className={styles.panel} data-house-progress="0">
             <p className={styles.eyebrow}>Groen in je straat</p>
             <h1 className={styles.title}>Verduurzaam je woning.</h1>
-            <p className={styles.description}>Lagere energiekosten, meer wooncomfort of zo energieneutraal mogelijk wonen? Ontdek stap voor stap welke maatregelen daarbij kunnen helpen.</p>
+            <p className={styles.description}>Lagere energiekosten, meer wooncomfort en zo energieneutraal mogelijk wonen? Ontdek stap voor stap welke maatregelen daarbij kunnen helpen.</p>
             <fieldset className={styles.woningtypeKeuze}>
               <legend className={styles.woningtypeLegend}>Welk woningtype lijkt op jouw woning?</legend>
               <div className={styles.woningtypeKnoppen}>
@@ -541,13 +541,12 @@ export default function HouseModelPrototype({ children }: { children?: ReactNode
               <AddressScan />
             </div>
             <p className={styles.checkNote}>Een digitale woningscan als voorbereiding op advies van Gijs. Het gekozen woningtype neem je mee naar de scan; daar kun je het nog wijzigen.</p>
-            <a className={styles.textLink} href="#woning-verhaal">Neem een kijkje in de woning ↓</a>
           </section>
           <section id="woning-verhaal" className={styles.panel} data-house-progress="0">
             <p className={styles.eyebrow}>Je hoeft geen expert te zijn</p>
-            <h2 className={styles.title}>Een fijne woning begint bij begrijpen.</h2>
-            <p className={styles.description}>Waar blijft de warmte? Via je dak, muren, vloer en ramen kan warmte ontsnappen. Isolatie helpt die binnen te houden.</p>
-            <p className={styles.description}>Zelf stroom maken? Dat doen zonnepanelen met zonlicht. Een warmtepomp gebruikt stroom om warmte van buiten naar binnen te brengen.</p>
+            <h2 className={styles.title}>Een comfortabele woning begint bij begrijpen.</h2>
+            <p className={styles.description}>Waar verlies je warmte? Via je dak, muren, vloer en ramen kan warmte ontsnappen. Isolatie helpt die binnen te houden.</p>
+            <p className={styles.description}>Zelf stroom opwekken? Dat doen je zonnepanelen door middel van zonlicht. Een warmtepomp gebruikt warme buitenlucht om binnen te verwarmen.</p>
             <p className={styles.description}>Kijk mee in de woning. Zo ontdek je waar iedere oplossing zit en wat jij ervan merkt.</p>
             <button className={styles.inlineScan} onClick={openScan}>Liever meteen jouw woning bekijken? Start de woningscan →</button>
           </section>

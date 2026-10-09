@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useId } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useWoningDraft } from "./WoningDraftProvider";
-import { HouseViewer } from "./HouseViewer";
+import { AFGIFTE_STAAT, HouseViewer, MAATREGEL_STAAT, VERWARMING_STAAT, type HouseFocus } from "./HouseViewer";
 import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
 import { StapBevestigen } from "./StapBevestigen";
 import { WoningtypeRegel, KeuzeRij, OptieToggle, VerbruikVeld } from "./ScanVragen";
@@ -13,11 +13,12 @@ import { SCAN_TITELS } from "@/lib/content/maatregel-titels";
 import { SUBSIDIE_PER_M2 } from "@/lib/content/subsidie-per-m2";
 import { MC_BRONNEN } from "@/lib/content/milieu-centraal";
 import {
-  freshScan, readScan, SCAN_KEY, SCAN_MEASURES, SCAN_GROUPS, SCAN_WISHES, SCAN_STAPPEN, STAP, sameAddress, scanMessage, dakkapelTekst,
-  VERWARMING_OPTIES, AFGIFTE_OPTIES, WARMWATER_OPTIES, MONUMENT_OPTIES, BEWONERS_OPTIES, DAKKAPEL_OPTIES, JA_NEE_OPTIES, HOEK_ZIJDE_OPTIES, VOORKEURSMOMENT_OPTIES,
-  gebruiktGas, gebruiktWarmtenet, type ScanSession,
+  freshScan, readScan, SCAN_KEY, SCAN_MEASURES, SCAN_GROUPS, SCAN_WISHES, SCAN_STAPPEN, STAP, sameAddress, scanMessage, dakkapelTekst, bewonersTekst,
+  VERWARMING_OPTIES, AFGIFTE_OPTIES, WARMWATER_OPTIES, MONUMENT_OPTIES, BEWONERS_OPTIES, VERDIEPINGEN_OPTIES, DAKKAPEL_OPTIES, JA_NEE_OPTIES, HOEK_ZIJDE_OPTIES, VOORKEURSMOMENT_OPTIES,
+  gebruiktGas, gebruiktWarmtenet, bereikbareDagen, type ScanSession,
 } from "@/lib/scan-session";
 import { schatVerbruik, woonsituaties, energiekosten, leesGetal } from "@/lib/energie-schatting";
+import { track, logError } from "@/lib/analytics";
 import { maakWoningdossier } from "@/lib/woningdossier";
 import { slaWoningdossierOp } from "@/lib/woningdossier-opslag";
 import { verstuurEnergiescanAanvraag } from "@/lib/energiescan-opslag";
@@ -27,6 +28,7 @@ import { Field } from "@/components/ds/forms/Field";
 import { Input } from "@/components/ds/forms/Input";
 import { Stepper } from "@/components/ds/navigation/Stepper";
 import styles from "./WoningFlow.module.css";
+import { geldigTelefoonnummer } from "@/lib/telefoon";
 
 // Woningscan in drie stappen:
 //   1 Jouw woning         adres → foto → "Ja, dit klopt"
@@ -40,7 +42,7 @@ const toggleIn = (list: string[], id: string) => list.includes(id) ? list.filter
 // maar een echte foto van het onderdeel. Vloerisolatie toont bewust de kruipruimte:
 // dat is voor de meeste mensen de onbekendste plek van de ingreep.
 const MAATREGEL_BEELD: Record<string, { src: string; alt: string }> = {
-  zonnepanelen: { src: "/images/woningscan/maatregelen/zonnepanelen.jpg", alt: "Zonnepanelen op een dak" },
+  zonnepanelen: { src: "/images/woningscan/maatregelen/zonnepanelen-dak.jpg", alt: "Zonnepanelen op een dak" },
   dakisolatie: { src: "/images/woningscan/maatregelen/dakisolatie.png", alt: "Dakisolatie tijdens het aanbrengen" },
   warmtepomp: { src: "/images/maatregelen/warmtepomp/warmtepomp-hero.png", alt: "Buitenunit van een warmtepomp" },
   gevelisolatie: { src: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png", alt: "Spouwmuurisolatie wordt aangebracht" },
@@ -50,10 +52,13 @@ const MAATREGEL_BEELD: Record<string, { src: string; alt: string }> = {
   thuisbatterij: { src: "/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png", alt: "Thuisbatterij naast de woning" },
 };
 
+
 // Welk scan-veld het (kadaster-afgeleide) oppervlak voor deze maatregel bevat; leeg als niet opgehaald.
 // Vloeroppervlakte komt direct van de kadastrale plattegrond; dak- en geveloppervlak zijn een richtwaarde
 // daarbovenop (dakhelling en bouwhoogte staan niet in de BAG). Glasoppervlak staat nergens geregistreerd
 // en wordt daarom niet berekend, zie de losse noot bij die maatregel.
+// Tijdelijk uit: de vierkante meters komen pas terug als de gemiddelde waarden met Thom zijn afgestemd.
+const TOON_M2 = false;
 const M2_PER_MAATREGEL: Partial<Record<string, keyof ScanSession>> = {
   gevelisolatie: "gevelOppervlakte",
   vloerisolatie: "vloeroppervlakte",
@@ -61,11 +66,13 @@ const M2_PER_MAATREGEL: Partial<Record<string, keyof ScanSession>> = {
 };
 
 
-// Korte subsidieregel voor een keuzerij, uit het subsidieoverzicht van Gijs.
+// Korte subsidiemelding voor een keuzerij, voor maatregelen die in SUBSIDIE_PER_M2 als
+// subsidiabel staan. Geen bedragen: die wijzigen regelmatig en horen pas in het gesprek
+// tijdens de energiescan thuis.
 function subsidieKort(id: string) {
   const regels = SUBSIDIE_PER_M2[id];
   if (!regels?.length) return undefined;
-  return regels.length > 1 ? `Subsidie vanaf ${regels[0].een} per m²` : `Subsidie ${regels[0].een} per m² (of ${regels[0].meer})`;
+  return "Hiervoor is mogelijk subsidie beschikbaar";
 }
 
 // Zelfde patroon als EMAIL in lib/woningdossier-opslag.ts; server-only bestanden ("use server")
@@ -94,11 +101,19 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
   const [status, setStatus] = useState("");
   const [confirmNew, setConfirmNew] = useState(false);
   const [fouten, setFouten] = useState<Fouten>({});
-  const [aanvraagFouten, setAanvraagFouten] = useState<{ naam?: string; contact?: string }>({});
+  const [aanvraagFouten, setAanvraagFouten] = useState<{ voornaam?: string; achternaam?: string; email?: string; telefoon?: string }>({});
   const [versturen, setVersturen] = useState(false);
   const [woonsituatieId, setWoonsituatieId] = useState<string | undefined>();
   const [mobiel, setMobiel] = useState(false);
   const [woningUitgeklapt, setWoningUitgeklapt] = useState(false);
+  // Welke vraag nu actief is: stuurt de camera van de 3D-woning naar het bijbehorende onderdeel (zie
+  // HouseViewer's `focus`-prop). Puur een UI-keuze, dus geen onderdeel van de opgeslagen scanstate;
+  // bij een stapwissel (zie go/wijzig/terugNaarPlan hieronder) heeft een vorige focus geen betekenis meer.
+  // rondom: bij de vinkjes "Welke stappen heb je al gezet?" blijft de hele woning in beeld en draait
+  // de camera eromheen (het onderdeel licht op); bij de vragen zoomt hij in op het onderdeel.
+  const [kijk, setKijk] = useState<{ focus: HouseFocus; rondom: boolean }>({ focus: null, rondom: false });
+  const focus = kijk.focus;
+  const setFocus = (f: HouseFocus, rondom = false) => setKijk({ focus: f, rondom });
   useEffect(() => {
     const media = window.matchMedia("(max-width: 767px)");
     const update = () => setMobiel(media.matches);
@@ -153,10 +168,10 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
   }, [ready, scan.step, scan.dossierId]);
 
   const patch = (p: Partial<ScanSession>) => { setStatus(""); setScan(s => ({ ...s, ...p })); };
-  const go = (step: number) => { scroll.current = true; setScan(s => ({ ...s, step, reached: Math.max(s.reached, step) })); };
+  const go = (step: number) => { scroll.current = true; setFocus(null); setScan(s => ({ ...s, step, reached: Math.max(s.reached, step) })); };
   // Vanuit het woningplan: spring gericht terug en kom daarna in één klik terug.
-  const wijzig = (step: number) => { scroll.current = true; setScan(s => ({ ...s, step, terugNaarPlan: true })); };
-  const terugNaarPlan = () => { scroll.current = true; setScan(s => ({ ...s, step: STAP.plan, reached: STAP.plan, terugNaarPlan: false })); };
+  const wijzig = (step: number) => { scroll.current = true; setFocus(null); setScan(s => ({ ...s, step, terugNaarPlan: true })); };
+  const terugNaarPlan = () => { scroll.current = true; setFocus(null); setScan(s => ({ ...s, step: STAP.plan, reached: STAP.plan, terugNaarPlan: false })); };
   const message = scanMessage(scan);
   if (!ready) return <p className="p-8" role="status">Je woningscan wordt klaargezet…</p>;
 
@@ -173,7 +188,11 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     gewenstMaatregelen: scan.measures,
   });
 
-  const zichtbareMaatregelen = [...new Set([...scan.bestaandeMaatregelen, ...scan.measures])];
+  // Verwarmt de woning al met een (hybride) warmtepomp, dan staat de buitenunit er ook.
+  const heeftWarmtepomp = scan.verwarming.some(v => VERWARMING_STAAT[v] === "pomp");
+  // Idem voor vloerverwarming als afgiftesysteem: dan liggen de leidingen in de vloer.
+  const heeftVloerverwarming = scan.warmteafgifte.some(v => AFGIFTE_STAAT[v] === "vloerverwarming");
+  const zichtbareMaatregelen = [...new Set([...scan.bestaandeMaatregelen, ...scan.measures, ...(heeftWarmtepomp ? ["warmtepomp"] : []), ...(heeftVloerverwarming ? ["vloerverwarming"] : [])])];
   // Dakkapel/garage zijn van buitenaf te zien: alleen "Geen"/"Nee" haalt het onderdeel uit de illustratieve weergave.
   // "Meerdere" toont er 2: meer dakkapellen kan de illustratieve woning niet laten zien.
   const dakkapelAantal = scan.dakkapel === "Geen" || !scan.dakkapel ? 0 : scan.dakkapel === "1" ? 1 : 2;
@@ -186,6 +205,14 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
       aanbouwAanwezig={scan.aanbouw !== "Nee"}
       hoekZijde={scan.houseType === "hoekwoning" ? ((scan.hoekZijde || "Links") as "Links" | "Rechts") : undefined}
       compact={compact}
+      vol={!mobiel && scan.step === STAP.gegevens}
+      focus={focus}
+      onFocusChange={f => setFocus(f)}
+      rondom={kijk.rondom}
+      verwarming={scan.verwarming}
+      afgifte={scan.warmteafgifte}
+      kruipruimte={scan.kruipruimte}
+      spouwmuur={scan.spouwmuur}
       onBekijkWoning={() => setWoningUitgeklapt(true)}
     />
   );
@@ -226,25 +253,32 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     setFouten(f);
     const eerste = (["verwarming", "bewoners", "stroom", "gas", "warmte"] as const).find(k => f[k]);
     if (eerste) { document.getElementById(`${fieldId}-${eerste}`)?.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
+    if (!scan.terugNaarPlan) track({ name: "scan_completed" });
     if (scan.terugNaarPlan) terugNaarPlan(); else go(STAP.plan);
   };
 
   async function verstuurAanvraag(e: React.FormEvent) {
     e.preventDefault();
-    const naamFout = scan.name.trim() ? undefined : "Vul je naam in.";
-    const contactFout = EMAIL_PATROON.test(scan.email.trim()) || scan.telefoon.trim() ? undefined : "Vul een e-mailadres of telefoonnummer in.";
-    setAanvraagFouten({ naam: naamFout, contact: contactFout });
-    if (naamFout || contactFout) return;
+    // Voornaam, achternaam, e-mailadres en telefoonnummer zijn alle vier verplicht.
+    const fouten = {
+      voornaam: scan.name.trim() ? undefined : "Vul je voornaam in.",
+      achternaam: scan.achternaam.trim() ? undefined : "Vul je achternaam in.",
+      email: EMAIL_PATROON.test(scan.email.trim()) ? undefined : scan.email.trim() ? "Vul een geldig e-mailadres in." : "Vul je e-mailadres in.",
+      telefoon: geldigTelefoonnummer(scan.telefoon) ? undefined : scan.telefoon.trim() ? "Vul een geldig telefoonnummer in, bijvoorbeeld 06 12345678." : "Vul je telefoonnummer in.",
+    };
+    setAanvraagFouten(fouten);
+    if (Object.values(fouten).some(Boolean)) return;
     setVersturen(true);
     setStatus("");
     const sessieMetAfgerond = { ...scan, scanAfgerond: true };
     const { verstuurd, fout } = await verstuurEnergiescanAanvraag(JSON.stringify(sessieMetAfgerond), honeypotRef.current?.value)
-      .catch(() => ({ verstuurd: false, fout: "De aanvraag kon niet worden opgeslagen. Bel of mail Gijs voor een echte afspraak." }));
+      .catch((error) => { logError("energiescan_aanvraag", error); return { verstuurd: false, fout: "De aanvraag kon niet worden opgeslagen. Bel of mail Gijs voor een echte afspraak." }; });
     setVersturen(false);
     // Na een geslaagde aanvraag staan deze gegevens al veilig in Supabase; de
     // succesmelding hieronder toont ze niet meer, dus hoeven ze niet langer
     // in sessionStorage te blijven staan.
-    if (verstuurd) { setScan({ ...sessieMetAfgerond, name: "", email: "", telefoon: "", opmerking: "" }); return; }
+    if (verstuurd) { track({ name: "energy_scan_requested" }); setScan({ ...sessieMetAfgerond, name: "", achternaam: "", email: "", telefoon: "", opmerking: "" }); return; }
+    logError("energiescan_aanvraag", fout ?? "onbekende fout");
     setStatus(fout ?? "De aanvraag kon niet worden opgeslagen. Bel of mail Gijs voor een echte afspraak.");
   }
 
@@ -255,14 +289,13 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
           scanstap. Dit kickertje met icoon blijft hier, om duplicatie van die
           tekst te voorkomen. */}
       {scan.step === STAP.woning && <header className={styles.intro}>
-        <span className="inline-flex w-11 h-11 rounded-full bg-white border border-[var(--border-default)] items-center justify-center mb-3">
-          <Image src="/images/shared/icons/huisscan.png" alt="" width={26} height={26} />
-        </span>
         <p className="font-semibold">Jouw digitale woningscan</p>
       </header>}
       <Stepper steps={[...SCAN_STAPPEN]} current={scan.step} className={styles.stepper} />
       <p className={styles.stapTeller}>Stap {scan.step + 1} van {SCAN_STAPPEN.length}</p>
-      <h2 ref={heading} tabIndex={-1} className={styles.heading}>{SCAN_STAPPEN[scan.step]}</h2>
+      {/* Stap 1: geen zichtbare kop "Jouw woning" (na "Stap 1 van 3" volgt direct "Gevonden! Is dit jouw
+          woning?"); de kop blijft wel voor schermlezers en als focuspunt bij het wisselen van stap. */}
+      <h2 ref={heading} tabIndex={-1} className={scan.step === STAP.woning ? "sr-only" : styles.heading}>{SCAN_STAPPEN[scan.step]}</h2>
 
       {scan.step === STAP.woning && (
         <StapBevestigen
@@ -271,6 +304,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
           onHouseTypeChange={setHouseType} onAutoHouseType={setAutoHouseType}
           onAdresSubmit={(postcode, huisnummer) => patch({ postcode, huisnummer, addressLabel: "", woningBevestigd: false })}
           onBevestig={(addressLabel, manual = false, bag, epOnline) => {
+            if (!scan.dossierId) track({ name: "scan_started" });
             patch({
               addressLabel, manualAddress: manual, woningBevestigd: true,
               dossierId: scan.dossierId || crypto.randomUUID(),
@@ -304,12 +338,15 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                 <Keuzelijst id={`${fieldId}-monument`} label="Monument" value={scan.monument} opties={MONUMENT_OPTIES} onChange={monument => patch({ monument })} />
               </div>
               <div className={styles.veldRaster}>
-                <KeuzeRij vraag="Kruipruimte" waarde={scan.kruipruimte} onChange={kruipruimte => patch({ kruipruimte })} />
-                <KeuzeRij vraag="Spouwmuren" waarde={scan.spouwmuur} onChange={spouwmuur => patch({ spouwmuur })} />
-                <OptieToggle vraag="Dakkapel" opties={DAKKAPEL_OPTIES} waarde={scan.dakkapel} onChange={dakkapel => patch({ dakkapel })}
-                  namelijk={{ trigger: "Meerdere", waarde: scan.dakkapelAantal, onChange: dakkapelAantal => patch({ dakkapelAantal }) }} />
-                <OptieToggle vraag="Garage" opties={JA_NEE_OPTIES} waarde={scan.garage} onChange={garage => patch({ garage })} />
-                <OptieToggle vraag="Aanbouw" opties={JA_NEE_OPTIES} waarde={scan.aanbouw} onChange={aanbouw => patch({ aanbouw })} />
+                <div onFocus={() => setFocus("kruipruimte")}><KeuzeRij vraag="Kruipruimte" waarde={scan.kruipruimte} onChange={kruipruimte => patch({ kruipruimte })} /></div>
+                {/* Afspraak met Gijs: bij een bouwjaar na 1995 wordt de spouwmuurvraag niet gesteld. */}
+                {!((Number(scan.bouwjaar) || 0) > 1995) && <div onFocus={() => setFocus("spouwmuur")}><KeuzeRij vraag="Spouwmuren" waarde={scan.spouwmuur} onChange={spouwmuur => patch({ spouwmuur })} /></div>}
+                <div onFocus={() => setFocus("dakkapel", true)}>
+                  <OptieToggle vraag="Dakkapel" opties={DAKKAPEL_OPTIES} waarde={scan.dakkapel} onChange={dakkapel => patch({ dakkapel })}
+                    namelijk={{ trigger: "Meerdere", waarde: scan.dakkapelAantal, onChange: dakkapelAantal => patch({ dakkapelAantal }) }} />
+                </div>
+                <div onFocus={() => setFocus("garage", true)}><OptieToggle vraag="Garage" opties={JA_NEE_OPTIES} waarde={scan.garage} onChange={garage => patch({ garage })} /></div>
+                <div onFocus={() => setFocus("aanbouw", true)}><OptieToggle vraag="Aanbouw" opties={JA_NEE_OPTIES} waarde={scan.aanbouw} onChange={aanbouw => patch({ aanbouw })} /></div>
                 {scan.houseType === "hoekwoning" && (
                   <OptieToggle vraag="Buurwoning" uitleg="Aan welke kant, gezien vanaf de straat?" opties={HOEK_ZIJDE_OPTIES} waarde={scan.hoekZijde || "Links"} onChange={hoekZijde => patch({ hoekZijde })} />
                 )}
@@ -320,11 +357,27 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               <h3 className={styles.sectieKop}>Over je verwarming en warm water</h3>
               <p className={styles.uitleg}>Je kunt bij elke vraag meerdere opties kiezen: sommige woningen hebben bijvoorbeeld zowel een cv-ketel als een houtkachel.</p>
               <div id={`${fieldId}-verwarming`}>
-                <BeeldKeuze legend="Hoe wordt je woning verwarmd?" opties={VERWARMING_OPTIES} waarde={scan.verwarming} onChange={verwarming => { patch({ verwarming }); setFouten(f => ({ ...f, verwarming: undefined })); }} verplicht />
+                <BeeldKeuze legend="Hoe wordt je woning verwarmd?" opties={VERWARMING_OPTIES} waarde={scan.verwarming} onChange={verwarming => {
+                  // Gekozen verwarming: de camera draait om de woning naar het toestel, dat oplicht.
+                  const nieuw = verwarming.find(v => !scan.verwarming.includes(v));
+                  const weg = scan.verwarming.find(v => !verwarming.includes(v));
+                  if (nieuw && VERWARMING_STAAT[nieuw]) setFocus(VERWARMING_STAAT[nieuw] as HouseFocus, true);
+                  else if (weg && focus === VERWARMING_STAAT[weg]) setFocus(null);
+                  patch({ verwarming }); setFouten(f => ({ ...f, verwarming: undefined }));
+                }} verplicht
+                  anders={{ waarde: scan.verwarmingAnders, onChange: verwarmingAnders => patch({ verwarmingAnders }) }} />
                 {fouten.verwarming && <p className="gijs-error mt-2">{fouten.verwarming}</p>}
               </div>
-              <BeeldKeuze legend="Hoe wordt de warmte afgegeven?" opties={AFGIFTE_OPTIES} waarde={scan.warmteafgifte} onChange={warmteafgifte => patch({ warmteafgifte })}
+              <BeeldKeuze legend="Hoe wordt de warmte afgegeven?" uitleg="Lage-temperatuurradiatoren zijn extra grote radiatoren die ook op een lagere temperatuur voldoende warmte afgeven; dat past goed bij een warmtepomp." opties={AFGIFTE_OPTIES} waarde={scan.warmteafgifte} onChange={warmteafgifte => {
+                  // Gekozen afgifte: de camera draait om de woning en radiatoren, vloerverwarming of convectorputten lichten op.
+                  const nieuw = warmteafgifte.find(v => !scan.warmteafgifte.includes(v));
+                  const weg = scan.warmteafgifte.find(v => !warmteafgifte.includes(v));
+                  if (nieuw && AFGIFTE_STAAT[nieuw]) setFocus(AFGIFTE_STAAT[nieuw] as HouseFocus, true);
+                  else if (weg && focus === AFGIFTE_STAAT[weg]) setFocus(null);
+                  patch({ warmteafgifte });
+                }}
                 anders={{ waarde: scan.warmteafgifteAnders, onChange: warmteafgifteAnders => patch({ warmteafgifteAnders }) }} />
+              <OptieToggle kop vraag="Welke verdiepingen verwarm je?" opties={VERDIEPINGEN_OPTIES} waarde={scan.verwarmdeVerdiepingen} onChange={verwarmdeVerdiepingen => patch({ verwarmdeVerdiepingen })} />
               <BeeldKeuze legend="Warm water in de badkamer voor" opties={WARMWATER_OPTIES} waarde={scan.warmWater} onChange={warmWater => patch({ warmWater })} />
             </section>
 
@@ -338,6 +391,10 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                     onChange={() => {
                       const bestaand = toggleIn(scan.bestaandeMaatregelen, m.id);
                       patch({ bestaandeMaatregelen: bestaand, aanwezigOnbekend: false, measures: scan.measures.filter(id => !bestaand.includes(id)) });
+                      // Scanantwoord → camerastaat: het onderdeel verschijnt en de camera gaat ernaartoe.
+                      const staat = MAATREGEL_STAAT[m.id] as HouseFocus | undefined;
+                      if (staat && bestaand.includes(m.id)) setFocus(staat, true);
+                      else if (staat && focus === staat) setFocus(null);
                     }}
                   />
                 ))}
@@ -345,7 +402,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               </div>
               {scan.bestaandeMaatregelen.includes("zonnepanelen") && (
                 <Field label="Hoeveel zonnepanelen liggen er al? (optioneel)" className={styles.zonnepanelenVeld} htmlFor={`${fieldId}-panelen`}>
-                  <Input id={`${fieldId}-panelen`} inputMode="numeric" value={scan.zonnepanelenAantal} onChange={e => patch({ zonnepanelenAantal: e.target.value })} />
+                  <Input id={`${fieldId}-panelen`} inputMode="numeric" value={scan.zonnepanelenAantal} onChange={e => patch({ zonnepanelenAantal: e.target.value })} onFocus={() => setFocus("zon")} />
                 </Field>
               )}
             </section>
@@ -354,7 +411,10 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               <h3 className={styles.sectieKop}>Laatste vragen voor je woningplan</h3>
               <div className={styles.veldRaster}>
                 <div id={`${fieldId}-bewoners`}>
-                  <Keuzelijst id={`${fieldId}-bewoners-keuze`} label="Aantal bewoners" value={scan.aantalBewoners} opties={BEWONERS_OPTIES} fout={fouten.bewoners} onChange={aantalBewoners => { patch({ aantalBewoners }); setWoonsituatieId(undefined); setFouten(f => ({ ...f, bewoners: undefined })); }} />
+                  <OptieToggle vraag="Aantal bewoners" opties={BEWONERS_OPTIES} waarde={scan.aantalBewoners}
+                    onChange={aantalBewoners => { patch({ aantalBewoners }); setWoonsituatieId(undefined); setFouten(f => ({ ...f, bewoners: undefined })); }}
+                    namelijk={{ trigger: "Meer", waarde: scan.aantalBewonersAantal, onChange: aantalBewonersAantal => patch({ aantalBewonersAantal }) }} />
+                  {fouten.bewoners && <p className="gijs-error mt-2">{fouten.bewoners}</p>}
                 </div>
               </div>
               {!schatting && <p className={styles.note}>Kies je verwarming en het aantal bewoners, dan helpen we je verbruik te schatten.</p>}
@@ -394,7 +454,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                 {gas && <Field label="Gasprijs" htmlFor={`${fieldId}-gasprijs`}><Input id={`${fieldId}-gasprijs`} inputMode="decimal" suffix="€/m³" className="pr-20" value={scan.gasprijs} onChange={e => patch({ gasprijs: e.target.value })} /></Field>}
                 {warmtenet && <Field label="Prijs stadsverwarming" htmlFor={`${fieldId}-warmteprijs`}><Input id={`${fieldId}-warmteprijs`} inputMode="decimal" suffix="€/GJ" className="pr-20" value={scan.warmteprijs} onChange={e => patch({ warmteprijs: e.target.value })} /></Field>}
               </div>
-              <p className={styles.note}>Prijzen staan vooringevuld met het gemiddelde van <a className="underline" href={MC_BRONNEN.prijzen} target="_blank" rel="noopener noreferrer">Milieu Centraal</a> (januari 2026){warmtenet ? " en de prijs voor stadsverwarming van Gijs" : ""}. Pas ze aan naar je eigen contract.</p>
+              <p className={styles.note}>Prijzen staan vooringevuld met een gemiddelde: stroom volgens <a className="underline" href={MC_BRONNEN.prijzen} target="_blank" rel="noopener noreferrer">Milieu Centraal</a> (januari 2026){gas ? ", gas € 1,42 per m³" : ""}{warmtenet ? " en de prijs voor stadsverwarming van Gijs" : ""}. Pas ze aan naar je eigen contract.</p>
             </section>
 
             <section className={styles.sectie}>
@@ -440,9 +500,10 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               <dl className={styles.woningLijst}>
                 <div><dt>Adres</dt><dd>{scan.addressLabel || `${scan.postcode} ${scan.huisnummer}`}</dd></div>
                 <div><dt>Soort woning</dt><dd>{HOUSE_MODELS[scan.houseType].label}{dossier.bouwjaar.waarde ? `, gebouwd in ${dossier.bouwjaar.waarde}` : ""}</dd></div>
-                <div><dt>Verwarming</dt><dd>{scan.verwarming.join(", ") || "Niet ingevuld"}</dd></div>
+                <div><dt>Verwarming</dt><dd>{(scan.verwarming.includes("Anders") && scan.verwarmingAnders.trim() ? scan.verwarming.map(w => w === "Anders" ? `Anders: ${scan.verwarmingAnders.trim()}` : w) : scan.verwarming).join(", ") || "Niet ingevuld"}</dd></div>
                 <div><dt>Dakkapel</dt><dd>{dakkapelTekst(scan)}</dd></div>
                 <div><dt>Garage / aanbouw</dt><dd>{scan.garage || "Niet ingevuld"} / {scan.aanbouw || "Niet ingevuld"}</dd></div>
+                <div><dt>Aantal bewoners</dt><dd>{bewonersTekst(scan)}</dd></div>
                 <div><dt>Wat je al hebt gedaan</dt><dd>{scan.bestaandeMaatregelen.length ? scan.bestaandeMaatregelen.map(id => titelVan(id).naam).join(", ") : scan.aanwezigOnbekend ? "Weet ik niet precies" : "Nog niets"}</dd></div>
               </dl>
             </section>
@@ -464,7 +525,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                         const t = titelVan(m.id);
                         const beeld = MAATREGEL_BEELD[m.id];
                         const m2 = M2_PER_MAATREGEL[m.id] ? scan[M2_PER_MAATREGEL[m.id]!] : "";
-                        const label = m2 ? `${m2} m² ${t.naam.toLowerCase()}` : t.naam;
+                        const label = TOON_M2 && m2 ? `${m2} m² ${t.naam.toLowerCase()}` : t.naam;
                         const glasNoot = m.id === "glas-kozijnen" ? "Glasoppervlak wordt tijdens de energiescan bij je thuis gemeten." : "";
                         const beschrijving = [subsidieKort(m.id), glasNoot].filter(Boolean).join(" · ") || undefined;
                         return (
@@ -480,18 +541,34 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                 );
               })}
               <ul className={styles.keuzeRijen}>
-                <li className={styles.keuzeRij}><Checkbox card label="Ik weet het nog niet, help mij kiezen" checked={scan.advice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => patch({ advice: e.target.checked })} /></li>
+                <li className={styles.keuzeRij}><Checkbox card label="Ik wil iets wijzigen aan wat ik al heb" checked={scan.advice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => patch({ advice: e.target.checked })} /></li>
               </ul>
-              {scan.bestaandeMaatregelen.length > 0 && (
-                <details className={styles.optioneel} open={scan.bestaandeMaatregelen.some(id => scan.measures.includes(id))}>
-                  <summary>Ik wil iets wijzigen aan wat ik al heb</summary>
-                  <div className={styles.keuzeLijst}>
-                    {scan.bestaandeMaatregelen.map(id => <Checkbox key={id} card label={titelVan(id).naam} checked={scan.measures.includes(id)} onChange={() => patch({ measures: toggleIn(scan.measures, id) })} />)}
-                  </div>
-                </details>
+              {/* Aangevinkt: kies (als er al iets is) waar het om gaat en vul in wat je wilt wijzigen. */}
+              {scan.advice && (
+                <div className={styles.wijzigBlok}>
+                  {scan.bestaandeMaatregelen.length > 0 && (
+                    <fieldset className="min-w-0 border-0 p-0">
+                      <legend className="gijs-label mb-2">Waar gaat het om?</legend>
+                      <div className={styles.keuzeLijst}>
+                        {scan.bestaandeMaatregelen.map(id => <Checkbox key={id} card label={titelVan(id).naam} checked={scan.measures.includes(id)} onChange={() => patch({ measures: toggleIn(scan.measures, id) })} />)}
+                      </div>
+                    </fieldset>
+                  )}
+                  <Field label="Wat wil je wijzigen?" htmlFor={`${fieldId}-wijzig`}>
+                    <textarea id={`${fieldId}-wijzig`} className="gijs-textarea" maxLength={500} placeholder="Bijvoorbeeld: ik heb al spouwmuurisolatie, maar ben er niet tevreden over."
+                      value={scan.wijzigToelichting} onChange={e => patch({ wijzigToelichting: e.target.value })} />
+                  </Field>
+                </div>
               )}
-              {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Subsidie per m² uit het <Link className="underline" href="/kennis#subsidies">subsidieoverzicht van Gijs</Link>; het hogere bedrag geldt bij 2 of meer isolatiemaatregelen. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.</p>}
-              {(scan.vloeroppervlakte || scan.dakoppervlakte || scan.gevelOppervlakte) && <p className={styles.kleineNoot}>Vloeroppervlak komt van de kadastrale plattegrond van je woning; dak- en geveloppervlak zijn een richtwaarde daarbovenop. Gijs meet de precieze maten tijdens de energiescan.</p>}
+              {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Voor sommige van deze maatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen. Meer weten? Bekijk de <Link className="underline" href="/kennis#subsidies">uitleg over subsidies en financiering</Link> of de <Link className="underline" href="/subsidiecheck">subsidiecheck</Link>.</p>}
+              {TOON_M2 && (scan.vloeroppervlakte || scan.dakoppervlakte || scan.gevelOppervlakte) && <p className={styles.kleineNoot}>Vloeroppervlak komt van de kadastrale plattegrond van je woning; dak- en geveloppervlak zijn een richtwaarde daarbovenop. Gijs meet de precieze maten tijdens de energiescan.</p>}
+              {/* Sectie 27 van de opdracht: ruimte gereserveerd voor mogelijke invloed op
+                  woningwaarde en indicatieve terugverdientijd, bewust zonder cijfers zolang
+                  daarvoor geen betrouwbare rekenregels/data bestaan ("menselijke input nodig"). */}
+              {nieuweMaatregelen.length > 0 && <p className={styles.kleineNoot}>Sommige maatregelen kunnen ook invloed hebben op je wooncomfort, energiekosten en mogelijk je woningwaarde. Gijs bespreekt tijdens de energiescan wat voor jouw woning realistisch is.</p>}
+              <button type="button" className={styles.tekstLink} onClick={() => { const el = document.getElementById(`${fieldId}-opmerking`); el?.scrollIntoView({ block: "center", behavior: "smooth" }); (el as HTMLTextAreaElement | null)?.focus(); }}>
+                Iets anders bespreken?<span className="sr-only"> Ga naar het opmerkingenveld bij je aanvraag.</span>
+              </button>
             </section>
 
             <section className={styles.aanvraag}>
@@ -519,32 +596,46 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                     <input ref={honeypotRef} id={`${fieldId}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
                   </div>
                   <div className={styles.aanvraagVelden}>
-                    <Field label="Naam" htmlFor={`${fieldId}-naam`} error={aanvraagFouten.naam}>
-                      <Input id={`${fieldId}-naam`} autoComplete="name" maxLength={100} invalid={!!aanvraagFouten.naam}
-                        value={scan.name} onChange={e => { patch({ name: e.target.value }); setAanvraagFouten(f => ({ ...f, naam: undefined })); }} />
+                    <Field label="Voornaam" htmlFor={`${fieldId}-voornaam`} error={aanvraagFouten.voornaam}>
+                      <Input id={`${fieldId}-voornaam`} autoComplete="given-name" maxLength={100} aria-required="true" invalid={!!aanvraagFouten.voornaam}
+                        value={scan.name} onChange={e => { patch({ name: e.target.value }); setAanvraagFouten(f => ({ ...f, voornaam: undefined })); }} />
                     </Field>
-                    <Field label="E-mailadres" htmlFor={`${fieldId}-email`}>
-                      <Input id={`${fieldId}-email`} type="email" autoComplete="email" maxLength={254} invalid={!!aanvraagFouten.contact}
-                        value={scan.email} onChange={e => { patch({ email: e.target.value }); setAanvraagFouten(f => ({ ...f, contact: undefined })); }} />
+                    <Field label="Achternaam" htmlFor={`${fieldId}-achternaam`} error={aanvraagFouten.achternaam}>
+                      <Input id={`${fieldId}-achternaam`} autoComplete="family-name" maxLength={100} aria-required="true" invalid={!!aanvraagFouten.achternaam}
+                        value={scan.achternaam} onChange={e => { patch({ achternaam: e.target.value }); setAanvraagFouten(f => ({ ...f, achternaam: undefined })); }} />
                     </Field>
-                    <Field label="Telefoonnummer" htmlFor={`${fieldId}-telefoon`} error={aanvraagFouten.contact}>
-                      <Input id={`${fieldId}-telefoon`} type="tel" autoComplete="tel" maxLength={20} invalid={!!aanvraagFouten.contact}
-                        value={scan.telefoon} onChange={e => { patch({ telefoon: e.target.value }); setAanvraagFouten(f => ({ ...f, contact: undefined })); }} />
+                    <Field label="E-mailadres" htmlFor={`${fieldId}-email`} error={aanvraagFouten.email}>
+                      <Input id={`${fieldId}-email`} type="email" autoComplete="email" maxLength={254} aria-required="true" invalid={!!aanvraagFouten.email}
+                        value={scan.email} onChange={e => { patch({ email: e.target.value }); setAanvraagFouten(f => ({ ...f, email: undefined })); }} />
                     </Field>
-                    <Field label="Wanneer ben je goed bereikbaar?" htmlFor={`${fieldId}-moment`} optional>
-                      <select id={`${fieldId}-moment`} className="gijs-input" value={scan.voorkeursmoment} onChange={e => patch({ voorkeursmoment: e.target.value })}>
-                        <option value="">Kies een optie</option>
-                        {VOORKEURSMOMENT_OPTIES.map(o => <option key={o} value={o}>{o}</option>)}
-                      </select>
+                    <Field label="Telefoonnummer" htmlFor={`${fieldId}-telefoon`} error={aanvraagFouten.telefoon}>
+                      <Input id={`${fieldId}-telefoon`} type="tel" inputMode="tel" autoComplete="tel" maxLength={20} aria-required="true" invalid={!!aanvraagFouten.telefoon}
+                        value={scan.telefoon} onChange={e => { patch({ telefoon: e.target.value }); setAanvraagFouten(f => ({ ...f, telefoon: undefined })); }} />
                     </Field>
                   </div>
+                  {/* Op welke werkdagen de bewoner goed bereikbaar is; meerdere dagen mogelijk. */}
+                  <fieldset className="mb-4 min-w-0 border-0 p-0">
+                    <legend className="p-0 text-[17px] font-bold text-[var(--gijs-donkergroen)]">Op welke dagen ben je goed bereikbaar? <span className="font-normal text-[15px] text-[var(--text-subtle)]">(optioneel, meerdere dagen mogelijk)</span></legend>
+                    <div className="mt-3 grid grid-cols-5 gap-2">
+                      {VOORKEURSMOMENT_OPTIES.map(dag => {
+                        const gekozen = bereikbareDagen(scan.voorkeursmoment);
+                        return (
+                          <label key={dag} className="flex min-h-12 cursor-pointer items-center justify-center rounded-[12px] border-2 border-[var(--border-default)] bg-white px-1 text-center text-[15px] font-semibold text-[var(--gijs-donkergroen)] transition-colors hover:border-[var(--gijs-donkergroen)] has-[:checked]:border-[var(--gijs-donkergroen)] has-[:checked]:bg-[var(--gijs-donkergroen)] has-[:checked]:text-white has-[:focus-visible]:outline has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-[var(--accent-600)]">
+                            <input type="checkbox" className="sr-only" checked={gekozen.includes(dag)}
+                              onChange={() => patch({ voorkeursmoment: VOORKEURSMOMENT_OPTIES.filter(d => d === dag ? !gekozen.includes(d) : gekozen.includes(d)).join(", ") })} />
+                            <span aria-hidden="true" className="sm:hidden">{dag.slice(0, 2)}</span><span className="max-sm:sr-only">{dag}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </fieldset>
                   <Field label="Opmerking" htmlFor={`${fieldId}-opmerking`} optional>
                     <textarea id={`${fieldId}-opmerking`} className="gijs-textarea" maxLength={500} placeholder="Is er iets waar we rekening mee moeten houden?"
                       value={scan.opmerking} onChange={e => patch({ opmerking: e.target.value })} />
                   </Field>
                   <Button type="submit" variant="primary" size="lg" loading={versturen} disabled={versturen}>{versturen ? "Aanvraag versturen…" : "Verstuur mijn aanvraag"}</Button>
                   {status && <p role="alert" className="gijs-error">{status}</p>}
-                  <p className={styles.kleineNoot}>Gijs gebruikt deze gegevens om contact op te nemen over de energiescan.</p>
+                  <p className={styles.kleineNoot}>We gebruiken je gegevens alleen om contact met je op te nemen over je aanvraag. Lees hoe we met je gegevens omgaan in onze <a href="/avg-verklaring" target="_blank" rel="noopener noreferrer" className="underline">privacyverklaring</a>.</p>
                   <details className={styles.optioneel}><summary>Bekijk alle gegevens van je aanvraag</summary><div className={styles.preview}>{message}</div></details>
                 </form>
               )}

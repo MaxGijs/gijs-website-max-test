@@ -1,22 +1,27 @@
 // Inhoud voor /over-gijs. Alleen bevestigde bedrijfsinformatie (zie CONTACT in
 // lib/content/contact.ts), de eerder goedgekeurde tekst over Gijs en Thom, en
 // de expliciet aangeleverde merklaag ("Iedereen kent wel een Gijs", "Energie
-// voor Synergie", 18+ jaar ervaring). Reviews zijn bewust een placeholder
-// totdat de Google-koppeling actief is. Team en "Een Gijs" gebruiken inmiddels
+// voor Synergie", meer dan 20 jaar ervaring). Reviews zijn bewust een placeholder
+// totdat de Google-koppeling actief is. Team en "Gijs…" gebruiken inmiddels
 // echte, aangeleverde foto's (public/over-gijs); waar nog geen passende echte
 // foto beschikbaar is, blijft het beeld bewust weg (geen stockfoto erbij
 // verzinnen) in plaats van een placeholder te tonen.
 
 // TODO: alleen invullen zodra bevestigd; nooit een indicatie geven die er niet is.
 export const CIJFERBEWIJS = {
-  ervaringJaren: 18,
+  // Getoond als "meer dan 20 jaar ervaring" (niet "20+", dat oogt vreemd), zie ERVARING.
+  ervaringJaren: 20,
   googleBeoordeling: null as number | null,
   aantalReviews: null as number | null,
 } as const;
 
-// De vier "Een Gijs…"-uitspraken. `kop` volgt op "Een Gijs". Eerlijkheid en
+/** Zo staat de ervaring overal op de site: "meer dan 20 jaar ervaring". */
+export const ERVARING = `meer dan ${CIJFERBEWIJS.ervaringJaren} jaar ervaring`;
+
+// De vier "Gijs…"-uitspraken. `kop` volgt op "Gijs" (alleen de merkzin zelf is "Iedereen kent wel
+// een Gijs"; daarna heet hij gewoon Gijs). Eerlijkheid en
 // vakkennis zijn bewust samengevoegd tot één uitspraak (korter verhaal, zie
-// ook het founder-hoofdstuk voor de uitgebreide 18+ jaar ervaring).
+// ook het founder-hoofdstuk voor de uitgebreide ervaring).
 // Alle vier hebben een beeld (public/over-gijs). "brengt het simpel" en "kent
 // zijn vak" zijn echte foto's; "luistert altijd" en "denkt mee" zijn
 // gegenereerde beelden, expliciet goedgekeurd voor deze twee plekken.
@@ -44,7 +49,7 @@ export const EEN_GIJS = [
   },
   {
     kop: "is eerlijk, en kent zijn vak.",
-    tekst: `Past een maatregel niet bij je woning? Dan hoor je dat gewoon. Dat kan omdat Gijs weet waar hij het over heeft: ${CIJFERBEWIJS.ervaringJaren}+ jaar ervaring met isolatie, installaties, subsidies en financiering.`,
+    tekst: `Past een maatregel niet bij je woning? Dan hoor je dat gewoon. Dat kan omdat Gijs weet waar hij het over heeft: ${ERVARING} met isolaties, installaties, subsidies en financiering.`,
     // Vervangt de eerdere foto (installateur zonder valbeveiliging op een hellend dak) om
     // veiligheidsredenen, op verzoek van Max. v2 van de vervangfoto.
     beeld: "/images/over-gijs/een-gijs/een-gijs-weet-wat-hij-doet-v2.png",
@@ -57,10 +62,10 @@ export const KERNWAARDEN = [
   { woord: "Persoonlijk", tekst: "Altijd een gesprek, niet alleen een rapport." },
   { woord: "Eerlijk", tekst: "Ook als het advies is om iets (nog) niet te doen." },
   { woord: "Onafhankelijk", tekst: "Geen vaste pakketten, wel wat technisch en financieel logisch is." },
-  { woord: "Deskundig", tekst: `${CIJFERBEWIJS.ervaringJaren}+ jaar ervaring, en een advies waar je op kunt bouwen.` },
+  { woord: "Deskundig", tekst: `${ERVARING.charAt(0).toUpperCase()}${ERVARING.slice(1)}, en een advies waar je op kunt bouwen.` },
 ] as const;
 
-export const GIJS_HELPT_BIJ = "isolatie, installaties, energieopwekking, subsidies, financiering, energiescans en vervolgstappen richting uitvoering";
+export const GIJS_HELPT_BIJ = "isolaties, installaties, energieopwekking, subsidies, financiering, energiescans en vervolgstappen richting uitvoering";
 
 // Geen bio's, functies of quotes verzinnen. Foto's zijn echte, aangeleverde
 // portretten (public/over-gijs); `fotoPositie` stuurt alleen de uitsnede.

@@ -101,11 +101,11 @@ export function KeuzeRij({ vraag, uitleg, waarde, onChange }: { vraag: string; u
  * aanbouw (ja/nee), en bij een hoekwoning aan welke kant de buurwoning
  * staat. Bij "namelijk" verschijnt een tekstveld zodra die optie gekozen is.
  */
-export function OptieToggle({ vraag, uitleg, opties, waarde, onChange, namelijk }: { vraag: string; uitleg?: string; opties: readonly string[]; waarde: string; onChange: (v: string) => void; namelijk?: { trigger: string; waarde: string; onChange: (v: string) => void } }) {
+export function OptieToggle({ vraag, uitleg, opties, waarde, onChange, namelijk, kop = false }: { vraag: string; uitleg?: string; opties: readonly string[]; waarde: string; onChange: (v: string) => void; namelijk?: { trigger: string; waarde: string; onChange: (v: string) => void; label?: string }; /** Vraag als donkergroene kop, zoals de beeldkeuzes (BeeldKeuze) eromheen. */ kop?: boolean }) {
   const naam = useId();
   return (
     <fieldset className="min-w-0 border-0 p-0">
-      <legend className="gijs-label">{vraag}</legend>
+      <legend className={kop ? "p-0 text-[19px] font-bold tracking-[-0.01em] text-[var(--gijs-donkergroen)]" : "gijs-label"}>{vraag}</legend>
       {uitleg && <p className="mt-1 text-[13px] text-[var(--text-muted)]">{uitleg}</p>}
       <div className="mt-2 grid gap-1 rounded-[14px] bg-[var(--grey-050)] p-1" style={{ gridTemplateColumns: `repeat(${opties.length}, minmax(0,1fr))` }}>
         {opties.map(optie => (
@@ -117,7 +117,7 @@ export function OptieToggle({ vraag, uitleg, opties, waarde, onChange, namelijk 
       </div>
       {namelijk && waarde === namelijk.trigger && (
         <label className="mt-2 flex flex-col gap-1 text-[13px] font-semibold text-[var(--gijs-donkergroen)]">
-          <span>{namelijk.trigger}, namelijk</span>
+          <span>{namelijk.label ?? `${namelijk.trigger}, namelijk`}</span>
           <input className="gijs-input" maxLength={120} value={namelijk.waarde} onChange={e => namelijk.onChange(e.target.value)} autoFocus />
         </label>
       )}

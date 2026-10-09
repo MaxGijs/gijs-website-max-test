@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ds/core/Icon";
 import { Button } from "@/components/ds/core/Button";
 import SocialLinks from "@/components/SocialLinks";
+import WhatsAppButton, { WhatsAppIcon, useWhatsAppLink } from "@/components/WhatsAppButton";
 import styles from "./Header.module.css";
 
 type NavLink = { label: string; href: string; external?: boolean };
@@ -217,7 +218,7 @@ function VerduurzamenDropdown({ label }: { label: string }) {
       {open && (
         <div className="absolute left-0 top-full mt-1 min-w-[220px] bg-white rounded-[var(--radius-card)] border border-[var(--grey-200)] shadow-[var(--shadow-2)] p-2 z-50">
           <FlyoutRow label="Maatregelen" href="/maatregelen" onNavigate={close}>
-            <FlyoutRow label="Isolatie" href="/maatregelen#isolatie" onNavigate={close}>
+            <FlyoutRow label="Isolaties" href="/maatregelen#isolatie" onNavigate={close}>
               {ISOLATIE_ITEMS.map(item => (
                 <Link key={item.href} href={item.href} onClick={close} className={styles.megaLink}>
                   {item.label}
@@ -281,20 +282,34 @@ function MobileSubAccordion({ label, href, items, onNavigate }: { label: string;
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const mobileToggle = useRef<HTMLButtonElement>(null);
+  // Boven: licht/wit zoals voorheen. Zodra er gescrold is: donkergroen Gijs-header (sectie 22 van de
+  // opdracht). Een kleine drempel (8px) voorkomt knipperen rond scrollpositie 0.
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 8);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+  const whatsapp = useWhatsAppLink();
 
   return (
-    <header className={styles.header} onKeyDown={event => { if (event.key === "Escape" && mobileOpen) { setMobileOpen(false); mobileToggle.current?.focus(); } }}>
-      {/* Hoofdbalk: licht en doorschijnend, 72px hoog (mobiel 64px). */}
+    <>
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`} onKeyDown={event => { if (event.key === "Escape" && mobileOpen) { setMobileOpen(false); mobileToggle.current?.focus(); } }}>
+      {/* Hoofdbalk: licht en doorschijnend, 72px hoog (mobiel 64px); na scrollen donkergroen (zie .scrolled). */}
       <div className={styles.brandRow}>
         <Link href="/" className="no-underline flex items-center">
-          <Image src="/images/shared/logo/logo.png" alt="Gijs" width={912} height={520} style={{ height: "auto" }} className={styles.logo} priority />
+          <Image src={scrolled ? "/images/shared/logo/logo-white.png" : "/images/shared/logo/logo.png"} alt="Gijs" width={912} height={520} style={{ height: "auto" }} className={styles.logo} priority />
         </Link>
 
-        {/* Social media (op verzoek van Max), rechtsboven naast het
-            logo — alleen zichtbaar vanaf md, en pas zodra er echte
-            links in lib/content/social.ts staan. */}
+        {/* Social media (op verzoek van Max) en WhatsApp (sectie 21 van de opdracht: zelfde bestemming
+            als de bestaande zwevende knop), rechtsboven naast het logo — alleen zichtbaar vanaf md. */}
         <div className={styles.social}>
           <SocialLinks />
+          <a href={whatsapp.href} target={whatsapp.nieuwTabblad ? "_blank" : undefined} rel={whatsapp.nieuwTabblad ? "noopener noreferrer" : undefined} aria-label={whatsapp.label}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-current hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2">
+            <WhatsAppIcon size={22} />
+          </a>
         </div>
 
         {/* Hamburger: alleen op smalle schermen, waar de secundaire
@@ -329,12 +344,11 @@ export default function Header() {
         })}
 
         <div className="ml-auto">
-          {/* Secundaire CTA (sectie "Header" van de opdracht): linkt naar
-              het "Gratis energiescan"-blok onderaan de homepage. Vanaf
-              een andere pagina navigeert dit eerst naar home en scrollt
-              de browser daarna naar het anker. */}
-          <Button href="/contact#energiescan" variant="primary" size="sm">
-            Vraag een gratis energiescan aan
+          {/* Primaire CTA van de site: "Start de woningscan". De energiescan
+              blijft beschikbaar via /contact#energiescan en losse secties
+              op de pagina's zelf, maar krijgt daar een secundaire stijl. */}
+          <Button href="/woning" variant="accent" size="sm">
+            Start de woningscan
           </Button>
         </div>
       </nav>
@@ -367,7 +381,7 @@ export default function Header() {
                   <Link href="/maatregelen" onClick={closeMenu} className="block no-underline text-sm font-semibold text-[var(--accent-700)] py-2">
                     Maatregelen: bekijk alle mogelijkheden
                   </Link>
-                  <MobileSubAccordion label="Isolatie" href="/maatregelen#isolatie" items={ISOLATIE_ITEMS} onNavigate={closeMenu} />
+                  <MobileSubAccordion label="Isolaties" href="/maatregelen#isolatie" items={ISOLATIE_ITEMS} onNavigate={closeMenu} />
                   <MobileSubAccordion label="Installaties" href="/maatregelen#installaties" items={INSTALLATIES_ITEMS} onNavigate={closeMenu} />
                   <div className="flex flex-col pb-2">
                     {VERDUURZAMEN_FOOTER_LINKS.map(item => (
@@ -396,10 +410,23 @@ export default function Header() {
               </div>
             );
           })}
-          <div onClick={() => setMobileOpen(false)}><Button href="/contact#energiescan" variant="accent" size="md" fullWidth className="mt-3">Vraag een gratis energiescan aan</Button></div>
-          <div className="mt-4"><SocialLinks /></div>
+          <div onClick={() => setMobileOpen(false)}><Button href="/woning" variant="accent" size="md" fullWidth className="mt-3">Start de woningscan</Button></div>
+          <div className="mt-4 flex items-center gap-3">
+            <SocialLinks />
+            <a href={whatsapp.href} target={whatsapp.nieuwTabblad ? "_blank" : undefined} rel={whatsapp.nieuwTabblad ? "noopener noreferrer" : undefined} aria-label={whatsapp.label}
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-current hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2">
+              <WhatsAppIcon size={22} />
+            </a>
+          </div>
         </nav>
       )}
     </header>
+    {/* Vaste WhatsApp-knop rechtsonder: zelfde component/bestemming als voorheen alleen op de
+        homepage, nu hier zodat elke pagina (die <Header/> rendert) hem krijgt, zonder elke pagina
+        apart aan te passen (sectie 21 van de opdracht). Bewust BUITEN <header>: die heeft een
+        backdrop-filter, wat voor position:fixed-kinderen een eigen containing block zou maken
+        (de knop zou dan tegen de headerbalk aan geplakt zitten in plaats van tegen het scherm). */}
+    <WhatsAppButton />
+    </>
   );
 }

@@ -18,13 +18,10 @@
 }
 .scene canvas { position:relative; z-index:1; }
 .controls,.zones { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
-.controls button,.zones button,.touchToggle { border:0; padding:8px 16px; min-height:44px; font-size:15px; border-radius:999px; background:white; color:var(--green-900); cursor:pointer; font-weight:600; letter-spacing:-0.01em; transition:background .2s ease; }
+.controls button,.zones button { border:0; padding:8px 16px; min-height:44px; font-size:15px; border-radius:999px; background:white; color:var(--green-900); cursor:pointer; font-weight:600; letter-spacing:-0.01em; transition:background .2s ease; }
 .controls button:hover,.zones button:hover { background:#e6ecea; }
-.controls .icoon { width:44px; padding:0; font-size:20px; line-height:1; }
 .zones button[aria-pressed=true] { background:var(--green-800); color:white; }
 .caption { font-size:13px; line-height:1.5; margin:12px 4px 4px; color:var(--text-muted); }
-.touchToggle { position:absolute; bottom:10px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:16px; background:var(--green-800) !important; color:#fff !important; border-color:var(--green-800) !important; }
-.touchToggle[aria-pressed=true] { background:#fff !important; color:var(--green-900) !important; }
 .loading { position:absolute; z-index:2; top:45%; left:50%; transform:translateX(-50%); white-space:nowrap; padding:12px 22px; background:rgba(255,255,255,.8); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px); border-radius:999px; box-shadow:0 10px 40px rgba(19,62,53,.08); font-size:14px; font-weight:600; }
 .profileDetail { margin-top:16px; font-size:14px; }
 .profileDetail summary { cursor:pointer; font-weight:600; padding:12px 0; }
@@ -40,6 +37,12 @@
 .compact { padding:0; border-radius:16px; background:transparent; }
 .sceneCompact { height:140px; border-radius:16px; }
 .bekijkKnop { position:absolute; z-index:2; bottom:10px; right:10px; border:0; padding:8px 16px; min-height:40px; font-size:14px; font-weight:600; border-radius:999px; background:rgba(19,62,53,.88); color:#fff; cursor:pointer; }
+
+/* Volle linkerkolom (desktop woningscan), zoals de homepage-woning: geen kaart, de woning vult de
+   hele kolomhoogte, met dezelfde zachte halo als de homepage in plaats van het raster. */
+.vol { height:100%; display:flex; flex-direction:column; padding:0; border-radius:0; background:transparent; }
+.vol .scene { flex:1; height:auto; min-height:360px; border-radius:32px; background:radial-gradient(ellipse at 50% 55%, #e6eee5 0%, #eff3ee 45%, #fff 72%); }
+.vol .scene::before { display:none; }
 
 .profileDetail summary { display:block; background:var(--accent-700); color:white; border-radius:var(--radius-control); padding:17px 24px; font-size:18px; font-weight:700; cursor:pointer; text-align:center; box-shadow:0 4px 12px #123a2420; }
 .profileDetail summary:hover { background:#104c3a; }

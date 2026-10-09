@@ -12,7 +12,7 @@ export type VervolgRoute = { href: string; titel: string; tekst: string };
 // bezoeker strandt: elke pagina wijst door naar plekken die er wel zijn en
 // naar een mens die de vraag kan beantwoorden.
 const STANDAARD_VERVOLG: VervolgRoute[] = [
-  { href: "/maatregelen", titel: "Alle maatregelen", tekst: "Isolatie en installaties, met per maatregel uitleg over wat het voor je huis betekent." },
+  { href: "/maatregelen", titel: "Alle maatregelen", tekst: "Isolaties en installaties, met per maatregel uitleg over wat het voor je huis betekent." },
   { href: "/woning", titel: "Digitale woningscan", tekst: "Stel je woningplan samen als voorbereiding op een gesprek met een adviseur." },
   { href: "/contact", titel: "Contact", tekst: "Liever meteen iemand spreken? Bel of mail Gijs." },
 ];
@@ -71,7 +71,7 @@ export default function PlaceholderPage({
             <h2>Even samen naar je huis kijken?</h2>
             <p>Bespreek een gratis en vrijblijvende energiescan aan huis, ter waarde van &euro;349.</p>
           </div>
-          <Link href="/contact#energiescan" className={styles.button}>Vraag een gratis energiescan aan &rarr;</Link>
+          <Link href="/contact#energiescan" className={styles.secondary}>Vraag een gratis energiescan aan &rarr;</Link>
         </section>
       </main>
       <Footer />

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ds/core/Button";
 import { Badge } from "@/components/ds/core/Badge";
 import { Icon } from "@/components/ds/core/Icon";
+import { EnergiescanUitleg } from "@/components/home/EnergiescanUitleg";
 
 export default function EnergyScanCTA() {
   return (
@@ -23,9 +24,10 @@ export default function EnergyScanCTA() {
           Bespreek je huis en je wensen met een adviseur van Gijs. Je digitale
           woningplan helpt je om het gesprek voor te bereiden.
         </p>
-        <Button href="/contact#energiescan" variant="primary" size="lg" iconRight="arrow-right">
+        <Button href="/contact#energiescan" variant="secondary" size="lg" iconRight="arrow-right">
           Vraag een gratis energiescan aan
         </Button>
+        <EnergiescanUitleg className="max-w-md" />
       </div>
     </section>
   );

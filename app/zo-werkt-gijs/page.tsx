@@ -162,7 +162,7 @@ export default function ZoWerktGijs() {
                 category "isolatie" / "installaties"), niet een losse greep losse maatregelfoto's. */}
             <ul className={`grid sm:grid-cols-2 gap-px bg-[var(--border-default)] rounded-[var(--radius-media)] overflow-hidden ${styles.opkomen}`}>
               {[
-                { naam: "Isolatie", href: "/maatregelen#isolatie", beeld: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png", voorbeelden: "Dakisolatie, spouwisolatie, vloerisolatie, isolatieglas en kozijnen" },
+                { naam: "Isolaties", href: "/maatregelen#isolatie", beeld: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png", voorbeelden: "Dakisolatie, spouwisolatie, vloerisolatie, isolatieglas en kozijnen" },
                 { naam: "Installaties", href: "/maatregelen#installaties", beeld: "/images/maatregelen/warmtepomp/warmtepomp-hero.png", voorbeelden: "Warmtepomp, zonnepanelen, vloerverwarming en een thuisbatterij" },
               ].map(m => (
                 <li key={m.naam} className="bg-white flex flex-col">
@@ -298,7 +298,7 @@ export default function ZoWerktGijs() {
             <p className={tekst}>{EN_DAARNA}</p>
             <h2 className={kopGroot}>Ontdek wat logisch is voor jouw woning.</h2>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Button href="/woning" variant="primary" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
               <Link href="/contact" className="inline-flex min-h-11 items-center font-semibold text-[var(--accent-700)] underline underline-offset-4">Neem contact op</Link>
             </div>
           </div>

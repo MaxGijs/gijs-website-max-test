@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import styles from "./ZonnepanelenPage.module.css";
 import { JsonLd } from "@/components/SeoSchema";
 import { SITE_URL } from "@/lib/seo";
 import { ZONNEPANEEL_PRODUCTEN, ZONNEPANEEL_MERKEN } from "@/lib/content/zonnepanelen-producten";
@@ -12,9 +13,7 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
-import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
-import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
-import { VoorwaardenMobielAccordion, type VoorwaardenMobielPaneel } from "@/components/measures/VoorwaardenMobielAccordion";
+import { ZonnepanelenInstallatieAnimatie } from "@/components/measures/ZonnepanelenInstallatieAnimatie";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
@@ -118,9 +117,6 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // (via een kleine Node/pngjs-script, sips's `--cropOffset` bleek
 // onbetrouwbaar voor dit specifieke beeld) rechtstreeks uit hetzelfde
 // Jinko-datasheet geïsoleerd.
-// Elke productkaart heeft nu een rustige tekstlink "Bekijk technische
-// gegevens" die naar het bestaande inklapbare detailsblok springt
-// (id="technische-gegevens") in plaats van een grote knop.
 // De vergelijkingstabel toont de merknaam nu in twee regels (merk vet,
 // model klein eronder) en een compactere garantiekolom ("25 jr / 30 jr")
 // in plaats van de volledige zin in elke cel.
@@ -212,6 +208,29 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // directe fetch + MD5), dus de oorzaak was een hardnekkige browsercache
 // op dezelfde bestandsnaam/URL uit een eerdere ronde. Een nieuwe
 // bestandsnaam forceert een verse URL en omzeilt dat definitief.
+//
+// HERO-VERVANGING 3: opnieuw vervangen door een nieuw aangeleverde foto
+// (bronbestand "nieuwe hero.jpeg") — een dak met reeds geplaatste
+// zonnepanelen, rode dakpannen, een dakraam en een doorvoer. Aangeleverd
+// op 1024×434 (brede verhouding); middenin bijgesneden naar 620×434 om
+// dezelfde 10:7-heroverhouding aan te houden die alle maatregelpagina's
+// gebruiken, zonder de panelen of het dakraam weg te snijden. Alt-tekst
+// aangepast: geen installateur meer zichtbaar op deze foto.
+//
+// HERO-VERVANGING 4: opnieuw vervangen, nu door een echte foto van een
+// Gijs-installateur die een paneel plaatst — ditmaal MET duidelijk
+// zichtbare valbeveiliging (helm, harnas, dakrandbeveiliging), in
+// tegenstelling tot een eerdere installatiefoto elders op deze pagina die
+// om die reden is vervangen (zie de sectie "voordelen" hieronder). Aangeleverd
+// op 1024×572; middenin bijgesneden naar 817×572 voor dezelfde 10:7-
+// heroverhouding, installateur blijft volledig in beeld. Dit brengt de
+// hero dichter bij het allereerste concept (zie HERO-VERVANGING hierboven:
+// "een Gijs-installateur die zonnepanelen op een schuin dak plaatst"), nu
+// met een echte foto in plaats van de latere AI-afbeelding of de
+// installateur-loze dakfoto's.
+// UITVOERINGSVISUAL — ANIMATIE (2026-10-09): de stappenrij hieronder is
+// vervangen door ZonnepanelenInstallatieAnimatie (geanimeerde Gijs-
+// infographic, zelfde scène als de video). Historie van de losse SVG's:
 // UITVOERINGSVISUAL — PROCES V2: de eerdere set losse SVG's (map
 // "zonnepanelen", stap 1 hergebruikt van de isolatiepagina's) is volledig
 // vervangen door de definitieve "proces v2"-set (submap "Zonnepanelen
@@ -221,20 +240,12 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // zijn hernoemd naar zonnepanelen-stap-1.svg t/m -stap-6.svg; de vorige
 // bestanden (stap-1.svg, stap-2/3/4/5/6-zonnepanelen.svg) zijn
 // verwijderd. Titels ongewijzigd overgenomen.
-const UITVOERING_STAPPEN = [
-  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-1.svg", label: "Aankomst" },
-  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-2.svg", label: "Voorbereiden" },
-  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-3.svg", label: "Monteren" },
-  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-4.svg", label: "Panelen leggen" },
-  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-5.svg", label: "Controle" },
-  { bestand: "maatregelen/zonnepanelen/proces/zonnepanelen-stap-6.svg", label: "Genieten" },
-];
 
 const ONDERDELEN = [
-  { title: "Zonnecellen", text: "Zetten het zonlicht om in elektriciteit." },
-  { title: "Beschermglas", text: "Gehard glas met anti-reflectiecoating beschermt de cellen." },
-  { title: "Aluminium frame", text: "Houdt het paneel stevig bij elkaar." },
-  { title: "Aansluitkast", text: "Hier komen de kabels samen richting de omvormer." },
+  { icon: "sun", title: "Zonnecellen", text: "Zetten het zonlicht om in elektriciteit." },
+  { icon: "shield", title: "Beschermglas", text: "Gehard glas met anti-reflectiecoating beschermt de cellen." },
+  { icon: "frame", title: "Aluminium frame", text: "Houdt het paneel stevig bij elkaar." },
+  { icon: "cable", title: "Aansluitkast", text: "Hier komen de kabels samen richting de omvormer." },
 ];
 
 function Eyebrow({ children }: { children: string }) {
@@ -268,32 +279,6 @@ const NA_INSTALLATIE = [
   { icon: "mail", title: "Omvormer registreren", text: "De omvormer moet mogelijk geregistreerd worden om te kunnen monitoren; let op je mail na oplevering." },
 ];
 
-// Mobiele tikbare kopbalken voor "Voorbereiding en voorwaarden" (vervangt op mobiel de volledige
-// infographic hierboven): dezelfde inhoud, alleen per fase opengeklapt i.p.v. alles in één lange
-// afbeelding. Afbeeldingen door Max aangeleverd; alt/sr-only-tekst hierboven blijft de bron van
-// waarheid voor screenreaders/crawlers.
-const VOORWAARDEN_MOBIEL_PANELEN: VoorwaardenMobielPaneel[] = [
-  {
-    id: "voor",
-    label: "Voor de installatie",
-    trigger: { src: "/images/maatregelen/zonnepanelen/voorwaarden-mobiel-trigger-voor.png", width: 740, height: 70 },
-    // alt="": dezelfde inhoud staat elders op de pagina als echte (sr-only) tekst.
-    inhoud: <Image src="/images/maatregelen/zonnepanelen/voorwaarden-mobiel-inhoud-voor.png" alt="" width={742} height={907} quality={100} className="w-full h-auto" />,
-  },
-  {
-    id: "tijdens",
-    label: "Tijdens de installatie",
-    trigger: { src: "/images/maatregelen/zonnepanelen/voorwaarden-mobiel-trigger-tijdens.png", width: 778, height: 70 },
-    inhoud: <Image src="/images/maatregelen/zonnepanelen/voorwaarden-mobiel-inhoud-tijdens.png" alt="" width={752} height={907} quality={100} className="w-full h-auto" />,
-  },
-  {
-    id: "na",
-    label: "Na de installatie",
-    trigger: { src: "/images/maatregelen/zonnepanelen/voorwaarden-mobiel-trigger-na.png", width: 823, height: 70 },
-    inhoud: <Image src="/images/maatregelen/zonnepanelen/voorwaarden-mobiel-inhoud-na.png" alt="" width={742} height={899} quality={100} className="w-full h-auto" />,
-  },
-];
-
 // Voordelen: elk direct te herleiden tot de aangeleverde bronnen (geen
 // opbrengst- of besparingsclaim). "Eigen elektriciteit opwekken" komt uit
 // de bestaande, al goedgekeurde intro in measure-pages.ts. De andere twee
@@ -313,7 +298,6 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
     { id: "voordelen", label: "De voordelen" },
     { id: "producten", label: "Producten" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
-    { id: "voorwaarden", label: "Voorwaarden" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
   ];
 
@@ -328,6 +312,21 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
     { question: "Wat doet de omvormer?", answer: "De omvormer maakt de stroom van de zonnepanelen bruikbaar voor je woning." },
     { question: "Wat betekent Wp?", answer: "Wp staat voor wattpiek: het vermogen dat een zonnepaneel onder standaard testomstandigheden kan leveren." },
     { question: item.question, answer: item.answer },
+    {
+      question: "Wat moet ik regelen voordat de panelen worden gelegd?",
+      answer: "Gijs bespreekt dit vooraf met je, zodat je weet waar je aan toe bent. Een paar praktische punten:",
+      punten: VOORWAARDEN.slice(0, 5),
+    },
+    {
+      question: "Wat gebeurt er tijdens de installatie?",
+      answer: "Goed om te weten voor de dag zelf:",
+      punten: VOORWAARDEN.slice(5),
+    },
+    {
+      question: "Moet ik na de installatie nog iets doen?",
+      answer: "Nog een paar laatste puntjes als alles klaar is:",
+      punten: NA_INSTALLATIE.map(punt => `${punt.title}: ${punt.text}`),
+    },
   ];
 
   const startScanHref = "/woning?maatregel=" + item.id;
@@ -359,14 +358,14 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
         intro="Gijs plaatst verschillende soorten zonnepanelen. Hieronder lees je hoe zonnepanelen werken, welke panelen Gijs gebruikt en hoe de installatie verloopt."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
         secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
-        image="/images/maatregelen/zonnepanelen/zonnepanelen-hero-v2.png"
-        imageAlt="Een Gijs-installateur plaatst zonnepanelen op een schuin dak"
+        image="/images/maatregelen/zonnepanelen/zonnepanelen-hero-v4.jpeg"
+        imageAlt="Een installateur van Gijs plaatst, met valbeveiliging, een zonnepaneel op een schuin dak"
       />
 
       <div>
         <MeasureSectionNav sections={sections} />
 
-        <section id="wat-is-het" className="scroll-mt-40 mt-8 mb-20">
+        <section id="wat-is-het" className={`scroll-mt-40 mt-8 mb-20 ${styles.opkomen}`}>
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="flex flex-col gap-4">
               <div>
@@ -380,7 +379,9 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
               <p className="text-zinc-600 leading-relaxed">
                 De zonnepanelen wekken stroom op. Het systeem maakt deze stroom bruikbaar voor de woning, waarna de
                 meterkast de stroom verdeelt zodat apparaten in huis deze kunnen gebruiken. Heb je ook een
-                thuisbatterij? Dan kan overtollige stroom worden opgeslagen voor later gebruik.
+                <Link href="/maatregelen/thuisbatterij" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">thuisbatterij</Link>? Dan kan overtollige stroom worden
+                opgeslagen voor later gebruik. Met een <Link href="/maatregelen/warmtepomp" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">hybride warmtepomp</Link> 
+                gebruik je ook een deel van je zonnestroom om je huis te verwarmen.
               </p>
               <p className="text-zinc-600 leading-relaxed">
                 Gijs plaatst verschillende soorten panelen. Wat past, hangt af van je dak en de constructie.
@@ -391,37 +392,35 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
 
             <div>
               <h3 className="mb-5 text-sm font-semibold text-zinc-500">De onderdelen van een zonnepaneel</h3>
-              <ol className="flex flex-col gap-6">
-                {ONDERDELEN.map((onderdeel, i) => (
-                  <li key={onderdeel.title} className="flex items-start gap-4">
-                    <span aria-hidden="true" className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--gijs-donkergroen)] text-sm font-semibold text-white">{i + 1}</span>
-                    <div>
-                      <p className="font-bold text-[var(--gijs-donkergroen)]">{onderdeel.title}</p>
-                      <p className="mt-0.5 text-sm leading-relaxed text-zinc-600">{onderdeel.text}</p>
-                    </div>
-                  </li>
+              <div className="grid grid-cols-2 gap-4">
+                {ONDERDELEN.map((onderdeel) => (
+                  <Card key={onderdeel.title} variant="tint" className="flex flex-col gap-2 !p-5">
+                    <Icon name={onderdeel.icon} size="md" className="text-[var(--accent-700)]" />
+                    <p className="font-bold text-lg text-[var(--gijs-donkergroen)]">{onderdeel.title}</p>
+                    <p className="text-sm text-zinc-600">{onderdeel.text}</p>
+                  </Card>
                 ))}
-              </ol>
+              </div>
             </div>
           </div>
 
           {/* Geen afronding/overflow-hidden: de diagram loopt tot aan de rand, een afgerond kader knipte rechtsboven punt 1 af. */}
           <div className="mt-14 max-w-[1000px] mx-auto">
-            {/* PNG vervangen door SVG: zelfde crop/inhoud (ratio geverifieerd),
-                de opdrachtgever heeft alleen de hoekafronding van de
-                labels/badges aangepast (uitlegvisuals.zip). */}
+            {/* Nieuwe aangeleverde visual (v2): zelfde schema, nu met volledige
+                genummerde legenda (1 t/m 6), inclusief stap 2 "Regelaar
+                verdeelt de stroom" die in de oudere SVG-versie ontbrak. */}
             <Image
-              src="/images/maatregelen/zonnepanelen/zonnepanelen-uitlegvisual.svg"
-              alt="Schema van een zonnepanelensysteem: van de zonnepanelen via de regelaar en een thuisbatterij naar de omvormer, en van daaruit via de meterkast naar de apparaten in huis"
-              width={2000}
-              height={882}
+              src="/images/maatregelen/zonnepanelen/zonnepanelen-uitlegvisual-v2.png"
+              alt="Schema van een zonnepanelensysteem: 1 zonnepanelen wekken stroom op, 2 regelaar verdeelt de stroom, 3 thuisbatterij slaat stroom op voor later gebruik, 4 omvormer maakt stroom bruikbaar, 5 meterkast verdeelt stroom, 6 apparaten in huis gebruiken de stroom"
+              width={2758}
+              height={1216}
               quality={100}
               className="w-full h-auto"
             />
           </div>
         </section>
 
-        <section id="past-het" className="scroll-mt-40 mb-16">
+        <section id="past-het" className={`scroll-mt-40 mb-16 ${styles.opkomen}`}>
           <Card variant="tint" className="flex flex-col md:flex-row md:items-center gap-6 !p-6 md:!p-7">
             <div className="md:flex-1 flex flex-col gap-1">
               <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">Past dit bij mijn woning?</h3>
@@ -449,14 +448,19 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
           </Card>
         </section>
 
-        <section id="voordelen" className="scroll-mt-40 mb-20 grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-14 lg:items-center">
+        <section id="voordelen" className={`scroll-mt-40 mb-20 grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-14 lg:items-center ${styles.opkomen}`}>
+          {/* Vervangen (Pexels-foto): de vorige foto toonde een installateur op een
+              schuin dak zonder zichtbare valbeveiliging — niet wenselijk om te tonen.
+              Nieuwe foto toont alleen het geplaatste resultaat, geen personen. Dezelfde
+              bestandslocatie wordt ook gebruikt als keuze-afbeelding in de woningscan
+              (components/woning/WoningFlow.tsx, MAATREGEL_BEELD.zonnepanelen). */}
           <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-card)] bg-[var(--surface-muted)]">
             <Image
-              src="/images/woningscan/maatregelen/zonnepanelen.jpg"
-              alt="Een installateur legt zonnepanelen op een schuin dak"
+              src="/images/woningscan/maatregelen/zonnepanelen-dak.jpg"
+              alt="Geplaatste zonnepanelen op een schuin dak tegen een blauwe lucht"
               fill
               sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-cover object-[35%_50%]"
+              className="object-cover"
             />
           </div>
           <div>
@@ -467,21 +471,20 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
         </section>
 
         <div className="rounded-[var(--radius-xl)] bg-[var(--surface-muted)]/60 px-5 py-10 md:px-10 md:py-12 mb-20">
-        <section id="producten" className="scroll-mt-40">
+        <section id="producten" className={`scroll-mt-40 ${styles.opkomen}`}>
           <div className="grid gap-8 lg:grid-cols-[1fr_2.6fr] lg:gap-10 mb-8">
             <div className="flex flex-col items-start">
               <Eyebrow>Onze panelen</Eyebrow>
               <h2 className={`${H2_SMAL} mb-3`}>Welke zonnepanelen gebruikt Gijs?</h2>
-              <p className="text-zinc-600 mb-6">
+              <p className="text-zinc-600">
                 Gijs plaatst verschillende soorten zonnepanelen. Elk paneel heeft eigen technische eigenschappen; geen
                 van deze panelen wordt hieronder als beste keuze aangewezen. Dat bekijkt Gijs samen met jou.
               </p>
-              <Button href="#technische-gegevens" variant="secondary" size="sm" iconRight="arrow-down">Bekijk technische gegevens</Button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
               {ZONNEPANEEL_MERKEN.map(merk => (
-                <Card key={merk.merk} className="flex flex-col gap-4 !p-5 bg-white">
+                <Card key={merk.merk} className="flex flex-col gap-4 !p-3 sm:!p-5 bg-white">
                   <div className="rounded-[var(--radius-md)] overflow-hidden bg-[var(--surface-muted)] aspect-[4/3] flex items-center justify-center">
                     <Image src={merk.image} alt={merk.imageAlt} width={600} height={600} className="max-w-[80%] max-h-[85%] object-contain" />
                   </div>
@@ -585,60 +588,14 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
         </section>
         </div>
 
-        <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
+        <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${styles.opkomen}`}>
           <Eyebrow>In één dag geplaatst</Eyebrow>
           <h2 className={`${H2} mb-2`}>Hoe verloopt de uitvoering?</h2>
           <p className="text-zinc-600 mb-10 max-w-2xl">Gijs plaatst zonnepanelen in één dag, volgens een vaste aanpak.</p>
-          <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+          <ZonnepanelenInstallatieAnimatie />
         </section>
 
-        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER} grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-14 lg:items-center`}>
-          <div>
-            <h2 className={`${H2_SMAL} mb-3`}>Voorbereiding en voorwaarden</h2>
-            <p className="text-zinc-600">
-              Voor een goede uitvoering gelden een paar praktische voorwaarden, zowel voor als tijdens de werkzaamheden. Ook na de oplevering zijn er een paar dingen om in de gaten te houden.
-            </p>
-          </div>
-          <div>
-            {/* alt="": de volledige inhoud staat hieronder als echte (sr-only) tekst, dus deze
-                afbeelding is voor screenreaders decoratief/dubbel. Alleen op lg+: op mobiel toont
-                VoorwaardenMobielAccordion hieronder dezelfde inhoud als tikbare kopbalken. */}
-            {/* quality=100: dit is een diagram met tekst en dunne lijnen, waar de standaard
-                WebP/AVIF-compressie (kwaliteit 75) zichtbaar zachtere randen geeft. */}
-            <Image
-              src="/images/maatregelen/zonnepanelen/voor-na-installatie-3.png"
-              alt=""
-              width={2214}
-              height={1462}
-              quality={100}
-              className="hidden w-full h-auto lg:block"
-            />
-            <div className="lg:hidden">
-              <VoorwaardenMobielAccordion panelen={VOORWAARDEN_MOBIEL_PANELEN} />
-            </div>
-            {/* Dezelfde inhoud als in de afbeeldingen hierboven, als echte (visueel verborgen)
-                DOM-tekst voor screenreaders/crawlers — zie ook UitvoeringStappen.tsx voor
-                hetzelfde patroon. */}
-            <div className="sr-only">
-              <VoorwaardenKolommen
-                groepen={[
-                  { label: "Voor de installatie", items: VOORWAARDEN.slice(0, 5) },
-                  { label: "Tijdens de installatie", items: VOORWAARDEN.slice(5) },
-                ]}
-              />
-              <h3>Na de installatie</h3>
-              <ul>
-                {NA_INSTALLATIE.map(punt => (
-                  <li key={punt.title}>
-                    <strong>{punt.title}:</strong> {punt.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
+        <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER} ${styles.opkomen}`}>
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_2fr_1fr] items-start">
             <h2 className={H2_SMAL}>Veelgestelde vragen</h2>
             <div>
@@ -655,7 +612,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

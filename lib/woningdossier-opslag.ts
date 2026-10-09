@@ -40,8 +40,13 @@ function client(): SupabaseClient | null {
 }
 
 const leeg = (v: string) => (v.trim() === "" ? null : v);
-/** "2 bewoners" -> 2, "5 of meer bewoners" -> 5; leeg/onbekend -> null. De kolom aantal_bewoners is een geheel getal. */
-const bewonersGetal = (v: string) => { const m = /^(\d+)/.exec(v.trim()); return m ? Number(m[1]) : null; };
+/** "2" -> 2; "Meer" -> het ingevulde exacte aantal (aantalBewonersAantal), anders 7 als ondergrens; leeg -> null. De kolom aantal_bewoners is een geheel getal. */
+const bewonersGetal = (aantalBewoners: string, aantalBewonersAantal: string) => {
+  if (!aantalBewoners) return null;
+  if (aantalBewoners === "Meer") { const n = leesGetal(aantalBewonersAantal); return n !== null && n > 0 ? Math.round(n) : 7; }
+  const n = Number(aantalBewoners);
+  return Number.isInteger(n) && n > 0 ? n : null;
+};
 /**
  * Alleen voor de opslag, niet voor de weergave/schatting elders: een
  * niet-plausibele waarde (bv. een woonoppervlakte van miljoenen m²) wordt
@@ -75,10 +80,10 @@ function naarWoningdossierRij(s: ScanSession, afgerond: boolean) {
     // "onbekend" blijft "onbekend", null = niet beantwoord; nooit stilzwijgend "nee".
     kruipruimte: s.kruipruimte,
     spouwmuur: s.spouwmuur,
-    verwarming: s.verwarming,
+    verwarming: metToelichting(s.verwarming, s.verwarmingAnders),
     warmteafgifte: metToelichting(s.warmteafgifte, s.warmteafgifteAnders),
     warm_water: s.warmWater,
-    aantal_bewoners: bewonersGetal(s.aantalBewoners),
+    aantal_bewoners: bewonersGetal(s.aantalBewoners, s.aantalBewonersAantal),
     elektriciteitsverbruik: leesGetalBegrensd(s.elektriciteitsverbruik, 0, 200000),
     gasverbruik: leesGetalBegrensd(s.gasverbruik, 0, 100000),
     elektriciteitsprijs: leesGetalBegrensd(s.elektriciteitsprijs, 0, 10),
@@ -96,6 +101,9 @@ function naarWoningdossierRij(s: ScanSession, afgerond: boolean) {
       vloeroppervlakte: leeg(s.vloeroppervlakte),
       dakoppervlakte: leeg(s.dakoppervlakte),
       gevelOppervlakte: leeg(s.gevelOppervlakte),
+      verwarmingAnders: leeg(s.verwarmingAnders),
+      verwarmdeVerdiepingen: leeg(s.verwarmdeVerdiepingen),
+      aantalBewonersAantal: leeg(s.aantalBewonersAantal),
       warmteafgifteAnders: leeg(s.warmteafgifteAnders),
       warmteverbruik: leeg(s.warmteverbruik),
       warmteprijs: leeg(s.warmteprijs),

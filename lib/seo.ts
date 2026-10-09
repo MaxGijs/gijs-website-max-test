@@ -6,7 +6,7 @@ export const SITE_URL = "https://groeninjestraat.nl";
 export const SEO_INDEXABLE = process.env.SEO_INDEXABLE === "true";
 export const PAGE_SEO: Record<string,{title:string;description:string;index?:boolean}> = {
  "/":{title:"Woning verduurzamen | Ontdek wat bij jouw woning past | Gijs",description:"Ontdek welke verduurzaming bij jouw woning past. Doe de digitale woningscan en plan een gratis energiescan aan huis, ter waarde van €349."},
- "/maatregelen":{title:"Isolatie en installaties voor je woning | Gijs",description:"Lees over dak-, spouw- en vloerisolatie, glas, zonnepanelen, warmtepompen, vloerverwarming en thuisbatterijen. Ontdek wat Gijs voor jouw huis bekijkt."},
+ "/maatregelen":{title:"Isolaties en installaties voor je woning | Gijs",description:"Lees over dak-, spouw- en vloerisolatie, glas, zonnepanelen, warmtepompen, vloerverwarming en thuisbatterijen. Ontdek wat Gijs voor jouw huis bekijkt."},
  "/contact":{title:"Contact met Gijs | Advies over je woning",description:"Vragen over verduurzamen? Neem contact op met Gijs via 074 - 234 0 777 of info@groeninjestraat.nl. Telefonisch bereikbaar van 08:30 tot 17:30."},
  "/zo-werkt-gijs":{title:"Zo werkt Gijs | Van woningplan naar persoonlijk advies",description:"Kies je woning, verken je wensen en bereid je adviesgesprek voor. Lees hoe de digitale woningscan en gratis energiescan aan huis bij Gijs werken."},
  "/kennis":{title:"Huis verduurzamen: uitleg en veelgestelde vragen | Gijs",description:"Antwoorden over isolatie, warmtepompen, zonnepanelen en je woningplan. Lees wat je kunt verwachten van de gratis energiescan aan huis."},
@@ -14,6 +14,7 @@ export const PAGE_SEO: Record<string,{title:string;description:string;index?:boo
  "/regio":{title:"Isoleren en verduurzamen per regio | Gijs",description:"Kies je provincie en gemeente. Lees over isolatiemaatregelen, landelijke subsidies en hoe Gijs uitzoekt welke gemeentelijke regelingen mogelijk gelden."},
  "/woning":{title:"Jouw digitale woningscan | Gijs",description:"Verken je wensen en maatregelen op een voorbeeldwoning en bereid een adviesgesprek met Gijs voor.",index:false},
  "/cases":{title:"Projecten en ervaringen | Gijs",description:"De projectpagina van Gijs wordt voorbereid. Neem contact op voor vragen over onze werkzaamheden.",index:false},
+ "/subsidiecheck":{title:"Subsidiecheck | Gijs",description:"Gijs helpt je inzicht te krijgen in mogelijke subsidies voor verduurzaming. De subsidiecheck wordt voorbereid.",index:false},
  "/cookies":{title:"Cookiebeleid | Gijs",description:"Informatie over het cookiebeleid van Gijs.",index:false},
  "/disclaimer":{title:"Disclaimer | Gijs",description:"Informatie over de disclaimer van Gijs.",index:false},
  "/toegankelijkheid":{title:"Toegankelijkheid | Gijs",description:"Informatie over de toegankelijkheid van de website van Gijs.",index:false},

@@ -11,6 +11,7 @@ import { HOUSE_MODELS } from "@/lib/woning-types";
 import { HouseDaglicht } from "@/components/woning/HouseDaglicht";
 import { M, maakCutaway, zetKopgevel, type V3 } from "./maquette";
 import { EIND, MAATREGELEN, STAP, type Annotatie, type Sleutel } from "./stappen";
+import { FOV, HOOFDSTUK_LAGEN, mengStanden, type Stand } from "@/lib/camera-cutaway";
 import basis from "../HouseModelPrototype.module.css";
 
 // De 3D-poppenhuiswoning van de homepage-test, apart geladen (next/dynamic)
@@ -25,8 +26,10 @@ const ease = (n: number) => { const t = clamp(n); return t * t * (3 - 2 * t); };
 // Hoe sterk een stap actief is: rustig in na aankomst van de camera, rustig uit bij de volgende stap.
 const actief = (p: number, stap: number) => ease((p - stap - 0.12) / 0.3) * (1 - ease((p - stap - 0.92) / 0.14));
 
-export const FOV = 30;
-export type Stand = { pos: Vector3; look: Vector3 };
+// FOV, Stand en mengStanden staan nu in lib/camera-cutaway.ts (gedeeld met de woningscan,
+// components/woning/HouseViewer.tsx); hier opnieuw geëxporteerd zodat bestaande imports
+// (anime-prototype/AnimeWoningScene.tsx, regie.ts) ongewijzigd blijven werken.
+export { FOV, mengStanden, type Stand };
 export type Anker = { object: Object3D; lokaal: Vector3 };
 type Beweging = { object: Object3D; origin: Vector3; offset: Vector3; stap: number };
 
@@ -72,13 +75,7 @@ export function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bou
   // Lagen die per hoofdstuk uit elkaar schuiven (lokale eenheden van het model), zoals op de homepage.
   const bewegingen: Beweging[] = [];
   const schuif = (naam: RegExp, offset: V3, stap: number) => { for (const o of scene.children) if (naam.test(o.name)) bewegingen.push({ object: o, origin: o.position.clone(), offset: new Vector3(...offset), stap }); };
-  schuif(/^(Dakpannen|Dakkapel|Schoorsteen|Dakgoot|Zonnepaneel)/, [0, 0.95, 0], STAP.dak);
-  schuif(/^Panlatten$/, [0, 0.7, 0], STAP.dak);
-  schuif(/^Tengellatten$/, [0, 0.48, 0], STAP.dak);
-  schuif(/^Dakisolatie$/, [0, 0.26, 0], STAP.dak);
-  schuif(/^Buitengevel_voor$/, [0, 0, 0.85], STAP.spouw);
-  schuif(/^Spouwisolatie_voor$/, [0, 0, 0.42], STAP.spouw);
-  schuif(/^Vloerisolatie$/, [0, -0.22, 0], STAP.vloer);
+  for (const l of HOOFDSTUK_LAGEN) schuif(l.naam, l.offset, STAP[l.hoofdstuk]);
 
   // Wat per hoofdstuk oplicht en waar de annotatielijn begint: altijd op het bouwdeel zelf.
   scene.updateMatrixWorld(true);
@@ -127,17 +124,6 @@ export function bouwRoute(scene: Object3D, schaal: number, positie: Vector3, bou
   return { standen, midden, ankers, oplichten, bewegingen };
 }
 
-// Tussen twee standen via een boog rond de woning, zodat de camera nooit door een muur gaat.
-export function mengStanden(a: Stand, b: Stand, t: number, midden: Vector3, pos: Vector3, look: Vector3) {
-  const ha = Math.atan2(a.pos.x - midden.x, a.pos.z - midden.z), hb = Math.atan2(b.pos.x - midden.x, b.pos.z - midden.z);
-  let d = hb - ha;
-  while (d > Math.PI) d -= Math.PI * 2;
-  while (d < -Math.PI) d += Math.PI * 2;
-  const ra = Math.hypot(a.pos.x - midden.x, a.pos.z - midden.z), rb = Math.hypot(b.pos.x - midden.x, b.pos.z - midden.z);
-  const hoek = ha + d * t, r = ra + (rb - ra) * t;
-  pos.set(midden.x + Math.sin(hoek) * r, a.pos.y + (b.pos.y - a.pos.y) * t, midden.z + Math.cos(hoek) * r);
-  look.lerpVectors(a.look, b.look, t);
-}
 
 
 function Woning({ sectie, onStap, onGeladen, mobiel, annotaties }: { sectie: RefObject<HTMLElement | null>; onStap: (stap: number) => void; onGeladen: () => void; mobiel: boolean; annotaties: RefObject<Record<string, Annotatie>> }) {

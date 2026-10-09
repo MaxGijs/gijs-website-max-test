@@ -21,7 +21,7 @@ export default async function WoningPagina({
             Tekst is de al bestaande, goedgekeurde introtekst van stap 1. */}
         <div className="max-w-[640px] mx-auto px-6 pt-8">
           <h1 className="text-[clamp(26px,3vw,40px)] leading-[1.2] font-bold text-[var(--green-900)]">
-            Van jouw woning naar een goed gesprek.
+            Van jouw woning naar een plan.
           </h1>
           <p className="mt-2 text-[var(--green-900)]">
             Bevestig je woning, vul een paar gegevens in en zie direct je woningplan. Je hoeft niet alles te weten.

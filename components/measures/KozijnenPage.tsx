@@ -127,7 +127,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
   // daar nooit als aparte vraag uitgelicht: de profielkeuze-per-toepassing
   // en de kleurmogelijkheden (RAL/houtlook).
   const faqItems: FAQItem[] = [
-    { question: "Gebruik ik voor elk kozijn hetzelfde profiel?", answer: "Niet per se. Een raam, deur of schuifpui kan elk een eigen profiel gebruiken, afhankelijk van de toepassing." },
+    { question: "Gebruik ik voor elk kozijn hetzelfde profiel?", answer: "Niet per se. Een raam of deur kan bijvoorbeeld het kunststofprofiel in 70, 85 of 120 mm gebruiken, en een schuifpui de Comfort- of Premium-uitvoering — afhankelijk van de toepassing." },
     { question: "In welke kleuren zijn kozijnen leverbaar?", answer: "Kunststof en aluminium kozijnen zijn leverbaar in alle RAL-kleuren of in houtlook." },
     { question: "Hoe wordt een kozijn ingemeten?", answer: "De ramen worden ingemeten, zodat het nieuwe kozijn op maat gemaakt kan worden." },
     { question: "Waarom geen houten kozijnen?", answer: "Gijs plaatst kunststof en aluminium kozijnen, geen houten kozijnen. Wil je wel de uitstraling van hout? Beide zijn ook leverbaar in houtlook." },
@@ -273,7 +273,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
           </p>
 
           <h3 className="font-bold text-xl text-[var(--gijs-donkergroen)] mb-4">Drie niveaus: Basic, Standard en Comfort</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-10">
             {HR_ISOFRAME_TIERS.map(tier => (
               <MaterialCard
                 key={tier.naam}
@@ -281,8 +281,8 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
                 description={tier.tagline}
                 benefits={tier.kernkenmerken}
                 imageAlt={tier.naam}
-                badge={tier.subsidie}
                 headingLevel="h4"
+                className="!p-3 sm:!p-6"
               />
             ))}
           </div>
@@ -300,7 +300,6 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
                       <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Niveau</th>
                       <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Glas</th>
                       <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Ug-waarde</th>
-                      <th scope="col" className="px-6 py-4 text-sm font-bold text-[var(--gijs-donkergroen)]">Subsidie</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[var(--border-default)]">
@@ -309,7 +308,6 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
                         <td className="px-6 py-4 font-bold text-[var(--gijs-donkergroen)] whitespace-nowrap">{tier.naam}</td>
                         <td className="px-6 py-4 text-zinc-600 whitespace-nowrap">{tier.glas}</td>
                         <td className="px-6 py-4 text-zinc-700 whitespace-nowrap">{tier.ugWaarde}</td>
-                        <td className="px-6 py-4 text-zinc-600 whitespace-nowrap">{tier.subsidie}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -471,7 +469,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>
@@ -482,9 +480,6 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
 
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
-          <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
-          </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Welke kozijnen passen bij jouw woning?</h2>
             <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>

@@ -81,14 +81,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "Zonnepanelen voor jouw woning | Gijs",
       "Ontdek welke zonnepanelen Gijs plaatst en hoe de installatie in één dag verloopt. Start de woningscan of plan een energiescan.",
       true,
-      { path: "/images/maatregelen/zonnepanelen/zonnepanelen-hero-v2.png", alt: "Een Gijs-installateur plaatst zonnepanelen op een schuin dak" }
+      { path: "/images/maatregelen/zonnepanelen/zonnepanelen-hero-v4.jpeg", alt: "Een installateur van Gijs plaatst, met valbeveiliging, een zonnepaneel op een schuin dak" }
     );
   }
   if (item.slug === "warmtepomp") {
     return createMetadata(
       "/maatregelen/warmtepomp",
-      "Hybride warmtepomp voor jouw woning | Gijs",
-      "Ontdek hoe een hybride warmtepomp samenwerkt met je cv-ketel, welke warmtepompen Gijs plaatst en hoe de installatie in één dag verloopt.",
+      "Hybride warmtepomp: besparing, kosten en subsidie | Gijs",
+      "Hoe werkt een hybride warmtepomp, hoeveel gas bespaar je en welke subsidie is er? Gijs plaatst hem in één dag, na een gratis energiescan aan huis.",
       true,
       { path: "/images/maatregelen/warmtepomp/warmtepomp-hero.png", alt: "Een Gijs-installateur plaatst een hybride warmtepomp tegen de gevel van een woning" }
     );
@@ -141,7 +141,7 @@ export default async function MeasurePage({ params }: Props) {
   return <><Header/><main className={styles.page}>
     <JsonLd data={{"@context":"https://schema.org","@type":"BreadcrumbList",itemListElement:[{name:"Home",url:"/"},{name:"Maatregelen",url:"/maatregelen"},{name:item.name,url:"/maatregelen/"+item.slug}].map((crumb,i)=>({"@type":"ListItem",position:i+1,name:crumb.name,item:SITE_URL+crumb.url}))}}/>
     <nav aria-label="Broodkruimel" className={styles.breadcrumb}><Link href="/">Home</Link><span aria-hidden="true">/</span><Link href="/maatregelen">Maatregelen</Link><span aria-hidden="true">/</span><span aria-current="page">{item.name}</span></nav>
-    <header className={styles.detailHero}><div><p className={styles.eyebrow}>{item.category === "isolatie" ? "Isolatie" : "Installaties"}</p><h1>{item.name} voor jouw woning</h1><p>{item.intro} <strong>{item.result}</strong></p></div><div className={styles.detailImage}><MeasureImage image={item.image} name={item.name} priority/></div></header>
+    <header className={styles.detailHero}><div><p className={styles.eyebrow}>{item.category === "isolatie" ? "Isolaties" : "Installaties"}</p><h1>{item.name} voor jouw woning</h1><p>{item.intro} <strong>{item.result}</strong></p></div><div className={styles.detailImage}><MeasureImage image={item.image} name={item.name} priority/></div></header>
     <div className={styles.article}>
       <section><h2>Wanneer kan {item.name.toLowerCase()} interessant zijn?</h2><p>{item.fitting}</p><p>Wat technisch past, beoordeelt Gijs samen met jou. Je hoeft vooraf geen product of merk te kiezen.</p></section>
       <section><h2>Welke mogelijkheden zijn er?</h2><ul>{item.types.map(text => <li key={text}>{text.replace("De bronnen noemen ", "Mogelijkheden zijn ").replace("de aangeleverde mogelijkheden omvatten", "een mogelijkheid is")}</li>)}</ul>

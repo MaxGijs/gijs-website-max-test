@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 26 188 146" width="188" height="146" fill="none" stroke="#0d4a3f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Opstijgende warme lucht -->
+  <path d="M72 92c-9-10-9-20 0-30s9-20 0-30" />
+  <path d="M100 92c-9-10-9-20 0-30s9-20 0-30" />
+  <path d="M128 92c-9-10-9-20 0-30s9-20 0-30" />
+  <!-- Vloer met de put erin -->
+  <path d="M12 110h34M154 110h34" />
+  <path d="M46 110v56h108v-56" />
+  <!-- Rooster bovenop de put -->
+  <path d="M46 110h108" />
+  <path d="M60 102v16M76 102v16M92 102v16M108 102v16M124 102v16M140 102v16" />
+  <!-- Verwarmingselement in de put -->
+  <rect x="62" y="132" width="76" height="20" rx="3" />
+  <path d="M76 132v20M90 132v20M104 132v20M118 132v20" />
+</svg>

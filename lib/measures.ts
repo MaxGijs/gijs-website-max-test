@@ -34,7 +34,7 @@ export const MEASURE_GROUPS: { id: MeasureGroupId; label: string; description: s
   },
   {
     id: "isolatie",
-    label: "Isolatie",
+    label: "Isolaties",
     description: "Warmte binnenhouden via dak, muren, vloer en ramen.",
   },
 ];

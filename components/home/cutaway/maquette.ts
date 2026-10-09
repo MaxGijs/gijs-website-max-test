@@ -117,7 +117,7 @@ export function blok(ouder: Object3D, a: V3, b: V3, mat: Material, r = 0) {
   ouder.add(mesh);
   return mesh;
 }
-function cilinder(ouder: Object3D, [x, y, z]: V3, hoogte: number, rOnder: number, rBoven: number, mat: Material) {
+export function cilinder(ouder: Object3D, [x, y, z]: V3, hoogte: number, rOnder: number, rBoven: number, mat: Material) {
   const mesh = eigen(new Mesh(new CylinderGeometry(rBoven, rOnder, hoogte, 28), mat));
   mesh.position.set(x, y + hoogte / 2, z);
   ouder.add(mesh);
@@ -129,18 +129,20 @@ function bol(ouder: Object3D, [x, y, z]: V3, r: number, mat: Material, schaal: V
   ouder.add(mesh);
   return mesh;
 }
-function plant(g: Object3D, mat: Materialen, [x, y, z]: V3, h = 1) {
-  cilinder(g, [x, y, z], 0.32 * h, 0.13 * h, 0.17 * h, mat.pot);
-  bol(g, [x, y + 0.62 * h, z], 0.26 * h, mat.blad, [1, 1.35, 1]);
-  bol(g, [x + 0.12 * h, y + 0.48 * h, z + 0.08 * h], 0.2 * h, mat.bladLicht);
-  bol(g, [x - 0.1 * h, y + 0.8 * h, z - 0.06 * h], 0.17 * h, mat.bladLicht);
+export function plant(g: Object3D, mat: Materialen, [x, y, z]: V3, h = 1) {
+  return [
+    cilinder(g, [x, y, z], 0.32 * h, 0.13 * h, 0.17 * h, mat.pot),
+    bol(g, [x, y + 0.62 * h, z], 0.26 * h, mat.blad, [1, 1.35, 1]),
+    bol(g, [x + 0.12 * h, y + 0.48 * h, z + 0.08 * h], 0.2 * h, mat.bladLicht),
+    bol(g, [x - 0.1 * h, y + 0.8 * h, z - 0.06 * h], 0.17 * h, mat.bladLicht),
+  ];
 }
-function lamp(g: Object3D, mat: Materialen, [x, y, z]: V3, hoogte: number) {
+export function lamp(g: Object3D, mat: Materialen, [x, y, z]: V3, hoogte: number) {
   cilinder(g, [x, y, z], 0.03, 0.16, 0.16, mat.antraciet);
   cilinder(g, [x, y, z], hoogte, 0.012, 0.012, mat.messing);
   cilinder(g, [x, y + hoogte - 0.05, z], 0.26, 0.2, 0.13, mat.kap);
 }
-function stoel(g: Object3D, mat: Materialen, [x, y, z]: V3, richting: 1 | -1) {
+export function stoel(g: Object3D, mat: Materialen, [x, y, z]: V3, richting: 1 | -1) {
   blok(g, [x - 0.21, y + 0.44, z - 0.21], [x + 0.21, y + 0.49, z + 0.21], mat.eiken, 0.02);
   for (const [dx, dz] of [[-0.18, -0.18], [0.18, -0.18], [-0.18, 0.18], [0.18, 0.18]]) blok(g, [x + dx - 0.02, y, z + dz - 0.02], [x + dx + 0.02, y + 0.44, z + dz + 0.02], mat.walnoot);
   blok(g, [x - 0.21, y + 0.49, z - 0.21 * richting - 0.02], [x + 0.21, y + 0.9, z - 0.21 * richting + 0.02], mat.eiken, 0.02);
@@ -174,11 +176,11 @@ function bestrating(g: Group, materiaal: Material, a: V3, b: V3, tegelMaat: [num
  * oplichten of verdwijnen: niets in Interieur of Maquette_grond wordt los geanimeerd. Doorzichtige
  * materialen (glas) blijven los, zodat three.js ze per stuk op diepte blijft sorteren.
  */
-function voegSamen(groep: Group) {
+export function voegSamen(groep: Group) {
   const perMateriaal = new Map<Material, Mesh[]>();
   for (const kind of groep.children) {
     const mesh = kind as Mesh;
-    if (!mesh.isMesh || Array.isArray(mesh.material) || mesh.material.transparent || mesh.children.length) continue;
+    if (!mesh.isMesh || Array.isArray(mesh.material) || mesh.material.transparent || mesh.children.length || mesh.userData.los) continue;
     const lijst = perMateriaal.get(mesh.material) ?? [];
     lijst.push(mesh);
     perMateriaal.set(mesh.material, lijst);
@@ -232,7 +234,7 @@ function bouwGrond(g: Group, mat: Materialen, deuren: Strook[], texturen: Textur
 }
 
 /** Rechte trap tegen de woningscheidende muur: eiken treden, witte stootborden, trapbomen en leuning. */
-function trap(g: Group, mat: Materialen, x0: number, x1: number, zOnder: number, yOnder: number, yBoven: number, treden: number) {
+export function trap(g: Group, mat: Materialen, x0: number, x1: number, zOnder: number, yOnder: number, yBoven: number, treden: number) {
   const stijg = (yBoven - yOnder) / treden, aantrede = 0.235;
   for (let i = 0; i < treden - 1; i++) {
     const top = yOnder + (i + 1) * stijg, z = zOnder + i * aantrede;
@@ -255,9 +257,14 @@ function trap(g: Group, mat: Materialen, x0: number, x1: number, zOnder: number,
   }
 }
 
-function radiator(g: Group, mat: Materialen, r: Radiator) {
-  blok(g, [r.x0, r.y0, r.z0], [r.x1, r.y1, r.z1], mat.wit, 0.01);
-  for (let x = r.x0 + 0.05; x < r.x1 - 0.03; x += 0.06) blok(g, [x, r.y0 + 0.02, r.z0 - 0.003], [x + 0.012, r.y1 - 0.02, r.z1 + 0.003], mat.stuc);
+/** Radiator als eigen groep "Radiator" (niet samengevoegd met de rest), zodat de woningscan hem kan laten oplichten. */
+export function radiator(g: Group, mat: Materialen, r: Radiator) {
+  const rg = new Group();
+  rg.name = "Radiator";
+  blok(rg, [r.x0, r.y0, r.z0], [r.x1, r.y1, r.z1], mat.wit, 0.01);
+  for (let x = r.x0 + 0.05; x < r.x1 - 0.03; x += 0.06) blok(rg, [x, r.y0 + 0.02, r.z0 - 0.003], [x + 0.012, r.y1 - 0.02, r.z1 + 0.003], mat.stuc);
+  voegSamen(rg);
+  g.add(rg);
 }
 
 // Indeling zoals in een Nederlandse rijwoning. Binnenmuren lopen tot precies de open gevel.
@@ -318,7 +325,8 @@ function bouwInterieur(g: Group, mat: Materialen, radiatoren: Radiator[], venste
   blok(g, [0.25, y, 2.45], [0.95, y + 0.4, 3.1], mat.stofDonker, 0.07);
   blok(g, [0.25, y + 0.36, 2.92], [0.95, y + 0.8, 3.1], mat.stofDonker, 0.07);
   lamp(g, mat, [1.8, y, 0.05], 1.5);
-  plant(g, mat, [2.05, y, M.voor - 0.45], 1.2);
+  // Los (niet samengevoegd) en met een naam: de woningscan zet hier bij een open haard een kachel neer.
+  for (const deel of plant(g, mat, [2.05, y, M.voor - 0.45], 1.2)) { deel.name = "Plant_kachelplek"; deel.userData.los = true; }
 
   // Verdieping: overloopwand met twee deuropeningen, binnenmuur tussen slaapkamer en badkamer.
   const v = M.v1 + 0.012;
@@ -348,7 +356,8 @@ function bouwInterieur(g: Group, mat: Materialen, radiatoren: Radiator[], venste
   lamp(g, mat, [k + 0.24, v + 0.5, 0.49], 0.32);
   blok(g, [1.15, v, WAND_V1 + 0.06], [2.4, v + 2.1, WAND_V1 + 0.66], mat.wit, 0.01);
   for (const x of [1.57, 1.99]) blok(g, [x - 0.004, v + 0.05, WAND_V1 + 0.665], [x + 0.004, v + 2.05, WAND_V1 + 0.67], mat.stofDonker);
-  plant(g, mat, [2.1, v, M.voor - 0.4], 0.9);
+  // Los en met een naam: in de woningscan loopt hier bij een open haard het rookkanaal van de kachel.
+  for (const deel of plant(g, mat, [2.1, v, M.voor - 0.4], 0.9)) { deel.name = "Plant_kachelplek"; deel.userData.los = true; }
   // Badkamer: tegelwand, bad, douche met glazen wand, toilet en wastafelmeubel.
   tegels([k, v, M.achter], [x1, v + 1.9, M.achter + 0.008]);
   blok(g, [k + 0.02, v, M.achter + 0.02], [k + 1.72, v + 0.56, M.achter + 0.78], mat.sanitair, 0.05);
@@ -474,7 +483,7 @@ export function maakCutaway(scene: Object3D) {
   const kopgevel = new Group(); kopgevel.name = "Kopgevel";
   scene.add(kopgevel);
   for (const o of [...scene.children]) {
-    if (/^(Buitengevel_rechts|Spouwisolatie_rechts|Binnenmuur_rechts|Regenpijpen|Raam_rechts)/.test(o.name) || (/^Raam/.test(o.name) && o.position.x > 2)) kopgevel.attach(o);
+    if (/^(Buitengevel_rechts|Spouwisolatie_rechts|Binnenmuur_rechts|Regenpijpen|Raam_rechts|Daklat_rechts)/.test(o.name) || (/^Raam/.test(o.name) && o.position.x > 2)) kopgevel.attach(o);
   }
   const plintRechts: Mesh[] = [];
   scene.getObjectByName("Plinten")?.traverse(part => {

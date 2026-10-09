@@ -3,7 +3,7 @@
 .flow h1,.flow h2,.flow h3 { color:var(--green-900); }
 .heading { font-size:clamp(25px,2.8vw,34px); font-weight:700; line-height:1.2; margin:8px 0 32px; scroll-margin-top:140px; }
 .grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:48px; align-items:start; }
-@media(min-width:768px) { .grid > :first-child { position:sticky; top:128px; } }
+@media(min-width:768px) { .grid > :first-child { position:sticky; top:88px; height:calc(100svh - 104px); } }
 .panel { min-width:0; max-width:560px; }
 .panel p { line-height:1.6; }
 .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:32px; }
@@ -109,6 +109,9 @@
 .keuzeRij :global(.gijs-check__title){font-size:16px}
 .keuzeRij :global(.gijs-check__desc){font-size:13px}
 .infoLink{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:600;color:var(--accent-700);text-decoration:underline}
+/* "Ik wil iets wijzigen": de vervolgvragen direct onder het vinkje. */
+.wijzigBlok{display:flex;flex-direction:column;gap:16px;margin-top:12px;padding:20px;border-radius:20px;background:var(--grey-050)}
+.wijzigBlok textarea{background:#fff}
 .aanvraag{margin-top:48px;padding:28px;border-radius:28px;background:var(--grey-050)}
 .aanvraag .field input{background:#fff}
 .aanvraagVelden{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}

@@ -71,10 +71,10 @@ export const MAATREGELEN: Maatregel[] = [
   {
     titel: "Zonnepanelen",
     beschrijving: "Opwekken van je eigen duurzame energie.",
-    // Zelfde hero-foto als de zonnepanelenpagina zelf (een echte Gijs-
-    // installatiefoto, aangeleverd via Archief.zip), voor visuele
+    // Zelfde hero-foto als de zonnepanelenpagina zelf (een echte foto van
+    // een Gijs-installateur met valbeveiliging), voor visuele
     // herkenbaarheid tussen overzicht en detailpagina.
-    afbeelding: "/images/maatregelen/zonnepanelen/zonnepanelen-hero-v2.png",
+    afbeelding: "/images/maatregelen/zonnepanelen/zonnepanelen-hero-v4.jpeg",
     icon: "sun",
   },
   {

@@ -8,6 +8,7 @@ import { Icon } from "@/components/ds/core/Icon";
 import { Badge } from "@/components/ds/core/Badge";
 import { StatRow } from "@/components/measures/StatRow";
 import { WONINGVOORRAAD_GEMEENTEN } from "@/lib/content/regio-woningvoorraad";
+import { EnergiescanUitleg } from "@/components/home/EnergiescanUitleg";
 
 // Gedeelde blokken voor de regio-templates (provincie, gemeente, plaats).
 // Alle teksten komen uit bestaande, bevestigde Gijs-content (maatregel-
@@ -51,7 +52,7 @@ const ISOLATIE_MAATREGELEN = [
   { naam: "Spouwmuurisolatie", slug: "spouwmuurisolatie", beeld: "Een extra jas in je muur", tekst: "Een geïsoleerde spouw helpt de warmte beter binnen te houden." },
   { naam: "Vloerisolatie", slug: "vloerisolatie", beeld: "Warme sokken voor je vloer", tekst: "Je woning verliest minder warmte via de begane grondvloer." },
   { naam: "Isolatieglas", slug: "isolatieglas", beeld: "Een warme deken voor je ramen", tekst: "Het glas beperkt warmteverlies via het raam en voelt aan de binnenkant warmer aan." },
-  { naam: "Kozijnen", slug: "kozijnen", beeld: "Kou en tocht blijven buiten", tekst: "Goede kozijnen houden kou en tocht beter buiten." },
+  { naam: "Kozijnen", slug: "kozijnen", beeld: "Houd kou buiten en tocht tegen", tekst: "Goede kozijnen houden kou en tocht beter buiten." },
 ];
 
 export function IsolatieMaatregelen({ titel, intro }: { titel: string; intro: string }) {
@@ -79,26 +80,27 @@ export function IsolatieMaatregelen({ titel, intro }: { titel: string; intro: st
   );
 }
 
-// Landelijke subsidies: alleen de algemene, in de productbladen bevestigde
-// uitleg. Bedragen staan bewust niet op regiopagina's; die staan in het
-// subsidieoverzicht op /kennis#subsidies.
+// Landelijke subsidies: geen bedragen of voorwaarden op regiopagina's, die
+// wijzigen regelmatig. Zie /kennis#subsidies voor de toelichting.
 export function LandelijkeSubsidies() {
   return (
     <section id="landelijke-subsidies" className="scroll-mt-40 mb-14">
       <h2 className={H2 + " mb-2"}>Landelijke subsidies</h2>
       <div className="max-w-2xl flex flex-col gap-3 text-zinc-600">
         <p>
-          Voor isolatie bestaat een landelijke subsidie. Laat je meer dan één isolatiemaatregel installeren? Dan
-          verdubbelt het subsidiebedrag voor isolatie. Dit geldt ook als je een isolatiemaatregel combineert met de
-          installatie van een warmtepomp.
+          Voor sommige verduurzamingsmaatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen
+          wijzigen. Tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden.
         </p>
         <p>
           Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Gijs kan de toekenning van subsidies
           niet garanderen.
         </p>
         <p>
-          Bekijk het <Link href="/kennis#subsidies" className={LINK}>subsidieoverzicht van Gijs</Link> voor de
-          opbouw per maatregel.
+          Meer weten over de landelijke ISDE-regeling? Bekijk de{" "}
+          <a href="https://www.rvo.nl/subsidies-financiering/isde" target="_blank" rel="noopener noreferrer" className={LINK}>
+            officiële ISDE-pagina van RVO
+          </a>{" "}
+          of de <Link href="/kennis#subsidies" className={LINK}>uitleg over subsidies en financiering</Link>.
         </p>
       </div>
     </section>
@@ -194,9 +196,10 @@ export function EnergiescanBlok() {
         <p className="max-w-xl text-zinc-700">
           Een adviseur van Gijs bekijkt je woning en bespreekt met je welke maatregelen technisch passen.
         </p>
-        <Button href="/contact#energiescan" variant="accent" size="lg" iconRight="arrow-right">
+        <Button href="/contact#energiescan" variant="secondary" size="lg" iconRight="arrow-right">
           Vraag een gratis energiescan aan
         </Button>
+        <EnergiescanUitleg className="max-w-md" />
       </div>
     </section>
   );
