@@ -6,6 +6,7 @@ import { Input } from "@/components/ds/forms/Input";
 import { Button } from "@/components/ds/core/Button";
 import { Alert } from "@/components/ds/feedback/Alert";
 import { zoekAdres, type AdresZoekResultaat } from "@/lib/pdok/adresZoeken";
+import { track } from "@/lib/analytics";
 import { haalBagGegevensOp, type BagGegevens } from "@/lib/bag/adresUitgebreid";
 import { haalEnergielabelOp, type EnergielabelResultaat } from "@/lib/ep-online/energielabel";
 import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
@@ -63,6 +64,8 @@ export function StapBevestigen({
     let actief = true;
     zoekAdres(postcode, huisnummer).then((res) => {
       if (!actief) return;
+      if (res.status === "gevonden") track({ name: "address_lookup_succeeded" });
+      else track({ name: "address_lookup_failed", reason: res.status });
       setResultaat(res);
       setBag(null);
       setEpOnline(null);
@@ -166,7 +169,7 @@ export function StapBevestigen({
   return (
     <section className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       <div className="flex flex-col gap-4">
-        <p className="text-[17px] font-semibold text-[var(--accent-700)]">Gevonden!</p>
+        <p className="text-[20px] font-bold tracking-[-0.01em] text-[var(--accent-600)]">Gevonden!</p>
         <h3 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Is dit jouw woning?</h3>
         <div className="gijs-card gijs-card--muted flex flex-col gap-1">
           <span className="font-semibold text-[18px] text-[var(--gijs-donkergroen)]">{adres.straatEnHuisnummer}</span>

@@ -19,7 +19,7 @@ export function isolatieNiveau(bestaand: string[]): McIsolatie {
   return aantal === 4 ? "goed" : aantal >= 2 ? "redelijk" : "matig";
 }
 
-export const eenBewoner = (aantalBewoners: string) => aantalBewoners === "1 bewoner";
+export const eenBewoner = (aantalBewoners: string) => aantalBewoners === "1";
 
 export const woonsituaties = (aantalBewoners: string) => (eenBewoner(aantalBewoners) ? MC_GEMIDDELD_1_BEWONER : MC_GEMIDDELD_2_PLUS);
 
@@ -62,12 +62,12 @@ export function schatVerbruik(invoer: { houseType: HouseType; aantalBewoners: st
   if (verwarming === "Stads- of blokverwarming") {
     warmte = MC_WARMTENET_GJ;
     uitleg.push(`Warmte: gemiddeld warmteverbruik bij een warmtenet volgens Milieu Centraal (${MC_WARMTENET_GJ} GJ per jaar).`);
-  } else if (verwarming === "Elektrische warmtepomp") {
+  } else if (verwarming === "Volledig elektrische warmtepomp met boiler") {
     const wp = tabel.volledig ?? MC_VERWARMING[houseType].redelijk.volledig ?? 0;
     stroom = woonsituatie.stroom - tabel.cvKetel.stroom + wp;
     uitleg.push(`Verwarming en warm water: volledige warmtepomp in ${woning}, volgens Milieu Centraal ${wp.toLocaleString("nl-NL")} kWh per jaar.`);
     if (tabel.volledig === null) uitleg.push("Milieu Centraal geeft voor een volledige warmtepomp geen cijfer bij matige isolatie; daarom is gerekend met redelijke isolatie.");
-  } else if (verwarming === "Hr-ketel + hybride warmtepomp") {
+  } else if (verwarming === "Hybride warmtepomp") {
     gas = tabel.hybride.gas;
     stroom = woonsituatie.stroom - tabel.cvKetel.stroom + tabel.hybride.stroom;
     uitleg.push(`Verwarming en warm water: hybride warmtepomp in ${woning}, volgens Milieu Centraal ${tabel.hybride.gas.toLocaleString("nl-NL")} m³ gas en ${tabel.hybride.stroom.toLocaleString("nl-NL")} kWh stroom per jaar.`);
@@ -75,7 +75,7 @@ export function schatVerbruik(invoer: { houseType: HouseType; aantalBewoners: st
     gas = tabel.cvKetel.gas;
     uitleg.push(`Gas: cv-ketel in ${woning}, volgens Milieu Centraal ${tabel.cvKetel.gas.toLocaleString("nl-NL")} m³ per jaar voor verwarming en warm water.`);
   }
-  if (verwarming !== "Stads- of blokverwarming" && verwarming !== "Elektrische warmtepomp" && gas === null) gas = tabel.cvKetel.gas;
+  if (verwarming !== "Stads- of blokverwarming" && verwarming !== "Volledig elektrische warmtepomp met boiler" && gas === null) gas = tabel.cvKetel.gas;
   if (warmte === null) uitleg.push("De verwarmingscijfers van Milieu Centraal gaan uit van 2 personen.");
   uitleg.push("Het afgiftesysteem en het warm water in de badkamer veranderen de schatting niet: daar publiceert Milieu Centraal geen cijfers voor.");
   return { stroom: rond(stroom), gas: gas === null ? null : rond(gas), warmte, isolatie, woonsituatie, uitleg };

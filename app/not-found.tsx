@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 // waar mensen na een misser naartoe willen.
 const VERVOLG = [
   { href: "/", titel: "Naar de homepage", tekst: "Bekijk een voorbeeldwoning in 3D en ontdek stap voor stap wat er mogelijk is." },
-  { href: "/maatregelen", titel: "Alle maatregelen", tekst: "Isolatie en installaties, met per maatregel uitleg over wat het voor je huis betekent." },
+  { href: "/maatregelen", titel: "Alle maatregelen", tekst: "Isolaties en installaties, met per maatregel uitleg over wat het voor je huis betekent." },
   { href: "/woning", titel: "Digitale woningscan", tekst: "Stel je woningplan samen als voorbereiding op een gesprek met een adviseur." },
   { href: "/kennis", titel: "Uitleg en vragen", tekst: "Antwoorden op de vragen die het vaakst gesteld worden over verduurzamen." },
 ];

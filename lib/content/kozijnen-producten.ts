@@ -19,7 +19,6 @@ export type HrIsoFrameTier = {
   kenmerken: string[];
   glas: string;
   ugWaarde: string;
-  subsidie: string;
 };
 
 // Bron: "HR IsoFrame Producten.pdf" (3 pagina's, één per niveau).
@@ -42,7 +41,6 @@ export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
     ],
     glas: "HR++, 24 mm",
     ugWaarde: "1,1",
-    subsidie: "€ 35,- per m²",
   },
   {
     naam: "Kozijn Standard",
@@ -63,7 +61,6 @@ export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
     ],
     glas: "HR++ Warm-Edge, 24 mm",
     ugWaarde: "1,1",
-    subsidie: "€ 35,- per m²",
   },
   {
     naam: "Kozijn Comfort",
@@ -83,7 +80,6 @@ export const HR_ISOFRAME_TIERS: HrIsoFrameTier[] = [
     ],
     glas: "Triple, 42 mm",
     ugWaarde: "0,6",
-    subsidie: "€ 100,- per m² op triple beglazing",
   },
 ];
 

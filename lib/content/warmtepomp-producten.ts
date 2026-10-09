@@ -1,4 +1,5 @@
-// Warmtepomp-productgegevens. Uitsluitend overgenomen uit de door Gijs
+// Warmtepomp-productgegevens: alleen de DeWarmte-warmtepompen (de andere merken, Remeha Elga Ace
+// en Intergas Xtend, staan op verzoek van Gijs niet meer op de site). Uitsluitend overgenomen uit de door Gijs
 // aangeleverde bronnen: de Warmtepomp-ZIP (deWarmte-, Remeha- en
 // Intergas-documenten), de aanvullend aangeleverde "Brochure DeWarmte
 // Hybride warmtepomp 112025" (versie november 2025, incl. het officiële
@@ -47,7 +48,7 @@ export type WarmtepompProduct = {
 export const WARMTEPOMP_PRODUCTEN: WarmtepompProduct[] = [
   {
     merk: "Monoblock",
-    naam: "Hybride warmtepomp",
+    naam: "Hybride warmtepomp tot 8,3 kW",
     ondertitel: "Hybride warmtepomp, lucht/water monoblock",
     vermogen: "6,4 kW (bij A7/W35), modulatiebereik 1,4 - 8,3 kW",
     afmetingen: "1100 × 455 × 850 mm (B × D × H), gewicht 102 kg",
@@ -65,7 +66,7 @@ export const WARMTEPOMP_PRODUCTEN: WarmtepompProduct[] = [
   },
   {
     merk: "Monoblock",
-    naam: "Hybride warmtepomp, groter vermogen",
+    naam: "Hybride warmtepomp tot 16,5 kW",
     ondertitel: "Hybride warmtepomp, lucht/water monoblock (nieuw)",
     vermogen: "Modulatiebereik 1,9 - 16,5 kW (incl. ingebouwde elektrische booster van 3 kW)",
     afmetingen: "1223 × 461 × 854 mm (B × D × H), gewicht 150 kg",
@@ -78,40 +79,6 @@ export const WARMTEPOMP_PRODUCTEN: WarmtepompProduct[] = [
       "Milieuvriendelijk koudemiddel (propaan) met een beperkte impact op het klimaat",
       "Super stil",
       "Hogere maximale afgiftetemperatuur (tot 70°C)",
-    ],
-  },
-  {
-    merk: "Add-on",
-    naam: "Hybride warmtepomp, 4 of 6 kW",
-    ondertitel: "Hybride warmtepomp, add-on op je bestaande cv-ketel",
-    vermogen: "4 kW of 6 kW (twee uitvoeringen)",
-    afmetingen: "Buitenunit 492 × 268 × 220 mm (H×B×D) · Binnenunit 4 kW: 550 × 849 × 342 mm, 6 kW: 630 × 883 × 351 mm (H×B×D)",
-    geluid: "Geluidsdruk buitenunit: 53 dB(A) (4 kW) / 57 dB(A) (6 kW), gemeten bij 30% deellast A7/W35",
-    image: "/images/maatregelen/warmtepomp/warmtepomp-elgaace.png",
-    imageAlt: "Binnenunit van een add-on hybride warmtepomp",
-    kenmerken: [
-      "Comfortabel stil",
-      "Compact formaat",
-      "Installatie in 1 dag zonder ingrijpende verbouwing",
-      "In elke woning met iedere cv-ketel te combineren",
-      "Waardevermeerdering van je woning",
-    ],
-  },
-  {
-    merk: "Add-on",
-    naam: "Hybride warmtepomp, 5 kW",
-    ondertitel: "Hybride warmtepomp, add-on lucht/water systeem",
-    vermogen: "5 kW, modulatiebereik 1,8 - 5 kW",
-    afmetingen: "Binnenunit 557 × 163 × 271 mm (H×B×D), 18 kg · Buitenunit 689 × 968 × 367 mm (H×B×D), 38,3 kg",
-    geluid: "Geluidsdruk op 5 m afstand: 36 dB(A)",
-    image: "/images/maatregelen/warmtepomp/warmtepomp-xtend.png",
-    imageAlt: "Buitenunit van een add-on hybride warmtepomp",
-    kenmerken: [
-      "Zeer compacte binnenunit",
-      "Fraai design",
-      "Flexibele montage en eenvoudige installatie",
-      "Add-on hybride lucht/water warmtepomp",
-      "Te combineren met de meeste bestaande cv-ketels via OpenTherm",
     ],
   },
 ];

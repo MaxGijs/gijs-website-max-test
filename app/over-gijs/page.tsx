@@ -78,13 +78,13 @@ export default function OverGijs() {
           </div>
         </section>
 
-        {/* 3. "Een Gijs…" */}
+        {/* 3. "Gijs…" */}
         <section aria-labelledby="een-gijs" className="bg-white">
-          <h2 id="een-gijs" className="sr-only">Een Gijs…</h2>
+          <h2 id="een-gijs" className="sr-only">Gijs…</h2>
           <EenGijs />
         </section>
 
-        {/* 4. De oprichter: Thom, zijn quote en 18+ jaar ervaring als één hoofdstuk. */}
+        {/* 4. De oprichter: Thom, zijn quote en zijn ervaring (meer dan 20 jaar) als één hoofdstuk. */}
         <section className="bg-[var(--gijs-donkergroen)]">
           <div className={`max-w-[var(--container-wide)] mx-auto px-6 ${ruim} flex flex-col gap-14`}>
             <div className={`grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-center ${styles.opkomen}`}>
@@ -123,7 +123,8 @@ export default function OverGijs() {
                 </p>
               </figure>
               <div className="flex flex-col gap-2 md:border-l md:border-white/15 md:pl-12">
-                <span className="text-[clamp(4rem,2rem+6vw,7rem)] font-bold leading-[0.85] tracking-[-0.05em] text-white">{CIJFERBEWIJS.ervaringJaren}+</span>
+                <span className="text-[19px] font-bold text-white">Meer dan</span>
+                <span className="text-[clamp(4rem,2rem+6vw,7rem)] font-bold leading-[0.85] tracking-[-0.05em] text-white">{CIJFERBEWIJS.ervaringJaren}</span>
                 <span className="text-[19px] font-bold text-white">jaar ervaring</span>
                 <p className="mt-2 text-[15px] leading-relaxed text-white/70 max-w-[28ch]">
                   Persoonlijk betekent bij Gijs niet dat deskundigheid minder belangrijk is. Beide horen erbij.
@@ -142,7 +143,7 @@ export default function OverGijs() {
             </div>
             <dl className={`flex flex-col border-y border-[var(--border-default)] ${styles.opkomen}`}>
               {[
-                { term: "Je woning als geheel", uitleg: "Isolatie en installaties hangen samen. Daarom kijkt Gijs eerst naar jouw woning en situatie, en pas daarna naar de maatregel." },
+                { term: "Je woning als geheel", uitleg: "Isolaties en installaties hangen samen. Daarom kijkt Gijs eerst naar jouw woning en situatie, en pas daarna naar de maatregel." },
                 { term: "Subsidie en financiering", uitleg: "Die kunnen onderdeel zijn van het advies, van eerste gesprek tot uitvoering." },
                 { term: "Niet altijd ja", uitleg: "Niet iedere maatregel past bij iedere woning. Wat voor de buren slim is, hoeft dat voor jou niet te zijn." },
               ].map(rij => (
@@ -230,7 +231,7 @@ export default function OverGijs() {
           <div className={`max-w-5xl mx-auto px-6 py-[clamp(6rem,14vw,12rem)] flex flex-col items-start gap-10 ${styles.opkomen}`}>
             <h2 className={kopGroot}>Benieuwd wat logisch is voor jouw woning?</h2>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Button href="/woning" variant="primary" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
               <Link href="/contact" className="inline-flex min-h-11 items-center font-semibold text-[var(--accent-700)] underline underline-offset-4">Neem contact op</Link>
             </div>
             <p className="max-w-md text-[15px] leading-relaxed text-[var(--text-muted)]">

@@ -154,8 +154,8 @@ export const RESTVOCHT_TABEL: { type: string; toelichting: string; vereist: stri
   { type: "Vochtdoorlatende bedekking", toelichting: "Tapijt(tegels) met open rug, naaldvilt", vereist: "4,5%", technischMogelijk: "5,0%" },
   { type: "Vochtdichte bedekking", toelichting: "Linoleum, rubber, PVC, marmoleum", vereist: "2,5%", technischMogelijk: "3,0%" },
   { type: "Tegels/keramiek", toelichting: "Dikbed/dunbed cementgebonden lijmen, alle soorten en formaten", vereist: "4,0%", technischMogelijk: "5,5%" },
-  { type: "Laminaat/parket", toelichting: "—", vereist: "2,0%", technischMogelijk: "2,0%" },
-  { type: "Coatings/verf", toelichting: "—", vereist: "2,0%", technischMogelijk: "2,0%" },
+  { type: "Laminaat/parket", toelichting: "", vereist: "2,0%", technischMogelijk: "2,0%" },
+  { type: "Coatings/verf", toelichting: "", vereist: "2,0%", technischMogelijk: "2,0%" },
 ];
 
 // Bron: ECOCEM-Folder-3luik.pdf ("Verkorten van de gehele bouwtijd")

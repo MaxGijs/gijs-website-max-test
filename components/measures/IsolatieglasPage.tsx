@@ -12,9 +12,8 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
-import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
-import { StatRow } from "@/components/measures/StatRow";
+import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -120,7 +119,6 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
     { id: "glassoorten", label: "Glassoorten" },
     { id: "voordelen", label: "Voordelen" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
-    { id: "voorwaarden", label: "Voorwaarden" },
     { id: "subsidie", label: "Subsidie" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
   ];
@@ -136,10 +134,15 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
   // herhaalt letterlijk de herotitel/-intro ("Isolatieglas plaatsen in
   // één dag"). Overige vragen behouden en herordend op klantprioriteit.
   const faqItems: FAQItem[] = [
-    { question: "Welk isolatieglas past bij mijn woning?", answer: "Dat hangt af van je huidige glas en kozijnen. Tijdens de energiescan beoordeelt Gijs welk type isolatieglas voor jouw woning passend is." },
+    { question: "Welk isolatieglas past bij mijn woning?", answer: "Dat hangt af van je huidige glas en kozijnen. Gijs plaatst isolatieglas van HR tot HR+++, met bij HR+++ zelfs driedubbel glas; tijdens de energiescan bepaalt Gijs welk type bij jouw woning past." },
     { question: "Hoe wordt het glas ingemeten?", answer: "Voor aanvang van de werkzaamheden wordt het glas ingemeten. Hiervoor neemt de inmeter telefonisch contact met je op." },
     { question: "Wat gebeurt er bij houtrot?", answer: "Bij onverwachte houtrot tijdens de plaatsing laat Gijs het glas achter, maar wordt het niet geplaatst. Eerst wordt reparatie geadviseerd." },
     { question: "Wie schildert de glaslatten?", answer: "De glaslatten worden in grondverf afgeleverd. Je zorgt zelf voor het schilderwerk." },
+    {
+      question: "Wat moet ik voorbereiden en waar moet ik rekening mee houden?",
+      answer: "Gijs bespreekt dit vooraf met je, zodat je weet waar je aan toe bent. Een paar praktische punten:",
+      punten: VOORWAARDEN,
+    },
   ];
 
   const startScanHref = "/woning?maatregel=" + item.id;
@@ -213,16 +216,19 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
             />
           </div>
 
-          <div className="mt-8">
-            <FeatureList
-              columns={4}
-              items={[
-                { icon: "layers", title: "Meerdere glaslagen", text: "Isolatieglas bestaat uit meerdere lagen glas met een tussenruimte. Bij HR+++ gebruikt Gijs zelfs drie lagen glas (driedubbel glas)." },
-                { icon: "sparkles", title: "Speciale coating", text: "Op het glas zit een speciale coating. Bij HR is dit een warmtereflecterende coating, bij HR++ een verbeterde coating." },
-                { icon: "wind", title: "Isolerende vulling", text: "Bij HR+ zit er een gasvulling in de spouw tussen de glaslagen." },
-                { icon: "ruler", title: "Afstandhouder", text: "De afstandhouder houdt de glaslagen op de juiste afstand van elkaar. Bij HR++ (G) is deze van kunststof." },
-              ]}
-            />
+          <div className="mt-8 grid grid-cols-2 gap-4">
+            {[
+              { icon: "layers", title: "Meerdere glaslagen", text: "Isolatieglas bestaat uit meerdere lagen glas met een tussenruimte. Bij HR+++ gebruikt Gijs zelfs drie lagen glas (driedubbel glas)." },
+              { icon: "sparkles", title: "Speciale coating", text: "Op het glas zit een speciale coating. Bij HR is dit een warmtereflecterende coating, bij HR++ een verbeterde coating." },
+              { icon: "wind", title: "Isolerende vulling", text: "Bij HR+ zit er een gasvulling in de spouw tussen de glaslagen." },
+              { icon: "ruler", title: "Afstandhouder", text: "De afstandhouder houdt de glaslagen op de juiste afstand van elkaar. Bij HR++ (G) is deze van kunststof." },
+            ].map(deel => (
+              <Card key={deel.title} variant="tint" className="flex flex-col gap-2 !p-5">
+                <Icon name={deel.icon} size="md" className="text-[var(--accent-700)]" />
+                <p className="font-bold text-lg text-[var(--gijs-donkergroen)]">{deel.title}</p>
+                <p className="text-sm text-zinc-600">{deel.text}</p>
+              </Card>
+            ))}
           </div>
 
           <Card variant="tint" className="mt-8 flex flex-col md:flex-row md:items-center gap-6 !p-8">
@@ -286,7 +292,8 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
             </table>
           </div>
           <p className="text-xs text-zinc-500 mt-3">
-            Gemarkeerde rijen voldoen aan de minimale U-waarde voor subsidie (zie hieronder).
+            Gemarkeerde rijen isoleren het best. Tijdens de energiescan bespreken we of hiervoor op dat moment
+            subsidie beschikbaar is.
           </p>
 
           <Card variant="tint" className="mt-6 !p-6 max-w-2xl">
@@ -322,48 +329,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
           <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
         </section>
 
-        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
-          <p className="text-zinc-600 mb-6 max-w-2xl">
-            Voor een goede uitvoering gelden een paar praktische voorwaarden.
-          </p>
-          <VoorwaardenKolommen
-            groepen={[
-              { items: VOORWAARDEN.slice(0, 4) },
-              { items: VOORWAARDEN.slice(4) },
-            ]}
-          />
-        </section>
-
-        <section id="subsidie" className="scroll-mt-40 mb-14">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Subsidie bij isolatieglas</h2>
-          <p className="text-zinc-600 mb-6 max-w-2xl">
-            Voor dubbel glas met een minimale U-waarde van 1,2 kun je subsidie krijgen. Laat je meer dan één
-            isolatiemaatregel installeren? Dan verdubbelt het subsidiebedrag. Gijs vraagt hiervoor subsidie aan
-            binnen 24 maanden nadat je de eerste maatregel uitvoert.
-          </p>
-          <div className="mb-8">
-            <StatRow
-              items={[
-                { label: "Subsidiebedrag per m² bij 1 maatregel", value: "€ 25" },
-                { label: "Subsidiebedrag per m² vanaf 2 maatregelen", value: "€ 50" },
-                { label: "Aantal m² met subsidie", value: "3 t/m 45 m²" },
-              ]}
-            />
-          </div>
-          <p className="text-sm text-zinc-500 max-w-2xl">
-            Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Onze dienstverlening beperkt zich
-            tot het faciliteren van de aanvraagprocedure, tegen een eenmalige administratievergoeding die is verwerkt
-            in de begroting. Gijs kan de toekenning van subsidies niet garanderen en is niet verantwoordelijk voor
-            eventuele onjuistheden in de verstrekte informatie of andere gerelateerde zaken.
-          </p>
-          <p className="text-sm text-zinc-500 max-w-2xl mt-3">
-            Meer weten? Lees de{" "}
-            <Link href="/kennis#subsidies" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">uitleg over subsidies en financiering</Link>{" "}
-            of bekijk de{" "}
-            <Link href="/contact#energiescan" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">gratis energiescan aan huis</Link>.
-          </p>
-        </section>
+        <SubsidieSectie titel="Subsidie bij isolatieglas" />
 
         <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>
@@ -382,7 +348,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>
@@ -393,9 +359,6 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
 
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
-          <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
-          </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past isolatieglas bij jouw woning?</h2>
             <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>

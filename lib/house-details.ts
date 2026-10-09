@@ -159,19 +159,51 @@ export function addAanbouw(scene:Group){
     const cx=(b.min.x+b.max.x)/2;
     return cx>L&&cx<R&&b.max.z>gevelZ-1.2&&b.min.z<gevelZ+.2;
   });
-  const installaties=ingebouwd.filter(o=>/^(Thuisbatterij|Warmtepomp_DeWarmte)$/.test(o.name));
+  // Warmtepomp gaat op het platte dak (doel in userData.aanbouwDak, HouseViewer rekent de positie
+  // uit); de batterij komt naast de deur tegen de nieuwe achtergevel.
+  const installaties=ingebouwd.filter(o=>o.name==="Thuisbatterij");
   const installatieBreedte=installaties.reduce((som,o)=>{const b=doos(o);return som+(b.max.x-b.min.x)+.3;},0);
-  // Schuifpui in de nieuwe achtergevel: antraciet kozijn, twee delen, stenen dorpel.
-  const puiB=Math.max(1.6,Math.min(2.8,breedte-1-installatieBreedte)), puiH=Math.min(2.3,hoogte-.55);
-  const puiX=installaties.length?L+.5+puiB/2:midX, puiY=vloerY+.06+puiH/2, puiZ=achterZ-.015;
-  box(aanbouw,"aanbouw_dorpel",[puiB+.12,.06,.2],[puiX,vloerY+.03,achterZ-.04],"#b9b6ad");
-  box(aanbouw,"aanbouw_pui_glas",[puiB-.1,puiH-.1,.02],[puiX,puiY,puiZ],"#243339");
-  for(const [maat,x,y] of [
-    [[puiB,.07,.07],puiX,puiY+puiH/2-.035],[[puiB,.07,.07],puiX,puiY-puiH/2+.035],
-    [[.07,puiH,.07],puiX-puiB/2+.035,puiY],[[.07,puiH,.07],puiX+puiB/2-.035,puiY],[[.06,puiH,.06],puiX,puiY],
-  ] as [[number,number,number],number,number][])box(aanbouw,"aanbouw_pui_kozijn",maat,[x,y,puiZ-.01],"#2f3432");
-  // Latei boven de pui (zelfde betonband als elders op de gevel).
-  box(aanbouw,"aanbouw_latei",[puiB+.2,.1,.03],[puiX,puiY+puiH/2+.07,achterZ-.015],"#c9c4ba");
+  // Altijd de warmtepomp zelf, ook als die nu nog elders staat: de homepage-maquette (maakCutaway)
+  // zet hem later tegen de achtergevel, precies waar de aanbouw komt.
+  const pomp=scene.getObjectByName("Warmtepomp_DeWarmte");
+  // Doel: midden-onder van de pomp; z is de achtergevel van de woning (HouseViewer zet de pomp er
+  // met zijn achterkant tegenaan).
+  // Op een stuk achtergevel zonder raam erboven (de pomp mag niet voor een raam staan); lukt dat niet,
+  // dan midden op het dak, los van de gevel.
+  // HouseViewer kiest de plek en draaiing pas na de maquette (die draait de pomp nog), met deze vrije
+  // stukken achtergevel (x van/tot, zonder raam of deur boven het aanbouwdak).
+  if(pomp){
+    const ramen=scene.children.filter(c=>/^(Raam_achter|Achterdeur)/.test(c.name)).map(doos).filter(r=>r.min.y<dakY+1.3&&r.max.y>dakY);
+    const vrij:[number,number][]=[];let van=L+dikte+.05;
+    for(const r of ramen.sort((a,b)=>a.min.x-b.min.x)){if(r.min.x-.08>van)vrij.push([van,r.min.x-.08]);van=Math.max(van,r.max.x+.08);}
+    if(R-dikte-.05>van)vrij.push([van,R-dikte-.05]);
+    pomp.userData.aanbouwDak={vrij,y:dakY+.14,gevelZ,midX:L+breedte*.74};
+  }
+  // Achterdeur en raam in de nieuwe achtergevel, in dezelfde kozijnkleur als de ramen van de woning.
+  let kozijnKleur="#f1f1ec", deurKleur="#e8e5dc";
+  scene.getObjectByName("Achterdeur")?.traverse(o=>{const m=(o as Mesh).material as MeshStandardMaterial|undefined;if((o as Mesh).isMesh&&m?.isMeshStandardMaterial&&/blad|deur/i.test(o.name))deurKleur="#"+m.color.getHexString();});
+  for(const r of scene.children.filter(c=>/^Raam_achter/.test(c.name))){const k=r.getObjectByName("kozijn_links") as Mesh|undefined;if(k){kozijnKleur="#"+((k.material as MeshStandardMaterial).color.getHexString());break;}}
+  const z=achterZ-.015, lijst=.07;
+  const kozijn=(naam:string,x:number,y:number,b:number,h:number)=>{
+    for(const [maat,px,py] of [[[b,lijst,lijst],x,y+h/2-lijst/2],[[b,lijst,lijst],x,y-h/2+lijst/2],[[lijst,h,lijst],x-b/2+lijst/2,y],[[lijst,h,lijst],x+b/2-lijst/2,y]] as [[number,number,number],number,number][])
+      box(aanbouw,naam,maat,[px,py,z-.01],kozijnKleur);
+  };
+  const deurB=.95, deurH=Math.min(2.15,hoogte-.45), deurX=L+.55+deurB/2, deurY=vloerY+.05+deurH/2;
+  box(aanbouw,"aanbouw_achterdeur_blad",[deurB-.12,deurH-.08,.04],[deurX,deurY-.02,z],deurKleur);
+  box(aanbouw,"aanbouw_achterdeur_glas",[deurB-.42,deurH*.42,.02],[deurX,deurY+deurH*.18,z-.025],"#243339");
+  kozijn("aanbouw_achterdeur_kozijn",deurX,deurY,deurB,deurH);
+  box(aanbouw,"aanbouw_dorpel",[deurB+.1,.06,.2],[deurX,vloerY+.03,achterZ-.04],"#b9b6ad");
+  // Raam midden tussen de deur en de hoek (vóór de plek van een eventuele thuisbatterij).
+  const deurR=deurX+deurB/2, ruimte=R-dikte-installatieBreedte-deurR;
+  const raamB=Math.max(1.2,Math.min(2.4,ruimte-.9)), raamH=Math.min(1.3,hoogte-1.15);
+  const raamX=deurR+ruimte/2, raamY=vloerY+.9+raamH/2;
+  box(aanbouw,"aanbouw_raam_glas",[raamB-.1,raamH-.1,.02],[raamX,raamY,z],"#243339");
+  kozijn("aanbouw_raam_kozijn",raamX,raamY,raamB,raamH);
+  // Eén kozijn met drie ramen: twee tussenstijlen.
+  for(const dx of [-raamB/6,raamB/6])box(aanbouw,"aanbouw_raam_tussenstijl",[.06,raamH,.06],[raamX+dx,raamY,z-.012],kozijnKleur);
+  box(aanbouw,"aanbouw_vensterbank",[raamB+.12,.05,.14],[raamX,raamY-raamH/2-.03,achterZ-.06],"#b9b6ad");
+  for(const [x,h] of [[deurX,deurH],[raamX,raamH]] as [number,number][])box(aanbouw,"aanbouw_latei",[(x===deurX?deurB:raamB)+.2,.1,.03],[x,(x===deurX?deurY:raamY)+h/2+.07,achterZ-.015],"#c9c4ba");
+  const puiX=raamX, puiB=raamB;
   scene.add(aanbouw);
 
   // Eigen fundering, los van de woning: blijft staan als het huis bij vloerisolatie optilt.
@@ -190,7 +222,7 @@ export function addAanbouw(scene:Group){
   }
 }
 
-export function finishDetachedHouse(scene:Group){
+export function finishDetachedHouse(scene:Group,scan=false){
   const garage=scene.getObjectByName("Garage") as Group;
   const rear=garage?.getObjectByName("garage_muur_achter") as Mesh;
   const side=garage?.getObjectByName("garage_muur_rechts") as Mesh;
@@ -201,13 +233,26 @@ export function finishDetachedHouse(scene:Group){
   }
   const old=scene.getObjectByName("Dakkapel");
   if(old){
+    // Scan: de dakkapel loopt door tot zijn platte dak het dakvlak raakt (geen losse achterwand boven de
+    // pannen); het deel onder het dakvlak knipt HouseViewer weg. Eerst verlengen, dan de voorkant kopiëren.
+    const pannen=scene.getObjectByName("Dakpannen");
+    if(scan&&pannen){
+      const dak=new Box3().setFromObject(pannen),kapel=new Box3().setFromObject(old);
+      const cz=(dak.min.z+dak.max.z)/2,helling=(dak.max.y-dak.min.y)/((dak.max.z-dak.min.z)/2);
+      const achter=kapel.getCenter(new Vector3()).z<cz,buiten=achter?kapel.min.z:kapel.max.z;
+      const raakZ=cz+(achter?-1:1)*((dak.max.y-kapel.max.y)/helling-.1);
+      const f=Math.abs(buiten-raakZ)/(kapel.max.z-kapel.min.z);
+      if(f>1&&Math.abs(old.rotation.y)<1e-6){old.scale.z*=f;old.position.z=buiten+(old.position.z-buiten)*f;}
+    }
     const front=old.clone(true);front.name="Dakkapel_voor";
     front.rotation.y+=Math.PI;front.position.x=-old.position.x;front.position.z=-old.position.z;
     front.traverse(part=>{if((part as Mesh).isMesh){const mesh=part as Mesh;mesh.material=Array.isArray(mesh.material)?mesh.material.map(m=>m.clone()):mesh.material.clone();}});
     scene.add(front);scene.updateMatrixWorld(true);
     const obstacle=new Box3().setFromObject(front).expandByScalar(.08);
     for(const panel of [...scene.children].filter(p=>p.name.startsWith("Zonnepaneel")&&!p.userData.garagePanel)){
-      if(new Box3().setFromObject(panel).intersectsBox(obstacle))remove(scene,panel);
+      if(!new Box3().setFromObject(panel).intersectsBox(obstacle))continue;
+      // Scan: bij 0 of 1 dakkapel is de voorkant vrij en horen deze panelen er juist te liggen.
+      if(scan){panel.userData.dakvlak="voor";panel.userData.onderKapel=true;}else remove(scene,panel);
     }
   }
 }

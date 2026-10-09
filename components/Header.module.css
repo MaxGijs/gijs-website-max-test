@@ -1,10 +1,16 @@
-.header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 0 clamp(24px, 4vw, 64px); min-height: 72px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(19,62,53,.08); color: var(--gijs-donkergroen); }
+.header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 0 clamp(24px, 4vw, 64px); min-height: 72px; background: rgba(255,255,255,.82); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(19,62,53,.08); color: var(--gijs-donkergroen); transition: background-color .35s ease, border-color .35s ease, color .35s ease; }
+/* Na scrollen: donkergroen Gijs-header (sectie 22 van de opdracht), met de bestaande
+   donker-op-licht-tokens (--surface-dark/--text-on-dark/--border-on-dark) die de footer ook al
+   gebruikt — geen nieuwe kleur. De logo-swap (logo.png → logo-white.png) staat in Header.tsx. */
+.header.scrolled { background: var(--surface-dark); -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom-color: var(--border-on-dark); color: var(--text-on-dark); }
+@media (prefers-reduced-motion: reduce) { .header { transition: none; } }
 .brandRow { display: flex; align-items: center; gap: 24px; }
 .logo { width: 72px; height: auto; object-fit: contain; }
-.social { display: flex; opacity: .8; }
+.social { display: flex; align-items: center; gap: 12px; opacity: .8; }
 .desktopNav { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
-.navLink, .dropdownButton { color: var(--gijs-donkergroen); text-decoration: none; white-space: nowrap; padding: 12px 0; }
+.navLink, .dropdownButton { color: inherit; text-decoration: none; white-space: nowrap; padding: 12px 0; }
 .navLink:hover, .dropdownButton:hover { color: var(--accent-700); }
+.scrolled .navLink:hover, .scrolled .dropdownButton:hover { color: var(--accent-200); }
 .dropdownButton { display: flex; align-items: center; gap: 5px; background: transparent; border: 0; cursor: pointer; }
 .mobileToggle { display: none; }
 .mobileNav { display: none; }
@@ -25,7 +31,7 @@
   .brandRow { width: 100%; justify-content: space-between; }
   .logo { width: 62px; height: auto; }
   .desktopNav { display: none; }
-  .mobileToggle { display: block; background: transparent; border: 0; color: var(--gijs-donkergroen); cursor: pointer; padding: 8px; }
+  .mobileToggle { display: block; background: transparent; border: 0; color: inherit; cursor: pointer; padding: 8px; }
   .mobileNav { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100svh - 64px); overflow-y: auto; padding: 16px 24px 24px; background: white; color: var(--green-800); box-shadow: var(--shadow-3); }
 }
 

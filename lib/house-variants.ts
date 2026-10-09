@@ -8,6 +8,23 @@ function independentCopy(object:Object3D){
   return copy;
 }
 
+/**
+ * Welke zijde bij dit woningtype de vrije (niet-gedeelde) gevel is, en dus de kant die in de
+ * woningscan-doorsnede open mag: dezelfde regel die hierboven de `sharedWall`-vlag zet, maar als
+ * pure functie zodat ook de camera-opstelling en de belichting (components/woning/HouseViewer.tsx,
+ * HouseDaglicht) weten welke kant dat is zonder de geladen scene te hoeven doorzoeken.
+ * - Hoekwoning zonder gekozen hoekZijde: geen gedeelde zijgevel bekend, dus een vaste, consistente kant.
+ * - Hoekwoning met hoekZijde: de kant tegenover de gekozen buurzijde.
+ * - Twee-onder-een-kap: "links" is altijd de gedeelde zijde (zie sharedSides hieronder), dus "rechts" open.
+ * - Vrijstaand: geen gedeelde zijgevel; kies dezelfde vaste kant als bij een hoekwoning.
+ * - Tussenwoning: beide zijgevels zijn gedeeld, dus geen zijgevel open — de voorgevel in plaats daarvan.
+ */
+export function getOpenSide(type:HouseType,hoekZijde?:"Links"|"Rechts"):"links"|"rechts"|"voor"{
+  if(type==="tussenwoning")return "voor";
+  if(type==="hoekwoning"&&hoekZijde)return hoekZijde==="Rechts"?"links":"rechts";
+  return "rechts";
+}
+
 export function applyAttachedVariant(scene:Group,source:Group,type:HouseType,scan:boolean,hoekZijde?:"Links"|"Rechts"){
   // Bij een hoekwoning bepaalt de bewoner zelf aan welke kant de buurwoning staat (alleen in de scan,
   // dus alleen als hoekZijde is meegegeven); zonder die keuze blijft een hoekwoning zoals voorheen.

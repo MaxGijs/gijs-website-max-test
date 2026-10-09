@@ -2,6 +2,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { verstuurContactMail } from "@/lib/contact-mail";
 import { Button } from "@/components/ds/core/Button";
+import { track, logError } from "@/lib/analytics";
 
 export default function ContactForm() {
   const [message, setMessage] = useState("");
@@ -20,9 +21,11 @@ export default function ContactForm() {
       email: data.get("email"),
       telefoon: data.get("phone"),
       bericht: data.get("message"),
-    }).catch(() => ({ verstuurd: false, fout: "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks." }));
+      bedrijf: data.get("company"),
+    }).catch((error) => { logError("contact_form", error); return { verstuurd: false, fout: "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks." }; });
     setVersturen(false);
-    if (ok) { setVerstuurd(true); form.current?.reset(); return; }
+    if (ok) { track({ name: "contact_form_submitted" }); setVerstuurd(true); form.current?.reset(); return; }
+    logError("contact_form", fout ?? "onbekende fout");
     setMessage(fout ?? "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks.");
   }
 
@@ -35,11 +38,18 @@ export default function ContactForm() {
   }
 
   return <form ref={form} onSubmit={submit} className="grid gap-5" aria-describedby="contact-status">
+    {/* Honeypot: voor mensen onzichtbaar (geen display:none, dat herkennen sommige bots), maar
+        formulier-bots vullen dit vaak automatisch in. Zie lib/contact-mail.ts. */}
+    <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+      <label htmlFor="contact-company">Bedrijf</label>
+      <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+    </div>
     <label className="grid gap-2 font-semibold" htmlFor="contact-name">Naam<input id="contact-name" name="name" autoComplete="name" required maxLength={100} className={field}/></label>
     <label className="grid gap-2 font-semibold" htmlFor="contact-email">E-mailadres<input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} className={field}/></label>
     <label className="grid gap-2 font-semibold" htmlFor="contact-phone">Telefoonnummer (optioneel)<input id="contact-phone" name="phone" type="tel" autoComplete="tel" maxLength={40} className={field}/></label>
     <label className="grid gap-2 font-semibold" htmlFor="contact-question">Waar kunnen we je mee helpen?<textarea id="contact-question" name="message" required maxLength={5000} rows={4} className={field}/></label>
     <p className="text-sm">Je hoeft nog geen maatregel of merk te kiezen.</p>
+    <p className="text-sm">We gebruiken je gegevens alleen om contact met je op te nemen over je aanvraag. Lees hoe we met je gegevens omgaan in onze <a href="/avg-verklaring" target="_blank" rel="noopener noreferrer" className="underline">privacyverklaring</a>.</p>
     <Button type="submit" variant="accent" size="lg" loading={versturen} disabled={versturen} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{versturen ? "Bericht versturen…" : "Verstuur bericht"}</Button>
     {message && <p id="contact-status" role="alert" className="text-sm font-semibold gijs-error">{message}</p>}
   </form>;

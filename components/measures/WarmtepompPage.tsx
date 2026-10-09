@@ -9,14 +9,16 @@ import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
-import { UitvoeringStappen, type UitvoeringStap } from "@/components/measures/UitvoeringStappen";
+import { WarmtepompInstallatieAnimatie } from "@/components/measures/WarmtepompInstallatieAnimatie";
 import { TechnicalDetails, TechnicalDetailRow } from "@/components/measures/TechnicalDetails";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
-import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
-import { StatRow } from "@/components/measures/StatRow";
+import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
+import { MC_BRONNEN, MC_VERWARMING } from "@/lib/content/milieu-centraal";
+import { ERVARING } from "@/lib/content/over-gijs";
+import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 
@@ -108,14 +110,6 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // gevraagd), het "gemiddeld 9% woningwaardestijging"-cijfer, de
 // "Dubbele Pomp MP" (nichetoepassing), klantreviews/sterrenscores, en
 // alle prijzen/meerkosten/onderhoudscontract-tarieven.
-const UITVOERING_STAPPEN: UitvoeringStap[] = [
-  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-1.svg", label: "Aankomst" },
-  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-2.svg", label: "Uitleg" },
-  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-3.svg", label: "Voorbereiding" },
-  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-4.svg", label: "Buitenunit plaatsen" },
-  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-5.svg", label: "Opleveren" },
-  { bestand: "maatregelen/warmtepomp/proces/warmtepomp-stap-6.svg", label: "Genieten" },
-];
 
 // Bron: "alle_brochures_in_1.pdf", pagina 44 — "Aanvullende voorwaarden
 // voor hybride warmtepomp" (9 punten, zie code-comment hierboven voor de
@@ -132,14 +126,7 @@ const VOORWAARDEN_TIJDENS = [
   "Mits van toepassing wordt de oude ketel verwijderd.",
   "Er is een toilet beschikbaar voor de uitvoerders.",
   "De werkruimte is voor aanvang asbestvrij.",
-];
-
-// Bron: "alle_brochures_in_1.pdf", pagina 44 — "Subsidiemogelijkheden bij
-// hybride warmtepomp".
-const SUBSIDIE_TABEL = [
-  { vermogen: "4 kW", bedrag: "€ 1.700,-" },
-  { vermogen: "5 kW", bedrag: "€ 1.800,-" },
-  { vermogen: "6 kW", bedrag: "€ 2.000,-" },
+  "Gijs legt voor de start uit wat er gaat gebeuren.",
 ];
 
 // Voordelen: overgenomen uit de DeWarmte-bron (Gijs' primaire
@@ -150,32 +137,46 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
   const title = "Warmtepomp";
   const dewarmteAO = WARMTEPOMP_PRODUCTEN[0];
   const dewarmteMP = WARMTEPOMP_PRODUCTEN[1];
-  const andereWarmtepompen = WARMTEPOMP_PRODUCTEN.slice(2);
 
   const sections = [
     { id: "wat-is-het", label: "Wat is het?" },
     { id: "past-het", label: "Past het bij mij?" },
     { id: "voordelen", label: "De voordelen" },
+    { id: "besparing", label: "Besparing" },
     { id: "meest-geplaatst", label: "Meest geplaatst" },
-    { id: "andere-warmtepompen", label: "Andere warmtepompen" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
-    { id: "voorwaarden", label: "Voorwaarden" },
     { id: "subsidie", label: "Subsidie" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
   ];
 
   const faqItems: FAQItem[] = [
+    // Vragen zoals mensen ze intypen (kosten, besparing, geluid, hybride of volledig). Alleen met
+    // cijfers uit de bronnen in deze repo: geluid uit de productgegevens, verbruik van Milieu Centraal.
+    { question: "Wat kost een hybride warmtepomp?", answer: "Dat hangt af van je woning, het vermogen dat je nodig hebt en wat er aan je verwarming moet gebeuren. Daarom krijg je na de gratis energiescan aan huis een prijs op maat, zonder verplichtingen. Mogelijk kun je een deel terugkrijgen via de ISDE-subsidie (zie hieronder)." },
+    { question: "Hoeveel gas bespaar ik met een hybride warmtepomp?", answer: `Volgens Milieu Centraal gebruikt een gemiddelde tussenwoning met redelijke isolatie zo'n ${MC_VERWARMING.tussenwoning.redelijk.cvKetel.gas.toLocaleString("nl-NL")} m³ gas per jaar met alleen een cv-ketel, en zo'n ${MC_VERWARMING.tussenwoning.redelijk.hybride.gas.toLocaleString("nl-NL")} m³ met een hybride warmtepomp. Je stroomverbruik gaat wel omhoog: van ${MC_VERWARMING.tussenwoning.redelijk.cvKetel.stroom.toLocaleString("nl-NL")} naar ${MC_VERWARMING.tussenwoning.redelijk.hybride.stroom.toLocaleString("nl-NL")} kWh. Hierboven staan de cijfers voor alle woningtypes.` },
+    { question: "Hoe hard is een hybride warmtepomp?", answer: `De buitenunit van de hybride warmtepomp die Gijs het meest plaatst maakt ${WARMTEPOMP_PRODUCTEN[0].geluid.replace(" · ", ", en ")}. De variant met groter vermogen: ${WARMTEPOMP_PRODUCTEN[1].geluid.replace(" · ", ", en ")}.` },
+    { question: "Wat is het verschil tussen een hybride en een volledig elektrische warmtepomp?", answer: "Een hybride warmtepomp werkt samen met je cv-ketel: de warmtepomp verwarmt met warmte uit de buitenlucht en de ketel springt bij wanneer dat nodig is. Een volledig elektrische warmtepomp vervangt de cv-ketel helemaal en vraagt om een goed geïsoleerde woning; bij matige isolatie noemt Milieu Centraal die niet geschikt. Tijdens de energiescan kijkt Gijs welke oplossing bij jouw woning past." },
     { question: "Wat is een hybride warmtepomp?", answer: "Een hybride installatie bestaat uit een hybride warmtepomp en een cv-ketel. De warmtepomp haalt warmte uit de buitenlucht en gebruikt die om je woning te verwarmen. De cv-ketel blijft aanwezig en springt bij wanneer dat nodig is." },
     { question: "Wat betekent ISDE?", answer: "ISDE staat voor Investeringssubsidie duurzame energie en warmtepompen: de subsidieregeling waarmee je de aanschaf van een hybride warmtepomp deels vergoed kunt krijgen." },
     { question: "Blijft mijn cv-ketel aanwezig?", answer: "Ja. Bij een gecombineerde installatie zorgt de warmtepomp grotendeels voor de verwarming van de woning, en levert de cv-ketel het warme water en eventuele bijverwarming bij lage buitentemperaturen. Het schakelen tussen cv-ketel en warmtepomp gebeurt automatisch." },
     { question: "Is mijn woning geschikt voor een hybride warmtepomp?", answer: "De woning moet voldoende geïsoleerd zijn en je bestaande verwarmingssysteem moet geschikt zijn. Dit wordt vooraf beoordeeld tijdens een digitale inspectie." },
     { question: "Waar komt de buitenunit te staan?", answer: "Een geschikte locatie voor het buitendeel wordt aangewezen door de uitvoerder." },
-    { question: "Hoe groot is de warmtepomp?", answer: "Dat verschilt per merk en model. Bekijk hieronder de afmetingen van elke warmtepomp die Gijs plaatst." },
+    { question: "Hoe groot is de warmtepomp?", answer: "Dat verschilt per merk en model. De warmtepomp die Gijs het meest plaatst meet 1100 × 455 × 850 mm (B × D × H) en weegt 102 kg; bekijk hieronder de afmetingen van elke warmtepomp die Gijs plaatst." },
     { question: "Hoeveel geluid maakt de warmtepomp?", answer: "Ook dit verschilt per merk en model; de exacte dB(A)-waarden per product en meetafstand staan hieronder. De warmtepomp die Gijs het meest plaatst heeft bijvoorbeeld een stille modus die 's nachts (23.00-07.00 uur) automatisch inschakelt." },
     { question: "Hoe verloopt de installatie?", answer: "Gijs plaatst de hybride warmtepomp in één dag, volgens een vaste aanpak: aankomst, uitleg, voorbereiding van het leidingwerk, het plaatsen en aansluiten van de buitenunit, inregelen en opleveren." },
     { question: "Is een onderhoudscontract nodig?", answer: "Ja, voor een optimale werking sluit de opdrachtgever een onderhoudscontract af." },
-    { question: "Kan ik subsidie krijgen voor een hybride warmtepomp?", answer: "Ja, via de ISDE-subsidie. Het basisbedrag is € 1.250, met een geschatte subsidie tot € 2.000 afhankelijk van het vermogen van de warmtepomp. Gijs ondersteunt bij de aanvraag, maar kan toekenning niet garanderen." },
+    { question: "Kan ik subsidie krijgen voor een hybride warmtepomp?", answer: "Mogelijk via de ISDE-subsidie. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs ondersteunt bij de aanvraag, maar kan toekenning niet garanderen." },
     { question: item.question, answer: item.answer },
+    {
+      question: "Wat moet ik regelen voordat de installatie begint?",
+      answer: "Gijs bespreekt dit vooraf met je, zodat je weet waar je aan toe bent. Een paar praktische punten:",
+      punten: VOORWAARDEN_VOOR,
+    },
+    {
+      question: "Wat gebeurt er tijdens de installatie?",
+      answer: "Goed om te weten voor de dag zelf:",
+      punten: VOORWAARDEN_TIJDENS,
+    },
   ];
 
   const startScanHref = "/woning?maatregel=" + item.id;
@@ -190,6 +191,23 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
           { name: "Maatregelen", url: "/maatregelen" },
           { name: title, url: "/maatregelen/" + item.slug },
         ].map((crumb, i) => ({ "@type": "ListItem", position: i + 1, name: crumb.name, item: SITE_URL + crumb.url })),
+      }} />
+      {/* Wat Gijs hier aanbiedt (plaatsen van een hybride warmtepomp) en de veelgestelde vragen, als
+          gestructureerde data voor zoekmachines en AI-zoekers. Alleen inhoud die ook op de pagina staat. */}
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: "Hybride warmtepomp plaatsen",
+        serviceType: "Plaatsen van een hybride warmtepomp",
+        description: "Gijs plaatst een hybride warmtepomp naast je cv-ketel, in één dag, na een gratis energiescan aan huis.",
+        url: SITE_URL + "/maatregelen/" + item.slug,
+        provider: { "@id": SITE_URL + "/#organization" },
+        areaServed: { "@type": "Country", name: "Nederland" },
+      }} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems.map(f => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: [f.answer, ...(f.punten ?? [])].join(" ") } })),
       }} />
 
       <nav aria-label="Broodkruimel" className="flex flex-wrap gap-2 text-sm py-6">
@@ -215,33 +233,38 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
         <MeasureSectionNav sections={sections} />
 
         <section id="wat-is-het" className="scroll-mt-40 mt-4 mb-16">
-          <div className="flex flex-col gap-4 max-w-2xl">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Wat is een hybride warmtepomp?</h2>
-            <p className="text-lg font-medium text-[var(--gijs-donkergroen)] leading-relaxed">
-              Een warmtepomp haalt warmte uit de buitenlucht en gebruikt die om je woning te verwarmen.
-            </p>
-            <p className="text-lg text-zinc-600 leading-relaxed">
-              Bij een hybride warmtepomp blijft je cv-ketel aanwezig. De cv-ketel springt bij wanneer dat nodig is,
-              en schakelen tussen de warmtepomp en de cv-ketel gebeurt automatisch. Gijs plaatst vooral één vaste
-              hybride warmtepomp, en daarnaast een paar andere hybride warmtepompen.
-            </p>
-            <p className="text-lg text-zinc-600 leading-relaxed">
-              Of een hybride warmtepomp past, hangt af van je woning en je huidige verwarming. Daar hoef je zelf niet
-              technisch uit te komen: tijdens een energiescan aan huis bekijkt een expert van Gijs je huidige
-              verwarmingssituatie en bespreekt welke oplossing past.
-            </p>
-          </div>
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Wat is een hybride warmtepomp?</h2>
+              <p className="text-lg font-medium text-[var(--gijs-donkergroen)] leading-relaxed">
+                Een warmtepomp haalt warmte uit de buitenlucht en gebruikt die om je woning te verwarmen.
+              </p>
+              <p className="text-lg text-zinc-600 leading-relaxed">
+                Bij een hybride warmtepomp blijft je cv-ketel aanwezig. De cv-ketel springt bij wanneer dat nodig is,
+                en schakelen tussen de warmtepomp en de cv-ketel gebeurt automatisch. Gijs plaatst één vaste
+                hybride warmtepomp, in twee vermogens.
+              </p>
+              <p className="text-lg text-zinc-600 leading-relaxed">
+                Of een hybride warmtepomp past, hangt af van je woning en je huidige verwarming. Daar hoef je zelf niet
+                technisch uit te komen: tijdens een energiescan aan huis bekijkt een expert van Gijs je huidige
+                verwarmingssituatie en bespreekt welke oplossing past.
+              </p>
+            </div>
 
-          <div className="mt-10">
-            <FeatureList
-              columns={4}
-              items={[
+            <div className="grid grid-cols-2 gap-4">
+              {[
                 { icon: "square", title: "Buitenunit", text: "Haalt warmte uit de buitenlucht." },
                 { icon: "layout-grid", title: "Binnenunit", text: "Verbindt de warmtepomp met de cv-installatie." },
                 { icon: "flame", title: "CV-ketel", text: "Je bestaande ketel springt bij wanneer nodig." },
                 { icon: "thermometer", title: "Thermostaat", text: "Bedient de installatie in huis." },
-              ]}
-            />
+              ].map(deel => (
+                <Card key={deel.title} variant="tint" className="flex flex-col gap-2 !p-5">
+                  <Icon name={deel.icon} size="md" className="text-[var(--accent-700)]" />
+                  <p className="font-bold text-lg text-[var(--gijs-donkergroen)]">{deel.title}</p>
+                  <p className="text-sm text-zinc-600">{deel.text}</p>
+                </Card>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -278,10 +301,59 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
           <FeatureList columns={4} items={VOORDELEN.map(voordeel => ({ icon: "zap", title: voordeel }))} />
         </section>
 
+        {/* Besparing: referentiecijfers van Milieu Centraal (lib/content/milieu-centraal.ts), per woningtype
+            bij redelijke isolatie. Geen euro's: die hangen van het eigen energiecontract af. */}
+        <section id="besparing" className="scroll-mt-40 mb-16">
+          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoeveel gas bespaar je met een hybride warmtepomp?</h2>
+          <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
+            Een hybride warmtepomp verwarmt grotendeels met warmte uit de buitenlucht. Je gebruikt daardoor veel minder gas,
+            maar wel meer stroom. Dit zijn de gemiddelde cijfers van Milieu Centraal per jaar, voor verwarming en warm water.
+          </p>
+          <div className="overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border-default)]">
+            <table className="w-full text-left text-sm sm:text-base">
+              <thead className="bg-[var(--surface-tint)] text-[var(--gijs-donkergroen)]">
+                <tr>
+                  <th className="px-4 py-3 font-semibold">Woningtype</th>
+                  <th className="px-4 py-3 font-semibold">Gas met cv-ketel</th>
+                  <th className="px-4 py-3 font-semibold">Gas met hybride warmtepomp</th>
+                  <th className="px-4 py-3 font-semibold">Stroom met hybride warmtepomp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(["tussenwoning", "hoekwoning", "twee-onder-een-kap", "vrijstaand"] as HouseType[]).map(type => {
+                  const { cvKetel, hybride } = MC_VERWARMING[type].redelijk;
+                  return (
+                    <tr key={type} className="border-t border-[var(--border-default)]">
+                      <td className="px-4 py-3 font-semibold text-[var(--gijs-donkergroen)]">{HOUSE_MODELS[type].label}</td>
+                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{cvKetel.gas.toLocaleString("nl-NL")} m³</td>
+                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{hybride.gas.toLocaleString("nl-NL")} m³</td>
+                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{hybride.stroom.toLocaleString("nl-NL")} kWh <span className="text-zinc-500">(was {cvKetel.stroom.toLocaleString("nl-NL")})</span></td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-sm text-zinc-500 max-w-2xl">
+            Gemiddelde woning met 2 personen en redelijke isolatie. Bron:{" "}
+            <a href={MC_BRONNEN.hybride} target="_blank" rel="noopener noreferrer" className="underline">Milieu Centraal, hybride warmtepomp</a>.
+            Wat dit voor jou in euro&apos;s scheelt, hangt af van je woning en je energiecontract. In de{" "}
+            <Link href={startScanHref} className="underline text-[var(--accent-700)]">woningscan</Link> zie je het met je eigen verbruik en prijzen.
+          </p>
+          <p className="mt-4 text-zinc-600 max-w-2xl">
+            Een warmtepomp vraagt om een voldoende geïsoleerde woning. Daarom kijkt Gijs ook naar{" "}
+            <Link href="/maatregelen/dakisolatie" className="underline text-[var(--accent-700)]">dakisolatie</Link>,{" "}
+            <Link href="/maatregelen/spouwmuurisolatie" className="underline text-[var(--accent-700)]">spouwmuurisolatie</Link> en{" "}
+            <Link href="/maatregelen/vloerisolatie" className="underline text-[var(--accent-700)]">vloerisolatie</Link>. De extra stroom kun je deels zelf
+            opwekken met <Link href="/maatregelen/zonnepanelen" className="underline text-[var(--accent-700)]">zonnepanelen</Link> en bewaren in een{" "}
+            <Link href="/maatregelen/thuisbatterij" className="underline text-[var(--accent-700)]">thuisbatterij</Link>.
+          </p>
+        </section>
+
         <section id="meest-geplaatst" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">De warmtepomp die Gijs het meest plaatst</h2>
           <p className="text-lg text-zinc-600 mb-8 max-w-2xl">
-            Gijs werkt samen met een vaste warmtepomppartner. Deze hybride warmtepomp plaatst Gijs het meest.
+            Gijs werkt samen met een vaste warmtepomppartner en heeft {ERVARING} met isolaties en installaties. Deze hybride warmtepomp plaatst Gijs het meest.
             Sinds kort is er ook een grotere uitvoering, geschikt voor de allergrootste woningen.
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 items-center mb-10">
@@ -352,87 +424,13 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
           </div>
         </section>
 
-        <section id="andere-warmtepompen" className="scroll-mt-40 mb-16">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Andere warmtepompen van Gijs</h2>
-          <p className="text-zinc-600 mb-8 max-w-2xl">
-            Naast deze warmtepomp plaatst Gijs ook andere hybride warmtepompen. Geen van deze producten
-            wordt hieronder als beste keuze aangewezen. Dat bekijkt Gijs samen met jou.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {andereWarmtepompen.map(product => (
-              <Card key={product.naam} className="flex flex-col gap-5 !p-6">
-                <div className="rounded-[var(--radius-md)] overflow-hidden bg-[var(--surface-muted)] aspect-[4/3] flex items-center justify-center">
-                  <Image src={product.image} alt={product.imageAlt} width={600} height={450} className="max-w-[85%] max-h-[85%] object-contain" />
-                </div>
-                <div>
-                  <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{product.merk}</p>
-                  <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{product.naam}</h3>
-                  <p className="text-sm text-zinc-600 mt-1">{product.ondertitel}</p>
-                </div>
-                <details className="group border-t border-[var(--border-default)] pt-4 [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="cursor-pointer list-none flex items-center gap-1.5 text-sm font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">
-                    Bekijk technische gegevens
-                    <Icon name="chevron-down" size="sm" className="transition-transform group-open:rotate-180" />
-                  </summary>
-                  <div className="mt-3 flex flex-col gap-3 text-sm text-zinc-600">
-                    <p><span className="font-semibold text-zinc-800">Vermogen: </span>{product.vermogen}</p>
-                    <p><span className="font-semibold text-zinc-800">Geluid: </span>{product.geluid}</p>
-                    <p><span className="font-semibold text-zinc-800">Afmetingen: </span>{product.afmetingen}</p>
-                    <ul className="flex flex-col gap-1.5">
-                      {product.kenmerken.map(k => (
-                        <li key={k} className="flex items-start gap-2">
-                          <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                          <span>{k}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </details>
-              </Card>
-            ))}
-          </div>
-        </section>
-
         <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
           <p className="text-lg text-zinc-600 mb-10 max-w-2xl">Gijs plaatst de hybride warmtepomp in één dag, volgens een vaste aanpak.</p>
-          <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+          <WarmtepompInstallatieAnimatie />
         </section>
 
-        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
-          <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
-            Voor een goede uitvoering gelden een paar praktische voorwaarden.
-          </p>
-          <VoorwaardenKolommen
-            groepen={[
-              { label: "Voor de installatie", items: VOORWAARDEN_VOOR },
-              { label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS },
-            ]}
-          />
-        </section>
-
-        <section id="subsidie" className="scroll-mt-40 mb-16">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Subsidie bij een hybride warmtepomp</h2>
-          <p className="text-zinc-600 mb-6 max-w-2xl">
-            Voor een hybride warmtepomp geldt een basisbedrag van € 1.250. Combineer je dit met een isolatiemaatregel?
-            Dan verdubbelt het subsidiebedrag voor isolatie. Gijs vraagt de subsidie aan binnen 24 maanden nadat je de
-            eerste maatregel uitvoert.
-          </p>
-          <div className="mb-8">
-            <StatRow items={SUBSIDIE_TABEL.map(rij => ({ label: `Geschatte subsidie bij ${rij.vermogen}`, value: rij.bedrag }))} />
-          </div>
-          <p className="text-sm text-zinc-500 max-w-2xl">
-            Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Onze dienstverlening beperkt zich tot
-            het faciliteren van de aanvraagprocedure, tegen een eenmalige administratievergoeding die is verwerkt in
-            de begroting. Gijs kan de toekenning van subsidies niet garanderen en is niet verantwoordelijk voor
-            eventuele onjuistheden in de verstrekte informatie of andere gerelateerde zaken.
-          </p>
-          <p className="text-sm text-zinc-500 max-w-2xl mt-3">
-            Meer weten? Lees de{" "}
-            <Link href="/kennis#subsidies" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">uitleg over subsidies en financiering</Link>.
-          </p>
-        </section>
+        <SubsidieSectie titel="Subsidie bij een hybride warmtepomp" />
 
         <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>
@@ -451,7 +449,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>
@@ -462,9 +460,6 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
 
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
-          <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
-          </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past een hybride warmtepomp bij jouw woning?</h2>
             <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>

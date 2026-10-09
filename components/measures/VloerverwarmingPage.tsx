@@ -45,7 +45,7 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // opbouw-, droog- en verdelerlogica die niet in dat sjabloon past:
 // Hero, Wat is het, Vloeropbouw, Past het bij mij, Voordelen, eco2floor,
 // Verdeler/warmtebron, Uitvoering, Drogen en opstarten, Vloerafwerking,
-// Voorbereiding en aandachtspunten, FAQ, CTA.
+// FAQ (met voorbereiding en aandachtspunten), CTA.
 //
 // VEREENVOUDIGING VOOR LEKEN (contentaudit, geen redesign): de
 // "Systeemopbouw"-heading is hernoemd naar de klantvraag "Hoe wordt de
@@ -86,18 +86,27 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
     { id: "verdeler", label: "Verdeler & warmtebron" },
     { id: "drogen-en-opstarten", label: "Drogen en opstarten" },
     { id: "vloerafwerking", label: "Vloerafwerking" },
-    { id: "voorbereiding", label: "Aandachtspunten" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
   ];
 
   const faqItems: FAQItem[] = [
     { question: "Hoe lang duurt het voordat ik vloerbedekking mag leggen?", answer: "Dat hangt af van de gekozen afwerking. Een tegelvloer kan na ongeveer 1 week, overige afwerkingen zoals tapijt of parket na ongeveer 2 weken, mits het restvochtgehalte op orde is. Dit wordt vastgesteld met een CM-meting, niet met een elektronische (indicatieve) meting." },
-    { question: "Moet ik een speciale verdeler hebben voor mijn warmtepomp?", answer: "Ja. Een verdeler voor een cv-ketel (hoge temperatuur) is niet hetzelfde als een verdeler voor een warmtepomp (lage temperatuur verwarming en/of hoge temperatuur koeling). Gijs kiest de juiste verdeler bij je warmtebron." },
+    { question: "Moet ik een speciale verdeler hebben voor mijn warmtepomp?", answer: "Ja. Bij een cv-ketel is de watertemperatuur naar de vloerverwarming instelbaar tussen 20 en 50°C; bij een warmtepomp regelt de warmtepomp zelf de temperatuur. Gijs kiest de juiste verdeler bij je warmtebron." },
     { question: "Kan vloerverwarming ook koelen?", answer: "Bij een warmtepomp met een geschikte verdeler kan de vloer ook passief koelen. Bij een verdeler voor een cv-ketel is dat niet het geval." },
     { question: "Is het opstartprotocol verplicht?", answer: "Het wordt aanbevolen om het opstartprotocol minimaal één keer volledig te doorlopen vóór de vloer verder wordt afgewerkt. Dit verkort de droogtijd en helpt spanningen in de vloer te verminderen, die anders tot scheurvorming zouden kunnen leiden." },
-    { question: "Wat is een verdeler?", answer: "De verdeler zorgt dat elke kamer via de leidingen genoeg warm water krijgt, zodat de vloer overal gelijkmatig warm wordt." },
+    { question: "Wat is een verdeler?", answer: "De verdeler is de kast die de watertemperatuur naar elke kamer regelt: bij een cv-ketel instelbaar tussen 20-50°C, bij een warmtepomp automatisch door de warmtepomp zelf — zodat de vloer overal gelijkmatig warm wordt." },
     { question: "Wat betekent laag temperatuur verwarming?", answer: "Dit is verwarming die werkt met een lagere watertemperatuur dan een traditionele cv-ketel, zoals bij een warmtepomp. Vloerverwarming is hier goed geschikt voor." },
     { question: item.question, answer: item.answer },
+    {
+      question: "Wat moet ik regelen voor en tijdens de aanleg?",
+      answer: "Gijs bespreekt dit vooraf met je, zodat je weet waar je aan toe bent. Een paar praktische punten:",
+      punten: AANDACHTSPUNTEN_VOOR,
+    },
+    {
+      question: "Waar moet ik na de aanleg op letten?",
+      answer: "Goed om te weten als de vloerverwarming erin ligt:",
+      punten: AANDACHTSPUNTEN_NA,
+    },
   ];
 
   return (
@@ -394,35 +403,6 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
           </TechnicalDetails>
         </section>
 
-        <section id="voorbereiding" className="scroll-mt-40 mb-16">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en aandachtspunten</h2>
-          <p className="text-lg text-zinc-600 mb-6 max-w-2xl">Een paar praktische punten om rekening mee te houden.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="!p-8">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-4">Vóór en tijdens de uitvoering</h3>
-              <ul className="flex flex-col gap-4">
-                {AANDACHTSPUNTEN_VOOR.map(v => (
-                  <li key={v} className="flex items-start gap-3 text-base text-zinc-700">
-                    <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                    <span>{v}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-            <Card className="!p-8">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)] mb-4">Na de uitvoering</h3>
-              <ul className="flex flex-col gap-4">
-                {AANDACHTSPUNTEN_NA.map(v => (
-                  <li key={v} className="flex items-start gap-3 text-base text-zinc-700">
-                    <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
-                    <span>{v}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </div>
-        </section>
-
         <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>
           <div className="grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 items-start">
@@ -440,7 +420,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>
@@ -451,9 +431,6 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
 
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
-          <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
-          </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past vloerverwarming bij jouw woning?</h2>
             <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>

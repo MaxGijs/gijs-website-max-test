@@ -254,7 +254,7 @@ hr{border:0;border-top:var(--border-hairline);margin:var(--space-8) 0}
 
 @layer components {
 /* ── components/core/core.css ───────────────────────────────────── */
-.gijs-icon{display:inline-block;flex:none;width:1.25em;height:1.25em;background-color:currentColor;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.gijs-icon{display:inline-block;flex:none;width:1.25em;height:1.25em;color:currentColor}
 .gijs-icon--sm{width:1em;height:1em}
 .gijs-icon--lg{width:1.75em;height:1.75em}
 .gijs-icon--xl{width:2.5em;height:2.5em}

@@ -1,0 +1,3 @@
+/* Subtiel maar opvallend: lichtgroen, vet en een fractie groter dan de lopende tekst. Vet (700) op
+   19px+ telt als grote tekst, waarvoor het contrast van --accent-600 op wit (~3:1) volstaat. */
+.nadruk { color: var(--accent-600); font-weight: 700; font-size: 1.04em; }

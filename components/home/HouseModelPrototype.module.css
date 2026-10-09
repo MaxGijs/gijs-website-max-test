@@ -28,7 +28,13 @@
 .panel:first-child { min-height: 0; padding-top: 72px; padding-bottom: 96px; }
 .eyebrow { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 16px; color: var(--accent-700); }
 .eyebrow:has(+ .maatregelKop) { font-size: 14px; color: var(--text-subtle); margin-bottom: 10px; }
-.title { font-size: clamp(2.75rem, 1.5rem + 3.4vw, 4.5rem); font-weight: var(--fw-bold); line-height: 1.04; letter-spacing: -0.035em; color: var(--gijs-donkergroen); text-wrap: balance; }
+/* margin-left: optische uitlijning. Op dit formaat staan de verticale lijnen (V, j) ~0,03em rechts van
+   die van de eyebrow en de intro; zo staan ze er recht onder. */
+.title { font-size: clamp(2.75rem, 1.5rem + 3.4vw, 4.5rem); font-weight: var(--fw-bold); line-height: 1.04; letter-spacing: -0.035em; color: var(--gijs-donkergroen); text-wrap: balance; margin-left: -0.03em; }
+/* Hero-titel per regel. De j van "je woning." heeft links een haakje onder de basislijn dat ~0,09em
+   buiten de lijn steekt; die regel schuift zoveel in, zodat het haakje recht onder de rest staat. */
+.regel { display: block; }
+.regelJ { margin-left: 0.09em; }
 .description { font-size: clamp(19px, 1.45vw, 22px); line-height: 1.5; letter-spacing: -0.005em; margin-top: 24px; max-width: 42ch; color: var(--text-muted); text-wrap: pretty; }
 .scanCard { margin-top: 32px; max-width: 480px; background: var(--vlak); border: 0; border-radius: 28px; padding: 32px; }
 .scanCardTitle { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--gijs-donkergroen); margin-bottom: 8px; }

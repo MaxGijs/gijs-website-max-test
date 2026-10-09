@@ -20,7 +20,7 @@ import styles from "./MeasureExplorer.module.css";
 // header — geen nieuwe CSS nodig). Geen nieuwe pagina's, geen nieuwe
 // secties.
 const ORIENTATION_ITEMS = [
-  { question: "Warmte binnenhouden", links: [{ label: "Isolatie", href: "#isolatie" }] },
+  { question: "Warmte binnenhouden", links: [{ label: "Isolaties", href: "#isolatie" }] },
   { question: "Anders verwarmen", links: [{ label: "Warmtepomp", href: "#warmtepomp" }, { label: "Vloerverwarming", href: "#vloerverwarming" }, { label: "Ketel", href: "#ketel" }] },
   { question: "Zelf stroom opwekken", links: [{ label: "Zonnepanelen", href: "#zonnepanelen" }] },
   { question: "Stroom bewaren", links: [{ label: "Thuisbatterij", href: "#thuisbatterij" }] },
@@ -59,7 +59,7 @@ export default function MeasureExplorer() {
         muren/vloer/ramen; opwekken/bewaren/verwarmen), geen nieuwe claim
         toegevoegd. */}
     {[
-      { id: "isolatie", title: "Isolatie", text: "Isolatie houdt warmte beter binnen via dak, muren, vloer en ramen." },
+      { id: "isolatie", title: "Isolaties", text: "Isolaties houden warmte beter binnen via dak, muren, vloer en ramen." },
       { id: "installaties", title: "Installaties", text: "Installaties helpen je bij verwarmen, zelf stroom opwekken of stroom bewaren." },
     ].map(group => <section key={group.id} id={group.id} className={styles.category}>
       <h2>{group.title}</h2><p>{group.text}</p>
@@ -68,6 +68,6 @@ export default function MeasureExplorer() {
         <div className={styles.cardBody}><h3>{item.name}</h3><p>{item.result}</p><span>Lees meer over {item.name.toLowerCase()} <span aria-hidden="true">→</span></span></div>
       </Link>)}</div>
     </section>)}
-    <section className={styles.cta}><div><h2>Twijfel je wat past?</h2><p>Je hoeft nog geen maatregel of merk te kiezen. Bespreek je huis en je wensen met Gijs.</p></div><Link className={styles.button} href="/contact#energiescan">Vraag een gratis energiescan aan →</Link></section>
+    <section className={styles.cta}><div><h2>Twijfel je wat past?</h2><p>Je hoeft nog geen maatregel of merk te kiezen. Start de woningscan en ontdek wat bij jouw woning past.</p></div><Link className={styles.button} href="/woning">Start de woningscan →</Link></section>
   </div>;
 }

@@ -64,7 +64,8 @@ export default async function PlaatsPage({ params }: Props) {
               subsidies en regelingen controleer je bij je eigen gemeente.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
-              <Button href="/contact#energiescan" variant="accent" size="lg" iconRight="arrow-right">Vraag een gratis energiescan aan</Button>
+              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
             </div>
           </div>
           <Image

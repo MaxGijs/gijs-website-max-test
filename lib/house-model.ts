@@ -1,4 +1,4 @@
-import { Box3, Group, Mesh, MeshStandardMaterial, Object3D, Vector3, type Material } from "three";
+import { Box3, BoxGeometry, Group, Matrix4, Mesh, MeshStandardMaterial, Object3D, Vector3, type Material } from "three";
 import { baseHouseType, HOUSE_PROPORTIONS, type HouseType } from "./woning-types";
 import { applyAttachedVariant } from "./house-variants";
 import { updateCornerFacade, openDetachedWindows } from "./house-facades";
@@ -21,6 +21,11 @@ export function prepareHouse(source: Group, type: HouseType, scan = false, hoekZ
       mesh.material = Array.isArray(mesh.material) ? mesh.material.map(m => m.clone()) : mesh.material.clone();
     }
   });
+  // Dakopbouw zoals het hoort: isolatie tegen de binnenkant van het dak, daaronder witte gipsplaten,
+  // en boven de isolatie één laag latten in plaats van twee.
+  const tengellatten = scene.getObjectByName("Tengellatten");
+  if (tengellatten) { disposeHouse(tengellatten); tengellatten.removeFromParent(); }
+  voegGipsplatenToe(scene);
   scene.updateMatrixWorld(true);
   const facade = scene.getObjectByName("Buitengevel_voor") as Mesh | undefined;
   const brick = facade?.material;
@@ -61,15 +66,29 @@ export function prepareHouse(source: Group, type: HouseType, scan = false, hoekZ
     dormer.scale.multiply(factor);
     dormer.position.add(pivot.clone().multiply(new Vector3(1, 1, 1).sub(factor)));
     dormer.position.y += 0.35;
-    // Rijwoningen hebben in het GLB maar één dakkapel; voor "2 dakkapellen" in de
-    // scan komt er een tweede, identieke kopie naast de eerste (alleen in de scan,
-    // dus alleen als de bewoner dat kan kiezen). Vrijstaande woningen hebben al
-    // een voor- en achterdakkapel (zie finishDetachedHouse) en hoeven dit niet.
+    // Rijwoningen hebben in het GLB maar één dakkapel, op de voorzijde. Regel voor de scan: bij 1
+    // dakkapel staat die altijd op de achterzijde, nooit de voorzijde; pas bij 2 komt er ook een
+    // voorzijde bij (zelfde naamgeving/spiegeltechniek als de vrijstaande woning al gebruikte, zie
+    // finishDetachedHouse: 180° om de y-as + x/z omkeren). Dus eerst de voorzijde-kopie maken uit de
+    // onveranderde (voorzijde-)positie, en dan pas het origineel naar achteren spiegelen.
     if (scan && type === "hoekwoning") {
-      const tweede = dormer.clone(true);
-      tweede.name = "Dakkapel_2";
-      tweede.traverse(part => { if ((part as Mesh).isMesh) { const mesh = part as Mesh; mesh.material = Array.isArray(mesh.material) ? mesh.material.map(m => m.clone()) : mesh.material.clone(); } });
-      scene.add(tweede);
+      // Scan: de dakkapel loopt naar achteren door tot zijn platte dak het dakvlak raakt (geen losse
+      // achterwand boven de pannen). Het deel onder het dakvlak knipt HouseViewer weg (clipping).
+      const pannen = scene.getObjectByName("Dakpannen");
+      if (pannen) {
+        const dak = new Box3().setFromObject(pannen), kapel = new Box3().setFromObject(dormer);
+        const helling = (dak.max.y - dak.min.y) / ((dak.max.z - dak.min.z) / 2);
+        const raakZ = (dak.getCenter(new Vector3()).z + (dak.max.y - kapel.max.y) / helling) - 0.1;
+        const f = (kapel.max.z - raakZ) / (kapel.max.z - kapel.min.z);
+        if (f > 1) { dormer.scale.z *= f; dormer.position.z = kapel.max.z + (dormer.position.z - kapel.max.z) * f; }
+      }
+      const voor = dormer.clone(true);
+      voor.name = "Dakkapel_voor";
+      voor.traverse(part => { if ((part as Mesh).isMesh) { const mesh = part as Mesh; mesh.material = Array.isArray(mesh.material) ? mesh.material.map(m => m.clone()) : mesh.material.clone(); } });
+      scene.add(voor);
+      dormer.rotation.y += Math.PI;
+      dormer.position.x = -dormer.position.x;
+      dormer.position.z = -dormer.position.z;
     }
   }
 
@@ -89,6 +108,27 @@ export function prepareHouse(source: Group, type: HouseType, scan = false, hoekZ
     if (battery) battery.position.x = 0.58;
     for (const child of scene.children) {
       if (child.name.startsWith("Zonnepaneel") && child.position.z > 0) child.position.x = Math.sign(child.position.x) * 1.95;
+    }
+    // Scan: per dakvlak ruimte voor een dakkapel (bij 1 dakkapel alleen achter, bij 2 ook voor). Zonder
+    // dakkapel op dat vlak liggen er juist panelen in het midden; mét dakkapel verdwijnen die en schuiven
+    // de buitenste panelen opzij (HouseViewer zet dit per frame, zie userData.dakvlak).
+    if (scan) {
+      const dak = scene.children.filter(c => /^Zonnepaneel_\d+$/.test(c.name));
+      for (const p of dak) {
+        const voor = p.position.z > 0;
+        const x0 = voor ? Math.sign(p.position.x) * 1.67 : p.position.x;
+        p.userData.dakvlak = voor ? "voor" : "achter";
+        if (Math.abs(x0) < 1) p.userData.onderKapel = true;
+        else { p.userData.vrijX = x0; p.userData.kapelX = Math.sign(x0) * 1.95; }
+      }
+      for (const p of dak.filter(c => c.position.z > 0)) {
+        const midden = p.clone(true);
+        midden.name = `${p.name}_midden`;
+        midden.position.x = Math.sign(p.position.x) * 0.56;
+        midden.userData = { dakvlak: "voor", onderKapel: true };
+        midden.traverse(part => { if ((part as Mesh).isMesh) { const mesh = part as Mesh; mesh.material = Array.isArray(mesh.material) ? mesh.material.map(m => m.clone()) : mesh.material.clone(); } });
+        scene.add(midden);
+      }
     }
     const neighbour = scene.getObjectByName("Buurwoning_rij");
     if (neighbour) {
@@ -159,7 +199,7 @@ export function prepareHouse(source: Group, type: HouseType, scan = false, hoekZ
     openPlintBijDeuren(scene);
     openDetachedWindows(scene);
     addGevelbekleding(scene, requestedType === "twee-onder-een-kap" ? ["rechts"] : ["links", "rechts"]);
-    finishDetachedHouse(scene);
+    finishDetachedHouse(scene, scan);
   }
 
   addDormerPanels(scene);
@@ -202,6 +242,113 @@ export function prepareHouse(source: Group, type: HouseType, scan = false, hoekZ
   const scale = scan ? 3.3 / Math.max(size.x, size.y, size.z) : 3 / Math.max(12.1, size.x, size.y, size.z);
   const position = bounds.getCenter(new Vector3()).multiplyScalar(-scale);
   return { scene, scale, position, bounds };
+}
+
+/**
+ * Witte gipsplaten aan de binnenkant van het dak, direct onder de isolatie. Elke plaat van de
+ * dakconstructie wordt in tweeën verdeeld:
+ * - buitenste kwart: donker, op de volle maat van het model, zodat hij net als eerst de muurkoppen en
+ *   het overstek afdekt (buiten valt er niets wit op, ook niet bij de kopgevel);
+ * - binnenste driekwart: witte gipsplaat, alleen binnen de muren (van de nok tot de binnenkant van
+ *   voor- en achtergevel, en 0,5 m binnen de zijmuren). Op zolder en in de doorsnede zie je zo de
+ *   witte platen.
+ */
+function voegGipsplatenToe(scene: Group) {
+  const kap = scene.getObjectByName("Dakconstructie");
+  if (!kap) return;
+  scene.updateMatrixWorld(true);
+  const lokaal = (o: Object3D) => new Box3().setFromObject(o).applyMatrix4(scene.matrixWorld.clone().invert());
+  const muur = (namen: string[], kant: "min" | "max") => {
+    for (const n of namen) { const o = scene.getObjectByName(n); if (o) return lokaal(o)[kant].x; }
+    return null;
+  };
+  const binnenLinks = muur(["Binnenmuur_links", "Bouwmuur_links"], "max"), binnenRechts = muur(["Binnenmuur_rechts", "Zijgevel_garage_binnen"], "min");
+  const voor = scene.getObjectByName("Binnenmuur_voor"), achter = scene.getObjectByName("Binnenmuur_achter");
+  const binnenVoor = voor ? lokaal(voor).min.z : null, binnenAchter = achter ? lokaal(achter).max.z : null;
+  const naarScene = kap.matrixWorld.clone().premultiply(scene.matrixWorld.clone().invert());
+  const gips = new MeshStandardMaterial({ color: "#f2f0ea", roughness: 0.92, metalness: 0 });
+  const nokken: { punt: Vector3; lengte: number }[] = [];
+  // Buitenkant van de kopgevels: daar komt een donkere lat langs het dak, over de kier tussen muurkop en dak.
+  const buitenLinks = muur(["Buitengevel_links"], "min"), buitenRechts = muur(["Buitengevel_rechts", "Zijgevel_garage_buiten"], "max");
+  const lat = new MeshStandardMaterial({ color: "#3d3732", roughness: 0.8, metalness: 0 });
+  for (const plaat of [...kap.children] as Mesh[]) {
+    if (!plaat.isMesh) continue;
+    plaat.geometry.computeBoundingBox();
+    const g = plaat.geometry.boundingBox!;
+    const c = g.getCenter(new Vector3());
+    const hx = (g.max.x - g.min.x) / 2, hy = (g.max.y - g.min.y) / 2, hz = (g.max.z - g.min.z) / 2;
+    const basis = plaat.matrix.clone();
+    const m = basis.clone().premultiply(naarScene);
+    const p = (x: number, y: number, z: number) => new Vector3(c.x + x, c.y + y, c.z + z).applyMatrix4(m);
+    // Goot (laagste kant langs de helling) en binnenkant (de kant die naar beneden wijst).
+    const e = p(0, 0, hz).y < p(0, 0, -hz).y ? 1 : -1;
+    const i = p(0, hy, 0).y < p(0, -hy, 0).y ? 1 : -1;
+    const nok = p(0, 0, -e * hz), goot = p(0, 0, e * hz);
+    const binnen = goot.z > nok.z ? binnenVoor : binnenAchter;
+    const t = binnen === null ? 1 : Math.max(0.2, Math.min(1, (binnen - nok.z) / (goot.z - nok.z)));
+    const midden = p(0, 0, 0).x, richting = Math.sign(p(1, 0, 0).x - midden) || 1;
+    // 0,5 m binnen de zijmuren: bovenaan de kopgevel sluit de muur in het model niet helemaal tegen het
+    // dak, en door die kier zou je het wit anders van buiten zien.
+    const lok = (x: number | null, k: number) => x === null ? k * (hx - 0.5) : Math.max(-hx, Math.min(hx, (x - midden) * richting - k * 0.5));
+    const [x0, x1] = [lok(binnenLinks, -richting), lok(binnenRechts, richting)].sort((a, b) => a - b);
+    const deel = (doel: Mesh, dx: number, sx: number, dz: number, sz: number, binnenDeel: boolean) => {
+      const dy = binnenDeel ? i * 0.25 * hy : -i * 0.75 * hy, sy = binnenDeel ? 0.75 : 0.25;
+      basis.clone()
+        .multiply(new Matrix4().makeTranslation(c.x + dx, c.y + dy, c.z + dz))
+        .multiply(new Matrix4().makeScale(sx, sy, sz))
+        .multiply(new Matrix4().makeTranslation(-c.x, -c.y, -c.z))
+        .decompose(doel.position, doel.quaternion, doel.scale);
+    };
+    const binnenPlaat = new Mesh(plaat.geometry, gips);
+    binnenPlaat.name = "Gipsplaten";
+    deel(binnenPlaat, (x0 + x1) / 2, Math.max(0.05, (x1 - x0) / (2 * hx)), e * hz * (t - 1), t, true);
+    deel(plaat, 0, 1, 0, 1, false);
+    for (const mat of (Array.isArray(plaat.material) ? plaat.material : [plaat.material]) as MeshStandardMaterial[]) {
+      if (!mat.isMeshStandardMaterial) continue;
+      mat.map = null; mat.color.set("#4a423c"); mat.roughness = 0.85; mat.metalness = 0; mat.needsUpdate = true;
+    }
+    kap.add(binnenPlaat);
+    // Latten langs het dak aan de buitenkant van beide kopgevels (alleen de echte dakplaten, niet het
+    // dakbeschot): de kier tussen muurkop en pannen dicht, over de hele lengte van het dakvlak.
+    if (plaat.name.startsWith("Dakbeschot")) continue;
+    nokken.push({ punt: nok.clone(), lengte: 2 * hx });
+    for (const [buiten, k, zijde] of [[buitenLinks, -1, "links"], [buitenRechts, 1, "rechts"]] as [number | null, number, string][]) {
+      if (buiten === null) continue;
+      const xa = (buiten - midden) * richting, xb = xa + k * richting * 0.06;
+      const latMesh = new Mesh(new BoxGeometry(1, 1, 1), lat);
+      latMesh.geometry.userData.owned = true;
+      // Los in de scène (niet onder de dakconstructie), zodat hij met zijn kopgevel mee kan bij de doorsnede.
+      latMesh.name = `Daklat_${zijde}`;
+      // Van 0,3 m onder de plaat tot net onder de pannen (over isolatie en latten heen).
+      const yBinnen = c.y + i * (hy + 0.3), yBuiten = c.y - i * (hy + 0.2);
+      basis.clone()
+        .multiply(new Matrix4().makeTranslation(c.x + (xa + xb) / 2, (yBuiten + yBinnen) / 2, c.z))
+        .multiply(new Matrix4().makeScale(Math.abs(xb - xa), Math.abs(yBinnen - yBuiten), 2 * hz))
+        .premultiply(kap.matrix)
+        .decompose(latMesh.position, latMesh.quaternion, latMesh.scale);
+      scene.add(latMesh);
+    }
+  }
+  // Nokbalk: waar de twee dakvlakken in de nok samenkomen, sluit een donkere balk over de hele lengte de
+  // kier tussen de (dunne) bovenste lagen; anders zie je in de punt van het dak een gaatje.
+  if (nokken.length === 2) {
+    const [a, b2] = nokken;
+    const midden = a.punt.clone().add(b2.punt).multiplyScalar(0.5);
+    const balk = new Mesh(new BoxGeometry(Math.max(a.lengte, b2.lengte), 0.3, 0.26), new MeshStandardMaterial({ color: "#4a423c", roughness: 0.85, metalness: 0 }));
+    balk.geometry.userData.owned = true;
+    balk.name = "Nokbalk";
+    balk.position.copy(midden).add(new Vector3(0, -0.12, 0));
+    scene.add(balk);
+  }
+  // Isolatie en panlatten steken in het model een paar centimeter buiten de kopgevels uit (lichte strook
+  // onder de pannen): 8 cm per kant korter, zodat ze binnen de gevel eindigen.
+  for (const naam of ["Dakisolatie", "Panlatten"]) scene.getObjectByName(naam)?.children.forEach(deel => {
+    const mesh = deel as Mesh;
+    if (!mesh.isMesh) return;
+    mesh.geometry.computeBoundingBox();
+    const hx = (mesh.geometry.boundingBox!.max.x - mesh.geometry.boundingBox!.min.x) / 2;
+    if (hx > 0.5) mesh.scale.x *= (hx - 0.08) / hx;
+  });
 }
 
 export function disposeHouse(scene: Object3D) {

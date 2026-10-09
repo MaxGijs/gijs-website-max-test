@@ -65,8 +65,11 @@ export const MC_VERWARMING: Record<HouseType, Record<McIsolatie, { cvKetel: Verb
   },
 };
 
-/** Gemiddelde prijzen nieuwe contracten januari 2026 volgens Milieu Centraal ("ongeveer"). */
-export const MC_PRIJZEN = { stroom: "0,27", gas: "1,35" } as const;
+/**
+ * Standaardprijzen in de woningscan. Stroom: gemiddelde prijs nieuwe contracten januari 2026 volgens
+ * Milieu Centraal ("ongeveer"). Gas: gemiddelde gasprijs zoals opgegeven door Gijs (€ 1,42 per m³).
+ */
+export const MC_PRIJZEN = { stroom: "0,27", gas: "1,42" } as const;
 
 /** Door Gijs opgegeven prijs voor stadsverwarming (€ per GJ). */
 export const GIJS_WARMTEPRIJS = "40,97";

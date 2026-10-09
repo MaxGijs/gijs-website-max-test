@@ -4,9 +4,11 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import AddressScan from "@/components/AddressScan";
-import { MAATREGELEN, subsidieRegel, type Annotatie } from "../stappen";
+import { TrustStrip } from "@/components/home/TrustStrip";
+import { MAATREGELEN, type Annotatie } from "../stappen";
+import { markeer } from "../../Nadruk";
+import nadruk from "../../Nadruk.module.css";
 import { FOCUS, STATEN, type Regie } from "./staten";
-import HomepageWoningDevNav from "./HomepageWoningDevNav";
 import basis from "../../HouseModelPrototype.module.css";
 import styles from "../HomeCutawayTest.module.css";
 
@@ -21,7 +23,7 @@ const maatregel = (sleutel: string) => MAATREGELEN.find(m => m.sleutel === sleut
 // Alle 8 maatregelen, in de volgorde van stappen.ts (= staten 2 t/m 9).
 const HOOFDSTUKKEN = FOCUS.map(maatregel);
 
-export default function HomepageWoning({ children, productie = false }: { children?: ReactNode; productie?: boolean }) {
+export default function HomepageWoning({ children }: { children?: ReactNode }) {
   const sectie = useRef<HTMLElement>(null);
   const dialoog = useRef<HTMLDialogElement>(null);
   const annotaties = useRef<Record<string, Annotatie>>({});
@@ -100,22 +102,22 @@ export default function HomepageWoning({ children, productie = false }: { childr
           {/* Staat 0, gesloten woning: de hero zoals de huidige homepage, met direct de woningscan. */}
           <section className={basis.panel} data-staat={0}>
             <p className={basis.eyebrow}>Groen in je straat</p>
-            <h1 className={basis.title}>Verduurzaam je woning.</h1>
-            <p className={basis.description}>Lagere energiekosten, meer wooncomfort of zo energieneutraal mogelijk wonen? Ontdek stap voor stap welke maatregelen daarbij kunnen helpen.</p>
+            <h1 className={basis.title}><span className={basis.regel}>Verduurzaam</span> <span className={`${basis.regel} ${basis.regelJ}`}>je woning.</span></h1>
+            <p className={basis.description}>Lagere energiekosten, meer wooncomfort en zo energieneutraal mogelijk wonen? Ontdek stap voor stap welke maatregelen daarbij kunnen helpen.</p>
             <div className={basis.scanCard}>
               <h2 className={basis.scanCardTitle}>Start de digitale woningscan</h2>
               <p className={basis.scanCardIntro}>Vul je adres in en ontdek in een paar minuten wat er mogelijk is voor jouw woning.</p>
               <AddressScan />
             </div>
             <p className={basis.checkNote}>Daarna plan je een gratis energiescan aan huis, ter waarde van €349. Je woningtype wordt in de scan automatisch opgehaald.</p>
-            <a className={basis.textLink} href="#woning-verhaal">Neem een kijkje in de woning ↓</a>
+            <TrustStrip className="mt-4" />
           </section>
           {/* Staat 1, open homepage_woning. */}
           <section id="woning-verhaal" className={basis.panel} data-staat={1}>
             <p className={basis.eyebrow}>Je hoeft geen expert te zijn</p>
-            <h2 className={basis.title}>Een fijne woning begint bij begrijpen.</h2>
-            <p className={basis.description}>Waar blijft de warmte? Via je dak, muren, vloer en ramen kan warmte ontsnappen. Isolatie helpt die binnen te houden.</p>
-            <p className={basis.description}>Zelf stroom maken? Dat doen zonnepanelen met zonlicht. Een warmtepomp gebruikt stroom om warmte van buiten naar binnen te brengen.</p>
+            <h2 className={basis.title}>Een comfortabele woning begint bij begrijpen.</h2>
+            <p className={basis.description}>Waar verlies je warmte? Via je dak, muren, vloer en ramen kan warmte ontsnappen. Isolatie helpt die binnen te houden.</p>
+            <p className={basis.description}>Zelf stroom opwekken? Dat doen je zonnepanelen door middel van zonlicht. Een warmtepomp gebruikt warme buitenlucht om binnen te verwarmen.</p>
             <p className={basis.description}>Kijk mee in de woning. Zo ontdek je waar iedere oplossing zit en wat jij ervan merkt.</p>
             <button type="button" className={basis.inlineScan} onClick={openScan}>Liever meteen jouw woning bekijken? Start de woningscan →</button>
           </section>
@@ -127,16 +129,15 @@ export default function HomepageWoning({ children, productie = false }: { childr
                 <span className={basis.maatregelNaam}>{m.titel.naam}</span><span className="sr-only">: </span>
                 <span className={basis.title}>{m.titel.titel}</span>
               </h2>
-              <p className={basis.description}>{m.titel.uitleg}</p>
-              <p className={basis.benefit}>{m.benefit}</p>
-              {subsidieRegel(m.subsidie) && <p className={styles.subsidie}>{subsidieRegel(m.subsidie)} Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.</p>}
+              <p className={basis.description}>{markeer(m.titel.uitleg, m.titel.nadruk)}</p>
+              {m.extra && <p className={styles.notitie}>{m.extra}</p>}
               <Link className={`${basis.textLink} ${styles.meerLink}`} href={`/maatregelen/${m.titel.slug}`}>Meer over {m.titel.naam.toLowerCase()} <span aria-hidden="true">→</span></Link>
             </section>
           ))}
           {/* Staat 10, overzicht: rustig open homepage_woning, met de woningscan. */}
           <section className={basis.options} data-staat={STATEN.length - 1}>
-            <h2 className={basis.title}>Ontdek wat er mogelijk is voor jouw woning</h2>
-            <p className={basis.description}>Vul je adres in. In de woningscan zie je in een paar minuten wat er voor jouw woning kan. Daarna plan je een gratis energiescan aan huis, ter waarde van €349.</p>
+            <h2 className={basis.title}>Ontdek wat er mogelijk is voor jouw situatie</h2>
+            <p className={basis.description}>Vul je adres in. In de woningscan zie je in een paar minuten wat er voor jouw woning kan. Daarna plan je een <strong className={nadruk.nadruk}>gratis energiescan</strong> aan huis, ter waarde van €349.</p>
             <div className={basis.scanCard}>
               <h3 className={basis.scanCardTitle}>Start de woningscan</h3>
               <AddressScan />
@@ -158,8 +159,6 @@ export default function HomepageWoning({ children, productie = false }: { childr
           <AddressScan onNavigate={() => dialoog.current?.close()} />
         </div>
       </dialog>
-      {/* TIJDELIJK testmenu, alleen voor dit prototype. */}
-      {geladen && <HomepageWoningDevNav regie={regie} staat={staat} productie={productie} />}
     </>
   );
 }

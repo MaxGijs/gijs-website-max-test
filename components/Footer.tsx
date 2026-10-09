@@ -28,7 +28,7 @@ export default function Footer() {
         <div>
           <h3 className="font-semibold mb-3 text-white">Maatregelen</h3>
           <ul className="flex flex-col gap-2 text-sm text-white/80">
-            <li><Link href="/maatregelen#isolatie" className="no-underline hover:text-white">Isolatie</Link></li>
+            <li><Link href="/maatregelen#isolatie" className="no-underline hover:text-white">Isolaties</Link></li>
             <li><Link href="/maatregelen#installaties" className="no-underline hover:text-white">Installaties</Link></li>
             <li><Link href="/maatregelen" className="no-underline hover:text-white">Alle maatregelen</Link></li>
             <li><Link href="/regio" className="no-underline hover:text-white">Isoleren in jouw regio</Link></li>
@@ -52,8 +52,16 @@ export default function Footer() {
                 Privacy
               </a>
             </li>
-            <li><Link href="/algemene-voorwaarden" className="no-underline hover:text-white">Algemene voorwaarden</Link></li>
-            <li><Link href="/avg-verklaring" className="no-underline hover:text-white">AVG-verklaring</Link></li>
+            <li>
+              <a href="/documenten/algemene-voorwaarden-gijs.pdf" target="_blank" rel="noopener noreferrer" className="no-underline hover:text-white">
+                Algemene voorwaarden
+              </a>
+            </li>
+            <li>
+              <a href="/documenten/avg-verklaring-gijs.pdf" target="_blank" rel="noopener noreferrer" className="no-underline hover:text-white">
+                AVG-verklaring
+              </a>
+            </li>
             <li><Link href="/cookies" className="no-underline hover:text-white">Cookies</Link></li>
             <li><Link href="/disclaimer" className="no-underline hover:text-white">Disclaimer</Link></li>
             <li><Link href="/toegankelijkheid" className="no-underline hover:text-white">Toegankelijkheid</Link></li>

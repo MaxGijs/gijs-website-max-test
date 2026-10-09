@@ -9,11 +9,10 @@ import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
-import { UitvoeringStappen, type UitvoeringStap } from "@/components/measures/UitvoeringStappen";
+import { ThuisbatterijInstallatieAnimatie } from "@/components/measures/ThuisbatterijInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails, TechnicalDetailRow } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
-import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
@@ -27,7 +26,7 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // - "alle_brochures_in_1.pdf" (pagina 2-3 van 49): het 6-stappen
 //   installatieproces ("Thuisbatterij plaatsen in één dag") en "Voordat
 //   we een thuisbatterij komen plaatsen" (voorwaarden). Deze pagina's
-//   zijn generiek Gijs-eigen en gebruikt voor UITVOERING_STAPPEN en
+//   zijn generiek Gijs-eigen en gebruikt voor de uitvoeringsstappen en
 //   VOORWAARDEN.
 // - "Sigenergy Infoblad.pdf": een generiek, internationaal marketingblad
 //   van fabrikant Sigenergy over de SigenStor-thuisbatterij. Gebruikt
@@ -97,18 +96,9 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // directe fetch + MD5), dus de oorzaak was een hardnekkige browsercache
 // op dezelfde bestandsnaam/URL uit een eerdere ronde. Een nieuwe
 // bestandsnaam forceert een verse URL en omzeilt dat definitief.
-// Migratie naar de gedeelde UitvoeringStappen-component (dezelfde als
-// Dakisolatie, Spouwmuurisolatie, Vloerisolatie, Isolatieglas en
-// Kozijnen), met de nieuwe procesvisuals uit de "thuisbatterij"-map.
-// Labels en volgorde exact zoals aangeleverd.
-const UITVOERING_STAPPEN: UitvoeringStap[] = [
-  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-1.svg", label: "Aankomst" },
-  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-2.svg", label: "Uitleg" },
-  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-3.svg", label: "Voorbereiding" },
-  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-4.svg", label: "Batterij plaatsen" },
-  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-5.svg", label: "Controle" },
-  { bestand: "maatregelen/thuisbatterij/proces/thuisbatterij-stap-6.svg", label: "Oplevering" },
-];
+// Uitvoering (2026-10-09): de stappenrij met losse procesvisuals is
+// vervangen door ThuisbatterijInstallatieAnimatie (geanimeerde Gijs-
+// infographic, zelfde scène als de video).
 
 // Bron: "alle_brochures_in_1.pdf", pagina 2-3 — "Voordat we een
 // thuisbatterij komen plaatsen" (4 punten voor, 4 punten tijdens de
@@ -155,7 +145,6 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
     { id: "voordelen", label: "De voordelen" },
     { id: "de-thuisbatterij", label: "De thuisbatterij" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
-    { id: "voorwaarden", label: "Voorwaarden" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
   ];
 
@@ -165,8 +154,18 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
     { question: "Heb ik met een thuisbatterij altijd stroom bij een storing?", answer: item.answer },
     { question: "Kan ik mijn elektrische auto opladen vanuit de thuisbatterij?", answer: "De thuisbatterij die Gijs plaatst ondersteunt bidirectioneel laden en ontladen, ook wel V2X genoemd, waardoor opladen vanuit de batterij mogelijk is." },
     { question: "Wat betekent V2X?", answer: "V2X staat voor bidirectioneel laden en ontladen: stroom kan niet alleen naar, maar ook vanuit bijvoorbeeld een elektrische auto stromen." },
-    { question: "Werkt de thuisbatterij samen met zonnepanelen?", answer: "Ja. De batterij kan je energieverbruik thuis compenseren met zelf opgewekte zonne-energie." },
+    { question: "Werkt de thuisbatterij samen met zonnepanelen?", answer: "Ja. De batterij slaat je zelf opgewekte zonnestroom op en regelt automatisch wanneer die wordt opgeslagen of gebruikt, zodat je energieverbruik thuis wordt gecompenseerd met je eigen zonne-energie." },
     { question: "Hoe verloopt de installatie?", answer: "Gijs plaatst de thuisbatterij in één dag: aankomst, uitleg, voorbereiding, de batterij plaatsen en aansluiten, het systeem instellen en controleren, en opleveren." },
+    {
+      question: "Wat moet ik regelen voordat de installatie begint?",
+      answer: "Gijs bespreekt dit vooraf met je, zodat je weet waar je aan toe bent. Een paar praktische punten:",
+      punten: VOORWAARDEN_VOOR,
+    },
+    {
+      question: "Wat gebeurt er tijdens de installatie?",
+      answer: "Goed om te weten voor de dag zelf:",
+      punten: VOORWAARDEN_TIJDENS,
+    },
   ];
 
   const startScanHref = "/woning?maatregel=" + item.id;
@@ -206,38 +205,50 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
         <MeasureSectionNav sections={sections} />
 
         <section id="wat-is-het" className="scroll-mt-40 mt-4 mb-16">
-          <div className="flex flex-col gap-4 max-w-2xl">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Wat is een thuisbatterij?</h2>
-            <p className="text-lg font-medium text-[var(--gijs-donkergroen)] leading-relaxed">
-              Zie een thuisbatterij als een voorraadkast voor je eigen stroom.
-            </p>
-            <p className="text-lg text-zinc-600 leading-relaxed">
-              Een thuisbatterij bewaart elektriciteit, bijvoorbeeld zelf opgewekte zonnestroom die je niet meteen
-              gebruikt. Die opgeslagen stroom kun je later alsnog in je woning gebruiken. Het systeem regelt
-              automatisch wanneer stroom wordt opgeslagen of gebruikt. Gijs plaatst hiervoor een modulaire
-              thuisbatterij.
-            </p>
-            <p className="text-lg text-zinc-600 leading-relaxed">
-              Of een thuisbatterij bij je past, hangt af van je energiegebruik en wat je wilt bereiken. Daar hoef je
-              zelf niet technisch uit te komen: tijdens een energiescan aan huis bekijkt een expert van Gijs hoe je
-              stroom opwekt en gebruikt, en bespreekt welke oplossing past.
-            </p>
-          </div>
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-start mb-10">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Wat is een thuisbatterij?</h2>
+              <p className="text-lg font-medium text-[var(--gijs-donkergroen)] leading-relaxed">
+                Zie een thuisbatterij als een voorraadkast voor je eigen stroom.
+              </p>
+              <p className="text-lg text-zinc-600 leading-relaxed">
+                Een thuisbatterij bewaart elektriciteit, bijvoorbeeld zelf opgewekte zonnestroom die je niet meteen
+                gebruikt. Die opgeslagen stroom kun je later alsnog in je woning gebruiken. Het systeem regelt
+                automatisch wanneer stroom wordt opgeslagen of gebruikt. Gijs plaatst hiervoor een modulaire
+                thuisbatterij. Samen met <Link href="/maatregelen/zonnepanelen" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">zonnepanelen</Link> en een 
+                <Link href="/maatregelen/warmtepomp" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">hybride warmtepomp</Link> gebruik je zo meer van je eigen stroom.
+              </p>
+              <p className="text-lg text-zinc-600 leading-relaxed">
+                Of een thuisbatterij bij je past, hangt af van je energiegebruik en wat je wilt bereiken. Daar hoef je
+                zelf niet technisch uit te komen: tijdens een energiescan aan huis bekijkt een expert van Gijs hoe je
+                stroom opwekt en gebruikt, en bespreekt welke oplossing past.
+              </p>
+            </div>
 
-          <div className="mt-10 mb-10">
-            <FeatureList columns={5} items={ONDERDELEN} />
+            <div className="grid grid-cols-2 gap-4">
+              {ONDERDELEN.slice(0, 4).map(deel => (
+                <Card key={deel.title} variant="tint" className="flex flex-col gap-2 !p-5">
+                  <Icon name={deel.icon} size="md" className="text-[var(--accent-700)]" />
+                  <p className="font-bold text-lg text-[var(--gijs-donkergroen)]">{deel.title}</p>
+                  <p className="text-sm text-zinc-600">{deel.text}</p>
+                </Card>
+              ))}
+              <Card variant="tint" className="col-span-2 flex flex-col gap-2 !p-5">
+                <Icon name={ONDERDELEN[4].icon} size="md" className="text-[var(--accent-700)]" />
+                <p className="font-bold text-lg text-[var(--gijs-donkergroen)]">{ONDERDELEN[4].title}</p>
+                <p className="text-sm text-zinc-600">{ONDERDELEN[4].text}</p>
+              </Card>
+            </div>
           </div>
 
           <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] max-w-[1000px] mx-auto">
-            {/* v2: in het aangeleverde bestand ontbraken de nummers 1-3 op de
-                tekening (legenda had 1-6). Toegevoegd als kopie van de
-                bestaande badges uit hetzelfde bestand (groep
-                #gijs-badges-1-2-3); de tekening zelf is ongewijzigd. */}
+            {/* v3: nieuw aangeleverde visual met volledige genummerde legenda
+                (1 t/m 6) en de thuisbatterij-stap uitgelicht. */}
             <Image
-              src="/images/maatregelen/thuisbatterij/thuisbatterij-uitlegvisual-v2.svg"
-              alt="Schema van een thuisbatterijsysteem: van (1) de zonnepanelen via (2) de regelaar naar (3) de thuisbatterij, en van daaruit via (4) de omvormer en (5) de meterkast naar (6) de apparaten in huis"
-              width={2000}
-              height={881}
+              src="/images/maatregelen/thuisbatterij/thuisbatterij-uitlegvisual-v3.png"
+              alt="Schema van een thuisbatterijsysteem: 1 zonnepanelen wekken stroom op, 2 regelaar verdeelt de stroom, 3 thuisbatterij slaat stroom op voor later gebruik, 4 omvormer maakt stroom bruikbaar, 5 meterkast verdeelt stroom, 6 apparaten in huis gebruiken de stroom"
+              width={2761}
+              height={1216}
               quality={100}
               className="w-full h-auto"
             />
@@ -353,20 +364,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
         <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
           <p className="text-lg text-zinc-600 mb-10 max-w-2xl">Gijs plaatst de thuisbatterij in één dag, volgens een vaste aanpak.</p>
-          <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
-        </section>
-
-        <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
-          <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
-            Voor een goede uitvoering gelden een paar praktische voorwaarden.
-          </p>
-          <VoorwaardenKolommen
-            groepen={[
-              { label: "Voor de installatie", items: VOORWAARDEN_VOOR },
-              { label: "Tijdens de installatie", items: VOORWAARDEN_TIJDENS },
-            ]}
-          />
+          <ThuisbatterijInstallatieAnimatie />
         </section>
 
         <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
@@ -386,7 +384,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>
@@ -397,9 +395,6 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
 
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
-          <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
-          </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past een thuisbatterij bij jouw woning?</h2>
             <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>

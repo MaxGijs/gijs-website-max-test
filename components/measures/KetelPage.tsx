@@ -53,7 +53,7 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
   ];
 
   const faqItems: FAQItem[] = [
-    { question: "Welke ketels gebruikt Gijs?", answer: "Gijs werkt met twee hr-combiketels. Welke uitvoering bij jouw woning past, bespreekt Gijs met je tijdens de energiescan." },
+    { question: "Welke ketels gebruikt Gijs?", answer: "Gijs werkt met twee Intergas hr-combiketels: de Kombi Kompakt HRE 28/24 en de HRE 36/30. Welke uitvoering bij jouw woning past, bespreekt Gijs met je tijdens de energiescan." },
     { question: "Moet mijn cv-ketel weg als ik een warmtepomp neem?", answer: "Bij een hybride oplossing werkt de warmtepomp samen met een cv-ketel. Bij volledig elektrisch verwarmen wordt ook warm water zonder cv-ketel bekeken. Wat past, hangt af van je woning en installatie." },
     { question: "Kan mijn bestaande ketel blijven?", answer: "Dat wordt per situatie bekeken. Bij een hybride warmtepomp kijkt Gijs of de bestaande ketel kan blijven of vervanging nodig is." },
   ];
@@ -144,9 +144,9 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
             Gijs werkt met twee hr-combiketels. Geen van beide wordt hier als beste keuze aangewezen:
             welke uitvoering past, bekijkt Gijs samen met jou.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 md:items-start gap-6 mb-8">
+          <div className="grid grid-cols-2 md:items-start gap-3 sm:gap-6 mb-8">
             {KETELS.map(ketel => (
-              <Card key={ketel.naam} className="flex flex-col gap-4 !p-7">
+              <Card key={ketel.naam} className="flex flex-col gap-4 !p-3 sm:!p-7">
                 <div className="relative aspect-[4/3] rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
                   <Image src={ketel.image} alt={ketel.imageAlt} fill sizes="(min-width: 768px) 45vw, 90vw" className="object-contain p-4" />
                 </div>
@@ -205,7 +205,7 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>
@@ -216,9 +216,6 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
 
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
-          <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
-          </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Wat betekent dit voor jouw woning?</h2>
             <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>

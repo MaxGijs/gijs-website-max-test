@@ -13,9 +13,8 @@ import { MaterialCard } from "@/components/measures/MaterialCard";
 import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
-import { VoorwaardenKolommen } from "@/components/measures/VoorwaardenKolommen";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
-import { StatRow } from "@/components/measures/StatRow";
+import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -100,7 +99,6 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
     { id: "voordelen", label: "Voordelen" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
     { id: "materialen", label: "Materialen" },
-    { id: "voorwaarden", label: "Voorwaarden" },
     { id: "subsidie", label: "Subsidie" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
   ];
@@ -110,12 +108,16 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
   // niet dubbel met de rest van de pagina, dus ongewijzigd gelaten (zie
   // eindverslag).
   const faqItems: FAQItem[] = [
-    { question: "Is mijn woning geschikt voor spouwmuurisolatie?", answer: "Dat hangt af van de staat van je gevel en de spouw. Gijs beoordeelt dit tijdens de energiescan. Dit is geen definitief technisch advies vooraf." },
+    { question: "Is mijn woning geschikt voor spouwmuurisolatie?", answer: "Dat hangt af van de staat van je gevel en spouw: een bestaande, onbehandelde spouw, een bereikbare gevel en de eventuele aanwezigheid van vleermuizen spelen mee. Gijs beoordeelt dit tijdens de energiescan. Dit is geen definitief technisch advies vooraf." },
     { question: "Kan spouwmuurisolatie altijd?", answer: "Nee, dat hangt af van de gevel en de spouw. Zo kan bijvoorbeeld de aanwezigheid van vleermuizen of de staat van het voegwerk een rol spelen. Dit wordt per woning beoordeeld." },
     { question: "Hoe lang duurt de uitvoering?", answer: "De uitvoering van spouwmuurisolatie neemt meestal één dag in beslag." },
     { question: "Wat gebeurt er met de boorgaten na de uitvoering?", answer: "Nadat het isolatiemateriaal via de boorgaten in de spouw is aangebracht, worden de gaten weer netjes afgevoegd." },
-    { question: "Wat moet ik zelf voorbereiden?", answer: "Zorg dat de gevels bereikbaar zijn en dat er een watervoorziening (buitenkraan) en parkeergelegenheid beschikbaar zijn voor de installateur." },
     { question: "Welk materiaal past bij mijn spouw?", answer: item.answer },
+    {
+      question: "Wat moet ik voorbereiden en waar moet ik rekening mee houden?",
+      answer: "Gijs bespreekt dit vooraf met je, zodat je weet waar je aan toe bent. Een paar praktische punten:",
+      punten: [...VOORWAARDEN_LINKS, ...VOORWAARDEN_RECHTS],
+    },
   ];
 
   const startScanHref = "/woning?maatregel=" + item.id;
@@ -236,7 +238,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
           Gijs werkt met verschillende isolatiematerialen. Welk materiaal het meest geschikt is, hangt af van jouw
           woning. Dit is geen keuze voor het &quot;beste&quot; materiaal.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-8">
           {SPOUW_PRODUCTS.map(product => (
             <MaterialCard
               key={product.name}
@@ -247,6 +249,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
               badge={product.badge}
               image={product.image}
               imageAlt={product.alt}
+              className="!p-3 sm:!p-6"
             />
           ))}
         </div>
@@ -261,49 +264,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
         </p>
       </section>
 
-      <section id="voorwaarden" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
-        <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Voorbereiding en voorwaarden</h2>
-        <p className="text-zinc-600 mb-6 max-w-2xl">
-          Voor een goede uitvoering gelden een paar praktische voorwaarden.
-        </p>
-        <VoorwaardenKolommen
-          groepen={[
-            { items: VOORWAARDEN_LINKS },
-            { items: VOORWAARDEN_RECHTS },
-          ]}
-        />
-      </section>
-
-      <section id="subsidie" className="scroll-mt-40 mb-14">
-        <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Subsidie bij spouwmuurisolatie</h2>
-        <p className="text-zinc-600 mb-6 max-w-2xl">
-          Laat je meer dan één isolatiemaatregel installeren? Dan verdubbelt het subsidiebedrag voor isolatie. Dit
-          geldt ook als je een isolatiemaatregel combineert met de installatie van een warmtepomp. Gijs vraagt
-          hiervoor subsidie aan binnen 24 maanden nadat je de eerste maatregel uitvoert.
-        </p>
-        <div className="mb-8">
-          <StatRow
-            items={[
-              { label: "Bedrag wat je kunt ontvangen", value: "€ 40 – € 1.615" },
-              { label: "Per m² met 1 maatregel", value: "€ 5,25" },
-              { label: "Per m² met 2 maatregelen", value: "€ 10,50" },
-              { label: "Aantal m² met subsidie", value: "10 t/m 170 m²" },
-            ]}
-          />
-        </div>
-        <p className="text-sm text-zinc-500 max-w-2xl">
-          Gijs ondersteunt je graag bij het verzorgen van je subsidieaanvraag. Onze dienstverlening beperkt zich
-          tot het faciliteren van de aanvraagprocedure, tegen een eenmalige administratievergoeding die is verwerkt
-          in de begroting. Gijs kan de toekenning van subsidies niet garanderen en is niet verantwoordelijk voor
-          eventuele onjuistheden in de verstrekte informatie of andere gerelateerde zaken.
-        </p>
-        <p className="text-sm text-zinc-500 max-w-2xl mt-3">
-          Meer weten? Lees de{" "}
-          <Link href="/kennis#subsidies" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">uitleg over subsidies en financiering</Link>{" "}
-          of bekijk de{" "}
-          <Link href="/contact#energiescan" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">gratis energiescan aan huis</Link>.
-        </p>
-      </section>
+      <SubsidieSectie titel="Subsidie bij spouwmuurisolatie" />
 
       <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>
@@ -322,7 +283,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <Button href="/contact#energiescan" variant="accent">Vraag een gratis energiescan aan</Button>
+            <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>
@@ -333,9 +294,6 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
 
       <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="flex items-start gap-4 max-w-xl">
-          <span className="shrink-0 w-14 h-14 rounded-full bg-white flex items-center justify-center overflow-hidden">
-            <Image src="/images/shared/icons/huisscan.png" alt="" width={34} height={34} />
-          </span>
           <div className="min-w-0 [&_h2]:[hyphens:auto]">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past spouwmuurisolatie bij jouw woning?</h2>
             <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
