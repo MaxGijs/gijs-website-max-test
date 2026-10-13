@@ -18,11 +18,12 @@ export const BALLON = { x: 461, y: 238 };
 export const WEG = 430;
 
 /** Huis x 400-640, nok (520,70). */
-export function huisMarkup({ dubbel = false, zolder = false, kruipruimte = false, balken = false } = {}) {
+/** `kruipDiepte`: hoe diep de kruipruimte onder de vloer is (standaard 32). */
+export function huisMarkup({ dubbel = false, zolder = false, kruipruimte = false, balken = false, kruipDiepte = 32 } = {}) {
   const buiten = `<path d="M400,300 V160 L520,70 L640,160 V300" fill="none" stroke="${ACCENT}" stroke-width="3" stroke-linejoin="round"/>`;
   const binnen = dubbel ? `<path d="M407,300 V163 L520,79 L633,163 V300" fill="none" stroke="${ACCENT}" stroke-width="2.5" stroke-linejoin="round"/>` : "";
   const vloer = zolder ? `<line x1="${dubbel ? 407 : 400}" y1="172" x2="${dubbel ? 633 : 640}" y2="172" stroke="${WIT}" stroke-width="3"/>` : "";
-  const kruip = kruipruimte ? `<path d="M400,300 V332 H640 V300" fill="none" stroke="${ACCENT}" stroke-width="3" stroke-linejoin="round"/>` : "";
+  const kruip = kruipruimte ? `<path d="M400,300 V${300 + kruipDiepte} H640 V300" fill="none" stroke="${ACCENT}" stroke-width="3" stroke-linejoin="round"/>` : "";
   const bl = balken ? Array.from({ length: 7 }, (_, i) => `<rect x="${420 + i * 32}" y="300" width="5" height="9" fill="${WIT}"/>`).join("") : "";
   return `<polygon class="warm" points="400,300 400,160 520,70 640,160 640,300" fill="${ACCENT}" style="opacity:0"/>${buiten}${binnen}${vloer}${kruip}${bl}`;
 }

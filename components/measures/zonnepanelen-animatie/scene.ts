@@ -54,6 +54,9 @@ export function sceneMarkup({ busLogo }: { busLogo: string }) {
   <path class="steiger-3" d="M414,168 V148 M466,168 V148 M414,150 H466" ${lijn}/>
   <path class="rail" d="M${railVan.x - 0.9},${railVan.y - 1.2} L${railTot.x - 0.9},${railTot.y - 1.2} ${haken}" ${lijn} stroke-width="2"/>
   <path class="kabel" d="M543,114 V262 H690" fill="none" stroke="${WIT}" stroke-width="2.5" stroke-linejoin="round"/>
+  <rect class="meterkast" x="486" y="228" width="20" height="44" rx="1.5" ${lijn}/>
+  <path class="meterkast" d="M490,234 H502 V243 H490 Z M490,249 H502 V256 H490 Z M491,264 H501" ${lijn} stroke-width="1.6"/>
+  <path class="kabel-mk" d="M699,236 V218 H496 V228" ${lijn}/>
   <g transform="translate(690,236)"><g class="wp-as omvormer" style="opacity:0">${omvormer("scherm")}</g></g>
   ${PANELEN.map((p, i) => `<g transform="translate(${p.x},${p.y})"><g class="wp-as paneel paneel-${i}" style="opacity:0">${paneel}</g></g>`).join("")}
   <line x1="0" y1="300" x2="900" y2="300" stroke="${WIT}" stroke-width="3"/>
@@ -149,6 +152,8 @@ export function bouwTijdlijn(root: Element, params: TimelineParams = {}): Timeli
   klim("inst2", 0, T[4], 900);
   loop("inst2", 337, T[4] + 900, 1400);                  // naar de omvormer
   teken("kabel", T[4] + 1000, 1600);
+  teken("meterkast", T[4] + 300, 700);
+  teken("kabel-mk", T[4] + 2600, 900);          // omvormer aansluiten op de meterkast
   werk("inst2-ar", T[4] + 2300, 800, -60, -100);
   [1, 0.3, 1].forEach((o, k) => tl.add(el("scherm"), { opacity: o, duration: 250 }, T[4] + 2600 + k * 250));
   loop("inst2", 226, T[4] + 3100, 600);

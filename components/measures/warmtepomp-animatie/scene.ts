@@ -67,10 +67,10 @@ const buitenunitTekening = (lamelKlasse: string) => {
   ${lamellen}
   <text transform="translate(61.5,37.5) rotate(-90)" font-size="5.6" font-weight="700" fill="${KOPER}" font-family="Arial, sans-serif" letter-spacing="0.2">DeWarmte</text>`;
 };
-/** Binnenunit, lokaal 30 x 34. */
+/** Binnenunit, lokaal 11 x 15: in het echt ongeveer zo groot als een A4'tje. */
 const binnenunitTekening = (schermKlasse: string) => `
-  <rect x="0" y="0" width="30" height="34" rx="3" fill="${BG}" stroke="${WIT}" stroke-width="3"/>
-  <rect class="${schermKlasse}" x="7" y="7" width="16" height="7" rx="1.5" fill="${ACCENT}" style="opacity:0.3"/>`;
+  <rect x="0" y="0" width="11" height="15" rx="1.5" fill="${BG}" stroke="${WIT}" stroke-width="2"/>
+  <rect class="${schermKlasse}" x="2.5" y="3" width="6" height="3" rx="0.8" fill="${ACCENT}" style="opacity:0.3"/>`;
 
 /** Ledenradiator tegen de muur, 28 breed, onderkant op y = 280 (aansluiting in het midden). */
 function radiator(x: number, kraan: "links" | "rechts") {
@@ -104,10 +104,10 @@ ${radiator(404, "rechts")}
   <path class="pijp" d="M457,172 V316" ${tekenLijn}/>
   <path class="pijp-kruip" d="M418,280 V316 H622 V280" ${tekenLijn} stroke-linejoin="round"/>
   <path class="pijp-buiten" d="M622,316 H698 V298" ${tekenLijn} stroke-linejoin="round"/>
-  <path class="verbinding" d="M470,152 H480" ${tekenLijn}/>
+  <path class="verbinding" d="M470,147 H482" ${tekenLijn}/>
   <g transform="translate(457,297)"><g class="vonk" stroke="${ACCENT}" stroke-width="2" stroke-linecap="round" style="opacity:0">
     <path d="M0,0 l-7,-5 M0,0 l7,-5 M0,0 l-9,0 M0,0 l9,0 M0,0 l-5,-8 M0,0 l5,-8"/></g></g>
-  <g transform="translate(480,136)"><g class="wp-as binnenunit" style="opacity:0">${binnenunitTekening("scherm")}</g></g>
+  <g transform="translate(482,140)"><g class="wp-as binnenunit" style="opacity:0">${binnenunitTekening("scherm")}</g></g>
   <g transform="translate(666,258)"><g class="wp-as buitenunit" style="opacity:0">${buitenunitTekening("lamel")}</g></g>
   <line x1="0" y1="300" x2="900" y2="300" stroke="${WIT}" stroke-width="3"/>
   ${poppetje("bewoner", 500)}
@@ -119,7 +119,7 @@ ${radiator(404, "rechts")}
     <rect x="50" y="262" width="108" height="14" rx="3" fill="${WIT}"/>
     <path d="M158,270 L174,272" stroke="${WIT}" stroke-width="3"/>
     <g class="buiten-kopie" transform="translate(52,220)">${buitenunitTekening("lamel-kopie")}</g>
-    <g class="binnen-kopie" transform="translate(122,228)">${binnenunitTekening("scherm-kopie")}</g>
+    <g class="binnen-kopie" transform="translate(122,247)">${binnenunitTekening("scherm-kopie")}</g>
     ${wiel(104, 11)}
     <g transform="translate(40,0)">
       <path d="M132,288 V222 Q132,214 140,214 H268 Q280,214 288,224 L310,252 Q330,256 330,270 V282 Q330,288 324,288 Z" fill="${WIT}"/>
@@ -205,7 +205,7 @@ export function bouwTijdlijn(root: Element, params: TimelineParams = {}): Timeli
 
   // Stap 3: interieur intekenen, boren naar de kruipruimte, leidingen naar de
   // radiatoren. Daarna haalt de tweede installateur de binnenunit van de aanhanger.
-  zet("binnenunit", T[2], { x: -358, y: 92 });           // = plek op de aanhanger
+  zet("binnenunit", T[2], { x: -360, y: 107 });           // = plek op de aanhanger
   zet("buitenunit", T[2], { x: -614, y: -38 });
   teken("zolder", T[2], 800);
   teken("trap", T[2] + 400, 700);
@@ -223,15 +223,15 @@ export function bouwTijdlijn(root: Element, params: TimelineParams = {}): Timeli
   loop("inst2", -225, T[2] + 2400, 1400);                // naar de aanhanger
   vanPad("binnen-kopie", T[2] + 3800); opPad("binnenunit", T[2] + 3800);
   draai("inst2-ar", T[2] + 3800, -40, 200); draai("inst2-al", T[2] + 3800, 40, 200);
-  draag("binnenunit", T[2] + 3800, 200, { y: 120 });
+  draag("binnenunit", T[2] + 3800, 200, { y: 135 });
   loop("inst2", 206, T[2] + 4000, 1500);                 // naar de trap
-  draag("binnenunit", T[2] + 4000, 1500, { x: 73 });
+  draag("binnenunit", T[2] + 4000, 1500, { x: 80.5 });
 
   // Stap 4: binnenunit via de trap naar boven, naast de cv; buitenunit naast het huis.
   draai("inst1-ar", T[3], 0, 200);
   loop("inst1", 211, T[3], 400);                         // naar het trapgat
   draai("inst2-ar", T[3] + 400, -150); draai("inst2-al", T[3] + 400, 150);
-  draag("binnenunit", T[3] + 400, 700, { y: -8, x: 61 });
+  draag("binnenunit", T[3] + 400, 700, { y: 5, x: 63.5 });
   draai("inst2-ar", T[3] + 1100, 0); draai("inst2-al", T[3] + 1100, 0);
   loop("inst1", 180, T[3] + 1100, 1000);
   tl.add(el("binnenunit"), { x: 0, y: 0, duration: 1000, ease: "inOutSine" }, T[3] + 1100);

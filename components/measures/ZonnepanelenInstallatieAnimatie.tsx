@@ -11,7 +11,7 @@ const STAPPEN = [
   { titel: "Valbeveiliging", tekst: "We zetten een valbeveiliging op en bereiden alles voor." },
   { titel: "Constructie", tekst: "We monteren de constructie voor de zonnepanelen op het dak." },
   { titel: "Panelen", tekst: "We leggen de zonnepanelen op de constructie." },
-  { titel: "Opleveren", tekst: "We sluiten de zonnepanelen binnen aan en leveren het systeem op. We leggen alles uit." },
+  { titel: "Opleveren", tekst: "We sluiten de zonnepanelen binnen aan op de meterkast en leveren alles op. We leggen alles uit." },
   { titel: "Genieten", tekst: "Geniet van je zonnepanelen en een lage energierekening." },
 ];
 

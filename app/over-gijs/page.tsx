@@ -48,9 +48,6 @@ export default function OverGijs() {
               </p>
               <p className="text-[clamp(20px,1.05rem+0.7vw,26px)] font-semibold leading-[1.3] text-[var(--gijs-donkergroen)]">Dat is het idee achter Gijs.</p>
             </div>
-            <a href="#verhaal" className="mt-10 inline-flex min-h-11 items-center gap-2 font-semibold text-[var(--accent-700)]">
-              Lees het verhaal <Icon name="arrow-down" size="md" />
-            </a>
           </div>
         </section>
 

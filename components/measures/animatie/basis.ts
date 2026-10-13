@@ -12,6 +12,8 @@ import { stagger, svg as animeSvg, type Timeline } from "animejs";
 export const BG = "#133E35";
 export const ACCENT = "#17BF92";
 export const WIT = "#fff";
+/** Klimaatfolie/reflecterende folie-isolatie: lichter groen, zodat de folie niet op de daklijn/balken lijkt. */
+export const FOLIE_KLEUR = "#A9E4D2";
 
 /** Vaste stapduur (ms, op normale snelheid). */
 export const STAP_DUUR = 6000;
@@ -31,9 +33,11 @@ export function poppetje(id: string, x: number, { pet = false, hand = "", handLi
     <rect x="-7" y="-42" width="14" height="24" rx="5" fill="${WIT}"/>
     <g transform="translate(-6,-38)"><g class="wp-as ${id}-al">${lijn(0, 0, -4, 15, 3.5)}${handLinks}</g></g>
     <g transform="translate(6,-38)"><g class="wp-as ${id}-ar">${lijn(0, 0, 4, 15, 3.5)}${hand}</g></g>
-    ${haar ? `<path d="M-8,-50 Q-8,-59 0,-59 Q8,-59 8,-50 L9,-38 L-9,-38 Z" fill="${WIT}"/>` : ""}
-    <circle cy="-50" r="7" fill="${WIT}"/>
-    ${pet ? `<path d="M-7.5,-51 A7.5,7.5 0 0 1 7.5,-51 L12,-51 L12,-48.5 L-7.5,-48.5 Z" fill="${ACCENT}"/>` : ""}
+    <g transform="translate(0,-50)"><g class="wp-as ${id}-hoofd">
+      ${haar ? `<path d="M-8,0 Q-8,-9 0,-9 Q8,-9 8,0 L9,12 L-9,12 Z" fill="${WIT}"/>` : ""}
+      <circle r="7" fill="${WIT}"/>
+      ${pet ? `<path d="M-7.5,-1 A7.5,7.5 0 0 1 7.5,-1 L12,-1 L12,1.5 L-7.5,1.5 Z" fill="${ACCENT}"/>` : ""}
+    </g></g>
   </g></g>`;
 }
 
