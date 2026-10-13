@@ -1,9 +1,12 @@
-// Warmtepomp-productgegevens: alleen de DeWarmte-warmtepompen (de andere merken, Remeha Elga Ace
-// en Intergas Xtend, staan op verzoek van Gijs niet meer op de site). Uitsluitend overgenomen uit de door Gijs
-// aangeleverde bronnen: de Warmtepomp-ZIP (deWarmte-, Remeha- en
-// Intergas-documenten), de aanvullend aangeleverde "Brochure DeWarmte
+// Warmtepomp-productgegevens: de DeWarmte-warmtepompen en de Remeha Elga Ace, uitsluitend
+// overgenomen uit de door Gijs aangeleverde bronnen: de Warmtepomp-ZIP (deWarmte- en
+// Remeha-documenten), de aanvullend aangeleverde "Brochure DeWarmte
 // Hybride warmtepomp 112025" (versie november 2025, incl. het officiële
 // Datasheet Pomp MP) en de warmtepomp-pagina's uit alle_brochures_in_1.pdf.
+// Meerdere merken op de pagina: Gijs wil hiermee laten zien onafhankelijk te zijn, niet aan één
+// merk gebonden. Intergas Xtend staat (nog) niet terug; WeHeat is gevraagd maar daar is geen
+// productblad of brochure van aangeleverd, dus geen specificaties om te tonen (zie het
+// eindverslag). Zodra die er is, hoort WeHeat op dezelfde manier hieronder.
 // Zie het eindverslag voor de volledige, per-claim bronverwijzing.
 //
 // Bewust NIET opgenomen (zie ook code-comments in WarmtepompPage.tsx):
@@ -79,6 +82,23 @@ export const WARMTEPOMP_PRODUCTEN: WarmtepompProduct[] = [
       "Milieuvriendelijk koudemiddel (propaan) met een beperkte impact op het klimaat",
       "Super stil",
       "Hogere maximale afgiftetemperatuur (tot 70°C)",
+    ],
+  },
+  {
+    merk: "Remeha",
+    naam: "Elga Ace",
+    ondertitel: "Hybride warmtepomp, add-on op je bestaande cv-ketel",
+    vermogen: "4 kW of 6 kW (twee uitvoeringen)",
+    afmetingen: "Buitenunit 492 × 268 × 220 mm (H×B×D) · Binnenunit 4 kW: 550 × 849 × 342 mm, 6 kW: 630 × 883 × 351 mm (H×B×D)",
+    geluid: "Geluidsdruk buitenunit: 53 dB(A) (4 kW) / 57 dB(A) (6 kW), gemeten bij 30% deellast A7/W35",
+    image: "/images/maatregelen/warmtepomp/warmtepomp-elgaace.png",
+    imageAlt: "Remeha Elga Ace binnenunit, hybride warmtepomp",
+    kenmerken: [
+      "Comfortabel stil",
+      "Compact formaat",
+      "Installatie in 1 dag zonder ingrijpende verbouwing",
+      "In elke woning met iedere cv-ketel te combineren",
+      "Waardevermeerdering van je woning",
     ],
   },
 ];

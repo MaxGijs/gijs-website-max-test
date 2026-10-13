@@ -137,6 +137,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
   const title = "Warmtepomp";
   const dewarmteAO = WARMTEPOMP_PRODUCTEN[0];
   const dewarmteMP = WARMTEPOMP_PRODUCTEN[1];
+  const andereWarmtepompen = WARMTEPOMP_PRODUCTEN.slice(2);
 
   const sections = [
     { id: "wat-is-het", label: "Wat is het?" },
@@ -144,6 +145,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
     { id: "voordelen", label: "De voordelen" },
     { id: "besparing", label: "Besparing" },
     { id: "meest-geplaatst", label: "Meest geplaatst" },
+    { id: "andere-warmtepompen", label: "Andere warmtepompen" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
     { id: "subsidie", label: "Subsidie" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
@@ -426,6 +428,47 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
                 ))}
               </div>
             </TechnicalDetails>
+          </div>
+        </section>
+
+        <section id="andere-warmtepompen" className="scroll-mt-40 mb-16">
+          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Andere warmtepompen van Gijs</h2>
+          <p className="text-zinc-600 mb-8 max-w-2xl">
+            Gijs is niet aan één merk gebonden. Naast de vaste warmtepomppartner plaatst Gijs ook andere hybride
+            warmtepompen. Geen van deze producten wordt hieronder als beste keuze aangewezen. Dat bekijkt Gijs samen met jou.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {andereWarmtepompen.map(product => (
+              <Card key={product.naam} className="flex flex-col gap-5 !p-6">
+                <div className="rounded-[var(--radius-md)] overflow-hidden bg-[var(--surface-muted)] aspect-[4/3] flex items-center justify-center">
+                  <Image src={product.image} alt={product.imageAlt} width={600} height={450} className="max-w-[85%] max-h-[85%] object-contain" />
+                </div>
+                <div>
+                  <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{product.merk}</p>
+                  <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{product.naam}</h3>
+                  <p className="text-sm text-zinc-600 mt-1">{product.ondertitel}</p>
+                </div>
+                <details className="group border-t border-[var(--border-default)] pt-4 [&_summary::-webkit-details-marker]:hidden">
+                  <summary className="cursor-pointer list-none flex items-center gap-1.5 text-sm font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">
+                    Bekijk technische gegevens
+                    <Icon name="chevron-down" size="sm" className="transition-transform group-open:rotate-180" />
+                  </summary>
+                  <div className="mt-3 flex flex-col gap-3 text-sm text-zinc-600">
+                    <p><span className="font-semibold text-zinc-800">Vermogen: </span>{product.vermogen}</p>
+                    <p><span className="font-semibold text-zinc-800">Geluid: </span>{product.geluid}</p>
+                    <p><span className="font-semibold text-zinc-800">Afmetingen: </span>{product.afmetingen}</p>
+                    <ul className="flex flex-col gap-1.5">
+                      {product.kenmerken.map(k => (
+                        <li key={k} className="flex items-start gap-2">
+                          <Icon name="check" size="sm" className="mt-1 text-[var(--accent-600)] shrink-0" />
+                          <span>{k}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              </Card>
+            ))}
           </div>
         </section>
 
