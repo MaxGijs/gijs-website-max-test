@@ -43,14 +43,7 @@ const VERDUURZAMEN_FOOTER_LINKS: NavLink[] = [
 const NAV: NavEntry[] = [
   { type: "link", label: "Home", href: "/" },
   { type: "verduurzamen", label: "Verduurzamen" },
-  {
-    type: "group",
-    label: "Over Gijs",
-    items: [
-      { label: "Over Gijs", href: "/over-gijs" },
-      { label: "Cases", href: "/cases" },
-    ],
-  },
+  { type: "link", label: "Over Gijs", href: "/over-gijs" },
   { type: "link", label: "Contact", href: "/contact" },
 ];
 
