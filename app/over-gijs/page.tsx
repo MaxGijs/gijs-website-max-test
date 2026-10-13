@@ -36,26 +36,21 @@ export default function OverGijs() {
       <main className="flex-1">
         {/* 1. Hero */}
         <section className="bg-white">
-          <div className="max-w-[var(--container-wide)] mx-auto px-6 pt-14 sm:pt-20 lg:pt-28 grid lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 items-start">
-            <div>
-              <Eyebrow>Over Gijs</Eyebrow>
-              <h1 className="mt-5 max-w-2xl text-[clamp(2.75rem,1.2rem+5vw,5.5rem)] font-bold leading-[1.02] tracking-[-0.045em] text-[var(--gijs-donkergroen)] [text-wrap:balance]">
-                Iedereen kent wel een <span className="text-[var(--accent-600)]">Gijs</span>.
-              </h1>
-              <div className="mt-10 max-w-2xl flex flex-col gap-5">
-                <p className={lead}>
-                  Iedereen kent wel iemand die luistert. Die normaal uitlegt hoe iets zit en met je meedenkt. Iemand die
-                  niet meteen iets probeert te verkopen, maar eerst wil begrijpen wat er nodig is.
-                </p>
-                <p className="text-[clamp(20px,1.05rem+0.7vw,26px)] font-semibold leading-[1.3] text-[var(--gijs-donkergroen)]">Dat is het idee achter Gijs.</p>
-              </div>
-              <a href="#verhaal" className="mt-10 inline-flex min-h-11 items-center gap-2 font-semibold text-[var(--accent-700)]">
-                Lees het verhaal <Icon name="arrow-down" size="md" />
-              </a>
+          <div className="max-w-[var(--container-wide)] mx-auto px-6 pt-14 sm:pt-20 lg:pt-28">
+            <Eyebrow>Over Gijs</Eyebrow>
+            <h1 className="mt-5 max-w-2xl text-[clamp(2.75rem,1.2rem+5vw,5.5rem)] font-bold leading-[1.02] tracking-[-0.045em] text-[var(--gijs-donkergroen)] [text-wrap:balance]">
+              Iedereen kent wel een <span className="text-[var(--accent-600)]">Gijs</span>.
+            </h1>
+            <div className="mt-10 max-w-2xl flex flex-col gap-5">
+              <p className={lead}>
+                Iedereen kent wel iemand die luistert. Die normaal uitlegt hoe iets zit en met je meedenkt. Iemand die
+                niet meteen iets probeert te verkopen, maar eerst wil begrijpen wat er nodig is.
+              </p>
+              <p className="text-[clamp(20px,1.05rem+0.7vw,26px)] font-semibold leading-[1.3] text-[var(--gijs-donkergroen)]">Dat is het idee achter Gijs.</p>
             </div>
-            <div className="relative aspect-[4/3] lg:aspect-[3/4] overflow-hidden rounded-[var(--radius-media)] bg-[var(--surface-muted)]">
-              <Image src="/images/over-gijs/hero/duurzame-wijk.png" alt="Een rij woningen met zonnepanelen aan het water" fill priority sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover object-[50%_62%]" />
-            </div>
+            <a href="#verhaal" className="mt-10 inline-flex min-h-11 items-center gap-2 font-semibold text-[var(--accent-700)]">
+              Lees het verhaal <Icon name="arrow-down" size="md" />
+            </a>
           </div>
         </section>
 
