@@ -190,6 +190,14 @@ export function StapBevestigen({
         {woningtypeBron === "automatisch" && (
           <p className="text-[14px] text-[var(--grey-600,#5b6560)] -mt-2">Automatisch bepaald op basis van beschikbare woninggegevens. Klopt dit niet? Kies het juiste woningtype.</p>
         )}
+        {/* EP-Online geeft bij veel panden geen eenduidig woningtype terug (bv. een appartement, of de
+            letterlijke waarde "Twee-onder-een-kap / rijwoning hoek" — zie lib/ep-online/woningtypeMapping.ts).
+            Dan blijft woningtypeBron "" en bleef hierboven stilzwijgend het standaardtype (hoekwoning) staan,
+            zonder enig signaal dat dit geen echte detectie was. Daarom hier altijd een duidelijke vraag i.p.v.
+            niets, zodat de bewoner het zelf controleert in plaats van een onopgemerkt fout woningtype. */}
+        {woningtypeBron === "" && (
+          <p className="text-[14px] text-[var(--accent-700)] font-semibold -mt-2">Kon niet automatisch worden bepaald. Controleer en kies het juiste woningtype hierboven.</p>
+        )}
         <div className="flex flex-col items-start gap-2">
           <Button variant="primary" size="lg" iconRight="arrow-right" onClick={() => onBevestig(label, false, bag, epOnline, { straat: adres.straat, woonplaats: adres.woonplaats })}>Ja, dit klopt</Button>
           <button type="button" className="underline font-semibold min-h-11" onClick={() => setBewerken(true)}>Nee, adres aanpassen</button>
