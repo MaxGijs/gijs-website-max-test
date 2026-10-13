@@ -16,7 +16,7 @@ import { FeatureList } from "@/components/measures/FeatureList";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
-import { MC_BRONNEN, MC_VERWARMING } from "@/lib/content/milieu-centraal";
+import { WARMTEPOMP_HUIDIG_VERBRUIK, WARMTEPOMP_GASBESPARING, WARMTEPOMP_STROOM_ERBIJ, GAS_VASTRECHT_PER_JAAR } from "@/lib/content/warmtepomp-besparing";
 import { ERVARING } from "@/lib/content/over-gijs";
 import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
 
@@ -153,7 +153,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
     // Vragen zoals mensen ze intypen (kosten, besparing, geluid, hybride of volledig). Alleen met
     // cijfers uit de bronnen in deze repo: geluid uit de productgegevens, verbruik van Milieu Centraal.
     { question: "Wat kost een hybride warmtepomp?", answer: "Dat hangt af van je woning, het vermogen dat je nodig hebt en wat er aan je verwarming moet gebeuren. Daarom krijg je na de gratis energiescan aan huis een prijs op maat, zonder verplichtingen. Mogelijk kun je een deel terugkrijgen via de ISDE-subsidie (zie hieronder)." },
-    { question: "Hoeveel gas bespaar ik met een hybride warmtepomp?", answer: `Volgens Milieu Centraal gebruikt een gemiddelde tussenwoning met redelijke isolatie zo'n ${MC_VERWARMING.tussenwoning.redelijk.cvKetel.gas.toLocaleString("nl-NL")} m³ gas per jaar met alleen een cv-ketel, en zo'n ${MC_VERWARMING.tussenwoning.redelijk.hybride.gas.toLocaleString("nl-NL")} m³ met een hybride warmtepomp. Je stroomverbruik gaat wel omhoog: van ${MC_VERWARMING.tussenwoning.redelijk.cvKetel.stroom.toLocaleString("nl-NL")} naar ${MC_VERWARMING.tussenwoning.redelijk.hybride.stroom.toLocaleString("nl-NL")} kWh. Hierboven staan de cijfers voor alle woningtypes.` },
+    { question: "Hoeveel gas bespaar ik met een hybride warmtepomp?", answer: `Als vuistregel rekent Gijs met 60% minder gas door een hybride warmtepomp, en met vloerverwarming zelfs 70%. Een tussenwoning gebruikt bijvoorbeeld gemiddeld zo'n ${WARMTEPOMP_HUIDIG_VERBRUIK.tussenwoning.gas.toLocaleString("nl-NL")} m³ gas per jaar; met een hybride warmtepomp wordt dat ongeveer ${Math.round(WARMTEPOMP_HUIDIG_VERBRUIK.tussenwoning.gas * (1 - WARMTEPOMP_GASBESPARING.hybride)).toLocaleString("nl-NL")} m³. Je stroomverbruik gaat er wel zo'n ${WARMTEPOMP_STROOM_ERBIJ.hybride.toLocaleString("nl-NL")} kWh per jaar bij. Hierboven staan de cijfers voor alle woningtypes.` },
     { question: "Hoe hard is een hybride warmtepomp?", answer: `De buitenunit van de hybride warmtepomp die Gijs het meest plaatst maakt ${WARMTEPOMP_PRODUCTEN[0].geluid.replace(" · ", ", en ")}. De variant met groter vermogen: ${WARMTEPOMP_PRODUCTEN[1].geluid.replace(" · ", ", en ")}.` },
     { question: "Wat is het verschil tussen een hybride en een volledig elektrische warmtepomp?", answer: "Een hybride warmtepomp werkt samen met je cv-ketel: de warmtepomp verwarmt met warmte uit de buitenlucht en de ketel springt bij wanneer dat nodig is. Een volledig elektrische warmtepomp vervangt de cv-ketel helemaal en vraagt om een goed geïsoleerde woning; bij matige isolatie noemt Milieu Centraal die niet geschikt. Tijdens de energiescan kijkt Gijs welke oplossing bij jouw woning past." },
     { question: "Wat is een hybride warmtepomp?", answer: "Een hybride installatie bestaat uit een hybride warmtepomp en een cv-ketel. De warmtepomp haalt warmte uit de buitenlucht en gebruikt die om je woning te verwarmen. De cv-ketel blijft aanwezig en springt bij wanneer dat nodig is." },
@@ -301,33 +301,36 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
           <FeatureList columns={4} items={VOORDELEN.map(voordeel => ({ icon: "zap", title: voordeel }))} />
         </section>
 
-        {/* Besparing: referentiecijfers van Milieu Centraal (lib/content/milieu-centraal.ts), per woningtype
-            bij redelijke isolatie. Geen euro's: die hangen van het eigen energiecontract af. */}
+        {/* Besparing: ervaringscijfers van Gijs (lib/content/warmtepomp-besparing.ts), per
+            woningtype. Geen euro's: die hangen van het eigen energiecontract af. */}
         <section id="besparing" className="scroll-mt-40 mb-16">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoeveel gas bespaar je met een hybride warmtepomp?</h2>
+          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoeveel bespaar je met een warmtepomp?</h2>
           <p className="text-lg text-zinc-600 mb-6 max-w-2xl">
-            Een hybride warmtepomp verwarmt grotendeels met warmte uit de buitenlucht. Je gebruikt daardoor veel minder gas,
-            maar wel meer stroom. Dit zijn de gemiddelde cijfers van Milieu Centraal per jaar, voor verwarming en warm water.
+            Een warmtepomp verwarmt grotendeels met warmte uit de buitenlucht. Je gebruikt daardoor veel minder gas, maar wel
+            meer stroom. Dit zijn de vuistregels die Gijs hanteert, uitgaand van het gemiddelde verbruik per woningtype.
           </p>
           <div className="overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border-default)]">
             <table className="w-full text-left text-sm sm:text-base">
               <thead className="bg-[var(--surface-tint)] text-[var(--gijs-donkergroen)]">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Woningtype</th>
-                  <th className="px-4 py-3 font-semibold">Gas met cv-ketel</th>
-                  <th className="px-4 py-3 font-semibold">Gas met hybride warmtepomp</th>
-                  <th className="px-4 py-3 font-semibold">Stroom met hybride warmtepomp</th>
+                  <th className="px-4 py-3 font-semibold">Nu</th>
+                  <th className="px-4 py-3 font-semibold">Hybride warmtepomp</th>
+                  <th className="px-4 py-3 font-semibold">Volledig elektrisch</th>
                 </tr>
               </thead>
               <tbody>
                 {(["tussenwoning", "hoekwoning", "twee-onder-een-kap", "vrijstaand"] as HouseType[]).map(type => {
-                  const { cvKetel, hybride } = MC_VERWARMING[type].redelijk;
+                  const { gas, stroom } = WARMTEPOMP_HUIDIG_VERBRUIK[type];
+                  const gasHybride = Math.round(gas * (1 - WARMTEPOMP_GASBESPARING.hybride));
+                  const stroomHybride = stroom + WARMTEPOMP_STROOM_ERBIJ.hybride;
+                  const stroomVolledig = stroom + WARMTEPOMP_STROOM_ERBIJ.volledigElektrisch;
                   return (
                     <tr key={type} className="border-t border-[var(--border-default)]">
                       <td className="px-4 py-3 font-semibold text-[var(--gijs-donkergroen)]">{HOUSE_MODELS[type].label}</td>
-                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{cvKetel.gas.toLocaleString("nl-NL")} m³</td>
-                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{hybride.gas.toLocaleString("nl-NL")} m³</td>
-                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{hybride.stroom.toLocaleString("nl-NL")} kWh <span className="text-zinc-500">(was {cvKetel.stroom.toLocaleString("nl-NL")})</span></td>
+                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{gas.toLocaleString("nl-NL")} m³ gas<br />{stroom.toLocaleString("nl-NL")} kWh stroom</td>
+                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">{gasHybride.toLocaleString("nl-NL")} m³ gas<br />{stroomHybride.toLocaleString("nl-NL")} kWh stroom</td>
+                      <td className="px-4 py-3 text-zinc-600 whitespace-nowrap">Geen gas meer<br />{stroomVolledig.toLocaleString("nl-NL")} kWh stroom</td>
                     </tr>
                   );
                 })}
@@ -335,9 +338,11 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             </table>
           </div>
           <p className="mt-3 text-sm text-zinc-500 max-w-2xl">
-            Gemiddelde woning met 2 personen en redelijke isolatie. Bron:{" "}
-            <a href={MC_BRONNEN.hybride} target="_blank" rel="noopener noreferrer" className="underline">Milieu Centraal, hybride warmtepomp</a>.
-            Wat dit voor jou in euro&apos;s scheelt, hangt af van je woning en je energiecontract. In de{" "}
+            Vuistregels van Gijs, op basis van het gemiddelde gas- en stroomverbruik per woningtype: 60% minder gas met een
+            hybride warmtepomp, en met vloerverwarming zelfs 70%. Bij volledig elektrisch verdwijnt het gasverbruik helemaal;
+            de vaste vastrechtkosten voor de gasaansluiting (vaak zo&apos;n €{GAS_VASTRECHT_PER_JAAR} per jaar) blijven lopen
+            zolang die aansluiting blijft bestaan. Wat dit voor jou in euro&apos;s scheelt, hangt af van je woning en je
+            energiecontract. In de{" "}
             <Link href={startScanHref} className="underline text-[var(--accent-700)]">woningscan</Link> zie je het met je eigen verbruik en prijzen.
           </p>
           <p className="mt-4 text-zinc-600 max-w-2xl">
