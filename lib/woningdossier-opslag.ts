@@ -2,7 +2,7 @@
 import "server-only";
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { readScan, UUID, dakkapelTekst, type ScanSession } from "@/lib/scan-session";
+import { readScan, UUID, dakkapelTekst, gebruiktWarmtenet, type ScanSession } from "@/lib/scan-session";
 import { leesGetal } from "@/lib/energie-schatting";
 import { schrijfMetOntbrekendeKolommen } from "@/lib/opslag-hulp";
 
@@ -57,6 +57,8 @@ const leesGetalBegrensd = (v: string, min: number, max: number) => {
   const n = leesGetal(v);
   return n !== null && n >= min && n <= max ? n : null;
 };
+/** Kommagescheiden en gesorteerd, zelfde vorm als in woningdossier_overzicht; leeg -> null. */
+const lijstTekst = (lijst: string[]) => (lijst.length ? [...new Set(lijst)].sort().join(", ") : null);
 /** "Anders" krijgt de vrije toelichting erbij, zoals ook al in scanMessage() gebeurt — geen nieuwe kolom nodig. */
 const metToelichting = (lijst: string[], anders: string) => lijst.map((v) => (v === "Anders" && anders.trim() ? `Anders: ${anders.trim()}` : v));
 
@@ -65,14 +67,37 @@ function naarWoningdossierRij(s: ScanSession, afgerond: boolean) {
     id: s.dossierId,
     postcode: leeg(s.postcode),
     huisnummer: leeg(s.huisnummer),
-    // straat/woonplaats zijn nieuwe kolommen waar geen los scanveld voor bestaat (alleen de
-    // samengestelde addressLabel, bv. "Kievitstraat 1, 7622AB Borne") — bewust NIET met een
-    // regex uit elkaar getrokken, want dat kan stilletjes verkeerd gaan. Zie rapportage.
+    // straat/woonplaats komen los mee bij het bevestigen van het adres (PDOK of handmatig ingevuld).
+    straat: leeg(s.straat),
+    woonplaats: leeg(s.woonplaats),
+    adres: leeg(s.addressLabel),
+    handmatig_adres: s.manualAddress,
     woningtype: s.houseType,
     bouwjaar: leesGetalBegrensd(s.bouwjaar, 1000, 2100),
     woonoppervlakte: leesGetalBegrensd(s.woonoppervlakte, 1, 2000),
     monument: leeg(s.monument),
     energielabel: leeg(s.energielabel),
+    hoek_zijde: leeg(s.hoekZijde),
+    verwarmde_verdiepingen: leeg(s.verwarmdeVerdiepingen),
+    // Alleen bij stads- of blokverwarming; anders staat er een standaardprijs die niets zegt.
+    warmteverbruik: gebruiktWarmtenet(s.verwarming) ? leesGetalBegrensd(s.warmteverbruik, 0, 10000) : null,
+    warmteprijs: gebruiktWarmtenet(s.verwarming) ? leesGetalBegrensd(s.warmteprijs, 0, 1000) : null,
+    vloeroppervlakte: leesGetalBegrensd(s.vloeroppervlakte, 1, 5000),
+    dakoppervlakte: leesGetalBegrensd(s.dakoppervlakte, 1, 5000),
+    gevel_oppervlakte: leesGetalBegrensd(s.gevelOppervlakte, 1, 5000),
+    woningtype_bron: leeg(s.woningtypeBron),
+    dakkapel_aantal: leeg(s.dakkapelAantal),
+    bag_opgehaald: s.bagOpgehaald,
+    verwarming_anders: leeg(s.verwarmingAnders),
+    warmteafgifte_anders: leeg(s.warmteafgifteAnders),
+    bestaande_onbekend: s.aanwezigOnbekend,
+    wensen_onbekend: s.wensenOnbekend,
+    // Ook als leesbare tekst op het dossier zelf; de losse tabellen hieronder blijven de bron.
+    wensen: lijstTekst(s.wishes),
+    bestaande_maatregelen: lijstTekst(s.bestaandeMaatregelen),
+    gekozen_maatregelen: lijstTekst(s.measures),
+    wil_wijzigen: s.advice,
+    wijzig_toelichting: s.advice ? leeg(s.wijzigToelichting) : null,
     // Geen aparte dakkapel_aantal-kolom: "Meerdere: <toelichting>" gaat, net als op het scherm, in dakkapel zelf.
     dakkapel: s.dakkapel ? dakkapelTekst(s) : null,
     garage: leeg(s.garage),
@@ -91,6 +116,7 @@ function naarWoningdossierRij(s: ScanSession, afgerond: boolean) {
     zonnepanelen_aantal: leesGetalBegrensd(s.zonnepanelenAantal, 0, 500),
     status: afgerond ? "afgerond" : "concept",
     scan_afgerond: afgerond,
+    // Blijft gevuld als reservekopie; de meeste velden hebben inmiddels ook een eigen kolom.
     woningkenmerken: {
       addressLabel: leeg(s.addressLabel),
       manualAddress: s.manualAddress,

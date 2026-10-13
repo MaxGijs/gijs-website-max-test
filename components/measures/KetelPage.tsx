@@ -12,7 +12,7 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails, TechnicalDetailRow } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
-import { UitvoeringStappen, type UitvoeringStap } from "@/components/measures/UitvoeringStappen";
+import { KetelInstallatieAnimatie } from "@/components/measures/KetelInstallatieAnimatie";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -43,14 +43,6 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
   ];
 
-  const UITVOERING_STAPPEN: UitvoeringStap[] = [
-    { bestand: "maatregelen/ketel/proces/ketel-stap-1.svg", label: "Aankomst" },
-    { bestand: "maatregelen/ketel/proces/ketel-stap-2.svg", label: "Uitleg" },
-    { bestand: "maatregelen/ketel/proces/ketel-stap-3.svg", label: "Voorbereiding" },
-    { bestand: "maatregelen/ketel/proces/ketel-stap-4.svg", label: "Nieuwe ketel plaatsen" },
-    { bestand: "maatregelen/ketel/proces/ketel-stap-5.svg", label: "Controle" },
-    { bestand: "maatregelen/ketel/proces/ketel-stap-6.svg", label: "Opleveren" },
-  ];
 
   const faqItems: FAQItem[] = [
     { question: "Welke ketels gebruikt Gijs?", answer: "Gijs werkt met twee Intergas hr-combiketels: de Kombi Kompakt HRE 28/24 en de HRE 36/30. Welke uitvoering bij jouw woning past, bespreekt Gijs met je tijdens de energiescan." },
@@ -185,7 +177,7 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
         <section id="hoe-werkt-het" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
           <p className="text-lg text-zinc-600 mb-10 max-w-2xl">Gijs vervangt de ketel volgens een vaste aanpak.</p>
-          <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+          <KetelInstallatieAnimatie />
         </section>
 
         <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">

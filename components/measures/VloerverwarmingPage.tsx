@@ -16,7 +16,6 @@ import {
   ECOFLOOR_TECHNISCH,
   ECOFLOOR_NIET_DOEN,
   SYSTEEMOPBOUW,
-  UITVOERING_STAPPEN,
   AANDACHTSPUNTEN_VOOR,
   AANDACHTSPUNTEN_NA,
   VOORDELEN,
@@ -26,7 +25,7 @@ import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
-import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
+import { VloerverwarmingInstallatieAnimatie } from "@/components/measures/VloerverwarmingInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails } from "@/components/measures/TechnicalDetails";
 import { FeatureList } from "@/components/measures/FeatureList";
@@ -211,7 +210,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         <section id="uitvoering" className="scroll-mt-40 mb-16">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
           <p className="text-lg text-zinc-600 mb-10 max-w-2xl">Gijs plaatst de vloerverwarming en de gietdekvloer volgens een vaste aanpak.</p>
-          <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+          <VloerverwarmingInstallatieAnimatie />
         </section>
 
         <section id="gietdekvloer" className="scroll-mt-40 mb-16">

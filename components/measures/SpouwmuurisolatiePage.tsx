@@ -10,7 +10,7 @@ import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
-import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
+import { SpouwmuurInstallatieAnimatie } from "@/components/measures/SpouwmuurInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
@@ -58,14 +58,6 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // -stap-6.svg; de vorige bestanden (stap-1/2/5/6.svg, boorgatenmaken.svg,
 // stap-4-spouwisolatie.svg) zijn verwijderd. Titels ongewijzigd
 // overgenomen: stap 3 heet nog steeds "Boorgaten maken".
-const UITVOERING_STAPPEN = [
-  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-1.svg", label: "Aankomst" },
-  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-2.svg", label: "Uitleg" },
-  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-3.svg", label: "Boorgaten maken" },
-  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
-  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-5.svg", label: "Controle" },
-  { bestand: "maatregelen/spouwmuurisolatie/proces/spouwmuurisolatie-stap-6.svg", label: "Oplevering" },
-];
 
 // Aanvullende voorwaarden — pagina 2, identiek in alle drie productbladen.
 // In twee groepen verdeeld: wat de woning/omgeving beschikbaar moet
@@ -225,11 +217,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
       <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
         <p className="text-zinc-600 mb-10 max-w-2xl">Gijs werkt volgens een vaste aanpak. Zo weet je precies wat je kunt verwachten.</p>
-        {/* Gedeeld component, gebruikt door alle isolatiepagina's, zodat de
-            iconen op elke pagina exact dezelfde afmeting/uitlijning
-            hebben — zie UitvoeringStappen.tsx voor de volledige
-            toelichting (responsive gedrag, aspect-ratio-fix). */}
-        <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+        <SpouwmuurInstallatieAnimatie />
       </section>
 
       <section id="materialen" className="scroll-mt-40 mb-14">

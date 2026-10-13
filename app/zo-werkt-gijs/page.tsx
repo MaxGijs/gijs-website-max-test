@@ -105,11 +105,9 @@ export default function ZoWerktGijs() {
               <p className={tekst}>{ch1.tekst}</p>
             </div>
             <div className={`flex flex-col gap-6 ${styles.opkomen}`}>
-              <div className="relative aspect-square overflow-hidden rounded-[var(--radius-media)] bg-[var(--surface-muted)]">
-                {/* Uitgesneden op het rechterdeel van de foto: het linkerdeel van het origineel
-                    toont een verzonnen "Gijs"-tuinbord dat niet bestaat (geen echt beeldmateriaal
-                    of marketingmateriaal) en dus niet gesuggereerd mag worden. */}
-                <Image src="/images/zo-werkt-gijs/woning/hero-verduurzaamd-huis.png" alt="Een bewoner bekijkt met zijn kind op de arm zijn woning met zonnepanelen" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover object-[100%_50%]" />
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-media)] bg-[var(--surface-muted)]">
+                {/* Echte foto van een klant bij zijn woning met zonnepanelen (geen stockfoto). */}
+                <Image src="/images/zo-werkt-gijs/woning/eerst-je-woning-klant.jpeg" alt="Bewoners bij hun woning met zonnepanelen" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
               </div>
               <WoningdossierLijst
                 velden={[

@@ -17,7 +17,9 @@ export type Schrijf = (rij: Rij) => PromiseLike<{ error: { code?: string; messag
 /** Ontbreekt een kolom in Supabase (PGRST204), dan de rest wél opslaan en de kolom in de serverlog noemen. */
 export async function schrijfMetOntbrekendeKolommen(rij: Rij, schrijf: Schrijf) {
   const kopie = { ...rij };
-  for (let poging = 0; poging < 4; poging++) {
+  // Zoveel pogingen als er velden zijn: nieuwe kolommen kunnen in de code staan voordat de migratie
+  // in Supabase is gedraaid, en dan moet de rest gewoon blijven opslaan.
+  for (let poging = 0; poging <= Object.keys(rij).length; poging++) {
     const { error } = await schrijf(kopie);
     if (!error) return null;
     const kolom = error.code === "PGRST204" ? /'([^']+)' column/.exec(error.message)?.[1] : undefined;

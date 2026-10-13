@@ -89,6 +89,9 @@ export type ScanSession = {
   /** Herkomst van het huidige woningtype: "" = nog geen bron (standaardwaarde), "automatisch" = via EP-Online bepaald, "handmatig" = bewoner heeft zelf gekozen. Alleen "handmatig" mag een volgende automatische herkenning tegenhouden. */
   woningtypeBron: "" | "automatisch" | "handmatig";
   addressLabel: string;
+  /** Straatnaam en woonplaats los, voor de opslag (het label hierboven is alleen voor weergave). */
+  straat: string;
+  woonplaats: string;
   manualAddress: boolean;
   woningBevestigd: boolean;
   /** Alleen bij hoekwoning: aan welke kant de buurwoning staat, voor de illustratieve woningweergave. */
@@ -181,6 +184,8 @@ export const freshScan = (postcode = "", huisnummer = "", houseType: HouseType =
   houseType,
   woningtypeBron: "",
   addressLabel: "",
+  straat: "",
+  woonplaats: "",
   manualAddress: false,
   woningBevestigd: false,
   hoekZijde: "",
@@ -258,6 +263,8 @@ export function readScan(raw: string | null): ScanSession | null {
       terugNaarPlan: v.terugNaarPlan === true && bevestigd,
       woningtypeBron: v.woningtypeBron === "automatisch" || v.woningtypeBron === "handmatig" ? v.woningtypeBron : "",
       addressLabel: tekst(v.addressLabel, 200),
+      straat: tekst(v.straat, 120),
+      woonplaats: tekst(v.woonplaats, 120),
       manualAddress: v.manualAddress === true,
       woningBevestigd: bevestigd,
       hoekZijde: optie(v.hoekZijde, HOEK_ZIJDE_OPTIES),

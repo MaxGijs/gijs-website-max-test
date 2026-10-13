@@ -17,6 +17,7 @@ export type VloerSoort = "platen" | "pur" | "bodem";
 
 const LUIK = 608;                                        // midden van het luik
 const LIG_Y = 22;                                        // y-verschuiving: liggend op de bodem van de kruipruimte
+const STA_Y = 30;                                        // y-verschuiving: staand in het luik (voeten op de bodem)
 const INST2 = 362;                                       // beginplek van installateur 2
 const STAPEL = { x: 96, y: 250 };                        // platen in de aanhanger, 20 x 8
 const ZAK = { x: 94, y: 250 };                           // zak in de aanhanger, 22 x 20
@@ -74,9 +75,20 @@ export function vloerScene(soort: VloerSoort) {
     const standaard = standaardStappen(tl, r, el);
     const vast = (id: string, at: number) => { draai(`${id}-ar`, at, -40, 200); draai(`${id}-al`, at, 40, 200); };
     const los = (id: string, at: number) => { draai(`${id}-ar`, at, 0, 200); draai(`${id}-al`, at, 0, 200); };
-    /** Installateur 2 gaat via het luik liggend de kruipruimte in / komt eruit. */
-    const erin = (at: number) => tl.add(el("inst2"), { x: LUIK + 30 - INST2, y: LIG_Y, rotate: -90, duration: 800 }, at);
-    const eruit = (at: number) => tl.add(el("inst2"), { x: LUIK - INST2, y: 0, rotate: 0, duration: 800 }, at);
+    /**
+     * Installateur 2 stapt rustig via het luik de kruipruimte in (rechtop naar
+     * beneden, even staan, dan gaan liggen) en komt er op dezelfde manier weer uit.
+     * Duurt 1500 ms.
+     */
+    const erin = (at: number) => {
+      beweeg("inst2", { x: LUIK - INST2 }, at, 300);                       // boven het luik
+      beweeg("inst2", { y: STA_Y }, at + 300, 700);                        // naar beneden stappen
+      tl.add(el("inst2"), { x: LUIK + 30 - INST2, y: LIG_Y, rotate: -90, duration: 500 }, at + 1000); // gaan liggen
+    };
+    const eruit = (at: number) => {
+      tl.add(el("inst2"), { x: LUIK - INST2, y: STA_Y, rotate: 0, duration: 500 }, at); // overeind
+      beweeg("inst2", { y: 0 }, at + 700, 700);                            // omhoog stappen
+    };
     const kruip = (voetX: number, at: number, duur: number) => beweeg("inst2", { x: voetX - INST2 }, at, duur);
     const stroom = (at: number, duur: number) => {
       tl.add(el("stroom"), { opacity: 1, duration: 150 }, at);
@@ -100,11 +112,11 @@ export function vloerScene(soort: VloerSoort) {
     opPad("luik-gat", T[2] + 1300);
     teken("luik", T[2] + 1300, 300);
     loop("inst2", LUIK + 12 - INST2, T[2] + 200, 1300);
-    erin(T[2] + 1800);
+    erin(T[2] + 1600);
     const nakijkenTot = soort === "bodem" ? 452 : 520;
-    kruip(nakijkenTot, T[2] + 2700, 1600);
-    werk("inst2-ar", T[2] + 2700, 1600, -110, -70, 260);
-    if (soort !== "bodem") kruip(638, T[2] + 4400, 1300); // terug naar het luik, klaar voor stap 4
+    kruip(nakijkenTot, T[2] + 3200, 1400);
+    werk("inst2-ar", T[2] + 3200, 1400, -110, -70, 260);
+    if (soort !== "bodem") kruip(638, T[2] + 4700, 1200); // terug naar het luik, klaar voor stap 4
 
     // Installateur 1 haalt alvast het materiaal.
     if (soort === "platen") {
@@ -133,6 +145,7 @@ export function vloerScene(soort: VloerSoort) {
     draai("inst2-ar", T[3] + 300, armHoek);
     kruip(naar, T[3] + 1000, 4200);
     teken("laag", T[3] + 1000, 4200);
+    if (soort === "bodem") tl.add(el("zak"), { scaleY: 0, duration: 4200, ease: "linear" }, T[3] + 1000); // de zak raakt leeg
     if (soort === "platen") {
       draag("stapel", T[3], 600, { y: 30 + 26 });         // via het luik naar beneden
       los("inst1", T[3] + 500);
@@ -155,10 +168,10 @@ export function vloerScene(soort: VloerSoort) {
     if (soort !== "platen") gum("slang", T[4], 900);
     kruip(LUIK + 30, T[4] + 100, soort === "bodem" ? 400 : 1300);
     eruit(T[4] + 1500);
-    gum("luik", T[4] + 2300, 300);
-    tl.add(el("luik-dicht"), { opacity: 1, duration: 1 }, T[4] + 2600);
-    vanPad("luik-gat", T[4] + 2600);
-    standaard.stap5(2400);
+    gum("luik", T[4] + 2900, 300);
+    tl.add(el("luik-dicht"), { opacity: 1, duration: 1 }, T[4] + 3200);
+    vanPad("luik-gat", T[4] + 3200);
+    standaard.stap5(2900);
     standaard.stap6();
     return tl;
   }

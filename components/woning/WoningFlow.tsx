@@ -303,10 +303,11 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
           houseType={scan.houseType} woningtypeBron={scan.woningtypeBron}
           onHouseTypeChange={setHouseType} onAutoHouseType={setAutoHouseType}
           onAdresSubmit={(postcode, huisnummer) => patch({ postcode, huisnummer, addressLabel: "", woningBevestigd: false })}
-          onBevestig={(addressLabel, manual = false, bag, epOnline) => {
+          onBevestig={(addressLabel, manual = false, bag, epOnline, adresDelen) => {
             if (!scan.dossierId) track({ name: "scan_started" });
             patch({
               addressLabel, manualAddress: manual, woningBevestigd: true,
+              straat: adresDelen?.straat ?? "", woonplaats: adresDelen?.woonplaats ?? "",
               dossierId: scan.dossierId || crypto.randomUUID(),
               // Alleen invullen als de bewoner dit nog niet zelf had ingevuld.
               bouwjaar: scan.bouwjaar || bag?.bouwjaar || "",

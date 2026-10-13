@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { Timeline, TimelineParams } from "animejs";
 import styles from "./InstallatieAnimatie.module.css";
 
@@ -145,7 +145,7 @@ export function InstallatieAnimatie({ scene, stappen, label }: { scene: Installa
               )}
             </button>
           )}
-          <ol className={styles.stappen}>
+          <ol className={styles.stappen} style={{ "--stappen": stappen.length } as CSSProperties}>
             {stappen.map((s, i) => (
               <li key={s.titel}>
                 <button

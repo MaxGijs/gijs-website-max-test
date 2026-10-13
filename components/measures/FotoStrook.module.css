@@ -1,0 +1,73 @@
+/* Doorlopende fotostrook: de rij staat er twee keer in en schuift van links naar rechts (zie
+   FotoStrook.tsx), zodat foto's rechts uit beeld lopen en links weer binnenkomen, zonder naad. */
+.venster {
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.venster[data-slepen] {
+  cursor: grabbing;
+}
+
+.venster:focus-visible {
+  outline: 2px solid var(--accent-600);
+  outline-offset: 4px;
+}
+
+.rij {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.reeks {
+  display: flex;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.foto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.beeld {
+  position: relative;
+  height: 220px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--surface-muted);
+}
+
+/* Het onderschrift mag de foto niet breder maken dan het beeld zelf. */
+.onderschrift {
+  width: 0;
+  min-width: 100%;
+  font-size: 0.875rem;
+  color: var(--color-zinc-600, #52525b);
+}
+
+.label {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.9);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gijs-donkergroen);
+}
+
+@media (min-width: 640px) {
+  .beeld { height: 300px; }
+  .reeks { gap: 1.5rem; padding-right: 1.5rem; }
+}

@@ -4,7 +4,7 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { readScan, UUID } from "@/lib/scan-session";
 import { slaWoningdossierOp } from "@/lib/woningdossier-opslag";
-import { EMAIL } from "@/lib/opslag-hulp";
+import { EMAIL, schrijfMetOntbrekendeKolommen } from "@/lib/opslag-hulp";
 import { verstuurEnergiescanMail } from "@/lib/energiescan-mail";
 import { magDoorgaan } from "@/lib/rate-limit";
 import { geldigTelefoonnummer } from "./telefoon";
@@ -58,16 +58,20 @@ export async function verstuurEnergiescanAanvraag(ruweSessie: string, honeypot?:
 
   try {
     const db = createClient(URL_, SECRET_KEY, { auth: { persistSession: false } });
-    const { error } = await db.from("energiescanaanvraag").insert({
+    const wijziging = s.advice ? s.wijzigToelichting.trim() : "";
+    const error = await schrijfMetOntbrekendeKolommen({
       woningdossier_id: s.dossierId,
       naam,
+      voornaam,
+      achternaam,
       email: email || null,
       telefoon: telefoon || null,
       voorkeursmoment: s.voorkeursmoment || null,
-      // Wat de bewoner wil wijzigen aan wat er al is, komt mee in de opmerking (geen eigen kolom).
-      opmerking: [s.advice && s.wijzigToelichting.trim() ? `Wil iets wijzigen aan wat er al is: ${s.wijzigToelichting.trim()}` : "", s.opmerking.trim()].filter(Boolean).join("\n\n") || null,
+      wil_wijzigen: s.advice,
+      wijzig_toelichting: wijziging || null,
+      opmerking: s.opmerking.trim() || null,
       status: "nieuw",
-    });
+    }, (r) => db.from("energiescanaanvraag").insert(r));
     if (error) { console.error("[energiescanaanvraag] opslaan mislukt:", error.message); return { verstuurd: false, fout: OPSLAGFOUT }; }
 
     // De aanvraag staat nu veilig in Supabase; dat is de bron van waarheid en

@@ -40,6 +40,12 @@ type OverzichtRij = {
   elektriciteitsprijs: number | null; gasprijs: number | null; zonnepanelen_aantal: number | null;
   wensen: string | null; bestaande_maatregelen: string | null; gekozen_maatregelen: string | null;
   naam: string | null; email: string | null; telefoon: string | null; voorkeursmoment: string | null; opmerking: string | null;
+  // Kolommen uit supabase/migrations/20261013*.sql.
+  voornaam?: string | null; achternaam?: string | null; wil_wijzigen?: boolean | null; wijzig_toelichting?: string | null;
+  adres?: string | null; hoek_zijde?: string | null; verwarmde_verdiepingen?: string | null;
+  warmteverbruik?: number | null; warmteprijs?: number | null;
+  vloeroppervlakte?: number | null; dakoppervlakte?: number | null; gevel_oppervlakte?: number | null;
+  wensen_onbekend?: boolean | null; bestaande_onbekend?: boolean | null;
 };
 
 const escapeHtml = (v: unknown): string =>
@@ -71,6 +77,8 @@ const MAATREGEL_LABEL = new Map(SCAN_MEASURES.map((m) => [m.id, m.label]));
 const maatregelenWeergave = (v: string | null) => naarLijst(v).map((id) => MAATREGEL_LABEL.get(id) ?? id);
 
 function adresWeergave(r: OverzichtRij): string {
+  // Zonder losse straat (oudere dossiers) het volledige adres zoals de bewoner het bevestigde.
+  if (!r.straat?.trim() && r.adres?.trim()) return r.adres.trim();
   const straatEnNummer = [r.straat, r.huisnummer].filter((x) => x && String(x).trim()).join(" ");
   const plaatsRegel = [r.postcode, r.woonplaats].filter((x) => x && String(x).trim()).join(" ");
   return [straatEnNummer, plaatsRegel].filter(Boolean).join(", ") || "Adres onbekend";
@@ -99,7 +107,73 @@ function lijstHtml(titel: string, items: string[]) {
   </td></tr>`;
 }
 
+const getal = (v: number | null | undefined, eenheid: string) => (v != null ? `${v} ${eenheid}` : NIET_INGEVULD);
+const jaNee = (v: boolean | null | undefined) => (v === true ? "Ja" : v === false ? "Nee" : NIET_INGEVULD);
+
+/** Alle gegevens per sectie, één keer opgebouwd en gebruikt voor zowel de HTML- als de tekstversie. */
+function secties(r: OverzichtRij, adres: string) {
+  const wijzigen = r.wil_wijzigen ? `Ja${r.wijzig_toelichting?.trim() ? `: ${r.wijzig_toelichting.trim()}` : ""}` : jaNee(r.wil_wijzigen);
+  const contact: [string, string][] = [
+    ["Voornaam", weergave(r.voornaam)],
+    ["Achternaam", weergave(r.achternaam)],
+    ["E-mail", weergave(r.email)],
+    ["Telefoon", weergave(r.telefoon)],
+    ["Bereikbaar op", weergave(r.voorkeursmoment)],
+    ["Wil iets wijzigen aan wat er al is", wijzigen],
+    ["Opmerking", weergave(r.opmerking)],
+  ];
+  // Oudere aanvragen hebben geen losse voor- en achternaam: dan de volledige naam zoals opgeslagen.
+  if (!r.voornaam && !r.achternaam) contact.splice(0, 2, ["Naam", weergave(r.naam)]);
+  const woning: [string, string][] = [
+    ["Adres", adres],
+    ["Postcode", weergave(r.postcode)],
+    ["Huisnummer", weergave(r.huisnummer)],
+    ["Woonplaats", weergave(r.woonplaats)],
+    ["Woningtype", weergave(r.woningtype)],
+    ...(r.hoek_zijde ? [["Buurwoning aan de", r.hoek_zijde] as [string, string]] : []),
+    ["Bouwjaar", weergave(r.bouwjaar)],
+    ["Woonoppervlakte", getal(r.woonoppervlakte, "m²")],
+    ["Energielabel", weergave(r.energielabel, "Niet gevonden")],
+    ["Monument", weergave(r.monument)],
+    ["Dakkapel", weergave(r.dakkapel)],
+    ["Garage", weergave(r.garage)],
+    ["Aanbouw", weergave(r.aanbouw)],
+    ["Kruipruimte", antwoordWeergave(r.kruipruimte)],
+    ["Spouwmuur", antwoordWeergave(r.spouwmuur)],
+    ["Vloer begane grond (Kadaster)", getal(r.vloeroppervlakte, "m²")],
+    ["Dakoppervlak (richtwaarde)", getal(r.dakoppervlakte, "m²")],
+    ["Geveloppervlak (richtwaarde)", getal(r.gevel_oppervlakte, "m²")],
+  ];
+  const energie: [string, string][] = [
+    ["Verwarming", arrayWeergave(r.verwarming)],
+    ["Warmteafgifte", arrayWeergave(r.warmteafgifte)],
+    ["Verwarmde verdiepingen", weergave(r.verwarmde_verdiepingen)],
+    ["Warm water", arrayWeergave(r.warm_water)],
+    ["Aantal bewoners", weergave(r.aantal_bewoners)],
+    ["Elektriciteitsverbruik", getal(r.elektriciteitsverbruik, "kWh/jaar")],
+    ["Gasverbruik", getal(r.gasverbruik, "m³/jaar")],
+    ["Elektriciteitsprijs", r.elektriciteitsprijs != null ? `€ ${r.elektriciteitsprijs} /kWh` : NIET_INGEVULD],
+    ["Gasprijs", r.gasprijs != null ? `€ ${r.gasprijs} /m³` : NIET_INGEVULD],
+    ["Aantal zonnepanelen", weergave(r.zonnepanelen_aantal)],
+  ];
+  // Warmteverbruik en -prijs alleen bij stads- of blokverwarming (oudere dossiers kunnen hier een standaardprijs hebben).
+  if (/stads|blok/i.test(r.verwarming ?? "")) {
+    energie.splice(energie.length - 1, 0,
+      ["Warmteverbruik", getal(r.warmteverbruik, "GJ/jaar")],
+      ["Warmteprijs", r.warmteprijs != null ? `€ ${r.warmteprijs} /GJ` : NIET_INGEVULD]);
+  }
+  const wensen = naarLijst(r.wensen);
+  const bestaande = maatregelenWeergave(r.bestaande_maatregelen);
+  const lijsten: [string, string[]][] = [
+    ["Wensen", wensen.length ? wensen : r.wensen_onbekend ? ["Weet ik nog niet"] : []],
+    ["Bestaande maatregelen", bestaande.length ? bestaande : r.bestaande_onbekend ? ["Weet ik niet"] : []],
+    ["Woningplan / gekozen maatregelen", maatregelenWeergave(r.gekozen_maatregelen)],
+  ];
+  return { tabellen: [["Contactgegevens", contact], ["Woning", woning], ["Energie", energie]] as [string, [string, string][]][], lijsten };
+}
+
 function bouwEmailHtml(r: OverzichtRij, datumTijd: string, adres: string) {
+  const { tabellen, lijsten } = secties(r, adres);
   return `<!doctype html>
 <html lang="nl"><body style="margin:0;padding:0;background:#F4F6F5;font-family:Arial,Helvetica,sans-serif;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6F5;padding:24px 0;">
@@ -111,43 +185,8 @@ function bouwEmailHtml(r: OverzichtRij, datumTijd: string, adres: string) {
   <p style="margin:10px 0 0;color:#cfe3dd;font-size:13px;">${escapeHtml(datumTijd)}</p>
   <p style="margin:2px 0 0;color:#cfe3dd;font-size:13px;">${escapeHtml(adres)}</p>
 </td></tr>
-${sectieHtml("Contactgegevens", [
-  ["Naam", weergave(r.naam)],
-  ["E-mail", weergave(r.email)],
-  ["Telefoon", weergave(r.telefoon)],
-  ["Voorkeursmoment", weergave(r.voorkeursmoment)],
-  ["Opmerking", weergave(r.opmerking)],
-])}
-${sectieHtml("Woning", [
-  ["Adres", adres],
-  ["Postcode", weergave(r.postcode)],
-  ["Huisnummer", weergave(r.huisnummer)],
-  ["Woonplaats", weergave(r.woonplaats)],
-  ["Woningtype", weergave(r.woningtype)],
-  ["Bouwjaar", weergave(r.bouwjaar)],
-  ["Woonoppervlakte", r.woonoppervlakte != null ? `${r.woonoppervlakte} m²` : NIET_INGEVULD],
-  ["Energielabel", weergave(r.energielabel, "Niet gevonden")],
-  ["Monument", weergave(r.monument)],
-  ["Dakkapel", weergave(r.dakkapel)],
-  ["Garage", weergave(r.garage)],
-  ["Aanbouw", weergave(r.aanbouw)],
-  ["Kruipruimte", antwoordWeergave(r.kruipruimte)],
-  ["Spouwmuur", antwoordWeergave(r.spouwmuur)],
-])}
-${sectieHtml("Energie", [
-  ["Verwarming", arrayWeergave(r.verwarming)],
-  ["Warmteafgifte", arrayWeergave(r.warmteafgifte)],
-  ["Warm water", arrayWeergave(r.warm_water)],
-  ["Aantal bewoners", weergave(r.aantal_bewoners)],
-  ["Elektriciteitsverbruik", r.elektriciteitsverbruik != null ? `${r.elektriciteitsverbruik} kWh/jaar` : NIET_INGEVULD],
-  ["Gasverbruik", r.gasverbruik != null ? `${r.gasverbruik} m³/jaar` : NIET_INGEVULD],
-  ["Elektriciteitsprijs", r.elektriciteitsprijs != null ? `€ ${r.elektriciteitsprijs} /kWh` : NIET_INGEVULD],
-  ["Gasprijs", r.gasprijs != null ? `€ ${r.gasprijs} /m³` : NIET_INGEVULD],
-  ["Aantal zonnepanelen", weergave(r.zonnepanelen_aantal)],
-])}
-${lijstHtml("Wensen", naarLijst(r.wensen))}
-${lijstHtml("Bestaande maatregelen", maatregelenWeergave(r.bestaande_maatregelen))}
-${lijstHtml("Woningplan / gekozen maatregelen", maatregelenWeergave(r.gekozen_maatregelen))}
+${tabellen.map(([titel, rijen]) => sectieHtml(titel, rijen)).join("\n")}
+${lijsten.map(([titel, items]) => lijstHtml(titel, items)).join("\n")}
 <tr><td style="padding:20px 32px 28px;border-top:1px solid #e5e7eb;">
   <p style="margin:0;color:#5b6560;font-size:12px;">Automatisch gegenereerd vanuit de digitale woningscan van Gijs.</p>
 </td></tr>
@@ -158,36 +197,15 @@ ${lijstHtml("Woningplan / gekozen maatregelen", maatregelenWeergave(r.gekozen_ma
 }
 
 function bouwEmailText(r: OverzichtRij, datumTijd: string, adres: string) {
+  const { tabellen, lijsten } = secties(r, adres);
   const sectie = (titel: string, rijen: [string, string][]) => [`\n${titel}`, ...rijen.map(([l, w]) => `  ${l}: ${w}`)].join("\n");
   const lijst = (titel: string, items: string[]) => [`\n${titel}`, items.length ? items.map((i) => `  - ${i}`).join("\n") : `  ${NIET_INGEVULD}`].join("\n");
   return [
     `Nieuwe energiescanaanvraag`,
     datumTijd,
     adres,
-    sectie("Contactgegevens", [
-      ["Naam", weergave(r.naam)], ["E-mail", weergave(r.email)], ["Telefoon", weergave(r.telefoon)],
-      ["Voorkeursmoment", weergave(r.voorkeursmoment)], ["Opmerking", weergave(r.opmerking)],
-    ]),
-    sectie("Woning", [
-      ["Adres", adres], ["Postcode", weergave(r.postcode)], ["Huisnummer", weergave(r.huisnummer)], ["Woonplaats", weergave(r.woonplaats)],
-      ["Woningtype", weergave(r.woningtype)], ["Bouwjaar", weergave(r.bouwjaar)],
-      ["Woonoppervlakte", r.woonoppervlakte != null ? `${r.woonoppervlakte} m²` : NIET_INGEVULD],
-      ["Energielabel", weergave(r.energielabel, "Niet gevonden")],
-      ["Monument", weergave(r.monument)], ["Dakkapel", weergave(r.dakkapel)], ["Garage", weergave(r.garage)], ["Aanbouw", weergave(r.aanbouw)],
-      ["Kruipruimte", antwoordWeergave(r.kruipruimte)], ["Spouwmuur", antwoordWeergave(r.spouwmuur)],
-    ]),
-    sectie("Energie", [
-      ["Verwarming", arrayWeergave(r.verwarming)], ["Warmteafgifte", arrayWeergave(r.warmteafgifte)], ["Warm water", arrayWeergave(r.warm_water)],
-      ["Aantal bewoners", weergave(r.aantal_bewoners)],
-      ["Elektriciteitsverbruik", r.elektriciteitsverbruik != null ? `${r.elektriciteitsverbruik} kWh/jaar` : NIET_INGEVULD],
-      ["Gasverbruik", r.gasverbruik != null ? `${r.gasverbruik} m³/jaar` : NIET_INGEVULD],
-      ["Elektriciteitsprijs", r.elektriciteitsprijs != null ? `€ ${r.elektriciteitsprijs} /kWh` : NIET_INGEVULD],
-      ["Gasprijs", r.gasprijs != null ? `€ ${r.gasprijs} /m³` : NIET_INGEVULD],
-      ["Aantal zonnepanelen", weergave(r.zonnepanelen_aantal)],
-    ]),
-    lijst("Wensen", naarLijst(r.wensen)),
-    lijst("Bestaande maatregelen", maatregelenWeergave(r.bestaande_maatregelen)),
-    lijst("Woningplan / gekozen maatregelen", maatregelenWeergave(r.gekozen_maatregelen)),
+    ...tabellen.map(([titel, rijen]) => sectie(titel, rijen)),
+    ...lijsten.map(([titel, items]) => lijst(titel, items)),
   ].join("\n");
 }
 

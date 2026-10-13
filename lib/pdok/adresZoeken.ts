@@ -28,6 +28,8 @@ export type PdokAdres = {
   id: string;
   /** Straatnaam + huisnummer (incl. letter/toevoeging indien van toepassing), zoals PDOK die teruggeeft. */
   straatEnHuisnummer: string;
+  /** Alleen de straatnaam, voor de opslag. */
+  straat: string;
   /** Postcode zoals PDOK die teruggeeft (bv. "1234 AB"). */
   postcode: string;
   /** Woonplaats zoals PDOK die teruggeeft. */
@@ -135,6 +137,7 @@ export async function zoekAdres(
     adres: {
       id,
       straatEnHuisnummer: `${straatnaam} ${huisNlt}`.trim(),
+      straat: straatnaam,
       postcode: postcodeGevonden,
       woonplaats,
       nummeraanduidingId,

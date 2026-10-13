@@ -10,7 +10,7 @@ import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
-import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
+import { VloerisolatieInstallatieAnimatie } from "@/components/measures/VloerisolatieInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
@@ -72,14 +72,6 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // kruipruimte en werkplek worden voorbereid"), dus dit advies blijft als
 // aparte notitie onder de stappenrij staan in plaats van stilzwijgend te
 // laten vervallen.
-const UITVOERING_STAPPEN = [
-  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-1.svg", label: "Aankomst" },
-  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-2.svg", label: "Uitleg" },
-  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-3.svg", label: "Voorbereiden" },
-  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
-  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-5.svg", label: "Controle" },
-  { bestand: "maatregelen/vloerisolatie/proces/vloerisolatie-stap-6.svg", label: "Oplevering" },
-];
 
 // Aanvullende voorwaarden — pagina 2 van de drie productbladen. De
 // voorwaarden links gelden voor alle systemen; de voorwaarden rechts
@@ -260,11 +252,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
       <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
         <p className="text-zinc-600 mb-10 max-w-2xl">Gijs werkt volgens een vaste aanpak. Zo weet je precies wat je kunt verwachten.</p>
-        {/* Gedeeld component, gebruikt door alle isolatiepagina's, zodat de
-            iconen op elke pagina exact dezelfde afmeting/uitlijning
-            hebben — zie UitvoeringStappen.tsx voor de volledige
-            toelichting (responsive gedrag, aspect-ratio-fix). */}
-        <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+        <VloerisolatieInstallatieAnimatie />
         <p className="text-sm text-zinc-500 mt-4 max-w-2xl">
           Bij spuitschuim-systemen (PUR-schuim en schuimsprayisolatie) wordt geadviseerd om tijdens de werkzaamheden niet in de
           woning aanwezig te zijn.

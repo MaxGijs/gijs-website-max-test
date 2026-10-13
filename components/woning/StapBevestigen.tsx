@@ -37,7 +37,7 @@ export function StapBevestigen({
   /** Voor een automatisch (EP-Online) bepaald woningtype: overschrijft nooit een al handmatige keuze van de bewoner. */
   onAutoHouseType: (type: HouseType) => void;
   onAdresSubmit: (postcode: string, huisnummer: string) => void;
-  onBevestig: (addressLabel: string, manual?: boolean, bag?: BagGegevens | null, epOnline?: EnergielabelResultaat | null) => void;
+  onBevestig: (addressLabel: string, manual?: boolean, bag?: BagGegevens | null, epOnline?: EnergielabelResultaat | null, adresDelen?: { straat: string; woonplaats: string }) => void;
 }) {
   const [pc, setPc] = useState(postcode);
   const [hn, setHn] = useState(huisnummer);
@@ -115,7 +115,7 @@ export function StapBevestigen({
       <section className="grid gap-4">
         <h3 className="text-2xl font-bold">Vul je adres zelf in</h3>
         <p>Je kunt gewoon verder. Gijs controleert dit adres later met je.</p>
-        <form className="grid gap-4" onSubmit={e => { e.preventDefault(); onAdresSubmit(pc, hn); onBevestig(street + " " + hn + ", " + pc + " " + city, true); }}>
+        <form className="grid gap-4" onSubmit={e => { e.preventDefault(); onAdresSubmit(pc, hn); onBevestig(street + " " + hn + ", " + pc + " " + city, true, null, null, { straat: street.trim(), woonplaats: city.trim() }); }}>
           <Field label="Straat"><Input aria-label="Straat" required value={street} onChange={e => setStreet(e.target.value)} /></Field>
           <Field label="Huisnummer"><Input aria-label="Huisnummer" required value={hn} onChange={e => setHn(e.target.value)} /></Field>
           <Field label="Postcode"><Input aria-label="Postcode" required value={pc} onChange={e => setPc(e.target.value)} /></Field>
@@ -191,7 +191,7 @@ export function StapBevestigen({
           <p className="text-[14px] text-[var(--grey-600,#5b6560)] -mt-2">Automatisch bepaald op basis van beschikbare woninggegevens. Klopt dit niet? Kies het juiste woningtype.</p>
         )}
         <div className="flex flex-col items-start gap-2">
-          <Button variant="primary" size="lg" iconRight="arrow-right" onClick={() => onBevestig(label, false, bag, epOnline)}>Ja, dit klopt</Button>
+          <Button variant="primary" size="lg" iconRight="arrow-right" onClick={() => onBevestig(label, false, bag, epOnline, { straat: adres.straat, woonplaats: adres.woonplaats })}>Ja, dit klopt</Button>
           <button type="button" className="underline font-semibold min-h-11" onClick={() => setBewerken(true)}>Nee, adres aanpassen</button>
         </div>
       </div>

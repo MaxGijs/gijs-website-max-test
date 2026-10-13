@@ -10,7 +10,7 @@ import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
-import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
+import { KozijnenInstallatieAnimatie } from "@/components/measures/KozijnenInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
@@ -96,12 +96,6 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // (stap-1/2/3/4-kozijnen.svg) zijn verwijderd. Titels ongewijzigd
 // overgenomen: "Inmeten ramen", "Uitleg en keuze", "Plaatsing",
 // "Oplevering".
-const UITVOERING_STAPPEN = [
-  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-1.svg", label: "Inmeten ramen" },
-  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-2.svg", label: "Uitleg en keuze" },
-  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-3.svg", label: "Plaatsing" },
-  { bestand: "maatregelen/kozijnen/proces/kozijnen-stap-4.svg", label: "Oplevering" },
-];
 
 export function KozijnenPage({ item }: { item: MeasurePageItem }) {
   const title = "Kozijnen";
@@ -443,13 +437,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         <section id="hoe-werkt-het" className="scroll-mt-40 mb-14">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt het proces?</h2>
           <p className="text-zinc-600 mb-10 max-w-2xl">Bij het plaatsen van een nieuw kozijn doorloopt Gijs de volgende stappen.</p>
-          {/* Gedeeld component, gebruikt door alle isolatiepagina's, zodat
-              de iconen op elke pagina exact dezelfde afmeting/uitlijning
-              hebben — zie UitvoeringStappen.tsx voor de volledige
-              toelichting (responsive gedrag, aspect-ratio-fix). Hier maar
-              4 stappen i.p.v. 6 (zie toelichting bij UITVOERING_STAPPEN
-              hierboven) — het component ondersteunt elk aantal stappen. */}
-          <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+          <KozijnenInstallatieAnimatie />
         </section>
 
         <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">

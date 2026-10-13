@@ -10,9 +10,10 @@ import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
-import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
+import { DakisolatieInstallatieAnimatie } from "@/components/measures/DakisolatieInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
+import { FotoStrook, type StrookFoto } from "@/components/measures/FotoStrook";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
@@ -73,14 +74,6 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // (zie public/images/maatregelen/dakisolatie/proces/); de vorige set (stap-1.svg t/m
 // stap-6.svg) is verwijderd. Titels en uitlegzinnen zijn ongewijzigd
 // overgenomen zoals aangeleverd (niet herschreven).
-const UITVOERING_STAPPEN = [
-  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-1.svg", label: "Aankomst" },
-  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-2.svg", label: "Uitleg" },
-  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-3.svg", label: "Voorbereiden" },
-  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-4.svg", label: "Isolatie aanbrengen" },
-  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-5.svg", label: "Controle" },
-  { bestand: "maatregelen/dakisolatie/proces/dakisolatie-stap-6.svg", label: "Oplevering" },
-];
 // Aanvullende voorwaarden — pagina 2 van de drie productbladen (wording
 // verschilt per blad; hier samengevat op de gemeenschappelijke thema's).
 // In twee groepen verdeeld: wat de woning/omgeving beschikbaar moet
@@ -108,12 +101,27 @@ const VOORDELEN = [
   { icon: "wind", title: "Minder warmteverlies via het dak", text: "Je woning verliest minder warmte via het dak." },
 ];
 
+// Echte foto's van zolders die Gijs heeft geïsoleerd (aangeleverd via Thom). Bewust de originelen:
+// geen AI-bewerking, zodat het echte werkfoto's blijven. Het merk op de folie mag zichtbaar zijn (behalve
+// bij de foto met reflecterende folie, zie daar).
+const PRAKTIJK_FOTOS: StrookFoto[] = [
+  { src: "/images/maatregelen/dakisolatie/praktijk/zolder-voor.jpg", label: "Voor", verhouding: 4 / 3, caption: "De zolder voordat Gijs begon.", alt: "Zolder met houten spanten en witte dakplaten, voor het isoleren" },
+  { src: "/images/maatregelen/dakisolatie/praktijk/zolder-na.jpg", label: "Na", verhouding: 4 / 3, caption: "De folie en latten zitten erop, de isolatie zit erachter.", alt: "Dezelfde zolder na het isoleren, met folie en houten latten tegen het dak" },
+  { src: "/images/maatregelen/dakisolatie/praktijk/inblazen.jpg", verhouding: 3 / 4, caption: "De isolatie wordt achter de folie ingeblazen.", alt: "Slang die isolatie achter de folie van het dak inblaast" },
+  { src: "/images/maatregelen/dakisolatie/praktijk/inblazen-zolder.jpg", verhouding: 4 / 3, caption: "Inblazen via kleine openingen in de folie.", alt: "Zolder met bakstenen gevel en een inblaasslang tegen het geïsoleerde dak" },
+  { src: "/images/maatregelen/dakisolatie/praktijk/dakraam.jpg", verhouding: 4 / 3, caption: "De folie sluit aan rond dakraam en schoorsteen.", alt: "Geïsoleerd dak met folie rond een dakraam en een witte schoorsteen" },
+  // Op verzoek de versie waarin het merk op de folie met AI is weggehaald (Gemini); het origineel toont een merklogo.
+  { src: "/images/maatregelen/dakisolatie/praktijk/reflecterende-folie.jpg", verhouding: 16 / 9, caption: "Bij een ander dak: reflecterende folie-isolatie.", alt: "Schuin dak aan de binnenzijde geïsoleerd met zilverkleurige reflecterende folie" },
+  { src: "/images/maatregelen/dakisolatie/praktijk/tijdens-het-werk.jpg", verhouding: 4 / 3, caption: "Tijdens het werk op een zolder die in gebruik is.", alt: "Zolder tijdens het isoleren, met een kast, een bezem en slangen op de vloer" },
+];
+
 export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
   const title = "Dakisolatie";
   const sections = [
     { id: "wat-is-het", label: "Wat is het?" },
     { id: "voordelen", label: "Voordelen" },
     { id: "hoe-werkt-het", label: "Hoe werkt het?" },
+    { id: "in-de-praktijk", label: "In de praktijk" },
     { id: "materialen", label: "Materialen" },
     { id: "subsidie", label: "Subsidie" },
     { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
@@ -265,11 +273,16 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
       <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
         <p className="text-zinc-600 mb-10 max-w-2xl">Gijs werkt volgens een vaste aanpak. Zo weet je precies wat je kunt verwachten.</p>
-        {/* Gedeeld component, gebruikt door alle isolatiepagina's, zodat de
-            iconen op elke pagina exact dezelfde afmeting/uitlijning
-            hebben — zie UitvoeringStappen.tsx voor de volledige
-            toelichting (responsive gedrag, aspect-ratio-fix). */}
-        <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+        <DakisolatieInstallatieAnimatie />
+      </section>
+
+      <section id="in-de-praktijk" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
+        <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Zo ziet het eruit</h2>
+        <p className="text-zinc-600 mb-8 max-w-2xl">
+          Foto&apos;s van zolders die Gijs aan de binnenzijde heeft geïsoleerd. De folie en latten blijven zichtbaar; de
+          afwerking daarna is een apart punt.
+        </p>
+        <FotoStrook fotos={PRAKTIJK_FOTOS} />
       </section>
 
       <section id="materialen" className="scroll-mt-40 mb-14">

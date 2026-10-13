@@ -9,7 +9,7 @@ import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
-import { UitvoeringStappen } from "@/components/measures/UitvoeringStappen";
+import { IsolatieglasInstallatieAnimatie } from "@/components/measures/IsolatieglasInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { FeatureList } from "@/components/measures/FeatureList";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
@@ -79,14 +79,6 @@ type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 // isolatieglas-tekst ("...waarna het werk wordt nagelopen en
 // opgeleverd"). Geen nieuwe tekst verzonnen, niets van een andere
 // maatregelpagina geleend.
-const UITVOERING_STAPPEN = [
-  { bestand: "maatregelen/glas/proces/isolatieglas-stap-1.svg", label: "Aankomst" },
-  { bestand: "maatregelen/glas/proces/isolatieglas-stap-2.svg", label: "Uitleg" },
-  { bestand: "maatregelen/glas/proces/isolatieglas-stap-3.svg", label: "Verwijderen oud" },
-  { bestand: "maatregelen/glas/proces/isolatieglas-stap-4.svg", label: "Plaatsen nieuw" },
-  { bestand: "maatregelen/glas/proces/isolatieglas-stap-5.svg", label: "Controle", uitlegOverride: "Het werk wordt nagelopen." },
-  { bestand: "maatregelen/glas/proces/isolatieglas-stap-6.svg", label: "Oplevering", uitlegOverride: "Het werk wordt netjes afgerond." },
-];
 
 // Aanvullende voorwaarden — pagina 2 van de brochure. Deze gelden, anders
 // dan bij vloerisolatie, voor alle isolatieglas-plaatsingen (geen
@@ -296,14 +288,17 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
             subsidie beschikbaar is.
           </p>
 
-          <Card variant="tint" className="mt-6 !p-6 max-w-2xl">
-            <h3 className="font-bold text-[var(--gijs-donkergroen)] mb-2">Wat betekent de U-waarde?</h3>
-            <p className="text-sm text-zinc-700">
-              De U-waarde geeft aan hoeveel warmte er door het glas verloren gaat. Een lage U-waarde betekent dat er
-              weinig warmte door het glas ontsnapt; een hoge U-waarde betekent dat je warmte via het raam naar
-              buiten verliest.
-            </p>
-            <p className="font-bold text-[var(--gijs-donkergroen)] mt-3">
+          {/* Volle breedte (niet een half blok naast een lege kolom): uitleg links, de kernregel rechts. */}
+          <Card variant="tint" className="mt-6 !p-6 grid gap-4 md:grid-cols-[1.6fr_1fr] md:items-center md:gap-10">
+            <div>
+              <h3 className="text-xl font-bold text-[var(--gijs-donkergroen)] mb-2">Wat betekent de U-waarde?</h3>
+              <p className="text-sm text-zinc-700">
+                De U-waarde geeft aan hoeveel warmte er door het glas verloren gaat. Een lage U-waarde betekent dat er
+                weinig warmte door het glas ontsnapt; een hoge U-waarde betekent dat je warmte via het raam naar
+                buiten verliest.
+              </p>
+            </div>
+            <p className="text-lg font-bold text-[var(--gijs-donkergroen)] md:border-l md:border-[var(--accent-200)] md:pl-8">
               Hoe lager de U-waarde, hoe beter het glas isoleert.
             </p>
           </Card>
@@ -322,11 +317,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
         <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
           <p className="text-zinc-600 mb-10 max-w-2xl">Gijs werkt volgens een vaste aanpak. Zo weet je precies wat je kunt verwachten.</p>
-          {/* Gedeeld component, gebruikt door alle isolatiepagina's, zodat
-              de iconen op elke pagina exact dezelfde afmeting/uitlijning
-              hebben — zie UitvoeringStappen.tsx voor de volledige
-              toelichting (responsive gedrag, aspect-ratio-fix). */}
-          <UitvoeringStappen stappen={UITVOERING_STAPPEN} />
+          <IsolatieglasInstallatieAnimatie />
         </section>
 
         <SubsidieSectie titel="Subsidie bij isolatieglas" />

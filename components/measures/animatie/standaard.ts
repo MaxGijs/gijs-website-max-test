@@ -23,20 +23,8 @@ export function huisMarkup({ dubbel = false, zolder = false, kruipruimte = false
   const binnen = dubbel ? `<path d="M407,300 V163 L520,79 L633,163 V300" fill="none" stroke="${ACCENT}" stroke-width="2.5" stroke-linejoin="round"/>` : "";
   const vloer = zolder ? `<line x1="${dubbel ? 407 : 400}" y1="172" x2="${dubbel ? 633 : 640}" y2="172" stroke="${WIT}" stroke-width="3"/>` : "";
   const kruip = kruipruimte ? `<path d="M400,300 V332 H640 V300" fill="none" stroke="${ACCENT}" stroke-width="3" stroke-linejoin="round"/>` : "";
-  const grond = kruipruimte ? grondStippen() : "";
   const bl = balken ? Array.from({ length: 7 }, (_, i) => `<rect x="${420 + i * 32}" y="300" width="5" height="9" fill="${WIT}"/>`).join("") : "";
-  return `<polygon class="warm" points="400,300 400,160 520,70 640,160 640,300" fill="${ACCENT}" style="opacity:0"/>${buiten}${binnen}${vloer}${kruip}${grond}${bl}`;
-}
-
-/** Zand-/grondstipjes naast de kruipruimte, zoals op de infographic. */
-function grondStippen() {
-  const stippen: string[] = [];
-  let s = 7;
-  const rnd = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
-  for (const [x0, x1] of [[350, 395], [645, 690]]) {
-    for (let k = 0; k < 16; k++) stippen.push(`<circle cx="${(x0 + rnd() * (x1 - x0)).toFixed(1)}" cy="${(306 + rnd() * 24).toFixed(1)}" r="${(0.8 + rnd() * 0.9).toFixed(1)}" fill="${WIT}"/>`);
-  }
-  return stippen.join("");
+  return `<polygon class="warm" points="400,300 400,160 520,70 640,160 640,300" fill="${ACCENT}" style="opacity:0"/>${buiten}${binnen}${vloer}${kruip}${bl}`;
 }
 
 /** Gesloten aanhanger (laadbak). Spullen "in" de aanhanger staan erachter, in de laag achter de bus. */
@@ -78,6 +66,32 @@ export function standaardStappen(tl: Timeline, r: Regie, el: (c: string) => SVGE
       teken("vinkje", T[4] + uitleg - 300, 500);
       praat(T[4] + uitleg, STAP_REST(uitleg));
       werk("inst1-ar", T[4] + uitleg, STAP_REST(uitleg) - 100, -70, -40, 300);
+    },
+    /** Bewoners komen terug (vanaf rechts) naar de plek van de uitleg. */
+    bewonersTerug(at: number) {
+      loop("bewoner", UITLEG.bewoner, at, 2400);
+      loop("bewoner2", UITLEG.bewoner2, at + 100, 2400);
+    },
+    /**
+     * Uitleg met vinkje én vertrek in één stap (voor reeksen waarin opleveren
+     * de laatste stap is). De bewoners staan al klaar; `eind` is het einde van de tijdlijn.
+     */
+    afronding(start: number, eind: number) {
+      loop("inst1", UITLEG.inst1, start, 800);
+      loop("inst2", UITLEG.inst2, start + 100, 900);
+      teken("vinkje", start + 700, 500);
+      praat(start + 1000, 2200);
+      werk("inst1-ar", start + 1000, 2000, -70, -40, 300);
+      tl.add(el("vinkje"), { opacity: [1, 0], duration: 300 }, start + 3300);
+      loop("inst1", 0, start + 3300, 1200);
+      loop("inst2", 0, start + 3400, 1200);
+      vanPad("inst1", start + 4700); vanPad("inst2", start + 4700); // achter de bus = ingestapt
+      tl.add(el("bus"), { x: 920, duration: 1300, ease: "inQuad" }, start + 4700);
+      tl.add(el("wiel"), { rotate: 2400, duration: 1300, ease: "inQuad" }, start + 4700);
+      tl.add(el("snelheid"), { opacity: 1, duration: 200 }, start + 5000);
+      zwaai("bewoner", start + 4300, 1600); zwaai("bewoner2", start + 4400, 1500);
+      tl.add(el("warm"), { opacity: 0.14, duration: 1200 }, start + 3600);
+      tl.add(el("warm"), { opacity: 0.14, duration: 1 }, eind - 1);
     },
     stap6() {
       tl.add(el("vinkje"), { opacity: [1, 0], duration: 300 }, T[5]);

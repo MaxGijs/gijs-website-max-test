@@ -56,7 +56,7 @@
 
 .stappen {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--stappen, 6), minmax(0, 1fr));
   gap: 6px;
   flex: 1;
   list-style: none;
@@ -141,4 +141,37 @@
   .stapKnop {
     padding-top: 4px;
   }
+}
+
+/* Keuze tussen uitvoeringsmethodes (InstallatieAnimatieKeuze). */
+.keuze {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  margin-bottom: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--grey-050);
+}
+
+.keuzeKnop {
+  border: 0;
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  background: none;
+  color: var(--gijs-donkergroen);
+  font: inherit;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+.keuzeKnop[aria-checked="true"] {
+  background: var(--gijs-donkergroen);
+  color: #fff;
+  font-weight: 600;
+}
+
+.keuzeKnop:focus-visible {
+  outline: 2px solid var(--accent-500);
+  outline-offset: 2px;
 }

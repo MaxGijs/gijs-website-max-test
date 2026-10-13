@@ -105,6 +105,8 @@ export function raamScene(soort: RaamSoort) {
 
     standaard.stap5(0);
     standaard.stap6();
+    // De oude ruit staat op de aanhanger en rijdt mee weg.
+    if (soort === "glas") tl.add(el("oud"), { x: 110 - RAAM.x + 920, duration: 2600, ease: "inCubic" }, T[5] + 1800);
     return tl;
   }
 
