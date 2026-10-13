@@ -11,14 +11,17 @@ const WONINGTYPE_VOLGORDE: HouseType[] = ["tussenwoning", "hoekwoning", "twee-on
  * kleine, secundaire "Wijzigen". De vier opties verschijnen pas na die
  * klik: het woningtype wordt niet standaard opnieuw gevraagd.
  */
-export function WoningtypeRegel({ houseType, onChange }: { houseType: HouseType; onChange: (type: HouseType) => void }) {
-  const [open, setOpen] = useState(false);
+export function WoningtypeRegel({ houseType, onChange, forceerOpen = false }: { houseType: HouseType; onChange: (type: HouseType) => void; /** Staat meteen open zodra dit true is (bv. zodra vaststaat dat het woningtype niet automatisch bepaald kon worden) — totdat de bewoner zelf de rij open- of dichtklapt, daarna wint die eigen keuze altijd. */ forceerOpen?: boolean }) {
+  // null = nog niet zelf open-/dichtgeklapt: dan volgt "open" gewoon forceerOpen. Zodra de bewoner
+  // zelf klikt, staat hier een echte boolean en telt forceerOpen niet meer mee (geen effect nodig).
+  const [zelfGezet, setZelfGezet] = useState<boolean | null>(null);
+  const open = zelfGezet ?? forceerOpen;
   const id = useId();
   return (
     <div className="my-4">
       <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px]">
         <span>Woningtype: <strong className="text-[var(--gijs-donkergroen)]">{HOUSE_MODELS[houseType].label}</strong></span>
-        <button type="button" className="min-h-11 font-semibold underline text-[var(--accent-700)]" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)}>
+        <button type="button" className="min-h-11 font-semibold underline text-[var(--accent-700)]" aria-expanded={open} aria-controls={id} onClick={() => setZelfGezet(!open)}>
           {open ? "Sluiten" : "Wijzigen"}
         </button>
       </p>
@@ -31,7 +34,7 @@ export function WoningtypeRegel({ houseType, onChange }: { houseType: HouseType;
                 key={type}
                 type="button"
                 aria-pressed={houseType === type}
-                onClick={() => { onChange(type); setOpen(false); }}
+                onClick={() => { onChange(type); setZelfGezet(false); }}
                 className="min-h-14 rounded-[var(--radius-control)] border-2 px-4 py-3 text-left text-[16px] font-semibold border-[var(--border-default)] bg-white aria-pressed:border-[var(--gijs-donkergroen)] aria-pressed:bg-[var(--accent-050)]"
               >
                 {houseType === type ? "✓ " : ""}{HOUSE_MODELS[type].label}

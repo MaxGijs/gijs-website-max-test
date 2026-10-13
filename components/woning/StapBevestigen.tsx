@@ -51,6 +51,11 @@ export function StapBevestigen({
   const [bag, setBag] = useState<BagGegevens | null>(null);
   // Bonus-verrijking via EP-Online (energielabel, en waar betrouwbaar het woningtype); blijft null zonder sleutel/registratie.
   const [epOnline, setEpOnline] = useState<EnergielabelResultaat | null>(null);
+  // Wordt true zodra de EP-Online-poging is afgerond, ongeacht de uitkomst (gevonden, geen label,
+  // dubbelzinnig gebouwtype, of helemaal mislukt). Nodig om "woningtype kon niet automatisch worden
+  // bepaald" pas te tonen als dat ook echt vaststaat — anders flitst die melding al even op tijdens
+  // het opzoeken zelf, vlak voordat een woningtype wél gevonden wordt.
+  const [epOnlineKlaar, setEpOnlineKlaar] = useState(false);
   // Voorkomt een "stale closure" in de (async) EP-Online-callback hieronder, zonder dat
   // woningtypeBron/onAutoHouseType de opzoek-effect hieronder bij elke render laat herhalen.
   const woningtypeBronRef = useRef(woningtypeBron);
@@ -69,15 +74,23 @@ export function StapBevestigen({
       setResultaat(res);
       setBag(null);
       setEpOnline(null);
+      setEpOnlineKlaar(false);
       if (res.status === "gevonden" && res.adres.nummeraanduidingId) {
         haalBagGegevensOp(res.adres.nummeraanduidingId, houseType).then((data) => { if (actief) setBag(data); });
       }
       if (res.status === "gevonden" && res.adres.adresseerbaarObjectId) {
         haalEnergielabelOp(res.adres.adresseerbaarObjectId).then((data) => {
-          if (!actief || !data) return;
+          if (!actief) return;
+          setEpOnlineKlaar(true);
+          if (!data) return;
           setEpOnline(data);
           if (data.houseType && woningtypeBronRef.current !== "handmatig") onAutoHouseTypeRef.current(data.houseType);
         });
+      } else if (res.status === "gevonden") {
+        // Geen adresseerbaarObjectId meegekregen: er valt niets op te zoeken bij EP-Online, dus
+        // meteen "klaar" (anders blijft de "kon niet automatisch worden bepaald"-melding voor
+        // altijd weg terwijl er ook nooit een automatisch woningtype komt).
+        setEpOnlineKlaar(true);
       }
     });
     return () => { actief = false; };
@@ -166,6 +179,7 @@ export function StapBevestigen({
 
   const { adres } = resultaat;
   const label = `${adres.straatEnHuisnummer}, ${adres.postcode} ${adres.woonplaats}`;
+  const woningtypeOnbekend = epOnlineKlaar && woningtypeBron === "";
   return (
     <section className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       <div className="flex flex-col gap-4">
@@ -186,17 +200,19 @@ export function StapBevestigen({
             </dl>
           </div>
         )}
-        <WoningtypeRegel houseType={houseType} onChange={onHouseTypeChange} />
+        <WoningtypeRegel houseType={houseType} onChange={onHouseTypeChange} forceerOpen={woningtypeOnbekend} />
         {woningtypeBron === "automatisch" && (
           <p className="text-[14px] text-[var(--grey-600,#5b6560)] -mt-2">Automatisch bepaald op basis van beschikbare woninggegevens. Klopt dit niet? Kies het juiste woningtype.</p>
         )}
         {/* EP-Online geeft bij veel panden geen eenduidig woningtype terug (bv. een appartement, of de
-            letterlijke waarde "Twee-onder-een-kap / rijwoning hoek" — zie lib/ep-online/woningtypeMapping.ts).
-            Dan blijft woningtypeBron "" en bleef hierboven stilzwijgend het standaardtype (hoekwoning) staan,
-            zonder enig signaal dat dit geen echte detectie was. Daarom hier altijd een duidelijke vraag i.p.v.
-            niets, zodat de bewoner het zelf controleert in plaats van een onopgemerkt fout woningtype. */}
-        {woningtypeBron === "" && (
-          <p className="text-[14px] text-[var(--accent-700)] font-semibold -mt-2">Kon niet automatisch worden bepaald. Controleer en kies het juiste woningtype hierboven.</p>
+            letterlijke waarde "Twee-onder-een-kap / rijwoning hoek" — zie lib/ep-online/woningtypeMapping.ts),
+            of de poging mislukt (geen sleutel, dienst niet bereikbaar). Dan bleef woningtypeBron "" en
+            toonde de pagina hierboven stilzwijgend het standaardtype (hoekwoning), zonder enig signaal dat
+            dit geen echte detectie was. "woningtypeOnbekend" wordt pas true zodra de poging (gelukt of niet)
+            is afgerond — niet al tijdens het opzoeken zelf, anders flitst dit even op bij een adres dat
+            wél meteen een goed woningtype krijgt. */}
+        {woningtypeOnbekend && (
+          <p className="text-[14px] text-[var(--accent-700)] font-semibold -mt-2">Kon niet automatisch worden bepaald. Kies hierboven het juiste woningtype.</p>
         )}
         <div className="flex flex-col items-start gap-2">
           <Button variant="primary" size="lg" iconRight="arrow-right" onClick={() => onBevestig(label, false, bag, epOnline, { straat: adres.straat, woonplaats: adres.woonplaats })}>Ja, dit klopt</Button>
