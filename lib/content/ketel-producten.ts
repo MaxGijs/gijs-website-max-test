@@ -36,7 +36,7 @@ export const KETELS: KetelProduct[] = [
       { label: "Warmwaterklasse", waarde: "CW4" },
       { label: "Rookgasaansluiting", waarde: ROOKGAS_UITVOERINGEN },
     ],
-    image: "/images/maatregelen/ketel/ketel-intergas-hre-28-24.webp",
+    image: "/images/maatregelen/ketel/ketel-intergas-hre-28-24.png",
     imageAlt: "Intergas Kombi Kompakt HRE 28/24 hr-combiketel",
   },
   {
@@ -65,7 +65,7 @@ export const KETELS: KetelProduct[] = [
       { label: "Pomp", waarde: "A-label pomp" },
       { label: "Rookgasaansluiting", waarde: ROOKGAS_UITVOERINGEN },
     ],
-    image: "/images/maatregelen/ketel/ketel-intergas-hre-36-30.jpg",
+    image: "/images/maatregelen/ketel/ketel-intergas-hre-36-30.png",
     imageAlt: "Intergas Kombi Kompakt HRE 36/30 hr-combiketel",
   },
 ];
