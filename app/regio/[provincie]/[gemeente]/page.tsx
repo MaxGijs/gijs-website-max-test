@@ -5,6 +5,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createMetadata } from "@/lib/seo";
 import { REGIO_GEMEENTEN, getProvincie, getGemeente, plaatsenVan, regioPad } from "@/lib/content/regio";
+import { getLokaleInhoud } from "@/lib/content/regio-lokaal";
+import { LokalePagina } from "@/components/regio/LokalePagina";
 import { GemeenteKaart } from "@/components/regio/RegioDrilldown";
 import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, GemeentelijkeSubsidies, WoningenInGemeente, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
@@ -26,12 +28,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!data) return {};
   const { p, g } = data;
   const bord = plaatsenVan(p.slug, g.slug).find(k => k.slug === g.slug);
+  const ogBeeld = bord?.afbeelding ? { path: bord.afbeelding, alt: `Plaatsnaambord ${bord.naam}` } : undefined;
+  const lokaal = getLokaleInhoud(regioPad(p.slug, g.slug));
+  if (lokaal) return createMetadata(regioPad(p.slug, g.slug), lokaal.seo.title, lokaal.seo.description, g.indexeerbaar, ogBeeld);
   return createMetadata(
     regioPad(p.slug, g.slug),
     `Isolatie in ${g.naam} | Gijs`,
     `Je woning isoleren in ${g.naam}? Lees over dak-, spouw- en vloerisolatie, isolatieglas en kozijnen, en over landelijke subsidies. Gemeentelijke regelingen controleer je bij je eigen gemeente.`,
     g.indexeerbaar,
-    bord ? { path: bord.afbeelding, alt: `Plaatsnaambord ${bord.naam}` } : undefined,
+    ogBeeld,
   );
 }
 
@@ -42,6 +47,28 @@ export default async function GemeentePage({ params }: Props) {
   const plaatsen = plaatsenVan(p.slug, g.slug);
   // Een kern met dezelfde naam als de gemeente valt samen met deze pagina.
   const hoofdkern = plaatsen.find(k => k.slug === g.slug);
+  const crumbs = [
+    { naam: "Home", url: "/" }, { naam: "Regio", url: "/regio" },
+    { naam: p.naam, url: regioPad(p.slug) }, { naam: g.naam, url: regioPad(p.slug, g.slug) },
+  ];
+
+  const lokaal = getLokaleInhoud(regioPad(p.slug, g.slug));
+  if (lokaal) {
+    return (
+      <>
+        <Header />
+        <LokalePagina
+          inhoud={lokaal}
+          crumbs={crumbs}
+          afbeelding={hoofdkern?.afbeelding ? { src: hoofdkern.afbeelding, alt: `Plaatsnaambord ${hoofdkern.naam}` } : undefined}
+          officieleSubsidieUrl={g.officieleSubsidieUrl}
+          gemeenteNaam={g.naam}
+          woningvoorraad={{ gemeente: g.naam, slug: g.slug }}
+        />
+        <Footer />
+      </>
+    );
+  }
 
   const faq: FAQItem[] = [
     { question: `Welke gemeentelijke subsidies gelden in ${g.naam}?`, answer: `Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Deze verschillen per gemeente en kunnen veranderen. Controleer daarom altijd de actuele mogelijkheden bij de gemeente ${g.naam} zelf.` },
@@ -54,10 +81,7 @@ export default async function GemeentePage({ params }: Props) {
     <>
       <Header />
       <RegioMain>
-        <RegioBreadcrumb crumbs={[
-          { naam: "Home", url: "/" }, { naam: "Regio", url: "/regio" },
-          { naam: p.naam, url: regioPad(p.slug) }, { naam: g.naam, url: regioPad(p.slug, g.slug) },
-        ]} />
+        <RegioBreadcrumb crumbs={crumbs} />
 
         <header className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-center mb-14">
           <div className="flex flex-col gap-4 max-w-2xl">
@@ -75,7 +99,7 @@ export default async function GemeentePage({ params }: Props) {
               <Button href="#gemeentelijke-subsidies" variant="secondary" size="lg">Gemeentelijke subsidies</Button>
             </div>
           </div>
-          {hoofdkern && (
+          {hoofdkern?.afbeelding && (
             <Image
               src={hoofdkern.afbeelding}
               alt={`Plaatsnaambord ${hoofdkern.naam}`}

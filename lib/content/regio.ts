@@ -12,7 +12,8 @@
 //   complete, geverifieerde pagina's (geen doorway-pagina's). Werkt bovenop
 //   SEO_INDEXABLE in lib/seo.ts: previews blijven altijd noindex.
 //
-// Pilot: alleen gemeente Borne en plaats Hertme staan aan.
+// Unieke, plaatsgerichte inhoud (Berkum, Borne, Hengelo, Enschede) staat los hiervan in
+// lib/content/regio-lokaal.ts; de templates tonen die als hij er is, anders de generieke opzet.
 import { LOKALE_SEO_GEMEENTEN } from "./lokale-seo";
 
 export type RegioProvincie = { slug: string; naam: string; gepubliceerd: boolean; indexeerbaar: boolean };
@@ -34,7 +35,8 @@ export type RegioPlaats = {
   naam: string;
   gemeente: string;
   provincie: string;
-  afbeelding: string;
+  // Plaatsnaambord uit de Gemeenteborden-set; ontbreekt voor plaatsen buiten Twente (bijv. Berkum).
+  afbeelding?: string;
   gepubliceerd: boolean;
   indexeerbaar: boolean;
 };
@@ -59,7 +61,18 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
   hengelo: { indexeerbaar: true, plaatsen: {} },
   enschede: { indexeerbaar: true, plaatsen: {} },
   "hof-van-twente": { indexeerbaar: true, plaatsen: { bentelo: { indexeerbaar: false }, delden: { indexeerbaar: false }, diepenheim: { indexeerbaar: false }, goor: { indexeerbaar: false }, hengevelde: { indexeerbaar: false }, markelo: { indexeerbaar: false } } },
+  // Zwolle is alleen een eenvoudige bovenliggende overzichtspagina (noindex) voor de wijk Berkum,
+  // waar Gijs met Berkum Energieneutraal samenwerkt. Geen SEO-pagina voor heel Zwolle.
+  zwolle: { indexeerbaar: false, plaatsen: { berkum: { indexeerbaar: true } } },
 };
+
+// Gemeenten en wijken buiten de Gemeenteborden-set (die alleen Twente dekt). Bewust alleen de
+// plaatsen die een eigen pagina hebben: een volledige kernenlijst van deze gemeenten staat niet in
+// de aangeleverde data en wordt niet verzonnen.
+const EXTRA_GEMEENTEN: { naam: string; kernen: { naam: string; bord?: string }[] }[] = [
+  { naam: "Zwolle", kernen: [{ naam: "Berkum" }] },
+];
+const ALLE_BRONGEMEENTEN: { naam: string; kernen: { naam: string; bord?: string }[] }[] = [...LOKALE_SEO_GEMEENTEN, ...EXTRA_GEMEENTEN];
 
 // Geverifieerde officiële subsidiepagina's per gemeente (zelf nagekeken,
 // geen bedragen of voorwaarden overgenomen — zie RegioGemeente.officieleSubsidieUrl).
@@ -71,8 +84,8 @@ const OFFICIELE_SUBSIDIE_URL: Record<string, string> = {
   "hof-van-twente": "https://www.hofvantwente.nl/direct-regelen/wonen-en-leven/duurzaamheid/subsidies-verduurzaming-woning/",
 };
 
-// Alle gemeenten in de Gemeenteborden-set liggen in Twente, provincie Overijssel.
-export const REGIO_GEMEENTEN: RegioGemeente[] = LOKALE_SEO_GEMEENTEN.map(g => {
+// Alle gemeenten in de Gemeenteborden-set liggen in Twente; Zwolle ligt ook in Overijssel.
+export const REGIO_GEMEENTEN: RegioGemeente[] = ALLE_BRONGEMEENTEN.map(g => {
   const slug = slugify(g.naam);
   const pub = PUBLICATIE[slug];
   return {
@@ -86,7 +99,7 @@ export const REGIO_GEMEENTEN: RegioGemeente[] = LOKALE_SEO_GEMEENTEN.map(g => {
   };
 });
 
-export const REGIO_PLAATSEN: RegioPlaats[] = LOKALE_SEO_GEMEENTEN.flatMap(g => {
+export const REGIO_PLAATSEN: RegioPlaats[] = ALLE_BRONGEMEENTEN.flatMap(g => {
   const gemeente = slugify(g.naam);
   return g.kernen.map(k => {
     const slug = slugify(k.naam);

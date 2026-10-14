@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createMetadata } from "@/lib/seo";
 import { REGIO_PLAATSEN, getProvincie, getGemeente, getPlaats, regioPad } from "@/lib/content/regio";
+import { getLokaleInhoud } from "@/lib/content/regio-lokaal";
+import { LokalePagina } from "@/components/regio/LokalePagina";
 import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, GemeentelijkeSubsidies, EnergiescanBlok, RegioCta } from "@/components/regio/RegioBlokken";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
@@ -28,12 +30,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await laad(params);
   if (!data) return {};
   const { p, g, k } = data;
+  const pad = regioPad(p.slug, g.slug, k.slug);
+  const ogBeeld = k.afbeelding ? { path: k.afbeelding, alt: `Plaatsnaambord ${k.naam}` } : undefined;
+  const lokaal = getLokaleInhoud(pad);
+  // Een plaats met eigen, unieke inhoud mag geïndexeerd worden, ook als de bovenliggende
+  // gemeentepagina alleen een eenvoudig overzicht is (Berkum onder Zwolle).
+  if (lokaal) return createMetadata(pad, lokaal.seo.title, lokaal.seo.description, k.indexeerbaar, ogBeeld);
   return createMetadata(
-    regioPad(p.slug, g.slug, k.slug),
+    pad,
     `Isolatie in ${k.naam} | Gijs`,
     `Je woning isoleren in ${k.naam}, gemeente ${g.naam}? Lees welke isolatiemaatregelen er zijn. Gemeentelijke subsidies controleer je bij de gemeente ${g.naam}.`,
     k.indexeerbaar && g.indexeerbaar,
-    { path: k.afbeelding, alt: `Plaatsnaambord ${k.naam}` },
+    ogBeeld,
   );
 }
 
@@ -42,14 +50,31 @@ export default async function PlaatsPage({ params }: Props) {
   if (!data) notFound();
   const { p, g, k } = data;
   const gemeenteUrl = regioPad(p.slug, g.slug);
+  const crumbs = [
+    { naam: "Home", url: "/" }, { naam: "Regio", url: "/regio" }, { naam: p.naam, url: regioPad(p.slug) },
+    { naam: g.naam, url: gemeenteUrl }, { naam: k.naam, url: regioPad(p.slug, g.slug, k.slug) },
+  ];
+  const lokaal = getLokaleInhoud(regioPad(p.slug, g.slug, k.slug));
+  if (lokaal) {
+    return (
+      <>
+        <Header />
+        <LokalePagina
+          inhoud={lokaal}
+          crumbs={crumbs}
+          afbeelding={k.afbeelding ? { src: k.afbeelding, alt: `Plaatsnaambord ${k.naam}` } : undefined}
+          officieleSubsidieUrl={g.officieleSubsidieUrl}
+          gemeenteNaam={g.naam}
+        />
+        <Footer />
+      </>
+    );
+  }
   return (
     <>
       <Header />
       <RegioMain>
-        <RegioBreadcrumb crumbs={[
-          { naam: "Home", url: "/" }, { naam: "Regio", url: "/regio" }, { naam: p.naam, url: regioPad(p.slug) },
-          { naam: g.naam, url: gemeenteUrl }, { naam: k.naam, url: regioPad(p.slug, g.slug, k.slug) },
-        ]} />
+        <RegioBreadcrumb crumbs={crumbs} />
 
         <header className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-center mb-14">
           <div className="flex flex-col gap-4 max-w-2xl">
@@ -68,15 +93,17 @@ export default async function PlaatsPage({ params }: Props) {
               <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
             </div>
           </div>
-          <Image
-            src={k.afbeelding}
-            alt={`Plaatsnaambord ${k.naam}`}
-            width={1366}
-            height={329}
-            priority
-            sizes="(max-width: 1024px) 100vw, 520px"
-            className="w-full h-auto"
-          />
+          {k.afbeelding && (
+            <Image
+              src={k.afbeelding}
+              alt={`Plaatsnaambord ${k.naam}`}
+              width={1366}
+              height={329}
+              priority
+              sizes="(max-width: 1024px) 100vw, 520px"
+              className="w-full h-auto"
+            />
+          )}
         </header>
 
         <GemeentelijkeSubsidies
