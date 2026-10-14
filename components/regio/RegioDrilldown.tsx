@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { NL_PROVINCIES, NL_LABELPUNTEN } from "@/lib/content/nl-provincies";
 import { getProvincie, alleGemeentenVan, plaatsenVan, regioPad, type RegioProvincie, type RegioGemeente } from "@/lib/content/regio";
 import { Icon } from "@/components/ds/core/Icon";
@@ -100,42 +99,29 @@ export function ProvincieKaart({ provincie }: { provincie: RegioProvincie }) {
     <section id="gemeenten" className={"scroll-mt-40 mb-14 " + styles.stage}>
       <h2 className={H2 + " mb-2"}>Gemeenten in {provincie.naam}</h2>
       <p className="text-zinc-600 mb-6 max-w-2xl">Kies je gemeente om te zien welke plaatsen erbij horen.</p>
-      <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-8 items-start">
-        <figure className="flex flex-col gap-2 max-w-[200px] mx-auto lg:mx-0">
-          <Image
-            src="/images/regio/kaarten/overijssel-in-nederland.webp"
-            alt={`Ligging van de provincie ${provincie.naam} in Nederland`}
-            width={1280}
-            height={1350}
-            sizes="200px"
-            className="w-full h-auto rounded-[var(--radius-card)]"
-          />
-          <figcaption className="text-xs text-zinc-500 text-center">{provincie.naam} in Nederland</figcaption>
-        </figure>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-          {gemeenten.map(g => (
-            <li key={g.slug}>
-              {g.gepubliceerd ? (
-                <Link href={regioPad(provincie.slug, g.slug)} className="no-underline group block h-full">
-                  <span className="h-full flex items-center justify-between gap-3 rounded-[var(--radius-card)] border border-[var(--border-default)] bg-[var(--surface-card)] px-5 py-4 transition-shadow group-hover:shadow-[var(--shadow-2)]">
-                    <span className="flex items-center gap-3 font-bold text-[var(--gijs-donkergroen)]">
-                      <Icon name="map-pin" size="md" className="text-[var(--accent-600)]" /> {g.naam}
-                    </span>
-                    <Icon name="arrow-right" size="sm" className="text-[var(--accent-700)]" />
+      <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {gemeenten.map(g => (
+          <li key={g.slug}>
+            {g.gepubliceerd ? (
+              <Link href={regioPad(provincie.slug, g.slug)} className="no-underline group block h-full">
+                <span className="h-full flex items-center justify-between gap-3 rounded-[var(--radius-card)] border border-[var(--border-default)] bg-[var(--surface-card)] px-5 py-4 transition-shadow group-hover:shadow-[var(--shadow-2)]">
+                  <span className="flex items-center gap-3 font-bold text-[var(--gijs-donkergroen)]">
+                    <Icon name="map-pin" size="md" className="text-[var(--accent-600)]" /> {g.naam}
                   </span>
-                </Link>
-              ) : (
-                <span className="h-full flex items-center justify-between gap-3 rounded-[var(--radius-card)] border border-[var(--border-hairline)] bg-[var(--surface-muted)] px-5 py-4 text-zinc-400">
-                  <span className="flex items-center gap-3 font-semibold">
-                    <Icon name="map-pin" size="md" /> {g.naam}
-                  </span>
-                  <span className="text-xs">binnenkort</span>
+                  <Icon name="arrow-right" size="sm" className="text-[var(--accent-700)]" />
                 </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+              </Link>
+            ) : (
+              <span className="h-full flex items-center justify-between gap-3 rounded-[var(--radius-card)] border border-[var(--border-hairline)] bg-[var(--surface-muted)] px-5 py-4 text-zinc-400">
+                <span className="flex items-center gap-3 font-semibold">
+                  <Icon name="map-pin" size="md" /> {g.naam}
+                </span>
+                <span className="text-xs">binnenkort</span>
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
