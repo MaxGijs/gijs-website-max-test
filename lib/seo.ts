@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { MEASURE_PAGES } from "./content/measure-pages";
 import { REGIO_INDEXEERBARE_PADEN } from "./content/regio";
-export const SITE_URL = "https://groeninjestraat.nl";
+// Primaire productie-URL: groeninjestraat.nl stuurt met een 308 door naar www, dus canonicals,
+// sitemap en structured data moeten de www-versie gebruiken.
+export const SITE_URL = "https://www.groeninjestraat.nl";
 // Enable only in the public production build; previews stay out of search.
 export const SEO_INDEXABLE = process.env.SEO_INDEXABLE === "true";
 // Google Search Console-verificatiecode (HTML-tagmethode). Haal 'm op in Search Console:
