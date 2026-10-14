@@ -26,7 +26,7 @@ export const PAGE_SEO: Record<string,{title:string;description:string;index?:boo
 };
 export function createMetadata(path:string,title:string,description:string,index=true,ogImage?:{path:string;alt:string}):Metadata {
  const url=SITE_URL+path;
- const image=ogImage?{url:SITE_URL+ogImage.path,alt:ogImage.alt}:{url:SITE_URL+"/images/home/maatregelen/maatregelen-overzicht.png",alt:"Verduurzamingsmaatregelen voor je woning"};
+ const image=ogImage?{url:SITE_URL+ogImage.path,alt:ogImage.alt}:{url:SITE_URL+"/images/shared/og/gijs-deelafbeelding.jpg",alt:"Bewoners op de oprit voor hun verduurzaamde woning"};
  return {title,description,alternates:{canonical:url},robots:{index:SEO_INDEXABLE&&index,follow:true},openGraph:{type:"website",locale:"nl_NL",siteName:"Gijs",url,title,description,images:[image]},twitter:{card:"summary_large_image",title,description,images:[image.url]}};
 }
 export function pageMetadata(path:string):Metadata {const p=PAGE_SEO[path];return createMetadata(path,p.title,p.description,p.index!==false);}
