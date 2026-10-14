@@ -241,7 +241,12 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
 
   const gas = gebruiktGas(scan.verwarming);
   const warmtenet = gebruiktWarmtenet(scan.verwarming);
-  const schatting = scan.aantalBewoners && scan.verwarming
+  // "Aantal bewoners" is géén harde voorwaarde voor een schatting: schatVerbruik() valt zonder dat
+  // antwoord vanzelf terug op het Milieu Centraal-gemiddelde voor "2 of meer bewoners" (zie daar).
+  // Eerder stond hier ook scan.aantalBewoners als voorwaarde, waardoor de knop "Help me schatten"
+  // onzichtbaar bleef zolang bewoners nog niet was ingevuld — terwijl de foutmelding bij een leeg
+  // verbruiksveld al wél naar die knop verwees. Alleen "verwarming" bepaalt écht welke tabel geldt.
+  const schatting = scan.verwarming.length
     ? schatVerbruik({ houseType: scan.houseType, aantalBewoners: scan.aantalBewoners, verwarming: scan.verwarming, bestaandeMaatregelen: scan.bestaandeMaatregelen, woonsituatieId })
     : null;
   const kosten = energiekosten(scan);
