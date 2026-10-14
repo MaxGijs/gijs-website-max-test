@@ -60,6 +60,8 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
   borne: { indexeerbaar: true, plaatsen: { hertme: { indexeerbaar: false }, zenderen: { indexeerbaar: false } } },
   hengelo: { indexeerbaar: true, plaatsen: {} },
   enschede: { indexeerbaar: true, plaatsen: {} },
+  almelo: { indexeerbaar: true, plaatsen: {} },
+  oldenzaal: { indexeerbaar: true, plaatsen: {} },
   "hof-van-twente": { indexeerbaar: true, plaatsen: { bentelo: { indexeerbaar: false }, delden: { indexeerbaar: false }, diepenheim: { indexeerbaar: false }, goor: { indexeerbaar: false }, hengevelde: { indexeerbaar: false }, markelo: { indexeerbaar: false } } },
   // Zwolle is alleen een eenvoudige bovenliggende overzichtspagina (noindex) voor de wijk Berkum,
   // waar Gijs met Berkum Energieneutraal samenwerkt. Geen SEO-pagina voor heel Zwolle.

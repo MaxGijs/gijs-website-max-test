@@ -410,7 +410,257 @@ const TWENTE: Record<string, LokaleInhoud> = {
   },
 };
 
+// Tweede ronde (Hof van Twente, Almelo, Oldenzaal), ook alleen op basis van de twee rapporten.
+// Tijdgebonden punten om periodiek na te lopen: de wijkfocus van Almelo voor 2026 en de planning
+// van het soortenmanagementplan in Oldenzaal.
+const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/hof-van-twente": {
+    seo: {
+      title: "Woning isoleren in Goor, Delden, Markelo en Hof van Twente | Gijs",
+      description: "Isoleren in Hof van Twente? Veel vrijstaande en twee-onder-een-kapwoningen vragen om een eigen aanpak. Lees waar je op let en hoe Gijs je helpt.",
+    },
+    kicker: "Gemeente Hof van Twente",
+    h1: "Je woning isoleren in Hof van Twente",
+    intro: [
+      ["Hof van Twente is een gemeente van dorpen en buitengebied: Goor, Delden, Markelo, Diepenheim, Hengevelde en Bentelo. Veel mensen wonen hier in een eigen huis met een tuin eromheen. Dat merk je ook aan de isolatievraag."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt, en in welke volgorde je het beste kunt beginnen."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-en-twee-onder-een-kap",
+        titel: "Veel vrijstaande huizen en twee-onder-een-kappers",
+        alineas: [
+          ["Volgens het warmteprogramma van de gemeente zijn de woningen in Hof van Twente grotendeels grondgebonden. Er staan relatief veel vrijstaande woningen en twee-onder-een-kapwoningen, en ongeveer zeven op de tien woningen zijn koopwoningen. De woningvoorraad is bovendien relatief oud."],
+          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op. En omdat het je eigen huis is, bepaal je zelf wat je aanpakt en wanneer."],
+        ],
+        punten: [
+          { titel: "Vrijstaand", tekst: "Vier gevels, een dak en een vloer die allemaal warmte kunnen verliezen. Kijk naar het geheel, niet naar één onderdeel." },
+          { titel: "Twee-onder-een-kap", tekst: "Eén muur deel je met de buren. De andere gevels, het dak en de vloer bepalen hier het meeste warmteverlies." },
+          { titel: "Oudere woning", tekst: "Bij een ouder huis is vaak nog veel te winnen. Wat er al is verbeterd, bekijken we eerst." },
+        ],
+      },
+      {
+        id: "dorpen",
+        titel: "Van Goor tot Bentelo",
+        alineas: [
+          ["Of je nu in het centrum van Goor woont, in een van de dorpen of in het buitengebied: voor isolatie gaat het vooral om je eigen huis, het bouwjaar en wat er al is gedaan."],
+          ["Lees ook over isoleren in ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, ", ", { tekst: "Diepenheim", href: "/regio/overijssel/hof-van-twente/diepenheim" }, ", ", { tekst: "Hengevelde", href: "/regio/overijssel/hof-van-twente/hengevelde" }, " of ", { tekst: "Bentelo", href: "/regio/overijssel/hof-van-twente/bentelo" }, "."],
+        ],
+      },
+      {
+        id: "warmteprogramma",
+        titel: "Het warmteprogramma tot 2035",
+        alineas: [
+          ["De gemeente werkt aan een warmteprogramma voor de periode 2026 tot 2035. Daaruit blijkt dat er in Hof van Twente een flinke verduurzamingsopgave ligt, juist omdat veel woningen wat ouder zijn."],
+          ["Voor jou als bewoner is de eerste stap meestal dezelfde: zorg dat je huis warmte goed vasthoudt. Dat scheelt nu al op je energierekening en maakt een overstap naar duurzame warmte later makkelijker."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isoleren bij een grondgebonden woning",
+      intro: "Bij vrijstaande en twee-onder-een-kapwoningen komen deze onderdelen het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen. Vaak de plek waar het meeste te winnen valt." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Heeft je huis veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap. Let op beschermde dieren in de spouw." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Een koude begane grond voel je in een vrijstaand huis snel. Met een kruipruimte is de vloer vaak van onderaf te isoleren." },
+        { slug: "warmtepomp", naam: "Warmtepomp", tekst: "Is je huis goed geïsoleerd, dan komt verwarmen met een (hybride) warmtepomp in beeld." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Hof van Twente",
+      alineas: [
+        ["Met de digitale woningscan zie je snel welke maatregelen bij een vrijstaande woning, een twee-onder-een-kapper of een ander type passen. Handig als voorbereiding, maar niet nodig."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs bij je langs, ook in de dorpen en het buitengebied. Samen kijk je wat er al is gedaan en wat een verstandige volgende stap is. Wat je daarna doet en met wie, kies je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["De gemeente Hof van Twente heeft ook een eigen isolatieregeling. Of die op dit moment loopt en of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Ik woon in een vrijstaande woning. Waar begin ik?", answer: "Meestal bij het onderdeel waar de meeste warmte verloren gaat. Bij een vrijstaand huis is dat vaak het dak, maar het hangt af van wat er al is geïsoleerd. Tijdens de energiescan zetten we dat op een rij." },
+      { question: "Is een twee-onder-een-kapwoning anders dan een vrijstaand huis?", answer: "Een beetje. Je deelt één muur met de buren, dus daar verlies je weinig warmte. De andere gevels, het dak en de vloer blijven belangrijk." },
+      { question: "Helpt Gijs ook in de kleinere dorpen en het buitengebied?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hof van Twente, van Goor en Delden tot Hengevelde en Bentelo." },
+      { question: "Wat betekent het warmteprogramma voor mijn huis?", answer: "Het programma beschrijft de koers voor de hele gemeente. Wat het precies voor jouw straat betekent, maakt de gemeente later bekend. Isoleren kun je nu al doen, en dat is nooit weggegooid." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Borne", href: "/regio/overijssel/borne", tekst: "Ook een gemeente met dorpen en buitengebied, en aandacht voor natuurvriendelijk isoleren." },
+        { naam: "Isoleren in Hengelo", href: "/regio/overijssel/hengelo", tekst: "Wat het bouwjaar van je huis zegt over isolatie." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Hof van Twente: in Goor, Delden, Markelo, Diepenheim, Hengevelde, Bentelo en het buitengebied."],
+    ],
+  },
+
+  "/regio/overijssel/almelo": {
+    seo: {
+      title: "Woning isoleren in Almelo: de eerste stap, wijk voor wijk | Gijs",
+      description: "Almelo pakt de warmtetransitie wijk voor wijk aan, met isoleren als eerste stap. Lees wat dat voor jouw woning betekent en hoe Gijs je op weg helpt.",
+    },
+    kicker: "Gemeente Almelo",
+    h1: "Je woning isoleren in Almelo",
+    intro: [
+      ["Almelo telt bijna 35.000 woningen. De gemeente werkt wijk voor wijk aan de overstap naar duurzame warmte, en noemt isoleren daarbij nadrukkelijk als eerste stap. Dat geldt voor elke wijk, ook als jouw buurt nog niet aan de beurt is."],
+      ["Gijs helpt je om die eerste stap concreet te maken: wat kan er bij jouw huis, en waar begin je?"],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "wijk-voor-wijk",
+        titel: "Wijk voor wijk van het aardgas af",
+        alineas: [
+          ["Voor 2026 noemt de gemeente de Binnenstad Noord, de Binnenstad Zuid en Ulk en omgeving als focus van de warmtetransitie. Daarna volgen onder meer Kerkelanden en Wester Sluitersveldlanden. Welke planning voor jouw buurt geldt, lees je bij de gemeente Almelo."],
+          ["Woon je in een wijk die later aan de beurt is? Dan hoef je niet te wachten. Isoleren helpt in elke wijk en bij elke manier van verwarmen."],
+        ],
+      },
+      {
+        id: "isoleren-eerst",
+        titel: "Waarom isoleren eerst?",
+        alineas: [
+          ["Een huis dat warmte goed vasthoudt, heeft minder energie nodig. Dat merk je nu al op je energierekening en aan het comfort in huis. Later kun je met een kleinere of zuinigere installatie toe, welke warmtebron er in jouw wijk ook komt."],
+          ["Andersom werkt minder goed: een nieuwe verwarming in een slecht geïsoleerd huis moet harder werken, en dat kost geld."],
+        ],
+      },
+      {
+        id: "appartement-vve",
+        titel: "Woon je in een appartement?",
+        alineas: [
+          ["Bij een appartement loopt verduurzamen vaak via de Vereniging van Eigenaren, omdat dak, gevel en vloer van iedereen samen zijn. De gemeente Almelo heeft daar aparte aandacht voor, met een eigen regeling voor VvE's. De voorwaarden lees je bij de gemeente."],
+        ],
+      },
+      {
+        id: "natuurvriendelijk",
+        titel: "Natuurvriendelijk isoleren en verbouwen",
+        alineas: [
+          ["Ook Almelo besteedt aandacht aan natuurvriendelijk isoleren en verbouwen. In spouwmuren en onder daken kunnen beschermde dieren zitten, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het daar rekening mee houdt."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Waar begin je met isoleren?",
+      intro: "Dit zijn de maatregelen die bij een eengezinswoning het vaakst als eerste stap aan bod komen.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een relatief kleine ingreep met een merkbaar resultaat." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Warmere voeten op de begane grond. Met een kruipruimte meestal van onderaf te doen." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Almelo",
+      alineas: [
+        ["In de digitale woningscan zie je in een paar minuten welke maatregelen bij jouw type woning horen. Zo weet je al wat meer voordat je met iemand praat."],
+        ["Bij de gratis energiescan bekijkt een adviseur van Gijs je huis ter plekke. Je krijgt een duidelijk beeld van wat er kan en in welke volgorde. Er zit geen verplichting aan vast: je kiest zelf of en met wie je verdergaat."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Welke regelingen de gemeente Almelo op dit moment heeft, lees je op de website van de gemeente."],
+    ],
+    faq: [
+      { question: "Mijn wijk is nog niet aan de beurt. Moet ik wachten met isoleren?", answer: "Nee. Isoleren helpt bij elke manier van verwarmen. Een goed geïsoleerd huis is nu zuiniger en straks klaar voor duurzame warmte, wanneer jouw wijk ook aan de beurt is." },
+      { question: "Waarom noemt de gemeente isoleren de eerste stap?", answer: "Omdat een huis dat weinig warmte verliest, minder energie nodig heeft. Dat maakt elke volgende stap, zoals een warmtepomp of een warmtenet, makkelijker en goedkoper in gebruik." },
+      { question: "Ik woon in een appartement. Wat kan ik doen?", answer: "Veel loopt via de VvE, omdat dak en gevel gedeeld zijn. De gemeente Almelo heeft daar een eigen regeling voor. Beter glas of het aanpakken van tocht kun je soms ook zelf regelen." },
+      { question: "Komt Gijs bij mij thuis in Almelo?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats, zodat de adviseur je woning echt kan bekijken." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Borne", href: "/regio/overijssel/borne", tekst: "Over oudere woningen, de dorpen en natuurvriendelijk isoleren." },
+        { naam: "Isoleren in Enschede", href: "/regio/overijssel/enschede", tekst: "Over appartementen en wijken in de warmtetransitie." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Almelo, van de binnenstad tot de wijken eromheen. Twijfel je of we bij jou langskomen? Neem gerust contact op."],
+    ],
+  },
+
+  "/regio/overijssel/oldenzaal": {
+    seo: {
+      title: "Woning isoleren in Oldenzaal: van tussenwoning tot dak | Gijs",
+      description: "In Oldenzaal zijn tussenwoningen de grootste groep. Lees hoe je zo'n huis slim isoleert, wat het lopende natuuronderzoek betekent en hoe Gijs helpt.",
+    },
+    kicker: "Gemeente Oldenzaal",
+    h1: "Je woning isoleren in Oldenzaal",
+    intro: [
+      ["Oldenzaal telt bijna 15.000 woningen. De grootste groep daarvan zijn tussenwoningen: huizen met aan twee kanten buren. Dat bepaalt voor een deel waar je huis warmte verliest, en dus waar je het beste kunt beginnen."],
+      ["Gijs helpt je dat voor jouw eigen huis uit te zoeken, zodat je weet welke stap het meeste oplevert."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "tussenwoning",
+        titel: "Een tussenwoning isoleren",
+        alineas: [
+          ["Met ruim 5.100 adressen zijn tussenwoningen in Oldenzaal de grootste woninggroep. Bij zo'n huis verlies je weinig warmte via de zijmuren, want daar wonen de buren. De warmte gaat vooral weg via het dak, de voor- en achtergevel, de vloer en de ramen."],
+          ["Dat maakt de keuze overzichtelijk. Vaak begin je bij het dak of de zolder en kijk je daarna naar de gevels en het glas."],
+        ],
+        punten: [
+          { titel: "Dak en zolder", tekst: "Warmte stijgt op. Bij een tussenwoning is het dak vaak de grootste lekpost en dus een logische eerste stap." },
+          { titel: "Voor- en achtergevel", tekst: "Twee gevels met ramen en deuren. Een lege spouw en ouder glas maken hier veel verschil." },
+          { titel: "Vloer", tekst: "Heb je een kruipruimte? Dan is de begane grondvloer vaak van onderaf te isoleren." },
+        ],
+      },
+      {
+        id: "natuuronderzoek",
+        titel: "Natuuronderzoek in Oldenzaal",
+        alineas: [
+          ["De gemeente Oldenzaal heeft in de bebouwde kom uitgebreid onderzoek laten doen naar beschermde dieren die in en aan gebouwen leven, zoals huismussen, gierzwaluwen, zwaluwen, spreeuwen en vleermuizen. Dat onderzoek is de basis voor een soortenmanagementplan, dat de gemeente eind 2027 verwacht."],
+          ["Met zo'n plan kan natuurvriendelijk isoleren straks voor een heel gebied geregeld worden, in plaats van per huis. Tot dat zover is, moet bij elke woning rekening worden gehouden met deze dieren, zeker bij spouw- en dakisolatie. Vraag het isolatiebedrijf hoe het dit aanpakt."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Maatregelen voor een tussenwoning",
+      intro: "Bij rij- en tussenwoningen in Oldenzaal komen deze maatregelen het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Vaak de eerste stap: het dak is bij een tussenwoning het grootste oppervlak waarlangs warmte ontsnapt." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Voor- en achtergevel met een lege spouw? Dan is isoleren vaak goed te doen. Let op natuurvriendelijk werken." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Met ramen aan voor- en achterkant telt goed glas extra mee voor warmte en comfort." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Minder koude voeten en minder warmteverlies naar de kruipruimte." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Oldenzaal",
+      alineas: [
+        ["Kies in de digitale woningscan voor een tussenwoning of een ander type, en zie welke maatregelen erbij passen. Zo ben je goed voorbereid."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Samen kijk je naar het dak, de gevels, de vloer en het glas, en naar wat er al is gedaan. Daarna weet je wat een logische volgende stap is. Wat je ermee doet, beslis je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["De gemeente Oldenzaal heeft ook een eigen isolatieregeling. Of die op dit moment loopt en of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Ik woon in een tussenwoning in Oldenzaal. Waar begin ik?", answer: "Vaak bij het dak of de zolder, omdat daar bij een tussenwoning veel warmte verdwijnt. Daarna komen de voor- en achtergevel en het glas. Wat bij jouw huis de beste volgorde is, bekijken we tijdens de energiescan." },
+      { question: "Wat betekent het soortenmanagementplan voor mij?", answer: "Met zo'n plan kan de gemeente natuurvriendelijk isoleren voor een heel gebied regelen. Tot het plan er is, moet bij elke woning rekening worden gehouden met beschermde dieren. Het isolatiebedrijf hoort dat te regelen." },
+      { question: "Moet ik wachten tot het plan klaar is?", answer: "Nee. Je kunt nu al isoleren, zolang het natuurvriendelijk gebeurt. Vraag het isolatiebedrijf vooraf hoe het daarmee omgaat." },
+      { question: "Helpt Gijs in heel Oldenzaal?", answer: "Ja. Gijs helpt bewoners in alle wijken van Oldenzaal." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Enschede", href: "/regio/overijssel/enschede", tekst: "Ook daar staat natuurvriendelijk isoleren centraal." },
+        { naam: "Isoleren in Hengelo", href: "/regio/overijssel/hengelo", tekst: "Wat het bouwjaar van je huis zegt over isolatie." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Oldenzaal, van De Thij tot Graven Es. Woon je net buiten de gemeente? Neem gerust contact op."],
+    ],
+  },
+};
+
 /** Sleutel = regiopad (zie regioPad in lib/content/regio.ts). */
-export const REGIO_LOKAAL: Record<string, LokaleInhoud> = { ...ZWOLLE, ...TWENTE };
+export const REGIO_LOKAAL: Record<string, LokaleInhoud> = { ...ZWOLLE, ...TWENTE, ...TWENTE_RONDE_2 };
 
 export const getLokaleInhoud = (pad: string): LokaleInhoud | undefined => REGIO_LOKAAL[pad];
