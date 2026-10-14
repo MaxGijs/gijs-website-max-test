@@ -1,34 +1,41 @@
-// Centrale, providerneutrale analytics-/foutlogging-laag. Geen enkele plek
-// in de app roept een analyticsprovider rechtstreeks aan; alles loopt via
-// track()/logError() hieronder, zodat een provider later op precies één
-// plek wordt aangesloten.
+import { leesOpgeslagenConsent } from "@/lib/consent/storage";
+import { pushToDataLayer } from "@/lib/consent/dataLayer";
+
+// Centrale, providerneutrale analytics-laag. Geen enkele plek in de app roept
+// een analyticsprovider rechtstreeks aan; alles loopt via track()/logError()
+// hieronder. De provider hier is GTM/dataLayer (GA4 wordt via Google Tag
+// Manager beheerd, zie GtmLoader.tsx — geen apart gtag.js-script).
 //
-// Status: er is nog geen provider gekozen. ACTIVE_PROVIDER is daarom de
-// no-op hieronder, en de app moet onveranderd blijven werken zolang dat zo
-// is (geen crashes, geen netwerkverkeer, geen console-ruis in productie).
+// Toestemming: track() stuurt alléén iets naar dataLayer als er al
+// statistieken-toestemming is opgeslagen (leesOpgeslagenConsent — zelfde bron
+// als ConsentProvider). Dat is bewust een harde, hier-in-code gecontroleerde
+// grens, los van of GTM al geladen is of hoe de tags in GTM zelf zijn
+// ingesteld: zo kan nooit gedrag van vóór toestemming alsnog verstuurd worden
+// zodra GTM later laadt (een dataLayer-push die al in de wachtrij stond vóór
+// GTM initialiseert, wordt namelijk gewoon alsnog verwerkt).
 //
-// Waar een echte provider later wordt aangesloten (één regel, hieronder bij
-// ACTIVE_PROVIDER):
-// - Plausible/Matomo (pageviews + custom events, geen PII, cookieloos):
-//   track() stuurt het eventtype + de niet-herleidbare properties door.
-// - GA4: zelfde, via gtag('event', name, properties).
-// - Sentry: logError() stuurt de fout door naar Sentry.captureException/
-//   captureMessage; track() kan als Sentry-breadcrumb dienen.
-// In alle gevallen geldt: alléén aanroepen wanneer de gekozen provider is
-// geconfigureerd én (indien vereist) de bezoeker toestemming heeft gegeven.
-// Die consent-check hoort in de provider-implementatie zelf, niet hier.
-//
-// Nooit doorgeven: naam, e-mailadres, telefoonnummer, volledig adres of
-// vrije tekst (bericht/opmerking). Alleen het eventtype en de hieronder
-// expliciet getypeerde, niet-herleidbare properties.
+// Nooit doorgeven: naam, e-mailadres, telefoonnummer, volledig adres,
+// postcode+huisnummer samen, of vrije tekst (bericht/opmerking). Alleen het
+// eventtype en de hieronder expliciet getypeerde, niet-herleidbare properties.
 
 export type AnalyticsEvent =
+  // Bestaande events (ongewijzigd, voor compatibiliteit met waar ze al gebruikt worden).
   | { name: "scan_started" }
   | { name: "address_lookup_succeeded" }
   | { name: "address_lookup_failed"; reason: "ongeldige-invoer" | "niet-gevonden" | "onbereikbaar" }
   | { name: "scan_completed" }
   | { name: "energy_scan_requested" }
-  | { name: "contact_form_submitted" };
+  | { name: "contact_form_submitted" }
+  // Nieuw, voor de klantreis website → lead (zie het analytics-rapport voor de GTM/GA4-koppeling).
+  | { name: "woningscan_started" }
+  | { name: "woningscan_step_viewed"; step: number; step_name: string }
+  | { name: "woningscan_step_completed"; step: number; step_name: string }
+  | { name: "woningscan_completed" }
+  | { name: "woningplan_viewed" }
+  | { name: "contact_form_started" }
+  | { name: "lead_created"; source: "woningscan" | "contactformulier" }
+  | { name: "whatsapp_clicked"; plaats: string }
+  | { name: "cta_clicked"; cta: string };
 
 export type AnalyticsErrorContext =
   | "contact_form"
@@ -40,20 +47,26 @@ export interface AnalyticsProvider {
   logError(context: AnalyticsErrorContext, message: string): void;
 }
 
-// Veilige no-op: wordt gebruikt zolang er geen provider is aangesloten.
-// In development loggen we naar de console, puur zodat events tijdens het
-// bouwen/testen zichtbaar zijn; in productie doet dit object niets.
-const NOOP_PROVIDER: AnalyticsProvider = {
+function heeftStatistiekenToestemming(): boolean {
+  return leesOpgeslagenConsent()?.statistics === true;
+}
+
+const GTM_PROVIDER: AnalyticsProvider = {
   track(event) {
-    if (process.env.NODE_ENV !== "production") console.debug("[analytics:noop]", event);
+    if (process.env.NODE_ENV !== "production") console.debug("[analytics]", event);
+    if (!heeftStatistiekenToestemming()) return;
+    const { name, ...properties } = event;
+    pushToDataLayer({ event: name, ...properties });
   },
   logError(context, message) {
-    if (process.env.NODE_ENV !== "production") console.debug("[analytics:noop:error]", context, message);
+    // Foutlogging is bewust geen analytics-event (geen foutmeldingen naar GA4/dataLayer) — dit
+    // blijft, net als voorheen, alleen een ontwikkelconsole-hulpmiddel. Een losse foutmonitoring-
+    // dienst (bv. Sentry) valt buiten deze opdracht.
+    if (process.env.NODE_ENV !== "production") console.debug("[analytics:error]", context, message);
   },
 };
 
-// Eén plek om straks een echte provider aan te sluiten.
-const ACTIVE_PROVIDER: AnalyticsProvider = NOOP_PROVIDER;
+const ACTIVE_PROVIDER: AnalyticsProvider = GTM_PROVIDER;
 
 export function track(event: AnalyticsEvent) {
   try { ACTIVE_PROVIDER.track(event); } catch { /* analytics mag de app nooit breken */ }

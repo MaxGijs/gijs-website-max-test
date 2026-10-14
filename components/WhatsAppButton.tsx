@@ -1,6 +1,7 @@
 "use client";
 
 import { WHATSAPP_NUMMER } from "@/lib/content/contact";
+import { track } from "@/lib/analytics";
 
 // Zwevende contactknop rechtsonder (sectie "WhatsApp" van de opdracht).
 // Regel van Max: nooit een verzonnen WhatsApp-nummer. Zolang
@@ -31,6 +32,11 @@ export function useWhatsAppLink() {
   };
 }
 
+/** Alleen tellen als het ook echt naar WhatsApp gaat — de fallback naar /contact is geen WhatsApp-klik. */
+function meldWhatsAppKlik(nieuwTabblad: boolean, plaats: string) {
+  if (nieuwTabblad) track({ name: "whatsapp_clicked", plaats });
+}
+
 export default function WhatsAppButton() {
   const { href, label, nieuwTabblad } = useWhatsAppLink();
 
@@ -40,10 +46,31 @@ export default function WhatsAppButton() {
       target={nieuwTabblad ? "_blank" : undefined}
       rel={nieuwTabblad ? "noopener noreferrer" : undefined}
       aria-label={label}
+      onClick={() => meldWhatsAppKlik(nieuwTabblad, "zwevende_knop")}
       className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex items-center gap-2 h-11 md:h-12 pl-3.5 pr-4 md:pl-4 md:pr-5 rounded-[var(--radius-pill)] bg-[#25D366] text-white font-semibold text-[13px] md:text-sm shadow-[var(--shadow-3)] no-underline"
     >
       <WhatsAppIcon />
       Stel je vraag
+    </a>
+  );
+}
+
+/**
+ * Herbruikbare, al-getrackte WhatsApp-link voor elders op de site (bv. de contactpagina), met een
+ * eigen tekst/klasse maar dezelfde bestemming en meting als de zwevende knop hierboven.
+ */
+export function WhatsAppLink({ plaats, tekst, className, href: hrefOverride }: { plaats: string; tekst: string; className?: string; href?: string }) {
+  const { href, nieuwTabblad } = useWhatsAppLink();
+  if (!WHATSAPP_NUMMER) return null;
+  return (
+    <a
+      href={hrefOverride ?? href}
+      target={nieuwTabblad ? "_blank" : undefined}
+      rel={nieuwTabblad ? "noopener noreferrer" : undefined}
+      onClick={() => meldWhatsAppKlik(nieuwTabblad, plaats)}
+      className={className}
+    >
+      {tekst}
     </a>
   );
 }

@@ -4,6 +4,7 @@ import { useId } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ds/core/Button";
 import { useWoningDraft } from "@/components/woning/WoningDraftProvider";
+import { track } from "@/lib/analytics";
 
 // Werkende prototypeflow achter de hero-CTA: er is nog geen echte
 // BAG/PDOK-koppeling voor woningkenmerken, dus dit stuurt alleen de
@@ -24,6 +25,7 @@ export default function AddressScan({ className = "", onNavigate }: { className?
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!postcode.trim() || !huisnummer.trim()) return;
+    track({ name: "cta_clicked", cta: "start_woningscan_home" });
     // Het gekozen woningtype gaat mee, zodat de scan het niet opnieuw vraagt.
     const params = new URLSearchParams({
       postcode: postcode.trim(),

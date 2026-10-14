@@ -7,6 +7,7 @@ import ContactForm from "@/components/ContactForm";
 import { CONTACT, WHATSAPP_NUMMER } from "@/lib/content/contact";
 import { Button } from "@/components/ds/core/Button";
 import { EnergiescanUitleg } from "@/components/home/EnergiescanUitleg";
+import { WhatsAppLink } from "@/components/WhatsAppButton";
 
 export default function Contact() {
   return (
@@ -16,7 +17,7 @@ export default function Contact() {
       <p className="max-w-2xl text-lg leading-relaxed text-[var(--text-muted)]">Je hoeft nog niet precies te weten welke maatregel bij je past. Bel of mail ons gerust. Samen bekijken we wat een logische volgende stap is.</p>
       <div className="mt-8 flex flex-wrap gap-3">
         <Button variant="accent" size="lg" href={CONTACT.phoneHref}>Bel {CONTACT.phone}</Button>
-        {WHATSAPP_NUMMER&&<a className="gijs-btn gijs-btn--secondary gijs-btn--lg" href={`https://wa.me/${WHATSAPP_NUMMER}`} target="_blank" rel="noopener noreferrer">Stel je vraag via WhatsApp</a>}
+        <WhatsAppLink plaats="contactpagina_boven" tekst="Stel je vraag via WhatsApp" className="gijs-btn gijs-btn--secondary gijs-btn--lg" />
         <Button variant="secondary" size="lg" href="#contactformulier">Stel je vraag</Button>
       </div><p className="mt-4 text-[var(--text-muted)]">Telefonisch bereikbaar van 08:30 tot 17:30.</p>
       <div className="mt-12 grid gap-10 md:grid-cols-2 [&>*]:min-w-0">
@@ -30,7 +31,12 @@ export default function Contact() {
         <section id="energiescan" className="py-4 scroll-mt-36 md:col-span-2"><h2 className="text-[length:var(--fs-display-3)] text-[var(--gijs-donkergroen)] mb-4">Gratis energiescan aan huis</h2><p className="mb-4 text-xl font-semibold">Gratis en vrijblijvend, ter waarde van €349.</p><p className="mb-4">Je kunt direct contact opnemen. De digitale woningscan is geen verplichte voorbereiding.</p>
           <p className="text-lg mb-6">Met de digitale woningscan bekijk je mogelijkheden op een voorbeeldwoning. Voor persoonlijk advies over jouw eigen huis kun je een gratis energiescan aan huis bespreken.</p>
           <div className="flex flex-wrap gap-3"><Button variant="accent" size="lg" href="/woning" iconRight="arrow-right">Start de woningscan</Button><Button variant="secondary" size="lg" href={CONTACT.phoneHref} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">Bel om een energiescan te plannen</Button>
-            {WHATSAPP_NUMMER && <a className="gijs-btn gijs-btn--secondary gijs-btn--lg max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center" href={`https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een energiescan plannen.")}`} target="_blank" rel="noopener noreferrer">Plan via WhatsApp</a>}
+            <WhatsAppLink
+              plaats="contactpagina_energiescan"
+              tekst="Plan via WhatsApp"
+              className="gijs-btn gijs-btn--secondary gijs-btn--lg max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center"
+              href={WHATSAPP_NUMMER ? `https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een energiescan plannen.")}` : undefined}
+            />
           </div>
           <EnergiescanUitleg className="max-w-md mt-6" />
         </section>

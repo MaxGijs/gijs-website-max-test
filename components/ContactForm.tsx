@@ -9,6 +9,13 @@ export default function ContactForm() {
   const [versturen, setVersturen] = useState(false);
   const [verstuurd, setVerstuurd] = useState(false);
   const form = useRef<HTMLFormElement>(null);
+  const begonnen = useRef(false);
+
+  function meldBegin() {
+    if (begonnen.current) return;
+    begonnen.current = true;
+    track({ name: "contact_form_started" });
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,7 +31,13 @@ export default function ContactForm() {
       bedrijf: data.get("company"),
     }).catch((error) => { logError("contact_form", error); return { verstuurd: false, fout: "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks." }; });
     setVersturen(false);
-    if (ok) { track({ name: "contact_form_submitted" }); setVerstuurd(true); form.current?.reset(); return; }
+    if (ok) {
+      track({ name: "contact_form_submitted" });
+      track({ name: "lead_created", source: "contactformulier" });
+      setVerstuurd(true);
+      form.current?.reset();
+      return;
+    }
     logError("contact_form", fout ?? "onbekende fout");
     setMessage(fout ?? "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks.");
   }
@@ -37,7 +50,7 @@ export default function ContactForm() {
     </div>;
   }
 
-  return <form ref={form} onSubmit={submit} className="grid gap-5" aria-describedby="contact-status" data-clarity-mask="True" data-cs-mask="">
+  return <form ref={form} onSubmit={submit} onFocus={meldBegin} className="grid gap-5" aria-describedby="contact-status" data-clarity-mask="True" data-cs-mask="">
     {/* Honeypot: voor mensen onzichtbaar (geen display:none, dat herkennen sommige bots), maar
         formulier-bots vullen dit vaak automatisch in. Zie lib/contact-mail.ts. */}
     <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>

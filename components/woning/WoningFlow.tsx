@@ -156,6 +156,14 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     if (scroll.current) { scroll.current = false; heading.current?.focus({ preventScroll: true }); heading.current?.scrollIntoView({ block: "start", behavior: "smooth" }); }
   }, [scan.step]);
 
+  // Eén "woningscan_step_viewed" per stapwissel (ook de allereerste, stap 1) — pas zodra de
+  // teruggelezen sessie bekend is (ready), anders telt een hersteld "stap 3" bij het laden als een
+  // valse eerste weergave van stap 1.
+  useEffect(() => {
+    if (!ready) return;
+    track({ name: "woningscan_step_viewed", step: scan.step + 1, step_name: SCAN_STAPPEN[scan.step] });
+  }, [ready, scan.step]);
+
   // Supabase-opslag bij elke stapwissel (en bij het terugladen): steeds hetzelfde dossier bijwerken.
   // sessionStorage blijft de bron tijdens de scan; mislukt opslaan, dan loopt de scan gewoon door.
   const huidigeScan = useRef(scan);
@@ -253,7 +261,12 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     setFouten(f);
     const eerste = (["verwarming", "bewoners", "stroom", "gas", "warmte"] as const).find(k => f[k]);
     if (eerste) { document.getElementById(`${fieldId}-${eerste}`)?.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
-    if (!scan.terugNaarPlan) track({ name: "scan_completed" });
+    if (!scan.terugNaarPlan) {
+      track({ name: "scan_completed" });
+      track({ name: "woningscan_step_completed", step: STAP.gegevens + 1, step_name: SCAN_STAPPEN[STAP.gegevens] });
+      track({ name: "woningscan_completed" });
+      track({ name: "woningplan_viewed" });
+    }
     if (scan.terugNaarPlan) terugNaarPlan(); else go(STAP.plan);
   };
 
@@ -277,7 +290,12 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     // Na een geslaagde aanvraag staan deze gegevens al veilig in Supabase; de
     // succesmelding hieronder toont ze niet meer, dus hoeven ze niet langer
     // in sessionStorage te blijven staan.
-    if (verstuurd) { track({ name: "energy_scan_requested" }); setScan({ ...sessieMetAfgerond, name: "", achternaam: "", email: "", telefoon: "", opmerking: "" }); return; }
+    if (verstuurd) {
+      track({ name: "energy_scan_requested" });
+      track({ name: "lead_created", source: "woningscan" });
+      setScan({ ...sessieMetAfgerond, name: "", achternaam: "", email: "", telefoon: "", opmerking: "" });
+      return;
+    }
     logError("energiescan_aanvraag", fout ?? "onbekende fout");
     setStatus(fout ?? "De aanvraag kon niet worden opgeslagen. Bel of mail Gijs voor een echte afspraak.");
   }
@@ -304,7 +322,8 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
           onHouseTypeChange={setHouseType} onAutoHouseType={setAutoHouseType}
           onAdresSubmit={(postcode, huisnummer) => patch({ postcode, huisnummer, addressLabel: "", woningBevestigd: false })}
           onBevestig={(addressLabel, manual = false, bag, epOnline, adresDelen) => {
-            if (!scan.dossierId) track({ name: "scan_started" });
+            if (!scan.dossierId) { track({ name: "scan_started" }); track({ name: "woningscan_started" }); }
+            if (!scan.terugNaarPlan) track({ name: "woningscan_step_completed", step: STAP.woning + 1, step_name: SCAN_STAPPEN[STAP.woning] });
             patch({
               addressLabel, manualAddress: manual, woningBevestigd: true,
               straat: adresDelen?.straat ?? "", woonplaats: adresDelen?.woonplaats ?? "",
