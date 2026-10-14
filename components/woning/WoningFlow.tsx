@@ -367,8 +367,6 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               </div>
               <div className={styles.veldRaster}>
                 <div onFocus={() => setFocus("kruipruimte")}><KeuzeRij vraag="Kruipruimte" waarde={scan.kruipruimte} onChange={kruipruimte => patch({ kruipruimte })} /></div>
-                {/* Afspraak met Gijs: bij een bouwjaar na 1995 wordt de spouwmuurvraag niet gesteld. */}
-                {!((Number(scan.bouwjaar) || 0) > 1995) && <div onFocus={() => setFocus("spouwmuur")}><KeuzeRij vraag="Spouwmuren" waarde={scan.spouwmuur} onChange={spouwmuur => patch({ spouwmuur })} /></div>}
                 <div onFocus={() => setFocus("dakkapel", true)}>
                   <OptieToggle vraag="Dakkapel" opties={DAKKAPEL_OPTIES} waarde={scan.dakkapel} onChange={dakkapel => patch({ dakkapel })}
                     namelijk={{ trigger: "Meerdere", waarde: scan.dakkapelAantal, onChange: dakkapelAantal => patch({ dakkapelAantal }) }} />
