@@ -599,13 +599,13 @@ export function HouseViewer({ compact = false, vol = false, onBekijkWoning, ...p
   const zijdeLabel = openSide === "links" ? "linkerzijgevel" : openSide === "rechts" ? "rechterzijgevel" : "voorgevel";
   return <div className={`${styles.viewer} ${compact ? styles.compact : ""} ${vol ? styles.vol : ""} ${props.className ?? ""}`}>
     <h2 className="sr-only">Illustratieve woningweergave</h2>
-    <p className="sr-only" role="status">{HOUSE_MODELS[draft.houseType].label}, schuine doorsnede{cutawayOpen ? `, ${zijdeLabel} geopend` : ", gesloten"}.{!compact && props.focus ? ` Weergave gericht op ${FOCUS_LABEL[props.focus]}.` : ""}</p>
+    <p className="sr-only" role="status">{HOUSE_MODELS[draft.houseType].label}, schuine doorsnede{cutawayOpen ? `, ${zijdeLabel} geopend` : ", gesloten"}.{props.focus ? ` Weergave gericht op ${FOCUS_LABEL[props.focus]}.` : ""}</p>
     <ViewerBoundary>
       <div className={`${styles.scene} ${compact ? styles.sceneCompact : ""}`} role="group" aria-label={`3D-doorsnede van je ${HOUSE_MODELS[draft.houseType].label.toLowerCase()}`}>
         {!compact && <span className={styles.illustratiefBadge}>Illustratief, niet je echte woning</span>}
         <Canvas onCreated={({ gl }) => { gl.localClippingEnabled = true; }} camera={{ position: [4.1, 2.8, 5.2], fov: 30, near: 0.05, far: 80 }} shadows="percentage" frameloop="demand" dpr={compact ? [1, 1] : touch ? [1, 1.5] : [1, 1.75]} style={{ touchAction: "pan-y" }} fallback={<p aria-hidden="true">3D niet beschikbaar. Je kunt de scan gewoon gebruiken.</p>}>
           <HouseDaglicht kant={openSide} mobiel={touch} bereik={4} />
-          <Suspense fallback={null}><Model {...props} cutawayOpen={compact ? false : cutawayOpen} focus={compact ? null : props.focus} selectedMeasureIds={compareOriginal ? props.selectedMeasureIds.filter(id => id !== "glas-kozijnen") : props.selectedMeasureIds} replayCrew={replayCrew} onLoaded={onLoaded} /></Suspense>
+          <Suspense fallback={null}><Model {...props} cutawayOpen={cutawayOpen} focus={props.focus} selectedMeasureIds={compareOriginal ? props.selectedMeasureIds.filter(id => id !== "glas-kozijnen") : props.selectedMeasureIds} replayCrew={replayCrew} onLoaded={onLoaded} /></Suspense>
         </Canvas>
         {loaded !== draft.houseType && <p className={styles.loading} role="status">Je woning wordt geladen…</p>}
         {!compact && props.selectedMeasureIds.includes("gevelisolatie") && <button type="button" className={styles.crewButton} onClick={() => setReplayCrew(i => i + 1)}>Bekijk de monteur · 2 sec.</button>}

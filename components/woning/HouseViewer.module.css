@@ -33,9 +33,11 @@
 @media(max-width:600px) { .viewer { padding:12px; border-radius:24px; } .scene { height:300px; } .controls button { padding:8px 12px; } }
 
 /* Compacte mobiele mini-woning tijdens de scanvragen: zelfde scene, alleen kleiner en zonder
-   bediening/bijschrift (zie HouseViewer.tsx `compact`-prop). Geen tweede 3D-scene. */
+   bediening/bijschrift (zie HouseViewer.tsx `compact`-prop). Geen tweede 3D-scene. Camera en
+   doorsnede volgen hier gewoon de actieve vraag, net als op desktop (sectie van Max: "mooi mee
+   zoomen" ook op mobiel) — vandaar een hoogte die daar ruimte voor geeft (~30% van het scherm). */
 .compact { padding:0; border-radius:16px; background:transparent; }
-.sceneCompact { height:140px; border-radius:16px; }
+.sceneCompact { height:clamp(170px, 30svh, 320px); border-radius:16px; }
 .bekijkKnop { position:absolute; z-index:2; bottom:10px; right:10px; border:0; padding:8px 16px; min-height:40px; font-size:14px; font-weight:600; border-radius:999px; background:rgba(19,62,53,.88); color:#fff; cursor:pointer; }
 
 /* Volle linkerkolom (desktop woningscan), zoals de homepage-woning: geen kaart, de woning vult de
