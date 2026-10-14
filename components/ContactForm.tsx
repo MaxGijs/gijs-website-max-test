@@ -37,7 +37,7 @@ export default function ContactForm() {
     </div>;
   }
 
-  return <form ref={form} onSubmit={submit} className="grid gap-5" aria-describedby="contact-status">
+  return <form ref={form} onSubmit={submit} className="grid gap-5" aria-describedby="contact-status" data-clarity-mask="True" data-cs-mask="">
     {/* Honeypot: voor mensen onzichtbaar (geen display:none, dat herkennen sommige bots), maar
         formulier-bots vullen dit vaak automatisch in. Zie lib/contact-mail.ts. */}
     <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>

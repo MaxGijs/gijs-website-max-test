@@ -192,15 +192,21 @@ export function StapBevestigen({
         {(bag || epOnline) && (
           <div className="gijs-card gijs-card--muted flex flex-col gap-2">
             <span className="font-semibold text-[15px] text-[var(--gijs-donkergroen)]">Woninggegevens opgehaald</span>
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-1 text-[15px]">
-              <dt className="text-[var(--grey-600,#5b6560)]">Type woning</dt><dd>{HOUSE_MODELS[houseType].label}</dd>
+            {/* break-words (overflow-wrap: break-word, erft door naar dt/dd): zonder dit heeft een
+                enkel lang woord zonder spatie of koppelteken ("Woonoppervlakte") geen geldig
+                breekpunt, en loopt de tekst door tot in de kolom ernaast i.p.v. af te breken. */}
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-1 text-[15px] break-words">
+              {/* Alleen tonen als er al écht een bepaling is (automatisch gelukt, of de bewoner koos
+                  zelf) — niet zomaar het nog-niet-bevestigde standaardtype, dat zou hier als een
+                  foutief "feit" ogen terwijl verderop juist staat dat het nog gekozen moet worden. */}
+              {woningtypeBron !== "" && <><dt className="text-[var(--grey-600,#5b6560)]">Type woning</dt><dd>{HOUSE_MODELS[houseType].label}</dd></>}
               {bag?.bouwjaar && <><dt className="text-[var(--grey-600,#5b6560)]">Bouwjaar</dt><dd>{bag.bouwjaar}</dd></>}
-              {bag?.woonoppervlakte && <><dt className="text-[var(--grey-600,#5b6560)]">Woonoppervlakte</dt><dd>{bag.woonoppervlakte} m²</dd></>}
+              {bag?.woonoppervlakte && <><dt className="text-[var(--grey-600,#5b6560)]">Woonopper{"­"}vlakte</dt><dd>{bag.woonoppervlakte} m²</dd></>}
               {epOnline && <><dt className="text-[var(--grey-600,#5b6560)]">Energielabel</dt><dd>{epOnline.energieklasse ?? "Niet gevonden"}</dd></>}
             </dl>
           </div>
         )}
-        <WoningtypeRegel houseType={houseType} onChange={onHouseTypeChange} forceerOpen={woningtypeOnbekend} />
+        <WoningtypeRegel houseType={houseType} onChange={onHouseTypeChange} forceerOpen={woningtypeOnbekend} onbekend={woningtypeOnbekend} />
         {woningtypeBron === "automatisch" && (
           <p className="text-[14px] text-[var(--grey-600,#5b6560)] -mt-2">Automatisch bepaald op basis van beschikbare woninggegevens. Klopt dit niet? Kies het juiste woningtype.</p>
         )}

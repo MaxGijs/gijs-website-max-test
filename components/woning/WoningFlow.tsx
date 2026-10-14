@@ -588,7 +588,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                   <p>Bedankt. Je aanvraag is ontvangen. Gijs neemt contact met je op om de energiescan af te stemmen.</p>
                 </div>
               ) : (
-                <form onSubmit={verstuurAanvraag} noValidate>
+                <form onSubmit={verstuurAanvraag} noValidate data-clarity-mask="True" data-cs-mask="">
                   {/* Honeypot: voor mensen onzichtbaar (geen display:none, dat herkennen sommige
                       bots), maar formulier-bots vullen dit vaak automatisch in. Zie
                       lib/energiescan-opslag.ts. */}

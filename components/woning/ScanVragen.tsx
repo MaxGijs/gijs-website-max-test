@@ -1,17 +1,34 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
 import type { Antwoord } from "@/lib/scan-session";
 
 const WONINGTYPE_VOLGORDE: HouseType[] = ["tussenwoning", "hoekwoning", "twee-onder-een-kap", "vrijstaand"];
+
+// "Twee-onder-een-kap" heeft drie koppeltekens: zonder ingrijpen mag de browser op elk daarvan
+// afbreken, wat op de smalle knop hieronder drie korte regeltjes oplevert i.p.v. een nette
+// verdeling in twee. Niet-brekende koppeltekens (‑) plus precies één bewuste <wbr/> dwingt
+// één vast, netjes ogend breekpunt af ("Twee-onder-" / "een-kap"), ongeacht de exacte breedte.
+const WONINGTYPE_KNOP_LABEL: Partial<Record<HouseType, ReactNode>> = {
+  "twee-onder-een-kap": <>Twee{"‑"}onder{"‑"}<wbr />een{"‑"}kap</>,
+};
 
 /**
  * Toont het eerder gekozen woningtype ("Woningtype: Hoekwoning") met een
  * kleine, secundaire "Wijzigen". De vier opties verschijnen pas na die
  * klik: het woningtype wordt niet standaard opnieuw gevraagd.
  */
-export function WoningtypeRegel({ houseType, onChange, forceerOpen = false }: { houseType: HouseType; onChange: (type: HouseType) => void; /** Staat meteen open zodra dit true is (bv. zodra vaststaat dat het woningtype niet automatisch bepaald kon worden) — totdat de bewoner zelf de rij open- of dichtklapt, daarna wint die eigen keuze altijd. */ forceerOpen?: boolean }) {
+export function WoningtypeRegel({ houseType, onChange, forceerOpen = false, onbekend = false }: {
+  houseType: HouseType;
+  onChange: (type: HouseType) => void;
+  /** Staat meteen open zodra dit true is (bv. zodra vaststaat dat het woningtype niet automatisch bepaald kon worden) — totdat de bewoner zelf de rij open- of dichtklapt, daarna wint die eigen keuze altijd. */
+  forceerOpen?: boolean;
+  /** Er is nog helemaal geen (automatische of eigen) bepaling: "houseType" is dan alleen een niet-
+   * bevestigd standaardtype, dat mag dus nergens als een feit of voorselectie ogen (geen "Woningtype:
+   * Hoekwoning", geen voorgevinkte optie) totdat de bewoner er zelf een kiest. */
+  onbekend?: boolean;
+}) {
   // null = nog niet zelf open-/dichtgeklapt: dan volgt "open" gewoon forceerOpen. Zodra de bewoner
   // zelf klikt, staat hier een echte boolean en telt forceerOpen niet meer mee (geen effect nodig).
   const [zelfGezet, setZelfGezet] = useState<boolean | null>(null);
@@ -20,7 +37,12 @@ export function WoningtypeRegel({ houseType, onChange, forceerOpen = false }: { 
   return (
     <div className="my-4">
       <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[17px]">
-        <span>Woningtype: <strong className="text-[var(--gijs-donkergroen)]">{HOUSE_MODELS[houseType].label}</strong></span>
+        <span>
+          Woningtype:{" "}
+          {onbekend
+            ? <strong className="text-[var(--accent-700)]">nog niet gekozen</strong>
+            : <strong className="text-[var(--gijs-donkergroen)]">{HOUSE_MODELS[houseType].label}</strong>}
+        </span>
         <button type="button" className="min-h-11 font-semibold underline text-[var(--accent-700)]" aria-expanded={open} aria-controls={id} onClick={() => setZelfGezet(!open)}>
           {open ? "Sluiten" : "Wijzigen"}
         </button>
@@ -29,17 +51,20 @@ export function WoningtypeRegel({ houseType, onChange, forceerOpen = false }: { 
         <fieldset id={id} className="mt-3 border-0 p-0">
           <legend className="font-semibold mb-2">Kies het woningtype dat het meest op jouw woning lijkt</legend>
           <div className="grid grid-cols-2 gap-3 max-w-[460px]">
-            {WONINGTYPE_VOLGORDE.map(type => (
-              <button
-                key={type}
-                type="button"
-                aria-pressed={houseType === type}
-                onClick={() => { onChange(type); setZelfGezet(false); }}
-                className="min-h-14 rounded-[var(--radius-control)] border-2 px-4 py-3 text-left text-[16px] font-semibold border-[var(--border-default)] bg-white aria-pressed:border-[var(--gijs-donkergroen)] aria-pressed:bg-[var(--accent-050)]"
-              >
-                {houseType === type ? "✓ " : ""}{HOUSE_MODELS[type].label}
-              </button>
-            ))}
+            {WONINGTYPE_VOLGORDE.map(type => {
+              const geselecteerd = !onbekend && houseType === type;
+              return (
+                <button
+                  key={type}
+                  type="button"
+                  aria-pressed={geselecteerd}
+                  onClick={() => { onChange(type); setZelfGezet(false); }}
+                  className="min-h-14 rounded-[var(--radius-lg)] border-2 px-4 py-3 text-left text-[16px] font-semibold border-[var(--border-default)] bg-white aria-pressed:border-[var(--gijs-donkergroen)] aria-pressed:bg-[var(--accent-050)]"
+                >
+                  {geselecteerd ? "✓ " : ""}{WONINGTYPE_KNOP_LABEL[type] ?? HOUSE_MODELS[type].label}
+                </button>
+              );
+            })}
           </div>
         </fieldset>
       )}

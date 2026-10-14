@@ -6,11 +6,16 @@ import { EenGijs } from "@/components/over-gijs/EenGijs";
 import { ReviewKaart } from "@/components/over-gijs/ReviewKaart";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
-import { pageMetadata, SEO_INDEXABLE } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 import { KERNWAARDEN, GIJS_HELPT_BIJ, TEAM, CIJFERBEWIJS } from "@/lib/content/over-gijs";
 import styles from "./page.module.css";
 
 export const metadata = pageMetadata("/over-gijs");
+
+// Tijdelijk (tot de echte Google-reviewkoppeling vrijdag met Thom rondkomt): zonder dit stond er
+// een kale "Wat bewoners over Gijs zeggen"-kop zonder review eronder, sinds de placeholder-tekst
+// eronder is uitgezet (zie ReviewKaart hieronder). Hele sectie dus mee uit tot er weer iets in staat.
+const TOON_ERVARINGEN_SECTIE = false;
 
 // Merkverhaal in de Apple-huisstijl van de site: één doorlopende pagina met
 // grote typografie, lopende tekst, beeld, een quote en een groot cijfer, in
@@ -181,15 +186,17 @@ export default function OverGijs() {
         {/* 6. Ervaringen en team: vertrouwen door reviews en de mensen erachter, in één hoofdstuk. */}
         <section className="bg-white">
           <div className={`max-w-[var(--container-wide)] mx-auto px-6 ${ruim} flex flex-col gap-14`}>
-            <div className="max-w-4xl flex flex-col gap-8">
-              <div className={`flex flex-col gap-4 ${styles.opkomen}`}>
-                <Eyebrow>Ervaringen</Eyebrow>
-                <h2 className={kop}>Wat bewoners over Gijs zeggen</h2>
+            {TOON_ERVARINGEN_SECTIE && (
+              <div className="max-w-4xl flex flex-col gap-8">
+                <div className={`flex flex-col gap-4 ${styles.opkomen}`}>
+                  <Eyebrow>Ervaringen</Eyebrow>
+                  <h2 className={kop}>Wat bewoners over Gijs zeggen</h2>
+                </div>
+                <div className={styles.opkomen}>
+                  <ReviewKaart groot toonPlaceholder={false} />
+                </div>
               </div>
-              <div className={styles.opkomen}>
-                <ReviewKaart groot toonPlaceholder={!SEO_INDEXABLE} />
-              </div>
-            </div>
+            )}
             <div className={`flex flex-col gap-10 pt-10 border-t border-[var(--border-default)] ${styles.opkomen}`}>
               <div className="flex flex-col gap-4">
                 <Eyebrow>Het team</Eyebrow>

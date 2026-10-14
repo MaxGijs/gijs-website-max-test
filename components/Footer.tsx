@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import SocialLinks from "@/components/SocialLinks";
 import { CONTACT } from "@/lib/content/contact";
+import { CookieSettingsLink } from "@/components/consent/CookieSettingsLink";
 
 const PRIVACY_URL =
   "https://mijn.avg-programma.nl/privacy_statement/638caa10-fe1e-4960-8937-9ed6f18c8d4d";
@@ -63,6 +64,7 @@ export default function Footer() {
               </a>
             </li>
             <li><Link href="/cookies" className="no-underline hover:text-white">Cookies</Link></li>
+            <li><CookieSettingsLink /></li>
             <li><Link href="/disclaimer" className="no-underline hover:text-white">Disclaimer</Link></li>
             <li><Link href="/toegankelijkheid" className="no-underline hover:text-white">Toegankelijkheid</Link></li>
           </ul>
