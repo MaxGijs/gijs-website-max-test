@@ -146,10 +146,13 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
     if (!ready) return;
     try { sessionStorage.setItem(SCAN_KEY, JSON.stringify(scan)); } catch { /* sessionStorage kan ontbreken/geblokkeerd zijn */ }
     setDraft(current => ({ ...current, postcode: scan.postcode, huisnummer: scan.huisnummer, houseType: scan.houseType }));
-    const query = new URLSearchParams({ woningtype: scan.houseType });
-    if (scan.postcode) query.set("postcode", scan.postcode);
-    if (scan.huisnummer) query.set("huisnummer", scan.huisnummer);
-    history.replaceState(null, "", "/woning?" + query);
+    // Bewust geen postcode/huisnummer meer in de zichtbare URL: dat stond anders de hele scan door
+    // in de adresbalk, en dus ook in alles wat een analysetool zelf uit window.location leest
+    // (Contentsquare/Clarity lezen de URL rechtstreeks, los van onze eigen GTM-events — zie het
+    // privacyrapport van 14 oktober 2026). Het adres zelf blijft volledig werken: dat staat al in
+    // sessionStorage (SCAN_KEY hierboven), niet in de URL. Enige gevolg: een gedeelde link midden in
+    // de scan vult op een ander apparaat niet meer automatisch hetzelfde adres in — met Max akkoord.
+    history.replaceState(null, "", "/woning?" + new URLSearchParams({ woningtype: scan.houseType }));
   }, [scan, ready, setDraft]);
 
   useEffect(() => {

@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ds/core/Button";
 import { useWoningDraft } from "@/components/woning/WoningDraftProvider";
 import { track } from "@/lib/analytics";
+import { freshScan, SCAN_KEY } from "@/lib/scan-session";
 
 // Werkende prototypeflow achter de hero-CTA: er is nog geen echte
-// BAG/PDOK-koppeling voor woningkenmerken, dus dit stuurt alleen de
-// ingevulde postcode/huisnummer door naar de woningflow, die met
-// voorbeeldgegevens werkt (zie lib/woningdossier.ts).
+// BAG/PDOK-koppeling voor woningkenmerken, dus dit zet de ingevulde
+// postcode/huisnummer rechtstreeks in de sessie van de woningflow (niet in de
+// URL, zie handleSubmit), die met voorbeeldgegevens werkt (zie
+// lib/woningdossier.ts).
 //
 // Hernoemd van WoningScan naar AddressScan op verzoek van Max
 // (techniek-sectie van de opdracht, voorgestelde componentnaam) en
@@ -26,14 +28,15 @@ export default function AddressScan({ className = "", onNavigate }: { className?
     e.preventDefault();
     if (!postcode.trim() || !huisnummer.trim()) return;
     track({ name: "cta_clicked", cta: "start_woningscan_home" });
-    // Het gekozen woningtype gaat mee, zodat de scan het niet opnieuw vraagt.
-    const params = new URLSearchParams({
-      postcode: postcode.trim(),
-      huisnummer: huisnummer.trim(),
-      woningtype: houseType,
-    });
+    // Adres gaat niet meer als URL-parameter mee: dan stond het, zij het heel even, al in de
+    // adresbalk vóórdat de woningscan 'm daar weer uithaalt — genoeg voor een analysetool met een
+    // eigen, asynchrone paginadetectie (Contentsquare bleek dat moment soms al op te vangen, zie het
+    // privacyrapport van 14 oktober 2026). In plaats daarvan direct de sessie klaarzetten die de
+    // woningscan toch al als primaire bron leest (WoningFlow.tsx); het woningtype is niet
+    // persoonsgebonden en blijft wel in de URL, zodat de scan 'm niet opnieuw hoeft te vragen.
+    try { sessionStorage.setItem(SCAN_KEY, JSON.stringify(freshScan(postcode.trim(), huisnummer.trim(), houseType))); } catch { /* opslag kan geblokkeerd zijn; de scan vraagt het adres dan gewoon opnieuw */ }
     onNavigate?.();
-    router.push(`/woning?${params.toString()}`);
+    router.push(`/woning?${new URLSearchParams({ woningtype: houseType })}`);
   }
 
   return (
