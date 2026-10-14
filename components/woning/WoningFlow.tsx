@@ -366,13 +366,16 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                 <Keuzelijst id={`${fieldId}-monument`} label="Monument" value={scan.monument} opties={MONUMENT_OPTIES} onChange={monument => patch({ monument })} />
               </div>
               <div className={styles.veldRaster}>
-                <div onFocus={() => setFocus("kruipruimte")}><KeuzeRij vraag="Kruipruimte" waarde={scan.kruipruimte} onChange={kruipruimte => patch({ kruipruimte })} /></div>
-                <div onFocus={() => setFocus("dakkapel", true)}>
-                  <OptieToggle vraag="Dakkapel" opties={DAKKAPEL_OPTIES} waarde={scan.dakkapel} onChange={dakkapel => patch({ dakkapel })}
-                    namelijk={{ trigger: "Meerdere", waarde: scan.dakkapelAantal, onChange: dakkapelAantal => patch({ dakkapelAantal }) }} />
-                </div>
-                <div onFocus={() => setFocus("garage", true)}><OptieToggle vraag="Garage" opties={JA_NEE_OPTIES} waarde={scan.garage} onChange={garage => patch({ garage })} /></div>
-                <div onFocus={() => setFocus("aanbouw", true)}><OptieToggle vraag="Aanbouw" opties={JA_NEE_OPTIES} waarde={scan.aanbouw} onChange={aanbouw => patch({ aanbouw })} /></div>
+                {/* Camerafocus wordt hier bewust rechtstreeks in onChange gezet (niet via een
+                    onFocus-wrapper): op iOS Safari krijgt een <button> geen DOM-focus bij een tik
+                    (wel bij een muisklik), dus bleef de camera op mobiel stilstaan totdat iemand
+                    "Bekijk woning" indrukte. onChange vuurt wel altijd, op elk platform — zelfde
+                    patroon als hieronder al bij verwarming/afgifte/bestaande maatregelen. */}
+                <KeuzeRij vraag="Kruipruimte" waarde={scan.kruipruimte} onChange={kruipruimte => { setFocus("kruipruimte"); patch({ kruipruimte }); }} />
+                <OptieToggle vraag="Dakkapel" opties={DAKKAPEL_OPTIES} waarde={scan.dakkapel} onChange={dakkapel => { setFocus("dakkapel", true); patch({ dakkapel }); }}
+                  namelijk={{ trigger: "Meerdere", waarde: scan.dakkapelAantal, onChange: dakkapelAantal => patch({ dakkapelAantal }) }} />
+                <OptieToggle vraag="Garage" opties={JA_NEE_OPTIES} waarde={scan.garage} onChange={garage => { setFocus("garage", true); patch({ garage }); }} />
+                <OptieToggle vraag="Aanbouw" opties={JA_NEE_OPTIES} waarde={scan.aanbouw} onChange={aanbouw => { setFocus("aanbouw", true); patch({ aanbouw }); }} />
                 {scan.houseType === "hoekwoning" && (
                   <OptieToggle vraag="Buurwoning" uitleg="Aan welke kant, gezien vanaf de straat?" opties={HOEK_ZIJDE_OPTIES} waarde={scan.hoekZijde || "Links"} onChange={hoekZijde => patch({ hoekZijde })} />
                 )}
