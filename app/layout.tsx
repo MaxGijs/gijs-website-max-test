@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_URL, SEO_INDEXABLE } from "@/lib/seo";
+import { SITE_URL, SEO_INDEXABLE, GOOGLE_SITE_VERIFICATION } from "@/lib/seo";
 import SeoSchema from "@/components/SeoSchema";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   robots: { index: SEO_INDEXABLE, follow: true },
   title: "Gijs | Groen in je straat",
   description: "Verduurzaam je woning, stap voor stap.",
+  // Alleen gevuld als NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION is ingesteld (zie lib/seo.ts) — anders
+  // rendert Next.js hier simpelweg niets, precies zoals voorheen.
+  ...(GOOGLE_SITE_VERIFICATION && { verification: { google: GOOGLE_SITE_VERIFICATION } }),
 };
 
 export default function RootLayout({

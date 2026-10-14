@@ -4,6 +4,12 @@ import { REGIO_INDEXEERBARE_PADEN } from "./content/regio";
 export const SITE_URL = "https://groeninjestraat.nl";
 // Enable only in the public production build; previews stay out of search.
 export const SEO_INDEXABLE = process.env.SEO_INDEXABLE === "true";
+// Google Search Console-verificatiecode (HTML-tagmethode). Haal 'm op in Search Console:
+// Instellingen > Eigendom verifiëren > HTML-tag — Google toont dan
+// <meta name="google-site-verification" content="..."/>; alleen die content-waarde hier invullen
+// als NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION in Vercel (of .env.local), niet de hele tag. Leeg
+// (standaard) betekent: geen verificatietag, precies zoals vóór deze wijziging.
+export const GOOGLE_SITE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "";
 export const PAGE_SEO: Record<string,{title:string;description:string;index?:boolean}> = {
  "/":{title:"Woning verduurzamen | Ontdek wat bij jouw woning past | Gijs",description:"Ontdek welke verduurzaming bij jouw woning past. Doe de digitale woningscan en plan een gratis energiescan aan huis, ter waarde van €349."},
  "/maatregelen":{title:"Isolaties en installaties voor je woning | Gijs",description:"Lees over dak-, spouw- en vloerisolatie, glas, zonnepanelen, warmtepompen, vloerverwarming en thuisbatterijen. Ontdek wat Gijs voor jouw huis bekijkt."},
