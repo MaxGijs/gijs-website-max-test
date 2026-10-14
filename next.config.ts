@@ -18,6 +18,7 @@ export default function nextConfig(phase: string): NextConfig {
         // Hernoemd voor duidelijkere, SEO-vriendelijkere URL (bevatte niet
         // het woord "muur"). 301 zodat bestaande links/bookmarks blijven werken.
         { source: "/maatregelen/spouwisolatie", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
+        { source: "/warmtepompen", destination: "/maatregelen/warmtepomp", permanent: true },
         // Juridische documenten linken bewust rechtstreeks naar het originele PDF-document i.p.v.
         // een eigen opgemaakte pagina — dat oogt voor dit soort documenten geloofwaardiger. Niet
         // "permanent" (307): dit zijn geen vaste URL's, de bestandsnaam kan wijzigen zodra er een
