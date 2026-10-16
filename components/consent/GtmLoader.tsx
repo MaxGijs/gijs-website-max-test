@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { useConsent } from "./ConsentProvider";
+import { useMeetomgeving } from "@/lib/consent/meetomgeving";
 
 // Container-ID instellen via de environment variable NEXT_PUBLIC_GTM_ID
 // (Vercel-projectinstellingen of .env.local) — zonder die variabele laadt
@@ -16,7 +17,8 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "";
 
 export function GtmLoader() {
   const { statistics, marketing } = useConsent();
-  if (!GTM_ID || (!statistics && !marketing)) return null;
+  const { meten, alleenGtm } = useMeetomgeving();
+  if (!GTM_ID || (!meten && !alleenGtm) || (!statistics && !marketing)) return null;
   return (
     <>
       <Script id="gtm" strategy="afterInteractive">

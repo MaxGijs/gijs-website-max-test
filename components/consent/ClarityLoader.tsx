@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useConsent } from "./ConsentProvider";
+import { useMeetomgeving } from "@/lib/consent/meetomgeving";
 
 // Project-ID instellen via NEXT_PUBLIC_CLARITY_PROJECT_ID — zonder die
 // variabele doet dit niets. Laadt pas ná toestemming voor "Statistieken", en
@@ -22,9 +23,10 @@ declare global {
 
 export function ClarityLoader() {
   const { statistics } = useConsent();
+  const { meten } = useMeetomgeving();
 
   useEffect(() => {
-    if (!CLARITY_ID || !statistics || typeof window === "undefined" || window.clarity) return;
+    if (!CLARITY_ID || !meten || !statistics || typeof window === "undefined" || window.clarity) return;
     const c = ((...args: unknown[]) => { c.q.push(args); }) as ClarityFn;
     c.q = [];
     window.clarity = c;
@@ -32,7 +34,7 @@ export function ClarityLoader() {
     script.async = true;
     script.src = `https://www.clarity.ms/tag/${CLARITY_ID}`;
     document.head.appendChild(script);
-  }, [statistics]);
+  }, [statistics, meten]);
 
   return null;
 }

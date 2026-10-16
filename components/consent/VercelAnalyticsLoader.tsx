@@ -2,6 +2,7 @@
 
 import { Analytics } from "@vercel/analytics/next";
 import { useConsent } from "./ConsentProvider";
+import { useMeetomgeving } from "@/lib/consent/meetomgeving";
 
 // Vercel Web Analytics is cookieloos en telt zelf geen individuele bezoekers op basis van een
 // identifier — Vercel's eigen documentatie noemt het daarom "geen cookiebanner nodig". Omdat dat
@@ -13,6 +14,7 @@ import { useConsent } from "./ConsentProvider";
 // quotum; alleen gebruik daarboven kost geld, en daar wordt hier niets voor geactiveerd.
 export function VercelAnalyticsLoader() {
   const { statistics } = useConsent();
-  if (!statistics) return null;
+  const { meten } = useMeetomgeving();
+  if (!statistics || !meten) return null;
   return <Analytics />;
 }

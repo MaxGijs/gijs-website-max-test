@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useConsent } from "./ConsentProvider";
+import { useMeetomgeving } from "@/lib/consent/meetomgeving";
 
 // Site-ID instellen via NEXT_PUBLIC_CONTENTSQUARE_SITE_ID — zonder die
 // variabele doet dit niets. Laadt pas ná toestemming voor "Statistieken".
@@ -24,9 +25,10 @@ declare global {
 
 export function ContentsquareLoader() {
   const { statistics } = useConsent();
+  const { meten } = useMeetomgeving();
 
   useEffect(() => {
-    if (!CONTENTSQUARE_ID || !statistics || typeof window === "undefined" || window._uxaLoaded) return;
+    if (!CONTENTSQUARE_ID || !meten || !statistics || typeof window === "undefined" || window._uxaLoaded) return;
     window._uxaLoaded = true;
     window._uxa = window._uxa || [];
     const script = document.createElement("script");
@@ -34,7 +36,7 @@ export function ContentsquareLoader() {
     script.type = "text/javascript";
     script.src = `https://t.contentsquare.net/uxa/${CONTENTSQUARE_ID}.js`;
     document.head.appendChild(script);
-  }, [statistics]);
+  }, [statistics, meten]);
 
   return null;
 }
