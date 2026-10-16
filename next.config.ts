@@ -19,6 +19,14 @@ export default function nextConfig(phase: string): NextConfig {
         // het woord "muur"). 301 zodat bestaande links/bookmarks blijven werken.
         { source: "/maatregelen/spouwisolatie", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
         { source: "/warmtepompen", destination: "/maatregelen/warmtepomp", permanent: true },
+        // Oude URL's van de vorige site die Google nog toont (Search Console, 90 dagen).
+        { source: "/spouwmuurisolatie", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
+        { source: "/thuisbatterij", destination: "/maatregelen/thuisbatterij", permanent: true },
+        { source: "/kozijnen", destination: "/maatregelen/kozijnen", permanent: true },
+        // Vloerisolatiepagina legt het verschil met bodemisolatie uit.
+        { source: "/bodemisolatie", destination: "/maatregelen/vloerisolatie", permanent: true },
+        // Verscheen alleen op de merkzoekopdracht "gijs groen in je straat".
+        { source: "/plans-pricing", destination: "/", permanent: true },
         // Juridische documenten linken bewust rechtstreeks naar het originele PDF-document i.p.v.
         // een eigen opgemaakte pagina — dat oogt voor dit soort documenten geloofwaardiger. Niet
         // "permanent" (307): dit zijn geen vaste URL's, de bestandsnaam kan wijzigen zodra er een
