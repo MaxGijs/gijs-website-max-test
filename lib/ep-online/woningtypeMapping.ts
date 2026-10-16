@@ -32,3 +32,25 @@ export function mapGebouwtypeNaarHouseType(gebouwtype: string | null | undefined
   if (!gebouwtype) return null;
   return GEBOUWTYPE_NAAR_HOUSETYPE[gebouwtype.trim().toLowerCase()] ?? null;
 }
+
+/** True voor de samengestelde EP-Online-waarde "Twee-onder-een-kap / rijwoning hoek" (met of zonder accent). */
+export function isTweeOnderEenKapOfHoek(gebouwtype: string | null | undefined): boolean {
+  const t = (gebouwtype ?? "").trim().toLowerCase().replace("één", "een");
+  return t.includes("twee-onder-een-kap") && t.includes("rijwoning hoek");
+}
+
+/**
+ * Combineert EP-Online met het woningtype dat uit de BAG-plattegronden is afgeleid
+ * (lib/bag/woningtypeGeometrie.ts):
+ * - eenduidig gebouwtype bij EP-Online → dat geldt (officieel geregistreerd bij het label);
+ * - de samengestelde "twee-onder-een-kap / rijwoning hoek" → de BAG beslist tussen die twee;
+ * - geen label of geen bruikbaar type → het BAG-type (of null als ook dat niet lukte).
+ */
+export function combineerWoningtype(
+  epOnline: { houseType: HouseType | null; tweeOnderEenKapOfHoek?: boolean } | null,
+  uitBag: HouseType | null,
+): HouseType | null {
+  if (epOnline?.houseType) return epOnline.houseType;
+  if (epOnline?.tweeOnderEenKapOfHoek) return uitBag === "twee-onder-een-kap" || uitBag === "hoekwoning" ? uitBag : null;
+  return uitBag;
+}

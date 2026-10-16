@@ -1,7 +1,7 @@
 "use server";
 import "server-only";
 
-import { mapGebouwtypeNaarHouseType } from "@/lib/ep-online/woningtypeMapping";
+import { isTweeOnderEenKapOfHoek, mapGebouwtypeNaarHouseType } from "@/lib/ep-online/woningtypeMapping";
 import type { HouseType } from "@/lib/woning-types";
 
 // Energielabel + (waar mogelijk) woningtype via EP-Online (RVO), de
@@ -30,6 +30,8 @@ export type EnergielabelResultaat = {
   energieklasse: string | null;
   /** Alleen gevuld als het geregistreerde gebouwtype betrouwbaar naar een van de vier Gijs-woningtypes mapt. */
   houseType: HouseType | null;
+  /** True als EP-Online "twee-onder-een-kap / rijwoning hoek" registreert; de BAG-plattegrond beslist dan (zie combineerWoningtype). */
+  tweeOnderEenKapOfHoek?: boolean;
 };
 
 /**
@@ -59,6 +61,7 @@ export async function haalEnergielabelOp(adresseerbaarObjectId: string): Promise
     return {
       energieklasse: laatste.Energieklasse?.trim() || null,
       houseType: mapGebouwtypeNaarHouseType(laatste.Gebouwtype),
+      tweeOnderEenKapOfHoek: isTweeOnderEenKapOfHoek(laatste.Gebouwtype),
     };
   } catch (e) {
     console.error("[ep-online] kon energielabel niet ophalen:", e);
