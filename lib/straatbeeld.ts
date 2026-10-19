@@ -1,11 +1,11 @@
-// Aansluitpunt voor een echte foto/straatbeeld van het adres (bijvoorbeeld
-// Cyclomedia of Google Street View). De sleutel is nog fictief: zolang
-// NEXT_PUBLIC_STRAATBEELD_API_KEY leeg is, toont de scan een placeholder.
-export const STRAATBEELD_API_KEY = process.env.NEXT_PUBLIC_STRAATBEELD_API_KEY ?? "";
+// Foto/straatbeeld van het adres (Google Street View), via onze eigen
+// server-route app/api/straatbeeld/route.ts. Die haalt het beeld op met de
+// Google-serversleutel, zodat die nooit in de browser komt. Is er geen sleutel
+// of geen straatbeeld voor dit adres, dan antwoordt de route met 404 en toont
+// Woningbeeld de placeholder. Zie docs/straatbeeld.md.
 
-/** URL van de foto van dit adres, of null zolang er geen koppeling is. */
+/** URL van de foto van dit adres, of null zonder adres. */
 export function straatbeeldUrl(adres: string): string | null {
-  if (!STRAATBEELD_API_KEY || !adres) return null;
-  // Vul hier de URL van de gekozen dienst in zodra de koppeling (en de juridische toets) rond is.
-  return null;
+  const schoon = adres.trim();
+  return schoon ? `/api/straatbeeld?adres=${encodeURIComponent(schoon)}` : null;
 }

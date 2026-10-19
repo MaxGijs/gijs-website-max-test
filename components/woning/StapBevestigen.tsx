@@ -9,6 +9,8 @@ import { zoekAdres, type AdresZoekResultaat } from "@/lib/pdok/adresZoeken";
 import { track } from "@/lib/analytics";
 import { haalBagGegevensOp, type BagGegevens } from "@/lib/bag/adresUitgebreid";
 import { haalEnergielabelOp, type EnergielabelResultaat } from "@/lib/ep-online/energielabel";
+import { combineerWoningtype } from "@/lib/ep-online/woningtypeMapping";
+import { bepaalWoningtypeUitBag } from "@/lib/bag/woningtypeUitBag";
 import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
 import { Woningbeeld } from "./Woningbeeld";
 import { WoningtypeRegel } from "./ScanVragen";
@@ -51,11 +53,11 @@ export function StapBevestigen({
   const [bag, setBag] = useState<BagGegevens | null>(null);
   // Bonus-verrijking via EP-Online (energielabel, en waar betrouwbaar het woningtype); blijft null zonder sleutel/registratie.
   const [epOnline, setEpOnline] = useState<EnergielabelResultaat | null>(null);
-  // Wordt true zodra de EP-Online-poging is afgerond, ongeacht de uitkomst (gevonden, geen label,
-  // dubbelzinnig gebouwtype, of helemaal mislukt). Nodig om "woningtype kon niet automatisch worden
-  // bepaald" pas te tonen als dat ook echt vaststaat — anders flitst die melding al even op tijdens
-  // het opzoeken zelf, vlak voordat een woningtype wél gevonden wordt.
-  const [epOnlineKlaar, setEpOnlineKlaar] = useState(false);
+  // Wordt true zodra de woningtype-bepaling (EP-Online + BAG-plattegrond) is afgerond, ongeacht de
+  // uitkomst (gevonden, geen label, dubbelzinnig gebouwtype, of helemaal mislukt). Nodig om "woningtype
+  // kon niet automatisch worden bepaald" pas te tonen als dat ook echt vaststaat — anders flitst die
+  // melding al even op tijdens het opzoeken zelf, vlak voordat een woningtype wél gevonden wordt.
+  const [woningtypeKlaar, setWoningtypeKlaar] = useState(false);
   // Voorkomt een "stale closure" in de (async) EP-Online-callback hieronder, zonder dat
   // woningtypeBron/onAutoHouseType de opzoek-effect hieronder bij elke render laat herhalen.
   const woningtypeBronRef = useRef(woningtypeBron);
@@ -74,23 +76,31 @@ export function StapBevestigen({
       setResultaat(res);
       setBag(null);
       setEpOnline(null);
-      setEpOnlineKlaar(false);
+      setWoningtypeKlaar(false);
       if (res.status === "gevonden" && res.adres.nummeraanduidingId) {
         haalBagGegevensOp(res.adres.nummeraanduidingId, houseType).then((data) => { if (actief) setBag(data); });
       }
       if (res.status === "gevonden" && res.adres.adresseerbaarObjectId) {
-        haalEnergielabelOp(res.adres.adresseerbaarObjectId).then((data) => {
+        const objectId = res.adres.adresseerbaarObjectId;
+        // Woningtype: eerst EP-Online (officieel geregistreerd bij het energielabel). Veel woningen
+        // hebben daar geen label (en dus geen gebouwtype), of de dubbelzinnige waarde "twee-onder-
+        // een-kap / rijwoning hoek"; dan leiden we het type af uit de BAG-plattegrond: met hoeveel
+        // buurwoningen deelt het pand een muur (lib/bag/woningtypeGeometrie.ts).
+        const epOnlinePoging = haalEnergielabelOp(objectId)
+          .catch(() => null)
+          .then((data) => { if (actief && data) setEpOnline(data); return data; });
+        const bagPoging = bepaalWoningtypeUitBag(objectId).catch(() => null);
+        Promise.all([epOnlinePoging, bagPoging]).then(([data, uitBag]) => {
           if (!actief) return;
-          setEpOnlineKlaar(true);
-          if (!data) return;
-          setEpOnline(data);
-          if (data.houseType && woningtypeBronRef.current !== "handmatig") onAutoHouseTypeRef.current(data.houseType);
+          setWoningtypeKlaar(true);
+          const type = combineerWoningtype(data, uitBag);
+          if (type && woningtypeBronRef.current !== "handmatig") onAutoHouseTypeRef.current(type);
         });
       } else if (res.status === "gevonden") {
-        // Geen adresseerbaarObjectId meegekregen: er valt niets op te zoeken bij EP-Online, dus
-        // meteen "klaar" (anders blijft de "kon niet automatisch worden bepaald"-melding voor
-        // altijd weg terwijl er ook nooit een automatisch woningtype komt).
-        setEpOnlineKlaar(true);
+        // Geen adresseerbaarObjectId meegekregen: er valt niets op te zoeken bij EP-Online of de
+        // BAG, dus meteen "klaar" (anders blijft de "kon niet automatisch worden bepaald"-melding
+        // voor altijd weg terwijl er ook nooit een automatisch woningtype komt).
+        setWoningtypeKlaar(true);
       }
     });
     return () => { actief = false; };
@@ -179,7 +189,7 @@ export function StapBevestigen({
 
   const { adres } = resultaat;
   const label = `${adres.straatEnHuisnummer}, ${adres.postcode} ${adres.woonplaats}`;
-  const woningtypeOnbekend = epOnlineKlaar && woningtypeBron === "";
+  const woningtypeOnbekend = woningtypeKlaar && woningtypeBron === "";
   return (
     <section className="grid items-start gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       <div className="flex flex-col gap-4">
@@ -210,9 +220,9 @@ export function StapBevestigen({
         {woningtypeBron === "automatisch" && (
           <p className="text-[14px] text-[var(--grey-600,#5b6560)] -mt-2">Automatisch bepaald op basis van beschikbare woninggegevens. Klopt dit niet? Kies het juiste woningtype.</p>
         )}
-        {/* EP-Online geeft bij veel panden geen eenduidig woningtype terug (bv. een appartement, of de
-            letterlijke waarde "Twee-onder-een-kap / rijwoning hoek" — zie lib/ep-online/woningtypeMapping.ts),
-            of de poging mislukt (geen sleutel, dienst niet bereikbaar). Dan bleef woningtypeBron "" en
+        {/* Lukt het woningtype via EP-Online én via de BAG-plattegrond niet (bv. een appartement, een
+            pand met meerdere woningen, of beide diensten niet bereikbaar — zie combineerWoningtype in
+            lib/ep-online/woningtypeMapping.ts), dan bleef woningtypeBron "" en
             toonde de pagina hierboven stilzwijgend het standaardtype (hoekwoning), zonder enig signaal dat
             dit geen echte detectie was. "woningtypeOnbekend" wordt pas true zodra de poging (gelukt of niet)
             is afgerond — niet al tijdens het opzoeken zelf, anders flitst dit even op bij een adres dat
