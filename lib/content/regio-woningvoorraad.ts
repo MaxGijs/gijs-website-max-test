@@ -56,6 +56,16 @@ export const WONINGVOORRAAD_GEMEENTEN: Record<string, WoningvoorraadGemeente> = 
     peildatum: "2025/2026",
     bronUrl: "https://www.allecijfers.nl/gemeente/oldenzaal/",
   },
+  almelo: {
+    totaalWoningen: 34_709,
+    percentageKoopwoningen: 55,
+    // 17% + 17% + 15% = 49%.
+    percentageVoor1975: 49,
+    meestVoorkomendType: "Tussenwoning",
+    gemiddeldeWozWaarde: "€ 295.000",
+    peildatum: "2025/2026",
+    bronUrl: "https://www.allecijfers.nl/gemeente/almelo/",
+  },
   "hof-van-twente": {
     totaalWoningen: 15_711,
     percentageKoopwoningen: 69,
@@ -65,5 +75,35 @@ export const WONINGVOORRAAD_GEMEENTEN: Record<string, WoningvoorraadGemeente> = 
     gemiddeldeWozWaarde: "€ 376.000",
     peildatum: "2025/2026",
     bronUrl: "https://www.allecijfers.nl/gemeente/hof-van-twente/",
+  },
+  "rijssen-holten": {
+    totaalWoningen: 15_310,
+    percentageKoopwoningen: 70,
+    // 11% + 12% + 18% = 41%.
+    percentageVoor1975: 41,
+    meestVoorkomendType: "Vrijstaande woning",
+    gemiddeldeWozWaarde: "€ 386.000",
+    peildatum: "2025/2026",
+    bronUrl: "https://www.allecijfers.nl/gemeente/rijssen-holten/",
+  },
+  hellendoorn: {
+    totaalWoningen: 15_194,
+    percentageKoopwoningen: 73,
+    // 14% + 15% + 18% = 47%.
+    percentageVoor1975: 47,
+    meestVoorkomendType: "Vrijstaande woning",
+    gemiddeldeWozWaarde: "€ 395.000",
+    peildatum: "2025/2026",
+    bronUrl: "https://www.allecijfers.nl/gemeente/hellendoorn/",
+  },
+  twenterand: {
+    totaalWoningen: 14_192,
+    percentageKoopwoningen: 67,
+    // 12% + 13% + 17% = 42%.
+    percentageVoor1975: 42,
+    meestVoorkomendType: "Vrijstaande woning",
+    gemiddeldeWozWaarde: "€ 354.000",
+    peildatum: "2025/2026",
+    bronUrl: "https://www.allecijfers.nl/gemeente/twenterand/",
   },
 };

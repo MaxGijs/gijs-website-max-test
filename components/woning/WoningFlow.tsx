@@ -10,6 +10,7 @@ import { WoningtypeRegel, KeuzeRij, OptieToggle, VerbruikVeld } from "./ScanVrag
 import { BeeldKeuze } from "./BeeldKeuze";
 import { CONTACT, WHATSAPP_NUMMER } from "@/lib/content/contact";
 import { SCAN_TITELS } from "@/lib/content/maatregel-titels";
+import { MAATREGEL_BEELD } from "@/lib/content/maatregel-beelden";
 import { SUBSIDIE_PER_M2 } from "@/lib/content/subsidie-per-m2";
 import { MC_BRONNEN } from "@/lib/content/milieu-centraal";
 import { RegelingenInScan } from "@/components/subsidie/RegelingenInScan";
@@ -39,19 +40,6 @@ import { geldigTelefoonnummer } from "@/lib/telefoon";
 
 const toggleIn = (list: string[], id: string) => list.includes(id) ? list.filter(x => x !== id) : [...list, id];
 
-// Foto per maatregel bij "Wat kun je nog doen?", om vertrouwen te wekken: geen tekening,
-// maar een echte foto van het onderdeel. Vloerisolatie toont bewust de kruipruimte:
-// dat is voor de meeste mensen de onbekendste plek van de ingreep.
-const MAATREGEL_BEELD: Record<string, { src: string; alt: string }> = {
-  zonnepanelen: { src: "/images/woningscan/maatregelen/zonnepanelen-dak.jpg", alt: "Zonnepanelen op een dak" },
-  dakisolatie: { src: "/images/woningscan/maatregelen/dakisolatie.png", alt: "Dakisolatie tijdens het aanbrengen" },
-  warmtepomp: { src: "/images/maatregelen/warmtepomp/warmtepomp-hero.png", alt: "Buitenunit van een warmtepomp" },
-  gevelisolatie: { src: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png", alt: "Spouwmuurisolatie wordt aangebracht" },
-  vloerisolatie: { src: "/images/woningscan/maatregelen/icynene-vloerisolatie.png", alt: "Vloerisolatie wordt in de kruipruimte aangebracht" },
-  "glas-kozijnen": { src: "/images/maatregelen/kozijnen/kozijnen-hero.jpg", alt: "Nieuwe kozijnen met isolatieglas" },
-  vloerverwarming: { src: "/images/maatregelen/vloerverwarming/vloerverwarming-hero.png", alt: "Vloerverwarming in de dekvloer" },
-  thuisbatterij: { src: "/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png", alt: "Thuisbatterij naast de woning" },
-};
 
 
 // Welk scan-veld het (kadaster-afgeleide) oppervlak voor deze maatregel bevat; leeg als niet opgehaald.

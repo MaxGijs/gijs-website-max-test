@@ -42,7 +42,7 @@ function Tekstregel({ alinea }: { alinea: Alinea }) {
   );
 }
 
-function Alineas({ alineas }: { alineas: Alinea[] }) {
+export function Alineas({ alineas }: { alineas: Alinea[] }) {
   return <div className="flex flex-col gap-3 text-zinc-700">{alineas.map((a, i) => <Tekstregel key={i} alinea={a} />)}</div>;
 }
 
@@ -59,7 +59,54 @@ function Punten({ punten }: { punten: NonNullable<LokaleSectie["punten"]> }) {
   );
 }
 
+// Iconenkaarten naast de tekst (bijv. "waar is deze plaats bekend van"). Volle breedte op mobiel,
+// zodat er nooit een half gevulde kaartrij ontstaat; een oneven laatste kaart beslaat beide kolommen.
+function Kaarten({ kaarten }: { kaarten: NonNullable<LokaleSectie["kaarten"]> }) {
+  return (
+    <ul className="grid grid-cols-2 gap-4">
+      {kaarten.map((k, i) => {
+        const inhoud = (
+          <Card variant="tint" className="flex h-full flex-col gap-2 !p-5">
+            <Icon name={k.icon} size="md" className="text-[var(--accent-700)]" />
+            <span className="font-bold text-lg text-[var(--gijs-donkergroen)]">{k.titel}</span>
+            <span className="text-sm text-zinc-600 flex-1">{k.tekst}</span>
+            {k.href && (
+              <span className="mt-1 text-sm font-semibold text-[var(--accent-700)] inline-flex items-center gap-1">
+                Lees meer <Icon name="arrow-right" size="sm" />
+              </span>
+            )}
+          </Card>
+        );
+        return (
+          <li key={k.titel} className={kaarten.length % 2 === 1 && i === kaarten.length - 1 ? "col-span-2" : undefined}>
+            {k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 function Sectie({ sectie }: { sectie: LokaleSectie }) {
+  if (sectie.kaarten) {
+    return (
+      <section id={sectie.id} className="scroll-mt-40 mb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-start">
+          <div>
+            <h2 className={H2 + " mb-4"}>{sectie.titel}</h2>
+            <Alineas alineas={sectie.alineas} />
+            {sectie.punten && <Punten punten={sectie.punten} />}
+          </div>
+          <div className="flex flex-col gap-4">
+            {sectie.kaartenTitel && (
+              <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{sectie.kaartenTitel}</p>
+            )}
+            <Kaarten kaarten={sectie.kaarten} />
+          </div>
+        </div>
+      </section>
+    );
+  }
   return (
     <section id={sectie.id} className="scroll-mt-40 mb-14">
       <h2 className={H2 + " mb-4"}>{sectie.titel}</h2>
@@ -145,24 +192,29 @@ export function LokalePagina({
 
       {gijs && <Sectie sectie={gijs} />}
 
-      {subsidies && (
-        <section id="subsidies" className="scroll-mt-40 mb-14">
-          <h2 className={H2 + " mb-4"}>Subsidies en regelingen</h2>
-          <div className="max-w-2xl flex flex-col gap-4">
-            <Alineas alineas={subsidies} />
-            {officieleSubsidieUrl && (
-              <p className="text-zinc-700">
-                Gemeentelijke regelingen controleer je altijd bij de gemeente zelf:{" "}
-                <a href={officieleSubsidieUrl} target="_blank" rel="noopener noreferrer" className={LINK}>
-                  informatie van de gemeente {gemeenteNaam}<span className="sr-only"> (opent in nieuw tabblad)</span>
-                </a>.
-              </p>
-            )}
-          </div>
-        </section>
-      )}
-
-      {gemeenteNaam && <RegelingenInGemeente gemeente={gemeenteNaam} officieleUrl={officieleSubsidieUrl} terugval="geen" />}
+      {/* De actuele regelingen van de gemeente (Milieu Centraal) vervangen de vaste subsidietekst; alleen
+          als die niet op te halen zijn (geen sleutel, storing) blijft de vaste tekst staan. Zo staat er
+          altijd precies één subsidieblok op de pagina. */}
+      <RegelingenInGemeente
+        gemeente={gemeenteNaam}
+        officieleUrl={officieleSubsidieUrl}
+        terugvalInhoud={subsidies && (
+          <section id="subsidies" className="scroll-mt-40 mb-14">
+            <h2 className={H2 + " mb-4"}>Subsidies en regelingen</h2>
+            <div className="max-w-2xl flex flex-col gap-4">
+              <Alineas alineas={subsidies} />
+              {officieleSubsidieUrl && (
+                <p className="text-zinc-700">
+                  Gemeentelijke regelingen controleer je altijd bij de gemeente zelf:{" "}
+                  <a href={officieleSubsidieUrl} target="_blank" rel="noopener noreferrer" className={LINK}>
+                    informatie van de gemeente {gemeenteNaam}<span className="sr-only"> (opent in nieuw tabblad)</span>
+                  </a>.
+                </p>
+              )}
+            </div>
+          </section>
+        )}
+      />
 
       {faq && faq.length > 0 && (
         <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">

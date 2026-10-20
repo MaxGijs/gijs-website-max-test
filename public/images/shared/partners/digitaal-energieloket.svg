@@ -1,0 +1,5 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Digitaal Energieloket">
+  <rect width="32" height="32" rx="9" fill="#121D2D" />
+  <path d="M8 15.5 16 9l8 6.5V23a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-7.5Z" fill="none" stroke="white" stroke-width="2" stroke-linejoin="round" />
+  <path d="M17 13.5 13.8 18.2h2.6L15 22.5l3.4-5.1h-2.6l1.2-3.9Z" fill="#04773B" stroke="none" />
+</svg>

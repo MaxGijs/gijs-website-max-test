@@ -205,12 +205,12 @@ export function EnergiescanBlok() {
   );
 }
 
-export function RegioCta({ titel }: { titel: string }) {
+export function RegioCta({ titel, tekst }: { titel: string; tekst?: string }) {
   return (
     <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
       <div className="max-w-xl min-w-0 [&_h2]:[hyphens:auto]">
         <h2 className={H2 + " mb-2"}>{titel}</h2>
-        <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
+        <p className="text-zinc-700">{tekst ?? "Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."}</p>
       </div>
       <div className="flex flex-col sm:flex-row gap-3 shrink-0">
         <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right" className="w-full md:w-auto">Start de woningscan</Button>

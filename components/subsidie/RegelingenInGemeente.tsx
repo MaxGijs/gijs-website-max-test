@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ds/core/Button";
 import { GemeentelijkeSubsidies, H2 } from "@/components/regio/RegioBlokken";
@@ -16,22 +17,31 @@ export async function RegelingenInGemeente({
   officieleUrl,
   relatie,
   terugval = "standaard",
+  terugvalInhoud,
+  toonKop = true,
 }: {
   gemeente: string;
   officieleUrl?: string;
   relatie?: string;
   /** "geen": de pagina heeft al een eigen subsidieblok, dan niets tonen als de regelingen niet op te halen zijn. */
   terugval?: "standaard" | "geen";
+  /** Eigen subsidieblok van de pagina, alleen getoond als de regelingen niet op te halen zijn. */
+  terugvalInhoud?: ReactNode;
+  /** false: de pagina zet zelf een kop boven de regelingen. */
+  toonKop?: boolean;
 }) {
   const g = await gemeenteVoorNaam(gemeente);
   const lijst = g ? await regelingenVoorGemeente(g) : null;
-  if (!g || !lijst) return terugval === "geen" ? null : <GemeentelijkeSubsidies gemeente={gemeente} officieleUrl={officieleUrl} relatie={relatie} />;
+  if (!g || !lijst) {
+    if (terugvalInhoud !== undefined) return terugvalInhoud;
+    return terugval === "geen" ? null : <GemeentelijkeSubsidies gemeente={gemeente} officieleUrl={officieleUrl} relatie={relatie} />;
+  }
 
   const lokaal = lijst.filter(r => r.niveau !== "landelijk");
   const landelijk = lijst.filter(r => r.niveau === "landelijk");
   return (
     <section id="gemeentelijke-subsidies" className="scroll-mt-40 mb-14">
-      <h2 className={H2 + " mb-2"}>Subsidies en regelingen in {g.naam}</h2>
+      {toonKop && <h2 className={H2 + " mb-2"}>Subsidies en regelingen in {g.naam}</h2>}
       <div className="max-w-2xl flex flex-col gap-3 text-zinc-600 mb-6">
         {relatie && <p className="text-zinc-700 font-medium">{relatie}</p>}
         <p>

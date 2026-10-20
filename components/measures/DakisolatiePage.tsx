@@ -16,6 +16,7 @@ import { FeatureList } from "@/components/measures/FeatureList";
 import { FotoStrook, type StrookFoto } from "@/components/measures/FotoStrook";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
+import { MeasureRegioLink } from "@/components/measures/MeasureRegioLink";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -355,6 +356,8 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
           Start de woningscan
         </Button>
       </section>
+
+      <MeasureRegioLink />
     </main>
   );
 }

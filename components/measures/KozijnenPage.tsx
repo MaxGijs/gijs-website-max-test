@@ -12,6 +12,7 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MaterialCard } from "@/components/measures/MaterialCard";
 import { KozijnenInstallatieAnimatie } from "@/components/measures/KozijnenInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
+import { MeasureRegioLink } from "@/components/measures/MeasureRegioLink";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -477,6 +478,8 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
           Start de woningscan
         </Button>
       </section>
+
+      <MeasureRegioLink />
     </main>
   );
 }

@@ -19,6 +19,12 @@ export type LokaleSectie = {
   titel: string;
   alineas: Alinea[];
   punten?: { titel: string; tekst: string }[];
+  /** Iconenkaarten náást de sectietekst (lucide-react icoonnamen, kebab-case) — bijv. "waar is deze
+   * plaats bekend van". Als dit is ingevuld, wordt de sectie twee-koloms getoond: de normale tekst
+   * (en eventuele punten) links, de kaarten rechts onder een klein kopje (kaartenTitel). */
+  kaarten?: { icon: string; titel: string; tekst: string; href?: string }[];
+  /** Klein kopje boven de kaarten rechts, bijv. "Waar is Almelo bekend van?". */
+  kaartenTitel?: string;
 };
 
 export type LokaleInhoud = {
@@ -55,12 +61,24 @@ const ZWOLLE: Record<string, LokaleInhoud> = {
     kicker: "Gemeente Zwolle",
     h1: "Gijs in Zwolle",
     intro: [
-      ["In Zwolle is Gijs vooral actief in de wijk Berkum. Daar werken we samen met het bewonersinitiatief Berkum Energieneutraal (BEN). Op de pagina over Berkum lees je wat die samenwerking voor bewoners betekent."],
-      ["Woon je elders in Zwolle en wil je weten wat je aan je woning kunt doen? Neem gerust contact op. Dan kijken we samen of en hoe we je kunnen helpen."],
+      ["In Zwolle is Gijs vooral actief in de wijk ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ". Daar werken we samen met het bewonersinitiatief Berkum Energieneutraal (BEN). Op de pagina over Berkum lees je wat die samenwerking voor bewoners betekent."],
     ],
     ctaPrimair: { tekst: "Lees over Gijs in Berkum", href: "/regio/overijssel/zwolle/berkum" },
     ctaSecundair: { tekst: "Neem contact op", href: "/contact" },
-    secties: [],
+    secties: [
+      {
+        id: "heel-zwolle",
+        titel: "Heel Zwolle, niet alleen Berkum",
+        alineas: [
+          ["Woon je elders in Zwolle en wil je weten wat je aan je woning kunt doen? Neem gerust contact op. Dan kijken we samen of en hoe we je kunnen helpen."],
+        ],
+        kaartenTitel: "Waar is Zwolle bekend van?",
+        kaarten: [
+          { icon: "shield", titel: "PEC Zwolle", tekst: "De profclub van de stad." },
+          { icon: "leaf", titel: "Berkum", tekst: "De wijk waar Gijs samenwerkt met Berkum Energieneutraal.", href: "/regio/overijssel/zwolle/berkum" },
+        ],
+      },
+    ],
     verwant: {
       titel: "Verder lezen",
       links: [
@@ -168,7 +186,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
     kicker: "Gemeente Borne",
     h1: "Je woning isoleren in Borne",
     intro: [
-      ["Borne is een compacte gemeente: de kern Borne, de dorpen Zenderen en Hertme en het buitengebied eromheen. Een groot deel van de woningen is gebouwd vóór de jaren negentig. Juist bij die huizen valt vaak nog winst te halen met isolatie."],
+      ["Borne is een compacte gemeente: de kern Borne, de dorpen ", { tekst: "Zenderen", href: "/regio/overijssel/borne/zenderen" }, " en ", { tekst: "Hertme", href: "/regio/overijssel/borne/hertme" }, " en het buitengebied eromheen. Een groot deel van de woningen is gebouwd vóór de jaren negentig. Juist bij die huizen valt vaak nog winst te halen met isolatie."],
       ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is. Rustig, en zonder dat je ergens aan vastzit."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
@@ -189,12 +207,16 @@ const TWENTE: Record<string, LokaleInhoud> = {
           ["Of je nu in een rijwoning in de kern woont of in een vrijstaand huis aan de rand van het dorp: de vraag is steeds waar de meeste warmte weglekt. Een vrijstaande woning heeft meer buitenmuur en dak dan een tussenwoning van dezelfde grootte. Daar weegt goede isolatie dus extra zwaar."],
           ["Woon je in een van de dorpen? Lees dan ook over isoleren in ", { tekst: "Zenderen", href: "/regio/overijssel/borne/zenderen" }, " of ", { tekst: "Hertme", href: "/regio/overijssel/borne/hertme" }, "."],
         ],
+        kaartenTitel: "Waar is Borne bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "Bussemakerhuis", tekst: "Het enige bewaard gebleven linnenhandelshuis van Nederland, aan de Ennekerdijk. Herinnert aan 1675, toen Borne het belangrijkste linnenhandelscentrum van Twente was." },
+        ],
       },
       {
         id: "natuurvriendelijk-isoleren",
         titel: "Natuurvriendelijk isoleren in Borne",
         alineas: [
-          ["De gemeente Borne vraagt woningeigenaren om natuurvriendelijk te isoleren. In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen, huismussen en gierzwaluwen. Een natuurvriendelijke werkwijze houdt daar rekening mee, bijvoorbeeld met het moment van uitvoeren en de melding die erbij hoort."],
+          ["Alle woningeigenaren in de gemeente Borne moeten natuurvriendelijk isoleren. In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen, huismussen en gierzwaluwen. Een natuurvriendelijke werkwijze houdt daar rekening mee, bijvoorbeeld met het moment van uitvoeren en de melding die erbij hoort."],
           ["Spreek dit vooraf af met het bedrijf dat de isolatie uitvoert. Zo voorkom je dat een goede maatregel botst met de natuurregels."],
         ],
       },
@@ -230,7 +252,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
       ["De gemeente Borne heeft ook een eigen isolatieregeling. Of die op dit moment loopt en of jouw woning in aanmerking komt, lees je bij de gemeente zelf."],
     ],
     faq: [
-      { question: "Moet ik in Borne natuurvriendelijk isoleren?", answer: "Ja, de gemeente Borne vraagt woningeigenaren daarom. In spouwmuren en daken kunnen beschermde dieren leven, zoals vleermuizen, huismussen en gierzwaluwen. Het bedrijf dat de isolatie uitvoert, moet daar rekening mee houden. Vraag er vooraf naar." },
+      { question: "Moet ik in Borne natuurvriendelijk isoleren?", answer: "Ja, volgens de gemeente Borne moeten alle woningeigenaren natuurvriendelijk isoleren. In spouwmuren en daken kunnen beschermde dieren leven, zoals vleermuizen, huismussen en gierzwaluwen. Het bedrijf dat de isolatie uitvoert, moet daar rekening mee houden. Vraag er vooraf naar." },
       { question: "Mijn huis is gebouwd vóór 1992. Is isoleren dan zinvol?", answer: "Vaak wel, maar het hangt af van wat er al is gedaan. Veel oudere woningen zijn al deels verbeterd. Tijdens de energiescan kijken we wat er nog te winnen valt." },
       { question: "Helpt Gijs ook in Zenderen, Hertme en het buitengebied?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Borne, dus ook in de dorpen en daarbuiten." },
       { question: "Moet ik wachten tot duidelijk is hoe mijn wijk verwarmd gaat worden?", answer: "Nee. Isoleren helpt bij elke manier van verwarmen. Een goed geïsoleerd huis gebruikt nu minder energie en is straks klaar voor een duurzame warmtebron." },
@@ -261,6 +283,19 @@ const TWENTE: Record<string, LokaleInhoud> = {
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
     secties: [
+      {
+        id: "herkenningspunten",
+        titel: "De torens van Hengelo",
+        alineas: [
+          ["Herkenningspunten voor de binnenstad van Hengelo zijn de torens van de Sint-Lambertusbasiliek en het stadhuis, allebei rijksmonument."],
+          ["Hengelo bestaat ook uit het dorp ", { tekst: "Beckum", href: "/regio/overijssel/hengelo/beckum" }, ", het enige kerkdorp binnen de gemeente."],
+        ],
+        kaartenTitel: "Waar is Hengelo bekend van?",
+        kaarten: [
+          { icon: "building-2", titel: "De stadhuistoren", tekst: "59 meter hoog, met carillon, gebouwd tussen 1958 en 1963." },
+          { icon: "church", titel: "Sint-Lambertusbasiliek", tekst: "Dateert uit 1889-1890 en is bijna even hoog als de stadhuistoren." },
+        ],
+      },
       {
         id: "bouwperioden",
         titel: "Twee bouwperioden springen eruit",
@@ -345,6 +380,19 @@ const TWENTE: Record<string, LokaleInhoud> = {
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
     secties: [
       {
+        id: "textielstad",
+        titel: "Een stad gevormd door de textielindustrie",
+        alineas: [
+          ["Enschede groeide vooral in de negentiende en twintigste eeuw snel door de textielindustrie, die lange tijd het beeld van de stad bepaalde. Veel van de grote fabriekscomplexen verdwenen in de jaren zeventig en tachtig, maar de sociale woningbouw en tuinwijken uit die tijd staan er nog altijd."],
+          ["Dat verklaart waarom Enschede zo'n brede mix van bouwperiodes kent, van vooroorlogse arbeiderswijken tot naoorlogse uitbreidingen."],
+        ],
+        kaartenTitel: "Waar is Enschede bekend van?",
+        kaarten: [
+          { icon: "church", titel: "De Grote Kerk", tekst: "Midden op de Oude Markt. De basis van het gebouw gaat terug op een Romaanse kerk van rond 1200." },
+          { icon: "shield", titel: "FC Twente", tekst: "De profclub van de stad, met thuisbasis stadion De Grolsch Veste." },
+        ],
+      },
+      {
         id: "eengezinswoning-of-appartement",
         titel: "Een eengezinswoning of een appartement?",
         alineas: [
@@ -358,6 +406,13 @@ const TWENTE: Record<string, LokaleInhoud> = {
         alineas: [
           ["De gemeente Enschede werkt per wijk aan de overstap naar duurzame warmte. Wijken als Twekkelerveld, Stroinkslanden Zuid en 't Lang komen daarin terug. Wat er in jouw buurt speelt, lees je op de website van de gemeente."],
           ["Isoleren is in elke wijk een goede eerste stap. Een goed geïsoleerd huis heeft minder warmte nodig, hoe je straks ook verwarmt."],
+        ],
+      },
+      {
+        id: "dorpen-van-enschede",
+        titel: "De dorpen rond de stad",
+        alineas: [
+          ["Enschede is niet alleen de stad zelf: ", { tekst: "Boekelo", href: "/regio/overijssel/enschede/boekelo" }, ", ", { tekst: "Glanerbrug", href: "/regio/overijssel/enschede/glanerbrug" }, ", ", { tekst: "Lonneker", href: "/regio/overijssel/enschede/lonneker" }, ", ", { tekst: "Usselo", href: "/regio/overijssel/enschede/usselo" }, " en het buurtschap ", { tekst: "Twekkelo", href: "/regio/overijssel/enschede/twekkelo" }, " horen ook bij de gemeente, elk met een eigen karakter."],
         ],
       },
       {
@@ -422,7 +477,7 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
     kicker: "Gemeente Hof van Twente",
     h1: "Je woning isoleren in Hof van Twente",
     intro: [
-      ["Hof van Twente is een gemeente van dorpen en buitengebied: Goor, Delden, Markelo, Diepenheim, Hengevelde en Bentelo. Veel mensen wonen hier in een eigen huis met een tuin eromheen. Dat merk je ook aan de isolatievraag."],
+      ["Hof van Twente is een gemeente van dorpen en buitengebied: ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, ", ", { tekst: "Diepenheim", href: "/regio/overijssel/hof-van-twente/diepenheim" }, ", ", { tekst: "Hengevelde", href: "/regio/overijssel/hof-van-twente/hengevelde" }, " en ", { tekst: "Bentelo", href: "/regio/overijssel/hof-van-twente/bentelo" }, ". Veel mensen wonen hier in een eigen huis met een tuin eromheen. Dat merk je ook aan de isolatievraag."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt, en in welke volgorde je het beste kunt beginnen."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
@@ -447,6 +502,11 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
         alineas: [
           ["Of je nu in het centrum van Goor woont, in een van de dorpen of in het buitengebied: voor isolatie gaat het vooral om je eigen huis, het bouwjaar en wat er al is gedaan."],
           ["Lees ook over isoleren in ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, ", ", { tekst: "Diepenheim", href: "/regio/overijssel/hof-van-twente/diepenheim" }, ", ", { tekst: "Hengevelde", href: "/regio/overijssel/hof-van-twente/hengevelde" }, " of ", { tekst: "Bentelo", href: "/regio/overijssel/hof-van-twente/bentelo" }, "."],
+        ],
+        kaartenTitel: "Waar is Hof van Twente bekend van?",
+        kaarten: [
+          { icon: "castle", titel: "Landgoed Twickel", tekst: "Bij Delden: het grootste particuliere landgoed van Nederland, met een oudste vermelding uit 1347.", href: "/regio/overijssel/hof-van-twente/delden" },
+          { icon: "mountain", titel: "De Markelose Berg", tekst: "Bij Markelo: hierop staat het Overijssels Verzetsmonument 1940-1945.", href: "/regio/overijssel/hof-van-twente/markelo" },
         ],
       },
       {
@@ -517,7 +577,12 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
         titel: "Wijk voor wijk van het aardgas af",
         alineas: [
           ["Voor 2026 noemt de gemeente de Binnenstad Noord, de Binnenstad Zuid en Ulk en omgeving als focus van de warmtetransitie. Daarna volgen onder meer Kerkelanden en Wester Sluitersveldlanden. Welke planning voor jouw buurt geldt, lees je bij de gemeente Almelo."],
-          ["Woon je in een wijk die later aan de beurt is? Dan hoef je niet te wachten. Isoleren helpt in elke wijk en bij elke manier van verwarmen."],
+          ["Woon je in een wijk die later aan de beurt is? Dan hoef je niet te wachten. Isoleren helpt in elke wijk en bij elke manier van verwarmen. Almelo bestaat ook uit dorpen los van de stad zelf: ", { tekst: "Aadorp", href: "/regio/overijssel/almelo/aadorp" }, ", ", { tekst: "Bornerbroek", href: "/regio/overijssel/almelo/bornerbroek" }, " en ", { tekst: "Harbrinkhoek-Mariaparochie", href: "/regio/overijssel/almelo/harbrinkhoek-mariaparochie" }, "."],
+        ],
+        kaartenTitel: "Waar is Almelo bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "De Grote Kerk", tekst: "Rijksmonument aan het Kerkplein, oorspronkelijk de slotkapel van de heren van Almelo. Het koor dateert uit 1493, het schip uit 1738." },
+          { icon: "shield", titel: "Heracles Almelo", tekst: "De profclub van de stad, met thuisbasis het Asito Stadion." },
         ],
       },
       {
@@ -598,6 +663,16 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
     secties: [
       {
+        id: "plechelmusbasiliek",
+        titel: "Waar is Oldenzaal bekend van?",
+        alineas: [
+          ["Midden in Oldenzaal staat de Basiliek van de Heilige Plechelmus, een Romaanse zandstenen kruisbasiliek en rijksmonument."],
+        ],
+        kaarten: [
+          { icon: "church", titel: "Plechelmusbasiliek", tekst: "De kern van het gebouw stamt uit de tweede helft van de twaalfde eeuw; het gotische koor kwam er halverwege de vijftiende eeuw bij, het zuiderschip in 1480." },
+        ],
+      },
+      {
         id: "tussenwoning",
         titel: "Een tussenwoning isoleren",
         alineas: [
@@ -660,7 +735,2096 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
   },
 };
 
+// Dorpen binnen al bestaande gemeenten die eerst alleen de generieke template toonden (noindex).
+// Op verzoek van Max (2026-10-19) krijgen alle officiële dorpen binnen de huidige gemeenten een
+// eigen pagina, na het leggen van de aangeleverde plaatsenset naast
+// https://nl.wikipedia.org/wiki/Lijst_van_steden_en_dorpen_in_Overijssel. Pure buurtschappen
+// (geen dorpsstatus) blijven bewust noindex, zie de toelichting bij PUBLICATIE in lib/content/regio.ts.
+//
+// Herkenningspunten/lokale feiten in dit bestand (toegevoegd 2026-10-19, tweede onderzoeksronde
+// o.b.v. een tweede ChatGPT-rapport dat VVV/Visit-sites, het Rijksmonumentenregister en AlleCijfers.nl
+// als bronvolgorde adviseert) zijn stuk voor stuk bronvermeld te herleiden; waar geen betrouwbare
+// bron is gevonden, is niets verzonnen en blijft de generieke tekst staan.
+const HENGELO_BECKUM: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/hengelo/beckum": {
+    seo: {
+      title: "Woning isoleren in Beckum | Gijs",
+      description: "Isoleren in Beckum, het enige kerkdorp van de gemeente Hengelo? Lees hoe Gijs je helpt.",
+    },
+    kicker: "Beckum, gemeente Hengelo",
+    h1: "Je woning isoleren in Beckum",
+    intro: [
+      ["Beckum is het enige kerkdorp binnen de gemeente Hengelo, los van de stad zelf."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Beckum bekend van?",
+        kaarten: [
+          { icon: "users", titel: "'t Proggiehoes", tekst: "Het dorpshuis van Beckum, met ongeveer 1.000 inwoners een van de voorzieningen die het dorp zijn eigen karakter geven." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Beckum vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van wat er al is gedaan.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Beckum",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Beckum valt onder de gemeente Hengelo, die een eigen regeling heeft voor isoleren. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Is Beckum hetzelfde als de stad Hengelo?", answer: "Nee. Beckum is het enige kerkdorp binnen de gemeente Hengelo, met een eigen dorpscentrum rond onder meer dorpshuis 't Proggiehoes." },
+      { question: "Komt Gijs ook bij mij thuis in Beckum?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Gemeente Hengelo", href: "/regio/overijssel/hengelo", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Beckum en de rest van de gemeente Hengelo."]],
+  },
+};
+
+const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/enschede/boekelo": {
+    seo: {
+      title: "Woning isoleren in Boekelo | Gijs",
+      description: "Isoleren in Boekelo, bekend van de zoutwinning en Military Boekelo-Enschede? Lees hoe Gijs je helpt.",
+    },
+    kicker: "Boekelo, gemeente Enschede",
+    h1: "Je woning isoleren in Boekelo",
+    intro: [
+      ["Boekelo is een van de dorpen van de gemeente Enschede."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Boekelo bekend van?",
+        kaarten: [
+          { icon: "droplet", titel: "Zoutwinning", tekst: "Zouthuisjes en een zouttoren herinneren aan de tijd dat hier zout werd opgeboord, tot de winning na 1933 verschoof naar Hengelo en Enschede." },
+          { icon: "trophy", titel: "Military Boekelo-Enschede", tekst: "Het jaarlijkse internationale paardensportevenement waar Boekelo om bekendstaat." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Boekelo vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van wat er al is gedaan.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Boekelo",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Boekelo valt onder de gemeente Enschede, die een eigen regeling heeft voor isoleren. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Waar is Boekelo bekend van?", answer: "Vooral van de geschiedenis van de zoutwinning (zouthuisjes en een zouttoren) en van het jaarlijkse paardensportevenement Military Boekelo-Enschede." },
+      { question: "Komt Gijs ook bij mij thuis in Boekelo?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Twekkelo", href: "/regio/overijssel/enschede/twekkelo", tekst: "Een ander buurtschap van de gemeente Enschede." },
+        { naam: "Gemeente Enschede", href: "/regio/overijssel/enschede", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Boekelo en de rest van de gemeente Enschede."]],
+  },
+
+  "/regio/overijssel/enschede/glanerbrug": {
+    seo: {
+      title: "Woning isoleren in Glanerbrug | Gijs",
+      description: "Isoleren in Glanerbrug, aan de grens met Duitsland? Lees hoe Gijs je helpt.",
+    },
+    kicker: "Glanerbrug, gemeente Enschede",
+    h1: "Je woning isoleren in Glanerbrug",
+    intro: [
+      ["Glanerbrug ligt tegen de Duitse grens aan, bij de Glanerbeek."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Glanerbrug bekend van?",
+        kaarten: [
+          { icon: "fuel", titel: "Het Fina-tankstation", tekst: "Gebouwd in 1959-1960 door architect Sybold van Ravesteyn en aangewezen als rijksmonument: een zeldzaam bewaard wederopbouw-benzinestation." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Glanerbrug vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van wat er al is gedaan.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Glanerbrug",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Glanerbrug valt onder de gemeente Enschede, die een eigen regeling heeft voor isoleren. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Wat is er bijzonder aan Glanerbrug?", answer: "Onder meer het voormalige Fina-tankstation uit 1959-1960 van architect Sybold van Ravesteyn, dat tot rijksmonument is verklaard als zeldzaam voorbeeld van een klein wederopbouw-benzinestation." },
+      { question: "Komt Gijs ook bij mij thuis in Glanerbrug?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Lonneker", href: "/regio/overijssel/enschede/lonneker", tekst: "Een ander dorp van de gemeente Enschede." },
+        { naam: "Gemeente Enschede", href: "/regio/overijssel/enschede", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Glanerbrug en de rest van de gemeente Enschede."]],
+  },
+
+  "/regio/overijssel/enschede/lonneker": {
+    seo: {
+      title: "Woning isoleren in Lonneker | Gijs",
+      description: "Isoleren in Lonneker, bekend van de Lonneker Molen? Lees hoe Gijs je helpt.",
+    },
+    kicker: "Lonneker, gemeente Enschede",
+    h1: "Je woning isoleren in Lonneker",
+    intro: [
+      ["Lonneker is een van de dorpen van de gemeente Enschede."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Lonneker bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "De Lonneker Molen", tekst: "Gebouwd in 1850-1851, de enige gemetselde molen in Nederland waarvan de romp met riet is bedekt. Rijksmonument, beheerd door een stichting." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Lonneker vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van wat er al is gedaan.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Lonneker",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Lonneker valt onder de gemeente Enschede, die een eigen regeling heeft voor isoleren. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Wat is de Lonneker Molen?", answer: "Een rijksmonument uit 1850-1851, de enige gemetselde molen in Nederland met een romp die bedekt is met riet." },
+      { question: "Komt Gijs ook bij mij thuis in Lonneker?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Usselo", href: "/regio/overijssel/enschede/usselo", tekst: "Een ander dorp van de gemeente Enschede." },
+        { naam: "Gemeente Enschede", href: "/regio/overijssel/enschede", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Lonneker en de rest van de gemeente Enschede."]],
+  },
+
+  "/regio/overijssel/enschede/usselo": {
+    seo: {
+      title: "Woning isoleren in Usselo | Gijs",
+      description: "Isoleren in Usselo, bekend van Wissinks Möl en de Laag van Usselo? Lees hoe Gijs je helpt.",
+    },
+    kicker: "Usselo, gemeente Enschede",
+    h1: "Je woning isoleren in Usselo",
+    intro: [
+      ["Usselo is een van de dorpen van de gemeente Enschede."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Usselo bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "Wissinks Möl", tekst: "Een nog werkende standerdmolen uit 1802." },
+          { icon: "milestone", titel: "De Laag van Usselo", tekst: "Een archeologische vindplaats met sporen van laat-paleolithische bewoning, eveneens rijksmonument." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Usselo vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van wat er al is gedaan.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Usselo",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Usselo valt onder de gemeente Enschede, die een eigen regeling heeft voor isoleren. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Wat is Wissinks Möl?", answer: "Een nog werkende standerdmolen uit 1802 in Usselo, beheerd door een molenstichting." },
+      { question: "Wat is de Laag van Usselo?", answer: "Een archeologische vindplaats bij Usselo met sporen van laat-paleolithische bewoning, aangewezen als rijksmonument." },
+      { question: "Komt Gijs ook bij mij thuis in Usselo?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Boekelo", href: "/regio/overijssel/enschede/boekelo", tekst: "Een ander dorp van de gemeente Enschede." },
+        { naam: "Gemeente Enschede", href: "/regio/overijssel/enschede", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Usselo en de rest van de gemeente Enschede."]],
+  },
+
+  "/regio/overijssel/enschede/twekkelo": {
+    seo: {
+      title: "Woning isoleren in Twekkelo | Gijs",
+      description: "Isoleren in Twekkelo, gevormd door drie essen? Lees hoe Gijs je helpt.",
+    },
+    kicker: "Twekkelo, gemeente Enschede",
+    h1: "Je woning isoleren in Twekkelo",
+    intro: [
+      ["Twekkelo is een buurtschap van de gemeente Enschede."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Twekkelo bekend van?",
+        kaarten: [
+          { icon: "church", titel: "De Johanneskerk", tekst: "Het kleine kerkje is het herkenningspunt van dit buurtschap, dat wordt gevormd door drie essen." },
+          { icon: "droplet", titel: "Zoutwinning", tekst: "Verspreide boerhuisjes herinneren nog aan de zoutwinning die hier ooit plaatsvond." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Twekkelo vaak aan bod komt",
+      intro: "Bij de verspreide, vaak historische bebouwing van Twekkelo is pandgericht maatwerk belangrijk.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Twekkelo",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Twekkelo valt onder de gemeente Enschede, die een eigen regeling heeft voor isoleren. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Wat maakt Twekkelo bijzonder?", answer: "Het buurtschap wordt gevormd door drie essen, met de Johanneskerk als herkenningspunt en sporen van de vroegere zoutwinning in het gebied." },
+      { question: "Komt Gijs ook bij mij thuis in Twekkelo?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Boekelo", href: "/regio/overijssel/enschede/boekelo", tekst: "Ook bekend van de zoutwinningsgeschiedenis." },
+        { naam: "Gemeente Enschede", href: "/regio/overijssel/enschede", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Twekkelo en de rest van de gemeente Enschede."]],
+  },
+};
+
+const BORNE_DORPEN: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/borne/hertme": {
+    seo: {
+      title: "Woning isoleren in Hertme | Gijs",
+      description: "Isoleren in Hertme, een van de twee dorpen van de gemeente Borne? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Hertme, gemeente Borne",
+    h1: "Je woning isoleren in Hertme",
+    intro: [
+      ["Hertme is, naast Zenderen, een van de twee dorpen van de gemeente Borne. Een groot deel van de woningen in de gemeente is gebouwd vóór de jaren negentig, en dat geldt ook voor veel huizen in en rond Hertme."],
+      ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren in Hertme",
+        alineas: [
+          ["Alle woningeigenaren in de gemeente Borne moeten natuurvriendelijk isoleren. In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen, huismussen en gierzwaluwen. Spreek dit vooraf af met het bedrijf dat de isolatie uitvoert."],
+        ],
+        kaartenTitel: "Waar is Hertme bekend van?",
+        kaarten: [
+          { icon: "theater", titel: "Openluchttheater Hertme", tekst: "Buitentheater met ruim 2.000 zitplaatsen. Sinds 1953 vinden hier passiespelen plaats, tegenwoordig ook het Afrikafestival." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Hertme vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van wat er al is gedaan.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij huizen van vóór de jaren tachtig is de spouw vaak nog leeg of beperkt gevuld." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een koude zolder of een warme bovenverdieping in de zomer? Dan is het dak vaak een goede plek om te beginnen." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte is de vloer vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas laat veel warmte door. Beter glas maakt het bij het raam merkbaar comfortabeler." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Hertme",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Hertme valt onder de gemeente Borne, die een eigen isolatieregeling heeft. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Moet ik in Hertme natuurvriendelijk isoleren?", answer: "Ja, volgens de gemeente Borne moeten alle woningeigenaren natuurvriendelijk isoleren. Kies een isolatiebedrijf dat natuurvriendelijk isoleert; dat regelt ook de verplichte melding bij de provincie." },
+      { question: "Wat is het verschil tussen Hertme en Zenderen?", answer: "Het zijn twee eigen dorpen binnen dezelfde gemeente Borne, met dezelfde subsidieregeling en dezelfde aanpak van Gijs." },
+      { question: "Komt Gijs ook bij mij thuis in Hertme?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Zenderen", href: "/regio/overijssel/borne/zenderen", tekst: "Het andere dorp van de gemeente Borne." },
+        { naam: "Gemeente Borne", href: "/regio/overijssel/borne", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Hertme en de rest van de gemeente Borne, waaronder Zenderen."],
+    ],
+  },
+
+  "/regio/overijssel/borne/zenderen": {
+    seo: {
+      title: "Woning isoleren in Zenderen | Gijs",
+      description: "Isoleren in Zenderen, een van de twee dorpen van de gemeente Borne? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Zenderen, gemeente Borne",
+    h1: "Je woning isoleren in Zenderen",
+    intro: [
+      ["Zenderen is, naast Hertme, een van de twee dorpen van de gemeente Borne. Een groot deel van de woningen in de gemeente is gebouwd vóór de jaren negentig, en dat geldt ook voor veel huizen in en rond Zenderen."],
+      ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren in Zenderen",
+        alineas: [
+          ["Alle woningeigenaren in de gemeente Borne moeten natuurvriendelijk isoleren. In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen, huismussen en gierzwaluwen. Spreek dit vooraf af met het bedrijf dat de isolatie uitvoert."],
+        ],
+        kaartenTitel: "Waar is Zenderen bekend van?",
+        kaarten: [
+          { icon: "church", titel: "Het Karmelietenklooster", tekst: "Sinds 1889 staat aan de rand van Zenderen het Carmelitessenklooster, in de volksmond het Karmelietenklooster." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Zenderen vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van wat er al is gedaan.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij huizen van vóór de jaren tachtig is de spouw vaak nog leeg of beperkt gevuld." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een koude zolder of een warme bovenverdieping in de zomer? Dan is het dak vaak een goede plek om te beginnen." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte is de vloer vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas laat veel warmte door. Beter glas maakt het bij het raam merkbaar comfortabeler." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Zenderen",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Zenderen valt onder de gemeente Borne, die een eigen isolatieregeling heeft. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Moet ik in Zenderen natuurvriendelijk isoleren?", answer: "Ja, volgens de gemeente Borne moeten alle woningeigenaren natuurvriendelijk isoleren. Kies een isolatiebedrijf dat natuurvriendelijk isoleert; dat regelt ook de verplichte melding bij de provincie." },
+      { question: "Wat is het verschil tussen Zenderen en Hertme?", answer: "Het zijn twee eigen dorpen binnen dezelfde gemeente Borne, met dezelfde subsidieregeling en dezelfde aanpak van Gijs." },
+      { question: "Komt Gijs ook bij mij thuis in Zenderen?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Hertme", href: "/regio/overijssel/borne/hertme", tekst: "Het andere dorp van de gemeente Borne." },
+        { naam: "Gemeente Borne", href: "/regio/overijssel/borne", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Zenderen en de rest van de gemeente Borne, waaronder Hertme."],
+    ],
+  },
+};
+
+const HOF_VAN_TWENTE_HELP = {
+  maatregelen: {
+    titel: "Isolatie bij een grondgebonden woning",
+    intro: "In Hof van Twente komen deze onderdelen het vaakst aan bod, bij vrijstaande en twee-onder-een-kapwoningen.",
+    items: [
+      { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+      { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Heeft je huis veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap. Let op beschermde dieren in de spouw." },
+      { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Een koude begane grond voel je in een vrijstaand huis snel. Met een kruipruimte vaak van onderaf te isoleren." },
+      { slug: "warmtepomp", naam: "Warmtepomp", tekst: "Is je huis goed geïsoleerd, dan komt verwarmen met een (hybride) warmtepomp in beeld." },
+    ],
+  },
+  subsidieZin: (plaats: string): Alinea => [`${plaats} valt onder de gemeente Hof van Twente, die een eigen isolatieregeling heeft. Of jouw woning in aanmerking komt, lees je bij de gemeente.`],
+};
+
+const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/hof-van-twente/goor": {
+    seo: {
+      title: "Woning isoleren in Goor | Gijs",
+      description: "Isoleren in Goor, de grootste kern van de gemeente Hof van Twente? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+    },
+    kicker: "Goor, gemeente Hof van Twente",
+    h1: "Je woning isoleren in Goor",
+    intro: [
+      ["Goor is de grootste kern van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen, en is de woningvoorraad gemiddeld wat ouder."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+        ],
+        kaartenTitel: "Waar is Goor bekend van?",
+        kaarten: [
+          { icon: "train-front", titel: "Het voormalige stationsgebouw", tekst: "Er stopt nog een trein, maar treinkaartjes koop je tegenwoordig bij een automaat. Het gebouw huisvest nu het Goors Historisch Museum." },
+        ],
+      },
+    ],
+    maatregelen: HOF_VAN_TWENTE_HELP.maatregelen,
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Goor",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [SUBSIDIE_TIJDLOOS, HOF_VAN_TWENTE_HELP.subsidieZin("Goor")],
+    faq: [
+      { question: "Is Goor hetzelfde als de gemeente Hof van Twente?", answer: "Goor is de grootste kern binnen de gemeente Hof van Twente, die verder bestaat uit onder meer Delden, Diepenheim, Bentelo, Hengevelde en Markelo." },
+      { question: "Ik heb een vrijstaand huis. Waar begin ik?", answer: "Meestal bij het onderdeel waar de meeste warmte verloren gaat. Dat verschilt per huis en wordt tijdens de energiescan bekeken." },
+      { question: "Komt Gijs ook bij mij thuis in Goor?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Delden", href: "/regio/overijssel/hof-van-twente/delden", tekst: "Dezelfde gemeente, een eigen dorpskarakter." },
+        { naam: "Gemeente Hof van Twente", href: "/regio/overijssel/hof-van-twente", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Goor en de rest van de gemeente Hof van Twente."]],
+  },
+
+  "/regio/overijssel/hof-van-twente/delden": {
+    seo: {
+      title: "Woning isoleren in Delden | Gijs",
+      description: "Isoleren in Delden, gemeente Hof van Twente? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+    },
+    kicker: "Delden, gemeente Hof van Twente",
+    h1: "Je woning isoleren in Delden",
+    intro: [
+      ["Delden heeft een eigen, karakteristieke dorpskern binnen de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+        ],
+        kaartenTitel: "Waar is Delden bekend van?",
+        kaarten: [
+          { icon: "castle", titel: "Landgoed Twickel", tekst: "Het grootste particuliere landgoed van Nederland. De oudste vermelding van Twickel dateert al uit 1347." },
+        ],
+      },
+    ],
+    maatregelen: HOF_VAN_TWENTE_HELP.maatregelen,
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Delden",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [SUBSIDIE_TIJDLOOS, HOF_VAN_TWENTE_HELP.subsidieZin("Delden")],
+    faq: [
+      { question: "Hoort Delden bij de gemeente Hof van Twente?", answer: "Ja. Delden is een van de kernen van de gemeente Hof van Twente, naast onder meer Goor, Diepenheim, Bentelo, Hengevelde en Markelo." },
+      { question: "Ik heb een vrijstaand huis. Waar begin ik?", answer: "Meestal bij het onderdeel waar de meeste warmte verloren gaat. Dat verschilt per huis en wordt tijdens de energiescan bekeken." },
+      { question: "Komt Gijs ook bij mij thuis in Delden?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Diepenheim", href: "/regio/overijssel/hof-van-twente/diepenheim", tekst: "Dezelfde gemeente, een eigen dorpskarakter." },
+        { naam: "Gemeente Hof van Twente", href: "/regio/overijssel/hof-van-twente", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Delden en de rest van de gemeente Hof van Twente."]],
+  },
+
+  "/regio/overijssel/hof-van-twente/diepenheim": {
+    seo: {
+      title: "Woning isoleren in Diepenheim | Gijs",
+      description: "Isoleren in Diepenheim, gemeente Hof van Twente? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+    },
+    kicker: "Diepenheim, gemeente Hof van Twente",
+    h1: "Je woning isoleren in Diepenheim",
+    intro: [
+      ["Diepenheim is een van de kleinere kernen van de gemeente Hof van Twente, omringd door landgoederen en buitengebied. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+        ],
+        kaartenTitel: "Waar is Diepenheim bekend van?",
+        kaarten: [
+          { icon: "castle", titel: "Landgoed Warmelo", tekst: "Een van de landgoederen rond Diepenheim, met een park van ruim 7 hectare." },
+          { icon: "palette", titel: "Kunstdorp", tekst: "Diepenheim staat bekend als kunstdorp, onder meer met het Tekeningen Centrum." },
+        ],
+      },
+    ],
+    maatregelen: HOF_VAN_TWENTE_HELP.maatregelen,
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Diepenheim",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan, ook in het buitengebied rond Diepenheim."],
+      ],
+    },
+    subsidies: [SUBSIDIE_TIJDLOOS, HOF_VAN_TWENTE_HELP.subsidieZin("Diepenheim")],
+    faq: [
+      { question: "Hoort Diepenheim bij de gemeente Hof van Twente?", answer: "Ja. Diepenheim is een van de kernen van de gemeente Hof van Twente, naast onder meer Goor, Delden, Bentelo, Hengevelde en Markelo." },
+      { question: "Helpt Gijs ook in het buitengebied rond Diepenheim?", answer: "Ja. Gijs helpt bewoners in heel Diepenheim en het omliggende buitengebied." },
+      { question: "Komt Gijs ook bij mij thuis in Diepenheim?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Markelo", href: "/regio/overijssel/hof-van-twente/markelo", tekst: "Dezelfde gemeente, een eigen dorpskarakter." },
+        { naam: "Gemeente Hof van Twente", href: "/regio/overijssel/hof-van-twente", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Diepenheim en de rest van de gemeente Hof van Twente."]],
+  },
+
+  "/regio/overijssel/hof-van-twente/bentelo": {
+    seo: {
+      title: "Woning isoleren in Bentelo | Gijs",
+      description: "Isoleren in Bentelo, gemeente Hof van Twente? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+    },
+    kicker: "Bentelo, gemeente Hof van Twente",
+    h1: "Je woning isoleren in Bentelo",
+    intro: [
+      ["Bentelo is een van de dorpen van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+        ],
+        kaartenTitel: "Waar is Bentelo bekend van?",
+        kaarten: [
+          { icon: "church", titel: "O.L.V. van Altijddurende Bijstand", tekst: "De kerk uit de jaren vijftig is het herkenbare middelpunt van het dorp." },
+        ],
+      },
+    ],
+    maatregelen: HOF_VAN_TWENTE_HELP.maatregelen,
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Bentelo",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [SUBSIDIE_TIJDLOOS, HOF_VAN_TWENTE_HELP.subsidieZin("Bentelo")],
+    faq: [
+      { question: "Hoort Bentelo bij de gemeente Hof van Twente?", answer: "Ja. Bentelo is een van de kernen van de gemeente Hof van Twente, naast onder meer Goor, Delden, Diepenheim, Hengevelde en Markelo." },
+      { question: "Ik heb een vrijstaand huis. Waar begin ik?", answer: "Meestal bij het onderdeel waar de meeste warmte verloren gaat. Dat verschilt per huis en wordt tijdens de energiescan bekeken." },
+      { question: "Komt Gijs ook bij mij thuis in Bentelo?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Hengevelde", href: "/regio/overijssel/hof-van-twente/hengevelde", tekst: "Dezelfde gemeente, een eigen dorpskarakter." },
+        { naam: "Gemeente Hof van Twente", href: "/regio/overijssel/hof-van-twente", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Bentelo en de rest van de gemeente Hof van Twente."]],
+  },
+
+  "/regio/overijssel/hof-van-twente/hengevelde": {
+    seo: {
+      title: "Woning isoleren in Hengevelde | Gijs",
+      description: "Isoleren in Hengevelde, gemeente Hof van Twente? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+    },
+    kicker: "Hengevelde, gemeente Hof van Twente",
+    h1: "Je woning isoleren in Hengevelde",
+    intro: [
+      ["Hengevelde is een van de dorpen van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+        ],
+        kaartenTitel: "Waar is Hengevelde bekend van?",
+        kaarten: [
+          { icon: "church", titel: "H.H. Petrus en Paulus", tekst: "De kerk in het dorpscentrum is het herkenningspunt van Hengevelde." },
+        ],
+      },
+    ],
+    maatregelen: HOF_VAN_TWENTE_HELP.maatregelen,
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Hengevelde",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [SUBSIDIE_TIJDLOOS, HOF_VAN_TWENTE_HELP.subsidieZin("Hengevelde")],
+    faq: [
+      { question: "Hoort Hengevelde bij de gemeente Hof van Twente?", answer: "Ja. Hengevelde is een van de kernen van de gemeente Hof van Twente, naast onder meer Goor, Delden, Diepenheim, Bentelo en Markelo." },
+      { question: "Ik heb een vrijstaand huis. Waar begin ik?", answer: "Meestal bij het onderdeel waar de meeste warmte verloren gaat. Dat verschilt per huis en wordt tijdens de energiescan bekeken." },
+      { question: "Komt Gijs ook bij mij thuis in Hengevelde?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Markelo", href: "/regio/overijssel/hof-van-twente/markelo", tekst: "Dezelfde gemeente, een eigen dorpskarakter." },
+        { naam: "Gemeente Hof van Twente", href: "/regio/overijssel/hof-van-twente", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Hengevelde en de rest van de gemeente Hof van Twente."]],
+  },
+
+  "/regio/overijssel/hof-van-twente/markelo": {
+    seo: {
+      title: "Woning isoleren in Markelo | Gijs",
+      description: "Isoleren in Markelo, aan de voet van de Markelose Berg? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+    },
+    kicker: "Markelo, gemeente Hof van Twente",
+    h1: "Je woning isoleren in Markelo",
+    intro: [
+      ["Markelo is een van de dorpen van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er in Markelo relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+        ],
+        kaartenTitel: "Waar is Markelo bekend van?",
+        kaarten: [
+          { icon: "mountain", titel: "De Markelose Berg", tekst: "Een veertig meter hoge heuvel aan de rand van het dorp." },
+          { icon: "flag", titel: "Overijssels Verzetsmonument", tekst: "Het centrale verzetsmonument van de provincie staat op de top van de Markelose Berg." },
+        ],
+      },
+    ],
+    maatregelen: HOF_VAN_TWENTE_HELP.maatregelen,
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Markelo",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen huis komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [SUBSIDIE_TIJDLOOS, HOF_VAN_TWENTE_HELP.subsidieZin("Markelo")],
+    faq: [
+      { question: "Hoort Markelo bij de gemeente Hof van Twente?", answer: "Ja. Markelo is een van de kernen van de gemeente Hof van Twente, naast onder meer Goor, Delden, Diepenheim, Bentelo en Hengevelde." },
+      { question: "Ik heb een vrijstaand huis. Waar begin ik?", answer: "Meestal bij het onderdeel waar de meeste warmte verloren gaat. Dat verschilt per huis en wordt tijdens de energiescan bekeken." },
+      { question: "Komt Gijs ook bij mij thuis in Markelo?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Goor", href: "/regio/overijssel/hof-van-twente/goor", tekst: "De grootste kern van de gemeente." },
+        { naam: "Gemeente Hof van Twente", href: "/regio/overijssel/hof-van-twente", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Markelo en de rest van de gemeente Hof van Twente."]],
+  },
+};
+
+const ALMELO_DORPEN: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/almelo/aadorp": {
+    seo: {
+      title: "Woning isoleren in Aadorp | Gijs",
+      description: "Isoleren in Aadorp, een dorp binnen de gemeente Almelo? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Aadorp, gemeente Almelo",
+    h1: "Je woning isoleren in Aadorp",
+    intro: [
+      ["Aadorp ligt aan het kanaal Almelo-De Haandrik en hoort sinds 2001 bij de gemeente Almelo, los van de stad zelf. In Aadorp is de vrijstaande woning het meest voorkomende type, ruim de helft van de woningen; ongeveer 80% is een koopwoning."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk",
+        titel: "Natuurvriendelijk isoleren en verbouwen",
+        alineas: [
+          ["Ook in Aadorp kunnen beschermde dieren zitten in spouwmuren en onder daken, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het daar rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Aadorp bekend van?",
+        kaarten: [
+          { icon: "waves", titel: "Het kanaal Almelo-De Haandrik", tekst: "Aadorp ligt aan dit kanaal en hoort sinds 2001 bij de gemeente Almelo." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Dit zijn de maatregelen die bij een vrijstaande woning het vaakst als eerste stap aan bod komen.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een relatief kleine ingreep met een merkbaar resultaat." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Warmere voeten op de begane grond. Met een kruipruimte meestal van onderaf te doen." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Aadorp",
+      alineas: [
+        ["In de digitale woningscan zie je welke maatregelen bij jouw type woning horen."],
+        ["Bij de gratis energiescan bekijkt een adviseur van Gijs je huis ter plekke. Je kiest zelf of en met wie je verdergaat."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Aadorp valt onder de gemeente Almelo. Welke regelingen de gemeente op dit moment heeft, lees je op de website van de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Aadorp bij de stad Almelo?", answer: "Aadorp is een eigen dorp binnen de gemeente Almelo, los van de stad zelf." },
+      { question: "Moet ik natuurvriendelijk isoleren in Aadorp?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren. Een natuurvriendelijk werkend isolatiebedrijf regelt dit." },
+      { question: "Komt Gijs ook bij mij thuis in Aadorp?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Bornerbroek", href: "/regio/overijssel/almelo/bornerbroek", tekst: "Een ander dorp binnen de gemeente Almelo." },
+        { naam: "Gemeente Almelo", href: "/regio/overijssel/almelo", tekst: "Overzicht van isoleren in de hele gemeente, inclusief de stad." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Aadorp en de rest van de gemeente Almelo."]],
+  },
+
+  "/regio/overijssel/almelo/bornerbroek": {
+    seo: {
+      title: "Woning isoleren in Bornerbroek | Gijs",
+      description: "Isoleren in Bornerbroek, een dorp binnen de gemeente Almelo? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Bornerbroek, gemeente Almelo",
+    h1: "Je woning isoleren in Bornerbroek",
+    intro: [
+      ["In Bornerbroek is de vrijstaande woning het meest voorkomende woningtype, ongeveer de helft van de woningen; zo'n 78% is een koopwoning."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk",
+        titel: "Natuurvriendelijk isoleren en verbouwen",
+        alineas: [
+          ["Ook in Bornerbroek kunnen beschermde dieren zitten in spouwmuren en onder daken, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het daar rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Bornerbroek bekend van?",
+        kaarten: [
+          { icon: "church", titel: "Sint-Stephanuskerk", tekst: "Beeldbepalend rijksmonument. De huidige zaalkerk werd in 1919-1920 herbouwd naar ontwerp van architect J.A. Kropholler, rond een oudere waterstaatskerk." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Dit zijn de maatregelen die bij een vrijstaande woning het vaakst als eerste stap aan bod komen.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een relatief kleine ingreep met een merkbaar resultaat." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Warmere voeten op de begane grond. Met een kruipruimte meestal van onderaf te doen." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Bornerbroek",
+      alineas: [
+        ["In de digitale woningscan zie je welke maatregelen bij jouw type woning horen."],
+        ["Bij de gratis energiescan bekijkt een adviseur van Gijs je huis ter plekke. Je kiest zelf of en met wie je verdergaat."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Bornerbroek valt onder de gemeente Almelo. Welke regelingen de gemeente op dit moment heeft, lees je op de website van de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Bornerbroek bij de stad Almelo?", answer: "Bornerbroek is een eigen dorp binnen de gemeente Almelo, los van de stad zelf." },
+      { question: "Moet ik natuurvriendelijk isoleren in Bornerbroek?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren. Een natuurvriendelijk werkend isolatiebedrijf regelt dit." },
+      { question: "Komt Gijs ook bij mij thuis in Bornerbroek?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Aadorp", href: "/regio/overijssel/almelo/aadorp", tekst: "Een ander dorp binnen de gemeente Almelo." },
+        { naam: "Gemeente Almelo", href: "/regio/overijssel/almelo", tekst: "Overzicht van isoleren in de hele gemeente, inclusief de stad." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Bornerbroek en de rest van de gemeente Almelo."]],
+  },
+
+  "/regio/overijssel/almelo/harbrinkhoek-mariaparochie": {
+    seo: {
+      title: "Woning isoleren in Harbrinkhoek-Mariaparochie | Gijs",
+      description: "Isoleren in Harbrinkhoek-Mariaparochie, op de grens van Almelo en Tubbergen? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Harbrinkhoek-Mariaparochie, gemeente Almelo",
+    h1: "Je woning isoleren in Harbrinkhoek-Mariaparochie",
+    intro: [
+      ["Harbrinkhoek-Mariaparochie ligt op de grens van de gemeenten Almelo en Tubbergen."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk",
+        titel: "Natuurvriendelijk isoleren en verbouwen",
+        alineas: [
+          ["Ook hier kunnen beschermde dieren zitten in spouwmuren en onder daken, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het daar rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Harbrinkhoek-Mariaparochie bekend van?",
+        kaarten: [
+          { icon: "church", titel: "O.L.V. van Altijddurende Bijstand", tekst: "De kerk waar het dorp zijn naam aan ontleent: een neogotische kerk van architect Jan Stuyt, in twee fases gebouwd en in 1923 voltooid." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Waar begin je met isoleren?",
+      intro: "Dit zijn de maatregelen die bij een eengezinswoning het vaakst als eerste stap aan bod komen.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een relatief kleine ingreep met een merkbaar resultaat." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Via het dak verdwijnt veel warmte. Een geïsoleerde zolder is bovendien prettiger om te gebruiken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Warmere voeten op de begane grond. Met een kruipruimte meestal van onderaf te doen." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Harbrinkhoek-Mariaparochie",
+      alineas: [
+        ["In de digitale woningscan zie je welke maatregelen bij jouw type woning horen."],
+        ["Bij de gratis energiescan bekijkt een adviseur van Gijs je huis ter plekke. Je kiest zelf of en met wie je verdergaat."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Harbrinkhoek-Mariaparochie ligt grotendeels in de gemeente Almelo. Welke regelingen de gemeente op dit moment heeft, lees je op de website van de gemeente."],
+    ],
+    faq: [
+      { question: "Ligt Harbrinkhoek-Mariaparochie in Almelo of in Tubbergen?", answer: "Het ligt op de grens van beide gemeenten. Gijs helpt bewoners aan beide kanten van de grens." },
+      { question: "Moet ik natuurvriendelijk isoleren?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren. Een natuurvriendelijk werkend isolatiebedrijf regelt dit." },
+      { question: "Komt Gijs ook bij mij thuis?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Aadorp", href: "/regio/overijssel/almelo/aadorp", tekst: "Een ander dorp binnen de gemeente Almelo." },
+        { naam: "Gemeente Almelo", href: "/regio/overijssel/almelo", tekst: "Overzicht van isoleren in de hele gemeente, inclusief de stad." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in Harbrinkhoek-Mariaparochie en de rest van de gemeenten Almelo en Tubbergen."]],
+  },
+};
+
+// Pilot B uit de Deep Research-uitbreiding naar Overijssel (2026-10-19): Rijssen-Holten,
+// Hellendoorn/Nijverdal en Twenterand (Vriezenveen/Vroomshoop). Gemeentenaam en zoekplaats lopen
+// hier sterk uiteen, dus Rijssen/Holten en Vriezenveen/Vroomshoop krijgen elk een eigen pagina
+// in plaats van alleen een gemeentepagina. Woningvoorraadcijfers komen uit AlleCijfers.nl (zie
+// lib/content/regio-woningvoorraad.ts). Subsidieregelingen zijn op 2026-10-19 gecontroleerd op de
+// officiële gemeentelijke pagina (criteria, geen bedragen); bedragen en exacte voorwaarden worden
+// bewust niet overgenomen, zie SUBSIDIE_TIJDLOOS.
+const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/rijssen-holten": {
+    seo: {
+      title: "Isoleren in Rijssen en Holten (gemeente Rijssen-Holten) | Gijs",
+      description: "Rijssen en Holten zijn twee eigen plaatsen binnen één gemeente. Lees hoe Gijs je helpt met isoleren en wat de gemeentelijke subsidie inhoudt.",
+    },
+    kicker: "Gemeente Rijssen-Holten",
+    h1: "Isoleren in de gemeente Rijssen-Holten",
+    intro: [
+      ["Rijssen-Holten is één gemeente, maar ", { tekst: "Rijssen", href: "/regio/overijssel/rijssen-holten/rijssen" }, " en ", { tekst: "Holten", href: "/regio/overijssel/rijssen-holten/holten" }, " voelen voor de meeste inwoners als twee eigen plaatsen. Daaromheen liggen kleinere buurtschappen zoals Dijkerhoek, Espelo, Beuseberg, Ligtenberg en Neerdorp."],
+      ["Gijs helpt bewoners in de hele gemeente met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "rijssen-of-holten",
+        titel: "Woon je in Rijssen of in Holten?",
+        alineas: [
+          ["Rijssen en Holten liggen zo'n tien kilometer uit elkaar en hebben allebei een eigen centrum. Dat verschil heeft ook een historische kant: Rijssen hoorde van oudsher bij Twente, Holten bij Salland. Pas in 2001 gingen de twee gemeenten samen op, sinds 2003 onder de naam Rijssen-Holten."],
+          ["Voor isoleren maakt het niet uit in welke van de twee je woont: Gijs werkt in de hele gemeente op dezelfde manier."],
+        ],
+        kaartenTitel: "Waar is Rijssen-Holten bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "Rijssen", tekst: "De grootste kern, met de Pelmolen Ter Horst als herkenningspunt.", href: "/regio/overijssel/rijssen-holten/rijssen" },
+          { icon: "flag", titel: "Holten", tekst: "Aan de voet van de Holterberg, met de Canadese Begraafplaats.", href: "/regio/overijssel/rijssen-holten/holten" },
+        ],
+      },
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["In Rijssen-Holten is de vrijstaande woning het meest voorkomende woningtype. Zo'n huis heeft aan alle kanten buitenmuur, een dak en een vloer die allemaal warmte kunnen verliezen. Daarom loont het om naar het hele huis te kijken, niet naar één onderdeel."],
+          ["Woon je in een rijwoning of een twee-onder-een-kapwoning? Ook dan is er vaak nog winst te halen, zeker bij een huis van vóór de jaren tachtig."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen bij een vrijstaande woning het vaakst aan bod. Kies er een om te lezen hoe het werkt.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Heeft je huis veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte is de vloer vaak van onderaf te isoleren, zonder breekwerk binnen." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Rijssen-Holten",
+      alineas: [
+        ["In de digitale woningscan zie je in een paar minuten welke maatregelen bij jouw type woning passen. Dat is een handige voorbereiding, maar geen verplichting."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Samen bekijk je wat er al is gedaan en wat een logische volgende stap is. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["De gemeente Rijssen-Holten heeft een eigen regeling voor isolatie door een erkend bedrijf, voor zowel Rijssen als Holten. Of jouw woning in aanmerking komt en wat de actuele voorwaarden zijn, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Is Rijssen-Holten één plaats of twee?", answer: "Het is één gemeente met twee duidelijk eigen plaatsen: Rijssen en Holten. Daaromheen liggen kleinere buurtschappen zoals Dijkerhoek en Espelo." },
+      { question: "Geldt de gemeentelijke subsidie voor zowel Rijssen als Holten?", answer: "Ja. De regeling van de gemeente Rijssen-Holten geldt voor de hele gemeente, dus voor zowel Rijssen als Holten." },
+      { question: "Komt Gijs ook in de kleinere buurtschappen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Rijssen-Holten, dus ook in Dijkerhoek, Espelo, Beuseberg, Ligtenberg en Neerdorp." },
+      { question: "Moet ik eerst de digitale woningscan doen?", answer: "Nee. Je kunt ook direct contact opnemen voor de gratis energiescan. De woningscan is een optionele voorbereiding." },
+    ],
+    verwant: {
+      titel: "Verder lezen",
+      links: [
+        { naam: "Isoleren in Rijssen", href: "/regio/overijssel/rijssen-holten/rijssen", tekst: "Over isoleren in de grootste kern van de gemeente." },
+        { naam: "Isoleren in Holten", href: "/regio/overijssel/rijssen-holten/holten", tekst: "Over isoleren aan de voet van de Holterberg." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in de hele gemeente Rijssen-Holten: in Rijssen, in Holten en in de buurtschappen daaromheen."],
+    ],
+  },
+
+  "/regio/overijssel/rijssen-holten/rijssen": {
+    seo: {
+      title: "Woning isoleren in Rijssen | Gijs",
+      description: "Isoleren in Rijssen? Lees wat het woningtype van je huis zegt over isolatie, hoe natuurvriendelijk isoleren werkt en hoe Gijs je helpt.",
+    },
+    kicker: "Rijssen, gemeente Rijssen-Holten",
+    h1: "Je woning isoleren in Rijssen",
+    intro: [
+      ["Rijssen is de grootste kern van de gemeente Rijssen-Holten. In Rijssen zelf is de tussenwoning het meest voorkomende woningtype, ruim 2.600 van de woningen; ongeveer twee derde is een koopwoning. Welke isolatie het meeste oplevert, hangt vooral af van je eigen huis en wat daar al aan is gedaan."],
+      ["Gijs helpt je dat uit te zoeken, zodat je weet welke stap echt zin heeft."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "woningtype",
+        titel: "Vooral tussenwoningen in Rijssen",
+        alineas: [
+          ["Anders dan in de rest van de gemeente is in Rijssen zelf de tussenwoning het meest voorkomende woningtype, niet de vrijstaande woning. Bij zo'n huis gaat de meeste warmte verloren via het dak, de voor- en achtergevel en de vloer, niet via de zijmuren."],
+          ["Woon je toch in een vrijstaand huis aan de rand van Rijssen? Dan speelt ook de spouwmuur een rol. Wat voor jouw woning de beste volgorde is, bekijken we tijdens de energiescan."],
+        ],
+        kaartenTitel: "Waar is Rijssen bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "Pelmolen Ter Horst", tekst: "Een achtkante bovenkruier-korenmolen uit 1752, aan de Regge net buiten Rijssen. Al sinds de achttiende eeuw een herkenningspunt in het landschap." },
+        ],
+      },
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen, zoals huismussen en gierzwaluwen. Ook de gemeentelijke isolatiesubsidie van Rijssen-Holten noemt natuurvriendelijk isoleren van de spouwmuur als onderdeel van de regeling."],
+          ["Spreek dit vooraf af met het bedrijf dat de isolatie uitvoert, zodat een goede maatregel niet botst met de natuurregels."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Rijssen vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van het woningtype en wat er al is gedaan.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Bij veel woningtypen de plek waar het meeste te winnen valt." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap. Let op natuurvriendelijk werken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte onder het huis vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Rijssen",
+      alineas: [
+        ["Begin met de digitale woningscan: daarin kies je je woningtype en zie je welke maatregelen erbij passen. Dat is een handige voorbereiding, maar geen verplichting."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Samen kijk je wat er al is gedaan en wat een logische volgende stap is. Jij beslist wat je ermee doet."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Rijssen valt onder de gemeente Rijssen-Holten, die een eigen regeling heeft voor isolatie door een erkend bedrijf. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Rijssen?", answer: "Ja. De regeling van de gemeente Rijssen-Holten geldt voor de hele gemeente, dus ook voor Rijssen." },
+      { question: "Moet ik natuurvriendelijk isoleren in Rijssen?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren zoals vleermuizen en vogels die in gebouwen nestelen. Een isolatiebedrijf dat natuurvriendelijk werkt, regelt dit." },
+      { question: "Wat is het verschil tussen isoleren in Rijssen en in Holten?", answer: "Beide vallen onder dezelfde gemeente en dezelfde subsidieregeling. Het verschil zit vooral in het dorpskarakter, niet in de isolatieaanpak." },
+      { question: "Komt Gijs ook bij mij thuis in Rijssen?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats, zodat de adviseur je woning echt kan bekijken." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Holten", href: "/regio/overijssel/rijssen-holten/holten", tekst: "Dezelfde gemeente, een eigen dorpskarakter." },
+        { naam: "Gemeente Rijssen-Holten", href: "/regio/overijssel/rijssen-holten", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Rijssen en de rest van de gemeente Rijssen-Holten, waaronder Holten en de buurtschappen daaromheen."],
+    ],
+  },
+
+  "/regio/overijssel/rijssen-holten/holten": {
+    seo: {
+      title: "Woning isoleren in Holten | Gijs",
+      description: "Isoleren in Holten, aan de voet van de Holterberg? Lees hoe Gijs je helpt van woningscan tot energiescan aan huis.",
+    },
+    kicker: "Holten, gemeente Rijssen-Holten",
+    h1: "Je woning isoleren in Holten",
+    intro: [
+      ["Holten ligt aan de voet van de Holterberg en is een eigen plaats binnen de gemeente Rijssen-Holten, met buurtschappen als Dijkerhoek en Espelo eromheen."],
+      ["Of je nu in het dorp zelf woont of net erbuiten: Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-aan-de-rand",
+        titel: "Vrijstaande woningen rond het dorp",
+        alineas: [
+          ["In Holten zelf is de vrijstaande woning het meest voorkomende type, ruim 1.300 woningen; ongeveer driekwart is een koopwoning. Zo'n huis heeft aan alle kanten buitenmuur, dus isoleren van gevel, dak en vloer telt hier extra mee."],
+        ],
+        kaartenTitel: "Waar is Holten bekend van?",
+        kaarten: [
+          { icon: "flag", titel: "De Canadese Begraafplaats", tekst: "Aan de voet van de Holterberg, met 1.394 oorlogsgraven van vooral Canadese militairen. Ieder jaar op 24 december plaatsen basisschoolkinderen bij elk graf een lampion." },
+        ],
+      },
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren rond de Holterberg",
+        alineas: [
+          ["Dichtbij een natuurgebied als de Holterberg is extra aandacht voor beschermde dieren in en om de woning geen overbodige luxe. Bij spouw- en dakisolatie kan rekening gehouden moeten worden met vleermuizen of vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het dit aanpakt."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Bij woningen rond Holten komen deze onderdelen het vaakst aan bod.",
+      items: [
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap. Let op natuurvriendelijk werken." },
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren, zonder breekwerk binnen." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Holten",
+      alineas: [
+        ["Begin met de digitale woningscan: daarin zie je welke maatregelen bij jouw type woning passen. Dat is een handige voorbereiding, maar geen verplichting."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis, ook in de buurtschappen rond Holten. Samen kijk je wat er al is gedaan en wat een logische volgende stap is."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Holten valt onder de gemeente Rijssen-Holten, die een eigen regeling heeft voor isolatie door een erkend bedrijf. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Ik woon net buiten het dorp Holten, bijvoorbeeld in Espelo of Dijkerhoek. Helpt Gijs ook daar?", answer: "Ja. Gijs helpt bewoners in heel Holten en in de buurtschappen daaromheen." },
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Holten?", answer: "Ja. De regeling van de gemeente Rijssen-Holten geldt voor de hele gemeente, dus ook voor Holten." },
+      { question: "Moet ik rekening houden met natuur rond de Holterberg bij isoleren?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren. Een natuurvriendelijk werkend isolatiebedrijf regelt dit." },
+      { question: "Komt Gijs ook bij mij thuis in Holten?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Rijssen", href: "/regio/overijssel/rijssen-holten/rijssen", tekst: "Dezelfde gemeente, een eigen dorpskarakter." },
+        { naam: "Gemeente Rijssen-Holten", href: "/regio/overijssel/rijssen-holten", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Holten en de omliggende buurtschappen, en in de rest van de gemeente Rijssen-Holten."],
+    ],
+  },
+};
+
+const HELLENDOORN: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/hellendoorn": {
+    seo: {
+      title: "Woning isoleren in Nijverdal en Hellendoorn | Gijs",
+      description: "Isoleren in de gemeente Hellendoorn, met Nijverdal als grootste kern? Lees hoe Gijs je helpt en wat de gemeentelijke subsidie inhoudt.",
+    },
+    kicker: "Gemeente Hellendoorn",
+    h1: "Je woning isoleren in Hellendoorn en Nijverdal",
+    intro: [
+      ["De gemeente Hellendoorn bestaat uit het dorp Hellendoorn zelf en het grotere ", { tekst: "Nijverdal", href: "/regio/overijssel/hellendoorn/nijverdal" }, ", met daaromheen de kleinere kernen ", { tekst: "Daarle", href: "/regio/overijssel/hellendoorn/daarle" }, ", ", { tekst: "Daarlerveen", href: "/regio/overijssel/hellendoorn/daarlerveen" }, " en ", { tekst: "Haarle", href: "/regio/overijssel/hellendoorn/haarle" }, "."],
+      ["Gijs helpt bewoners in de hele gemeente met isoleren, van Nijverdal tot de kleinere dorpen."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "nijverdal-en-hellendoorn",
+        titel: "Nijverdal en Hellendoorn, elk met een eigen karakter",
+        alineas: [
+          ["Nijverdal is de grootste kern van de gemeente en ligt tegen de Sallandse Heuvelrug aan. Het dorp Hellendoorn zelf is kleiner. Lees meer over isoleren in ", { tekst: "Nijverdal", href: "/regio/overijssel/hellendoorn/nijverdal" }, "."],
+          ["Woon je in ", { tekst: "Daarle", href: "/regio/overijssel/hellendoorn/daarle" }, ", ", { tekst: "Daarlerveen", href: "/regio/overijssel/hellendoorn/daarlerveen" }, " of ", { tekst: "Haarle", href: "/regio/overijssel/hellendoorn/haarle" }, "? Ook daar helpt Gijs je graag verder; de aanpak is in de hele gemeente hetzelfde."],
+        ],
+        kaartenTitel: "Waar is Hellendoorn bekend van?",
+        kaarten: [
+          { icon: "church", titel: "De NH kerk", tekst: "Aan de Dorpsstraat in het dorp Hellendoorn. De romaans-gotische kern van het gebouw stamt uit de twaalfde eeuw." },
+          { icon: "tent-tree", titel: "Avonturenpark Hellendoorn", tekst: "Het attractiepark tegen de Sallandse Heuvelrug, een van de bekendste trekpleisters van de gemeente." },
+        ],
+      },
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["In de gemeente Hellendoorn is de vrijstaande woning het meest voorkomende type. Zo'n huis verliest aan meerdere kanten warmte, dus loont het om naar het hele huis te kijken: dak, gevel, vloer en glas."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in de gemeente Hellendoorn het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Hellendoorn",
+      alineas: [
+        ["In de digitale woningscan zie je in een paar minuten welke maatregelen bij jouw type woning passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis, in Nijverdal en in de kleinere kernen. Samen kijk je wat er al is gedaan en wat een logische volgende stap is."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["De gemeente Hellendoorn heeft een eigen regeling voor woningisolatie. Of jouw woning in aanmerking komt en wat de actuele voorwaarden zijn, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Is Nijverdal hetzelfde als de gemeente Hellendoorn?", answer: "Nijverdal is de grootste kern binnen de gemeente Hellendoorn. Het dorp Hellendoorn zelf is kleiner en ligt iets noordelijker." },
+      { question: "Helpt Gijs ook in Daarle, Daarlerveen en Haarle?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hellendoorn." },
+      { question: "Welke gemeentelijke subsidie geldt in Hellendoorn?", answer: "De gemeente Hellendoorn heeft een eigen regeling voor woningisolatie. De actuele voorwaarden vind je bij de gemeente." },
+      { question: "Is de energiescan van Gijs vrijblijvend?", answer: "Ja. De energiescan aan huis is gratis en vrijblijvend." },
+    ],
+    verwant: {
+      titel: "Verder lezen",
+      links: [
+        { naam: "Isoleren in Nijverdal", href: "/regio/overijssel/hellendoorn/nijverdal", tekst: "De grootste kern van de gemeente, tegen de Sallandse Heuvelrug." },
+        { naam: "Isoleren in Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen", tekst: "Buurgemeente Twenterand, met een eigen subsidieregeling." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in de hele gemeente Hellendoorn: in Nijverdal, in het dorp Hellendoorn zelf, en in Daarle, Daarlerveen en Haarle."],
+    ],
+  },
+
+  "/regio/overijssel/hellendoorn/nijverdal": {
+    seo: {
+      title: "Woning isoleren in Nijverdal | Gijs",
+      description: "Isoleren in Nijverdal, tegen de Sallandse Heuvelrug? Lees wat er voor jouw woning kan en hoe Gijs je helpt kiezen.",
+    },
+    kicker: "Nijverdal, gemeente Hellendoorn",
+    h1: "Je woning isoleren in Nijverdal",
+    intro: [
+      ["Nijverdal is de grootste kern van de gemeente Hellendoorn en ligt tegen de Sallandse Heuvelrug aan."],
+      ["In Nijverdal zelf is de tussenwoning het meest voorkomende woningtype; ongeveer 71% van de woningen is een koopwoning. Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt, ongeacht in welke wijk je woont."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "woningtype",
+        titel: "Vooral tussenwoningen in Nijverdal",
+        alineas: [
+          ["Anders dan in de rest van de gemeente Hellendoorn is in Nijverdal zelf de tussenwoning het meest voorkomende type, niet de vrijstaande woning. Bij zo'n huis gaat de meeste warmte verloren via het dak, de voor- en achtergevel en de vloer."],
+          ["Woon je toch in een vrijstaand huis aan de rand van Nijverdal? Dan telt ook de spouwmuur extra mee."],
+        ],
+        kaartenTitel: "Waar is Nijverdal bekend van?",
+        kaarten: [
+          { icon: "building-2", titel: "De watertoren", tekst: "Gebouwd rond 1915 bij het voormalige fabrieksterrein van de Nederlandsche Stoomblekerij, om koelwater en bluswater te leveren." },
+        ],
+      },
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren bij de heuvelrug",
+        alineas: [
+          ["Dichtbij de Sallandse Heuvelrug is extra aandacht voor beschermde dieren in en om de woning geen overbodige luxe. Bij spouw- en dakisolatie kan rekening gehouden moeten worden met vleermuizen of vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het dit aanpakt."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Nijverdal vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van het woningtype en wat er al is gedaan.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Bij veel woningtypen de plek waar het meeste te winnen valt." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap. Let op natuurvriendelijk werken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Nijverdal",
+      alineas: [
+        ["Begin met de digitale woningscan: daarin kies je je woningtype en zie je welke maatregelen erbij passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Samen kijk je wat er al is gedaan en wat een logische volgende stap is. Jij beslist wat je ermee doet."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Nijverdal valt onder de gemeente Hellendoorn, die een eigen regeling heeft voor woningisolatie. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Nijverdal?", answer: "Ja. De regeling van de gemeente Hellendoorn geldt voor de hele gemeente, dus ook voor Nijverdal." },
+      { question: "Moet ik natuurvriendelijk isoleren in Nijverdal?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren zoals vleermuizen en vogels die in gebouwen nestelen. Een natuurvriendelijk werkend isolatiebedrijf regelt dit." },
+      { question: "Komt Gijs ook bij mij thuis in Nijverdal?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats, zodat de adviseur je woning echt kan bekijken." },
+      { question: "Helpt Gijs ook in het dorp Hellendoorn zelf?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hellendoorn, inclusief het dorp Hellendoorn en de kleinere kernen." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Gemeente Hellendoorn", href: "/regio/overijssel/hellendoorn", tekst: "Overzicht van isoleren in de hele gemeente." },
+        { naam: "Isoleren in Rijssen", href: "/regio/overijssel/rijssen-holten/rijssen", tekst: "Buurgemeente met een eigen subsidieregeling." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Nijverdal en de rest van de gemeente Hellendoorn."],
+    ],
+  },
+
+  "/regio/overijssel/hellendoorn/daarle": {
+    seo: {
+      title: "Woning isoleren in Daarle | Gijs",
+      description: "Isoleren in Daarle, gemeente Hellendoorn? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Daarle, gemeente Hellendoorn",
+    h1: "Je woning isoleren in Daarle",
+    intro: [
+      ["Daarle is een van de kleinere kernen van de gemeente Hellendoorn. In Daarle is de vrijstaande woning het meest voorkomende type, ruim de helft van de woningen; ongeveer 82% is een koopwoning."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Daarle bekend van?",
+        kaarten: [
+          { icon: "church", titel: "De Hervormde kerk", tekst: "Het orgel is in 1872 gebouwd door L. van Dam & Zonen en in 1918 uitgebreid." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in Daarle het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Daarle",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis, ook in Daarle. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Daarle valt onder de gemeente Hellendoorn, die een eigen regeling heeft voor woningisolatie. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Daarle bij de gemeente Hellendoorn?", answer: "Ja. Daarle is een van de kleinere kernen van de gemeente Hellendoorn, naast Nijverdal, het dorp Hellendoorn, Daarlerveen en Haarle." },
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Daarle?", answer: "Ja. De regeling van de gemeente Hellendoorn geldt voor de hele gemeente." },
+      { question: "Komt Gijs ook bij mij thuis in Daarle?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Daarlerveen", href: "/regio/overijssel/hellendoorn/daarlerveen", tekst: "Een andere kleine kern van de gemeente." },
+        { naam: "Gemeente Hellendoorn", href: "/regio/overijssel/hellendoorn", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Daarle en de rest van de gemeente Hellendoorn."]],
+  },
+
+  "/regio/overijssel/hellendoorn/daarlerveen": {
+    seo: {
+      title: "Woning isoleren in Daarlerveen | Gijs",
+      description: "Isoleren in Daarlerveen, gemeente Hellendoorn? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Daarlerveen, gemeente Hellendoorn",
+    h1: "Je woning isoleren in Daarlerveen",
+    intro: [
+      ["Daarlerveen is een van de kleinere kernen van de gemeente Hellendoorn, ontstaan als veenontginningsnederzetting. In Daarlerveen is de vrijstaande woning het meest voorkomende type, de helft van de woningen; ongeveer 80% is een koopwoning."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Daarlerveen bekend van?",
+        kaarten: [
+          { icon: "train-front", titel: "Het spoor", tekst: "Sinds 1906 aangesloten op de spoorlijn Almelo-Mariënberg." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in Daarlerveen het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Daarlerveen",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis, ook in Daarlerveen. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Daarlerveen valt onder de gemeente Hellendoorn, die een eigen regeling heeft voor woningisolatie. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Daarlerveen bij de gemeente Hellendoorn?", answer: "Ja. Daarlerveen is een van de kleinere kernen van de gemeente Hellendoorn, naast Nijverdal, het dorp Hellendoorn, Daarle en Haarle." },
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Daarlerveen?", answer: "Ja. De regeling van de gemeente Hellendoorn geldt voor de hele gemeente." },
+      { question: "Komt Gijs ook bij mij thuis in Daarlerveen?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Haarle", href: "/regio/overijssel/hellendoorn/haarle", tekst: "Een andere kleine kern van de gemeente." },
+        { naam: "Gemeente Hellendoorn", href: "/regio/overijssel/hellendoorn", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Daarlerveen en de rest van de gemeente Hellendoorn."]],
+  },
+
+  "/regio/overijssel/hellendoorn/haarle": {
+    seo: {
+      title: "Woning isoleren in Haarle | Gijs",
+      description: "Isoleren in Haarle, gemeente Hellendoorn? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Haarle, gemeente Hellendoorn",
+    h1: "Je woning isoleren in Haarle",
+    intro: [
+      ["Haarle is een van de kleinere kernen van de gemeente Hellendoorn. Net als in de rest van de gemeente is de vrijstaande woning hier het meest voorkomende type."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Haarle bekend van?",
+        kaarten: [
+          { icon: "castle", titel: "Landhuis De Sprengenberg", tekst: "Met de bijbehorende Palthetoren, gebouwd tussen 1900 en 1910 in opdracht van de familie Van Wulfften Palthe." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in Haarle het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Haarle",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis, ook in Haarle. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Haarle valt onder de gemeente Hellendoorn, die een eigen regeling heeft voor woningisolatie. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Haarle bij de gemeente Hellendoorn?", answer: "Ja. Haarle is een van de kleinere kernen van de gemeente Hellendoorn, naast Nijverdal, het dorp Hellendoorn, Daarle en Daarlerveen." },
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Haarle?", answer: "Ja. De regeling van de gemeente Hellendoorn geldt voor de hele gemeente." },
+      { question: "Komt Gijs ook bij mij thuis in Haarle?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Daarle", href: "/regio/overijssel/hellendoorn/daarle", tekst: "Een andere kleine kern van de gemeente." },
+        { naam: "Gemeente Hellendoorn", href: "/regio/overijssel/hellendoorn", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Haarle en de rest van de gemeente Hellendoorn."]],
+  },
+};
+
+const TWENTERAND: Record<string, LokaleInhoud> = {
+  "/regio/overijssel/twenterand": {
+    seo: {
+      title: "Woning isoleren in Vriezenveen en Vroomshoop | Gijs",
+      description: "Isoleren in de gemeente Twenterand, met Vriezenveen en Vroomshoop als grootste kernen? Lees hoe Gijs je helpt en wat de gemeentelijke subsidie inhoudt.",
+    },
+    kicker: "Gemeente Twenterand",
+    h1: "Je woning isoleren in Twenterand",
+    intro: [
+      ["De gemeente Twenterand ontstond in 2001 uit de fusie van de voormalige gemeenten Den Ham en Vriezenveen, en bestaat uit meerdere kernen, met Vriezenveen en Vroomshoop als de twee grootste. Daarnaast liggen er kernen als ", { tekst: "Den Ham", href: "/regio/overijssel/twenterand/den-ham" }, ", ", { tekst: "Geerdijk", href: "/regio/overijssel/twenterand/geerdijk" }, ", ", { tekst: "De Pollen", href: "/regio/overijssel/twenterand/de-pollen" }, " en ", { tekst: "Westerhaar-Vriezenveensewijk", href: "/regio/overijssel/twenterand/westerhaar-vriezenveensewijk" }, "."],
+      ["Gijs helpt bewoners in de hele gemeente met isoleren. Lees meer over ", { tekst: "Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen" }, " of ", { tekst: "Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop" }, "."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vriezenveen-en-vroomshoop",
+        titel: "Vriezenveen en Vroomshoop, twee eigen kernen",
+        alineas: [
+          ["Vriezenveen en Vroomshoop zijn allebei zelfstandige dorpen binnen de gemeente Twenterand, elk met een eigen centrum. Voor isoleren maakt het niet uit in welk dorp je woont: Gijs werkt in de hele gemeente op dezelfde manier."],
+        ],
+        kaartenTitel: "Waar is Twenterand bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "Vriezenveen", tekst: "De grootste kern, met de Leemansmolen als herkenningspunt.", href: "/regio/overijssel/twenterand/vriezenveen" },
+          { icon: "waves", titel: "Vroomshoop", tekst: "Ontstaan als veenkolonie langs het Kanaal Almelo-De Haandrik.", href: "/regio/overijssel/twenterand/vroomshoop" },
+        ],
+      },
+      {
+        id: "vrijstaand-isoleren",
+        titel: "Veel vrijstaande woningen",
+        alineas: [
+          ["In de gemeente Twenterand is de vrijstaande woning het meest voorkomende woningtype. Zo'n huis heeft aan alle kanten buitenmuur, dus loont het om naar het hele huis te kijken: dak, gevel, vloer en glas."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in de gemeente Twenterand het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Twenterand",
+      alineas: [
+        ["In de digitale woningscan zie je in een paar minuten welke maatregelen bij jouw type woning passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis, in Vriezenveen, Vroomshoop en de kleinere kernen. Samen kijk je wat er al is gedaan en wat een logische volgende stap is."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["De gemeente Twenterand heeft een eigen duurzaamheidssubsidie voor het isoleren van een koophuis. De regeling is bedoeld voor particuliere eigenaren; huurders en bedrijven komen er niet voor in aanmerking. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Wat is het verschil tussen Vriezenveen en Vroomshoop?", answer: "Het zijn twee eigen dorpen binnen dezelfde gemeente Twenterand, elk met een eigen centrum. De isolatieaanpak van Gijs is voor beide hetzelfde." },
+      { question: "Geldt de subsidie van Twenterand ook voor huurwoningen?", answer: "Nee. De duurzaamheidssubsidie van de gemeente Twenterand is bedoeld voor particuliere eigenaren van een koophuis. Huurders en bedrijven komen niet in aanmerking." },
+      { question: "Helpt Gijs ook in de kleinere kernen, zoals Den Ham of Geerdijk?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Twenterand." },
+      { question: "Is de energiescan van Gijs vrijblijvend?", answer: "Ja. De energiescan aan huis is gratis en vrijblijvend." },
+    ],
+    verwant: {
+      titel: "Verder lezen",
+      links: [
+        { naam: "Isoleren in Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen", tekst: "De grootste kern van de gemeente Twenterand." },
+        { naam: "Isoleren in Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop", tekst: "Ontstaan bij het Overijssels Kanaal." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in de hele gemeente Twenterand: in Vriezenveen, in Vroomshoop en in de kleinere kernen daaromheen."],
+    ],
+  },
+
+  "/regio/overijssel/twenterand/vriezenveen": {
+    seo: {
+      title: "Woning isoleren in Vriezenveen | Gijs",
+      description: "Isoleren in Vriezenveen? Lees wat het woningtype van je huis zegt over isolatie en hoe Gijs je helpt kiezen.",
+    },
+    kicker: "Vriezenveen, gemeente Twenterand",
+    h1: "Je woning isoleren in Vriezenveen",
+    intro: [
+      ["Vriezenveen is de grootste kern van de gemeente Twenterand en heeft van oudsher een lintvormige dorpsstructuur, met bebouwing langs één hoofdstraat."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "woningtype",
+        titel: "Van rijwoning tot vrijstaand huis",
+        alineas: [
+          ["In Vriezenveen is de vrijstaande woning het meest voorkomende type, ongeveer 31% van de woningen; zo'n 68% is een koopwoning. Zo'n huis heeft meer buitenmuur en dak dan een tussenwoning en verliest daardoor ook meer warmte als het niet goed geïsoleerd is."],
+          ["Woon je in een oudere woning in het lint van Vriezenveen? Dan zijn het dak en de gevel vaak de plekken waar nog winst te halen is."],
+        ],
+        kaartenTitel: "Waar is Vriezenveen bekend van?",
+        kaarten: [
+          { icon: "landmark", titel: "De Leemansmolen", tekst: "Een achtkante stellingmolen uit 1862, het laatst overgebleven herkenningspunt van de meerdere molens die het dorp ooit telde." },
+        ],
+      },
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Vriezenveen vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van het woningtype en wat er al is gedaan.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Bij veel woningtypen de plek waar het meeste te winnen valt." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap. Let op natuurvriendelijk werken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Vriezenveen",
+      alineas: [
+        ["Begin met de digitale woningscan: daarin kies je je woningtype en zie je welke maatregelen erbij passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Samen kijk je wat er al is gedaan en wat een logische volgende stap is."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Vriezenveen valt onder de gemeente Twenterand, die een duurzaamheidssubsidie heeft voor particuliere eigenaren van een koophuis. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Vriezenveen?", answer: "Ja, als je eigenaar-bewoner bent van een koophuis. De duurzaamheidssubsidie van de gemeente Twenterand geldt voor de hele gemeente." },
+      { question: "Wat is het verschil tussen isoleren in Vriezenveen en Vroomshoop?", answer: "Beide vallen onder dezelfde gemeente en dezelfde subsidieregeling. Het verschil zit vooral in het dorpskarakter, niet in de isolatieaanpak." },
+      { question: "Moet ik natuurvriendelijk isoleren in Vriezenveen?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren. Een natuurvriendelijk werkend isolatiebedrijf regelt dit." },
+      { question: "Komt Gijs ook bij mij thuis in Vriezenveen?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop", tekst: "Dezelfde gemeente, ontstaan bij het Overijssels Kanaal." },
+        { naam: "Gemeente Twenterand", href: "/regio/overijssel/twenterand", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Vriezenveen en de rest van de gemeente Twenterand."],
+    ],
+  },
+
+  "/regio/overijssel/twenterand/vroomshoop": {
+    seo: {
+      title: "Woning isoleren in Vroomshoop | Gijs",
+      description: "Isoleren in Vroomshoop, ontstaan bij het Overijssels Kanaal? Lees hoe Gijs je helpt van woningscan tot energiescan aan huis.",
+    },
+    kicker: "Vroomshoop, gemeente Twenterand",
+    h1: "Je woning isoleren in Vroomshoop",
+    intro: [
+      ["Vroomshoop is ontstaan als veenkolonie langs het Kanaal Almelo-De Haandrik. Het dorp is nu een van de twee grootste kernen van de gemeente Twenterand."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "woningtype",
+        titel: "Tussenwoning en vrijstaand huis, vrijwel gelijk verdeeld",
+        alineas: [
+          ["Anders dan in de rest van de gemeente Twenterand is in Vroomshoop de tussenwoning net zo vaak voorkomend als de vrijstaande woning, allebei rond een kwart van de woningen; ongeveer 66% is een koopwoning."],
+          ["Woon je in een tussenwoning dicht bij het kanaal? Dan gaat de meeste warmte verloren via het dak, de voor- en achtergevel en de vloer. Woon je vrijstaand? Dan telt ook de spouwmuur extra mee."],
+        ],
+        kaartenTitel: "Waar is Vroomshoop bekend van?",
+        kaarten: [
+          { icon: "waves", titel: "Het Kanaal Almelo-De Haandrik", tekst: "Gegraven vanaf 1859. Rond 1875 verschoof de economie naar aardappelteelt, mede dankzij kolonisten uit Groningen en Drenthe." },
+        ],
+      },
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie die in Vroomshoop vaak aan bod komt",
+      intro: "Welke maatregel bij jouw huis past, hangt af van het woningtype en wat er al is gedaan.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Bij veel woningtypen de plek waar het meeste te winnen valt." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij oudere woningen met een lege spouw vaak een logische stap. Let op natuurvriendelijk werken." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Ouder glas vervangen beperkt warmteverlies en koude plekken bij het raam." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Vroomshoop",
+      alineas: [
+        ["Begin met de digitale woningscan: daarin kies je je woningtype en zie je welke maatregelen erbij passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Samen kijk je wat er al is gedaan en wat een logische volgende stap is."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Vroomshoop valt onder de gemeente Twenterand, die een duurzaamheidssubsidie heeft voor particuliere eigenaren van een koophuis. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Geldt de isolatiesubsidie van de gemeente ook voor mij in Vroomshoop?", answer: "Ja, als je eigenaar-bewoner bent van een koophuis. De duurzaamheidssubsidie van de gemeente Twenterand geldt voor de hele gemeente." },
+      { question: "Wat is het verschil tussen isoleren in Vroomshoop en Vriezenveen?", answer: "Beide vallen onder dezelfde gemeente en dezelfde subsidieregeling. Het verschil zit vooral in het dorpskarakter, niet in de isolatieaanpak." },
+      { question: "Moet ik natuurvriendelijk isoleren in Vroomshoop?", answer: "Bij spouw- en dakisolatie moet rekening worden gehouden met beschermde dieren. Een natuurvriendelijk werkend isolatiebedrijf regelt dit." },
+      { question: "Komt Gijs ook bij mij thuis in Vroomshoop?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen", tekst: "Dezelfde gemeente, de grootste kern." },
+        { naam: "Gemeente Twenterand", href: "/regio/overijssel/twenterand", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [
+      ["Gijs helpt bewoners in heel Vroomshoop en de rest van de gemeente Twenterand."],
+    ],
+  },
+
+  "/regio/overijssel/twenterand/den-ham": {
+    seo: {
+      title: "Woning isoleren in Den Ham | Gijs",
+      description: "Isoleren in Den Ham, gemeente Twenterand? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Den Ham, gemeente Twenterand",
+    h1: "Je woning isoleren in Den Ham",
+    intro: [
+      ["Den Ham wordt al in 1333 genoemd, in een leenakte als parochie van de heer van Egede."],
+      ["Net als in de rest van de gemeente is de vrijstaande woning hier naar verwachting het meest voorkomende type. Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Den Ham bekend van?",
+        kaarten: [
+          { icon: "church", titel: "De kerktoren", tekst: "Met een torenvierkant uit 1325-1425 het oudste bouwwerk van het dorp; de klokkenstoel bevat klokken uit 1447 en 1520." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in Den Ham het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Den Ham",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Den Ham valt onder de gemeente Twenterand, die een duurzaamheidssubsidie heeft voor particuliere eigenaren van een koophuis. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Den Ham bij de gemeente Twenterand?", answer: "Ja. Den Ham is een van de kernen van de gemeente Twenterand, naast Vriezenveen, Vroomshoop, De Pollen, Geerdijk en Westerhaar-Vriezenveensewijk." },
+      { question: "Geldt de subsidie van Twenterand ook voor mij in Den Ham?", answer: "Ja, als je eigenaar-bewoner bent van een koophuis. De duurzaamheidssubsidie van de gemeente Twenterand geldt voor de hele gemeente." },
+      { question: "Komt Gijs ook bij mij thuis in Den Ham?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Geerdijk", href: "/regio/overijssel/twenterand/geerdijk", tekst: "Een andere kern van de gemeente." },
+        { naam: "Gemeente Twenterand", href: "/regio/overijssel/twenterand", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Den Ham en de rest van de gemeente Twenterand."]],
+  },
+
+  "/regio/overijssel/twenterand/de-pollen": {
+    seo: {
+      title: "Woning isoleren in De Pollen | Gijs",
+      description: "Isoleren in De Pollen, gemeente Twenterand? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "De Pollen, gemeente Twenterand",
+    h1: "Je woning isoleren in De Pollen",
+    intro: [
+      ["De Pollen is een van de kernen van de gemeente Twenterand, tussen Vriezenveen en Den Ham. Net als in de rest van de gemeente is de vrijstaande woning hier naar verwachting het meest voorkomende type."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is De Pollen bekend van?",
+        kaarten: [
+          { icon: "church", titel: "De Hervormde kerk", tekst: "Het kabinetorgel dateert uit 1766 en is in 1932 per spoor naar De Pollen verhuisd." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in De Pollen het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in De Pollen",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["De Pollen valt onder de gemeente Twenterand, die een duurzaamheidssubsidie heeft voor particuliere eigenaren van een koophuis. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort De Pollen bij de gemeente Twenterand?", answer: "Ja. De Pollen is een van de kernen van de gemeente Twenterand, naast Vriezenveen, Vroomshoop, Den Ham, Geerdijk en Westerhaar-Vriezenveensewijk." },
+      { question: "Geldt de subsidie van Twenterand ook voor mij in De Pollen?", answer: "Ja, als je eigenaar-bewoner bent van een koophuis. De duurzaamheidssubsidie van de gemeente Twenterand geldt voor de hele gemeente." },
+      { question: "Komt Gijs ook bij mij thuis in De Pollen?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Den Ham", href: "/regio/overijssel/twenterand/den-ham", tekst: "Een andere kern van de gemeente." },
+        { naam: "Gemeente Twenterand", href: "/regio/overijssel/twenterand", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel De Pollen en de rest van de gemeente Twenterand."]],
+  },
+
+  "/regio/overijssel/twenterand/geerdijk": {
+    seo: {
+      title: "Woning isoleren in Geerdijk | Gijs",
+      description: "Isoleren in Geerdijk, gemeente Twenterand? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Geerdijk, gemeente Twenterand",
+    h1: "Je woning isoleren in Geerdijk",
+    intro: [
+      ["Geerdijk is een van de kernen van de gemeente Twenterand, ontstaan halverwege de negentiende eeuw als veenkoloniale nederzetting langs het Kanaal Almelo-De Haandrik. In Geerdijk is de vrijstaande woning verreweg het meest voorkomende type, 75% van de woningen; ongeveer 89% is een koopwoning."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Geerdijk bekend van?",
+        kaarten: [
+          { icon: "church", titel: "De Willibrordkerk", tekst: "Neogotische kerk uit 1867-1868, aan het kanaal." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in Geerdijk het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Geerdijk",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Geerdijk valt onder de gemeente Twenterand, die een duurzaamheidssubsidie heeft voor particuliere eigenaren van een koophuis. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Geerdijk bij de gemeente Twenterand?", answer: "Ja. Geerdijk is een van de kernen van de gemeente Twenterand, naast Vriezenveen, Vroomshoop, Den Ham, De Pollen en Westerhaar-Vriezenveensewijk." },
+      { question: "Geldt de subsidie van Twenterand ook voor mij in Geerdijk?", answer: "Ja, als je eigenaar-bewoner bent van een koophuis. De duurzaamheidssubsidie van de gemeente Twenterand geldt voor de hele gemeente." },
+      { question: "Komt Gijs ook bij mij thuis in Geerdijk?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop", tekst: "Een van de twee grootste kernen van de gemeente." },
+        { naam: "Gemeente Twenterand", href: "/regio/overijssel/twenterand", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Geerdijk en de rest van de gemeente Twenterand."]],
+  },
+
+  "/regio/overijssel/twenterand/westerhaar-vriezenveensewijk": {
+    seo: {
+      title: "Woning isoleren in Westerhaar-Vriezenveensewijk | Gijs",
+      description: "Isoleren in Westerhaar-Vriezenveensewijk, gemeente Twenterand? Lees hoe Gijs je helpt, met aandacht voor natuurvriendelijk isoleren.",
+    },
+    kicker: "Westerhaar-Vriezenveensewijk, gemeente Twenterand",
+    h1: "Je woning isoleren in Westerhaar-Vriezenveensewijk",
+    intro: [
+      ["Westerhaar-Vriezenveensewijk is een van de kernen van de gemeente Twenterand, ontstaan rond 1890 als veenkolonie bij de afgraving van de Engbertsdijksvenen. Net als in de rest van de gemeente is de vrijstaande woning hier het meest voorkomende type."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "natuurvriendelijk-isoleren",
+        titel: "Natuurvriendelijk isoleren",
+        alineas: [
+          ["In spouwmuren en onder daken kunnen beschermde dieren leven, zoals vleermuizen en vogels die in gebouwen nestelen. Vraag het isolatiebedrijf vooraf hoe het hier rekening mee houdt."],
+        ],
+        kaartenTitel: "Waar is Westerhaar-Vriezenveensewijk bekend van?",
+        kaarten: [
+          { icon: "tent-tree", titel: "Het Veenmuseum", tekst: "Door vrijwilligers gerund museum dat de veengeschiedenis van het dorp levend houdt." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een vrijstaande woning",
+      intro: "Deze onderdelen komen in Westerhaar-Vriezenveensewijk het vaakst aan bod.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Een groot dak betekent ook veel oppervlak waarlangs warmte kan ontsnappen." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Veel buitenmuur met een lege spouw? Dan is dit vaak een logische stap." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Met een kruipruimte vaak van onderaf te isoleren." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Beter glas beperkt warmteverlies en maakt het bij het raam minder koud." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Westerhaar-Vriezenveensewijk",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Bij de gratis energiescan komt een adviseur van Gijs bij je thuis. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Westerhaar-Vriezenveensewijk valt onder de gemeente Twenterand, die een duurzaamheidssubsidie heeft voor particuliere eigenaren van een koophuis. Of jouw woning in aanmerking komt, lees je bij de gemeente."],
+    ],
+    faq: [
+      { question: "Hoort Westerhaar-Vriezenveensewijk bij de gemeente Twenterand?", answer: "Ja. Het is een van de kernen van de gemeente Twenterand, naast Vriezenveen, Vroomshoop, Den Ham, De Pollen en Geerdijk." },
+      { question: "Geldt de subsidie van Twenterand ook voor mij hier?", answer: "Ja, als je eigenaar-bewoner bent van een koophuis. De duurzaamheidssubsidie van de gemeente Twenterand geldt voor de hele gemeente." },
+      { question: "Komt Gijs ook bij mij thuis?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Geerdijk", href: "/regio/overijssel/twenterand/geerdijk", tekst: "Een andere kern van de gemeente." },
+        { naam: "Gemeente Twenterand", href: "/regio/overijssel/twenterand", tekst: "Overzicht van isoleren in de hele gemeente." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Westerhaar-Vriezenveensewijk en de rest van de gemeente Twenterand."]],
+  },
+};
+
 /** Sleutel = regiopad (zie regioPad in lib/content/regio.ts). */
-export const REGIO_LOKAAL: Record<string, LokaleInhoud> = { ...ZWOLLE, ...TWENTE, ...TWENTE_RONDE_2 };
+export const REGIO_LOKAAL: Record<string, LokaleInhoud> = {
+  ...ZWOLLE, ...TWENTE, ...TWENTE_RONDE_2, ...HENGELO_BECKUM, ...ENSCHEDE_DORPEN,
+  ...BORNE_DORPEN, ...HOF_VAN_TWENTE_DORPEN, ...ALMELO_DORPEN,
+  ...RIJSSEN_HOLTEN, ...HELLENDOORN, ...TWENTERAND,
+};
 
 export const getLokaleInhoud = (pad: string): LokaleInhoud | undefined => REGIO_LOKAAL[pad];

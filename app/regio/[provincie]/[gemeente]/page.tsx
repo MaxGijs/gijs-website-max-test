@@ -7,6 +7,8 @@ import { createMetadata } from "@/lib/seo";
 import { REGIO_GEMEENTEN, getProvincie, getGemeente, plaatsenVan, regioPad } from "@/lib/content/regio";
 import { getLokaleInhoud } from "@/lib/content/regio-lokaal";
 import { LokalePagina } from "@/components/regio/LokalePagina";
+import { getGemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
+import { GemeenteVerhaalPagina, type VerhaalKern } from "@/components/regio/GemeenteVerhaalPagina";
 import { GemeenteKaart } from "@/components/regio/RegioDrilldown";
 import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, WoningenInGemeente, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
@@ -30,6 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { p, g } = data;
   const bord = plaatsenVan(p.slug, g.slug).find(k => k.slug === g.slug);
   const ogBeeld = bord?.afbeelding ? { path: bord.afbeelding, alt: `Plaatsnaambord ${bord.naam}` } : undefined;
+  const verhaal = getGemeenteVerhaal(g.slug);
+  if (verhaal) return createMetadata(regioPad(p.slug, g.slug), verhaal.seo.title, verhaal.seo.description, g.indexeerbaar, ogBeeld);
   const lokaal = getLokaleInhoud(regioPad(p.slug, g.slug));
   if (lokaal) return createMetadata(regioPad(p.slug, g.slug), lokaal.seo.title, lokaal.seo.description, g.indexeerbaar, ogBeeld);
   return createMetadata(
@@ -52,6 +56,23 @@ export default async function GemeentePage({ params }: Props) {
     { naam: "Home", url: "/" }, { naam: "Regio", url: "/regio" },
     { naam: p.naam, url: regioPad(p.slug) }, { naam: g.naam, url: regioPad(p.slug, g.slug) },
   ];
+
+  const verhaal = getGemeenteVerhaal(g.slug);
+  if (verhaal) {
+    const kernen: VerhaalKern[] = verhaal.kernen.flatMap(slug => {
+      const k = plaatsen.find(pl => pl.slug === slug);
+      if (!k) return [];
+      const href = k.slug !== g.slug && k.gepubliceerd ? regioPad(p.slug, g.slug, k.slug) : undefined;
+      return [{ slug: k.slug, naam: k.naam, afbeelding: k.afbeelding, href }];
+    });
+    return (
+      <>
+        <Header />
+        <GemeenteVerhaalPagina verhaal={verhaal} gemeente={g.naam} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
+        <Footer />
+      </>
+    );
+  }
 
   const lokaal = getLokaleInhoud(regioPad(p.slug, g.slug));
   if (lokaal) {
