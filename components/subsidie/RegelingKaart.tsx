@@ -33,7 +33,16 @@ export function Tekstblok({ tekst }: { tekst: string }) {
 
 const datum = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
 
-export function RegelingKaart({ r, compact = false }: { r: SubsidieRegeling; compact?: boolean }) {
+export function RegelingKaart({
+  r,
+  compact = false,
+  actie,
+}: {
+  r: SubsidieRegeling;
+  compact?: boolean;
+  /** De actie onderaan de kaart (bijv. "Start de woningscan"). De officiële bron staat dan klein onder de kaart. */
+  actie?: React.ReactNode;
+}) {
   return (
     <Card as="article" className="flex flex-col gap-3 !p-6">
       <div className="flex flex-wrap gap-2">
@@ -74,14 +83,23 @@ export function RegelingKaart({ r, compact = false }: { r: SubsidieRegeling; com
           )}
         </div>
       )}
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-sm mt-auto">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm mt-auto">
         <span className="text-zinc-500">{r.einde ? `Loopt tot ${datum(r.einde)}` : "Geen einddatum bekend"}</span>
-        {r.url && (
-          <a href={r.url} target="_blank" rel="noopener noreferrer" className={LINK}>
-            Bekijk op Verbeter Je Huis<span className="sr-only"> (opent in nieuw tabblad)</span>
-          </a>
-        )}
+        {actie ??
+          (r.url && (
+            <a href={r.url} target="_blank" rel="noopener noreferrer" className={LINK}>
+              Bekijk op Verbeter Je Huis<span className="sr-only"> (opent in nieuw tabblad)</span>
+            </a>
+          ))}
       </div>
+      {actie && r.url && (
+        <p className="text-xs text-zinc-400">
+          Officiële informatie:{" "}
+          <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline hover:text-zinc-600">
+            Verbeter Je Huis<span className="sr-only"> (opent in nieuw tabblad)</span>
+          </a>
+        </p>
+      )}
     </Card>
   );
 }

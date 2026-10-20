@@ -593,7 +593,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               {scan.postcode && nieuweMaatregelen.length > 0 && (
                 <RegelingenInScan postcode={scan.postcode} huisnummer={scan.huisnummer} mogelijk={nieuweMaatregelen.map(m => m.id)} gekozen={scan.measures} />
               )}
-              {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Voor sommige van deze maatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen. Meer weten? Bekijk de <Link className="underline" href="/kennis#subsidies">uitleg over subsidies en financiering</Link> of de <Link className="underline" href="/subsidiecheck">subsidiecheck</Link>.</p>}
+              {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Voor sommige van deze maatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.</p>}
               {TOON_M2 && (scan.vloeroppervlakte || scan.dakoppervlakte || scan.gevelOppervlakte) && <p className={styles.kleineNoot}>Vloeroppervlak komt van de kadastrale plattegrond van je woning; dak- en geveloppervlak zijn een richtwaarde daarbovenop. Gijs meet de precieze maten tijdens de energiescan.</p>}
               {/* Sectie 27 van de opdracht: ruimte gereserveerd voor mogelijke invloed op
                   woningwaarde en indicatieve terugverdientijd, bewust zonder cijfers zolang

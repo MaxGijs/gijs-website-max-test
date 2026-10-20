@@ -10,8 +10,12 @@ Milieu Centraal (verbeterjehuis.nl). Dezelfde koppeling draait ook op Digitaal E
   provincie, landelijk) en vertaling naar de maatregelen van Gijs (`lib/measures.ts`).
 - `app/subsidiecheck/actions.ts`: server action voor de subsidiecheck en de woningscan.
 - `/subsidiecheck`: postcode (en huisnummer) in, alle regelingen eruit, te filteren op maatregel en soort.
-- Woningscan, stap "Jouw woningplan": regelingen voor het adres, voor de aangevinkte maatregelen.
-- Regiopagina's (gemeente en plaats): de actuele regelingen van de gemeente, regio en provincie.
+  Elke regeling heeft als actie "Start de woningscan" (adres en eventueel maatregel gaan mee, via
+  sessionStorage); de officiële bron staat klein onder de kaart.
+- Woningscan, stap "Jouw woningplan": relevante regelingen voor het adres, bij de aangevinkte maatregelen.
+  Bewust zonder links naar buiten of naar andere pagina's: bedragen en voorwaarden klappen open in de scan.
+- Regiopagina's (gemeente en plaats): de actuele regelingen van de gemeente, regio en provincie, ook met
+  "Start de woningscan" als actie.
 
 ## Instellingen
 

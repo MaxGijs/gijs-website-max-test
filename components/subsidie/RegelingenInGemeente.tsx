@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "@/components/ds/core/Button";
 import { GemeentelijkeSubsidies, H2 } from "@/components/regio/RegioBlokken";
 import { gemeenteVoorNaam, regelingenVoorGemeente } from "@/lib/milieu-centraal/regelingen";
 import { BRON_MILIEU_CENTRAAL } from "@/lib/milieu-centraal/types";
@@ -42,22 +43,33 @@ export async function RegelingenInGemeente({
       </div>
       {lokaal.length > 0 && (
         <div className="grid gap-5 md:grid-cols-2 mb-6">
-          {lokaal.map(r => <RegelingKaart key={r.id} r={r} />)}
+          {lokaal.map(r => (
+            <RegelingKaart
+              key={r.id}
+              r={r}
+              actie={
+                <Button href={r.voor.length === 1 ? `/woning?maatregel=${r.voor[0]}` : "/woning"} size="sm" variant="primary" iconRight="arrow-right">
+                  Start de woningscan
+                </Button>
+              }
+            />
+          ))}
         </div>
       )}
+      <div className="gijs-card gijs-card--tint !p-6 flex flex-col md:flex-row md:items-center gap-4 mb-6">
+        <div className="flex-1 flex flex-col gap-1">
+          <p className="font-semibold text-[var(--gijs-donkergroen)]">Wat betekent dit voor jouw woning?</p>
+          <p className="text-zinc-700">
+            Doe de gratis woningscan. Tijdens de energiescan aan huis zoekt Gijs uit welke subsidies je kunt krijgen en helpt bij de aanvraag. Gijs kan
+            toekenning niet garanderen.
+          </p>
+        </div>
+        <Button href="/woning" variant="primary" iconRight="arrow-right">Start de woningscan</Button>
+      </div>
       <div className="max-w-2xl flex flex-col gap-3 text-zinc-600">
         <p>
-          Wil je alles zien wat voor jouw adres geldt, ook de landelijke regelingen? Gebruik de{" "}
-          <Link href="/subsidiecheck" className={LINK}>subsidiecheck</Link>. Gijs helpt je graag bij de aanvraag, maar kan toekenning niet garanderen.
+          Alles zien wat voor jouw adres geldt, ook de landelijke regelingen? Gebruik de <Link href="/subsidiecheck" className={LINK}>subsidiecheck</Link>.
         </p>
-        {officieleUrl && (
-          <p>
-            Meer informatie vind je ook bij de{" "}
-            <a href={officieleUrl} target="_blank" rel="noopener noreferrer" className={LINK}>
-              gemeente {g.naam}<span className="sr-only"> (opent in nieuw tabblad)</span>
-            </a>.
-          </p>
-        )}
         <p className="text-sm text-zinc-500">
           Bron:{" "}
           <a href={BRON_MILIEU_CENTRAAL.url} target="_blank" rel="noopener noreferrer" className="underline">{BRON_MILIEU_CENTRAAL.naam}</a>, dagelijks ververst. Regelingen veranderen regelmatig; lees altijd de actuele voorwaarden bij de aanbieder.
