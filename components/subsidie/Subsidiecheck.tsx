@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { zoekSubsidies } from "@/app/subsidiecheck/actions";
 import { Alert } from "@/components/ds/feedback/Alert";
 import { Button } from "@/components/ds/core/Button";
@@ -12,6 +13,9 @@ import { MEASURES } from "@/lib/measures";
 import { SCAN_KEY } from "@/lib/scan-session";
 import { BRON_MILIEU_CENTRAAL, TYPE_LABEL, type Doelgroep, type Niveau, type RegelingType, type SubsidieUitkomst } from "@/lib/milieu-centraal/types";
 import { RegelingKaart } from "./RegelingKaart";
+import { woningscanUrl } from "./startWoningscan";
+import { useWoningDraft } from "@/components/woning/WoningDraftProvider";
+import type { SubsidieRegeling } from "@/lib/milieu-centraal/types";
 
 // De subsidiecheck: postcode (en huisnummer) in, alle regelingen van de Energiesubsidiewijzer van
 // Milieu Centraal eruit. Gemeente, regio, provincie en Rijk; subsidies, leningen en overige regelingen.
@@ -34,6 +38,14 @@ export function Subsidiecheck() {
   const [maatregel, setMaatregel] = useState<string | null>(null);
   const [type, setType] = useState<RegelingType | null>(null);
   const [bezig, start] = useTransition();
+  const router = useRouter();
+  const { draft } = useWoningDraft();
+
+  /** Door naar de woningscan, met dit adres (en eventueel de maatregel) alvast ingevuld. */
+  const naarScan = (cta: string, m?: string) =>
+    router.push(woningscanUrl({ postcode, huisnummer, houseType: draft.houseType, maatregel: m, cta }));
+  /** De maatregel die we in de scan alvast aanvinken: het actieve filter, of de enige maatregel van de regeling. */
+  const maatregelVan = (r: SubsidieRegeling) => maatregel ?? (r.voor.length === 1 ? r.voor[0] : undefined);
 
   const zoek = (pc = postcode, nr = huisnummer, dg = doelgroep) =>
     start(async () => {
@@ -118,6 +130,19 @@ export function Subsidiecheck() {
             </p>
           </div>
 
+          <div className="gijs-card gijs-card--dark !p-6 md:!p-8 flex flex-col md:flex-row md:items-center gap-5">
+            <div className="flex-1 flex flex-col gap-2">
+              <p className="text-xl font-semibold text-white">Wat betekent dit voor jouw woning?</p>
+              <p className="text-[var(--text-on-dark)] opacity-90">
+                Doe de gratis woningscan voor dit adres. In een paar minuten zie je welke maatregelen bij je woning passen. Tijdens de gratis
+                energiescan aan huis zoekt Gijs uit welke subsidies je kunt krijgen en helpt bij de aanvraag.
+              </p>
+            </div>
+            <Button variant="inverse" size="lg" iconRight="arrow-right" onClick={() => naarScan("start_woningscan_subsidiecheck_boven")}>
+              Start de woningscan
+            </Button>
+          </div>
+
           {regelingen.length > 0 && (
             <div className="flex flex-col gap-3">
               <div className="flex flex-wrap gap-2" role="group" aria-label="Filter op maatregel">
@@ -148,7 +173,17 @@ export function Subsidiecheck() {
                   {KOPPEN[niveau]} <span className="font-normal text-zinc-500">({lijst.length})</span>
                 </h3>
                 <div className="grid gap-5 md:grid-cols-2">
-                  {lijst.map(r => <RegelingKaart key={r.id} r={r} />)}
+                  {lijst.map(r => (
+                    <RegelingKaart
+                      key={r.id}
+                      r={r}
+                      actie={
+                        <Button size="sm" variant="primary" iconRight="arrow-right" onClick={() => naarScan("start_woningscan_subsidiekaart", maatregelVan(r))}>
+                          Start de woningscan
+                        </Button>
+                      }
+                    />
+                  ))}
                 </div>
               </div>
             );
@@ -162,7 +197,7 @@ export function Subsidiecheck() {
                 Tijdens de gratis energiescan aan huis kijken we welke regelingen echt bij jouw woning passen. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.
               </p>
             </div>
-            <Button href="/woning" variant="primary" iconRight="arrow-right">Start de woningscan</Button>
+            <Button variant="primary" iconRight="arrow-right" onClick={() => naarScan("start_woningscan_subsidiecheck_onder")}>Start de woningscan</Button>
           </div>
 
           <p className="text-sm text-zinc-500">

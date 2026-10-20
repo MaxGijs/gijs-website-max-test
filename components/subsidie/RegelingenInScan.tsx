@@ -1,22 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { zoekSubsidies } from "@/app/subsidiecheck/actions";
 import { Badge } from "@/components/ds/core/Badge";
 import { MEASURES } from "@/lib/measures";
 import { NIVEAU_LABEL, TYPE_LABEL, type SubsidieUitkomst } from "@/lib/milieu-centraal/types";
-import { ADRES_SLEUTEL } from "./Subsidiecheck";
+import { Tekstblok } from "./RegelingKaart";
 
 // In het woningplan van de scan: de regelingen van Milieu Centraal die voor dit adres gelden, voor de
 // maatregelen die de bewoner aanvinkt (of, als er nog niets is aangevinkt, voor alle mogelijke).
-// Lukt het ophalen niet, dan verschijnt er niets; de algemene subsidietekst blijft dan staan.
+// Bewust zonder links naar buiten of naar andere pagina's: de bewoner blijft in de scan. Bedragen en
+// voorwaarden klappen hier zelf open. Lukt het ophalen niet, dan verschijnt er niets.
 
-const MAX = 6;
+const EERST = 4;
 const naamVan = (id: string) => MEASURES.find(m => m.id === id)?.label ?? id;
 
 export function RegelingenInScan({ postcode, huisnummer, mogelijk, gekozen }: { postcode: string; huisnummer: string; mogelijk: string[]; gekozen: string[] }) {
   const [uitkomst, setUitkomst] = useState<{ voor: string; data: SubsidieUitkomst } | null>(null);
+  const [alles, setAlles] = useState(false);
   const sleutel = `${postcode}|${huisnummer}`;
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export function RegelingenInScan({ postcode, huisnummer, mogelijk, gekozen }: { 
   const relevant = regelingen.filter(r => r.voor.some(v => ids.includes(v)));
   if (!relevant.length) return null;
   const lokaal = relevant.filter(r => r.niveau !== "landelijk").length;
+  const getoond = alles ? relevant : relevant.slice(0, EERST);
 
   return (
     <div className="gijs-card gijs-card--tint !p-5 md:!p-6 flex flex-col gap-4 my-6">
@@ -46,32 +48,34 @@ export function RegelingenInScan({ postcode, huisnummer, mogelijk, gekozen }: { 
         </p>
       </div>
       <ul className="flex flex-col divide-y divide-[var(--border-subtle)] bg-white rounded-[var(--radius-card)] border border-[var(--border-subtle)]">
-        {relevant.slice(0, MAX).map(r => (
+        {getoond.map(r => (
           <li key={r.id} className="flex flex-col gap-1.5 p-4">
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone={r.niveau === "landelijk" ? "neutral" : "accent"}>{NIVEAU_LABEL[r.niveau]}</Badge>
               <Badge tone={r.type === "subsidie" ? "success" : "outline"}>{TYPE_LABEL[r.type]}</Badge>
             </div>
-            <p className="font-medium text-[var(--gijs-donkergroen)]">
-              {r.url ? (
-                <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-[var(--accent-700)]">
-                  {r.titel}<span className="sr-only"> (opent Verbeter Je Huis in nieuw tabblad)</span>
-                </a>
-              ) : r.titel}
-            </p>
+            <p className="font-medium text-[var(--gijs-donkergroen)]">{r.titel}</p>
             <p className="text-sm text-zinc-600">Voor {r.voor.filter(v => ids.includes(v)).map(v => naamVan(v).toLowerCase()).join(", ")}</p>
+            {(r.bedragen || r.voorwaarden) && (
+              <details className="text-sm text-zinc-700">
+                <summary className="cursor-pointer font-medium text-[var(--accent-700)] py-1">Bedragen en voorwaarden</summary>
+                <div className="flex flex-col gap-3 pt-2">
+                  {r.bedragen && <div><p className="font-medium text-zinc-800">Bedragen</p><Tekstblok tekst={r.bedragen} /></div>}
+                  {r.voorwaarden && <div><p className="font-medium text-zinc-800">Voorwaarden</p><Tekstblok tekst={r.voorwaarden} /></div>}
+                </div>
+              </details>
+            )}
           </li>
         ))}
       </ul>
+      {relevant.length > EERST && (
+        <button type="button" className="self-start text-sm font-semibold text-[var(--accent-700)] underline underline-offset-2" onClick={() => setAlles(a => !a)} aria-expanded={alles}>
+          {alles ? "Toon minder" : `Toon alle ${relevant.length} regelingen`}
+        </button>
+      )}
       <p className="text-sm text-zinc-600">
-        <Link
-          href="/subsidiecheck"
-          className="font-semibold text-[var(--accent-700)] underline underline-offset-2"
-          onClick={() => { try { sessionStorage.setItem(ADRES_SLEUTEL, JSON.stringify({ postcode, huisnummer })); } catch { /* opslag kan geblokkeerd zijn */ } }}
-        >
-          {relevant.length > MAX ? `Bekijk alle ${relevant.length} regelingen met bedragen en voorwaarden` : "Bekijk bedragen en voorwaarden in de subsidiecheck"}
-        </Link>
-        . Bron: Milieu Centraal (Energiesubsidiewijzer).
+        Tijdens de gratis energiescan aan huis kijkt Gijs welke regelingen echt bij jouw woning passen en helpt bij de aanvraag. Gijs kan toekenning
+        niet garanderen. Bron: Milieu Centraal, Energiesubsidiewijzer.
       </p>
     </div>
   );
