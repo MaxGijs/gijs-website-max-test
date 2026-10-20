@@ -21,7 +21,7 @@ export const PAGE_SEO: Record<string,{title:string;description:string;index?:boo
  "/over-gijs":{title:"Over Gijs | Iedereen kent wel een Gijs",description:"Iedereen kent wel iemand die luistert, normaal uitlegt en meedenkt. Lees over het idee achter Gijs, over Thom en over de mensen achter het advies."},
  "/regio":{title:"Isoleren en verduurzamen per regio | Gijs",description:"Kies je provincie en gemeente. Lees over isolatiemaatregelen, landelijke subsidies en hoe Gijs uitzoekt welke gemeentelijke regelingen mogelijk gelden."},
  "/woning":{title:"Jouw digitale woningscan | Gijs",description:"Verken je wensen en maatregelen op een voorbeeldwoning en bereid een adviesgesprek met Gijs voor.",index:false},
- "/subsidiecheck":{title:"Subsidiecheck | Gijs",description:"Gijs helpt je inzicht te krijgen in mogelijke subsidies voor verduurzaming. De subsidiecheck wordt voorbereid.",index:false},
+ "/subsidiecheck":{title:"Subsidiecheck: alle subsidies voor jouw adres | Gijs",description:"Vul je postcode in en zie alle subsidies, leningen en regelingen van je gemeente, provincie en het Rijk voor isolatie, warmtepomp en zonnepanelen. Actueel via Milieu Centraal."},
  "/cookies":{title:"Cookiebeleid | Gijs",description:"Informatie over het cookiebeleid van Gijs.",index:false},
  "/disclaimer":{title:"Disclaimer | Gijs",description:"Informatie over de disclaimer van Gijs.",index:false},
  "/toegankelijkheid":{title:"Toegankelijkheid | Gijs",description:"Informatie over de toegankelijkheid van de website van Gijs.",index:false},

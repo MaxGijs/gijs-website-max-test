@@ -6,6 +6,7 @@ import { FAQAccordion } from "@/components/measures/FAQAccordion";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
+import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 
 // Presentatie van plaatsgerichte regio-inhoud (lib/content/regio-lokaal.ts). Volledig
 // server-gerenderd; alle tekst komt uit de databron, deze component bepaalt alleen opbouw en stijl.
@@ -160,6 +161,8 @@ export function LokalePagina({
           </div>
         </section>
       )}
+
+      {gemeenteNaam && <RegelingenInGemeente gemeente={gemeenteNaam} officieleUrl={officieleSubsidieUrl} terugval="geen" />}
 
       {faq && faq.length > 0 && (
         <section id="veelgestelde-vragen" className="scroll-mt-40 mb-14">

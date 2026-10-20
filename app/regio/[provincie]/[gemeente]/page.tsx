@@ -8,8 +8,9 @@ import { REGIO_GEMEENTEN, getProvincie, getGemeente, plaatsenVan, regioPad } fro
 import { getLokaleInhoud } from "@/lib/content/regio-lokaal";
 import { LokalePagina } from "@/components/regio/LokalePagina";
 import { GemeenteKaart } from "@/components/regio/RegioDrilldown";
-import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, GemeentelijkeSubsidies, WoningenInGemeente, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
+import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, WoningenInGemeente, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
+import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { Button } from "@/components/ds/core/Button";
 
 type Props = { params: Promise<{ provincie: string; gemeente: string }> };
@@ -90,8 +91,8 @@ export default async function GemeentePage({ params }: Props) {
               Isoleren in {g.naam}
             </h1>
             <p className="text-zinc-600">
-              Wil je je woning in {g.naam} beter isoleren? Hier lees je welke isolatiemaatregelen er zijn en hoe
-              landelijke subsidies werken. Gemeentelijke subsidies en regelingen controleer je bij je eigen gemeente.
+              Wil je je woning in {g.naam} beter isoleren? Hier lees je welke isolatiemaatregelen er zijn en welke
+              subsidies en regelingen er in {g.naam} gelden.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
               <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
@@ -119,7 +120,7 @@ export default async function GemeentePage({ params }: Props) {
           intro="Isoleren kan op verschillende plekken in huis. Welke maatregel bij jouw woning past, bekijkt Gijs tijdens de energiescan."
         />
         <LandelijkeSubsidies />
-        <GemeentelijkeSubsidies gemeente={g.naam} officieleUrl={g.officieleSubsidieUrl} />
+        <RegelingenInGemeente gemeente={g.naam} officieleUrl={g.officieleSubsidieUrl} />
 
         <GemeenteKaart provincie={p} gemeente={g} />
 

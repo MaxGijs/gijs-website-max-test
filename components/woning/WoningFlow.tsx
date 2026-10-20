@@ -12,6 +12,7 @@ import { CONTACT, WHATSAPP_NUMMER } from "@/lib/content/contact";
 import { SCAN_TITELS } from "@/lib/content/maatregel-titels";
 import { SUBSIDIE_PER_M2 } from "@/lib/content/subsidie-per-m2";
 import { MC_BRONNEN } from "@/lib/content/milieu-centraal";
+import { RegelingenInScan } from "@/components/subsidie/RegelingenInScan";
 import {
   freshScan, readScan, SCAN_KEY, SCAN_MEASURES, SCAN_GROUPS, SCAN_WISHES, SCAN_STAPPEN, STAP, sameAddress, scanMessage, dakkapelTekst, bewonersTekst,
   VERWARMING_OPTIES, AFGIFTE_OPTIES, WARMWATER_OPTIES, MONUMENT_OPTIES, BEWONERS_OPTIES, VERDIEPINGEN_OPTIES, DAKKAPEL_OPTIES, JA_NEE_OPTIES, HOEK_ZIJDE_OPTIES, VOORKEURSMOMENT_OPTIES,
@@ -588,6 +589,9 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                       value={scan.wijzigToelichting} onChange={e => patch({ wijzigToelichting: e.target.value })} />
                   </Field>
                 </div>
+              )}
+              {scan.postcode && nieuweMaatregelen.length > 0 && (
+                <RegelingenInScan postcode={scan.postcode} huisnummer={scan.huisnummer} mogelijk={nieuweMaatregelen.map(m => m.id)} gekozen={scan.measures} />
               )}
               {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Voor sommige van deze maatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen. Meer weten? Bekijk de <Link className="underline" href="/kennis#subsidies">uitleg over subsidies en financiering</Link> of de <Link className="underline" href="/subsidiecheck">subsidiecheck</Link>.</p>}
               {TOON_M2 && (scan.vloeroppervlakte || scan.dakoppervlakte || scan.gevelOppervlakte) && <p className={styles.kleineNoot}>Vloeroppervlak komt van de kadastrale plattegrond van je woning; dak- en geveloppervlak zijn een richtwaarde daarbovenop. Gijs meet de precieze maten tijdens de energiescan.</p>}

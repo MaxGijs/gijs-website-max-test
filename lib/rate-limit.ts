@@ -10,7 +10,7 @@ const VENSTER_MS = 10 * 60 * 1000; // 10 minuten
 const MAX_PER_VENSTER = 5;
 const pogingen = new Map<string, number[]>();
 
-export async function magDoorgaan(formulier: string): Promise<boolean> {
+export async function magDoorgaan(formulier: string, maximum = MAX_PER_VENSTER): Promise<boolean> {
   let ip = "onbekend";
   try {
     const h = await headers();
@@ -22,7 +22,7 @@ export async function magDoorgaan(formulier: string): Promise<boolean> {
   const sleutel = `${formulier}:${ip}`;
   const nu = Date.now();
   const recent = (pogingen.get(sleutel) ?? []).filter(t => nu - t < VENSTER_MS);
-  if (recent.length >= MAX_PER_VENSTER) return false;
+  if (recent.length >= maximum) return false;
   recent.push(nu);
   pogingen.set(sleutel, recent);
   return true;

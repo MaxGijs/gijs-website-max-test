@@ -8,7 +8,8 @@ import { createMetadata } from "@/lib/seo";
 import { REGIO_PLAATSEN, getProvincie, getGemeente, getPlaats, regioPad } from "@/lib/content/regio";
 import { getLokaleInhoud } from "@/lib/content/regio-lokaal";
 import { LokalePagina } from "@/components/regio/LokalePagina";
-import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, GemeentelijkeSubsidies, EnergiescanBlok, RegioCta } from "@/components/regio/RegioBlokken";
+import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, EnergiescanBlok, RegioCta } from "@/components/regio/RegioBlokken";
+import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 
@@ -106,10 +107,10 @@ export default async function PlaatsPage({ params }: Props) {
           )}
         </header>
 
-        <GemeentelijkeSubsidies
+        <RegelingenInGemeente
           gemeente={g.naam}
           officieleUrl={g.officieleSubsidieUrl}
-          relatie={`${k.naam} valt onder de gemeente ${g.naam}. Voor eventuele gemeentelijke subsidies of regelingen raadpleeg je daarom de actuele informatie van de gemeente ${g.naam}.`}
+          relatie={`${k.naam} valt onder de gemeente ${g.naam}. Daarom gelden hier de regelingen van de gemeente ${g.naam}.`}
         />
 
         <IsolatieMaatregelen
