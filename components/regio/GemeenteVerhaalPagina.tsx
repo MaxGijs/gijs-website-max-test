@@ -77,9 +77,9 @@ export function GemeenteVerhaalPagina({
       <MeasureSectionNav sections={[
         { id: "woningen", label: "Woningverhaal" },
         { id: "kernen", label: "Kernen" },
-        { id: "natuurvriendelijk-isoleren", label: "Natuur" },
         { id: "maatregelen", label: "Maatregelen" },
         { id: "subsidies", label: "Subsidies" },
+        { id: "natuurvriendelijk-isoleren", label: "Natuur" },
         { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
       ]} />
 
@@ -209,32 +209,6 @@ export function GemeenteVerhaalPagina({
         </div>
       </section>
 
-      {/* Lokaal onderwerp: natuurvriendelijk isoleren */}
-      <section id="natuurvriendelijk-isoleren" className={SECTIE}>
-        <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-10 md:px-12 md:py-12 grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10">
-          <div className="flex flex-col gap-4">
-            <p className={EYEBROW}>Goed om te weten</p>
-            <h2 className={H2}>{v.natuur.titel}</h2>
-            <p className="text-zinc-700">{v.natuur.lead}</p>
-            <p className="text-sm text-zinc-600">{v.natuur.zelf}</p>
-            <p className="text-sm text-zinc-500">
-              Bron: <a href={v.natuur.bron.url} target="_blank" rel="noopener noreferrer" className="underline">{v.natuur.bron.naam}</a>.
-            </p>
-          </div>
-          <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 content-start">
-            {v.natuur.stappen.map(s => (
-              <li key={s.titel} className="flex flex-col gap-3 rounded-[var(--radius-card)] bg-white p-5">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-tint)] text-[var(--accent-700)]">
-                  <Icon name={s.icon} size="md" />
-                </span>
-                <span className="font-semibold text-[var(--gijs-donkergroen)]">{s.titel}</span>
-                <span className="text-sm text-zinc-600">{s.tekst}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
       {/* Van lokale kennis naar actie */}
       <section id="maatregelen" className={SECTIE}>
         <p className={EYEBROW + " mb-2"}>Van lokale kennis naar actie</p>
@@ -265,6 +239,32 @@ export function GemeenteVerhaalPagina({
           </Card>
         </div>
         <RegelingenInGemeente gemeente={gemeente} officieleUrl={officieleSubsidieUrl} toonKop={false} terugvalInhoud={null} />
+      </section>
+
+      {/* Lokaal onderwerp: natuurvriendelijk isoleren */}
+      <section id="natuurvriendelijk-isoleren" className={SECTIE}>
+        <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-10 md:px-12 md:py-12 grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10">
+          <div className="flex flex-col gap-4">
+            <p className={EYEBROW}>Goed om te weten</p>
+            <h2 className={H2}>{v.natuur.titel}</h2>
+            <p className="text-zinc-700">{v.natuur.lead}</p>
+            <p className="text-sm text-zinc-600">{v.natuur.zelf}</p>
+            <p className="text-sm text-zinc-500">
+              Bron: <a href={v.natuur.bron.url} target="_blank" rel="noopener noreferrer" className="underline">{v.natuur.bron.naam}</a>.
+            </p>
+          </div>
+          <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 content-start">
+            {v.natuur.stappen.map(s => (
+              <li key={s.titel} className="flex flex-col gap-3 rounded-[var(--radius-card)] bg-white p-5">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-tint)] text-[var(--accent-700)]">
+                  <Icon name={s.icon} size="md" />
+                </span>
+                <span className="font-semibold text-[var(--gijs-donkergroen)]">{s.titel}</span>
+                <span className="text-sm text-zinc-600">{s.tekst}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
       <section id="veelgestelde-vragen" className={SECTIE}>
