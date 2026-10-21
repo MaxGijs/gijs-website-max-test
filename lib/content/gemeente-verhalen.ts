@@ -549,7 +549,7 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
     ["Woon je in de gemeente Hof van Twente — in ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen."],
     ["Met 69% koopwoningen en een groot aandeel vrijstaande huizen is Hof van Twente een gemeente waar verduurzaming vaak een individuele keuze is. Gijs kijkt wat bij jouw huis past."],
   ],
-  kernen: ["hof-van-twente", "goor", "delden", "markelo"],
+  kernen: ["hof-van-twente", "goor", "delden", "markelo", "diepenheim", "bentelo", "hengevelde"],
   woningen: {
     lead: "Hof van Twente heeft een overwegend landelijke woningvoorraad. Zo is die verdeeld, en dit betekent het voor isolatie.",
     kerncijfers: [
@@ -585,6 +585,9 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
       goor: "Het grootste dorp en centrum van de gemeente.",
       delden: "Historisch dorp met Slot Twickel in de nabijheid.",
       markelo: "Dorp op de rand van het Sallandse Heuvelrug-gebied.",
+      diepenheim: "Klein historisch stadje met een rijke verleden als heerlijkheid.",
+      bentelo: "Landelijk dorp in het westen van de gemeente.",
+      hengevelde: "Dorp aan de grens met Duitsland, met een landelijk karakter.",
     },
     ontwikkeling: {
       titel: "Wat speelt er in Hof van Twente?",
