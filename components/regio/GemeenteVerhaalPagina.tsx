@@ -8,6 +8,7 @@ import { IsolatieInstallatiesSectie } from "./IsolatieInstallatiesSectie";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { SubsidiecheckStart } from "@/components/subsidie/SubsidiecheckStart";
 import { FAQAccordion } from "@/components/measures/FAQAccordion";
+import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { Button } from "@/components/ds/core/Button";
 import { Card } from "@/components/ds/core/Card";
 import { Icon } from "@/components/ds/core/Icon";
@@ -73,6 +74,15 @@ export function GemeenteVerhaalPagina({
         )}
       </header>
 
+      <MeasureSectionNav sections={[
+        { id: "woningen", label: "Woningverhaal" },
+        { id: "kernen", label: "Kernen" },
+        { id: "natuurvriendelijk-isoleren", label: "Natuur" },
+        { id: "maatregelen", label: "Maatregelen" },
+        { id: "subsidies", label: "Subsidies" },
+        { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
+      ]} />
+
       {/* Het woningverhaal */}
       <section id="woningen" className={SECTIE}>
         <p className={EYEBROW + " mb-2"}>Het woningverhaal van {naamVoorKop}</p>
@@ -131,7 +141,7 @@ export function GemeenteVerhaalPagina({
             </div>
           )}
         </div>
-        {kernen.length > 3 ? (
+        {kernen.length > 6 ? (
           <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {kernen.map(k => {
               const inhoud = (
@@ -149,16 +159,20 @@ export function GemeenteVerhaalPagina({
             })}
           </ul>
         ) : (
-          <ul className={`grid grid-cols-1 gap-5 ${kernen.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+          <ul className={`grid grid-cols-1 gap-5 ${kernen.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
             {kernen.map(k => {
               const inhoud = (
                 <Card className="h-full flex flex-col gap-3 !p-5 transition-shadow group-hover:shadow-[var(--shadow-2)]">
                   {k.afbeelding && <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} width={1366} height={329} sizes="(max-width: 768px) 100vw, 380px" className="w-full h-auto rounded-[12px]" />}
                   <span className="font-bold text-lg text-[var(--gijs-donkergroen)]">{k.naam}</span>
                   {v.lokaal.kernTekst[k.slug] && <span className="text-sm text-zinc-600 flex-1">{v.lokaal.kernTekst[k.slug]}</span>}
-                  <span className="text-sm font-semibold text-[var(--accent-700)] inline-flex items-center gap-1">
-                    {k.href ? <>Woning verduurzamen in {k.naam} <Icon name="arrow-right" size="sm" /></> : "Je bekijkt deze pagina"}
-                  </span>
+                  {k.href ? (
+                    <span className="mt-auto inline-flex items-center gap-1 rounded-full bg-[var(--gijs-donkergroen)] px-4 py-1.5 text-sm font-semibold text-white self-start">
+                      Bekijk <Icon name="arrow-right" size="sm" />
+                    </span>
+                  ) : (
+                    <span className="text-sm font-semibold text-[var(--accent-700)]">Je bekijkt deze pagina</span>
+                  )}
                 </Card>
               );
               return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
