@@ -5,9 +5,11 @@ import { notFound } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createMetadata } from "@/lib/seo";
-import { REGIO_PLAATSEN, getProvincie, getGemeente, getPlaats, regioPad } from "@/lib/content/regio";
+import { REGIO_PLAATSEN, getProvincie, getGemeente, getPlaats, plaatsenVan, regioPad } from "@/lib/content/regio";
 import { getLokaleInhoud } from "@/lib/content/regio-lokaal";
+import { getPlaatsVerhaal } from "@/lib/content/gemeente-verhalen";
 import { LokalePagina } from "@/components/regio/LokalePagina";
+import { GemeenteVerhaalPagina, type VerhaalKern } from "@/components/regio/GemeenteVerhaalPagina";
 import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, EnergiescanBlok, RegioCta } from "@/components/regio/RegioBlokken";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { Button } from "@/components/ds/core/Button";
@@ -33,6 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { p, g, k } = data;
   const pad = regioPad(p.slug, g.slug, k.slug);
   const ogBeeld = k.afbeelding ? { path: k.afbeelding, alt: `Plaatsnaambord ${k.naam}` } : undefined;
+  const plaatsVerhaal = getPlaatsVerhaal(g.slug, k.slug);
+  if (plaatsVerhaal) return createMetadata(pad, plaatsVerhaal.seo.title, plaatsVerhaal.seo.description, k.indexeerbaar, ogBeeld);
   const lokaal = getLokaleInhoud(pad);
   // Een plaats met eigen, unieke inhoud mag geïndexeerd worden, ook als de bovenliggende
   // gemeentepagina alleen een eenvoudig overzicht is (Berkum onder Zwolle).
@@ -55,6 +59,36 @@ export default async function PlaatsPage({ params }: Props) {
     { naam: "Home", url: "/" }, { naam: "Regio", url: "/regio" }, { naam: p.naam, url: regioPad(p.slug) },
     { naam: g.naam, url: gemeenteUrl }, { naam: k.naam, url: regioPad(p.slug, g.slug, k.slug) },
   ];
+  const plaatsVerhaal = getPlaatsVerhaal(g.slug, k.slug);
+  if (plaatsVerhaal) {
+    const alleKernen = plaatsenVan(p.slug, g.slug);
+    const verhaalKernen: VerhaalKern[] = plaatsVerhaal.kernen.map(slug => {
+      const kern = alleKernen.find(pl => pl.slug === slug);
+      if (slug === k.slug) {
+        // huidige pagina — geen link
+        return { slug, naam: kern?.naam ?? k.naam, afbeelding: kern?.afbeelding ?? k.afbeelding };
+      }
+      if (slug === g.slug) {
+        // de gemeentekern verwijst naar de gemeentepagina
+        return { slug, naam: kern?.naam ?? g.naam, afbeelding: kern?.afbeelding, href: regioPad(p.slug, g.slug) };
+      }
+      return { slug, naam: kern?.naam ?? slug, afbeelding: kern?.afbeelding, href: kern ? regioPad(p.slug, g.slug, slug) : undefined };
+    });
+    return (
+      <>
+        <Header />
+        <GemeenteVerhaalPagina
+          verhaal={plaatsVerhaal}
+          gemeente={g.naam}
+          plaatsnaam={k.naam}
+          crumbs={crumbs}
+          kernen={verhaalKernen}
+          officieleSubsidieUrl={g.officieleSubsidieUrl}
+        />
+        <Footer />
+      </>
+    );
+  }
   const lokaal = getLokaleInhoud(regioPad(p.slug, g.slug, k.slug));
   if (lokaal) {
     return (
@@ -102,7 +136,7 @@ export default async function PlaatsPage({ params }: Props) {
               height={329}
               priority
               sizes="(max-width: 1024px) 100vw, 520px"
-              className="w-full h-auto"
+              className="w-full h-auto rounded-2xl"
             />
           )}
         </header>

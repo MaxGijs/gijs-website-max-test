@@ -27,16 +27,21 @@ const BALKKLEUR = ["bg-[var(--gijs-donkergroen)]", "bg-[var(--accent-700)]", "bg
 export function GemeenteVerhaalPagina({
   verhaal: v,
   gemeente,
+  plaatsnaam,
   crumbs,
   kernen,
   officieleSubsidieUrl,
 }: {
   verhaal: GemeenteVerhaal;
+  /** De gemeente (altijd), gebruikt voor subsidies-API en teksten die de gemeente bedoelen. */
   gemeente: string;
+  /** Optioneel: de plaatsnaam voor koppen en FAQ, als de pagina over een dorp gaat (niet de gemeente zelf). */
+  plaatsnaam?: string;
   crumbs: { naam: string; url: string }[];
   kernen: VerhaalKern[];
   officieleSubsidieUrl?: string;
 }) {
+  const naamVoorKop = plaatsnaam ?? gemeente;
   const hoofdkern = kernen[0];
 
   return (
@@ -64,13 +69,13 @@ export function GemeenteVerhaalPagina({
           </div>
         </div>
         {hoofdkern?.afbeelding && (
-          <Image src={hoofdkern.afbeelding} alt={`Plaatsnaambord ${hoofdkern.naam}`} width={1366} height={329} priority sizes="(max-width: 1024px) 100vw, 520px" className="w-full h-auto" />
+          <Image src={hoofdkern.afbeelding} alt={`Plaatsnaambord ${hoofdkern.naam}`} width={1366} height={329} priority sizes="(max-width: 1024px) 100vw, 520px" className="w-full h-auto rounded-[var(--radius-xl)]" />
         )}
       </header>
 
       {/* Het woningverhaal */}
       <section id="woningen" className={SECTIE}>
-        <p className={EYEBROW + " mb-2"}>Het woningverhaal van {gemeente}</p>
+        <p className={EYEBROW + " mb-2"}>Het woningverhaal van {naamVoorKop}</p>
         <h2 className={H2 + " mb-3"}>Wat vertelt het bouwjaar over jouw woning?</h2>
         <p className="text-zinc-600 max-w-2xl mb-8">{v.woningen.lead}</p>
 
@@ -208,7 +213,7 @@ export function GemeenteVerhaalPagina({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start mb-10">
           <div className="flex flex-col gap-4 text-zinc-600">
             <p className={EYEBROW}>Subsidies</p>
-            <h2 className={H2}>Actuele subsidies in {gemeente}</h2>
+            <h2 className={H2}>Actuele subsidies in {naamVoorKop}</h2>
             <p>
               Hieronder staan de regelingen die nu voor de gemeente {gemeente} in de Energiesubsidiewijzer van Milieu Centraal
               staan. Regelingen veranderen regelmatig. Wil je weten wat er voor jouw adres geldt, ook landelijk? Doe de subsidiecheck.
@@ -230,7 +235,7 @@ export function GemeenteVerhaalPagina({
       </section>
 
       <section id="veelgestelde-vragen" className={SECTIE}>
-        <h2 className={H2 + " mb-6"}>Veelgestelde vragen over verduurzamen in {gemeente}</h2>
+        <h2 className={H2 + " mb-6"}>Veelgestelde vragen over verduurzamen in {naamVoorKop}</h2>
         <div className="max-w-3xl">
           <FAQAccordion items={v.faq} className="[&_.gijs-accordion__trigger]:py-6 [&_.gijs-accordion__trigger]:text-base md:[&_.gijs-accordion__trigger]:text-lg" />
         </div>
@@ -247,7 +252,7 @@ export function GemeenteVerhaalPagina({
         )}
       </section>
 
-      <RegioCta titel={`Klaar om je woning in ${gemeente} te verduurzamen?`} tekst="Start de woningscan en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg." />
+      <RegioCta titel={`Klaar om je woning in ${naamVoorKop} te verduurzamen?`} tekst="Start de woningscan en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg." />
     </RegioMain>
   );
 }
