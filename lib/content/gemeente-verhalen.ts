@@ -549,7 +549,7 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
     ["Woon je in de gemeente Hof van Twente — in ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen."],
     ["Met 69% koopwoningen en een groot aandeel vrijstaande huizen is Hof van Twente een gemeente waar verduurzaming vaak een individuele keuze is. Gijs kijkt wat bij jouw huis past."],
   ],
-  kernen: ["hof-van-twente", "goor", "delden", "markelo", "diepenheim", "bentelo", "hengevelde"],
+  kernen: ["goor", "delden", "markelo", "diepenheim", "bentelo", "hengevelde"],
   woningen: {
     lead: "Hof van Twente heeft een overwegend landelijke woningvoorraad. Zo is die verdeeld, en dit betekent het voor isolatie.",
     kerncijfers: [
@@ -581,7 +581,7 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
       ],
     },
     kernTekst: {
-      "hof-van-twente": "De gemeente zelf, met Goor als voornaamste kern.",
+
       goor: "Het grootste dorp en centrum van de gemeente.",
       delden: "Historisch dorp met Slot Twickel in de nabijheid.",
       markelo: "Dorp op de rand van het Sallandse Heuvelrug-gebied.",
@@ -868,7 +868,7 @@ const TWENTERAND: GemeenteVerhaal = {
     ["Woon je in de gemeente Twenterand — in ", { tekst: "Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen" }, ", ", { tekst: "Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop" }, " of ", { tekst: "Den Ham", href: "/regio/overijssel/twenterand/den-ham" }, "? Ontdek welke isolatie en installaties bij jouw woning passen."],
     ["Met ruim een derde vrijstaande woningen en een WOZ-waarde van gemiddeld €354.000 is Twenterand een landelijke gemeente waar verduurzaming per woning een andere aanpak vraagt. Gijs kijkt wat bij jouw huis past."],
   ],
-  kernen: ["twenterand", "vriezenveen", "vroomshoop", "den-ham"],
+  kernen: ["vriezenveen", "vroomshoop", "den-ham"],
   woningen: {
     lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Twenterand verdeeld.",
     kerncijfers: [
@@ -900,7 +900,7 @@ const TWENTERAND: GemeenteVerhaal = {
       ],
     },
     kernTekst: {
-      twenterand: "De gemeente, met Vriezenveen als grootste kern.",
+
       vriezenveen: "Het grootste dorp van de gemeente, met een rijke handelsgeschiedenis.",
       vroomshoop: "Woonkern in het midden van de gemeente.",
       "den-ham": "Dorp aan de rand van het Sallandse Heuvelrug-gebied.",
