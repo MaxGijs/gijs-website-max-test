@@ -142,7 +142,7 @@ export function GemeenteVerhaalPagina({
                     </div>
                   )}
                   <span className="font-semibold text-sm leading-tight text-[var(--gijs-donkergroen)]">{k.naam}</span>
-                  {k.href && <span className="text-xs font-semibold text-[var(--accent-700)] inline-flex items-center gap-0.5">Bekijk <Icon name="arrow-right" size="sm" /></span>}
+                  {k.href && <span className="mt-auto inline-flex items-center gap-1 rounded-full bg-[var(--gijs-donkergroen)] px-3 py-1 text-xs font-semibold text-white">Bekijk <Icon name="arrow-right" size="sm" /></span>}
                 </Card>
               );
               return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
