@@ -343,6 +343,7 @@ const HENGELO: GemeenteVerhaal = {
     alineas: [
       ["Hengelo groeide in de twintigste eeuw uit tot een van de grootste steden van Twente, gedreven door de maakindustrie. De wederopbouw na de Tweede Wereldoorlog liet een grote naoorlogse woningvoorraad achter. Vandaag is Hengelo een compacte stad met zowel oudbouw in het centrum als rustige wijken en het dorp Beckum aan de rand."],
       ["De variatie in woningtype is groot. Huurders in meergezinswoningen en kopers van vrijstaande woningen hebben elk een ander startpunt. Gijs kijkt per woning wat de meest zinvolle stap is."],
+      ["Zoek je een isolatiebedrijf dat de aanpak van begin tot eind regelt? Gijs begint met een gratis energiescan aan huis. Een adviseur kijkt welke isolatie er al zit en wat de meest zinvolle stap is voor jouw woning. Daarna verzorgt Gijs ook de uitvoering, van dakisolatie en spouwmuurisolatie tot installaties."],
     ],
     bekendVan: {
       titel: "Waar is Hengelo bekend van?",
@@ -377,7 +378,7 @@ const HENGELO: GemeenteVerhaal = {
     { question: "Mijn huis in Hengelo is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer, maar het hangt af van wat er al is gedaan. Veel naoorlogse woningen zijn deels al verbeterd. Gijs kijkt wat er nog te winnen valt tijdens de energiescan." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In Hengelo wonen vleermuizen, huismussen en gierzwaluwen in spouwmuren en daken. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
     { question: "Kan ik een gemeentelijke subsidie combineren met de ISDE?", answer: "Vaak wel, maar dat hangt af van de voorwaarden. Gijs bekijkt dat met je tijdens de energiescan en helpt bij de aanvraag. Gijs kan toekenning niet garanderen." },
-    { question: "Kijkt Gijs ook naar een warmtepomp of zonnepanelen?", answer: "Ja. Gijs kijkt naar isolatie én installaties, zoals een warmtepomp, zonnepanelen of een thuisbatterij, en naar de volgorde die bij jouw woning past." },
+    { question: "Wat doet Gijs concreet als isolatiebedrijf in Hengelo?", answer: "Gijs begint met een gratis energiescan aan huis, ter waarde van €349. Een adviseur kijkt welke isolatie er al zit en wat de logische volgende stap is voor jouw woning. Daarna verzorgt Gijs de uitvoering: dakisolatie, spouwmuurisolatie, vloerisolatie of een installatie. Je hoeft van tevoren niet te weten wat je woning nodig heeft." },
     { question: "Helpt Gijs ook in Beckum?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hengelo, ook in het dorp Beckum." },
   ],
   verwant: [
@@ -422,6 +423,7 @@ const ENSCHEDE: GemeenteVerhaal = {
     alineas: [
       ["Enschede is de grootste stad van Overijssel en heeft een gevarieerde woningvoorraad: van historische panden in het centrum tot naoorlogse rijen­woningen en recente nieuwbouw. Met 38% appartementen is het aandeel meergezinswoningen groter dan in de meeste buurgemeenten."],
       ["Dat maakt de aanpak per woning anders. Een appartement in een VvE vraagt een andere aanpak dan een vrijstaande woning aan de stadsrand. Gijs kijkt per situatie wat de meest zinvolle stap is."],
+      ["Dakisolatie en vloerisolatie zijn voor veel woningen in Enschede de eerste stap. Woningen van voor 1975 hebben zelden goed geïsoleerde daken of vloeren. Een schuin dak wordt van binnenuit geïsoleerd; een woning met kruipruimte is bijna altijd geschikt voor vloerisolatie. Welke maatregel als eerste zinvol is, hangt af van wat er al zit. Gijs kijkt dat tijdens de energiescan."],
     ],
     bekendVan: {
       titel: "Waar is Enschede bekend van?",
@@ -456,7 +458,7 @@ const ENSCHEDE: GemeenteVerhaal = {
   faq: [
     { question: "Welke subsidies zijn er nu in Enschede?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Enschede in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Ik woon in een VvE. Kan ik ook isoleren?", answer: "Ja, maar een VvE beslist collectief. Gijs kan je adviseren over wat er mogelijk is en hoe je het in de VvE bespreekbaar maakt." },
-    { question: "Mijn huis is van vóór 1945. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is." },
+    { question: "Wanneer is dakisolatie of vloerisolatie zinvol in Enschede?", answer: "Voor woningen van voor 1975 is het dak of de vloer bijna altijd de moeite waard. Bij een schuin dak gaat het om de dakconstructie van binnenuit; bij een plat dak om isolatie bovenop. Woningen met een houten vloer boven een kruipruimte zijn bijna altijd geschikt voor vloerisolatie. Welk type dak of vloer je hebt en wat er al zit, bepaalt de aanpak. Gijs kijkt dat tijdens de energiescan." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. Vleermuizen, huismussen en gierzwaluwen komen voor in Enschede. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
     { question: "Kijkt Gijs ook naar een warmtepomp of zonnepanelen?", answer: "Ja. Gijs kijkt naar isolatie én installaties, in de volgorde die bij jouw woning past." },
     { question: "Helpt Gijs ook in de dorpen rondom Enschede?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Enschede, ook in Glanerbrug, Boekelo, Lonneker, Usselo en Twekkelo." },
@@ -502,6 +504,7 @@ const ALMELO: GemeenteVerhaal = {
     alineas: [
       ["Almelo groeide groot als centrum van de Twentse textielindustrie. Na het verdwijnen van de industrie transformeerde de stad. De woningvoorraad weerspiegelt die geschiedenis: een mix van oudere arbeidswoningen, naoorlogse uitbreidingen en nieuwere wijken."],
       ["Tussenwoningen zijn het meest voorkomende type in Almelo. Dat maakt de aanpak per woning vrij uniform, maar de staat van isolatie loopt sterk uiteen. Gijs kijkt per huis wat er al is gedaan en wat de logische volgende stap is."],
+      ["Zoek je een isolatiebedrijf voor jouw tussenwoning in Almelo? Gijs begint met een gratis energiescan aan huis. Een adviseur kijkt wat er al gedaan is, want veel tussenwoningen zijn al deels verbeterd. Daarna verzorgt Gijs ook de uitvoering, in de volgorde die bij jouw woning past."],
     ],
     bekendVan: {
       titel: "Waar is Almelo bekend van?",
@@ -536,7 +539,7 @@ const ALMELO: GemeenteVerhaal = {
     { question: "Welke subsidies zijn er nu in Almelo?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Almelo in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn huis in Almelo is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is tijdens de energiescan." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. Vleermuizen, huismussen en gierzwaluwen komen voor in Almelo. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
-    { question: "Kijkt Gijs ook naar een warmtepomp of zonnepanelen?", answer: "Ja. Gijs kijkt naar isolatie én installaties, in de volgorde die bij jouw woning past." },
+    { question: "Wat doet Gijs concreet als isolatiebedrijf in Almelo?", answer: "Gijs begint met een gratis energiescan aan huis, ter waarde van €349. Een adviseur kijkt welke isolatie er al zit en wat de logische volgende stap is voor jouw woning. Daarna verzorgt Gijs de uitvoering: dakisolatie, spouwmuurisolatie, vloerisolatie of een installatie. Gijs helpt ook in Aadorp en Bornerbroek." },
     { question: "Helpt Gijs ook in Aadorp en Bornerbroek?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Almelo, ook in de dorpen." },
   ],
   verwant: [
