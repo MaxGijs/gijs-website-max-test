@@ -52,14 +52,14 @@ export type GemeenteVerhaal = {
 
 const BORNE: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Borne | Gijs",
-    description: "Je woning verduurzamen in Borne, Zenderen of Hertme? Wat het bouwjaar zegt, natuurvriendelijk isoleren, isolatie en installaties, en de actuele subsidies in Borne.",
+    title: "Zonnepanelen en isolatie in Borne | Gijs",
+    description: "Zonnepanelen laten plaatsen in Borne, Zenderen of Hertme? Gijs verzorgt ook dakisolatie, spouwmuurisolatie en vloerisolatie. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Borne",
-  h1: "Je woning verduurzamen in Borne",
+  h1: "Zonnepanelen en isolatie in Borne",
   intro: [
-    ["Woon je in Borne, ", { tekst: "Zenderen", href: "/regio/overijssel/borne/zenderen" }, ", ", { tekst: "Hertme", href: "/regio/overijssel/borne/hertme" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen, welke regelingen er nu in Borne zijn en waar je rekening mee moet houden."],
-    ["Ruim een derde van de woningen in Borne is gebouwd vóór 1975. Juist daar valt vaak nog winst te halen. Gijs kijkt eerst wat er al is gedaan, en helpt je dan met de stap die logisch is."],
+    ["Woon je in Borne, ", { tekst: "Zenderen", href: "/regio/overijssel/borne/zenderen" }, ", ", { tekst: "Hertme", href: "/regio/overijssel/borne/hertme" }, " of het buitengebied? Ontdek welke zonnepanelen, isolatie en installaties bij jouw woning passen, welke regelingen er nu in Borne zijn en waar je rekening mee moet houden."],
+    ["Ruim een derde van de woningen in Borne is gebouwd vóór 1975. Juist daar valt vaak nog winst te halen met dakisolatie, spouwmuurisolatie en zonnepanelen. Gijs kijkt eerst wat er al is gedaan, en helpt je dan met de stap die logisch is."],
   ],
   kernen: ["borne", "zenderen", "hertme"],
   // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 20 oktober 2026.
@@ -311,13 +311,13 @@ const HERTME: GemeenteVerhaal = {
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 21 oktober 2026.
 const HENGELO: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Hengelo | Gijs",
-    description: "Je woning verduurzamen in Hengelo of Beckum? Lees wat het bouwjaar zegt, hoe je rekening houdt met beschermde dieren bij isolatie, en welke subsidies er nu zijn.",
+    title: "Isolatiebedrijf Hengelo | Dakisolatie en meer | Gijs",
+    description: "Isolatiebedrijf Gijs in Hengelo en Beckum. Dakisolatie, spouwmuurisolatie, vloerisolatie en zonnepanelen. Gratis energiescan aan huis.",
   },
-  kicker: "Gemeente Hengelo",
-  h1: "Je woning verduurzamen in Hengelo",
+  kicker: "Isolatiebedrijf in Hengelo",
+  h1: "Isolatiebedrijf in Hengelo",
   intro: [
-    ["Woon je in Hengelo of het dorp ", { tekst: "Beckum", href: "/regio/overijssel/hengelo/beckum" }, "? Ontdek welke isolatie en installaties bij jouw woning passen, welke regelingen er nu in Hengelo zijn en waar je rekening mee moet houden."],
+    ["Op zoek naar een isolatiebedrijf in Hengelo of ", { tekst: "Beckum", href: "/regio/overijssel/hengelo/beckum" }, "? Gijs verzorgt dakisolatie, spouwmuurisolatie, vloerisolatie en installaties. Ontdek welke maatregelen bij jouw woning passen en welke regelingen er nu zijn."],
     ["Ruim een derde van de woningen in Hengelo is gebouwd vóór 1975. Juist in die naoorlogse wijken valt nog veel te winnen. Gijs kijkt eerst wat er al is gedaan en helpt je met de stap die logisch is."],
   ],
   kernen: ["hengelo", "beckum"],
@@ -390,14 +390,14 @@ const HENGELO: GemeenteVerhaal = {
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 21 oktober 2026.
 const ENSCHEDE: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Enschede | Gijs",
-    description: "Je woning verduurzamen in Enschede? Lees wat het bouwjaar zegt, hoe je rekening houdt met beschermde dieren bij isolatie, en welke subsidies er nu zijn.",
+    title: "Dakisolatie en vloerisolatie in Enschede | Gijs",
+    description: "Op zoek naar dakisolatie of vloerisolatie in Enschede? Gijs helpt je met alle isolatiemaatregelen en installeert zonnepanelen. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Enschede",
-  h1: "Je woning verduurzamen in Enschede",
+  h1: "Dakisolatie, vloerisolatie en meer in Enschede",
   intro: [
-    ["Woon je in Enschede of een van de dorpen zoals ", { tekst: "Glanerbrug", href: "/regio/overijssel/enschede/glanerbrug" }, ", ", { tekst: "Boekelo", href: "/regio/overijssel/enschede/boekelo" }, " of ", { tekst: "Lonneker", href: "/regio/overijssel/enschede/lonneker" }, "? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu zijn."],
-    ["Bijna een vijfde van de woningen in Enschede is van voor 1945. In de naoorlogse uitbreidingswijken is de spouw er wel, maar zit er zelden al goede isolatie in. Gijs kijkt eerst wat er al is gedaan."],
+    ["Woon je in Enschede of een van de dorpen zoals ", { tekst: "Glanerbrug", href: "/regio/overijssel/enschede/glanerbrug" }, ", ", { tekst: "Boekelo", href: "/regio/overijssel/enschede/boekelo" }, " of ", { tekst: "Lonneker", href: "/regio/overijssel/enschede/lonneker" }, "? Ontdek welke dakisolatie, vloerisolatie en andere maatregelen bij jouw woning passen en welke regelingen er nu zijn."],
+    ["Bijna een vijfde van de woningen in Enschede is van voor 1945. In de naoorlogse uitbreidingswijken is de spouw er wel, maar zit er zelden al goede isolatie in. Dakisolatie en vloerisolatie zijn dan vaak de logische eerste stap. Gijs kijkt eerst wat er al is gedaan."],
   ],
   kernen: ["enschede", "glanerbrug", "boekelo", "lonneker"],
   woningen: {
@@ -470,13 +470,13 @@ const ENSCHEDE: GemeenteVerhaal = {
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 21 oktober 2026.
 const ALMELO: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Almelo | Gijs",
-    description: "Je woning verduurzamen in Almelo, Aadorp of Bornerbroek? Lees wat het bouwjaar zegt, hoe je omgaat met beschermde dieren bij isolatie, en welke subsidies er nu zijn.",
+    title: "Isolatiebedrijf Almelo | Dakisolatie en meer | Gijs",
+    description: "Isolatiebedrijf Gijs in Almelo, Aadorp en Bornerbroek. Dakisolatie, spouwmuurisolatie, vloerisolatie en zonnepanelen. Gratis energiescan aan huis.",
   },
-  kicker: "Gemeente Almelo",
-  h1: "Je woning verduurzamen in Almelo",
+  kicker: "Isolatiebedrijf in Almelo",
+  h1: "Isolatiebedrijf in Almelo",
   intro: [
-    ["Woon je in Almelo of in een van de dorpen zoals ", { tekst: "Aadorp", href: "/regio/overijssel/almelo/aadorp" }, " of ", { tekst: "Bornerbroek", href: "/regio/overijssel/almelo/bornerbroek" }, "? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu zijn."],
+    ["Op zoek naar een isolatiebedrijf in Almelo of in de dorpen ", { tekst: "Aadorp", href: "/regio/overijssel/almelo/aadorp" }, " of ", { tekst: "Bornerbroek", href: "/regio/overijssel/almelo/bornerbroek" }, "? Gijs verzorgt dakisolatie, spouwmuurisolatie, vloerisolatie en installaties. Ontdek welke maatregelen bij jouw woning passen en welke regelingen er nu zijn."],
     ["In Almelo is ruim een kwart van de woningvoorraad in de naoorlogse periode gebouwd. Dat zijn woningen met spouwmuren, maar de spouw zit er zelden goed in. Gijs kijkt eerst wat er al is gedaan."],
   ],
   kernen: ["almelo", "aadorp", "bornerbroek"],
