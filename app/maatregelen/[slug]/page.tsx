@@ -116,7 +116,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "/maatregelen/ketel",
       "Ketel voor jouw woning | Gijs",
       "Ontdek wat een cv-ketel doet en hoe deze samenwerkt met een hybride warmtepomp of vloerverwarming. Start de woningscan of plan een energiescan.",
-      false
+      true
     );
   }
   return createMetadata("/maatregelen/"+item.slug,item.name+" voor je woning | Mogelijkheden en advies van Gijs",item.intro+" Ontdek de mogelijkheden bij Gijs.");
