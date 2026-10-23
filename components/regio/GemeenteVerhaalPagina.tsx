@@ -77,6 +77,7 @@ export function GemeenteVerhaalPagina({
       <MeasureSectionNav sections={[
         { id: "woningen", label: "Woningverhaal" },
         { id: "kernen", label: "Kernen" },
+        ...(v.partner ? [{ id: "samenwerking", label: "Samenwerking" }] : []),
         { id: "maatregelen", label: "Maatregelen" },
         { id: "subsidies", label: "Subsidies" },
         { id: "natuurvriendelijk-isoleren", label: "Natuur" },
@@ -208,6 +209,27 @@ export function GemeenteVerhaalPagina({
           </div>
         </div>
       </section>
+
+      {/* Samenwerking met lokale partner (alleen als partner is ingesteld) */}
+      {v.partner && (
+        <section id="samenwerking" className={SECTIE}>
+          <p className={EYEBROW + " mb-6"}>Samenwerking</p>
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 rounded-[var(--radius-xl)] border-2 border-[var(--accent-200)] bg-[var(--surface-tint)] p-8 md:p-10">
+            <a href={v.partner.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
+              <Image src={v.partner.logo} alt={`Logo van ${v.partner.naam}`} width={100} height={109} className="rounded-xl" />
+            </a>
+            <div className="flex flex-col gap-3">
+              <h2 className={H2}>{v.partner.naam}</h2>
+              <p className="text-zinc-700">{v.partner.tagline}</p>
+              <a href={v.partner.url} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-700)] underline">
+                {v.partner.urlLabel}
+                <Icon name="external-link" size="sm" />
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Van lokale kennis naar actie */}
       <section id="maatregelen" className={SECTIE}>

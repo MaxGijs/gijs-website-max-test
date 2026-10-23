@@ -88,9 +88,9 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
   twenterand: { indexeerbaar: true, plaatsen: { vriezenveen: { indexeerbaar: true }, vroomshoop: { indexeerbaar: true }, "den-ham": { indexeerbaar: true }, geerdijk: { indexeerbaar: true }, "de-pollen": { indexeerbaar: true }, "westerhaar-vriezenveensewijk": { indexeerbaar: true }, westerhoeven: { indexeerbaar: false }, bruinehaar: { indexeerbaar: false }, weitemanslanden: { indexeerbaar: false } } },
   // Zwolle heeft officieel één woonplaats (Zwolle). De sub-kernen zijn wijken en buurtschappen.
   // Westenholte (voormalige gemeente), Stadshagen (grote nieuwbouwwijk), Windesheim (historisch dorp),
-  // Wijthmen, Herfte en Haerst (buurtschappen in het Vechtdal) krijgen elk een eigen pagina.
-  // Frankhuis is een buurt binnen Stadshagen (geen zelfstandige kern). Langenholte, Spoolde en
-  // Harculo en Hoog-Zuthem zijn te klein voor eigen pagina's.
+  // Wijthmen, Herfte en Haerst (buurtschappen in het Vechtdal) krijgen elk een eigen pagina met eigen inhoud.
+  // Alle overige buurtschappen en gehuchten uit de Zwolse plaatsnaamborden-set krijgen een basisroute
+  // (gepubliceerd, niet in sitemap) zodat bezoekers via de kernenlijst op de gemeentepagina kunnen doorklikken.
   zwolle: {
     indexeerbaar: true,
     plaatsen: {
@@ -101,10 +101,25 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
       wijthmen: { indexeerbaar: true },
       herfte: { indexeerbaar: true },
       haerst: { indexeerbaar: true },
+      // Buurtschappen en gehuchten: gepubliceerd voor de kernenlijst, niet in sitemap.
       frankhuis: { indexeerbaar: false },
       langenholte: { indexeerbaar: false },
       spoolde: { indexeerbaar: false },
-      "harculo-en-hoog-zuthem": { indexeerbaar: false },
+      harculo: { indexeerbaar: false },
+      "hoog-zuthem": { indexeerbaar: false },
+      brinkhoek: { indexeerbaar: false },
+      bruggenhoek: { indexeerbaar: false },
+      "de-lichtmis": { indexeerbaar: false },
+      katerveer: { indexeerbaar: false },
+      oldeneel: { indexeerbaar: false },
+      schelle: { indexeerbaar: false },
+      veldhoek: { indexeerbaar: false },
+      zalne: { indexeerbaar: false },
+      "de-ruiten": { indexeerbaar: false },
+      "nieuwe-wetering": { indexeerbaar: false },
+      "oud-ittersum": { indexeerbaar: false },
+      "oude-wetering": { indexeerbaar: false },
+      tolhuislanden: { indexeerbaar: false },
     },
   },
 };
@@ -113,7 +128,34 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
 // plaatsen die een eigen pagina hebben: een volledige kernenlijst van deze gemeenten staat niet in
 // de aangeleverde data en wordt niet verzonnen.
 const EXTRA_GEMEENTEN: { naam: string; kernen: { naam: string; bord?: string }[] }[] = [
-  { naam: "Zwolle", kernen: [{ naam: "Zwolle", bord: "/images/regio/gemeenteborden/Zwolle/Zwolle.webp" }, { naam: "Berkum" }, { naam: "Westenholte" }, { naam: "Stadshagen" }, { naam: "Windesheim" }, { naam: "Wijthmen" }, { naam: "Herfte" }, { naam: "Haerst" }] },
+  { naam: "Zwolle", kernen: [
+    { naam: "Zwolle", bord: "/images/regio/gemeenteborden/Zwolle/Zwolle.webp" },
+    { naam: "Berkum", bord: "/images/regio/gemeenteborden/Zwolle/Berkum.webp" },
+    { naam: "Westenholte", bord: "/images/regio/gemeenteborden/Zwolle/Westenholte.webp" },
+    { naam: "Stadshagen" },
+    { naam: "Windesheim", bord: "/images/regio/gemeenteborden/Zwolle/Windesheim.webp" },
+    { naam: "Wijthmen", bord: "/images/regio/gemeenteborden/Zwolle/Wijthmen.webp" },
+    { naam: "Herfte", bord: "/images/regio/gemeenteborden/Zwolle/Herfte.webp" },
+    { naam: "Haerst", bord: "/images/regio/gemeenteborden/Zwolle/Haerst.webp" },
+    { naam: "Frankhuis", bord: "/images/regio/gemeenteborden/Zwolle/Frankhuis.webp" },
+    { naam: "Langenholte", bord: "/images/regio/gemeenteborden/Zwolle/Langenholte.webp" },
+    { naam: "Spoolde", bord: "/images/regio/gemeenteborden/Zwolle/Spoolde.webp" },
+    { naam: "Harculo", bord: "/images/regio/gemeenteborden/Zwolle/Harculo.webp" },
+    { naam: "Hoog Zuthem", bord: "/images/regio/gemeenteborden/Zwolle/Hoog-Zuthem.webp" },
+    { naam: "Brinkhoek", bord: "/images/regio/gemeenteborden/Zwolle/Brinkhoek.webp" },
+    { naam: "Bruggenhoek", bord: "/images/regio/gemeenteborden/Zwolle/Bruggenhoek.webp" },
+    { naam: "De Lichtmis", bord: "/images/regio/gemeenteborden/Zwolle/De-Lichtmis.webp" },
+    { naam: "Katerveer", bord: "/images/regio/gemeenteborden/Zwolle/Katerveer.webp" },
+    { naam: "Oldeneel", bord: "/images/regio/gemeenteborden/Zwolle/Oldeneel.webp" },
+    { naam: "Schelle", bord: "/images/regio/gemeenteborden/Zwolle/Schelle.webp" },
+    { naam: "Veldhoek", bord: "/images/regio/gemeenteborden/Zwolle/Veldhoek.webp" },
+    { naam: "Zalné", bord: "/images/regio/gemeenteborden/Zwolle/Zalne.webp" },
+    { naam: "De Ruiten", bord: "/images/regio/gemeenteborden/Zwolle/De-Ruiten.webp" },
+    { naam: "Nieuwe Wetering", bord: "/images/regio/gemeenteborden/Zwolle/Nieuwe-Wetering.webp" },
+    { naam: "Oud-Ittersum", bord: "/images/regio/gemeenteborden/Zwolle/Oud-Ittersum.webp" },
+    { naam: "Oude Wetering", bord: "/images/regio/gemeenteborden/Zwolle/Oude-Wetering.webp" },
+    { naam: "Tolhuislanden", bord: "/images/regio/gemeenteborden/Zwolle/Tolhuislanden.webp" },
+  ] },
   // Overige Overijsselse gemeenten, nog zonder eigen pagina (geen PUBLICATIE-entry, dus
   // gepubliceerd: false) — tonen op de provinciepagina als "binnenkort", zodat zichtbaar is dat
   // Gijs heel Overijssel bedient. De 432-plaatsenrollout (apart Deep Research-rapport) komt later.

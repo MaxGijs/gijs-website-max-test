@@ -39,6 +39,13 @@ export type GemeenteVerhaal = {
   };
   faq: FAQItem[];
   verwant: { naam: string; href: string }[];
+  partner?: {
+    naam: string;
+    logo: string;
+    url: string;
+    urlLabel: string;
+    tagline: string;
+  };
 };
 
 const BORNE: GemeenteVerhaal = {
@@ -3048,6 +3055,13 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
     { naam: "Verduurzamen in Overijssel", href: "/regio/overijssel" },
   ],
+  partner: {
+    naam: "Berkum Energieneutraal (BEN)",
+    logo: "/images/partners/ben-logo.png",
+    url: "https://www.berkumenergieneutraal.nl",
+    urlLabel: "berkumenergieneutraal.nl",
+    tagline: "Berkum Energieneutraal (BEN) is de bewonerscoöperatie die verduurzaming in Berkum organiseert. BEN verbindt bewoners, deelt lokale kennis en maakt het makkelijker om samen stappen te zetten. Gijs werkt samen met BEN om Berkumers te helpen isoleren en te besparen op energie.",
+  },
 };
 
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
