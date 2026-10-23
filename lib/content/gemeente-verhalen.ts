@@ -311,14 +311,14 @@ const HERTME: GemeenteVerhaal = {
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 21 oktober 2026.
 const HENGELO: GemeenteVerhaal = {
   seo: {
-    title: "Isolatiebedrijf Hengelo | Dakisolatie en meer | Gijs",
-    description: "Isolatiebedrijf Gijs in Hengelo en Beckum. Dakisolatie, spouwmuurisolatie, vloerisolatie en zonnepanelen. Gratis energiescan aan huis.",
+    title: "Woning isoleren in Hengelo | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Hengelo? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
-  kicker: "Isolatiebedrijf in Hengelo",
-  h1: "Isolatiebedrijf in Hengelo",
+  kicker: "Gemeente Hengelo",
+  h1: "Je woning isoleren en verduurzamen in Hengelo",
   intro: [
-    ["Op zoek naar een isolatiebedrijf in Hengelo of ", { tekst: "Beckum", href: "/regio/overijssel/hengelo/beckum" }, "? Gijs verzorgt dakisolatie, spouwmuurisolatie, vloerisolatie en installaties. Ontdek welke maatregelen bij jouw woning passen en welke regelingen er nu zijn."],
-    ["Ruim een derde van de woningen in Hengelo is gebouwd vóór 1975. Juist in die naoorlogse wijken valt nog veel te winnen. Gijs kijkt eerst wat er al is gedaan en helpt je met de stap die logisch is."],
+    ["Woon je in Hengelo of het dorp ", { tekst: "Beckum", href: "/regio/overijssel/hengelo/beckum" }, " en wil je jouw woning isoleren? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Ruim een derde van de woningen in Hengelo is gebouwd vóór 1975. Juist in die naoorlogse wijken valt nog veel te winnen. Gijs kijkt samen met jou wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
   ],
   kernen: ["hengelo", "beckum"],
   woningen: {
@@ -343,7 +343,7 @@ const HENGELO: GemeenteVerhaal = {
     alineas: [
       ["Hengelo groeide in de twintigste eeuw uit tot een van de grootste steden van Twente, gedreven door de maakindustrie. De wederopbouw na de Tweede Wereldoorlog liet een grote naoorlogse woningvoorraad achter. Vandaag is Hengelo een compacte stad met zowel oudbouw in het centrum als rustige wijken en het dorp Beckum aan de rand."],
       ["De variatie in woningtype is groot. Huurders in meergezinswoningen en kopers van vrijstaande woningen hebben elk een ander startpunt. Gijs kijkt per woning wat de meest zinvolle stap is."],
-      ["Zoek je een isolatiebedrijf dat de aanpak van begin tot eind regelt? Gijs begint met een gratis energiescan aan huis. Een adviseur kijkt welke isolatie er al zit en wat de meest zinvolle stap is voor jouw woning. Daarna verzorgt Gijs ook de uitvoering, van dakisolatie en spouwmuurisolatie tot installaties."],
+      ["Op zoek naar een isolatiebedrijf in Hengelo? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     bekendVan: {
       titel: "Waar is Hengelo bekend van?",
@@ -378,7 +378,7 @@ const HENGELO: GemeenteVerhaal = {
     { question: "Mijn huis in Hengelo is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer, maar het hangt af van wat er al is gedaan. Veel naoorlogse woningen zijn deels al verbeterd. Gijs kijkt wat er nog te winnen valt tijdens de energiescan." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In Hengelo wonen vleermuizen, huismussen en gierzwaluwen in spouwmuren en daken. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
     { question: "Kan ik een gemeentelijke subsidie combineren met de ISDE?", answer: "Vaak wel, maar dat hangt af van de voorwaarden. Gijs bekijkt dat met je tijdens de energiescan en helpt bij de aanvraag. Gijs kan toekenning niet garanderen." },
-    { question: "Wat doet Gijs concreet als isolatiebedrijf in Hengelo?", answer: "Gijs begint met een gratis energiescan aan huis, ter waarde van €349. Een adviseur kijkt welke isolatie er al zit en wat de logische volgende stap is voor jouw woning. Daarna verzorgt Gijs de uitvoering: dakisolatie, spouwmuurisolatie, vloerisolatie of een installatie. Je hoeft van tevoren niet te weten wat je woning nodig heeft." },
+    { question: "Is Gijs een isolatiebedrijf in Hengelo?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Hengelo. Vervolgens begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten. Je hoeft er zelf niet van wakker te liggen." },
     { question: "Helpt Gijs ook in Beckum?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hengelo, ook in het dorp Beckum." },
   ],
   verwant: [
@@ -472,14 +472,14 @@ const ENSCHEDE: GemeenteVerhaal = {
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 21 oktober 2026.
 const ALMELO: GemeenteVerhaal = {
   seo: {
-    title: "Isolatiebedrijf Almelo | Dakisolatie en meer | Gijs",
-    description: "Isolatiebedrijf Gijs in Almelo, Aadorp en Bornerbroek. Dakisolatie, spouwmuurisolatie, vloerisolatie en zonnepanelen. Gratis energiescan aan huis.",
+    title: "Woning isoleren in Almelo | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Almelo? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
-  kicker: "Isolatiebedrijf in Almelo",
-  h1: "Isolatiebedrijf in Almelo",
+  kicker: "Gemeente Almelo",
+  h1: "Je woning isoleren en verduurzamen in Almelo",
   intro: [
-    ["Op zoek naar een isolatiebedrijf in Almelo of in de dorpen ", { tekst: "Aadorp", href: "/regio/overijssel/almelo/aadorp" }, " of ", { tekst: "Bornerbroek", href: "/regio/overijssel/almelo/bornerbroek" }, "? Gijs verzorgt dakisolatie, spouwmuurisolatie, vloerisolatie en installaties. Ontdek welke maatregelen bij jouw woning passen en welke regelingen er nu zijn."],
-    ["In Almelo is ruim een kwart van de woningvoorraad in de naoorlogse periode gebouwd. Dat zijn woningen met spouwmuren, maar de spouw zit er zelden goed in. Gijs kijkt eerst wat er al is gedaan."],
+    ["Woon je in Almelo of in de dorpen ", { tekst: "Aadorp", href: "/regio/overijssel/almelo/aadorp" }, " of ", { tekst: "Bornerbroek", href: "/regio/overijssel/almelo/bornerbroek" }, " en wil je jouw woning isoleren? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["In Almelo is ruim een kwart van de woningvoorraad in de naoorlogse periode gebouwd. Dat zijn woningen met spouwmuren, maar de spouw zit er zelden goed in. Gijs kijkt samen met jou wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
   ],
   kernen: ["almelo", "aadorp", "bornerbroek"],
   woningen: {
@@ -504,7 +504,7 @@ const ALMELO: GemeenteVerhaal = {
     alineas: [
       ["Almelo groeide groot als centrum van de Twentse textielindustrie. Na het verdwijnen van de industrie transformeerde de stad. De woningvoorraad weerspiegelt die geschiedenis: een mix van oudere arbeidswoningen, naoorlogse uitbreidingen en nieuwere wijken."],
       ["Tussenwoningen zijn het meest voorkomende type in Almelo. Dat maakt de aanpak per woning vrij uniform, maar de staat van isolatie loopt sterk uiteen. Gijs kijkt per huis wat er al is gedaan en wat de logische volgende stap is."],
-      ["Zoek je een isolatiebedrijf voor jouw tussenwoning in Almelo? Gijs begint met een gratis energiescan aan huis. Een adviseur kijkt wat er al gedaan is, want veel tussenwoningen zijn al deels verbeterd. Daarna verzorgt Gijs ook de uitvoering, in de volgorde die bij jouw woning past."],
+      ["Op zoek naar een isolatiebedrijf in Almelo? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     bekendVan: {
       titel: "Waar is Almelo bekend van?",
@@ -539,7 +539,7 @@ const ALMELO: GemeenteVerhaal = {
     { question: "Welke subsidies zijn er nu in Almelo?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Almelo in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn huis in Almelo is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is tijdens de energiescan." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. Vleermuizen, huismussen en gierzwaluwen komen voor in Almelo. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
-    { question: "Wat doet Gijs concreet als isolatiebedrijf in Almelo?", answer: "Gijs begint met een gratis energiescan aan huis, ter waarde van €349. Een adviseur kijkt welke isolatie er al zit en wat de logische volgende stap is voor jouw woning. Daarna verzorgt Gijs de uitvoering: dakisolatie, spouwmuurisolatie, vloerisolatie of een installatie. Gijs helpt ook in Aadorp en Bornerbroek." },
+    { question: "Is Gijs een isolatiebedrijf in Almelo?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Almelo. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Aadorp en Bornerbroek. Je hoeft er zelf niet van wakker te liggen." },
     { question: "Helpt Gijs ook in Aadorp en Bornerbroek?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Almelo, ook in de dorpen." },
   ],
   verwant: [
