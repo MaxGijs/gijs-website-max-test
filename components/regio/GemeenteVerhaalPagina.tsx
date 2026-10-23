@@ -44,6 +44,10 @@ export function GemeenteVerhaalPagina({
 }) {
   const naamVoorKop = plaatsnaam ?? gemeente;
   const hoofdkern = kernen[0];
+  // Hoofdkernen hebben eigen inhoud (kernTekst) of zijn de gemeente zelf (geen href).
+  const hoofdkernen = kernen.filter(k => !k.href || v.lokaal.kernTekst[k.slug] !== undefined);
+  const buurtschappen = [...kernen.filter(k => k.href && v.lokaal.kernTekst[k.slug] === undefined)]
+    .sort((a, b) => a.naam.localeCompare(b.naam, "nl"));
 
   return (
     <RegioMain>
@@ -55,15 +59,34 @@ export function GemeenteVerhaalPagina({
           <p className={EYEBROW}>{v.kicker}</p>
           <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">{v.h1}</h1>
           <Alineas alineas={v.intro} />
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[15px] font-semibold text-[var(--gijs-donkergroen)]">
-            <Icon name="map-pin" size="sm" className="text-[var(--accent-700)]" />
-            {kernen.map((k, i) => (
-              <Fragment key={k.slug}>
-                {i > 0 && <span aria-hidden="true" className="text-zinc-400">·</span>}
-                {k.href ? <Link href={k.href} className={LINK}>{k.naam}</Link> : <span>{k.naam}</span>}
-              </Fragment>
-            ))}
-          </p>
+          <details className="group">
+            <summary className="list-none cursor-pointer flex items-center gap-2 text-[15px] font-semibold text-[var(--gijs-donkergroen)] hover:text-[var(--accent-700)] transition-colors select-none">
+              <Icon name="map-pin" size="sm" className="text-[var(--accent-700)] shrink-0" />
+              <span>{kernen.length} kernen in gemeente {gemeente}</span>
+              <Icon name="chevron-down" size="sm" className="shrink-0 transition-transform group-open:rotate-180 text-[var(--accent-700)]" />
+            </summary>
+            <ul className="mt-3 pt-3 border-t border-[var(--border-default)] grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {[...kernen].sort((a, b) => a.naam.localeCompare(b.naam, "nl")).map(k => {
+                const card = (
+                  <div className="flex flex-col gap-1 p-1.5 rounded-lg hover:bg-[var(--surface-tint)] transition-colors">
+                    {k.afbeelding ? (
+                      <div className="relative w-full overflow-hidden rounded-md" style={{ aspectRatio: "16/7" }}>
+                        <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes="(max-width: 640px) 50vw, 180px" className="object-cover" />
+                      </div>
+                    ) : (
+                      <div className="w-full rounded-md bg-[var(--surface-tint)]" style={{ aspectRatio: "16/7" }} />
+                    )}
+                    <span className="text-xs font-semibold text-[var(--gijs-donkergroen)] leading-tight px-0.5">{k.naam}</span>
+                  </div>
+                );
+                return (
+                  <li key={k.slug}>
+                    {k.href ? <Link href={k.href} className="no-underline block">{card}</Link> : card}
+                  </li>
+                );
+              })}
+            </ul>
+          </details>
           <div className="flex flex-col sm:flex-row gap-3 mt-2">
             <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
             <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
@@ -142,43 +165,48 @@ export function GemeenteVerhaalPagina({
             </div>
           )}
         </div>
-        {kernen.length >= 6 ? (
-          <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            {kernen.map(k => {
-              const inhoud = (
-                <Card className="h-full flex flex-col gap-2 !p-3 transition-shadow group-hover:shadow-[var(--shadow-2)]">
-                  {k.afbeelding && (
-                    <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: "3/2" }}>
-                      <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 200px" className="object-cover" />
-                    </div>
-                  )}
-                  <span className="font-semibold text-sm leading-tight text-[var(--gijs-donkergroen)]">{k.naam}</span>
-                  {k.href && <span className="mt-auto inline-flex items-center gap-1 rounded-full bg-[var(--gijs-donkergroen)] px-3 py-1 text-xs font-semibold text-white">Bekijk <Icon name="arrow-right" size="sm" /></span>}
-                </Card>
-              );
-              return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
-            })}
-          </ul>
-        ) : (
-          <ul className={`grid grid-cols-1 gap-5 ${kernen.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
-            {kernen.map(k => {
-              const inhoud = (
-                <Card className="h-full flex flex-col gap-3 !p-5 transition-shadow group-hover:shadow-[var(--shadow-2)]">
-                  {k.afbeelding && <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} width={1366} height={329} sizes="(max-width: 768px) 100vw, 380px" className="w-full h-auto rounded-[12px]" />}
-                  <span className="font-bold text-lg text-[var(--gijs-donkergroen)]">{k.naam}</span>
-                  {v.lokaal.kernTekst[k.slug] && <span className="text-sm text-zinc-600 flex-1">{v.lokaal.kernTekst[k.slug]}</span>}
-                  {k.href ? (
-                    <span className="mt-auto inline-flex items-center gap-1 rounded-full bg-[var(--gijs-donkergroen)] px-4 py-1.5 text-sm font-semibold text-white self-start">
-                      Bekijk <Icon name="arrow-right" size="sm" />
-                    </span>
-                  ) : (
-                    <span className="text-sm font-semibold text-[var(--accent-700)]">Je bekijkt deze pagina</span>
-                  )}
-                </Card>
-              );
-              return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
-            })}
-          </ul>
+        <ul className={`grid grid-cols-1 gap-5 ${hoofdkernen.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
+          {hoofdkernen.map(k => {
+            const inhoud = (
+              <Card className="h-full flex flex-col gap-3 !p-5 transition-shadow group-hover:shadow-[var(--shadow-2)]">
+                {k.afbeelding && <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} width={1366} height={329} sizes="(max-width: 768px) 100vw, 380px" className="w-full h-auto rounded-[12px]" />}
+                <span className="font-bold text-lg text-[var(--gijs-donkergroen)]">{k.naam}</span>
+                {v.lokaal.kernTekst[k.slug] && <span className="text-sm text-zinc-600 flex-1">{v.lokaal.kernTekst[k.slug]}</span>}
+                {k.href ? (
+                  <span className="mt-auto inline-flex items-center gap-1 rounded-full bg-[var(--gijs-donkergroen)] px-4 py-1.5 text-sm font-semibold text-white self-start">
+                    Bekijk <Icon name="arrow-right" size="sm" />
+                  </span>
+                ) : (
+                  <span className="text-sm font-semibold text-[var(--accent-700)]">Je bekijkt deze pagina</span>
+                )}
+              </Card>
+            );
+            return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
+          })}
+        </ul>
+        {buurtschappen.length > 0 && (
+          <details className="mt-6 group">
+            <summary className="list-none cursor-pointer inline-flex items-center gap-2 text-sm font-semibold text-[var(--gijs-donkergroen)] hover:text-[var(--accent-700)] transition-colors select-none mb-4">
+              Buurtschappen en gehuchten ({buurtschappen.length})
+              <Icon name="chevron-down" size="sm" className="transition-transform group-open:rotate-180 text-[var(--accent-700)]" />
+            </summary>
+            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+              {buurtschappen.map(k => {
+                const inhoud = (
+                  <Card className="h-full flex flex-col gap-2 !p-3 transition-shadow group-hover:shadow-[var(--shadow-2)]">
+                    {k.afbeelding && (
+                      <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: "3/2" }}>
+                        <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 200px" className="object-cover" />
+                      </div>
+                    )}
+                    <span className="font-semibold text-sm leading-tight text-[var(--gijs-donkergroen)]">{k.naam}</span>
+                    {k.href && <span className="mt-auto inline-flex items-center gap-1 rounded-full bg-[var(--gijs-donkergroen)] px-3 py-1 text-xs font-semibold text-white">Bekijk <Icon name="arrow-right" size="sm" /></span>}
+                  </Card>
+                );
+                return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
+              })}
+            </ul>
+          </details>
         )}
         {v.lokaal.wijken && (
           <div className="mt-12">
