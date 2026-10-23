@@ -44,9 +44,9 @@ export function GemeenteVerhaalPagina({
 }) {
   const naamVoorKop = plaatsnaam ?? gemeente;
   const hoofdkern = kernen[0];
-  // Hoofdkernen hebben eigen inhoud (kernTekst) of zijn de gemeente zelf (geen href).
-  const hoofdkernen = kernen.filter(k => !k.href || v.lokaal.kernTekst[k.slug] !== undefined);
-  const buurtschappen = [...kernen.filter(k => k.href && v.lokaal.kernTekst[k.slug] === undefined)]
+  // Alleen kernen met een bord-afbeelding in het hoofdraster; rest in het dropdown-menu.
+  const hoofdkernen = kernen.filter(k => k.afbeelding && v.lokaal.kernTekst[k.slug] !== undefined);
+  const buurtschappen = [...kernen.filter(k => !k.afbeelding || v.lokaal.kernTekst[k.slug] === undefined)]
     .sort((a, b) => a.naam.localeCompare(b.naam, "nl"));
 
   return (
