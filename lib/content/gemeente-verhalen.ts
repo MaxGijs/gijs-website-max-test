@@ -2902,7 +2902,12 @@ const ZWOLLE: GemeenteVerhaal = {
     ["Woon je in Zwolle? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen, en welke subsidies er nu gelden. Gijs is actief in de hele gemeente — van ", { tekst: "Stadshagen", href: "/regio/overijssel/zwolle/stadshagen" }, " en ", { tekst: "Westenholte", href: "/regio/overijssel/zwolle/westenholte" }, " tot het historische ", { tekst: "Windesheim", href: "/regio/overijssel/zwolle/windesheim" }, " en ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ", waar we samenwerken met bewonerscoöperatie BEN."],
     ["Van de ruim 61.000 woningen in Zwolle is bijna vier op de tien gebouwd vóór 1975. Juist daar is de verduurzamingswinst nog groot. Gijs kijkt altijd eerst wat er al is gedaan, en helpt dan met de stap die logisch is voor jouw huis."],
   ],
-  kernen: ["zwolle", "stadshagen", "westenholte", "berkum", "windesheim", "wijthmen", "herfte", "haerst"],
+  kernen: [
+    "zwolle", "stadshagen", "westenholte", "berkum", "windesheim", "wijthmen", "herfte", "haerst",
+    "frankhuis", "langenholte", "spoolde", "harculo", "hoog-zuthem",
+    "brinkhoek", "bruggenhoek", "de-lichtmis", "katerveer", "oldeneel", "schelle", "veldhoek", "zalne",
+    "de-ruiten", "nieuwe-wetering", "oud-ittersum", "oude-wetering", "tolhuislanden",
+  ],
   woningen: {
     lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Zwolle verdeeld, en dit betekent het meestal voor isolatie.",
     kerncijfers: [
