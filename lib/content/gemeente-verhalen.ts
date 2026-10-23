@@ -3604,7 +3604,7 @@ const WIERDEN: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Wierden?",
-      tekst: "De gemeente Wierden werkt aan de warmtetransitie. Isoleren is een logische eerste stap: daarmee verlaag je de warmtevraag en maak je je woning klaar voor een warmtepomp of andere duurzame installaties.",
+      tekst: "In Enter, de grootste kern van de gemeente, staan veel naoorlogse woningen met spouwmuren die nog niet of onvolledig zijn gevuld. In de buitendorpen als Notter, Rectum en Zuna tref je vaker vrijstaande woningen van vóór 1945, waarbij dak en vloer de grootste winst geven. Gijs kijkt per woning wat de logische volgorde is.",
     },
   },
   natuur: {
@@ -3623,7 +3623,7 @@ const WIERDEN: GemeenteVerhaal = {
     { question: "Is Gijs een isolatiebedrijf in Wierden?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Enter en de andere dorpen." },
     { question: "Welke subsidies zijn er voor mijn woning in Wierden?", answer: "Op deze pagina zie je de regelingen die nu voor Wierden gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
-    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Mijn woning staat in Enter of een ander dorp van Wierden. Maakt dat wat uit?", answer: "Nee. Gijs werkt in de hele gemeente Wierden — van Enter en Hoge Hexel tot Notter, Rectum, Zuna en IJpelo. De meeste woningen in Enter zijn uit de naoorlogse periode en vergelijkbaar gebouwd als die in de kern Wierden. Gijs kijkt altijd naar jouw eigen huis." },
     { question: "Helpt Gijs ook in Enter, Hoge Hexel en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Wierden, dus ook in Enter, Hoge Hexel, Notter, Rectum, Zuna en IJpelo." },
   ],
   verwant: [
@@ -3685,7 +3685,7 @@ const TUBBERGEN: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Tubbergen?",
-      tekst: "De gemeente Tubbergen werkt aan de warmtetransitie voor haar verspreide woningvoorraad. Bij een groot aandeel vrijstaande woningen is isoleren een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere installaties.",
+      tekst: "Met elf kleine kernen en het hoogste aandeel vrijstaande woningen van de regio verschilt de woningvoorraad per dorp sterk. In Albergen staan andere huizen dan in Vasse of Langeveen. Gijs kijkt per woning wat de logische volgorde is — los van welk dorp je woont.",
     },
   },
   natuur: {
@@ -3704,7 +3704,7 @@ const TUBBERGEN: GemeenteVerhaal = {
     { question: "Is Gijs een isolatiebedrijf in Tubbergen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Albergen, Geesteren en de andere dorpen." },
     { question: "Welke subsidies zijn er voor mijn woning in Tubbergen?", answer: "Op deze pagina zie je de regelingen die nu voor Tubbergen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn vrijstaande woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft. Bij vrijstaande woningen loont goede isolatie verhoudingsgewijs meer." },
-    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Heeft een vrijstaande woning een andere aanpak dan een rijtjeswoning?", answer: "Ja. Een vrijstaande woning heeft meer buitengevel en meer dakoppervlak dan een rijtjeswoning met dezelfde inhoud. Goede isolatie loont daardoor verhoudingsgewijs meer. Met het hoge aandeel vrijstaande woningen in Tubbergen is dat voor veel bewoners relevant. Gijs brengt dat in kaart tijdens de energiescan." },
     { question: "Helpt Gijs ook in de kleinere dorpen van Tubbergen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Tubbergen, dus ook in Albergen, Fleringen, Geesteren, Langeveen, Manderveen en de andere dorpen." },
   ],
   verwant: [
@@ -3781,7 +3781,7 @@ const DINKELLAND: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Dinkelland?",
-      tekst: "De gemeente Dinkelland werkt aan de warmtetransitie voor haar verspreide woningvoorraad. Isoleren is een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere duurzame installaties.",
+      tekst: "Dinkelland is een gemeente met twintig kernen, van het historische Ootmarsum tot kleine buurtschappen als Dulder en Gammelke. De verduurzamingsvraagstukken lopen uiteen: bij monumentale panden in Ootmarsum gelden andere regels dan bij naoorlogse woningen in Denekamp of Weerselo. Gijs helpt je uitzoeken wat voor jouw situatie past.",
     },
   },
   natuur: {
@@ -3800,7 +3800,7 @@ const DINKELLAND: GemeenteVerhaal = {
     { question: "Is Gijs een isolatiebedrijf in Dinkelland?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Dinkelland. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Ootmarsum, Denekamp en de andere dorpen." },
     { question: "Welke subsidies zijn er voor mijn woning in Dinkelland?", answer: "Op deze pagina zie je de regelingen die nu voor Dinkelland gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft. Bij vrijstaande woningen loont goede isolatie verhoudingsgewijs meer." },
-    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Mijn woning is een monument in Ootmarsum. Mag ik wel isoleren?", answer: "Bij een gemeentelijk of rijksmonument gelden extra regels. Spouwmuurisolatie en dakisolatie zijn in principe mogelijk, maar de gemeente of Rijksdienst voor het Cultureel Erfgoed moet soms vooraf toestemming geven. Gijs helpt ook bij monumentale woningen: we beginnen met uitzoeken wat wel en niet mag, vóórdat er iets wordt gepland." },
     { question: "Helpt Gijs ook in Ootmarsum, Denekamp en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Dinkelland, dus ook in Ootmarsum, Denekamp, Weerselo, Saasveld en alle andere kernen." },
   ],
   verwant: [
@@ -3860,7 +3860,7 @@ const HAAKSBERGEN: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Haaksbergen?",
-      tekst: "De gemeente Haaksbergen werkt aan de warmtetransitie. Isoleren is een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere duurzame installaties.",
+      tekst: "Haaksbergen heeft een compacte woningvoorraad van ruim 10.000 woningen, waarvan 44% gebouwd in de naoorlogse periode 1945-1975. Die woningen hebben vrijwel altijd een spouwmuur die leeg is of onvolledig gevuld. Dat is vaak de eerste maatregel die bewoners aanpakken — en ook de meest kosteneffectieve. Gijs kijkt altijd wat er al gedaan is.",
     },
   },
   natuur: {
@@ -3879,7 +3879,7 @@ const HAAKSBERGEN: GemeenteVerhaal = {
     { question: "Is Gijs een isolatiebedrijf in Haaksbergen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Haaksbergen. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Buurse en Sint Isidorushoeve." },
     { question: "Welke subsidies zijn er voor mijn woning in Haaksbergen?", answer: "Op deze pagina zie je de regelingen die nu voor Haaksbergen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
-    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Loont spouwmuurisolatie ook als de spouw al gedeeltelijk gevuld is?", answer: "Dat hangt af van wat er al in de spouw zit en hoe dik. Een dunne laag uit de jaren tachtig voldoet meestal niet meer aan de huidige norm. Gijs kijkt of bijvulling of vervangende isolatie zinvol is — een bewering die je van buiten niet kunt doen zonder de spouw te inspecteren." },
     { question: "Helpt Gijs ook in Buurse en Sint Isidorushoeve?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Haaksbergen, dus ook in Buurse en Sint Isidorushoeve." },
   ],
   verwant: [
@@ -3941,7 +3941,7 @@ const LOSSER: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Losser?",
-      tekst: "De gemeente Losser werkt aan de warmtetransitie. Isoleren is een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere duurzame installaties.",
+      tekst: "Met 15% woningen van vóór 1945 heeft Losser verhoudingsgewijs een oud woningbestand. Dat biedt kansen: deze woningen zijn gebouwd zonder isolatienormen en er is bijna altijd winst te halen. In De Lutte, met zijn recreatiewoningen en grotere percelen, speelt de combinatie met zonnepanelen vaker een rol. Gijs kijkt wat er per woning het meest oplevert.",
     },
   },
   natuur: {
@@ -3960,7 +3960,7 @@ const LOSSER: GemeenteVerhaal = {
     { question: "Is Gijs een isolatiebedrijf in Losser?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Losser. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in De Lutte, Overdinkel en de andere dorpen." },
     { question: "Welke subsidies zijn er voor mijn woning in Losser?", answer: "Op deze pagina zie je de regelingen die nu voor Losser gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1945. Waar begin ik?", answer: "Bij oude woningen begint het bijna altijd bij de spouw, het dak of de vloer. Maar veel oudere woningen zijn later al deels verbeterd. Gijs kijkt tijdens de energiescan wat er al is gedaan en wat de logische volgende stap is." },
-    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Mijn woning heeft geen spouwmuur. Wat zijn de opties voor gevelisolatie?", answer: "Bij een woning zonder spouw zijn er twee alternatieven: binnenisolatie (minder oppervlak, geen vergunning) of buitengevelisolatie (vergunningsplichtig, meer impact). Welke aanpak het beste past, hangt af van de woningconstructie, het budget en de uitstraling. Gijs helpt je kiezen op basis van jouw specifieke huis." },
     { question: "Helpt Gijs ook in De Lutte, Overdinkel en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Losser, dus ook in De Lutte, Overdinkel, Beuningen en Glane." },
   ],
   verwant: [
