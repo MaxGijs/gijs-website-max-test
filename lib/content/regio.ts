@@ -88,7 +88,7 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
   twenterand: { indexeerbaar: true, plaatsen: { vriezenveen: { indexeerbaar: true }, vroomshoop: { indexeerbaar: true }, "den-ham": { indexeerbaar: true }, geerdijk: { indexeerbaar: true }, "de-pollen": { indexeerbaar: true }, "westerhaar-vriezenveensewijk": { indexeerbaar: true }, westerhoeven: { indexeerbaar: false }, bruinehaar: { indexeerbaar: false }, weitemanslanden: { indexeerbaar: false } } },
   // Zwolle is alleen een eenvoudige bovenliggende overzichtspagina (noindex) voor de wijk Berkum,
   // waar Gijs met Berkum Energieneutraal samenwerkt. Geen SEO-pagina voor heel Zwolle.
-  zwolle: { indexeerbaar: false, plaatsen: { berkum: { indexeerbaar: true } } },
+  zwolle: { indexeerbaar: true, plaatsen: { berkum: { indexeerbaar: true } } },
 };
 
 // Gemeenten en wijken buiten de Gemeenteborden-set (die alleen Twente dekt). Bewust alleen de

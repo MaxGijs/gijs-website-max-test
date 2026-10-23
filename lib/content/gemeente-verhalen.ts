@@ -2882,6 +2882,165 @@ const WESTERHAAR_VRIEZENVEENSEWIJK: GemeenteVerhaal = {
   ],
 };
 
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
+// Gemeente Zwolle: 61.693 woningen (CBS 2025). Buurt Berkum: 1.719 woningen (CBS 2025).
+const ZWOLLE: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren en verduurzamen in Zwolle | Gijs",
+    description: "Je woning verduurzamen in Zwolle? Lees wat het bouwjaar zegt over jouw huis, hoe Gijs samenwerkt met Berkum Energieneutraal, en welke subsidies er nu zijn.",
+  },
+  kicker: "Gemeente Zwolle",
+  h1: "Je woning verduurzamen in Zwolle",
+  intro: [
+    ["Woon je in Zwolle? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen, en welke subsidies er nu gelden. Gijs is actief in de hele gemeente — van de binnenstad tot ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ", waar we samenwerken met bewonerscoöperatie BEN."],
+    ["Van de ruim 61.000 woningen in Zwolle is bijna vier op de tien gebouwd vóór 1975. Juist daar is de verduurzamingswinst nog groot. Gijs kijkt altijd eerst wat er al is gedaan, en helpt dan met de stap die logisch is voor jouw huis."],
+  ],
+  kernen: ["zwolle", "berkum"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Zwolle verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "61.693", label: "woningen" },
+      { waarde: "38%", label: "gebouwd vóór 1975" },
+      { waarde: "53%", label: "koopwoning" },
+      { waarde: "€375.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 38, tekst: "Bijna twee op de vijf Zwolse woningen is uit deze periode. Weinig of geen isolatie, spouw vaak nog leeg. Dak, spouw en vloer zijn hier de grootste kansen." },
+      { label: "1975 – 1995", percentage: 27, tekst: "Deels geïsoleerd, maar vaak dunner dan nu gebruikelijk. Laat eerst checken wat er al zit, dan bijisoleren waar dat loont." },
+      { label: "1995 – 2015", percentage: 24, tekst: "Redelijk geïsoleerd bij oplevering. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+      { label: "Na 2015", percentage: 10, tekst: "Al goed geïsoleerd. De aandacht verschuift naar installaties: zonnepanelen, thuisbatterij of een warmtepompoplossing." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/zwolle/" },
+  },
+  lokaal: {
+    titel: "Zwolle: grote stad, gevarieerde woningvoorraad",
+    alineas: [
+      ["Zwolle is een grote, gevarieerde stad. De wijken verschillen sterk: van de historische binnenstad met soms monumentale panden, tot naoorlogse gezinswijken en nieuwbouwgebieden als Stadshagen. Die verscheidenheid zie je ook in de woningen: van appartement in het centrum tot vrijstaande woning in de buitenwijken."],
+      ["In de wijk Berkum werkt Gijs samen met bewonerscoöperatie Berkum Energieneutraal (BEN). BEN begeleidt bewoners op weg naar een aardgasvrij-klare woning, in samenwerking met de gemeente Zwolle. Woon je elders in Zwolle en wil je je huis verduurzamen? Gijs helpt ook dan."],
+    ],
+    bekendVan: {
+      titel: "Waar is Zwolle bekend van?",
+      kaarten: [
+        { icon: "landmark", titel: "De Peperbus", tekst: "De gotische toren van de Onze Lieve Vrouwekerk, het symbool van Zwolle." },
+        { icon: "shield", titel: "PEC Zwolle", tekst: "Profvoetbalclub van de stad, spelend in de Eredivisie." },
+        { icon: "leaf", titel: "Berkum Energieneutraal", tekst: "Bewonerscoöperatie in Berkum die de hele wijk aardgasvrij-klaar wil maken." },
+      ],
+    },
+    kernTekst: {
+      zwolle: "De provinciestad van Overijssel, met ruim 134.000 inwoners en een grote diversiteit aan wijken en woningtypen.",
+      berkum: "Woonwijk ten noorden van het centrum, actief bezig met verduurzaming via bewonerscoöperatie Berkum Energieneutraal.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Zwolle?",
+      tekst: "De gemeente Zwolle werkt aan een warmteprogramma: welke wijk verwarmt straks hoe, en op welke termijn gaat die van het aardgas af? Berkum is daarin al ver. Voor andere wijken geldt: isoleren is de eerste stap, ongeacht hoe de wijk later verwarmd gaat worden.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Zwolle",
+    lead: "In spouwmuren, muren en daken van Zwolse woningen wonen vleermuizen, huismussen en gierzwaluwen. Dat zijn beschermde dieren. Bij isolatie moet je hier rekening mee houden. Zo pak je dat aan:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen, zoveel mogelijk onzichtbaar in de spouw of het dak." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Helpt Gijs in heel Zwolle, niet alleen in Berkum?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle. De samenwerking met Berkum Energieneutraal geldt specifiek voor de wijk Berkum, maar een gratis energiescan kun je overal in Zwolle aanvragen." },
+    { question: "Welke subsidies zijn er nu in Zwolle?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Zwolle in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn huis is gebouwd vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer — maar het hangt af van wat er al is gedaan. Veel oudere Zwolse woningen zijn al deels verbeterd door een vorige eigenaar. Gijs kijkt tijdens de energiescan wat er nog te winnen valt." },
+    { question: "Moet ik bij isolatie rekening houden met vleermuizen of huismussen?", answer: "Ja. In Zwolle — en in heel Nederland — zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan. Dat bedrijf regelt ook de melding bij de provincie Overijssel." },
+    { question: "Kijkt Gijs ook naar zonnepanelen of een warmtepomp?", answer: "Ja. Gijs kijkt naar het geheel: isolatie én installaties, en naar de volgorde die past bij jouw woning. De gratis energiescan geeft je dat inzicht." },
+    { question: "Ik huur mijn woning. Kan ik ook bij Gijs terecht?", answer: "Gijs richt zich op woningeigenaren. Huur je van een corporatie, dan kun je het beste contact opnemen met je verhuurder over verduurzaming." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Berkum", href: "/regio/overijssel/zwolle/berkum" },
+    { naam: "Verduurzamen in Overijssel", href: "/regio/overijssel" },
+  ],
+};
+
+const BERKUM_ZWOLLE: GemeenteVerhaal = {
+  seo: {
+    title: "Woning verduurzamen in Berkum (Zwolle) met Gijs en BEN | Gijs",
+    description: "Woon je in Berkum? Gijs werkt samen met Berkum Energieneutraal en helpt je met isolatie, installaties en een gratis energiescan op weg naar een aardgasvrij-klare woning.",
+  },
+  kicker: "Berkum, gemeente Zwolle",
+  h1: "Je woning verduurzamen in Berkum",
+  intro: [
+    ["In Berkum wordt al jaren samengewerkt aan een wijk die minder energie gebruikt en straks zonder aardgas kan. Dat begint bij je eigen huis: hoe goed is het geïsoleerd, en wat is een logische volgende stap?"],
+    ["Gijs helpt bewoners van Berkum om dat rustig en zonder verplichtingen te ontdekken. Met een gratis energiescan krijg je inzicht in je woning en een helder beeld van wat er kan — in samenwerking met bewonerscoöperatie ", { tekst: "Berkum Energieneutraal (BEN)", href: "https://www.berkumenergieneutraal.nl/", extern: true }, "."],
+  ],
+  kernen: ["berkum", "zwolle"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Berkum verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "1.719", label: "woningen" },
+      { waarde: "48%", label: "gebouwd 1945–1975" },
+      { waarde: "71%", label: "koopwoning" },
+      { waarde: "€474.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 2, tekst: "Slechts een klein deel van Berkum. Gebouwd zonder isolatienormen; spouw, dak en vloer zijn hier de grootste kansen." },
+      { label: "1945 – 1975", percentage: 48, tekst: "De grootste bouwperiode van Berkum. Naoorlogse gezinswijken met spouwmuren die vaak nog leeg zijn of dunner geïsoleerd dan nu gebruikelijk." },
+      { label: "1975 – 1995", percentage: 37, tekst: "Deels geïsoleerd bij oplevering, maar bijna altijd te verbeteren. Laat eerst checken wat er al zit." },
+      { label: "Na 1995", percentage: 13, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd, ook door vorige eigenaren. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, buurt Berkum, 2026", url: "https://www.allecijfers.nl/buurt/berkum-zwolle/" },
+  },
+  lokaal: {
+    titel: "Berkum en Berkum Energieneutraal",
+    alineas: [
+      ["Berkum Energieneutraal (BEN) is een initiatief van en voor bewoners van Berkum. Het wordt gedragen door vrijwilligers uit de wijk, verenigd in een stichting en een energiecoöperatie, in samenwerking met de gemeente Zwolle en de woningcorporaties."],
+      ["BEN wil dat Berkum minder energie gebruikt, zelf duurzame energie opwekt en uiteindelijk van het aardgas af gaat. De eerste stap is het verduurzamen van de woningen zelf. Gijs is samenwerkingspartner van BEN: we helpen bewoners met inzicht in hun woning en de mogelijke vervolgstappen."],
+      ["Berkum is aangewezen als proeftuin in het landelijke programma voor aardgasvrije wijken. Dat betekent niet dat bewoners verplicht zijn iets te doen. De energiescan bij Gijs is gratis en vrijblijvend — je beslist zelf wat je wanneer doet."],
+    ],
+    bekendVan: {
+      titel: "Berkum in cijfers",
+      kaarten: [
+        { icon: "home", titel: "82% eengezins", tekst: "Tussenwoningen (29%), twee-onder-één-kap (21%) en vrijstaand (15%) zijn de meest voorkomende typen." },
+        { icon: "leaf", titel: "Proeftuin aardgasvrij", tekst: "Berkum is één van de landelijke proeftuinen aardgasvrije wijken." },
+        { icon: "users", titel: "BEN coöperatie", tekst: "Berkum Energieneutraal begeleidt bewoners bij verduurzaming, onafhankelijk van gemeente en corporaties." },
+      ],
+    },
+    kernTekst: {
+      berkum: "Woonwijk ten noorden van het centrum, actief bezig met verduurzaming via bewonerscoöperatie BEN.",
+      zwolle: "De provinciestad van Overijssel, waarvan Berkum een wijk is.",
+    },
+    ontwikkeling: {
+      titel: "Doel: aardgasvrij-ready in 2028",
+      tekst: "BEN heeft de ambitie dat in 2028 alle woningen in Berkum aardgasvrij-ready zijn. Dat is een doel van BEN, geen belofte van Gijs. Aardgasvrij-ready betekent dat je huis zo goed geïsoleerd is dat het straks met een lagere temperatuur verwarmd kan worden — zonder dat je nu al van het gas af hoeft.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Berkum",
+    lead: "In spouwmuren, muren en daken van woningen in Berkum wonen vleermuizen, huismussen en gierzwaluwen. Dat zijn beschermde dieren. Bij isolatie moet je hier rekening mee houden. Zo pak je dat aan:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen, zoveel mogelijk onzichtbaar." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Moet ik meedoen aan het BEN-programma?", answer: "Nee. Meedoen is altijd vrijwillig. De energiescan bij Gijs is gratis en vrijblijvend: je beslist zelf wat je wanneer doet, en met wie." },
+    { question: "Wat is aardgasvrij-ready?", answer: "Aardgasvrij-ready betekent dat je woning zo goed geïsoleerd is dat ze straks met een lager temperatuurniveau verwarmd kan worden, zodat ze klaar is voor een warmtepomp. Je stapt nu nog niet van het gas af, maar je woning is er wel op voorbereid." },
+    { question: "Welke subsidies zijn er nu in Berkum?", answer: "Berkum valt onder de gemeente Zwolle. Op deze pagina zie je de regelingen die nu voor Zwolle in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn huis is gebouwd tussen 1945 en 1975. Waar begin ik?", answer: "Bijna de helft van Berkum is uit die periode. De spouw is vaak nog leeg of dunner geïsoleerd dan nu gebruikelijk. Gijs kijkt tijdens de energiescan wat er al is en welke stap de meeste winst geeft." },
+    { question: "Is Gijs onderdeel van BEN of de gemeente?", answer: "Nee. Gijs is een onafhankelijke samenwerkingspartner van BEN. Gijs werkt niet namens BEN, de gemeente of een woningcorporatie, en is ook niet exclusief aan Berkum verbonden." },
+    { question: "Kijkt Gijs ook naar zonnepanelen of een warmtepomp?", answer: "Ja. Gijs kijkt naar isolatie én installaties. Wat als eerste past, hangt af van jouw woning. In Berkum is isolatie vaak de logische eerste stap, maar de energiescan geeft je het complete beeld." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Verduurzamen in Overijssel", href: "/regio/overijssel" },
+  ],
+};
+
 const VERHALEN: Record<string, GemeenteVerhaal> = {
   borne: BORNE,
   hengelo: HENGELO,
@@ -2892,6 +3051,7 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
   hellendoorn: HELLENDOORN,
   "rijssen-holten": RIJSSEN_HOLTEN,
   twenterand: TWENTERAND,
+  zwolle: ZWOLLE,
 };
 
 const PLAATS_VERHALEN: Record<string, Record<string, GemeenteVerhaal>> = {
@@ -2934,6 +3094,9 @@ const PLAATS_VERHALEN: Record<string, Record<string, GemeenteVerhaal>> = {
     geerdijk: GEERDIJK,
     "de-pollen": DE_POLLEN,
     "westerhaar-vriezenveensewijk": WESTERHAAR_VRIEZENVEENSEWIJK,
+  },
+  zwolle: {
+    berkum: BERKUM_ZWOLLE,
   },
 };
 
