@@ -53,7 +53,7 @@ export type GemeenteVerhaal = {
 const BORNE: GemeenteVerhaal = {
   seo: {
     title: "Zonnepanelen en isolatie in Borne | Gijs",
-    description: "Zonnepanelen laten plaatsen in Borne, Zenderen of Hertme? Gijs verzorgt ook dakisolatie, spouwmuurisolatie en vloerisolatie. Gratis energiescan aan huis.",
+    description: "Wil je je woning isoleren in Borne, Zenderen of Hertme? Gijs geeft onafhankelijk advies over spouwmuurisolatie, dakisolatie en zonnepanelen, en begeleidt je van A tot Z.",
   },
   kicker: "Gemeente Borne",
   h1: "Zonnepanelen en isolatie in Borne",
@@ -85,6 +85,7 @@ const BORNE: GemeenteVerhaal = {
     alineas: [
       ["De gemeente Borne bestaat uit de kern Borne, de dorpen Zenderen en Hertme en het buitengebied. Of je nu in een rijwoning in de kern woont of in een vrijstaand huis aan de rand van een dorp: de vraag is steeds waar de meeste warmte weglekt."],
       ["Dat verschil telt. Een vrijstaande woning heeft meer buitenmuur, dak en vloer dan een tussenwoning van dezelfde grootte, dus daar weegt goede isolatie extra zwaar. Woningtype, bouwjaar en ligging zeggen meer over je huis dan alleen de plaatsnaam."],
+      ["Wil je je woning isoleren in Borne? Gijs helpt bij het vinden van de juiste maatregel — van ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, " tot zonnepanelen — maar voert de werkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies, daarna begeleidt Gijs het traject van A tot Z."],
     ],
     bekendVan: {
       titel: "Waar is Borne bekend van?",
@@ -312,7 +313,7 @@ const HERTME: GemeenteVerhaal = {
 const HENGELO: GemeenteVerhaal = {
   seo: {
     title: "Woning isoleren in Hengelo | Advies & ontzorging – Gijs",
-    description: "Zoek je hulp bij het isoleren van je woning in Hengelo? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
+    description: "Zoek je hulp bij spouwmuurisolatie of dakisolatie in Hengelo? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Hengelo",
   h1: "Je woning isoleren en verduurzamen in Hengelo",
@@ -343,7 +344,7 @@ const HENGELO: GemeenteVerhaal = {
     alineas: [
       ["Hengelo groeide in de twintigste eeuw uit tot een van de grootste steden van Twente, gedreven door de maakindustrie. De wederopbouw na de Tweede Wereldoorlog liet een grote naoorlogse woningvoorraad achter. Vandaag is Hengelo een compacte stad met zowel oudbouw in het centrum als rustige wijken en het dorp Beckum aan de rand."],
       ["De variatie in woningtype is groot. Huurders in meergezinswoningen en kopers van vrijstaande woningen hebben elk een ander startpunt. Gijs kijkt per woning wat de meest zinvolle stap is."],
-      ["Op zoek naar een isolatiebedrijf in Hengelo? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+      ["Op zoek naar een isolatiebedrijf in Hengelo? Gijs helpt bij het isoleren van je woning — of het nu gaat om ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, ", ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, " of een andere maatregel — maar voert de werkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     bekendVan: {
       titel: "Waar is Hengelo bekend van?",
@@ -473,7 +474,7 @@ const ENSCHEDE: GemeenteVerhaal = {
 const ALMELO: GemeenteVerhaal = {
   seo: {
     title: "Woning isoleren in Almelo | Advies & ontzorging – Gijs",
-    description: "Zoek je hulp bij het isoleren van je woning in Almelo? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
+    description: "Zoek je een isolatiebedrijf in Almelo? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Almelo",
   h1: "Je woning isoleren en verduurzamen in Almelo",
@@ -3073,14 +3074,6 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
     { naam: "Verduurzamen in Overijssel", href: "/regio/overijssel" },
   ],
-  partner: {
-    naam: "Berkum Energieneutraal (BEN)",
-    logo: "/images/partners/ben-logo.png",
-    url: "https://www.berkumenergieneutraal.nl",
-    urlLabel: "berkumenergieneutraal.nl",
-    tagline: "Berkum Energieneutraal (BEN) is de bewonerscoöperatie die verduurzaming in Berkum organiseert. BEN verbindt bewoners, deelt lokale kennis en maakt het makkelijker om samen stappen te zetten. Gijs werkt samen met BEN om Berkumers te helpen isoleren en te besparen op energie.",
-    display: 'hero',
-  },
 };
 
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
