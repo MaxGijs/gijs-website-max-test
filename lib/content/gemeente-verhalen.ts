@@ -45,6 +45,8 @@ export type GemeenteVerhaal = {
     url: string;
     urlLabel: string;
     tagline: string;
+    /** 'hero' = prominente sectie hoog op de pagina (default); 'compact' = kleine vermelding in de hero */
+    display?: 'hero' | 'compact';
   };
 };
 
@@ -2978,6 +2980,14 @@ const ZWOLLE: GemeenteVerhaal = {
     { naam: "Woning verduurzamen in Berkum", href: "/regio/overijssel/zwolle/berkum" },
     { naam: "Verduurzamen in Overijssel", href: "/regio/overijssel" },
   ],
+  partner: {
+    naam: "Berkum Energieneutraal (BEN)",
+    logo: "/images/partners/ben-logo.png",
+    url: "https://www.berkumenergieneutraal.nl",
+    urlLabel: "berkumenergieneutraal.nl",
+    tagline: "Gijs werkt samen met BEN, de bewonerscoöperatie die verduurzaming in Berkum organiseert.",
+    display: 'compact',
+  },
 };
 
 const BERKUM_ZWOLLE: GemeenteVerhaal = {
@@ -3066,6 +3076,7 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
     url: "https://www.berkumenergieneutraal.nl",
     urlLabel: "berkumenergieneutraal.nl",
     tagline: "Berkum Energieneutraal (BEN) is de bewonerscoöperatie die verduurzaming in Berkum organiseert. BEN verbindt bewoners, deelt lokale kennis en maakt het makkelijker om samen stappen te zetten. Gijs werkt samen met BEN om Berkumers te helpen isoleren en te besparen op energie.",
+    display: 'hero',
   },
 };
 

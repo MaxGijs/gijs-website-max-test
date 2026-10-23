@@ -44,6 +44,7 @@ export function GemeenteVerhaalPagina({
 }) {
   const naamVoorKop = plaatsnaam ?? gemeente;
   const hoofdkern = kernen[0];
+  const partnerDisplay = v.partner?.display ?? 'hero';
   // Alleen kernen met een bord-afbeelding in het hoofdraster; rest in het dropdown-menu.
   const hoofdkernen = kernen.filter(k => k.afbeelding && v.lokaal.kernTekst[k.slug] !== undefined);
   const buurtschappen = [...kernen.filter(k => !k.afbeelding || v.lokaal.kernTekst[k.slug] === undefined)]
@@ -91,16 +92,45 @@ export function GemeenteVerhaalPagina({
             <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
             <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
           </div>
+          {v.partner && partnerDisplay === 'compact' && (
+            <a href={v.partner.url} target="_blank" rel="noopener noreferrer"
+              className="self-start inline-flex items-center gap-2.5 rounded-full border border-[var(--border-default)] bg-white px-3 py-1.5 text-sm text-zinc-600 hover:text-[var(--gijs-donkergroen)] hover:border-[var(--accent-200)] transition-colors no-underline">
+              <Image src={v.partner.logo} alt={`Logo van ${v.partner.naam}`} width={20} height={20} className="rounded" />
+              <span>Samenwerking: <strong className="text-[var(--gijs-donkergroen)]">{v.partner.naam}</strong></span>
+              <Icon name="external-link" size="sm" className="text-zinc-400" />
+            </a>
+          )}
         </div>
         {hoofdkern?.afbeelding && (
           <Image src={hoofdkern.afbeelding} alt={`Plaatsnaambord ${hoofdkern.naam}`} width={1366} height={329} priority sizes="(max-width: 1024px) 100vw, 520px" className="w-full h-auto rounded-[var(--radius-xl)]" />
         )}
       </header>
 
+      {/* BEN-samenwerking als hero: direct na de lokale header, voor het woningverhaal */}
+      {v.partner && partnerDisplay === 'hero' && (
+        <section id="samenwerking" className="mb-20 rounded-[var(--radius-xl)] overflow-hidden bg-[var(--gijs-donkergroen)]">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-10 md:p-14">
+            <a href={v.partner.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
+              <Image src={v.partner.logo} alt={`Logo van ${v.partner.naam}`} width={120} height={132} className="rounded-2xl" />
+            </a>
+            <div className="flex flex-col gap-4 text-white">
+              <p className="text-[var(--accent-300)] text-[15px] font-semibold tracking-[-0.01em]">Lokale samenwerking</p>
+              <h2 className="text-[clamp(1.75rem,1.4rem+1.5vw,2.25rem)] font-bold leading-tight">{v.partner.naam}</h2>
+              <p className="text-white/80 max-w-2xl">{v.partner.tagline}</p>
+              <a href={v.partner.url} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-300)] underline">
+                {v.partner.urlLabel}
+                <Icon name="external-link" size="sm" />
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
       <MeasureSectionNav sections={[
         { id: "woningen", label: "Woningverhaal" },
         { id: "kernen", label: "Kernen" },
-        ...(v.partner ? [{ id: "samenwerking", label: "Samenwerking" }] : []),
+        ...(v.partner && partnerDisplay === 'hero' ? [{ id: "samenwerking", label: "Samenwerking" }] : []),
         { id: "maatregelen", label: "Maatregelen" },
         { id: "subsidies", label: "Subsidies" },
         { id: "natuurvriendelijk-isoleren", label: "Natuur" },
@@ -237,27 +267,6 @@ export function GemeenteVerhaalPagina({
           </div>
         </div>
       </section>
-
-      {/* Samenwerking met lokale partner (alleen als partner is ingesteld) */}
-      {v.partner && (
-        <section id="samenwerking" className={SECTIE}>
-          <p className={EYEBROW + " mb-6"}>Samenwerking</p>
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 rounded-[var(--radius-xl)] border-2 border-[var(--accent-200)] bg-[var(--surface-tint)] p-8 md:p-10">
-            <a href={v.partner.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
-              <Image src={v.partner.logo} alt={`Logo van ${v.partner.naam}`} width={100} height={109} className="rounded-xl" />
-            </a>
-            <div className="flex flex-col gap-3">
-              <h2 className={H2}>{v.partner.naam}</h2>
-              <p className="text-zinc-700">{v.partner.tagline}</p>
-              <a href={v.partner.url} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-700)] underline">
-                {v.partner.urlLabel}
-                <Icon name="external-link" size="sm" />
-              </a>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Van lokale kennis naar actie */}
       <section id="maatregelen" className={SECTIE}>
