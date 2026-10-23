@@ -86,6 +86,81 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
   // ("Verspreide huizen De Westerhoeve"); de Wikipedia-bronlijst had dit dus fout. Terug op
   // indexeerbaar: false, net als Bruinehaar en Weitemanslanden (buurtschappen).
   twenterand: { indexeerbaar: true, plaatsen: { vriezenveen: { indexeerbaar: true }, vroomshoop: { indexeerbaar: true }, "den-ham": { indexeerbaar: true }, geerdijk: { indexeerbaar: true }, "de-pollen": { indexeerbaar: true }, "westerhaar-vriezenveensewijk": { indexeerbaar: true }, westerhoeven: { indexeerbaar: false }, bruinehaar: { indexeerbaar: false }, weitemanslanden: { indexeerbaar: false } } },
+  // Wierden, Tubbergen, Dinkelland, Haaksbergen en Losser: nieuwe gemeentepagina's (pilot B-uitbreiding,
+  // 23 oktober 2026). Alle kernen die in de Gemeenteborden-set staan en een webp-bord hebben, zijn
+  // indexeerbaar: true. Kernen zonder bord ('t Loo, Beerkdorp, Nijstad in Dinkelland) zijn indexeerbaar: false.
+  wierden: {
+    indexeerbaar: true,
+    plaatsen: {
+      enter: { indexeerbaar: true },
+      "hoge-hexel": { indexeerbaar: true },
+      ijpelo: { indexeerbaar: true },
+      notter: { indexeerbaar: true },
+      rectum: { indexeerbaar: true },
+      wierden: { indexeerbaar: true },
+      zuna: { indexeerbaar: true },
+    },
+  },
+  tubbergen: {
+    indexeerbaar: true,
+    plaatsen: {
+      albergen: { indexeerbaar: true },
+      fleringen: { indexeerbaar: true },
+      geesteren: { indexeerbaar: true },
+      harbrinkhoek: { indexeerbaar: true },
+      hezingen: { indexeerbaar: true },
+      langeveen: { indexeerbaar: true },
+      manderveen: { indexeerbaar: true },
+      mariaparochie: { indexeerbaar: true },
+      reutum: { indexeerbaar: true },
+      tubbergen: { indexeerbaar: true },
+      vasse: { indexeerbaar: true },
+    },
+  },
+  dinkelland: {
+    indexeerbaar: true,
+    plaatsen: {
+      "t-loo": { indexeerbaar: false },
+      beerkdorp: { indexeerbaar: false },
+      berghum: { indexeerbaar: true },
+      breklenkamp: { indexeerbaar: true },
+      denekamp: { indexeerbaar: true },
+      deurningen: { indexeerbaar: true },
+      dulder: { indexeerbaar: true },
+      gammelke: { indexeerbaar: true },
+      "het-stift": { indexeerbaar: true },
+      lattrop: { indexeerbaar: true },
+      lemselo: { indexeerbaar: true },
+      nijstad: { indexeerbaar: false },
+      noordijk: { indexeerbaar: true },
+      nutter: { indexeerbaar: true },
+      ootmarsum: { indexeerbaar: true },
+      "oud-ootmarsum": { indexeerbaar: true },
+      rossum: { indexeerbaar: true },
+      saasveld: { indexeerbaar: true },
+      tilligte: { indexeerbaar: true },
+      volthe: { indexeerbaar: true },
+      weerselo: { indexeerbaar: true },
+    },
+  },
+  haaksbergen: {
+    indexeerbaar: true,
+    plaatsen: {
+      buurse: { indexeerbaar: true },
+      haaksbergen: { indexeerbaar: true },
+      "sint-isidorushoeve": { indexeerbaar: true },
+    },
+  },
+  losser: {
+    indexeerbaar: true,
+    plaatsen: {
+      beuningen: { indexeerbaar: true },
+      "de-lutte": { indexeerbaar: true },
+      glane: { indexeerbaar: true },
+      losser: { indexeerbaar: true },
+      overdinkel: { indexeerbaar: true },
+    },
+  },
   // Zwolle heeft officieel één woonplaats (Zwolle). De sub-kernen zijn wijken en buurtschappen.
   // Westenholte (voormalige gemeente), Stadshagen (grote nieuwbouwwijk), Windesheim (historisch dorp),
   // Wijthmen, Herfte en Haerst (buurtschappen in het Vechtdal) krijgen elk een eigen pagina met eigen inhoud.

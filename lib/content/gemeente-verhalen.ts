@@ -3556,6 +3556,420 @@ const HAERST: GemeenteVerhaal = {
   ],
 };
 
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
+const WIERDEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Wierden | Advies & ontzorging – Gijs",
+    description: "Zoek je een isolatiebedrijf in Wierden of Enter? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
+  },
+  kicker: "Gemeente Wierden",
+  h1: "Je woning isoleren en verduurzamen in Wierden",
+  intro: [
+    ["Woon je in Wierden, ", { tekst: "Enter", href: "/regio/overijssel/wierden/enter" }, ", Hoge Hexel of een van de andere dorpen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Ruim 40% van de woningen in de gemeente Wierden is gebouwd in de naoorlogse periode 1945-1975. Met een groot aandeel vrijstaande woningen en twee-onder-één-kappers is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["wierden", "enter", "hoge-hexel", "notter", "rectum", "zuna", "ijpelo"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Wierden verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "10.369", label: "woningen" },
+      { waarde: "32%", label: "vrijstaand" },
+      { waarde: "41%", label: "gebouwd 1945–1975" },
+      { waarde: "73%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 11, tekst: "Historische bebouwing en oudere Twentse woningen. Bijna altijd gebouwd zonder isolatienormen. Spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "1945 – 1975", percentage: 41, tekst: "Naoorlogse groei en uitbreidingen in de dorpskernen. Spouwmuren zijn er, maar de spouw is vaak nog leeg of dunner geïsoleerd dan nu gebruikelijk." },
+      { label: "1975 – 1995", percentage: 24, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan gericht bijisoleren." },
+      { label: "Na 1995", percentage: 24, tekst: "Beter geïsoleerd dan de oudere perioden. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/wierden/" },
+  },
+  lokaal: {
+    titel: "Wierden en Enter: dorpen met karakter",
+    alineas: [
+      ["De gemeente Wierden bestaat uit de kern Wierden en de dorpen Enter, Hoge Hexel, Notter, Rectum, Zuna en IJpelo. De gemeente heeft een landelijk karakter met veel vrijstaande en twee-onder-één-kapwoningen. Enter is de grootste kern en heeft een eigen winkelcentrum en voorzieningen."],
+      ["Met een WOZ-waarde van gemiddeld €410.000 en 73% koopwoningen is de woningmarkt stabiel. Juist bij vrijstaande woningen in de naoorlogse periode is er vaak nog winst te halen: meer buitenoppervlak betekent dat isolatie van dak, spouw en vloer verhoudingsgewijs meer oplevert."],
+      ["Op zoek naar een isolatiebedrijf in Wierden? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+    ],
+    kernTekst: {
+      wierden: "De gemeentekern, met het gemeentehuis en de meeste voorzieningen.",
+      enter: "Het grootste dorp van de gemeente, met een eigen winkelcentrum.",
+      "hoge-hexel": "Dorp in het westen van de gemeente Wierden.",
+      notter: "Klein dorp ten zuiden van de kern Wierden.",
+      rectum: "Dorp in het zuiden van de gemeente, in het Twentse landschap.",
+      zuna: "Klein dorp aan de rand van de gemeente Wierden.",
+      ijpelo: "Buurtschap in de gemeente Wierden.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Wierden?",
+      tekst: "De gemeente Wierden werkt aan de warmtetransitie. Isoleren is een logische eerste stap: daarmee verlaag je de warmtevraag en maak je je woning klaar voor een warmtepomp of andere duurzame installaties.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Wierden",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Wierden moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Wierden?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Enter en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Wierden?", answer: "Op deze pagina zie je de regelingen die nu voor Wierden gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Helpt Gijs ook in Enter, Hoge Hexel en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Wierden, dus ook in Enter, Hoge Hexel, Notter, Rectum, Zuna en IJpelo." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Almelo", href: "/regio/overijssel/almelo" },
+    { naam: "Woning verduurzamen in Hellendoorn", href: "/regio/overijssel/hellendoorn" },
+    { naam: "Woning verduurzamen in Twenterand", href: "/regio/overijssel/twenterand" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
+const TUBBERGEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Tubbergen | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Tubbergen, Albergen of een ander dorp? Gijs geeft onafhankelijk advies en begeleidt je van A tot Z. Gratis energiescan.",
+  },
+  kicker: "Gemeente Tubbergen",
+  h1: "Je woning isoleren en verduurzamen in Tubbergen",
+  intro: [
+    ["Woon je in ", { tekst: "Tubbergen", href: "/regio/overijssel/tubbergen/tubbergen" }, ", Albergen, Geesteren of een van de andere dorpen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["In de gemeente Tubbergen is 40% van de woningvoorraad vrijstaand — het hoogste aandeel van de regio. Vrijstaande woningen hebben meer buitenoppervlak en daarmee meer verduurzamingspotentie. Gijs kijkt wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
+  ],
+  kernen: ["tubbergen", "albergen", "geesteren", "vasse", "reutum", "langeveen", "fleringen", "hezingen", "manderveen", "mariaparochie", "harbrinkhoek"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Tubbergen verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "8.940", label: "woningen" },
+      { waarde: "40%", label: "vrijstaand" },
+      { waarde: "33%", label: "gebouwd 1945–1975" },
+      { waarde: "73%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 9, tekst: "Historische bebouwing, vaak Twentse boerderijen en lintbebouwing. Bijna altijd gebouwd zonder isolatienormen. Spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "1945 – 1975", percentage: 33, tekst: "Naoorlogse uitbreidingen in de dorpen. Spouwmuren zijn er, maar de spouw is vaak nog leeg of dunner geïsoleerd dan nu gebruikelijk." },
+      { label: "1975 – 1995", percentage: 28, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan gericht bijisoleren." },
+      { label: "Na 1995", percentage: 30, tekst: "Beter geïsoleerd dan de oudere perioden. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/tubbergen/" },
+  },
+  lokaal: {
+    titel: "Tubbergen: een plattelandsgemeente met kleine dorpen",
+    alineas: [
+      ["De gemeente Tubbergen is een van de meest landelijke gemeenten van Overijssel. De gemeente bestaat uit de kern Tubbergen en een reeks kleinere dorpen: Albergen, Fleringen, Geesteren, Haarle, Harbrinkhoek, Hezingen, Langeveen, Mander, Manderveen, Mariaparochie, Reutum en Vasse. Het merendeel van de woningvoorraad is vrijstaand, aangevuld met twee-onder-één-kappers en boerderijen."],
+      ["Met een gemiddelde WOZ-waarde van €432.000 en 73% koopwoningen is de woningmarkt robuust. De hoge WOZ-waarde en het grote aandeel vrijstaande woningen gaan hand in hand: isolatie van dak, spouw en vloer loont hier verhoudingsgewijs meer."],
+      ["Op zoek naar een isolatiebedrijf in Tubbergen? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+    ],
+    kernTekst: {
+      tubbergen: "De hoofdkern van de gemeente, met het gemeentehuis en de meeste voorzieningen.",
+      albergen: "Dorp in het noorden van de gemeente, met een eigen karakter.",
+      geesteren: "Dorp in het zuiden van de gemeente Tubbergen.",
+      vasse: "Klein dorp in de gemeente Tubbergen, dichtbij het Nationaal Landschap Twente.",
+      reutum: "Dorp in het oosten van de gemeente.",
+      langeveen: "Dorp in de gemeente Tubbergen.",
+      fleringen: "Klein dorp in het westen van de gemeente.",
+      hezingen: "Dorp in de gemeente Tubbergen.",
+      manderveen: "Dorp in de gemeente Tubbergen, vlakbij het Bergvenner Veen.",
+      mariaparochie: "Dorp op de grens met Almelo.",
+      harbrinkhoek: "Dorp op de grens met de gemeente Almelo.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Tubbergen?",
+      tekst: "De gemeente Tubbergen werkt aan de warmtetransitie voor haar verspreide woningvoorraad. Bij een groot aandeel vrijstaande woningen is isoleren een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere installaties.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Tubbergen",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in Tubbergen moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Tubbergen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Albergen, Geesteren en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Tubbergen?", answer: "Op deze pagina zie je de regelingen die nu voor Tubbergen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn vrijstaande woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft. Bij vrijstaande woningen loont goede isolatie verhoudingsgewijs meer." },
+    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Helpt Gijs ook in de kleinere dorpen van Tubbergen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Tubbergen, dus ook in Albergen, Fleringen, Geesteren, Langeveen, Manderveen en de andere dorpen." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Almelo", href: "/regio/overijssel/almelo" },
+    { naam: "Woning verduurzamen in Twenterand", href: "/regio/overijssel/twenterand" },
+    { naam: "Woning verduurzamen in Wierden", href: "/regio/overijssel/wierden" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
+const DINKELLAND: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Dinkelland | Advies & ontzorging – Gijs",
+    description: "Je woning isoleren in Dinkelland, Ootmarsum of Denekamp? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
+  },
+  kicker: "Gemeente Dinkelland",
+  h1: "Je woning isoleren en verduurzamen in Dinkelland",
+  intro: [
+    ["Woon je in Ootmarsum, Denekamp, Weerselo of een van de andere dorpen van de gemeente Dinkelland? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["In de gemeente Dinkelland is 44% van de woningvoorraad gebouwd in de naoorlogse periode 1945-1975. Met een groot aandeel vrijstaande woningen (42%) is er in veel gevallen nog winst te halen. Gijs kijkt samen met jou wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
+  ],
+  kernen: ["ootmarsum", "denekamp", "weerselo", "saasveld", "rossum", "deurningen", "volthe", "breklenkamp", "lattrop", "berghum", "nutter", "gammelke", "tilligte", "lemselo", "noordijk", "oud-ootmarsum", "het-stift", "dulder", "t-loo", "beerkdorp"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Dinkelland verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "11.366", label: "woningen" },
+      { waarde: "42%", label: "vrijstaand" },
+      { waarde: "44%", label: "gebouwd 1945–1975" },
+      { waarde: "75%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 9, tekst: "Historische bebouwing in de oude dorpskernen, waaronder Ootmarsum. Bijna altijd gebouwd zonder isolatienormen. Spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "1945 – 1975", percentage: 44, tekst: "Het grootste deel van de woningvoorraad. Spouwmuren zijn er, maar de spouw is in veel gevallen nog leeg of dunner geïsoleerd dan nu gebruikelijk." },
+      { label: "1975 – 1995", percentage: 28, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan gericht bijisoleren." },
+      { label: "Na 1995", percentage: 19, tekst: "Beter geïsoleerd dan de oudere perioden. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/dinkelland/" },
+  },
+  lokaal: {
+    titel: "Dinkelland: een gemeente met twintig dorpen",
+    alineas: [
+      ["De gemeente Dinkelland bestaat uit twintig kernen, waarvan Ootmarsum en Denekamp de grootste zijn. De gemeente grenst aan Duitsland en heeft een uitgesproken landelijk karakter met veel vrijstaande woningen en boerderijen. De hoge WOZ-waarde (gemiddeld €424.000) en het grote aandeel koopwoningen (75%) weerspiegelen de sterke woningmarkt in dit deel van Overijssel."],
+      ["Het grote aandeel naoorlogse woningen (44% gebouwd tussen 1945 en 1975) biedt veel verduurzamingspotentie. Bij vrijstaande woningen is er meer buitenoppervlak, wat betekent dat goede isolatie verhoudingsgewijs meer oplevert."],
+      ["Op zoek naar een isolatiebedrijf in Dinkelland? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+    ],
+    bekendVan: {
+      titel: "Waar is Dinkelland bekend van?",
+      kaarten: [
+        { icon: "landmark", titel: "Ootmarsum", tekst: "Ootmarsum is een van de best bewaarde middeleeuwse stadjes van Overijssel, met een historisch centrum, het museum Openluchtmuseum Ootmarsum en de jaarlijkse vlöggelen (Paastraditie op de UNESCO-lijst van immaterieel erfgoed)." },
+      ],
+    },
+    kernTekst: {
+      ootmarsum: "Historisch stadje in het noorden van de gemeente, met een beschermd stadsgezicht.",
+      denekamp: "Grootste kern van de gemeente en administratief centrum.",
+      weerselo: "Dorp in het midden van de gemeente Dinkelland.",
+      saasveld: "Dorp in het westen van de gemeente.",
+      rossum: "Dorp aan de grens met Duitsland, in het zuiden van de gemeente.",
+      deurningen: "Dorp in het zuiden van de gemeente.",
+      volthe: "Klein dorp in de gemeente Dinkelland.",
+      breklenkamp: "Dorp in het noorden van de gemeente, dichtbij de grens.",
+      lattrop: "Dorp in het noorden van de gemeente.",
+      berghum: "Klein dorp in de gemeente Dinkelland.",
+      nutter: "Buurtschap in de gemeente Dinkelland.",
+      gammelke: "Klein dorp in de gemeente Dinkelland.",
+      tilligte: "Klein dorp in het noorden van de gemeente.",
+      lemselo: "Dorp in de gemeente Dinkelland.",
+      noordijk: "Buurtschap in de gemeente Dinkelland.",
+      "oud-ootmarsum": "Buurtschap bij Ootmarsum.",
+      "het-stift": "Klein buurtschap in de gemeente Dinkelland.",
+      dulder: "Buurtschap in de gemeente Dinkelland.",
+      "t-loo": "Buurtschap in de gemeente Dinkelland.",
+      beerkdorp: "Buurtschap in de gemeente Dinkelland.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Dinkelland?",
+      tekst: "De gemeente Dinkelland werkt aan de warmtetransitie voor haar verspreide woningvoorraad. Isoleren is een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere duurzame installaties.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Dinkelland",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. In de omgeving van Dinkelland zijn ook Natura 2000-gebieden. Bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Dinkelland?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Dinkelland. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Ootmarsum, Denekamp en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Dinkelland?", answer: "Op deze pagina zie je de regelingen die nu voor Dinkelland gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft. Bij vrijstaande woningen loont goede isolatie verhoudingsgewijs meer." },
+    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Helpt Gijs ook in Ootmarsum, Denekamp en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Dinkelland, dus ook in Ootmarsum, Denekamp, Weerselo, Saasveld en alle andere kernen." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Oldenzaal", href: "/regio/overijssel/oldenzaal" },
+    { naam: "Woning verduurzamen in Enschede", href: "/regio/overijssel/enschede" },
+    { naam: "Woning verduurzamen in Losser", href: "/regio/overijssel/losser" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
+const HAAKSBERGEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Haaksbergen | Advies & ontzorging – Gijs",
+    description: "Zoek je een isolatiebedrijf in Haaksbergen, Buurse of Sint Isidorushoeve? Gijs geeft onafhankelijk advies en begeleidt je van A tot Z. Gratis energiescan.",
+  },
+  kicker: "Gemeente Haaksbergen",
+  h1: "Je woning isoleren en verduurzamen in Haaksbergen",
+  intro: [
+    ["Woon je in Haaksbergen, Buurse of Sint Isidorushoeve en wil je je woning isoleren? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["In de gemeente Haaksbergen is 44% van de woningen gebouwd in de naoorlogse periode 1945-1975. Dat zijn woningen met spouwmuren, maar de spouw zit er zelden goed in. Gijs kijkt samen met jou wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
+  ],
+  kernen: ["haaksbergen", "buurse", "sint-isidorushoeve"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Haaksbergen verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "10.753", label: "woningen" },
+      { waarde: "24%", label: "vrijstaand" },
+      { waarde: "44%", label: "gebouwd 1945–1975" },
+      { waarde: "70%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 10, tekst: "Historische bebouwing in de kern Haaksbergen. Bijna altijd gebouwd zonder isolatienormen. Spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "1945 – 1975", percentage: 44, tekst: "Het grootste deel van de woningvoorraad. Spouwmuren zijn er, maar de spouw is in veel gevallen nog leeg of dunner geïsoleerd dan nu gebruikelijk." },
+      { label: "1975 – 1995", percentage: 28, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan gericht bijisoleren." },
+      { label: "Na 1995", percentage: 18, tekst: "Beter geïsoleerd dan de oudere perioden. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/haaksbergen/" },
+  },
+  lokaal: {
+    titel: "Haaksbergen, Buurse en Sint Isidorushoeve",
+    alineas: [
+      ["De gemeente Haaksbergen ligt tussen Enschede en Hof van Twente. De gemeente bestaat uit de kern Haaksbergen en de dorpen Buurse en Sint Isidorushoeve. Met 70% koopwoningen en een gemiddelde WOZ-waarde van €380.000 is de woningmarkt toegankelijk."],
+      ["Het grote aandeel naoorlogse woningen (44% gebouwd tussen 1945 en 1975) biedt veel verduurzamingspotentie. Een deel van die woningen heeft een spouwmuur die nog leeg is of dunner geïsoleerd dan nu de standaard is. Gijs kijkt wat er al is gedaan en adviseert over de beste volgende stap."],
+      ["Op zoek naar een isolatiebedrijf in Haaksbergen? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+    ],
+    bekendVan: {
+      titel: "Waar is Haaksbergen bekend van?",
+      kaarten: [
+        { icon: "train", titel: "Museum Buurt Spoorweg", tekst: "Haaksbergen herbergt het Museum Buurt Spoorweg: een historische stoomtramlijn die rijdt tussen Haaksbergen en Boekelo. Een van de weinige plaatsen in Nederland waar je nog met stoom kunt rijden." },
+      ],
+    },
+    kernTekst: {
+      haaksbergen: "De hoofdkern van de gemeente, met de meeste voorzieningen en het gemeentehuis.",
+      buurse: "Dorp op de grens met Duitsland, in het groen van het Buurserzand.",
+      "sint-isidorushoeve": "Buurtschap in de gemeente Haaksbergen.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Haaksbergen?",
+      tekst: "De gemeente Haaksbergen werkt aan de warmtetransitie. Isoleren is een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere duurzame installaties.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Haaksbergen",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in Haaksbergen moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Haaksbergen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Haaksbergen. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Buurse en Sint Isidorushoeve." },
+    { question: "Welke subsidies zijn er voor mijn woning in Haaksbergen?", answer: "Op deze pagina zie je de regelingen die nu voor Haaksbergen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Helpt Gijs ook in Buurse en Sint Isidorushoeve?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Haaksbergen, dus ook in Buurse en Sint Isidorushoeve." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Hengelo", href: "/regio/overijssel/hengelo" },
+    { naam: "Woning verduurzamen in Enschede", href: "/regio/overijssel/enschede" },
+    { naam: "Woning verduurzamen in Hof van Twente", href: "/regio/overijssel/hof-van-twente" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
+const LOSSER: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Losser | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Losser, De Lutte of Overdinkel? Gijs geeft onafhankelijk advies en begeleidt je van A tot Z. Gratis energiescan.",
+  },
+  kicker: "Gemeente Losser",
+  h1: "Je woning isoleren en verduurzamen in Losser",
+  intro: [
+    ["Woon je in Losser, De Lutte, Overdinkel, Beuningen of Glane en wil je je woning isoleren? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["In de gemeente Losser is 41% van de woningvoorraad gebouwd in de naoorlogse periode 1945-1975, en nog eens 15% van vóór 1945. Dat zijn woningen waarbij er in veel gevallen nog winst te halen valt met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["losser", "de-lutte", "overdinkel", "beuningen", "glane"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Losser verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "10.210", label: "woningen" },
+      { waarde: "27%", label: "vrijstaand" },
+      { waarde: "41%", label: "gebouwd 1945–1975" },
+      { waarde: "71%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 15, tekst: "Historische bebouwing in de kern Losser en langs de Dinkel. Bijna altijd gebouwd zonder isolatienormen. Spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "1945 – 1975", percentage: 41, tekst: "Het grootste deel van de woningvoorraad. Spouwmuren zijn er, maar de spouw is in veel gevallen nog leeg of dunner geïsoleerd dan nu gebruikelijk." },
+      { label: "1975 – 1995", percentage: 23, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan gericht bijisoleren." },
+      { label: "Na 1995", percentage: 21, tekst: "Beter geïsoleerd dan de oudere perioden. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/losser/" },
+  },
+  lokaal: {
+    titel: "Losser en De Lutte: stad en recreatiedorp",
+    alineas: [
+      ["De gemeente Losser bestaat uit de kern Losser en de dorpen De Lutte, Overdinkel, Beuningen en Glane. De gemeente grenst aan Duitsland en ligt aan de Dinkel, een van de ongerepte rivieren van Twente. De Lutte is een bekende recreatiegemeenschap met hotels en bungalowparken."],
+      ["Met 15% woningen van vóór 1945 heeft de gemeente een relatief oud woningbestand. Dat biedt veel kansen: bij oudere woningen is er in bijna alle gevallen nog winst te halen met isolatie van spouw, dak of vloer."],
+      ["Op zoek naar een isolatiebedrijf in Losser? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+    ],
+    bekendVan: {
+      titel: "Waar is Losser bekend van?",
+      kaarten: [
+        { icon: "trees", titel: "De Lutte en de Dinkel", tekst: "De Lutte is het recreatiehart van de gemeente: bekend om de Dinkellandroutes, buitencentra en de natuur van het Dinkeltal vlakbij de grens met Duitsland." },
+      ],
+    },
+    kernTekst: {
+      losser: "De gemeentekern, met het gemeentehuis en de meeste voorzieningen.",
+      "de-lutte": "Recreatiedorp in het zuiden van de gemeente, aan de grens met Duitsland.",
+      overdinkel: "Dorp in het noorden van de gemeente, grenzend aan Gronau (Duitsland).",
+      beuningen: "Klein dorp in het zuiden van de gemeente Losser.",
+      glane: "Buurtschap op de grens van Losser en Duitsland.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Losser?",
+      tekst: "De gemeente Losser werkt aan de warmtetransitie. Isoleren is een logische eerste stap: het verlaagt de warmtevraag en maakt de woning klaar voor een warmtepomp of andere duurzame installaties.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Losser",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. De omgeving van Losser heeft ook Natura 2000-gebieden langs de Dinkel. Bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Losser?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Losser. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in De Lutte, Overdinkel en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Losser?", answer: "Op deze pagina zie je de regelingen die nu voor Losser gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1945. Waar begin ik?", answer: "Bij oude woningen begint het bijna altijd bij de spouw, het dak of de vloer. Maar veel oudere woningen zijn later al deels verbeterd. Gijs kijkt tijdens de energiescan wat er al is gedaan en wat de logische volgende stap is." },
+    { question: "Kijkt Gijs ook naar zonnepanelen en een warmtepomp?", answer: "Ja. Gijs kijkt naar de combinatie van isolatie en installaties, in de volgorde die bij jouw woning past." },
+    { question: "Helpt Gijs ook in De Lutte, Overdinkel en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Losser, dus ook in De Lutte, Overdinkel, Beuningen en Glane." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Enschede", href: "/regio/overijssel/enschede" },
+    { naam: "Woning verduurzamen in Oldenzaal", href: "/regio/overijssel/oldenzaal" },
+    { naam: "Woning verduurzamen in Dinkelland", href: "/regio/overijssel/dinkelland" },
+  ],
+};
+
 const VERHALEN: Record<string, GemeenteVerhaal> = {
   borne: BORNE,
   hengelo: HENGELO,
@@ -3567,6 +3981,11 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
   "rijssen-holten": RIJSSEN_HOLTEN,
   twenterand: TWENTERAND,
   zwolle: ZWOLLE,
+  wierden: WIERDEN,
+  tubbergen: TUBBERGEN,
+  dinkelland: DINKELLAND,
+  haaksbergen: HAAKSBERGEN,
+  losser: LOSSER,
 };
 
 const PLAATS_VERHALEN: Record<string, Record<string, GemeenteVerhaal>> = {
