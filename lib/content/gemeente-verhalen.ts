@@ -2892,10 +2892,10 @@ const ZWOLLE: GemeenteVerhaal = {
   kicker: "Gemeente Zwolle",
   h1: "Je woning verduurzamen in Zwolle",
   intro: [
-    ["Woon je in Zwolle? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen, en welke subsidies er nu gelden. Gijs is actief in de hele gemeente — van de binnenstad tot ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ", waar we samenwerken met bewonerscoöperatie BEN."],
+    ["Woon je in Zwolle? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen, en welke subsidies er nu gelden. Gijs is actief in de hele gemeente — van ", { tekst: "Stadshagen", href: "/regio/overijssel/zwolle/stadshagen" }, " en ", { tekst: "Westenholte", href: "/regio/overijssel/zwolle/westenholte" }, " tot het historische ", { tekst: "Windesheim", href: "/regio/overijssel/zwolle/windesheim" }, " en ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ", waar we samenwerken met bewonerscoöperatie BEN."],
     ["Van de ruim 61.000 woningen in Zwolle is bijna vier op de tien gebouwd vóór 1975. Juist daar is de verduurzamingswinst nog groot. Gijs kijkt altijd eerst wat er al is gedaan, en helpt dan met de stap die logisch is voor jouw huis."],
   ],
-  kernen: ["zwolle", "berkum"],
+  kernen: ["zwolle", "stadshagen", "westenholte", "berkum", "windesheim", "wijthmen", "herfte", "haerst"],
   woningen: {
     lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Zwolle verdeeld, en dit betekent het meestal voor isolatie.",
     kerncijfers: [
@@ -2928,8 +2928,14 @@ const ZWOLLE: GemeenteVerhaal = {
       ],
     },
     kernTekst: {
-      zwolle: "De provinciestad van Overijssel, met ruim 134.000 inwoners en een grote diversiteit aan wijken en woningtypen.",
-      berkum: "Woonwijk ten noorden van het centrum, actief bezig met verduurzaming via bewonerscoöperatie Berkum Energieneutraal.",
+      zwolle: "Je bent hier. Provinciestad van Overijssel, met 134.000 inwoners en een gevarieerde woningvoorraad.",
+      stadshagen: "Grote moderne wijk in het westen, gebouwd vanaf 1995. Bijna 11.000 woningen.",
+      westenholte: "Voormalige gemeente (Zwollerkerspel), nu wijk in het westen. Naoorlogs met historisch dorpscentrum.",
+      berkum: "Woonwijk ten noorden van het centrum, actief bezig met verduurzaming via bewonerscoöperatie BEN.",
+      windesheim: "Historisch dorp in het zuiden, bekend van de middeleeuwse Congregatie van Windesheim.",
+      wijthmen: "Buurtschap met agrarisch karakter en estate-sfeer, ten zuiden van Zwolle.",
+      herfte: "Klein buurtschap langs de Vecht, met overwegend vrijstaande woningen.",
+      haerst: "Buurtschap in het Vechtdal, aan de grens met Zwartewaterland.",
     },
     ontwikkeling: {
       titel: "Wat speelt er in Zwolle?",
@@ -2973,7 +2979,7 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
     ["In Berkum wordt al jaren samengewerkt aan een wijk die minder energie gebruikt en straks zonder aardgas kan. Dat begint bij je eigen huis: hoe goed is het geïsoleerd, en wat is een logische volgende stap?"],
     ["Gijs helpt bewoners van Berkum om dat rustig en zonder verplichtingen te ontdekken. Met een gratis energiescan krijg je inzicht in je woning en een helder beeld van wat er kan — in samenwerking met bewonerscoöperatie ", { tekst: "Berkum Energieneutraal (BEN)", href: "https://www.berkumenergieneutraal.nl/", extern: true }, "."],
   ],
-  kernen: ["berkum", "zwolle"],
+  kernen: ["berkum", "zwolle", "westenholte", "stadshagen", "windesheim"],
   woningen: {
     lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Berkum verdeeld, en dit betekent het meestal voor isolatie.",
     kerncijfers: [
@@ -3007,8 +3013,11 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
       ],
     },
     kernTekst: {
-      berkum: "Woonwijk ten noorden van het centrum, actief bezig met verduurzaming via bewonerscoöperatie BEN.",
-      zwolle: "De provinciestad van Overijssel, waarvan Berkum een wijk is.",
+      berkum: "Je bent hier. Woonwijk ten noorden van het centrum, actief bezig met verduurzaming via BEN.",
+      zwolle: "De provinciestad van Overijssel, met alle gemeentelijke voorzieningen.",
+      westenholte: "Voormalige gemeente, nu wijk in het westen. Naoorlogs met historisch dorpscentrum.",
+      stadshagen: "Grote moderne wijk in het westen van Zwolle, gebouwd vanaf 1995.",
+      windesheim: "Historisch dorp in het zuiden, bekend van de middeleeuwse Congregatie van Windesheim.",
     },
     ontwikkeling: {
       titel: "Doel: aardgasvrij-ready in 2028",
@@ -3038,6 +3047,486 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
   verwant: [
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
     { naam: "Verduurzamen in Overijssel", href: "/regio/overijssel" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
+// Gemeente Zwolle heeft officieel één woonplaats. De sub-kernen zijn wijken en buurtschappen.
+// Bouwperiodes voor buurtschappen zijn inschattingen; AlleCijfers toont ze als grafieken.
+// Bronnen: wijk Westenholte, wijk Stadshagen, buurt Windesheim, buurt Wijthmen, buurt Herfte,
+// buurt Haerst — allemaal AlleCijfers.nl 2026.
+
+const WESTENHOLTE: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren en verduurzamen in Westenholte (Zwolle) | Gijs",
+    description: "Je woning verduurzamen in Westenholte? Lees wat het bouwjaar zegt, de natuur-regels bij isolatie, en welke subsidies er nu in Zwolle zijn.",
+  },
+  kicker: "Wijk in gemeente Zwolle",
+  h1: "Je woning verduurzamen in Westenholte",
+  intro: [
+    ["Woon je in Westenholte? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
+    ["Westenholte was tot 1967 een zelfstandige gemeente. De meeste woningen zijn naoorlogs gebouwd — met name in de jaren zestig en zeventig. Juist in dat bouwjaar is de verduurzamingswinst vaak het grootst."],
+  ],
+  kernen: ["westenholte", "zwolle", "berkum", "stadshagen"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Westenholte verdeeld.",
+    kerncijfers: [
+      { waarde: "2.224", label: "woningen" },
+      { waarde: "40%", label: "gebouwd vóór 1975" },
+      { waarde: "68%", label: "koopwoning" },
+      { waarde: "€408.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 5, tekst: "Historische bebouwing uit de tijd dat Westenholte een zelfstandige gemeente was. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "1945 – 1975", percentage: 35, tekst: "De grootste groei van Westenholte als uitbreidingswijk van Zwolle. Spouwmuren aanwezig, maar de spouw is vaak nog leeg." },
+      { label: "1975 – 1995", percentage: 40, tekst: "Deels geïsoleerd bij oplevering, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan bijisoleren." },
+      { label: "Na 1995", percentage: 20, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, wijk Westenholte, 2026", url: "https://www.allecijfers.nl/wijk/westenholte-zwolle/" },
+  },
+  lokaal: {
+    titel: "Westenholte: voormalige gemeente met eigen karakter",
+    alineas: [
+      ["Westenholte was tot 1967 een zelfstandige gemeente, Zwollerkerspel genaamd. Het heeft een eigen historisch dorpscentrum met de Westenholterkerk — een 13e-eeuws rijksmonument dat nog steeds het hart van de wijk vormt."],
+      ["Na de fusie groeide Westenholte verder met naoorlogse woonwijken. Die combinatie van historische bebouwing en naoorlogse uitbreiding bepaalt ook wat er te verduurzamen valt: bij de oudste woningen is de spouw vaak nog leeg, de nieuwere hebben al deels isolatie maar zijn bijna altijd te verbeteren."],
+    ],
+    bekendVan: {
+      titel: "Waar is Westenholte bekend van?",
+      kaarten: [
+        { icon: "church", titel: "Westenholterkerk", tekst: "De 13e-eeuwse kerk is een rijksmonument en het historisch hart van de voormalige gemeente Zwollerkerspel." },
+        { icon: "landmark", titel: "Voormalige gemeente", tekst: "Westenholte maakte tot 1967 deel uit van gemeente Zwollerkerspel, één van de oudste gemeenten rondom Zwolle." },
+      ],
+    },
+    kernTekst: {
+      westenholte: "Je bent hier. Voormalige gemeente, nu wijk in het westen van Zwolle.",
+      zwolle: "De provinciestad van Overijssel, met het gemeentehuis en de meeste voorzieningen.",
+      berkum: "Woonwijk ten noorden van het centrum, met bewonerscoöperatie BEN.",
+      stadshagen: "Grote moderne wijk in het westen, gebouwd vanaf 1995.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Zwolle?",
+      tekst: "De gemeente Zwolle werkt aan een warmteprogramma: welke wijk verwarmt straks hoe, en op welke termijn gaat die van het aardgas af? Isoleren is in Westenholte de eerste stap, ongeacht hoe de wijk later verwarmd gaat worden.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Westenholte",
+    lead: "In spouwmuren, muren en daken van woningen in Westenholte wonen vleermuizen, huismussen en gierzwaluwen. Dat zijn beschermde dieren. Bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen, zoveel mogelijk onzichtbaar." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Helpt Gijs ook in Westenholte?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle, ook in Westenholte. Een gratis energiescan is overal in Zwolle aan te vragen." },
+    { question: "Welke subsidies zijn er in Westenholte?", answer: "Westenholte valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
+    { question: "Mijn huis is uit de jaren zestig of zeventig. Waar begin ik?", answer: "Veel woningen in Westenholte zijn uit die periode. De spouwmuur is bijna altijd aanwezig, maar de spouw is vaak nog leeg of dunner geïsoleerd dan gebruikelijk. Gijs kijkt tijdens de energiescan wat er al is en welke stap de meeste winst geeft." },
+    { question: "Mijn woning is een rijksmonument of nabij een monument. Mag ik zomaar isoleren?", answer: "Voor rijksmonumenten gelden beperkingen. Voor gewone woningen naast een monument zijn er geen bijzondere regels. Bij twijfel kijkt Gijs mee en verwijst naar de juiste instantie." },
+    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan — dat bedrijf regelt ook de melding bij de provincie." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Stadshagen", href: "/regio/overijssel/zwolle/stadshagen" },
+    { naam: "Woning verduurzamen in Berkum", href: "/regio/overijssel/zwolle/berkum" },
+  ],
+};
+
+const STADSHAGEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren en verduurzamen in Stadshagen (Zwolle) | Gijs",
+    description: "Je woning verduurzamen in Stadshagen? Lees wat het bouwjaar zegt, welke subsidies er nu in Zwolle zijn en wat Gijs voor jouw nieuwbouwwoning kan doen.",
+  },
+  kicker: "Wijk in gemeente Zwolle",
+  h1: "Je woning verduurzamen in Stadshagen",
+  intro: [
+    ["Woon je in Stadshagen? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
+    ["Stadshagen is de grootste nieuwbouwwijk van Zwolle, gebouwd vanaf de jaren negentig. De meeste woningen zijn al goed geïsoleerd, maar ook in Stadshagen is verduurzamen zinvol — denk aan een warmtepomp, zonnepanelen of een thuisbatterij."],
+  ],
+  kernen: ["stadshagen", "zwolle", "westenholte", "berkum"],
+  woningen: {
+    lead: "Stadshagen is bijna volledig naoorlogs. Dat is anders dan de rest van Zwolle — en dat zie je terug in wat verduurzamen betekent.",
+    kerncijfers: [
+      { waarde: "10.790", label: "woningen" },
+      { waarde: "~5%", label: "gebouwd vóór 1995" },
+      { waarde: "66%", label: "koopwoning" },
+      { waarde: "€429.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1995", percentage: 5, tekst: "Slechts een klein deel bestaat uit oudere woningen. Hier is de verduurzamingsstrategie vergelijkbaar met de rest van Zwolle." },
+      { label: "1995 – 2010", percentage: 55, tekst: "De eerste grote bouwfase van Stadshagen. Redelijk geïsoleerd bij oplevering, maar inmiddels ouder dan 15 jaar. Glas en installaties zijn hier vaak de volgende stap." },
+      { label: "2010 – 2020", percentage: 30, tekst: "Gebouwd onder strengere energienormen. De schil is goed; de winst zit in slimme installaties en energieopwekking." },
+      { label: "Na 2020", percentage: 10, tekst: "Bijna energieneutraal of bijna-energieneutraal (BENG). De focus ligt op zonnepanelen, thuisbatterijen en optimalisatie." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie. Gijs kijkt altijd naar jouw eigen huis — ook in Stadshagen zijn er grote verschillen per type en straat.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, wijk Stadshagen, 2026", url: "https://www.allecijfers.nl/wijk/stadshagen-zwolle/" },
+  },
+  lokaal: {
+    titel: "Stadshagen: de grootste wijk van Zwolle",
+    alineas: [
+      ["Stadshagen is de grootste en meest recente uitbreidingswijk van Zwolle. De wijk is gebouwd op voormalige poldergrond ten westen van de stad, in meerdere fasen vanaf de jaren negentig. Het heeft zijn eigen winkelcentrum, scholen en groenstructuur, met veel water en parken."],
+      ["Stadshagen bestaat uit meerdere buurten: Frankhuis, Breecamp, Milligen, Werkeren, Schoonhorst en Breezicht. De woningtypen lopen uiteen van sociale huurwoningen en tussenwoningen tot vrijstaande villa's aan het water."],
+    ],
+    bekendVan: {
+      titel: "Stadshagen in beeld",
+      kaarten: [
+        { icon: "building-2", titel: "Grootste nieuwbouwwijk", tekst: "Stadshagen heeft bijna 11.000 woningen en is de grootste en snelst gegroeide wijk van Zwolle." },
+        { icon: "droplets", titel: "Water en groen", tekst: "De wijk is ontworpen met veel water, parken en groenstroken — kenmerkend voor de planologie van de jaren negentig." },
+        { icon: "shopping-cart", titel: "Winkelcentrum In de Boomgaard", tekst: "Het winkelcentrum is het kloppende hart van de wijk en heeft alles wat nodig is voor dagelijks gebruik." },
+      ],
+    },
+    kernTekst: {
+      stadshagen: "Je bent hier. Grootste nieuwbouwwijk van Zwolle, gebouwd vanaf 1995.",
+      zwolle: "De provinciestad van Overijssel, met het gemeentehuis en de meeste voorzieningen.",
+      westenholte: "Voormalige gemeente, nu wijk direct naast Stadshagen, met ouder naoorlogs karakter.",
+      berkum: "Woonwijk ten noorden van het centrum, met bewonerscoöperatie BEN.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Stadshagen?",
+      tekst: "Stadshagen groeit nog steeds, met nieuwe buurten die bijna-energieneutraal (BENG) worden gebouwd. Tegelijk vragen de eerste woningen uit de jaren negentig nu om onderhoud en verbetering — glas, installaties en eventueel extra isolatie.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Stadshagen",
+    lead: "Ook in nieuwbouwwijken zoals Stadshagen nestelen vleermuizen, huismussen en gierzwaluwen in spouwmuren en daken. Bij isolatiewerkzaamheden moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Is verduurzamen in Stadshagen zinvol als mijn huis al goed geïsoleerd is?", answer: "Ja. De schil is bij nieuwbouwwoningen al beter. Maar ook in Stadshagen is er winst te halen met een hybride warmtepomp (gas besparen), zonnepanelen of een thuisbatterij. Gijs kijkt wat bij jouw woning past." },
+    { question: "Welke subsidies zijn er in Stadshagen?", answer: "Stadshagen valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt — ook voor installaties in goed geïsoleerde woningen." },
+    { question: "Mijn woning is uit 2005 of 2010. Wat is de logische stap?", answer: "Kijk eerst naar glas en installaties. Een hybride warmtepomp of zonnepanelen zijn in woningen uit die periode vaak de meest rendabele stap. Gijs beoordeelt tijdens de energiescan wat er al is en wat de logische volgorde is." },
+    { question: "Moet ik ook bij een nieuwbouwwoning rekening houden met beschermde dieren?", answer: "Ja. Ook in nieuwbouw nestelen vleermuizen en huismussen. Kies een isolatiebedrijf dat hier mee weet om te gaan — dat regelt ook de melding bij de provincie." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Westenholte", href: "/regio/overijssel/zwolle/westenholte" },
+    { naam: "Woning verduurzamen in Berkum", href: "/regio/overijssel/zwolle/berkum" },
+  ],
+};
+
+const WINDESHEIM: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren en verduurzamen in Windesheim (Zwolle) | Gijs",
+    description: "Je woning verduurzamen in Windesheim? Lees wat het bouwjaar zegt over jouw huis in dit historische dorp, en welke subsidies er nu in Zwolle zijn.",
+  },
+  kicker: "Dorp in gemeente Zwolle",
+  h1: "Je woning verduurzamen in Windesheim",
+  intro: [
+    ["Woon je in Windesheim? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
+    ["Windesheim is een historisch dorp in het zuiden van Zwolle, met een mix van oude bebouwing en nieuwere woningen. Met gemiddeld 156 woningen is het klein, maar de verduurzamingsopgave is er dezelfde als in de rest van de gemeente."],
+  ],
+  kernen: ["windesheim", "zwolle", "wijthmen", "herfte", "haerst"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Windesheim verdeeld.",
+    kerncijfers: [
+      { waarde: "156", label: "woningen" },
+      { waarde: "~45%", label: "gebouwd vóór 1975" },
+      { waarde: "~80%", label: "koopwoning" },
+      { waarde: "€434.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 15, tekst: "Historische lintbebouwing langs de dorpskern. Gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste kansen." },
+      { label: "1945 – 1975", percentage: 30, tekst: "Naoorlogse uitbreiding van het dorp. Spouwmuren aanwezig, maar de spouw is vaak nog leeg of dunner geïsoleerd dan gebruikelijk." },
+      { label: "1975 – 1995", percentage: 30, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan bijisoleren." },
+      { label: "Na 1995", percentage: 25, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
+    ],
+    voetnoot: "De bouwperiodes zijn inschattingen op basis van AlleCijfers.nl. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, buurt Windesheim, 2026", url: "https://www.allecijfers.nl/buurt/windesheim-zwolle/" },
+  },
+  lokaal: {
+    titel: "Windesheim: dorp met een middeleeuwse naam",
+    alineas: [
+      ["Windesheim heeft een bijzondere plek in de Europese kerkgeschiedenis. Hier stichtten Geert Grote en Florens Radewijns in de 14e eeuw het klooster van Windesheim, de bakermat van de Congregatie van Windesheim — een invloedrijke monastieke beweging die zich door heel Europa verspreidde. Van het klooster resteert nu nog een kapel."],
+      ["De Hogeschool Windesheim in Zwolle dankt haar naam aan dit historische dorp. In het dorp zelf wonen ruim 150 huishoudens in een mix van historische panden, naoorlogse woningen en enkele nieuwbouwhuizen."],
+    ],
+    bekendVan: {
+      titel: "Waar is Windesheim bekend van?",
+      kaarten: [
+        { icon: "landmark", titel: "Congregatie van Windesheim", tekst: "De in 1387 gestichte monastieke congregatie verspreidde zich vanuit dit dorp over heel Europa en beïnvloedde de Devotio Moderna." },
+        { icon: "book", titel: "Naamgever Hogeschool", tekst: "De Hogeschool Windesheim in Zwolle is vernoemd naar dit historische dorp." },
+      ],
+    },
+    kernTekst: {
+      windesheim: "Je bent hier. Historisch dorp in het zuiden van Zwolle, bekend van de middeleeuwse Congregatie van Windesheim.",
+      zwolle: "De provinciestad van Overijssel, met het gemeentehuis en de meeste voorzieningen.",
+      wijthmen: "Buurtschap met agrarisch karakter en estate-sfeer, ten zuiden van Zwolle.",
+      herfte: "Klein buurtschap langs de Vecht, met overwegend vrijstaande woningen.",
+      haerst: "Buurtschap in het Vechtdal, aan de grens met Zwartewaterland.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Zwolle?",
+      tekst: "De gemeente Zwolle werkt aan een warmteprogramma: welke wijk verwarmt straks hoe, en op welke termijn gaat die van het aardgas af? Isoleren is ook voor Windesheim de eerste stap, ongeacht hoe het dorp later verwarmd gaat worden.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Windesheim",
+    lead: "In spouwmuren, muren en daken van woningen in Windesheim wonen vleermuizen, huismussen en gierzwaluwen. Dat zijn beschermde dieren. Bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen, zoveel mogelijk onzichtbaar." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Helpt Gijs ook in Windesheim?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle, ook in kleine kernen zoals Windesheim. Een gratis energiescan is overal in Zwolle aan te vragen." },
+    { question: "Welke subsidies zijn er in Windesheim?", answer: "Windesheim valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
+    { question: "Mijn woning staat in de historische kern van Windesheim. Mag ik isoleren?", answer: "Voor gewone woningen (geen rijksmonument) gelden geen bijzondere beperkingen. Gijs kijkt mee en verwijst bij twijfel naar de juiste instantie." },
+    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan — dat bedrijf regelt ook de melding bij de provincie." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Wijthmen", href: "/regio/overijssel/zwolle/wijthmen" },
+    { naam: "Woning verduurzamen in Herfte", href: "/regio/overijssel/zwolle/herfte" },
+  ],
+};
+
+const WIJTHMEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren en verduurzamen in Wijthmen (Zwolle) | Gijs",
+    description: "Je woning verduurzamen in Wijthmen? Lees wat het bouwjaar zegt over jouw huis in dit buurtschap, en welke subsidies er nu in Zwolle zijn.",
+  },
+  kicker: "Buurtschap in gemeente Zwolle",
+  h1: "Je woning verduurzamen in Wijthmen",
+  intro: [
+    ["Woon je in Wijthmen? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
+    ["Wijthmen is een buurtschap ten zuiden van Zwolle, met een agrarisch karakter en overwegend vrijstaande woningen. De gemiddelde WOZ-waarde is er hoog: €548.000. Gijs helpt ook in Wijthmen met de energiescan en verduurzamingsadvies."],
+  ],
+  kernen: ["wijthmen", "zwolle", "windesheim", "herfte", "haerst"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Wijthmen verdeeld.",
+    kerncijfers: [
+      { waarde: "252", label: "woningen" },
+      { waarde: "~35%", label: "gebouwd vóór 1975" },
+      { waarde: "~90%", label: "koopwoning" },
+      { waarde: "€548.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 15, tekst: "Historische agrarische bebouwing. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste kansen." },
+      { label: "1945 – 1975", percentage: 20, tekst: "Naoorlogse woningbouw. Spouwmuren aanwezig maar de spouw is vaak nog leeg of dunner geïsoleerd." },
+      { label: "1975 – 1995", percentage: 35, tekst: "De grootste bouwperiode van Wijthmen. Deels geïsoleerd, maar bijna altijd te verbeteren." },
+      { label: "Na 1995", percentage: 30, tekst: "Beter geïsoleerd. De winst zit vaker in installaties: warmtepomp, zonnepanelen of thuisbatterij." },
+    ],
+    voetnoot: "De bouwperiodes zijn inschattingen op basis van AlleCijfers.nl. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, buurt Wijthmen, 2026", url: "https://www.allecijfers.nl/buurt/wijthmen-zwolle/" },
+  },
+  lokaal: {
+    titel: "Wijthmen: agrarisch buurtschap met estates",
+    alineas: [
+      ["Wijthmen is een buurtschap in het buitengebied van Zwolle, ten zuiden van de stad. Het landschap wordt gedomineerd door landgoederen, agrarische percelen en de Nieuwe Vecht. De bebouwing is overwegend vrijstaand — vandaar de hoge gemiddelde WOZ-waarde."],
+      ["Met 252 woningen is Wijthmen klein. Een groot deel van de bewoners is woningeigenaar. Vrijstaande woningen hebben meer buitenmuur, dak en vloer dan tussenwoningen, waardoor goede isolatie extra bijdraagt."],
+    ],
+    bekendVan: {
+      titel: "Wijthmen in beeld",
+      kaarten: [
+        { icon: "trees", titel: "Landgoederen", tekst: "Het buurtschap grenst aan meerdere landgoederen en landschappelijke zones langs de Nieuwe Vecht." },
+        { icon: "home", titel: "Vrijstaande woningen", tekst: "Ruim 90% van de woningen is een koopwoning. Vrijstaand en twee-onder-één-kap zijn dominant." },
+      ],
+    },
+    kernTekst: {
+      wijthmen: "Je bent hier. Buurtschap met agrarisch karakter en estate-sfeer, ten zuiden van Zwolle.",
+      zwolle: "De provinciestad van Overijssel, met het gemeentehuis en alle voorzieningen.",
+      windesheim: "Historisch dorp in het zuiden, bekend van de middeleeuwse Congregatie van Windesheim.",
+      herfte: "Klein buurtschap langs de Vecht, met overwegend vrijstaande woningen.",
+      haerst: "Buurtschap in het Vechtdal, aan de grens met Zwartewaterland.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Zwolle?",
+      tekst: "De gemeente Zwolle werkt aan een warmteprogramma: welke wijk verwarmt straks hoe? Voor het buitengebied zoals Wijthmen betekent dat in de meeste gevallen: individuele oplossingen, een warmtepomp of all-elektrisch. Isoleren is de eerste stap.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Wijthmen",
+    lead: "In spouwmuren, muren en daken van woningen in Wijthmen wonen vleermuizen, huismussen en andere beschermde dieren. Bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen, zoveel mogelijk onzichtbaar." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Helpt Gijs ook in Wijthmen?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle, ook in het buitengebied. Een gratis energiescan is overal in Zwolle aan te vragen." },
+    { question: "Welke subsidies zijn er in Wijthmen?", answer: "Wijthmen valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
+    { question: "Mijn huis staat vrijstaand. Heeft dat invloed op de aanpak?", answer: "Ja. Een vrijstaande woning heeft meer buitenmuur, dak en vloer dan een tussenwoning. Goede isolatie van de schil telt daardoor zwaarder mee. Gijs bekijkt de combinatie van schil en installaties in de juiste volgorde." },
+    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle — ook in het buitengebied — zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Windesheim", href: "/regio/overijssel/zwolle/windesheim" },
+    { naam: "Woning verduurzamen in Herfte", href: "/regio/overijssel/zwolle/herfte" },
+  ],
+};
+
+const HERFTE: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren en verduurzamen in Herfte (Zwolle) | Gijs",
+    description: "Je woning verduurzamen in Herfte? Lees wat het bouwjaar zegt over jouw huis in dit buurtschap langs de Vecht, en welke subsidies er nu in Zwolle zijn.",
+  },
+  kicker: "Buurtschap in gemeente Zwolle",
+  h1: "Je woning verduurzamen in Herfte",
+  intro: [
+    ["Woon je in Herfte? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
+    ["Herfte is een klein buurtschap langs de Vecht, ten westen van Zwolle. Met een gemiddelde WOZ-waarde van €704.000 en overwegend vrijstaande woningen is het een van de exclusiefste woonplekken in de gemeente. Gijs helpt ook hier met inzicht en advies."],
+  ],
+  kernen: ["herfte", "zwolle", "wijthmen", "haerst", "windesheim"],
+  woningen: {
+    lead: "Herfte heeft een bijzonder woningprofiel: klein, vrijstaand en relatief oud. Zo is de woningvoorraad verdeeld.",
+    kerncijfers: [
+      { waarde: "146", label: "woningen" },
+      { waarde: "~50%", label: "gebouwd vóór 1975" },
+      { waarde: "~90%", label: "koopwoning" },
+      { waarde: "€704.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 20, tekst: "Historische bebouwing langs de Vecht. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "1945 – 1975", percentage: 30, tekst: "Naoorlogse vrijstaande woningen. Spouwmuren aanwezig maar de spouw is vaak nog leeg of dunner geïsoleerd." },
+      { label: "1975 – 1995", percentage: 25, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren." },
+      { label: "Na 1995", percentage: 25, tekst: "Beter geïsoleerd. De winst zit vaker in installaties: warmtepomp, zonnepanelen of thuisbatterij." },
+    ],
+    voetnoot: "De bouwperiodes zijn inschattingen op basis van AlleCijfers.nl. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, buurt Herfte, 2026", url: "https://www.allecijfers.nl/buurt/herfte-zwolle/" },
+  },
+  lokaal: {
+    titel: "Herfte: exclusief buurtschap langs de Vecht",
+    alineas: [
+      ["Herfte ligt langs de Vecht, direct ten westen van Zwolle. Het buurtschap bestaat voornamelijk uit vrijstaande woningen op ruime kavels, omgeven door groen en water. De hoge gemiddelde WOZ-waarde van €704.000 weerspiegelt dit exclusieve karakter."],
+      ["Met 146 woningen is Herfte klein. Een groot deel is voor 1975 gebouwd, waardoor er bij de oudere woningen nog veel te winnen is met isolatie. Bij de nieuwere woningen ligt de focus meer op installaties."],
+    ],
+    bekendVan: {
+      titel: "Herfte in beeld",
+      kaarten: [
+        { icon: "waves", titel: "Vechtdal", tekst: "Herfte ligt direct aan de Vecht, omgeven door het Overijsselse Vechtdallandschap." },
+        { icon: "home", titel: "Exclusief wonen", tekst: "Met een gem. WOZ-waarde van €704.000 behoort Herfte tot de duurste woonlocaties van de gemeente Zwolle." },
+      ],
+    },
+    kernTekst: {
+      herfte: "Je bent hier. Klein buurtschap langs de Vecht, met overwegend vrijstaande woningen.",
+      zwolle: "De provinciestad van Overijssel, met het gemeentehuis en alle voorzieningen.",
+      wijthmen: "Buurtschap met agrarisch karakter, ten zuiden van Zwolle.",
+      haerst: "Buurtschap in het Vechtdal, aan de grens met Zwartewaterland.",
+      windesheim: "Historisch dorp in het zuiden van Zwolle.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Zwolle?",
+      tekst: "Voor het buitengebied zoals Herfte werkt de gemeente Zwolle aan individuele warmteoplossingen: een warmtepomp of all-elektrisch zijn de meest voor de hand liggende routes. Isoleren is de eerste stap.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Herfte",
+    lead: "In spouwmuren, muren en daken van woningen in Herfte wonen vleermuizen en andere beschermde dieren. In de Vechtdalomgeving geldt extra aandacht voor de bescherming van de natuur. Bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Helpt Gijs ook in Herfte?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle, ook in kleine kernen zoals Herfte. Een gratis energiescan is overal aan te vragen." },
+    { question: "Welke subsidies zijn er in Herfte?", answer: "Herfte valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
+    { question: "Mijn vrijstaande woning is van vóór 1975. Waar begin ik?", answer: "Bijna de helft van de woningen in Herfte is van vóór 1975. Bij vrijstaande woningen is er meer buitenoppervlak, dus telt goede isolatie extra. Gijs kijkt tijdens de energiescan wat er al is en welke stap de meeste winst geeft." },
+    { question: "Moet ik bij isolatie rekening houden met de Vechtdal-natuur?", answer: "Ja. Naast de bescherming van vleermuizen, huismussen en gierzwaluwen (Wet natuurbescherming) is het Vechtdal een Natura 2000-gebied. Bij ingrijpende werkzaamheden dichtbij de oever is het verstandig om te overleggen met de provincie Overijssel." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Wijthmen", href: "/regio/overijssel/zwolle/wijthmen" },
+    { naam: "Woning verduurzamen in Haerst", href: "/regio/overijssel/zwolle/haerst" },
+  ],
+};
+
+const HAERST: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren en verduurzamen in Haerst (Zwolle) | Gijs",
+    description: "Je woning verduurzamen in Haerst? Lees wat het bouwjaar zegt over jouw huis in dit buurtschap in het Vechtdal, en welke subsidies er nu in Zwolle zijn.",
+  },
+  kicker: "Buurtschap in gemeente Zwolle",
+  h1: "Je woning verduurzamen in Haerst",
+  intro: [
+    ["Woon je in Haerst? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
+    ["Haerst is een buurtschap in het Vechtdal, aan de grens van gemeente Zwolle en Zwartewaterland. Met gemiddeld €661.000 WOZ-waarde en overwegend vrijstaande woningen heeft het een landelijk, exclusief karakter."],
+  ],
+  kernen: ["haerst", "zwolle", "herfte", "wijthmen", "windesheim"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Haerst verdeeld.",
+    kerncijfers: [
+      { waarde: "108", label: "woningen" },
+      { waarde: "~60%", label: "gebouwd vóór 1975" },
+      { waarde: "~90%", label: "koopwoning" },
+      { waarde: "€661.000", label: "gem. WOZ-waarde" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1945", percentage: 30, tekst: "Historische agrarische bebouwing langs de Vecht. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste kansen." },
+      { label: "1945 – 1975", percentage: 30, tekst: "Naoorlogse bebouwing. Spouwmuren aanwezig, maar de spouw is vaak nog leeg of dunner geïsoleerd dan gebruikelijk." },
+      { label: "1975 – 1995", percentage: 25, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren." },
+      { label: "Na 1995", percentage: 15, tekst: "Beter geïsoleerd. De winst zit vaker in installaties: warmtepomp, zonnepanelen of thuisbatterij." },
+    ],
+    voetnoot: "De bouwperiodes zijn inschattingen op basis van AlleCijfers.nl. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, buurt Haerst, 2026", url: "https://www.allecijfers.nl/buurt/haerst-zwolle/" },
+  },
+  lokaal: {
+    titel: "Haerst: Vechtdal aan de gemeentegrens",
+    alineas: [
+      ["Haerst is een buurtschap dat deels in gemeente Zwolle en deels in gemeente Zwartewaterland ligt, direct langs de Vecht. Het heeft een landelijk, agrarisch karakter met vrijstaande woningen op ruime kavels. De gemiddelde WOZ-waarde van €661.000 weerspiegelt het exclusieve woonmilieu."],
+      ["Bijna twee derde van de woningen is van vóór 1975. Bij veel van die woningen is de spouw nog leeg of dunner geïsoleerd dan gebruikelijk. Gijs kijkt tijdens de energiescan wat er al is gedaan en welke stap de meeste winst geeft."],
+    ],
+    bekendVan: {
+      titel: "Haerst in beeld",
+      kaarten: [
+        { icon: "waves", titel: "Vechtdal", tekst: "Haerst ligt direct aan de Vecht en grenst aan het Overijsselse Vechtdallandschap." },
+        { icon: "map-pin", titel: "Twee gemeenten", tekst: "Het buurtschap strekt zich uit over de grens van gemeente Zwolle en gemeente Zwartewaterland." },
+      ],
+    },
+    kernTekst: {
+      haerst: "Je bent hier. Buurtschap in het Vechtdal, aan de grens met Zwartewaterland.",
+      zwolle: "De provinciestad van Overijssel, met het gemeentehuis en alle voorzieningen.",
+      herfte: "Klein buurtschap langs de Vecht, met overwegend vrijstaande woningen.",
+      wijthmen: "Buurtschap met agrarisch karakter en estate-sfeer, ten zuiden van Zwolle.",
+      windesheim: "Historisch dorp in het zuiden van Zwolle.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Zwolle?",
+      tekst: "Voor het buitengebied zoals Haerst werkt de gemeente Zwolle aan individuele warmteoplossingen. Een warmtepomp of all-elektrisch zijn de meest voor de hand liggende routes voor vrijstaande woningen. Isoleren is de eerste stap.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in Haerst",
+    lead: "In spouwmuren, muren en daken van woningen in Haerst wonen vleermuizen en andere beschermde dieren. In de Vechtdalomgeving geldt extra aandacht voor natuurbescherming. Bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een gespecialiseerd bedrijf weet hoe het met beschermde soorten omgaat en regelt ook de verplichte melding." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te gaan vóór er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Het isolatiebedrijf zorgt voor vervangende nestkasten of invliegopeningen." },
+      { icon: "file-check", titel: "Melding bij de provincie", tekst: "Het isolatiebedrijf doet de verplichte melding bij de provincie Overijssel. Dat hoef je niet zelf te regelen." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
+  },
+  faq: [
+    { question: "Helpt Gijs ook in Haerst?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle, ook in kleine kernen zoals Haerst. Een gratis energiescan is overal aan te vragen." },
+    { question: "Welke subsidies zijn er in Haerst?", answer: "Haerst valt (voor het deel in Zwolle) onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
+    { question: "Mijn vrijstaande woning is van vóór 1975. Waar begin ik?", answer: "Bijna twee derde van de woningen in Haerst is van vóór 1975. Bij vrijstaande woningen telt goede isolatie extra zwaar. Gijs kijkt tijdens de energiescan wat er al is en welke stap de meeste winst geeft." },
+    { question: "Moet ik bij isolatie rekening houden met de Vechtdal-natuur?", answer: "Ja. Vleermuizen, huismussen en gierzwaluwen zijn wettelijk beschermd (Wet natuurbescherming). Het Vechtdal is ook een Natura 2000-gebied. Kies een isolatiebedrijf dat hier mee weet om te gaan." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Herfte", href: "/regio/overijssel/zwolle/herfte" },
+    { naam: "Woning verduurzamen in Wijthmen", href: "/regio/overijssel/zwolle/wijthmen" },
   ],
 };
 
@@ -3097,6 +3586,12 @@ const PLAATS_VERHALEN: Record<string, Record<string, GemeenteVerhaal>> = {
   },
   zwolle: {
     berkum: BERKUM_ZWOLLE,
+    westenholte: WESTENHOLTE,
+    stadshagen: STADSHAGEN,
+    windesheim: WINDESHEIM,
+    wijthmen: WIJTHMEN,
+    herfte: HERFTE,
+    haerst: HAERST,
   },
 };
 

@@ -86,16 +86,34 @@ const PUBLICATIE: Record<string, { indexeerbaar: boolean; plaatsen: Record<strin
   // ("Verspreide huizen De Westerhoeve"); de Wikipedia-bronlijst had dit dus fout. Terug op
   // indexeerbaar: false, net als Bruinehaar en Weitemanslanden (buurtschappen).
   twenterand: { indexeerbaar: true, plaatsen: { vriezenveen: { indexeerbaar: true }, vroomshoop: { indexeerbaar: true }, "den-ham": { indexeerbaar: true }, geerdijk: { indexeerbaar: true }, "de-pollen": { indexeerbaar: true }, "westerhaar-vriezenveensewijk": { indexeerbaar: true }, westerhoeven: { indexeerbaar: false }, bruinehaar: { indexeerbaar: false }, weitemanslanden: { indexeerbaar: false } } },
-  // Zwolle is alleen een eenvoudige bovenliggende overzichtspagina (noindex) voor de wijk Berkum,
-  // waar Gijs met Berkum Energieneutraal samenwerkt. Geen SEO-pagina voor heel Zwolle.
-  zwolle: { indexeerbaar: true, plaatsen: { berkum: { indexeerbaar: true } } },
+  // Zwolle heeft officieel één woonplaats (Zwolle). De sub-kernen zijn wijken en buurtschappen.
+  // Westenholte (voormalige gemeente), Stadshagen (grote nieuwbouwwijk), Windesheim (historisch dorp),
+  // Wijthmen, Herfte en Haerst (buurtschappen in het Vechtdal) krijgen elk een eigen pagina.
+  // Frankhuis is een buurt binnen Stadshagen (geen zelfstandige kern). Langenholte, Spoolde en
+  // Harculo en Hoog-Zuthem zijn te klein voor eigen pagina's.
+  zwolle: {
+    indexeerbaar: true,
+    plaatsen: {
+      berkum: { indexeerbaar: true },
+      westenholte: { indexeerbaar: true },
+      stadshagen: { indexeerbaar: true },
+      windesheim: { indexeerbaar: true },
+      wijthmen: { indexeerbaar: true },
+      herfte: { indexeerbaar: true },
+      haerst: { indexeerbaar: true },
+      frankhuis: { indexeerbaar: false },
+      langenholte: { indexeerbaar: false },
+      spoolde: { indexeerbaar: false },
+      "harculo-en-hoog-zuthem": { indexeerbaar: false },
+    },
+  },
 };
 
 // Gemeenten en wijken buiten de Gemeenteborden-set (die alleen Twente dekt). Bewust alleen de
 // plaatsen die een eigen pagina hebben: een volledige kernenlijst van deze gemeenten staat niet in
 // de aangeleverde data en wordt niet verzonnen.
 const EXTRA_GEMEENTEN: { naam: string; kernen: { naam: string; bord?: string }[] }[] = [
-  { naam: "Zwolle", kernen: [{ naam: "Zwolle", bord: "/images/regio/gemeenteborden/Zwolle/Zwolle.webp" }, { naam: "Berkum" }] },
+  { naam: "Zwolle", kernen: [{ naam: "Zwolle", bord: "/images/regio/gemeenteborden/Zwolle/Zwolle.webp" }, { naam: "Berkum" }, { naam: "Westenholte" }, { naam: "Stadshagen" }, { naam: "Windesheim" }, { naam: "Wijthmen" }, { naam: "Herfte" }, { naam: "Haerst" }] },
   // Overige Overijsselse gemeenten, nog zonder eigen pagina (geen PUBLICATIE-entry, dus
   // gepubliceerd: false) — tonen op de provinciepagina als "binnenkort", zodat zichtbaar is dat
   // Gijs heel Overijssel bedient. De 432-plaatsenrollout (apart Deep Research-rapport) komt later.
