@@ -14,25 +14,30 @@ export default function nextConfig(phase: string): NextConfig {
     },
     async redirects() {
       return [
+        // /home bestond op de oude site; Google had het geïndexeerd. 301 zodat Google
+        // stopt met crawlen en de canonical-duplicate in GSC verdwijnt.
+        { source: "/home", destination: "/", permanent: true },
         { source: "/installatie", destination: "/maatregelen#installaties", permanent: true },
+        { source: "/installatie/", destination: "/maatregelen#installaties", permanent: true },
         // Hernoemd voor duidelijkere, SEO-vriendelijkere URL (bevatte niet
         // het woord "muur"). 301 zodat bestaande links/bookmarks blijven werken.
         { source: "/maatregelen/spouwisolatie", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
         { source: "/warmtepompen", destination: "/maatregelen/warmtepomp", permanent: true },
         // Oude URL's van de vorige site die Google nog toont (Search Console, 90 dagen).
+        // Trailing-slash varianten apart toegevoegd (GSC zag dubbele hop).
         { source: "/spouwmuurisolatie", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
+        { source: "/spouwmuurisolatie/", destination: "/maatregelen/spouwmuurisolatie", permanent: true },
         { source: "/thuisbatterij", destination: "/maatregelen/thuisbatterij", permanent: true },
         { source: "/kozijnen", destination: "/maatregelen/kozijnen", permanent: true },
         // Vloerisolatiepagina legt het verschil met bodemisolatie uit.
         { source: "/bodemisolatie", destination: "/maatregelen/vloerisolatie", permanent: true },
         // Verscheen alleen op de merkzoekopdracht "gijs groen in je straat".
         { source: "/plans-pricing", destination: "/", permanent: true },
-        // Juridische documenten linken bewust rechtstreeks naar het originele PDF-document i.p.v.
-        // een eigen opgemaakte pagina — dat oogt voor dit soort documenten geloofwaardiger. Niet
-        // "permanent" (307): dit zijn geen vaste URL's, de bestandsnaam kan wijzigen zodra er een
-        // nieuwe versie komt (zie public/documenten/).
-        { source: "/algemene-voorwaarden", destination: "/documenten/algemene-voorwaarden-gijs.pdf", permanent: false },
-        { source: "/avg-verklaring", destination: "/documenten/avg-verklaring-gijs.pdf", permanent: false },
+        // Juridische documenten: 301 (permanent) zodat Google /avg-verklaring niet
+        // blijft crawlen als "pagina met omleiding". Als de bestandsnaam ooit wijzigt,
+        // update dan ook de destination hier.
+        { source: "/algemene-voorwaarden", destination: "/documenten/algemene-voorwaarden-gijs.pdf", permanent: true },
+        { source: "/avg-verklaring", destination: "/documenten/avg-verklaring-gijs.pdf", permanent: true },
       ];
     },
     async headers() {

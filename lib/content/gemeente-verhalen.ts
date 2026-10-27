@@ -85,7 +85,7 @@ const BORNE: GemeenteVerhaal = {
     alineas: [
       ["De gemeente Borne bestaat uit de kern Borne, de dorpen Zenderen en Hertme en het buitengebied. Of je nu in een rijwoning in de kern woont of in een vrijstaand huis aan de rand van een dorp: de vraag is steeds waar de meeste warmte weglekt."],
       ["Dat verschil telt. Een vrijstaande woning heeft meer buitenmuur, dak en vloer dan een tussenwoning van dezelfde grootte, dus daar weegt goede isolatie extra zwaar. Woningtype, bouwjaar en ligging zeggen meer over je huis dan alleen de plaatsnaam."],
-      ["Wil je je woning isoleren in Borne? Gijs helpt bij het vinden van de juiste maatregel — van ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, " tot zonnepanelen — maar voert de werkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies, daarna begeleidt Gijs het traject van A tot Z."],
+      ["Wil je je woning isoleren in Borne? Gijs helpt bij het vinden van de juiste maatregel, van ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, " tot zonnepanelen, maar voert de werkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies, daarna begeleidt Gijs het traject van A tot Z."],
     ],
     bekendVan: {
       titel: "Waar is Borne bekend van?",
@@ -239,7 +239,7 @@ const HERTME: GemeenteVerhaal = {
   h1: "Je woning verduurzamen in Hertme",
   intro: [
     ["Woon je in Hertme of het omliggende buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen, welke regelingen er nu in de gemeente ", { tekst: "Borne", href: "/regio/overijssel/borne" }, " zijn en waar je rekening mee moet houden."],
-    ["Bijna twee derde van de woningen in Hertme staat vrijstaand — het hoogste aandeel van de drie dorpen in Borne. Vrijstaande woningen hebben meer buitenoppervlak, wat betekent dat goede isolatie van dak, spouw en vloer extra bijdraagt."],
+    ["Bijna twee derde van de woningen in Hertme staat vrijstaand, het hoogste aandeel van de drie dorpen in Borne. Vrijstaande woningen hebben meer buitenoppervlak, wat betekent dat goede isolatie van dak, spouw en vloer extra bijdraagt."],
   ],
   kernen: ["hertme", "borne", "zenderen"],
   woningen: {
@@ -251,7 +251,7 @@ const HERTME: GemeenteVerhaal = {
       { waarde: "€494.000", label: "gem. WOZ-waarde" },
     ],
     bouwperiodes: [
-      { label: "Vóór 1945", percentage: 11, tekst: "Oude boerderijen en landelijke bebouwing. Kenmerkend voor de bosrijke omgeving van Hertme — bijna altijd zonder of met minimale isolatie." },
+      { label: "Vóór 1945", percentage: 11, tekst: "Oude boerderijen en landelijke bebouwing. Kenmerkend voor de bosrijke omgeving van Hertme, bijna altijd zonder of met minimale isolatie." },
       { label: "1945 – 1975", percentage: 18, tekst: "Naoorlogse groei van het dorp, overwegend vrijstaand of twee-onder-een-kap. Spouwmuurisolatie is hier vrijwel altijd de eerste stap." },
       { label: "1975 – 1995", percentage: 36, tekst: "De grootste bouwperiode van Hertme. Ruime vrijstaande woningen waarbij isolatie en zonnepanelen goed gecombineerd kunnen worden." },
       { label: "1995 – heden", percentage: 35, tekst: "Redelijk modern gebouwd. De focus ligt vaker op installaties: warmtepomp, zonnepanelen of thuisbatterij." },
@@ -344,7 +344,7 @@ const HENGELO: GemeenteVerhaal = {
     alineas: [
       ["Hengelo groeide in de twintigste eeuw uit tot een van de grootste steden van Twente, gedreven door de maakindustrie. De wederopbouw na de Tweede Wereldoorlog liet een grote naoorlogse woningvoorraad achter. Vandaag is Hengelo een compacte stad met zowel oudbouw in het centrum als rustige wijken en het dorp Beckum aan de rand."],
       ["De variatie in woningtype is groot. Huurders in meergezinswoningen en kopers van vrijstaande woningen hebben elk een ander startpunt. Gijs kijkt per woning wat de meest zinvolle stap is."],
-      ["Op zoek naar een isolatiebedrijf in Hengelo? Gijs helpt bij het isoleren van je woning — of het nu gaat om ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, ", ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, " of een andere maatregel — maar voert de werkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+      ["Op zoek naar een isolatiebedrijf in Hengelo? Gijs helpt bij het isoleren van je woning, of het nu gaat om ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, ", ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, " of een andere maatregel, maar voert de werkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     bekendVan: {
       titel: "Waar is Hengelo bekend van?",
@@ -554,12 +554,12 @@ const ALMELO: GemeenteVerhaal = {
 const HOF_VAN_TWENTE: GemeenteVerhaal = {
   seo: {
     title: "Woning isoleren in Hof van Twente | Advies & ontzorging – Gijs",
-    description: "Op zoek naar een isolatiebedrijf in Hof van Twente — Goor, Delden, Markelo of het buitengebied? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
+    description: "Op zoek naar een isolatiebedrijf in Hof van Twente, Goor, Delden, Markelo of het buitengebied? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Hof van Twente",
   h1: "Je woning isoleren en verduurzamen in Hof van Twente",
   intro: [
-    ["Woon je in de gemeente Hof van Twente — in ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen."],
+    ["Woon je in de gemeente Hof van Twente, in ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen."],
     ["Met 69% koopwoningen en een groot aandeel vrijstaande huizen is Hof van Twente een gemeente waar verduurzaming vaak een individuele keuze is. Gijs kijkt wat bij jouw huis past."],
   ],
   kernen: ["goor", "delden", "markelo", "diepenheim", "bentelo", "hengevelde"],
@@ -715,12 +715,12 @@ const OLDENZAAL: GemeenteVerhaal = {
 const HELLENDOORN: GemeenteVerhaal = {
   seo: {
     title: "Woning isoleren en verduurzamen in Hellendoorn | Gijs",
-    description: "Je woning verduurzamen in Hellendoorn — Nijverdal, Daarle, Daarlerveen of Haarle? Lees wat het bouwjaar zegt en welke subsidies er nu zijn.",
+    description: "Op zoek naar een isolatiebedrijf in Hellendoorn of Nijverdal? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Hellendoorn",
   h1: "Je woning verduurzamen in Hellendoorn",
   intro: [
-    ["Woon je in de gemeente Hellendoorn — in ", { tekst: "Nijverdal", href: "/regio/overijssel/hellendoorn/nijverdal" }, ", ", { tekst: "Haarle", href: "/regio/overijssel/hellendoorn/haarle" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen."],
+    ["Woon je in de gemeente Hellendoorn, in ", { tekst: "Nijverdal", href: "/regio/overijssel/hellendoorn/nijverdal" }, ", ", { tekst: "Haarle", href: "/regio/overijssel/hellendoorn/haarle" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen."],
     ["Bijna twee derde van de woningen in de gemeente Hellendoorn is gebouwd vóór 1995. In die woningen is er vrijwel altijd verduurzamingspotentieel. Gijs kijkt wat logisch is als eerste stap."],
   ],
   kernen: ["hellendoorn", "nijverdal", "haarle", "daarle"],
@@ -783,6 +783,7 @@ const HELLENDOORN: GemeenteVerhaal = {
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In de gemeente Hellendoorn wonen beschermde vleermuizen, huismussen en gierzwaluwen. Kies een isolatiebedrijf dat natuurvriendelijk werkt." },
     { question: "Kijkt Gijs ook naar een warmtepomp of zonnepanelen?", answer: "Ja. Gijs kijkt naar isolatie én installaties, in de volgorde die bij jouw woning past." },
     { question: "Helpt Gijs ook in Nijverdal, Haarle en Daarlerveen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hellendoorn, ook in alle dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Hellendoorn?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Vervolgens begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, zodat je er zelf niet van wakker hoeft te liggen." },
   ],
   verwant: [
     { naam: "Woning verduurzamen in Rijssen-Holten", href: "/regio/overijssel/rijssen-holten" },
@@ -875,12 +876,12 @@ const RIJSSEN_HOLTEN: GemeenteVerhaal = {
 const TWENTERAND: GemeenteVerhaal = {
   seo: {
     title: "Woning isoleren en verduurzamen in Twenterand | Gijs",
-    description: "Je woning verduurzamen in Twenterand — Vriezenveen, Vroomshoop of Den Ham? Lees wat het bouwjaar zegt en welke subsidies er nu zijn.",
+    description: "Je woning verduurzamen in Twenterand, Vriezenveen, Vroomshoop of Den Ham? Lees wat het bouwjaar zegt en welke subsidies er nu zijn.",
   },
   kicker: "Gemeente Twenterand",
   h1: "Je woning verduurzamen in Twenterand",
   intro: [
-    ["Woon je in de gemeente Twenterand — in ", { tekst: "Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen" }, ", ", { tekst: "Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop" }, " of ", { tekst: "Den Ham", href: "/regio/overijssel/twenterand/den-ham" }, "? Ontdek welke isolatie en installaties bij jouw woning passen."],
+    ["Woon je in de gemeente Twenterand, in ", { tekst: "Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen" }, ", ", { tekst: "Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop" }, " of ", { tekst: "Den Ham", href: "/regio/overijssel/twenterand/den-ham" }, "? Ontdek welke isolatie en installaties bij jouw woning passen."],
     ["Met ruim een derde vrijstaande woningen en een WOZ-waarde van gemiddeld €354.000 is Twenterand een landelijke gemeente waar verduurzaming per woning een andere aanpak vraagt. Gijs kijkt wat bij jouw huis past."],
   ],
   kernen: ["vriezenveen", "vroomshoop", "den-ham"],
@@ -1033,7 +1034,7 @@ const BOEKELO: GemeenteVerhaal = {
   h1: "Je woning verduurzamen in Boekelo",
   intro: [
     ["Woon je in Boekelo of het omliggende buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu in de gemeente ", { tekst: "Enschede", href: "/regio/overijssel/enschede" }, " zijn."],
-    ["Boekelo heeft een gevarieerde woningvoorraad — van oudere vrijstaande woningen langs de historische linten tot modernere woningen in de woonstraten. Gijs kijkt per woning wat de logische stap is."],
+    ["Boekelo heeft een gevarieerde woningvoorraad, van oudere vrijstaande woningen langs de historische linten tot modernere woningen in de woonstraten. Gijs kijkt per woning wat de logische stap is."],
   ],
   kernen: ["boekelo", "enschede", "glanerbrug", "lonneker", "usselo", "twekkelo"],
   woningen: {
@@ -2904,12 +2905,12 @@ const WESTERHAAR_VRIEZENVEENSEWIJK: GemeenteVerhaal = {
 const ZWOLLE: GemeenteVerhaal = {
   seo: {
     title: "Je huis isoleren in Zwolle | Advies & ontzorging – Gijs",
-    description: "Je huis isoleren in Zwolle, van Stadshagen tot Berkum? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z — in Berkum in samenwerking met BEN. Gratis energiescan aan huis.",
+    description: "Je huis isoleren in Zwolle, van Stadshagen tot Berkum? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, in Berkum in samenwerking met BEN. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Zwolle",
   h1: "Je huis isoleren en verduurzamen in Zwolle",
   intro: [
-    ["Woon je in Zwolle? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen, en welke subsidies er nu gelden. Gijs is actief in de hele gemeente — van ", { tekst: "Stadshagen", href: "/regio/overijssel/zwolle/stadshagen" }, " en ", { tekst: "Westenholte", href: "/regio/overijssel/zwolle/westenholte" }, " tot het historische ", { tekst: "Windesheim", href: "/regio/overijssel/zwolle/windesheim" }, " en ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ", waar we samenwerken met bewonerscoöperatie BEN."],
+    ["Woon je in Zwolle? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen, en welke subsidies er nu gelden. Gijs is actief in de hele gemeente, van ", { tekst: "Stadshagen", href: "/regio/overijssel/zwolle/stadshagen" }, " en ", { tekst: "Westenholte", href: "/regio/overijssel/zwolle/westenholte" }, " tot het historische ", { tekst: "Windesheim", href: "/regio/overijssel/zwolle/windesheim" }, " en ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ", waar we samenwerken met bewonerscoöperatie BEN."],
     ["Van de ruim 61.000 woningen in Zwolle is bijna vier op de tien gebouwd vóór 1975, vaak met een buitenmuur die nog niet of nauwelijks is geïsoleerd. Spouwmuurisolatie is dan vaak de eerste en meest effectieve stap, naast dak- en vloerisolatie. Gijs kijkt altijd eerst wat er al is gedaan, en helpt dan met de stap die logisch is voor jouw huis."],
   ],
   kernen: [
@@ -2980,8 +2981,8 @@ const ZWOLLE: GemeenteVerhaal = {
     { question: "Hoe isoleer ik de muren van mijn huis in Zwolle?", answer: "Bij de meeste naoorlogse woningen in Zwolle is spouwmuurisolatie de snelste manier om de buitenmuur te isoleren: het isolatiemateriaal wordt via een klein boorgat in de bestaande spouw aangebracht. Heeft jouw huis geen spouw, dan kijkt Gijs naar binnen- of buitengevelisolatie als alternatief." },
     { question: "Helpt Gijs in heel Zwolle, niet alleen in Berkum?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle. De samenwerking met Berkum Energieneutraal geldt specifiek voor de wijk Berkum, maar een gratis energiescan kun je overal in Zwolle aanvragen." },
     { question: "Welke subsidies zijn er nu in Zwolle?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Zwolle in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
-    { question: "Mijn huis is gebouwd vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer — maar het hangt af van wat er al is gedaan. Veel oudere Zwolse woningen zijn al deels verbeterd door een vorige eigenaar. Gijs kijkt tijdens de energiescan wat er nog te winnen valt." },
-    { question: "Moet ik bij isolatie rekening houden met vleermuizen of huismussen?", answer: "Ja. In Zwolle — en in heel Nederland — zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan. Dat bedrijf regelt ook de melding bij de provincie Overijssel." },
+    { question: "Mijn huis is gebouwd vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer, maar het hangt af van wat er al is gedaan. Veel oudere Zwolse woningen zijn al deels verbeterd door een vorige eigenaar. Gijs kijkt tijdens de energiescan wat er nog te winnen valt." },
+    { question: "Moet ik bij isolatie rekening houden met vleermuizen of huismussen?", answer: "Ja. In Zwolle, en in heel Nederland, zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan. Dat bedrijf regelt ook de melding bij de provincie Overijssel." },
     { question: "Kijkt Gijs ook naar zonnepanelen of een warmtepomp?", answer: "Ja. Gijs kijkt naar het geheel: isolatie én installaties, en naar de volgorde die past bij jouw woning. De gratis energiescan geeft je dat inzicht." },
     { question: "Ik huur mijn woning. Kan ik ook bij Gijs terecht?", answer: "Gijs richt zich op woningeigenaren. Huur je van een corporatie, dan kun je het beste contact opnemen met je verhuurder over verduurzaming." },
   ],
@@ -3008,7 +3009,7 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
   h1: "Je woning verduurzamen in Berkum",
   intro: [
     ["In Berkum wordt al jaren samengewerkt aan een wijk die minder energie gebruikt en straks zonder aardgas kan. Dat begint bij je eigen huis: hoe goed is het geïsoleerd, en wat is een logische volgende stap?"],
-    ["Gijs helpt bewoners van Berkum om dat rustig en zonder verplichtingen te ontdekken. Met een gratis energiescan krijg je inzicht in je woning en een helder beeld van wat er kan — in samenwerking met bewonerscoöperatie ", { tekst: "Berkum Energieneutraal (BEN)", href: "https://www.berkumenergieneutraal.nl/", extern: true }, "."],
+    ["Gijs helpt bewoners van Berkum om dat rustig en zonder verplichtingen te ontdekken. Met een gratis energiescan krijg je inzicht in je woning en een helder beeld van wat er kan, in samenwerking met bewonerscoöperatie ", { tekst: "Berkum Energieneutraal (BEN)", href: "https://www.berkumenergieneutraal.nl/", extern: true }, "."],
   ],
   kernen: ["berkum", "zwolle", "westenholte", "stadshagen", "windesheim"],
   woningen: {
@@ -3033,7 +3034,7 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
     alineas: [
       ["Berkum Energieneutraal (BEN) is een initiatief van en voor bewoners van Berkum. Het wordt gedragen door vrijwilligers uit de wijk, verenigd in een stichting en een energiecoöperatie, in samenwerking met de gemeente Zwolle en de woningcorporaties."],
       ["BEN wil dat Berkum minder energie gebruikt, zelf duurzame energie opwekt en uiteindelijk van het aardgas af gaat. De eerste stap is het verduurzamen van de woningen zelf. Gijs is samenwerkingspartner van BEN: we helpen bewoners met inzicht in hun woning en de mogelijke vervolgstappen."],
-      ["Berkum is aangewezen als proeftuin in het landelijke programma voor aardgasvrije wijken. Dat betekent niet dat bewoners verplicht zijn iets te doen. De energiescan bij Gijs is gratis en vrijblijvend — je beslist zelf wat je wanneer doet."],
+      ["Berkum is aangewezen als proeftuin in het landelijke programma voor aardgasvrije wijken. Dat betekent niet dat bewoners verplicht zijn iets te doen. De energiescan bij Gijs is gratis en vrijblijvend, je beslist zelf wat je wanneer doet."],
     ],
     bekendVan: {
       titel: "Berkum in cijfers",
@@ -3052,7 +3053,7 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Doel: aardgasvrij-ready in 2028",
-      tekst: "BEN heeft de ambitie dat in 2028 alle woningen in Berkum aardgasvrij-ready zijn. Dat is een doel van BEN, geen belofte van Gijs. Aardgasvrij-ready betekent dat je huis zo goed geïsoleerd is dat het straks met een lagere temperatuur verwarmd kan worden — zonder dat je nu al van het gas af hoeft.",
+      tekst: "BEN heeft de ambitie dat in 2028 alle woningen in Berkum aardgasvrij-ready zijn. Dat is een doel van BEN, geen belofte van Gijs. Aardgasvrij-ready betekent dat je huis zo goed geïsoleerd is dat het straks met een lagere temperatuur verwarmd kan worden, zonder dat je nu al van het gas af hoeft.",
     },
   },
   natuur: {
@@ -3085,7 +3086,7 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
 // Gemeente Zwolle heeft officieel één woonplaats. De sub-kernen zijn wijken en buurtschappen.
 // Bouwperiodes voor buurtschappen zijn inschattingen; AlleCijfers toont ze als grafieken.
 // Bronnen: wijk Westenholte, wijk Stadshagen, buurt Windesheim, buurt Wijthmen, buurt Herfte,
-// buurt Haerst — allemaal AlleCijfers.nl 2026.
+// buurt Haerst, allemaal AlleCijfers.nl 2026.
 
 const WESTENHOLTE: GemeenteVerhaal = {
   seo: {
@@ -3096,7 +3097,7 @@ const WESTENHOLTE: GemeenteVerhaal = {
   h1: "Je woning verduurzamen in Westenholte",
   intro: [
     ["Woon je in Westenholte? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
-    ["Westenholte was tot 1967 een zelfstandige gemeente. De meeste woningen zijn naoorlogs gebouwd — met name in de jaren zestig en zeventig. Juist in dat bouwjaar is de verduurzamingswinst vaak het grootst."],
+    ["Westenholte was tot 1967 een zelfstandige gemeente. De meeste woningen zijn naoorlogs gebouwd, met name in de jaren zestig en zeventig. Juist in dat bouwjaar is de verduurzamingswinst vaak het grootst."],
   ],
   kernen: ["westenholte", "zwolle", "berkum", "stadshagen"],
   woningen: {
@@ -3108,7 +3109,7 @@ const WESTENHOLTE: GemeenteVerhaal = {
       { waarde: "€408.000", label: "gem. WOZ-waarde" },
     ],
     bouwperiodes: [
-      { label: "Vóór 1945", percentage: 5, tekst: "Historische bebouwing uit de tijd dat Westenholte een zelfstandige gemeente was. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "Vóór 1945", percentage: 5, tekst: "Historische bebouwing uit de tijd dat Westenholte een zelfstandige gemeente was. Bijna altijd gebouwd zonder isolatienormen, spouw, dak en vloer zijn hier de grootste winst." },
       { label: "1945 – 1975", percentage: 35, tekst: "De grootste groei van Westenholte als uitbreidingswijk van Zwolle. Spouwmuren aanwezig, maar de spouw is vaak nog leeg." },
       { label: "1975 – 1995", percentage: 40, tekst: "Deels geïsoleerd bij oplevering, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan bijisoleren." },
       { label: "Na 1995", percentage: 20, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
@@ -3119,7 +3120,7 @@ const WESTENHOLTE: GemeenteVerhaal = {
   lokaal: {
     titel: "Westenholte: voormalige gemeente met eigen karakter",
     alineas: [
-      ["Westenholte was tot 1967 een zelfstandige gemeente, Zwollerkerspel genaamd. Het heeft een eigen historisch dorpscentrum met de Westenholterkerk — een 13e-eeuws rijksmonument dat nog steeds het hart van de wijk vormt."],
+      ["Westenholte was tot 1967 een zelfstandige gemeente, Zwollerkerspel genaamd. Het heeft een eigen historisch dorpscentrum met de Westenholterkerk, een 13e-eeuws rijksmonument dat nog steeds het hart van de wijk vormt."],
       ["Na de fusie groeide Westenholte verder met naoorlogse woonwijken. Die combinatie van historische bebouwing en naoorlogse uitbreiding bepaalt ook wat er te verduurzamen valt: bij de oudste woningen is de spouw vaak nog leeg, de nieuwere hebben al deels isolatie maar zijn bijna altijd te verbeteren."],
     ],
     bekendVan: {
@@ -3157,7 +3158,7 @@ const WESTENHOLTE: GemeenteVerhaal = {
     { question: "Welke subsidies zijn er in Westenholte?", answer: "Westenholte valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
     { question: "Mijn huis is uit de jaren zestig of zeventig. Waar begin ik?", answer: "Veel woningen in Westenholte zijn uit die periode. De spouwmuur is bijna altijd aanwezig, maar de spouw is vaak nog leeg of dunner geïsoleerd dan gebruikelijk. Gijs kijkt tijdens de energiescan wat er al is en welke stap de meeste winst geeft." },
     { question: "Mijn woning is een rijksmonument of nabij een monument. Mag ik zomaar isoleren?", answer: "Voor rijksmonumenten gelden beperkingen. Voor gewone woningen naast een monument zijn er geen bijzondere regels. Bij twijfel kijkt Gijs mee en verwijst naar de juiste instantie." },
-    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan — dat bedrijf regelt ook de melding bij de provincie." },
+    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan, dat bedrijf regelt ook de melding bij de provincie." },
   ],
   verwant: [
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
@@ -3175,11 +3176,11 @@ const STADSHAGEN: GemeenteVerhaal = {
   h1: "Je woning verduurzamen in Stadshagen",
   intro: [
     ["Woon je in Stadshagen? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen en welke subsidies er nu in de gemeente ", { tekst: "Zwolle", href: "/regio/overijssel/zwolle" }, " gelden."],
-    ["Stadshagen is de grootste nieuwbouwwijk van Zwolle, gebouwd vanaf de jaren negentig. De meeste woningen zijn al goed geïsoleerd, maar ook in Stadshagen is verduurzamen zinvol — denk aan een warmtepomp, zonnepanelen of een thuisbatterij."],
+    ["Stadshagen is de grootste nieuwbouwwijk van Zwolle, gebouwd vanaf de jaren negentig. De meeste woningen zijn al goed geïsoleerd, maar ook in Stadshagen is verduurzamen zinvol, denk aan een warmtepomp, zonnepanelen of een thuisbatterij."],
   ],
   kernen: ["stadshagen", "zwolle", "westenholte", "berkum"],
   woningen: {
-    lead: "Stadshagen is bijna volledig naoorlogs. Dat is anders dan de rest van Zwolle — en dat zie je terug in wat verduurzamen betekent.",
+    lead: "Stadshagen is bijna volledig naoorlogs. Dat is anders dan de rest van Zwolle, en dat zie je terug in wat verduurzamen betekent.",
     kerncijfers: [
       { waarde: "10.790", label: "woningen" },
       { waarde: "~5%", label: "gebouwd vóór 1995" },
@@ -3192,7 +3193,7 @@ const STADSHAGEN: GemeenteVerhaal = {
       { label: "2010 – 2020", percentage: 30, tekst: "Gebouwd onder strengere energienormen. De schil is goed; de winst zit in slimme installaties en energieopwekking." },
       { label: "Na 2020", percentage: 10, tekst: "Bijna energieneutraal of bijna-energieneutraal (BENG). De focus ligt op zonnepanelen, thuisbatterijen en optimalisatie." },
     ],
-    voetnoot: "Het bouwjaar is een eerste indicatie. Gijs kijkt altijd naar jouw eigen huis — ook in Stadshagen zijn er grote verschillen per type en straat.",
+    voetnoot: "Het bouwjaar is een eerste indicatie. Gijs kijkt altijd naar jouw eigen huis, ook in Stadshagen zijn er grote verschillen per type en straat.",
     bron: { naam: "CBS en BAG via AlleCijfers.nl, wijk Stadshagen, 2026", url: "https://www.allecijfers.nl/wijk/stadshagen-zwolle/" },
   },
   lokaal: {
@@ -3205,7 +3206,7 @@ const STADSHAGEN: GemeenteVerhaal = {
       titel: "Stadshagen in beeld",
       kaarten: [
         { icon: "building-2", titel: "Grootste nieuwbouwwijk", tekst: "Stadshagen heeft bijna 11.000 woningen en is de grootste en snelst gegroeide wijk van Zwolle." },
-        { icon: "droplets", titel: "Water en groen", tekst: "De wijk is ontworpen met veel water, parken en groenstroken — kenmerkend voor de planologie van de jaren negentig." },
+        { icon: "droplets", titel: "Water en groen", tekst: "De wijk is ontworpen met veel water, parken en groenstroken, kenmerkend voor de planologie van de jaren negentig." },
         { icon: "shopping-cart", titel: "Winkelcentrum In de Boomgaard", tekst: "Het winkelcentrum is het kloppende hart van de wijk en heeft alles wat nodig is voor dagelijks gebruik." },
       ],
     },
@@ -3217,7 +3218,7 @@ const STADSHAGEN: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Stadshagen?",
-      tekst: "Stadshagen groeit nog steeds, met nieuwe buurten die bijna-energieneutraal (BENG) worden gebouwd. Tegelijk vragen de eerste woningen uit de jaren negentig nu om onderhoud en verbetering — glas, installaties en eventueel extra isolatie.",
+      tekst: "Stadshagen groeit nog steeds, met nieuwe buurten die bijna-energieneutraal (BENG) worden gebouwd. Tegelijk vragen de eerste woningen uit de jaren negentig nu om onderhoud en verbetering, glas, installaties en eventueel extra isolatie.",
     },
   },
   natuur: {
@@ -3234,9 +3235,9 @@ const STADSHAGEN: GemeenteVerhaal = {
   },
   faq: [
     { question: "Is verduurzamen in Stadshagen zinvol als mijn huis al goed geïsoleerd is?", answer: "Ja. De schil is bij nieuwbouwwoningen al beter. Maar ook in Stadshagen is er winst te halen met een hybride warmtepomp (gas besparen), zonnepanelen of een thuisbatterij. Gijs kijkt wat bij jouw woning past." },
-    { question: "Welke subsidies zijn er in Stadshagen?", answer: "Stadshagen valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt — ook voor installaties in goed geïsoleerde woningen." },
+    { question: "Welke subsidies zijn er in Stadshagen?", answer: "Stadshagen valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook voor installaties in goed geïsoleerde woningen." },
     { question: "Mijn woning is uit 2005 of 2010. Wat is de logische stap?", answer: "Kijk eerst naar glas en installaties. Een hybride warmtepomp of zonnepanelen zijn in woningen uit die periode vaak de meest rendabele stap. Gijs beoordeelt tijdens de energiescan wat er al is en wat de logische volgorde is." },
-    { question: "Moet ik ook bij een nieuwbouwwoning rekening houden met beschermde dieren?", answer: "Ja. Ook in nieuwbouw nestelen vleermuizen en huismussen. Kies een isolatiebedrijf dat hier mee weet om te gaan — dat regelt ook de melding bij de provincie." },
+    { question: "Moet ik ook bij een nieuwbouwwoning rekening houden met beschermde dieren?", answer: "Ja. Ook in nieuwbouw nestelen vleermuizen en huismussen. Kies een isolatiebedrijf dat hier mee weet om te gaan, dat regelt ook de melding bij de provincie." },
   ],
   verwant: [
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
@@ -3266,7 +3267,7 @@ const WINDESHEIM: GemeenteVerhaal = {
       { waarde: "€434.000", label: "gem. WOZ-waarde" },
     ],
     bouwperiodes: [
-      { label: "Vóór 1945", percentage: 15, tekst: "Historische lintbebouwing langs de dorpskern. Gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste kansen." },
+      { label: "Vóór 1945", percentage: 15, tekst: "Historische lintbebouwing langs de dorpskern. Gebouwd zonder isolatienormen, spouw, dak en vloer zijn hier de grootste kansen." },
       { label: "1945 – 1975", percentage: 30, tekst: "Naoorlogse uitbreiding van het dorp. Spouwmuren aanwezig, maar de spouw is vaak nog leeg of dunner geïsoleerd dan gebruikelijk." },
       { label: "1975 – 1995", percentage: 30, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren. Eerst kijken wat er al zit, dan bijisoleren." },
       { label: "Na 1995", percentage: 25, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas, een warmtepomp of zonnepanelen." },
@@ -3277,7 +3278,7 @@ const WINDESHEIM: GemeenteVerhaal = {
   lokaal: {
     titel: "Windesheim: dorp met een middeleeuwse naam",
     alineas: [
-      ["Windesheim heeft een bijzondere plek in de Europese kerkgeschiedenis. Hier stichtten Geert Grote en Florens Radewijns in de 14e eeuw het klooster van Windesheim, de bakermat van de Congregatie van Windesheim — een invloedrijke monastieke beweging die zich door heel Europa verspreidde. Van het klooster resteert nu nog een kapel."],
+      ["Windesheim heeft een bijzondere plek in de Europese kerkgeschiedenis. Hier stichtten Geert Grote en Florens Radewijns in de 14e eeuw het klooster van Windesheim, de bakermat van de Congregatie van Windesheim, een invloedrijke monastieke beweging die zich door heel Europa verspreidde. Van het klooster resteert nu nog een kapel."],
       ["De Hogeschool Windesheim in Zwolle dankt haar naam aan dit historische dorp. In het dorp zelf wonen ruim 150 huishoudens in een mix van historische panden, naoorlogse woningen en enkele nieuwbouwhuizen."],
     ],
     bekendVan: {
@@ -3315,7 +3316,7 @@ const WINDESHEIM: GemeenteVerhaal = {
     { question: "Helpt Gijs ook in Windesheim?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle, ook in kleine kernen zoals Windesheim. Een gratis energiescan is overal in Zwolle aan te vragen." },
     { question: "Welke subsidies zijn er in Windesheim?", answer: "Windesheim valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
     { question: "Mijn woning staat in de historische kern van Windesheim. Mag ik isoleren?", answer: "Voor gewone woningen (geen rijksmonument) gelden geen bijzondere beperkingen. Gijs kijkt mee en verwijst bij twijfel naar de juiste instantie." },
-    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan — dat bedrijf regelt ook de melding bij de provincie." },
+    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan, dat bedrijf regelt ook de melding bij de provincie." },
   ],
   verwant: [
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
@@ -3345,7 +3346,7 @@ const WIJTHMEN: GemeenteVerhaal = {
       { waarde: "€548.000", label: "gem. WOZ-waarde" },
     ],
     bouwperiodes: [
-      { label: "Vóór 1945", percentage: 15, tekst: "Historische agrarische bebouwing. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste kansen." },
+      { label: "Vóór 1945", percentage: 15, tekst: "Historische agrarische bebouwing. Bijna altijd gebouwd zonder isolatienormen, spouw, dak en vloer zijn hier de grootste kansen." },
       { label: "1945 – 1975", percentage: 20, tekst: "Naoorlogse woningbouw. Spouwmuren aanwezig maar de spouw is vaak nog leeg of dunner geïsoleerd." },
       { label: "1975 – 1995", percentage: 35, tekst: "De grootste bouwperiode van Wijthmen. Deels geïsoleerd, maar bijna altijd te verbeteren." },
       { label: "Na 1995", percentage: 30, tekst: "Beter geïsoleerd. De winst zit vaker in installaties: warmtepomp, zonnepanelen of thuisbatterij." },
@@ -3356,7 +3357,7 @@ const WIJTHMEN: GemeenteVerhaal = {
   lokaal: {
     titel: "Wijthmen: agrarisch buurtschap met estates",
     alineas: [
-      ["Wijthmen is een buurtschap in het buitengebied van Zwolle, ten zuiden van de stad. Het landschap wordt gedomineerd door landgoederen, agrarische percelen en de Nieuwe Vecht. De bebouwing is overwegend vrijstaand — vandaar de hoge gemiddelde WOZ-waarde."],
+      ["Wijthmen is een buurtschap in het buitengebied van Zwolle, ten zuiden van de stad. Het landschap wordt gedomineerd door landgoederen, agrarische percelen en de Nieuwe Vecht. De bebouwing is overwegend vrijstaand, vandaar de hoge gemiddelde WOZ-waarde."],
       ["Met 252 woningen is Wijthmen klein. Een groot deel van de bewoners is woningeigenaar. Vrijstaande woningen hebben meer buitenmuur, dak en vloer dan tussenwoningen, waardoor goede isolatie extra bijdraagt."],
     ],
     bekendVan: {
@@ -3394,7 +3395,7 @@ const WIJTHMEN: GemeenteVerhaal = {
     { question: "Helpt Gijs ook in Wijthmen?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle, ook in het buitengebied. Een gratis energiescan is overal in Zwolle aan te vragen." },
     { question: "Welke subsidies zijn er in Wijthmen?", answer: "Wijthmen valt onder gemeente Zwolle. De regelingen die nu voor Zwolle gelden, zijn ook op jouw woning van toepassing. Met de subsidiecheck zie je wat er voor jouw adres geldt." },
     { question: "Mijn huis staat vrijstaand. Heeft dat invloed op de aanpak?", answer: "Ja. Een vrijstaande woning heeft meer buitenmuur, dak en vloer dan een tussenwoning. Goede isolatie van de schil telt daardoor zwaarder mee. Gijs bekijkt de combinatie van schil en installaties in de juiste volgorde." },
-    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle — ook in het buitengebied — zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan." },
+    { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In heel Zwolle, ook in het buitengebied, zijn vleermuizen, huismussen en gierzwaluwen wettelijk beschermd. Kies een isolatiebedrijf dat hier mee weet om te gaan." },
   ],
   verwant: [
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
@@ -3424,7 +3425,7 @@ const HERFTE: GemeenteVerhaal = {
       { waarde: "€704.000", label: "gem. WOZ-waarde" },
     ],
     bouwperiodes: [
-      { label: "Vóór 1945", percentage: 20, tekst: "Historische bebouwing langs de Vecht. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste winst." },
+      { label: "Vóór 1945", percentage: 20, tekst: "Historische bebouwing langs de Vecht. Bijna altijd gebouwd zonder isolatienormen, spouw, dak en vloer zijn hier de grootste winst." },
       { label: "1945 – 1975", percentage: 30, tekst: "Naoorlogse vrijstaande woningen. Spouwmuren aanwezig maar de spouw is vaak nog leeg of dunner geïsoleerd." },
       { label: "1975 – 1995", percentage: 25, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren." },
       { label: "Na 1995", percentage: 25, tekst: "Beter geïsoleerd. De winst zit vaker in installaties: warmtepomp, zonnepanelen of thuisbatterij." },
@@ -3503,7 +3504,7 @@ const HAERST: GemeenteVerhaal = {
       { waarde: "€661.000", label: "gem. WOZ-waarde" },
     ],
     bouwperiodes: [
-      { label: "Vóór 1945", percentage: 30, tekst: "Historische agrarische bebouwing langs de Vecht. Bijna altijd gebouwd zonder isolatienormen — spouw, dak en vloer zijn hier de grootste kansen." },
+      { label: "Vóór 1945", percentage: 30, tekst: "Historische agrarische bebouwing langs de Vecht. Bijna altijd gebouwd zonder isolatienormen, spouw, dak en vloer zijn hier de grootste kansen." },
       { label: "1945 – 1975", percentage: 30, tekst: "Naoorlogse bebouwing. Spouwmuren aanwezig, maar de spouw is vaak nog leeg of dunner geïsoleerd dan gebruikelijk." },
       { label: "1975 – 1995", percentage: 25, tekst: "Deels geïsoleerd, maar bijna altijd te verbeteren." },
       { label: "Na 1995", percentage: 15, tekst: "Beter geïsoleerd. De winst zit vaker in installaties: warmtepomp, zonnepanelen of thuisbatterij." },
@@ -3628,7 +3629,7 @@ const WIERDEN: GemeenteVerhaal = {
     { question: "Is Gijs een isolatiebedrijf in Wierden?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Enter en de andere dorpen." },
     { question: "Welke subsidies zijn er voor mijn woning in Wierden?", answer: "Op deze pagina zie je de regelingen die nu voor Wierden gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
-    { question: "Mijn woning staat in Enter of een ander dorp van Wierden. Maakt dat wat uit?", answer: "Nee. Gijs werkt in de hele gemeente Wierden — van Enter en Hoge Hexel tot Notter, Rectum, Zuna en IJpelo. De meeste woningen in Enter zijn uit de naoorlogse periode en vergelijkbaar gebouwd als die in de kern Wierden. Gijs kijkt altijd naar jouw eigen huis." },
+    { question: "Mijn woning staat in Enter of een ander dorp van Wierden. Maakt dat wat uit?", answer: "Nee. Gijs werkt in de hele gemeente Wierden, van Enter en Hoge Hexel tot Notter, Rectum, Zuna en IJpelo. De meeste woningen in Enter zijn uit de naoorlogse periode en vergelijkbaar gebouwd als die in de kern Wierden. Gijs kijkt altijd naar jouw eigen huis." },
     { question: "Helpt Gijs ook in Enter, Hoge Hexel en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Wierden, dus ook in Enter, Hoge Hexel, Notter, Rectum, Zuna en IJpelo." },
   ],
   verwant: [
@@ -3648,7 +3649,7 @@ const TUBBERGEN: GemeenteVerhaal = {
   h1: "Je woning isoleren en verduurzamen in Tubbergen",
   intro: [
     ["Woon je in ", { tekst: "Tubbergen", href: "/regio/overijssel/tubbergen/tubbergen" }, ", Albergen, Geesteren of een van de andere dorpen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
-    ["In de gemeente Tubbergen is 40% van de woningvoorraad vrijstaand — het hoogste aandeel van de regio. Vrijstaande woningen hebben meer buitenoppervlak en daarmee meer verduurzamingspotentie. Gijs kijkt wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
+    ["In de gemeente Tubbergen is 40% van de woningvoorraad vrijstaand, het hoogste aandeel van de regio. Vrijstaande woningen hebben meer buitenoppervlak en daarmee meer verduurzamingspotentie. Gijs kijkt wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
   ],
   kernen: ["tubbergen", "albergen", "geesteren", "vasse", "reutum", "langeveen", "fleringen", "hezingen", "manderveen", "mariaparochie", "harbrinkhoek"],
   woningen: {
@@ -3690,7 +3691,7 @@ const TUBBERGEN: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Tubbergen?",
-      tekst: "Met elf kleine kernen en het hoogste aandeel vrijstaande woningen van de regio verschilt de woningvoorraad per dorp sterk. In Albergen staan andere huizen dan in Vasse of Langeveen. Gijs kijkt per woning wat de logische volgorde is — los van welk dorp je woont.",
+      tekst: "Met elf kleine kernen en het hoogste aandeel vrijstaande woningen van de regio verschilt de woningvoorraad per dorp sterk. In Albergen staan andere huizen dan in Vasse of Langeveen. Gijs kijkt per woning wat de logische volgorde is, los van welk dorp je woont.",
     },
   },
   natuur: {
@@ -3865,7 +3866,7 @@ const HAAKSBERGEN: GemeenteVerhaal = {
     },
     ontwikkeling: {
       titel: "Wat speelt er in Haaksbergen?",
-      tekst: "Haaksbergen heeft een compacte woningvoorraad van ruim 10.000 woningen, waarvan 44% gebouwd in de naoorlogse periode 1945-1975. Die woningen hebben vrijwel altijd een spouwmuur die leeg is of onvolledig gevuld. Dat is vaak de eerste maatregel die bewoners aanpakken — en ook de meest kosteneffectieve. Gijs kijkt altijd wat er al gedaan is.",
+      tekst: "Haaksbergen heeft een compacte woningvoorraad van ruim 10.000 woningen, waarvan 44% gebouwd in de naoorlogse periode 1945-1975. Die woningen hebben vrijwel altijd een spouwmuur die leeg is of onvolledig gevuld. Dat is vaak de eerste maatregel die bewoners aanpakken, en ook de meest kosteneffectieve. Gijs kijkt altijd wat er al gedaan is.",
     },
   },
   natuur: {
@@ -3884,7 +3885,7 @@ const HAAKSBERGEN: GemeenteVerhaal = {
     { question: "Is Gijs een isolatiebedrijf in Haaksbergen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Haaksbergen. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Buurse en Sint Isidorushoeve." },
     { question: "Welke subsidies zijn er voor mijn woning in Haaksbergen?", answer: "Op deze pagina zie je de regelingen die nu voor Haaksbergen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
-    { question: "Loont spouwmuurisolatie ook als de spouw al gedeeltelijk gevuld is?", answer: "Dat hangt af van wat er al in de spouw zit en hoe dik. Een dunne laag uit de jaren tachtig voldoet meestal niet meer aan de huidige norm. Gijs kijkt of bijvulling of vervangende isolatie zinvol is — een bewering die je van buiten niet kunt doen zonder de spouw te inspecteren." },
+    { question: "Loont spouwmuurisolatie ook als de spouw al gedeeltelijk gevuld is?", answer: "Dat hangt af van wat er al in de spouw zit en hoe dik. Een dunne laag uit de jaren tachtig voldoet meestal niet meer aan de huidige norm. Gijs kijkt of bijvulling of vervangende isolatie zinvol is, een bewering die je van buiten niet kunt doen zonder de spouw te inspecteren." },
     { question: "Helpt Gijs ook in Buurse en Sint Isidorushoeve?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Haaksbergen, dus ook in Buurse en Sint Isidorushoeve." },
   ],
   verwant: [
@@ -3975,6 +3976,813 @@ const LOSSER: GemeenteVerhaal = {
   ],
 };
 
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const DALFSEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Dalfsen | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Dalfsen, Nieuwleusen of Lemelerveld? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Dalfsen",
+  h1: "Je woning isoleren en verduurzamen in Dalfsen",
+  intro: [
+    ["Woon je in Dalfsen, Nieuwleusen, Lemelerveld of een van de andere dorpen in de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Ruim 40% van de woningen in Dalfsen is van vóór 1975. Met een groot aandeel vrijstaande woningen (35%) is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["dalfsen", "nieuwleusen", "lemelerveld", "hoonhorst"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Dalfsen verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "12.599", label: "woningen" },
+      { waarde: "35%", label: "vrijstaand" },
+      { waarde: "41%", label: "gebouwd vóór 1975" },
+      { waarde: "74%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 41, tekst: "Vrijstaande woningen en lintbebouwing langs de Vecht. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg of slecht gevuld. Dak en vloer zijn hier de gebruikelijke eerste stap." },
+      { label: "1975 – 1995", percentage: 25, tekst: "Deels geïsoleerd bij oplevering, maar de isolatiewaarde is vaak lager dan tegenwoordig gebruikelijk. Bijisoleren geeft hier de meeste winst." },
+      { label: "1995 – 2015", percentage: 21, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 13, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen en een thuisbatterij zijn hier vaker de volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/dalfsen/" },
+  },
+  lokaal: {
+    titel: "Dalfsen: landelijk wonen langs de Vecht",
+    alineas: [
+      ["De gemeente Dalfsen bestaat uit de kern Dalfsen en de dorpen Nieuwleusen, Lemelerveld, Hoonhorst en een reeks kleine kernen in het Vechtdal. De gemeente heeft een uitgesproken landelijk karakter met veel vrijstaande woningen en twee-onder-één-kappers."],
+      ["Nieuwleusen is de grootste kern, met een eigen winkelcentrum. Lemelerveld en Hoonhorst zijn kleinere dorpen met een hecht gemeenschapskarakter. In het buitengebied staan ook voormalige boerderijen die verbouwd zijn tot woonboerderijen, een woningtype met eigen isolatie-uitdagingen."],
+    ],
+    bekendVan: {
+      titel: "Waar is Dalfsen bekend om?",
+      kaarten: [
+        { icon: "landmark", titel: "Landgoed Rechteren", tekst: "Het 18e-eeuwse kasteel Rechteren aan de Vecht is een rijksmonument en een van de markantste buitenplaatsen van Overijssel." },
+        { icon: "waves", titel: "Vechtdal", tekst: "De Vecht slingert door het landschap en is bepalend voor de gemeente. Het gebied trekt wandelaars, fietsers en kanoërs." },
+      ],
+    },
+    kernTekst: {
+      dalfsen: "De gemeentekern met het gemeentehuis en de meeste voorzieningen.",
+      nieuwleusen: "De grootste kern van de gemeente, met een winkelcentrum.",
+      lemelerveld: "Dorp ten zuiden van Dalfsen, met basisvoorzieningen.",
+      hoonhorst: "Klein dorp in het westen van de gemeente.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Dalfsen?",
+      tekst: "In Nieuwleusen en Lemelerveld staan veel woningen uit de jaren vijftig tot zeventig. Spouwmuurisolatie en dakisolatie zijn hier de meestgevraagde maatregelen. In het buitengebied tref je vaker vrijstaande woningen met een hoger verduurzamingspotentieel.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Dalfsen",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Dalfsen moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Dalfsen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Nieuwleusen, Lemelerveld en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Dalfsen?", answer: "Op deze pagina zie je de regelingen die nu voor Dalfsen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen in Dalfsen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Helpt Gijs ook in Nieuwleusen en Lemelerveld?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Dalfsen, dus ook in Nieuwleusen, Lemelerveld, Hoonhorst en het buitengebied." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Ommen", href: "/regio/overijssel/ommen" },
+    { naam: "Woning verduurzamen in Zwartewaterland", href: "/regio/overijssel/zwartewaterland" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const DEVENTER: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Deventer | Advies & ontzorging – Gijs",
+    description: "Wil je je woning isoleren in Deventer of Bathmen? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
+  },
+  kicker: "Gemeente Deventer",
+  h1: "Je woning isoleren en verduurzamen in Deventer",
+  intro: [
+    ["Woon je in Deventer, Bathmen, Diepenveen of een van de andere kernen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Circa de helft van de woningen in Deventer is van vóór 1975. In het historisch centrum staan veel oude panden, met eigen aandachtspunten bij isolatie, maar ook in de naoorlogse wijken is er volop verduurzamingspotentieel."],
+  ],
+  kernen: ["deventer", "bathmen", "diepenveen", "colmschate", "schalkhaar"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Deventer verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "48.140", label: "woningen" },
+      { waarde: "36%", label: "tussenwoning" },
+      { waarde: "~50%", label: "gebouwd vóór 1975" },
+      { waarde: "56%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 50, tekst: "Een groot deel van Deventer bestaat uit vooroorlogse panden en naoorlogse stadswijken. In het historisch centrum gelden soms beperkingen voor de uitstraling. Gijs kijkt wat er mogelijk is." },
+      { label: "1975 – 1995", percentage: 18, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 23, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp of zonnepanelen." },
+      { label: "Na 2015", percentage: 9, tekst: "Al goed geïsoleerd. Zonnepanelen en een thuisbatterij zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/deventer/" },
+  },
+  lokaal: {
+    titel: "Deventer: Hanzestad met een rijke woninggeschiedenis",
+    alineas: [
+      ["Deventer is een van de oudste steden van Nederland en een voormalige Hanzestad aan de IJssel. Het historisch centrum heeft meer dan vijfhonderd beschermde monumenten, waaronder Museum de Waag uit 1528. De gemeente omvat naast het stadscentrum ook kernen als Bathmen, Diepenveen, Colmschate en Schalkhaar."],
+      ["In de naoorlogse wijken rondom het centrum staan veel tussenwoningen met spouwmuren. In de kleinere kernen als Bathmen en Diepenveen tref je vaker vrijstaande woningen en twee-onder-één-kappers. Gijs helpt in de hele gemeente, van centrum tot buitengebied."],
+    ],
+    bekendVan: {
+      titel: "Waar is Deventer bekend om?",
+      kaarten: [
+        { icon: "landmark", titel: "Museum de Waag", tekst: "Het oudste waaggebouw van Nederland (1528) staat in het hart van de historische binnenstad." },
+        { icon: "ship", titel: "Hanzestad", tekst: "Deventer was lid van de Hanzebond en heeft een rijke handelsgeschiedenis langs de IJssel." },
+        { icon: "trophy", titel: "Go Ahead Eagles", tekst: "De profvoetbalclub van Deventer speelt in de Eredivisie en is al meer dan honderd jaar verbonden aan de stad." },
+      ],
+    },
+    kernTekst: {
+      deventer: "De historische binnenstad en grootste kern van de gemeente.",
+      bathmen: "Dorp ten zuiden van Deventer, met een landelijk karakter.",
+      diepenveen: "Dorp ten noorden van Deventer, met een eigen historische kern.",
+      colmschate: "Wijk en kern ten oosten van het stadscentrum.",
+      schalkhaar: "Kern ten noorden van Deventer, tussen de IJssel en het buitengebied.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Deventer?",
+      tekst: "In de naoorlogse wijken van Deventer, Colmschate, Schalkhaar en de uitbreidingen aan de oostkant, staan veel tussenwoningen met spouwmuren die nog niet of onvolledig zijn gevuld. In het historisch centrum gelden soms beperkingen voor de uitstraling van gevels; Gijs weet welke maatregelen dan nog mogelijk zijn.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Deventer",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Deventer moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Deventer?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Bathmen, Diepenveen en de andere kernen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Deventer?", answer: "Op deze pagina zie je de regelingen die nu voor Deventer gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning staat in de binnenstad van Deventer. Kan ik toch isoleren?", answer: "Ja, maar bij monumenten en panden in beschermd stadsgezicht gelden soms beperkingen voor gevelisolatie of dakisolatie die de uitstraling verandert. Gijs kijkt welke maatregelen wel mogelijk zijn, binnenisolatie, vloerisolatie of glas zijn vaak een optie." },
+    { question: "Helpt Gijs ook in Bathmen en Diepenveen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Deventer, dus ook in Bathmen, Diepenveen, Colmschate en Schalkhaar." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Olst-Wijhe", href: "/regio/overijssel/olst-wijhe" },
+    { naam: "Woning verduurzamen in Raalte", href: "/regio/overijssel/raalte" },
+    { naam: "Woning verduurzamen in Hof van Twente", href: "/regio/overijssel/hof-van-twente" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const HARDENBERG: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Hardenberg | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Hardenberg of Dedemsvaart? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Hardenberg",
+  h1: "Je woning isoleren en verduurzamen in Hardenberg",
+  intro: [
+    ["Woon je in Hardenberg, Dedemsvaart, Gramsbergen of een van de andere dorpen in de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Ruim 40% van de woningen in Hardenberg is van vóór 1975. Met een groot aandeel vrijstaande woningen is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["hardenberg", "dedemsvaart", "gramsbergen", "slagharen", "marienberg", "balkbrug", "bergentheim", "heemse"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Hardenberg verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "26.307", label: "woningen" },
+      { waarde: "33%", label: "vrijstaand" },
+      { waarde: "41%", label: "gebouwd vóór 1975" },
+      { waarde: "70%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 41, tekst: "Lintbebouwing langs het Vechtdal en historische bebouwing in Dedemsvaart en Gramsbergen. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg." },
+      { label: "1975 – 1995", percentage: 25, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 20, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 14, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/hardenberg/" },
+  },
+  lokaal: {
+    titel: "Hardenberg: wonen in het Vechtdal",
+    alineas: [
+      ["De gemeente Hardenberg omvat een groot gebied in het noordoosten van Overijssel, met als grootste kernen Hardenberg zelf en Dedemsvaart. Het Vechtdal is bepalend voor het landschap: de rivier de Vecht stroomt door de gemeente en trekt wandelaars en fietsers."],
+      ["Dedemsvaart is ontstaan langs een historisch kanaalenstelsel uit de 19e eeuw. De gemeente heeft een sterk landelijk karakter, met veel vrijstaande woningen en twee-onder-één-kappers in en rond de dorpen."],
+    ],
+    bekendVan: {
+      titel: "Waar is Hardenberg bekend om?",
+      kaarten: [
+        { icon: "waves", titel: "Vechtdal", tekst: "De rivier de Vecht slingert door de gemeente en maakt van Hardenberg een populair recreatiegebied voor fietsers, wandelaars en kanoërs." },
+        { icon: "ship", titel: "Kanaalenstelsel Dedemsvaart", tekst: "Dedemsvaart ontstond langs het 19e-eeuwse kanaalenstelsel voor turfvervoer, zichtbaar in de rechte linten van de kern." },
+      ],
+    },
+    kernTekst: {
+      hardenberg: "De gemeentekern met het gemeentehuis en de meeste voorzieningen.",
+      dedemsvaart: "Tweede kern van de gemeente, ontstaan langs het historisch kanaalenstelsel.",
+      gramsbergen: "Dorp aan de Vecht in het westen van de gemeente.",
+      slagharen: "Dorp in het noorden van de gemeente, bekend om attractiepark Slagharen.",
+      marienberg: "Dorp in het midden van de gemeente.",
+      balkbrug: "Dorp in het westen, gelegen langs het Overijssels Kanaal.",
+      bergentheim: "Dorp in het midden-oosten van de gemeente.",
+      heemse: "Dorp grenzend aan Hardenberg.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Hardenberg?",
+      tekst: "In Dedemsvaart staan veel woningen langs de kanaallinten, vaak tussenwoningen en twee-onder-één-kappers uit de jaren vijftig tot zeventig. In Hardenberg zelf en in de omliggende dorpen tref je vaker vrijstaande woningen. Gijs kijkt per woning wat de logische volgorde is.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Hardenberg",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Hardenberg moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Hardenberg?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Dedemsvaart, Gramsbergen en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Hardenberg?", answer: "Op deze pagina zie je de regelingen die nu voor Hardenberg gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Helpt Gijs ook in Dedemsvaart, Gramsbergen en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hardenberg, van Dedemsvaart en Gramsbergen tot Slagharen, Mariënberg en Balkbrug." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Ommen", href: "/regio/overijssel/ommen" },
+    { naam: "Woning verduurzamen in Twenterand", href: "/regio/overijssel/twenterand" },
+    { naam: "Woning verduurzamen in Staphorst", href: "/regio/overijssel/staphorst" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const KAMPEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Kampen | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Kampen of IJsselmuiden? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Kampen",
+  h1: "Je woning isoleren en verduurzamen in Kampen",
+  intro: [
+    ["Woon je in Kampen, IJsselmuiden of een van de andere kernen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Bijna 44% van de woningen in Kampen is van vóór 1975. In de historische binnenstad gelden soms beperkingen voor gevelaanpassingen, maar ook in de naoorlogse wijken en de dorpen is er volop verduurzamingspotentieel."],
+  ],
+  kernen: ["kampen", "ijsselmuiden", "grafhorst", "zalk", "wilsum", "kamperveen"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Kampen verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "23.734", label: "woningen" },
+      { waarde: "37%", label: "tussenwoning" },
+      { waarde: "44%", label: "gebouwd vóór 1975" },
+      { waarde: "64%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 44, tekst: "Een aanzienlijk deel bestaat uit historische panden in de binnenstad en naoorlogse uitbreidingen in IJsselmuiden en Kampen-Noord. Spouwmuren zijn er vaak, maar de spouw is soms nog leeg." },
+      { label: "1975 – 1995", percentage: 23, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 21, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 12, tekst: "Al goed geïsoleerd. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/kampen/" },
+  },
+  lokaal: {
+    titel: "Kampen: Hanzestad aan de IJssel",
+    alineas: [
+      ["Kampen is een voormalige Hanzestad (eerste vermelding 1227) aan de IJssel, met een beschermd stadsgezicht en honderden rijksmonumenten in de historische binnenstad. Naast de stad omvat de gemeente de kernen IJsselmuiden, Grafhorst, Zalk, Wilsum en Kamperveen in het poldergebied."],
+      ["In IJsselmuiden staan veel naoorlogse woningen, een van de snelst gegroeid kernen van de regio. In de kleine polderkernen als Grafhorst en Wilsum zijn het vrijstaande woningen en boerderijen die het beeld bepalen."],
+    ],
+    bekendVan: {
+      titel: "Waar is Kampen bekend om?",
+      kaarten: [
+        { icon: "landmark", titel: "Hanzestad", tekst: "Kampen was een van de machtigste Hanzesteden van de Nederlanden. De middeleeuwse stadswal en de Bovenkerk zijn de bekendste monumenten." },
+        { icon: "waves", titel: "IJssel", tekst: "De rivier de IJssel is bepalend voor de gemeente. Het polderland rondom de IJssel is een beschermd cultuurlandschap." },
+      ],
+    },
+    kernTekst: {
+      kampen: "De historische binnenstad met honderden rijksmonumenten.",
+      ijsselmuiden: "Naoorlogse groeikern aan de westoever van de IJssel.",
+      grafhorst: "Klein polderkerntje ten westen van Kampen.",
+      zalk: "Dorp langs de IJssel, bekend om het beschermde dorpsgezicht.",
+      wilsum: "Klein dorp in het poldergebied ten noorden van Kampen.",
+      kamperveen: "Dorp in het polderlandschap ten westen van Kampen.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Kampen?",
+      tekst: "In IJsselmuiden staan veel tussenwoningen uit de jaren zestig tot tachtig met spouwmuren. In de historische binnenstad van Kampen gelden bij sommige panden beperkingen voor gevelaanpassingen; binnenisolatie of vloerisolatie zijn dan vaker een optie. Gijs kijkt wat er per woning mogelijk is.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Kampen",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Kampen moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Kampen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in IJsselmuiden en de andere kernen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Kampen?", answer: "Op deze pagina zie je de regelingen die nu voor Kampen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning staat in de binnenstad van Kampen. Kan ik toch isoleren?", answer: "Ja, maar bij monumenten en panden in beschermd stadsgezicht gelden soms beperkingen voor uitstraling. Gijs kijkt welke maatregelen wél mogelijk zijn, vloerisolatie, binnenisolatie en glas zijn vaak een optie." },
+    { question: "Helpt Gijs ook in IJsselmuiden, Grafhorst en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Kampen, dus ook in IJsselmuiden, Grafhorst, Zalk, Wilsum en Kamperveen." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Zwartewaterland", href: "/regio/overijssel/zwartewaterland" },
+    { naam: "Woning verduurzamen in Staphorst", href: "/regio/overijssel/staphorst" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const OLST_WIJHE: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Olst-Wijhe | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Olst, Wijhe of Wesepe? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Olst-Wijhe",
+  h1: "Je woning isoleren en verduurzamen in Olst-Wijhe",
+  intro: [
+    ["Woon je in Olst, Wijhe, Wesepe of een van de andere kernen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Bijna de helft van de woningen in Olst-Wijhe is van vóór 1975. Met een groot aandeel vrijstaande woningen is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["olst", "wijhe", "wesepe"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Olst-Wijhe verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "8.267", label: "woningen" },
+      { waarde: "32%", label: "vrijstaand" },
+      { waarde: "~49%", label: "gebouwd vóór 1975" },
+      { waarde: "70%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 49, tekst: "Vrijstaande woningen en lintbebouwing langs de IJssel. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg of slecht gevuld." },
+      { label: "1975 – 1995", percentage: 19, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 19, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 13, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/olst-wijhe/" },
+  },
+  lokaal: {
+    titel: "Olst-Wijhe: wonen langs de IJssel",
+    alineas: [
+      ["De gemeente Olst-Wijhe ligt aan de IJssel, tussen Deventer en Zwolle. De twee kernen Olst en Wijhe hebben elk een eigen dorpscentrum. Het landelijke karakter, met veel vrijstaande woningen en kleine kernen, maakt het een van de rustigere gemeenten van Overijssel."],
+      ["In Wijhe staat een achthoekige houten paltrokmolen uit 1703 als rijksmonument. In Olst is landgoed De Haare met een historische tolpoort een bekende buitenplaats. De gemeente telt relatief veel eigenaar-bewoners (70%) met vrijstaande woningen uit de jaren vijftig en zestig."],
+    ],
+    bekendVan: {
+      titel: "Waar is Olst-Wijhe bekend om?",
+      kaarten: [
+        { icon: "landmark", titel: "Paltrokmolen Wijhe", tekst: "De achthoekige houten paltrokmolen van Wijhe (1703) is een rijksmonument en een van de markantste gebouwen van de gemeente." },
+        { icon: "waves", titel: "IJssel", tekst: "De IJssel vormt de oostelijke grens van de gemeente. Het rivierenlandschap bepaalt het karakter van Olst en Wijhe." },
+      ],
+    },
+    kernTekst: {
+      olst: "Kern aan de IJssel, met een historisch dorpscentrum en landgoed De Haare.",
+      wijhe: "Grootste kern van de gemeente, met een rijksmonumentale paltrokmolen.",
+      wesepe: "Klein dorp tussen Olst en Wijhe, met een landelijk karakter.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Olst-Wijhe?",
+      tekst: "Met bijna de helft van de woningvoorraad van vóór 1975 en een groot aandeel vrijstaande woningen is er in Olst-Wijhe veel verduurzamingspotentieel. Spouwmuurisolatie en dakisolatie zijn de meestgevraagde maatregelen. Gijs kijkt per woning wat de logische volgorde is.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Olst-Wijhe",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Olst-Wijhe moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Olst-Wijhe?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Wijhe en Wesepe." },
+    { question: "Welke subsidies zijn er voor mijn woning in Olst-Wijhe?", answer: "Op deze pagina zie je de regelingen die nu voor Olst-Wijhe gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Helpt Gijs ook in Olst en Wesepe?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Olst-Wijhe, dus ook in Olst, Wesepe en de buurtschappen in het buitengebied." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Deventer", href: "/regio/overijssel/deventer" },
+    { naam: "Woning verduurzamen in Raalte", href: "/regio/overijssel/raalte" },
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const OMMEN: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Ommen | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Ommen of Vilsteren? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Ommen",
+  h1: "Je woning isoleren en verduurzamen in Ommen",
+  intro: [
+    ["Woon je in Ommen, Vilsteren, Beerze of een van de andere dorpen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Bijna 44% van de woningen in Ommen is van vóór 1975. Met een groot aandeel vrijstaande woningen (38%) is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["ommen", "vilsteren", "beerze", "stegeren", "varsen", "giethmen"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Ommen verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "7.934", label: "woningen" },
+      { waarde: "38%", label: "vrijstaand" },
+      { waarde: "44%", label: "gebouwd vóór 1975" },
+      { waarde: "71%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 44, tekst: "Vrijstaande woningen langs de Vecht en historische bebouwing in Ommen. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg of slecht gevuld." },
+      { label: "1975 – 1995", percentage: 26, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 20, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 10, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/ommen/" },
+  },
+  lokaal: {
+    titel: "Ommen: wonen langs de Vecht",
+    alineas: [
+      ["Ommen is een van de oudste steden van Overijssel, het ontving al in 1248 stadsrechten. De gemeente grenst aan Nationaal Park Sallandse Heuvelrug en heeft een uitgesproken landelijk karakter, met veel vrijstaande woningen en kleine kernen langs de Vecht."],
+      ["De rivier de Vecht is bepalend voor het landschap van Ommen. Vilsteren, Beerze en de andere dorpen zijn kleine kernen met een hecht gemeenschapskarakter. In het buitengebied staan ook voormalige boerderijen die verbouwd zijn tot woonboerderijen."],
+    ],
+    bekendVan: {
+      titel: "Waar is Ommen bekend om?",
+      kaarten: [
+        { icon: "waves", titel: "Vechtdal", tekst: "De Vecht is het hart van de gemeente. Het Vechtdal trekt wandelaars, fietsers en kanoërs en grenst aan Nationaal Park Sallandse Heuvelrug." },
+        { icon: "landmark", titel: "Oudste stad van Overijssel", tekst: "Ommen ontving stadsrechten in 1248 en is een van de oudste steden van Overijssel." },
+      ],
+    },
+    kernTekst: {
+      ommen: "De stadskern van de gemeente, met de meeste voorzieningen.",
+      vilsteren: "Dorp ten zuiden van Ommen, in het Vechtdal.",
+      beerze: "Dorp in het zuiden van de gemeente, in een bosrijke omgeving.",
+      stegeren: "Klein dorp in het noorden van de gemeente.",
+      varsen: "Dorp langs de Vecht, ten westen van Ommen.",
+      giethmen: "Buurtschap in het noorden van de gemeente Ommen.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Ommen?",
+      tekst: "In Ommen zelf staan veel woningen uit de jaren vijftig tot zeventig met spouwmuren. In de omliggende dorpen en het buitengebied tref je vaker vrijstaande woningen en voormalige boerderijen. Gijs kijkt per woning wat de logische volgorde is.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Ommen",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Ommen, die grenst aan Nationaal Park Sallandse Heuvelrug, moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Ommen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Vilsteren, Beerze en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Ommen?", answer: "Op deze pagina zie je de regelingen die nu voor Ommen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Helpt Gijs ook in Vilsteren, Beerze en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Ommen, van Vilsteren en Beerze tot Stegeren, Varsen en Giethmen." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Dalfsen", href: "/regio/overijssel/dalfsen" },
+    { naam: "Woning verduurzamen in Hardenberg", href: "/regio/overijssel/hardenberg" },
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const RAALTE: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Raalte | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Raalte of Heino? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Raalte",
+  h1: "Je woning isoleren en verduurzamen in Raalte",
+  intro: [
+    ["Woon je in Raalte, Heino, Heeten of een van de andere dorpen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Ruim een derde van de woningen in Raalte is van vóór 1975. Met een mix van vrijstaande woningen en tussenwoningen is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["raalte", "heino", "heeten", "luttenberg", "marienheem", "broekland"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Raalte verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "16.573", label: "woningen" },
+      { waarde: "27%", label: "vrijstaand" },
+      { waarde: "37%", label: "gebouwd vóór 1975" },
+      { waarde: "70%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 37, tekst: "Historische bebouwing in de dorpskernen en naoorlogse uitbreidingen. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg of slecht gevuld." },
+      { label: "1975 – 1995", percentage: 33, tekst: "Een relatief groot deel van de woningvoorraad stamt uit deze periode. Deels geïsoleerd, maar bijisoleren geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 20, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 10, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/raalte/" },
+  },
+  lokaal: {
+    titel: "Raalte: Salland op zijn best",
+    alineas: [
+      ["De gemeente Raalte ligt in het hart van Salland, met als grootste kern de stad Raalte en de dorpen Heino, Heeten, Luttenberg, Mariënheem en Broekland. De gemeente heeft een landelijk karakter met een mix van vrijstaande woningen, twee-onder-één-kappers en tussenwoningen."],
+      ["Heino is een levendig dorp met eigen winkelstraat en voorzieningen. In Raalte zelf staat de neogotische Heilige Kruisverheffingskerk (1891) als rijksmonument, een herkenningspunt in het dorpslandschap."],
+    ],
+    bekendVan: {
+      titel: "Waar is Raalte bekend om?",
+      kaarten: [
+        { icon: "landmark", titel: "Heilige Kruisverheffingskerk", tekst: "De neogotische kerk in Raalte (1891, architect A. Tepe) is een rijksmonument en het markantste gebouw van de gemeente." },
+        { icon: "trees", titel: "Sallandse landschap", tekst: "De gemeente ligt in het Sallandse coulissenlandschap, met afwisseling van landbouwgrond, bossen en heidevelden." },
+      ],
+    },
+    kernTekst: {
+      raalte: "De hoofdkern van de gemeente met de meeste voorzieningen.",
+      heino: "Levendig dorp met eigen winkelstraat, ten noorden van Raalte.",
+      heeten: "Dorp ten zuiden van Raalte, met een rustig landelijk karakter.",
+      luttenberg: "Dorp in het oosten van de gemeente, op de Sallandse Heuvelrug.",
+      marienheem: "Klein dorp in het noorden van de gemeente.",
+      broekland: "Buurtschap in het westen van de gemeente Raalte.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Raalte?",
+      tekst: "In Raalte en Heino staan veel woningen uit de jaren zeventig en tachtig. Spouwmuurisolatie en dakisolatie zijn hier de meestgevraagde maatregelen. In Luttenberg, op de heuvelrug, zijn het vaker vrijstaande woningen waarbij de combinatie dak, spouw en vloer de meeste winst geeft.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Raalte",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Raalte moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Raalte?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Heino, Heeten en de andere dorpen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Raalte?", answer: "Op deze pagina zie je de regelingen die nu voor Raalte gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Helpt Gijs ook in Heino, Heeten en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Raalte, dus ook in Heino, Heeten, Luttenberg, Mariënheem en Broekland." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Deventer", href: "/regio/overijssel/deventer" },
+    { naam: "Woning verduurzamen in Olst-Wijhe", href: "/regio/overijssel/olst-wijhe" },
+    { naam: "Woning verduurzamen in Hellendoorn", href: "/regio/overijssel/hellendoorn" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const STAPHORST: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Staphorst | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Staphorst of Rouveen? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Staphorst",
+  h1: "Je woning isoleren en verduurzamen in Staphorst",
+  intro: [
+    ["Woon je in Staphorst, Rouveen, IJhorst of een van de andere kernen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Ruim een derde van de woningen in Staphorst is van vóór 1975. Met een hoog aandeel koopwoningen (78%) en vrijstaande woningen is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["staphorst", "rouveen", "ijhorst", "de-lichtmis"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Staphorst verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "6.279", label: "woningen" },
+      { waarde: "33%", label: "vrijstaand" },
+      { waarde: "36%", label: "gebouwd vóór 1975" },
+      { waarde: "78%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 36, tekst: "Lintbebouwing langs de dorpsstraten en vrijstaande woningen op de veenkoloniale kavels. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg." },
+      { label: "1975 – 1995", percentage: 20, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 32, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 12, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/staphorst/" },
+  },
+  lokaal: {
+    titel: "Staphorst: eigen karakter, sterke gemeenschap",
+    alineas: [
+      ["Staphorst is een gemeente met een sterk eigen karakter. De langgerekte dorpslinten, Staphorst en Rouveen, zijn kenmerkend voor de veenkoloniale ontginningsgeschiedenis. De gemeente staat nationaal bekend om de traditionele klederdracht, die vrouwen in de gemeente nog dagelijks dragen."],
+      ["IJhorst en De Lichtmis zijn kleinere kernen in het westen van de gemeente. Het hoge aandeel koopwoningen (78%) en de dominantie van vrijstaande woningen maken Staphorst een gemeente met relatief veel verduurzamingspotentieel per woning."],
+    ],
+    bekendVan: {
+      titel: "Waar is Staphorst bekend om?",
+      kaarten: [
+        { icon: "landmark", titel: "Klederdracht", tekst: "Staphorst staat nationaal bekend om de traditionele klederdracht. Museum Staphorst bewaart deze traditie; het Staphorster dotwork is erkend als immaterieel erfgoed." },
+        { icon: "trees", titel: "Veenkoloniaal lint", tekst: "De langgerekte dorpslinten van Staphorst en Rouveen zijn een karakteristiek resultaat van de veenontginning." },
+      ],
+    },
+    kernTekst: {
+      staphorst: "Het hoofdlint van de gemeente, met het gemeentehuis en Museum Staphorst.",
+      rouveen: "Het tweede grote lint, direct aansluitend op Staphorst.",
+      ijhorst: "Klein dorp in het westen van de gemeente, bij de A28.",
+      "de-lichtmis": "Kern in het westen van de gemeente, nabij IJhorst.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Staphorst?",
+      tekst: "In de lintbebouwing van Staphorst en Rouveen staan veel vrijstaande woningen op ruime kavels. Dakisolatie en spouwmuurisolatie zijn hier de meestgevraagde maatregelen. Gijs kijkt per woning wat de logische volgorde is.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Staphorst",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Staphorst moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Staphorst?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Rouveen, IJhorst en De Lichtmis." },
+    { question: "Welke subsidies zijn er voor mijn woning in Staphorst?", answer: "Op deze pagina zie je de regelingen die nu voor Staphorst gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen in Staphorst zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Helpt Gijs ook in Rouveen en IJhorst?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Staphorst, dus ook in Rouveen, IJhorst en De Lichtmis." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Zwartewaterland", href: "/regio/overijssel/zwartewaterland" },
+    { naam: "Woning verduurzamen in Steenwijkerland", href: "/regio/overijssel/steenwijkerland" },
+    { naam: "Woning verduurzamen in Dalfsen", href: "/regio/overijssel/dalfsen" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const STEENWIJKERLAND: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Steenwijkerland | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Steenwijk, Giethoorn of Vollenhove? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Steenwijkerland",
+  h1: "Je woning isoleren en verduurzamen in Steenwijkerland",
+  intro: [
+    ["Woon je in Steenwijk, Giethoorn, Vollenhove of een van de andere kernen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Bijna de helft van de woningen in Steenwijkerland is van vóór 1975. Met een groot aandeel vrijstaande woningen (32%) is er in veel gevallen nog winst te halen met dakisolatie, spouwmuurisolatie of een warmtepomp."],
+  ],
+  kernen: ["steenwijk", "vollenhove", "oldemarkt", "giethoorn", "sint-jansklooster", "tuk", "steenwijkerwold", "wanneperveen", "blokzijl", "kuinre"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Steenwijkerland verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "20.632", label: "woningen" },
+      { waarde: "32%", label: "vrijstaand" },
+      { waarde: "~47%", label: "gebouwd vóór 1975" },
+      { waarde: "66%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 47, tekst: "Vrijstaande woningen in de dorpen en historische bebouwing in Steenwijk en Vollenhove. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg of slecht gevuld." },
+      { label: "1975 – 1995", percentage: 23, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 20, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 10, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/steenwijkerland/" },
+  },
+  lokaal: {
+    titel: "Steenwijkerland: van Giethoorn tot Vollenhove",
+    alineas: [
+      ["Steenwijkerland is een uitgestrekte gemeente in het noorden van Overijssel, met als grootste kern de stad Steenwijk. De gemeente omvat ook de historische vestingstad Vollenhove, het wereldberoemde Giethoorn en een reeks kleinere dorpen en kernen in het veenlandschap."],
+      ["Giethoorn staat bekend als 'het Venetië van het Noorden': het dorp heeft nauwelijks verharde wegen en is vrijwel uitsluitend bereikbaar per boot of fiets. Nationaal Park De Weerribben-Wieden, het grootste aaneengesloten laagveenmoeras van Noordwest-Europa, valt grotendeels binnen de gemeente."],
+    ],
+    bekendVan: {
+      titel: "Waar is Steenwijkerland bekend om?",
+      kaarten: [
+        { icon: "waves", titel: "Giethoorn", tekst: "Giethoorn staat wereldwijd bekend als 'het Venetië van het Noorden'. Het dorp is vrijwel uitsluitend bereikbaar per boot of fiets." },
+        { icon: "landmark", titel: "Vollenhove", tekst: "Vollenhove is een historische vestingstad met middeleeuwse grachten en het 16e-eeuwse kasteel Toutenburg." },
+      ],
+    },
+    kernTekst: {
+      steenwijk: "De hoofdstad van de gemeente, met de meeste voorzieningen.",
+      vollenhove: "Historische vestingstad met middeleeuwse grachten.",
+      oldemarkt: "Dorp in het noorden van de gemeente.",
+      giethoorn: "Wereldberoemd vaardorp, 'het Venetië van het Noorden'.",
+      "sint-jansklooster": "Dorp in het noorden van de gemeente.",
+      tuk: "Dorp ten zuiden van Steenwijk.",
+      steenwijkerwold: "Dorp ten zuiden van Steenwijk.",
+      wanneperveen: "Dorp in het veenlandschap van Steenwijkerland.",
+      blokzijl: "Historisch stadje aan het Vollenhoverkanaal.",
+      kuinre: "Dorp aan het Vollenhoverkanaal, in het noorden van de gemeente.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Steenwijkerland?",
+      tekst: "In Steenwijk staan veel woningen uit de jaren vijftig tot tachtig. In de kleinere dorpen als Giethoorn, Blokzijl en Vollenhove staan oudere panden, soms met monumentale status, waarbij gevelaanpassingen beperkingen kennen. Gijs kijkt welke maatregelen per woning mogelijk zijn.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Steenwijkerland",
+    lead: "Steenwijkerland grenst aan Nationaal Park De Weerribben-Wieden. In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen, bij isolatie moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Steenwijkerland?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Giethoorn, Vollenhove en de andere kernen." },
+    { question: "Welke subsidies zijn er voor mijn woning in Steenwijkerland?", answer: "Op deze pagina zie je de regelingen die nu voor Steenwijkerland gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning staat in Giethoorn. Kan ik toch isoleren?", answer: "Ja, maar bij panden in beschermd dorpsgezicht of met monumentale status gelden soms beperkingen voor de uitstraling. Gijs kijkt welke maatregelen wél mogelijk zijn, vloerisolatie, binnenisolatie en glas zijn dan vaak een optie." },
+    { question: "Helpt Gijs ook in Giethoorn, Vollenhove en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Steenwijkerland, van Steenwijk en Giethoorn tot Vollenhove, Blokzijl, Oldemarkt en Kuinre." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Staphorst", href: "/regio/overijssel/staphorst" },
+    { naam: "Woning verduurzamen in Zwartewaterland", href: "/regio/overijssel/zwartewaterland" },
+    { naam: "Woning verduurzamen in Kampen", href: "/regio/overijssel/kampen" },
+  ],
+};
+
+// CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.
+const ZWARTEWATERLAND: GemeenteVerhaal = {
+  seo: {
+    title: "Woning isoleren in Zwartewaterland | Advies & ontzorging – Gijs",
+    description: "Zoek je hulp bij het isoleren van je woning in Hasselt, Genemuiden of Zwartsluis? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z.",
+  },
+  kicker: "Gemeente Zwartewaterland",
+  h1: "Je woning isoleren en verduurzamen in Zwartewaterland",
+  intro: [
+    ["Woon je in Hasselt, Genemuiden, Zwartsluis of Mastenbroek? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Bijna 44% van de woningen in Zwartewaterland is van vóór 1975. Met een groot aandeel tussenwoningen (34%) is er in veel gevallen nog winst te halen met spouwmuurisolatie, dakisolatie of een warmtepomp."],
+  ],
+  kernen: ["hasselt", "genemuiden", "zwartsluis", "mastenbroek"],
+  woningen: {
+    lead: "Het bouwjaar zegt veel over hoe een huis gebouwd is. Zo is de woningvoorraad van Zwartewaterland verdeeld, en dit betekent het meestal voor isolatie.",
+    kerncijfers: [
+      { waarde: "9.305", label: "woningen" },
+      { waarde: "34%", label: "tussenwoning" },
+      { waarde: "44%", label: "gebouwd vóór 1975" },
+      { waarde: "72%", label: "koopwoning" },
+    ],
+    bouwperiodes: [
+      { label: "Vóór 1975", percentage: 44, tekst: "Historische bebouwing in Hasselt en de lintbebouwing langs het Zwarte Water. Spouwmuren zijn er vaak, maar de spouw is regelmatig nog leeg of slecht gevuld." },
+      { label: "1975 – 1995", percentage: 28, tekst: "Deels geïsoleerd bij oplevering. Bijisoleren van spouw en dak geeft hier nog de meeste winst." },
+      { label: "1995 – 2015", percentage: 19, tekst: "Beter geïsoleerd. De winst zit vaker in beter glas of de overstap naar een warmtepomp." },
+      { label: "Na 2015", percentage: 9, tekst: "Al goed geïsoleerd bij oplevering. Zonnepanelen zijn hier vaker de logische volgende stap." },
+    ],
+    voetnoot: "Het bouwjaar is een eerste indicatie, geen conclusie: veel woningen zijn later al verbeterd. Gijs kijkt altijd naar jouw eigen huis.",
+    bron: { naam: "CBS en BAG via AlleCijfers.nl, 2026", url: "https://www.allecijfers.nl/gemeente/zwartewaterland/" },
+  },
+  lokaal: {
+    titel: "Zwartewaterland: drie karaktervolle kernen",
+    alineas: [
+      ["Zwartewaterland ontstond in 2001 door de fusie van Genemuiden, Zwartsluis en Hasselt. De drie kernen hebben elk een eigen karakter. Hasselt is de bestuurlijke hoofdkern en een historische vestingsstad. Genemuiden staat nationaal bekend als tapijthoofdstad van Nederland, meer dan 60% van de landelijke tapijtproductie komt uit dit cluster. Zwartsluis is een watersportdorp bij het sluizencomplex."],
+      ["Het polderland langs het Zwarte Water bepaalt het karakter van de gemeente. Mastenbroek is een van de oudste droogmakerijen van Nederland. Veel woningen in de gemeente zijn van vóór 1975 en hebben nog verduurzamingspotentieel."],
+    ],
+    bekendVan: {
+      titel: "Waar is Zwartewaterland bekend om?",
+      kaarten: [
+        { icon: "landmark", titel: "Hasselt: Hanzestad", tekst: "Hasselt is een historische vestings- en voormalige Hanzestad met de 14e-eeuwse Grote of Petruskerk als rijksmonument." },
+        { icon: "building", titel: "Genemuiden: tapijthoofdstad", tekst: "Genemuiden is de tapijthoofdstad van Nederland: ruim 60% van de nationale tapijtproductie komt uit dit cluster." },
+      ],
+    },
+    kernTekst: {
+      hasselt: "De bestuurlijke hoofdkern, een historische Hanzestad aan het Zwarte Water.",
+      genemuiden: "De tapijthoofdstad van Nederland, met een sterk industrieel karakter.",
+      zwartsluis: "Watersportdorp bij het sluizencomplex aan de Zwolsche Diep.",
+      mastenbroek: "Polderdorp in een van de oudste droogmakerijen van Nederland.",
+    },
+    ontwikkeling: {
+      titel: "Wat speelt er in Zwartewaterland?",
+      tekst: "In Genemuiden en Hasselt staan veel tussenwoningen uit de jaren vijftig tot tachtig. Spouwmuurisolatie is hier de meestgevraagde maatregel. In Zwartsluis tref je vaker vrijstaande woningen langs het water. Gijs kijkt per woning wat de logische volgorde is.",
+    },
+  },
+  natuur: {
+    titel: "Beschermde dieren bij isolatie in gemeente Zwartewaterland",
+    lead: "In spouwmuren, muren en daken wonen vleermuizen, huismussen en gierzwaluwen. Bij isolatie in de gemeente Zwartewaterland moet je hier rekening mee houden:",
+    stappen: [
+      { icon: "badge-check", titel: "Kies een natuurvriendelijk isolatiebedrijf", tekst: "Een erkend bedrijf weet welke soorten voorkomen en hoe je ze beschermt bij de werkzaamheden." },
+      { icon: "bird", titel: "Dieren kunnen eerst weg", tekst: "Vleermuizen, huismussen en gierzwaluwen krijgen de kans om weg te vliegen voordat er wordt geïsoleerd." },
+      { icon: "house-plus", titel: "Nieuwe verblijfplaatsen", tekst: "Na het isoleren worden nieuwe verblijfplaatsen aangebracht, zoveel mogelijk onzichtbaar in de spouw." },
+      { icon: "file-check", titel: "Ontheffing via de provincie", tekst: "Bij een beschermde soort regelt het isolatiebedrijf de ontheffing bij de provincie Overijssel." },
+    ],
+    zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
+    bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  faq: [
+    { question: "Is Gijs een isolatiebedrijf in Zwartewaterland?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Genemuiden, Zwartsluis en Mastenbroek." },
+    { question: "Welke subsidies zijn er voor mijn woning in Zwartewaterland?", answer: "Op deze pagina zie je de regelingen die nu voor Zwartewaterland gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
+    { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
+    { question: "Helpt Gijs ook in Genemuiden, Zwartsluis en Mastenbroek?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Zwartewaterland, dus ook in Genemuiden, Zwartsluis en Mastenbroek." },
+  ],
+  verwant: [
+    { naam: "Woning verduurzamen in Kampen", href: "/regio/overijssel/kampen" },
+    { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
+    { naam: "Woning verduurzamen in Staphorst", href: "/regio/overijssel/staphorst" },
+  ],
+};
+
 const VERHALEN: Record<string, GemeenteVerhaal> = {
   borne: BORNE,
   hengelo: HENGELO,
@@ -3991,6 +4799,16 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
   dinkelland: DINKELLAND,
   haaksbergen: HAAKSBERGEN,
   losser: LOSSER,
+  dalfsen: DALFSEN,
+  deventer: DEVENTER,
+  hardenberg: HARDENBERG,
+  kampen: KAMPEN,
+  "olst-wijhe": OLST_WIJHE,
+  ommen: OMMEN,
+  raalte: RAALTE,
+  staphorst: STAPHORST,
+  steenwijkerland: STEENWIJKERLAND,
+  zwartewaterland: ZWARTEWATERLAND,
 };
 
 const PLAATS_VERHALEN: Record<string, Record<string, GemeenteVerhaal>> = {

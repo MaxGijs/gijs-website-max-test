@@ -587,12 +587,28 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               {scan.postcode && nieuweMaatregelen.length > 0 && (
                 scan.uitgebreidOntgrendeld ? (
                   <FinancieelWoningplan
-                    maatregelIds={scan.measures.length ? scan.measures.filter(id => nieuweMaatregelen.some(m => m.id === id)) : nieuweMaatregelen.map(m => m.id)}
-                    houseType={scan.houseType}
+                    invoer={{
+                      // Bewust geen terugval op "alle aanbevolen maatregelen" als er niets is aangevinkt: dat zou een
+                      // berekening tonen voor een keuze die de bezoeker niet heeft gemaakt. Zie FinancieelWoningplan.tsx
+                      // voor de tekst die dan verschijnt.
+                      maatregelIds: scan.measures.filter(id => nieuweMaatregelen.some(m => m.id === id)),
+                      houseType: scan.houseType,
+                      bouwjaar: leesGetal(scan.bouwjaar),
+                      kruipruimte: scan.kruipruimte,
+                      verwarming: scan.verwarming,
+                      gasverbruik: leesGetal(scan.gasverbruik),
+                      gasprijs: leesGetal(scan.gasprijs),
+                      aanwezigOnbekend: scan.aanwezigOnbekend,
+                    }}
                     naamVan={id => titelVan(id).naam}
                     postcode={scan.postcode}
                     huisnummer={scan.huisnummer}
                     gekozenMaatregelen={scan.measures}
+                    onEnergiescan={() => {
+                      track({ name: "cta_clicked", cta: "woningplan_energiescan" });
+                      document.getElementById(`${fieldId}-aanvraag`)?.scrollIntoView({ block: "start", behavior: "smooth" });
+                      document.getElementById(`${fieldId}-voornaam`)?.focus({ preventScroll: true });
+                    }}
                   />
                 ) : (
                   <WoningplanGate sessieJson={() => JSON.stringify(scan)} onOntgrendeld={(email, telefoon) => patch({ email, telefoon: telefoon || scan.telefoon, uitgebreidOntgrendeld: true })} />
@@ -608,7 +624,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               </button>
             </section>
 
-            <section className={styles.aanvraag}>
+            <section id={`${fieldId}-aanvraag`} className={styles.aanvraag}>
               <h3 className={styles.planTitel}>Vraag een gratis energiescan aan</h3>
               <div className={styles.woningSamenvatting}>
                 <p className={styles.woningSamenvattingLabel}>Voor deze woning</p>

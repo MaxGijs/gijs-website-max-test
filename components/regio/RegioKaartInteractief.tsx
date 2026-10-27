@@ -2,27 +2,25 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { OVERIJSSEL_GEMEENTEN_VORMEN, OVERIJSSEL_GEMEENTEN_CROP_VIEWBOX } from "@/lib/content/overijssel-gemeenten-shapes";
+import { GELDERLAND_GEMEENTEN_VORMEN, GELDERLAND_GEMEENTEN_CROP_VIEWBOX } from "@/lib/content/gelderland-gemeenten-shapes";
 import { getGemeente, slugify, regioPad } from "@/lib/content/regio";
 
-// Interactieve kaart van de gemeenten in Overijssel (echte gemeentegrenzen,
-// zie lib/content/overijssel-gemeenten-shapes.ts voor de bron/verificatie).
-// Toont direct Overijssel, geen Nederlandkaart/inzoomstap ervoor: deze pagina
-// gaat al alleen over Overijssel. Geen eigen gemeentelijst eronder — die
-// staat al, met dezelfde "binnenkort"-logica, in de ProvincieKaart-sectie
-// verderop op de pagina (components/regio/RegioDrilldown.tsx).
-//
-// Klikken/tikken/Enter op een gemeente die al een pagina heeft navigeert naar
-// /regio/overijssel/<gemeente>. Overige gemeenten tonen hun naam (hover,
-// focus of tik) maar zijn nog niet klikbaar.
-export function RegioKaartInteractief() {
+const PROVINCIE_VORMEN: Record<string, { vormen: { naam: string; d: string }[]; viewBox: string }> = {
+  overijssel: { vormen: OVERIJSSEL_GEMEENTEN_VORMEN, viewBox: OVERIJSSEL_GEMEENTEN_CROP_VIEWBOX },
+  gelderland: { vormen: GELDERLAND_GEMEENTEN_VORMEN, viewBox: GELDERLAND_GEMEENTEN_CROP_VIEWBOX },
+};
+
+export function RegioKaartInteractief({ provincie = "overijssel" }: { provincie?: string }) {
   const router = useRouter();
   const [hoverGemeente, setHoverGemeente] = useState<string | null>(null);
   const [actieveGemeente, setActieveGemeente] = useState<string | null>(null);
 
+  const config = PROVINCIE_VORMEN[provincie] ?? PROVINCIE_VORMEN.overijssel;
+
   function kiesGemeente(naam: string, slug: string) {
     setActieveGemeente(naam);
-    const gemeente = getGemeente("overijssel", slug);
-    if (gemeente) router.push(regioPad("overijssel", slug));
+    const gemeente = getGemeente(provincie, slug);
+    if (gemeente) router.push(regioPad(provincie, slug));
   }
 
   const getoondeNaam = hoverGemeente ?? actieveGemeente;
@@ -34,14 +32,14 @@ export function RegioKaartInteractief() {
       </p>
 
       <svg
-        viewBox={OVERIJSSEL_GEMEENTEN_CROP_VIEWBOX}
+        viewBox={config.viewBox}
         className="w-full max-w-[520px] mx-auto h-auto"
         role="img"
-        aria-label="Kaart van de gemeenten in Overijssel"
+        aria-label={`Kaart van de gemeenten in ${provincie.charAt(0).toUpperCase() + provincie.slice(1)}`}
       >
-        {OVERIJSSEL_GEMEENTEN_VORMEN.map(g => {
+        {config.vormen.map(g => {
           const slug = slugify(g.naam);
-          const bestaat = !!getGemeente("overijssel", slug);
+          const bestaat = !!getGemeente(provincie, slug);
           const isActief = actieveGemeente === g.naam || hoverGemeente === g.naam;
           return (
             <path

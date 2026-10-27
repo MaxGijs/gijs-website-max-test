@@ -66,16 +66,17 @@ export function GemeenteVerhaalPagina({
               <span>{kernen.length} kernen in gemeente {gemeente}</span>
               <Icon name="chevron-down" size="sm" className="shrink-0 transition-transform group-open:rotate-180 text-[var(--accent-700)]" />
             </summary>
-            <ul className="mt-3 pt-3 border-t border-[var(--border-default)] grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <ul className={`mt-3 pt-3 border-t border-[var(--border-default)] gap-2 grid ${kernen.length >= 30 ? "grid-cols-4 sm:grid-cols-6 lg:grid-cols-8" : kernen.length >= 15 ? "grid-cols-3 sm:grid-cols-5" : "grid-cols-2 sm:grid-cols-4"}`}>
               {[...kernen].sort((a, b) => a.naam.localeCompare(b.naam, "nl")).map(k => {
+                const klein = kernen.length >= 15;
                 const card = (
                   <div className="flex flex-col gap-1 p-1.5 rounded-lg hover:bg-[var(--surface-tint)] transition-colors">
                     {k.afbeelding ? (
-                      <div className="relative w-full overflow-hidden rounded-md" style={{ aspectRatio: "16/7" }}>
-                        <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes="(max-width: 640px) 50vw, 180px" className="object-cover" />
+                      <div className="relative w-full overflow-hidden rounded-md" style={{ aspectRatio: klein ? "4/3" : "16/7" }}>
+                        <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes={klein ? "(max-width: 640px) 33vw, 120px" : "(max-width: 640px) 50vw, 180px"} className="object-cover" />
                       </div>
                     ) : (
-                      <div className="w-full rounded-md bg-[var(--surface-tint)]" style={{ aspectRatio: "16/7" }} />
+                      <div className="w-full rounded-md bg-[var(--surface-tint)]" style={{ aspectRatio: klein ? "4/3" : "16/7" }} />
                     )}
                     <span className="text-xs font-semibold text-[var(--gijs-donkergroen)] leading-tight px-0.5">{k.naam}</span>
                   </div>

@@ -61,7 +61,7 @@ export default async function ProvinciePage({ params }: Props) {
               </Button>
             </div>
           </div>
-          <RegioKaartInteractief />
+          <RegioKaartInteractief provincie={p.slug} />
         </header>
 
         {/* Samenwerkingen: één rustig kader met drie gelijke vakken en de echte logo's. Alleen

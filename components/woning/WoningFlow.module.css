@@ -120,7 +120,7 @@
 .gateChecklist li{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:600;color:var(--gijs-donkergroen)}
 .gateIcon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;border-radius:50%;background:var(--grey-100);color:var(--gijs-donkergroen)}
 .gateVraag{font-size:15px;font-weight:700;color:var(--gijs-donkergroen);margin:0 0 10px}
-.aanvraag{margin-top:48px;padding:28px;border-radius:28px;background:var(--grey-050)}
+.aanvraag{margin-top:48px;padding:28px;border-radius:28px;background:var(--grey-050);scroll-margin-top:96px}
 .aanvraag .field input{background:#fff}
 .aanvraagVelden{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
 .woningSamenvatting{padding:16px 18px;margin-bottom:16px;border-radius:16px;background:#fff}

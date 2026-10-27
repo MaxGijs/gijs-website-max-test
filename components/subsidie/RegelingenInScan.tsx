@@ -15,7 +15,7 @@ import { Tekstblok } from "./RegelingKaart";
 const EERST = 4;
 const naamVan = (id: string) => MEASURES.find(m => m.id === id)?.label ?? id;
 
-export function RegelingenInScan({ postcode, huisnummer, mogelijk, gekozen }: { postcode: string; huisnummer: string; mogelijk: string[]; gekozen: string[] }) {
+export function RegelingenInScan({ postcode, huisnummer, mogelijk, gekozen, toelichting }: { postcode: string; huisnummer: string; mogelijk: string[]; gekozen: string[]; toelichting?: string }) {
   const [uitkomst, setUitkomst] = useState<{ voor: string; data: SubsidieUitkomst } | null>(null);
   const [alles, setAlles] = useState(false);
   const sleutel = `${postcode}|${huisnummer}`;
@@ -46,6 +46,7 @@ export function RegelingenInScan({ postcode, huisnummer, mogelijk, gekozen }: { 
           {focus.length ? "Voor wat je hebt aangevinkt" : "Voor de maatregelen hierboven"} gelden in de gemeente {gemeente.naam} nu {relevant.length}{" "}
           {relevant.length === 1 ? "regeling" : "regelingen"}{lokaal ? `, waarvan ${lokaal} van je gemeente, regio of provincie` : ""}.
         </p>
+        {toelichting && <p className="text-sm text-zinc-600">{toelichting}</p>}
       </div>
       <ul className="flex flex-col divide-y divide-[var(--border-subtle)] bg-white rounded-[var(--radius-card)] border border-[var(--border-subtle)]">
         {getoond.map(r => (
