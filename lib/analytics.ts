@@ -32,15 +32,21 @@ export type AnalyticsEvent =
   | { name: "woningscan_step_completed"; step: number; step_name: string }
   | { name: "woningscan_completed" }
   | { name: "woningplan_viewed" }
+  // Het e-mailadres voor het uitgebreide woningplan (subsidieregelingen): een eigen event naast
+  // "lead_created" met bron "woningscan_email", zodat dit in rapportages te onderscheiden blijft
+  // van de volledige energiescan-aanvraag (bron "woningscan") — wél een lead, wél een interne
+  // meldmail naar Gijs, maar zonder naam/telefoon, dus niet hetzelfde als die aanvraag.
+  | { name: "woningplan_uitgebreid_ontgrendeld" }
   | { name: "contact_form_started" }
-  | { name: "lead_created"; source: "woningscan" | "contactformulier" }
+  | { name: "lead_created"; source: "woningscan" | "woningscan_email" | "contactformulier" }
   | { name: "whatsapp_clicked"; plaats: string }
   | { name: "cta_clicked"; cta: string };
 
 export type AnalyticsErrorContext =
   | "contact_form"
   | "energiescan_aanvraag"
-  | "address_lookup";
+  | "address_lookup"
+  | "woningplan_ontgrendeling";
 
 export interface AnalyticsProvider {
   track(event: AnalyticsEvent): void;

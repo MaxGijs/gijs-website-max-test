@@ -112,6 +112,7 @@
 /* "Ik wil iets wijzigen": de vervolgvragen direct onder het vinkje. */
 .wijzigBlok{display:flex;flex-direction:column;gap:16px;margin-top:12px;padding:20px;border-radius:20px;background:var(--grey-050)}
 .wijzigBlok textarea{background:#fff}
+.gate{margin:32px 0;padding:28px;border-radius:28px;background:var(--grey-050)}
 .aanvraag{margin-top:48px;padding:28px;border-radius:28px;background:var(--grey-050)}
 .aanvraag .field input{background:#fff}
 .aanvraagVelden{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
@@ -127,4 +128,4 @@
 .directContactBel{font-size:22px;font-weight:700;color:var(--gijs-donkergroen);text-decoration:none}
 .directContactBel:hover{text-decoration:underline}
 .whatsappLink{font-size:15px;font-weight:600;color:var(--accent-700);text-decoration:underline;width:fit-content}
-@media(max-width:900px){.plan{grid-template-columns:1fr;grid-template-areas:"zij" "hoofd";gap:28px}.planZij{position:static}.planHoofd{max-width:none}.aanvraag{padding:22px}}
+@media(max-width:900px){.plan{grid-template-columns:1fr;grid-template-areas:"zij" "hoofd";gap:28px}.planZij{position:static}.planHoofd{max-width:none}.aanvraag{padding:22px}.gate{padding:22px}}

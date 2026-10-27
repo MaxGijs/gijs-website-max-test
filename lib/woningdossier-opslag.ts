@@ -4,7 +4,10 @@ import "server-only";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { readScan, UUID, dakkapelTekst, gebruiktWarmtenet, type ScanSession } from "@/lib/scan-session";
 import { leesGetal } from "@/lib/energie-schatting";
-import { schrijfMetOntbrekendeKolommen } from "@/lib/opslag-hulp";
+import { EMAIL, schrijfMetOntbrekendeKolommen } from "@/lib/opslag-hulp";
+import { magDoorgaan } from "@/lib/rate-limit";
+import { verstuurWoningplanInteresseMail } from "@/lib/energiescan-mail";
+import { geldigTelefoonnummer } from "@/lib/telefoon";
 
 // Slaat de woningscan op in Supabase: de vaste woning-/energiegegevens in
 // public.woningdossier (één rij per scan, upsert op id — nooit een nieuwe
@@ -98,6 +101,12 @@ function naarWoningdossierRij(s: ScanSession, afgerond: boolean) {
     gekozen_maatregelen: lijstTekst(s.measures),
     wil_wijzigen: s.advice,
     wijzig_toelichting: s.advice ? leeg(s.wijzigToelichting) : null,
+    // E-mailadres (en eventueel telefoonnummer) voor het uitgebreide woningplan (subsidieregelingen);
+    // wordt overschreven zodra de echte energiescanaanvraag (met naam en telefoon) binnenkomt, maar
+    // is los daarvan al bruikbaar.
+    email: leeg(s.email),
+    telefoon: leeg(s.telefoon),
+    uitgebreid_plan_ontgrendeld: s.uitgebreidOntgrendeld,
     // Geen aparte dakkapel_aantal-kolom: "Meerdere: <toelichting>" gaat, net als op het scherm, in dakkapel zelf.
     dakkapel: s.dakkapel ? dakkapelTekst(s) : null,
     garage: leeg(s.garage),
@@ -176,4 +185,39 @@ export async function slaWoningdossierOp(ruweSessie: string, afgerond: boolean):
     console.error("[woningdossier] onverwachte fout:", e);
     return { opgeslagen: false };
   }
+}
+
+const ONTGRENDEL_FOUT = "Kon niet worden opgeslagen. Probeer het opnieuw of bel Gijs.";
+
+/**
+ * E-mailadres (verplicht) en telefoonnummer (optioneel), om het uitgebreide woningplan
+ * (subsidieregelingen met bedragen en voorwaarden) te ontgrendelen. Dit ís een lead — Gijs mag
+ * en moet contact kunnen opnemen — maar nog geen volledige energiescan-aanvraag: er is geen
+ * voor-/achternaam, dus wordt er (nog) geen rij in energiescanaanvraag geschreven (zie
+ * lib/energiescan-opslag.ts voor die, zwaardere aanvraag). Wel: e-mailadres, telefoonnummer en
+ * de ontgrendel-vlag op het bestaande woningdossier (dezelfde upsert als hierboven), en een
+ * lichte interne meldmail naar Gijs (verstuurWoningplanInteresseMail) zodat iemand het echt kan
+ * oppakken — telefonisch als er een nummer is, anders per e-mail.
+ */
+export async function ontgrendelWoningplan(ruweSessie: string, emailIn: string, telefoonIn: string, honeypot?: string): Promise<{ ontgrendeld: boolean; fout?: string }> {
+  // Honeypot: zelfde patroon als bij de energiescan-aanvraag (zie WoningFlow.tsx/WoningplanGate.tsx).
+  if (typeof honeypot === "string" && honeypot.trim()) return { ontgrendeld: true };
+  if (!(await magDoorgaan("woningplan-ontgrendeling"))) return { ontgrendeld: false, fout: "Je hebt net veel aanvragen gedaan. Probeer het over een paar minuten opnieuw." };
+
+  const s = readScan(ruweSessie);
+  if (!s || !s.woningBevestigd || !UUID.test(s.dossierId)) return { ontgrendeld: false, fout: ONTGRENDEL_FOUT };
+  const email = typeof emailIn === "string" ? emailIn.trim() : "";
+  if (!EMAIL.test(email)) return { ontgrendeld: false, fout: "Vul een geldig e-mailadres in." };
+  const telefoon = typeof telefoonIn === "string" ? telefoonIn.trim() : "";
+  if (telefoon && !geldigTelefoonnummer(telefoon)) return { ontgrendeld: false, fout: "Vul een geldig telefoonnummer in, bijvoorbeeld 06 12345678." };
+
+  const { opgeslagen } = await slaWoningdossierOp(JSON.stringify({ ...s, email, telefoon, uitgebreidOntgrendeld: true }), s.scanAfgerond);
+  if (!opgeslagen) return { ontgrendeld: false, fout: ONTGRENDEL_FOUT };
+
+  // Net als bij de energiescan-aanvraag: de ontgrendeling staat al veilig in Supabase voordat
+  // dit wordt geprobeerd, dus een mislukte mail verandert niets aan het resultaat hieronder.
+  await verstuurWoningplanInteresseMail(s.dossierId, email, telefoon).catch((e) => {
+    console.error("[woningdossier] interne meldmail (woningplan-interesse) kon niet worden verstuurd:", e);
+  });
+  return { ontgrendeld: true };
 }

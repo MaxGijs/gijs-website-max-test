@@ -14,6 +14,7 @@ import { MAATREGEL_BEELD } from "@/lib/content/maatregel-beelden";
 import { SUBSIDIE_PER_M2 } from "@/lib/content/subsidie-per-m2";
 import { MC_BRONNEN } from "@/lib/content/milieu-centraal";
 import { RegelingenInScan } from "@/components/subsidie/RegelingenInScan";
+import { WoningplanGate } from "./WoningplanGate";
 import {
   freshScan, readScan, SCAN_KEY, SCAN_MEASURES, SCAN_GROUPS, SCAN_WISHES, SCAN_STAPPEN, STAP, sameAddress, scanMessage, dakkapelTekst, bewonersTekst,
   VERWARMING_OPTIES, AFGIFTE_OPTIES, WARMWATER_OPTIES, MONUMENT_OPTIES, BEWONERS_OPTIES, VERDIEPINGEN_OPTIES, DAKKAPEL_OPTIES, JA_NEE_OPTIES, HOEK_ZIJDE_OPTIES, VOORKEURSMOMENT_OPTIES,
@@ -531,7 +532,12 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
           <div className={styles.planHoofd}>
             <section>
               <h3 className={styles.planTitel}>Wat kun je nog doen?</h3>
-              <p className={styles.uitleg}>{nieuweMaatregelen.length ? "Vink aan waar je meer over wilt weten. Gijs bespreekt het met je tijdens de energiescan." : "Je hebt alle maatregelen al. Gijs denkt graag met je mee over de volgende stap."}</p>
+              <p className={styles.uitleg}>
+                {`Voor ${HOUSE_MODELS[scan.houseType].label.toLowerCase()}${dossier.bouwjaar.waarde ? ` uit ${dossier.bouwjaar.waarde}` : ""} `}
+                {nieuweMaatregelen.length
+                  ? "zijn dit de maatregelen die nu het meest voor de hand liggen. Vink aan waar je meer over wilt weten; Gijs bespreekt het met je tijdens de energiescan."
+                  : "heb je de gangbare maatregelen al. Gijs denkt graag met je mee over de volgende stap."}
+              </p>
               {SCAN_GROUPS.map(group => {
                 const items = nieuweMaatregelen.filter(m => group.ids.includes(m.id));
                 if (!items.length) return null;
@@ -579,9 +585,15 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                 </div>
               )}
               {scan.postcode && nieuweMaatregelen.length > 0 && (
-                <RegelingenInScan postcode={scan.postcode} huisnummer={scan.huisnummer} mogelijk={nieuweMaatregelen.map(m => m.id)} gekozen={scan.measures} />
+                scan.uitgebreidOntgrendeld ? (
+                  <>
+                    <RegelingenInScan postcode={scan.postcode} huisnummer={scan.huisnummer} mogelijk={nieuweMaatregelen.map(m => m.id)} gekozen={scan.measures} />
+                    {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Voor sommige van deze maatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.</p>}
+                  </>
+                ) : (
+                  <WoningplanGate sessieJson={() => JSON.stringify(scan)} onOntgrendeld={(email, telefoon) => patch({ email, telefoon: telefoon || scan.telefoon, uitgebreidOntgrendeld: true })} />
+                )
               )}
-              {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Voor sommige van deze maatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.</p>}
               {TOON_M2 && (scan.vloeroppervlakte || scan.dakoppervlakte || scan.gevelOppervlakte) && <p className={styles.kleineNoot}>Vloeroppervlak komt van de kadastrale plattegrond van je woning; dak- en geveloppervlak zijn een richtwaarde daarbovenop. Gijs meet de precieze maten tijdens de energiescan.</p>}
               {/* Sectie 27 van de opdracht: ruimte gereserveerd voor mogelijke invloed op
                   woningwaarde en indicatieve terugverdientijd, bewust zonder cijfers zolang

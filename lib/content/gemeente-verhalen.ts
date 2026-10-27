@@ -52,7 +52,7 @@ export type GemeenteVerhaal = {
 
 const BORNE: GemeenteVerhaal = {
   seo: {
-    title: "Zonnepanelen en isolatie in Borne | Gijs",
+    title: "Spouwmuurisolatie en zonnepanelen in Borne | Gijs",
     description: "Wil je je woning isoleren in Borne, Zenderen of Hertme? Gijs geeft onafhankelijk advies over spouwmuurisolatie, dakisolatie en zonnepanelen, en begeleidt je van A tot Z.",
   },
   kicker: "Gemeente Borne",
@@ -553,11 +553,11 @@ const ALMELO: GemeenteVerhaal = {
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 21 oktober 2026.
 const HOF_VAN_TWENTE: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Hof van Twente | Gijs",
-    description: "Je woning verduurzamen in Hof van Twente — Goor, Delden, Markelo of het buitengebied? Lees wat het bouwjaar zegt en welke subsidies er nu zijn.",
+    title: "Woning isoleren in Hof van Twente | Advies & ontzorging – Gijs",
+    description: "Op zoek naar een isolatiebedrijf in Hof van Twente — Goor, Delden, Markelo of het buitengebied? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Hof van Twente",
-  h1: "Je woning verduurzamen in Hof van Twente",
+  h1: "Je woning isoleren en verduurzamen in Hof van Twente",
   intro: [
     ["Woon je in de gemeente Hof van Twente — in ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, " of het buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen."],
     ["Met 69% koopwoningen en een groot aandeel vrijstaande huizen is Hof van Twente een gemeente waar verduurzaming vaak een individuele keuze is. Gijs kijkt wat bij jouw huis past."],
@@ -620,6 +620,7 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-en-landschap/ontheffing-flora-faunawet/" },
   },
   faq: [
+    { question: "Is Gijs een isolatiebedrijf in Hof van Twente?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Hof van Twente. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Goor, Delden en Markelo." },
     { question: "Welke subsidies zijn er nu in Hof van Twente?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Hof van Twente in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn boerderij of vrijstaande woning is oud. Waar begin ik?", answer: "Bij vrijstaande woningen zijn dak, spouw en vloer bijna altijd de eerste stap. Hoe oud het gebouw is, maakt daarbij veel uit. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In de landelijke omgeving van Hof van Twente leven beschermde vogels en vleermuizen. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
@@ -793,11 +794,11 @@ const HELLENDOORN: GemeenteVerhaal = {
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 21 oktober 2026.
 const RIJSSEN_HOLTEN: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Rijssen-Holten | Gijs",
-    description: "Je woning verduurzamen in Rijssen of Holten? Lees wat het bouwjaar zegt over jouw woning, hoe je omgaat met beschermde dieren bij isolatie, en welke subsidies er nu zijn.",
+    title: "Woning isoleren in Rijssen-Holten | Advies & ontzorging – Gijs",
+    description: "Op zoek naar een isolatiebedrijf in Rijssen of Holten? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, met oog voor beschermde dieren bij isolatie. Gratis energiescan.",
   },
   kicker: "Gemeente Rijssen-Holten",
-  h1: "Je woning verduurzamen in Rijssen-Holten",
+  h1: "Je woning isoleren en verduurzamen in Rijssen-Holten",
   intro: [
     ["Woon je in ", { tekst: "Rijssen", href: "/regio/overijssel/rijssen-holten/rijssen" }, " of ", { tekst: "Holten", href: "/regio/overijssel/rijssen-holten/holten" }, "? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu zijn."],
     ["Met een gemiddelde WOZ-waarde van €386.000 en een groot aandeel vrijstaande woningen is verduurzaming in Rijssen-Holten vaak een bewuste keuze. Gijs kijkt wat bij jouw woning past."],
@@ -856,6 +857,7 @@ const RIJSSEN_HOLTEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-en-landschap/ontheffing-flora-faunawet/" },
   },
   faq: [
+    { question: "Is Gijs een isolatiebedrijf in Rijssen-Holten?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, zowel in Rijssen als in Holten." },
     { question: "Welke subsidies zijn er nu in Rijssen-Holten?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Rijssen-Holten in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In Rijssen-Holten wonen beschermde vleermuizen, huismussen en gierzwaluwen. Kies een isolatiebedrijf dat natuurvriendelijk werkt." },
@@ -1676,11 +1678,11 @@ const GOOR: GemeenteVerhaal = {
 
 const DELDEN: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Delden | Gijs",
-    description: "Je woning verduurzamen in Delden? Lees wat het bouwjaar zegt en welke subsidies er nu zijn in gemeente Hof van Twente.",
+    title: "Woning isoleren in Delden | Advies & ontzorging – Gijs",
+    description: "Je woning isoleren in Delden? Gijs geeft onafhankelijk verduurzamingsadvies voor dit historische stadje in de gemeente Hof van Twente en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Stadje in gemeente Hof van Twente",
-  h1: "Je woning verduurzamen in Delden",
+  h1: "Je woning isoleren en verduurzamen in Delden",
   intro: [
     ["Woon je in Delden? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu in de gemeente ", { tekst: "Hof van Twente", href: "/regio/overijssel/hof-van-twente" }, " zijn."],
     ["Delden is een historisch stadje met een gevarieerde woningvoorraad. Van karakteristieke panden in het centrum tot naoorlogse woningbouw in de uitbreidingswijken. Per woning verschilt de meest effectieve isolatiestap."],
@@ -2043,11 +2045,11 @@ const HENGEVELDE: GemeenteVerhaal = {
 
 const NIJVERDAL: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Nijverdal | Gijs",
-    description: "Je woning verduurzamen in Nijverdal? Lees wat het bouwjaar zegt en welke subsidies er nu zijn in gemeente Hellendoorn.",
+    title: "Woning isoleren in Nijverdal | Advies & ontzorging – Gijs",
+    description: "Je woning isoleren in Nijverdal, de grootste kern van gemeente Hellendoorn? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Kern in gemeente Hellendoorn",
-  h1: "Je woning verduurzamen in Nijverdal",
+  h1: "Je woning isoleren en verduurzamen in Nijverdal",
   intro: [
     ["Woon je in Nijverdal? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu in de gemeente ", { tekst: "Hellendoorn", href: "/regio/overijssel/hellendoorn" }, " zijn."],
     ["Nijverdal is de grootste kern van de gemeente Hellendoorn. De woningvoorraad is gevarieerd: van naoorlogse rijtjeswoningen in de uitbreidingswijken tot vrijstaande woningen aan de rand van de Hellendoornse Berg. Per woning verschilt de eerste stap."],
@@ -2326,11 +2328,11 @@ const HAARLE: GemeenteVerhaal = {
 
 const RIJSSEN: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Rijssen | Gijs",
-    description: "Je woning verduurzamen in Rijssen? Lees wat het bouwjaar zegt en welke subsidies er nu zijn in gemeente Rijssen-Holten.",
+    title: "Woning isoleren in Rijssen | Advies & ontzorging – Gijs",
+    description: "Op zoek naar een isolatiebedrijf in Rijssen? Gijs geeft onafhankelijk verduurzamingsadvies voor de grootste kern van Rijssen-Holten en begeleidt je van A tot Z. Gratis energiescan.",
   },
   kicker: "Kern in gemeente Rijssen-Holten",
-  h1: "Je woning verduurzamen in Rijssen",
+  h1: "Je woning isoleren en verduurzamen in Rijssen",
   intro: [
     ["Woon je in Rijssen? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu in de gemeente ", { tekst: "Rijssen-Holten", href: "/regio/overijssel/rijssen-holten" }, " zijn."],
     ["Rijssen is de grootste kern van de gemeente Rijssen-Holten. De woningvoorraad is gevarieerd: van compacte naoorlogse woningen in de oudere wijken tot ruime vrijstaande woningen in de nieuwere buurten. Per woning verschilt de meest effectieve stap."],
@@ -2381,6 +2383,7 @@ const RIJSSEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
+    { question: "Is Gijs een isolatiebedrijf in Rijssen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Rijssen. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten." },
     { question: "Welke subsidies zijn er voor mijn woning in Rijssen?", answer: "Rijssen valt onder de gemeente Rijssen-Holten. De regelingen van Rijssen-Holten gelden dus ook in Rijssen." },
     { question: "Mijn naoorlogse woning in Rijssen heeft een lege spouw. Wat doe ik?", answer: "Spouwmuurisolatie is voor veel naoorlogse woningen de meest effectieve eerste stap. Gijs kijkt of dat bij jouw woning ook het geval is." },
     { question: "Helpt Gijs ook in Rijssen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Rijssen-Holten, dus ook in Rijssen." },
@@ -2394,11 +2397,11 @@ const RIJSSEN: GemeenteVerhaal = {
 
 const HOLTEN: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Holten | Gijs",
-    description: "Je woning verduurzamen in Holten? Lees wat het bouwjaar zegt en welke subsidies er nu zijn in gemeente Rijssen-Holten.",
+    title: "Woning isoleren in Holten | Advies & ontzorging – Gijs",
+    description: "Op zoek naar een isolatiebedrijf in Holten? Gijs geeft onafhankelijk verduurzamingsadvies over isolatie en zonnepanelen voor dit dorp aan de Holterberg, en begeleidt je van A tot Z.",
   },
   kicker: "Kern in gemeente Rijssen-Holten",
-  h1: "Je woning verduurzamen in Holten",
+  h1: "Je woning isoleren en verduurzamen in Holten",
   intro: [
     ["Woon je in Holten of het omliggende buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu in de gemeente ", { tekst: "Rijssen-Holten", href: "/regio/overijssel/rijssen-holten" }, " zijn."],
     ["Holten is een dorp aan de rand van de Holterberg. Met een mix van woningen in de kern en vrijstaande woningen aan de bosrand is de verduurzamingsopgave gevarieerd. Gijs kijkt per woning wat de logische stap is."],
@@ -2455,6 +2458,7 @@ const HOLTEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
+    { question: "Is Gijs een isolatiebedrijf in Holten?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Holten. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten." },
     { question: "Welke subsidies zijn er voor mijn woning in Holten?", answer: "Holten valt onder de gemeente Rijssen-Holten. De regelingen van Rijssen-Holten gelden dus ook in Holten." },
     { question: "Helpt Gijs ook in Holten?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Rijssen-Holten, dus ook in Holten." },
     { question: "Kijkt Gijs ook naar zonnepanelen?", answer: "Ja. Ruime percelen aan de bosrand in Holten bieden goede condities voor zonnepanelen." },
@@ -2469,11 +2473,11 @@ const HOLTEN: GemeenteVerhaal = {
 
 const VRIEZENVEEN: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Vriezenveen | Gijs",
-    description: "Je woning verduurzamen in Vriezenveen? Lees wat het bouwjaar zegt en welke subsidies er nu zijn in gemeente Twenterand.",
+    title: "Woning isoleren in Vriezenveen | Advies & ontzorging – Gijs",
+    description: "Je woning isoleren in Vriezenveen, de grootste kern van gemeente Twenterand? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Kern in gemeente Twenterand",
-  h1: "Je woning verduurzamen in Vriezenveen",
+  h1: "Je woning isoleren en verduurzamen in Vriezenveen",
   intro: [
     ["Woon je in Vriezenveen? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu in de gemeente ", { tekst: "Twenterand", href: "/regio/overijssel/twenterand" }, " zijn."],
     ["Vriezenveen is de grootste kern van de gemeente Twenterand. Met een gevarieerde woningvoorraad van naoorlogse rijtjeswoningen tot nieuwere vrijstaande woningen is er voor elk huis een logische eerste stap."],
@@ -2546,11 +2550,11 @@ const VRIEZENVEEN: GemeenteVerhaal = {
 
 const VROOMSHOOP: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Vroomshoop | Gijs",
-    description: "Je woning verduurzamen in Vroomshoop? Lees wat het bouwjaar zegt en welke subsidies er nu zijn in gemeente Twenterand.",
+    title: "Woning isoleren in Vroomshoop | Advies & ontzorging – Gijs",
+    description: "Je woning isoleren in Vroomshoop, het veenkoloniale dorp in gemeente Twenterand? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z. Gratis energiescan aan huis.",
   },
   kicker: "Dorp in gemeente Twenterand",
-  h1: "Je woning verduurzamen in Vroomshoop",
+  h1: "Je woning isoleren en verduurzamen in Vroomshoop",
   intro: [
     ["Woon je in Vroomshoop of het omliggende buitengebied? Ontdek welke isolatie en installaties bij jouw woning passen en welke regelingen er nu in de gemeente ", { tekst: "Twenterand", href: "/regio/overijssel/twenterand" }, " zijn."],
     ["Vroomshoop is een dorp in het noorden van de gemeente Twenterand, met een veenkoloniaal karakter en een gevarieerde woningvoorraad. Gijs kijkt per woning wat de logische stap is."],
@@ -2899,14 +2903,14 @@ const WESTERHAAR_VRIEZENVEENSEWIJK: GemeenteVerhaal = {
 // Gemeente Zwolle: 61.693 woningen (CBS 2025). Buurt Berkum: 1.719 woningen (CBS 2025).
 const ZWOLLE: GemeenteVerhaal = {
   seo: {
-    title: "Woning isoleren en verduurzamen in Zwolle | Gijs",
-    description: "Je woning verduurzamen in Zwolle? Lees wat het bouwjaar zegt over jouw huis, hoe Gijs samenwerkt met Berkum Energieneutraal, en welke subsidies er nu zijn.",
+    title: "Je huis isoleren in Zwolle | Advies & ontzorging – Gijs",
+    description: "Je huis isoleren in Zwolle, van Stadshagen tot Berkum? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z — in Berkum in samenwerking met BEN. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Zwolle",
-  h1: "Je woning verduurzamen in Zwolle",
+  h1: "Je huis isoleren en verduurzamen in Zwolle",
   intro: [
     ["Woon je in Zwolle? Gijs helpt je uitzoeken welke isolatie en installaties bij jouw woning passen, en welke subsidies er nu gelden. Gijs is actief in de hele gemeente — van ", { tekst: "Stadshagen", href: "/regio/overijssel/zwolle/stadshagen" }, " en ", { tekst: "Westenholte", href: "/regio/overijssel/zwolle/westenholte" }, " tot het historische ", { tekst: "Windesheim", href: "/regio/overijssel/zwolle/windesheim" }, " en ", { tekst: "Berkum", href: "/regio/overijssel/zwolle/berkum" }, ", waar we samenwerken met bewonerscoöperatie BEN."],
-    ["Van de ruim 61.000 woningen in Zwolle is bijna vier op de tien gebouwd vóór 1975. Juist daar is de verduurzamingswinst nog groot. Gijs kijkt altijd eerst wat er al is gedaan, en helpt dan met de stap die logisch is voor jouw huis."],
+    ["Van de ruim 61.000 woningen in Zwolle is bijna vier op de tien gebouwd vóór 1975, vaak met een buitenmuur die nog niet of nauwelijks is geïsoleerd. Spouwmuurisolatie is dan vaak de eerste en meest effectieve stap, naast dak- en vloerisolatie. Gijs kijkt altijd eerst wat er al is gedaan, en helpt dan met de stap die logisch is voor jouw huis."],
   ],
   kernen: [
     "zwolle", "stadshagen", "westenholte", "berkum", "windesheim", "wijthmen", "herfte", "haerst",
@@ -2973,6 +2977,7 @@ const ZWOLLE: GemeenteVerhaal = {
     bron: { naam: "Wet natuurbescherming via provincie Overijssel", url: "https://www.overijssel.nl/thema/natuur-milieu-en-water/natuur/bescherming-planten-en-dieren/" },
   },
   faq: [
+    { question: "Hoe isoleer ik de muren van mijn huis in Zwolle?", answer: "Bij de meeste naoorlogse woningen in Zwolle is spouwmuurisolatie de snelste manier om de buitenmuur te isoleren: het isolatiemateriaal wordt via een klein boorgat in de bestaande spouw aangebracht. Heeft jouw huis geen spouw, dan kijkt Gijs naar binnen- of buitengevelisolatie als alternatief." },
     { question: "Helpt Gijs in heel Zwolle, niet alleen in Berkum?", answer: "Ja. Gijs helpt in de hele gemeente Zwolle. De samenwerking met Berkum Energieneutraal geldt specifiek voor de wijk Berkum, maar een gratis energiescan kun je overal in Zwolle aanvragen." },
     { question: "Welke subsidies zijn er nu in Zwolle?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Zwolle in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn huis is gebouwd vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer — maar het hangt af van wat er al is gedaan. Veel oudere Zwolse woningen zijn al deels verbeterd door een vorige eigenaar. Gijs kijkt tijdens de energiescan wat er nog te winnen valt." },

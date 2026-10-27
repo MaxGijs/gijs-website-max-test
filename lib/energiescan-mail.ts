@@ -241,3 +241,72 @@ export async function verstuurEnergiescanMail(woningdossierId: string): Promise<
     return { verzonden: false };
   }
 }
+
+/**
+ * Lichte interne melding wanneer iemand het uitgebreide woningplan (subsidieoverzicht)
+ * ontgrendelt met een e-mailadres en eventueel een telefoonnummer — dit ís een lead (Gijs mag
+ * contact opnemen), maar nog geen volledige energiescan-aanvraag: voor- en achternaam
+ * ontbreken nog. Zelfde bron (woningdossier_overzicht) als verstuurEnergiescanMail, maar een
+ * compactere mail met alleen wat er op dit punt al bekend is. Faalt altijd stil, net als hierboven.
+ */
+export async function verstuurWoningplanInteresseMail(woningdossierId: string, email: string, telefoon = ""): Promise<{ verzonden: boolean }> {
+  if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) { console.warn("[energiescan-mail] SUPABASE_SECRET_KEY ontbreekt; kon dossier niet ophalen."); return { verzonden: false }; }
+  if (!RESEND_API_KEY || !EMAIL_TO || !EMAIL_FROM) { console.warn("[energiescan-mail] RESEND_API_KEY, ENERGIESCAN_EMAIL_TO of ENERGIESCAN_EMAIL_FROM ontbreekt; mail niet verstuurd."); return { verzonden: false }; }
+  try {
+    const db = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY, { auth: { persistSession: false } });
+    const { data, error } = await db.from("woningdossier_overzicht").select("*").eq("id", woningdossierId).maybeSingle();
+    if (error || !data) { console.error("[energiescan-mail] kon woningdossier_overzicht niet ophalen (woningplan-interesse):", error?.message ?? "geen rij gevonden"); return { verzonden: false }; }
+    const rij = data as OverzichtRij;
+    const datumTijd = new Date().toLocaleString("nl-NL", { dateStyle: "long", timeStyle: "short", timeZone: "Europe/Amsterdam" });
+    const adres = adresWeergave(rij);
+    const maatregelen = maatregelenWeergave(rij.gekozen_maatregelen);
+    const maatregelenTekst = maatregelen.length ? maatregelen.join(", ") : NIET_INGEVULD;
+
+    const html = `<!doctype html>
+<html lang="nl"><body style="margin:0;padding:0;background:#F4F6F5;font-family:Arial,Helvetica,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4F6F5;padding:24px 0;">
+<tr><td align="center">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;max-width:600px;width:100%;">
+<tr><td style="background:#133E35;padding:28px 32px;">
+  <p style="margin:0;color:#ffffff;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;">Gijs &middot; Woningscan</p>
+  <h1 style="margin:6px 0 0;color:#ffffff;font-size:21px;font-weight:700;">Nieuwe lead: woningplan bekeken</h1>
+  <p style="margin:10px 0 0;color:#cfe3dd;font-size:13px;">${escapeHtml(datumTijd)}</p>
+  <p style="margin:2px 0 0;color:#cfe3dd;font-size:13px;">${escapeHtml(adres)}</p>
+</td></tr>
+<tr><td style="padding:22px 32px 4px;">
+  <p style="margin:0 0 12px;color:#1A1A1A;font-size:14px;">Deze bezoeker heeft zijn gegevens achtergelaten en heeft daarmee <strong>al direct</strong> het uitgebreide woningplan (met subsidieregelingen) te zien gekregen — daar hoeft niets meer voor gestuurd of klaargezet te worden. Dit is nog geen energiescan-aanvraag (geen voor- en achternaam), maar wel een lead: neem contact op${telefoon ? " — telefonisch kan, er is een nummer achtergelaten" : " via het e-mailadres hieronder"}.</p>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+    <tr><td style="padding:6px 16px 6px 0;color:#5b6560;font-size:14px;width:200px;vertical-align:top;">E-mailadres</td><td style="padding:6px 0;color:#1A1A1A;font-size:14px;">${escapeHtml(email)}</td></tr>
+    ${telefoon ? `<tr><td style="padding:6px 16px 6px 0;color:#5b6560;font-size:14px;vertical-align:top;">Telefoonnummer</td><td style="padding:6px 0;color:#1A1A1A;font-size:14px;">${escapeHtml(telefoon)}</td></tr>` : ""}
+    <tr><td style="padding:6px 16px 6px 0;color:#5b6560;font-size:14px;vertical-align:top;">Woningtype</td><td style="padding:6px 0;color:#1A1A1A;font-size:14px;">${escapeHtml(weergave(rij.woningtype))}</td></tr>
+    <tr><td style="padding:6px 16px 6px 0;color:#5b6560;font-size:14px;vertical-align:top;">Maatregelen in woningplan</td><td style="padding:6px 0;color:#1A1A1A;font-size:14px;">${escapeHtml(maatregelenTekst)}</td></tr>
+  </table>
+</td></tr>
+<tr><td style="padding:20px 32px 28px;border-top:1px solid #e5e7eb;">
+  <p style="margin:0;color:#5b6560;font-size:12px;">Automatisch gegenereerd vanuit de digitale woningscan van Gijs.</p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
+    const text = [
+      "Nieuwe lead: woningplan bekeken", datumTijd, adres, "",
+      "Deze bezoeker heeft al direct het uitgebreide woningplan (met subsidieregelingen) te zien gekregen. Nog geen energiescan-aanvraag, wel een lead om contact mee op te nemen.", "",
+      `E-mailadres: ${email}`, ...(telefoon ? [`Telefoonnummer: ${telefoon}`] : []), `Woningtype: ${weergave(rij.woningtype)}`, `Maatregelen in woningplan: ${maatregelenTekst}`,
+    ].join("\n");
+
+    const resend = new Resend(RESEND_API_KEY);
+    const { error: mailFout } = await resend.emails.send({
+      from: EMAIL_FROM,
+      to: EMAIL_TO,
+      subject: `Nieuwe lead: woningplan bekeken – ${adres}`,
+      html,
+      text,
+    });
+    if (mailFout) { console.error("[energiescan-mail] Resend gaf een fout (woningplan-interesse):", mailFout.message); return { verzonden: false }; }
+    return { verzonden: true };
+  } catch (e) {
+    console.error("[energiescan-mail] onverwachte fout (woningplan-interesse):", e);
+    return { verzonden: false };
+  }
+}

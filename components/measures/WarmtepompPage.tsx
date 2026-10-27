@@ -206,11 +206,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
         provider: { "@id": SITE_URL + "/#organization" },
         areaServed: { "@type": "Country", name: "Nederland" },
       }} />
-      <JsonLd data={{
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faqItems.map(f => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: [f.answer, ...(f.punten ?? [])].join(" ") } })),
-      }} />
+      {/* FAQPage-schema komt nu uit FAQAccordion zelf (zie faqItems verderop), dus niet hier nogmaals. */}
 
       <nav aria-label="Broodkruimel" className="flex flex-wrap gap-2 text-sm py-6">
         <Link href="/" className="underline underline-offset-2">Home</Link>

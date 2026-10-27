@@ -169,6 +169,8 @@ export type ScanSession = {
   dossierId: string;
   /** True zodra de bewoner de aanvraag heeft afgerond; volgende opslagen houden de status "afgerond". */
   scanAfgerond: boolean;
+  /** True zodra het e-mailadres is ingevuld om het uitgebreide woningplan (subsidieregelingen met bedragen) te zien. Blijft staan voor de rest van de sessie, ook na "Wijzigen". */
+  uitgebreidOntgrendeld: boolean;
 };
 
 // Nieuwe sleutel: sessies met het oude datamodel (andere verwarmingsopties, "1 bewoner"-notatie) starten opnieuw.
@@ -234,6 +236,7 @@ export const freshScan = (postcode = "", huisnummer = "", houseType: HouseType =
   opmerking: "",
   dossierId: "",
   scanAfgerond: false,
+  uitgebreidOntgrendeld: false,
 });
 
 // Max is een harde bovengrens tegen willekeurig grote invoer (bv. een direct aangeroepen
@@ -313,6 +316,7 @@ export function readScan(raw: string | null): ScanSession | null {
       opmerking: tekst(v.opmerking, 500),
       dossierId: typeof v.dossierId === "string" && UUID.test(v.dossierId) ? v.dossierId : "",
       scanAfgerond: v.scanAfgerond === true,
+      uitgebreidOntgrendeld: v.uitgebreidOntgrendeld === true,
     };
   } catch {
     return null;
