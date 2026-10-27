@@ -1,0 +1,69 @@
+.wrap{display:flex;flex-direction:column;gap:20px;margin:24px 0}
+
+.offerte{padding:26px 28px;border-radius:24px;background:#fff;border:1px solid var(--border-default)}
+.offerteKop{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:2px solid var(--gijs-donkergroen)}
+.offerteKop h4{margin:0;font-size:20px;font-weight:700;letter-spacing:-0.01em;color:var(--gijs-donkergroen)}
+.offerteKop p{margin:0;font-size:13px;font-weight:600;color:var(--text-muted)}
+
+.tabel{width:100%;border-collapse:collapse;font-size:15px;font-variant-numeric:tabular-nums}
+.tabel thead th{padding:12px 0 8px 20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted);text-align:right;width:96px}
+.tabel thead th:first-child{text-align:left;padding-left:0;width:auto}
+.tabel tbody tr{border-bottom:1px solid var(--border-default)}
+.tabel tbody th,.tabel tbody td{padding:12px 0}
+.tabel th[scope="row"]{text-align:left;font-weight:600;color:var(--gijs-donkergroen)}
+.tabel td{text-align:right;white-space:nowrap;padding-left:20px}
+.tabel sup{font-size:11px;margin-left:2px}
+.min{color:var(--accent-700)}
+.opLocatie td{text-align:right;white-space:normal;font-size:14px;color:var(--text-muted);font-style:italic}
+
+.tabel tfoot th,.tabel tfoot td{padding:8px 0}
+.tabel tfoot tr:first-child th,.tabel tfoot tr:first-child td{padding-top:16px}
+.tabel tfoot th{font-weight:500;color:var(--grey-800)}
+.netto th,.netto td{padding-top:12px !important;border-top:2px solid var(--gijs-donkergroen);font-size:18px;font-weight:700 !important;color:var(--gijs-donkergroen) !important}
+
+.opbrengst{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.opbrengst > div{padding:14px 16px;border-radius:14px;background:var(--accent-050)}
+.label{margin:0;font-size:13px;font-weight:600;color:var(--text-muted)}
+.waarde{margin:2px 0 0;font-size:22px;font-weight:700;color:var(--gijs-donkergroen)}
+
+.noten{margin:18px 0 0;padding:14px 0 0 18px;border-top:1px solid var(--border-default);display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.5;color:var(--text-muted)}
+.noten a{text-decoration:underline}
+
+.waardeKaart{padding:28px;border-radius:24px;background:var(--gijs-donkergroen);color:var(--text-on-dark)}
+.waardeKaart p{margin:0}
+.waardeEyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent-200)}
+.waardeKaart h4{margin:8px 0 20px;font-size:24px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;color:var(--white)}
+.waardeStats{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.waardeStats > div{padding-top:14px;border-top:1px solid rgba(255,255,255,.18)}
+.waardeGetal{font-size:40px;font-weight:700;letter-spacing:-0.02em;line-height:1.1;color:var(--accent-500);white-space:nowrap}
+.waardeUitleg{margin-top:6px !important;font-size:14px;line-height:1.45;color:var(--text-on-dark-muted)}
+.waardeRegio{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px !important}
+.waardeRegio span{padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.1);font-size:13px;font-weight:600;color:var(--white)}
+.waardeVergelijk{margin-top:18px !important;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.08);font-size:15px;line-height:1.5;color:var(--white)}
+.waardeVergelijk strong{color:var(--accent-500)}
+.waardeNoot{margin-top:16px !important;font-size:12.5px;line-height:1.5;color:var(--text-on-dark-muted)}
+.waardeNoot a{color:var(--white);text-decoration:underline}
+
+.disclaimer{margin:0;font-size:13px;line-height:1.5;color:var(--text-muted)}
+
+.smalDetail{display:none}
+.nettoCel{font-weight:600;color:var(--gijs-donkergroen)}
+
+/* Smal scherm: alleen naam + netto per regel; investering en subsidie klein onder de naam. */
+@media(max-width:600px){
+  .offerte{padding:18px 16px}
+  .offerteKop{flex-direction:column;gap:2px}
+  .tabel{font-size:15px}
+  .breed{display:none}
+  .tabel thead th{width:auto}
+  .smalDetail{display:block;margin-top:2px;font-size:13px;font-weight:400;color:var(--text-muted)}
+  .tabel td{padding-left:12px}
+  .opLocatie td{font-size:13px}
+  .netto th,.netto td{font-size:17px}
+  .opbrengst{grid-template-columns:1fr 1fr}
+  .waarde{font-size:19px}
+  .waardeKaart{padding:22px 18px}
+  .waardeKaart h4{font-size:21px}
+  .waardeStats{grid-template-columns:1fr;gap:14px}
+  .waardeGetal{font-size:32px}
+}

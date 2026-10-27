@@ -103,9 +103,10 @@
 .keuzeGroep h4{font-size:14px;font-weight:600;color:var(--text-muted);margin:0 0 8px}
 .keuzeRijen{list-style:none;padding:0;margin:0;display:grid;gap:8px}
 .keuzeRijen + .keuzeRijen,.keuzeGroep + .keuzeRijen{margin-top:8px}
-.keuzeRij{position:relative;display:flex;align-items:center;gap:12px}
+.keuzeRij{position:relative;display:flex;align-items:center;gap:12px;min-width:0}
 .keuzeBeeld{width:112px;height:112px;border-radius:12px;object-fit:cover;flex-shrink:0}
-.keuzeRij :global(.gijs-check){flex:1;align-items:center;min-height:112px;padding-right:112px}
+.keuzeRij :global(.gijs-check){flex:1;min-width:0;align-items:center;min-height:112px;padding-right:112px}
+@media(max-width:600px){.keuzeBeeld{width:72px;height:72px}.keuzeRij :global(.gijs-check){min-height:72px;padding-right:84px}}
 .keuzeRij :global(.gijs-check__title){font-size:16px}
 .keuzeRij :global(.gijs-check__desc){font-size:13px}
 .infoLink{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:600;color:var(--accent-700);text-decoration:underline}
@@ -113,6 +114,12 @@
 .wijzigBlok{display:flex;flex-direction:column;gap:16px;margin-top:12px;padding:20px;border-radius:20px;background:var(--grey-050)}
 .wijzigBlok textarea{background:#fff}
 .gate{margin:32px 0;padding:28px;border-radius:28px;background:var(--grey-050)}
+.gateChecklist{margin:18px 0;padding:18px 20px;border-radius:20px;background:#fff}
+.gateChecklistKop{margin:0 0 12px;font-size:14px;font-weight:700;color:var(--text-muted)}
+.gateChecklist ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.gateChecklist li{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:600;color:var(--gijs-donkergroen)}
+.gateIcon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;border-radius:50%;background:var(--grey-100);color:var(--gijs-donkergroen)}
+.gateVraag{font-size:15px;font-weight:700;color:var(--gijs-donkergroen);margin:0 0 10px}
 .aanvraag{margin-top:48px;padding:28px;border-radius:28px;background:var(--grey-050)}
 .aanvraag .field input{background:#fff}
 .aanvraagVelden{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}

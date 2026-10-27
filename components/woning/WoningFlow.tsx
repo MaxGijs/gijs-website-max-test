@@ -13,8 +13,8 @@ import { SCAN_TITELS } from "@/lib/content/maatregel-titels";
 import { MAATREGEL_BEELD } from "@/lib/content/maatregel-beelden";
 import { SUBSIDIE_PER_M2 } from "@/lib/content/subsidie-per-m2";
 import { MC_BRONNEN } from "@/lib/content/milieu-centraal";
-import { RegelingenInScan } from "@/components/subsidie/RegelingenInScan";
 import { WoningplanGate } from "./WoningplanGate";
+import { FinancieelWoningplan } from "./FinancieelWoningplan";
 import {
   freshScan, readScan, SCAN_KEY, SCAN_MEASURES, SCAN_GROUPS, SCAN_WISHES, SCAN_STAPPEN, STAP, sameAddress, scanMessage, dakkapelTekst, bewonersTekst,
   VERWARMING_OPTIES, AFGIFTE_OPTIES, WARMWATER_OPTIES, MONUMENT_OPTIES, BEWONERS_OPTIES, VERDIEPINGEN_OPTIES, DAKKAPEL_OPTIES, JA_NEE_OPTIES, HOEK_ZIJDE_OPTIES, VOORKEURSMOMENT_OPTIES,
@@ -586,10 +586,14 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               )}
               {scan.postcode && nieuweMaatregelen.length > 0 && (
                 scan.uitgebreidOntgrendeld ? (
-                  <>
-                    <RegelingenInScan postcode={scan.postcode} huisnummer={scan.huisnummer} mogelijk={nieuweMaatregelen.map(m => m.id)} gekozen={scan.measures} />
-                    {nieuweMaatregelen.some(m => SUBSIDIE_PER_M2[m.id]) && <p className={styles.kleineNoot}>Voor sommige van deze maatregelen is subsidie beschikbaar. De voorwaarden en bedragen kunnen wijzigen; tijdens de energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.</p>}
-                  </>
+                  <FinancieelWoningplan
+                    maatregelIds={scan.measures.length ? scan.measures.filter(id => nieuweMaatregelen.some(m => m.id === id)) : nieuweMaatregelen.map(m => m.id)}
+                    houseType={scan.houseType}
+                    naamVan={id => titelVan(id).naam}
+                    postcode={scan.postcode}
+                    huisnummer={scan.huisnummer}
+                    gekozenMaatregelen={scan.measures}
+                  />
                 ) : (
                   <WoningplanGate sessieJson={() => JSON.stringify(scan)} onOntgrendeld={(email, telefoon) => patch({ email, telefoon: telefoon || scan.telefoon, uitgebreidOntgrendeld: true })} />
                 )

@@ -6,12 +6,20 @@ import { geldigTelefoonnummer } from "@/lib/telefoon";
 import { Button } from "@/components/ds/core/Button";
 import { Field } from "@/components/ds/forms/Field";
 import { Input } from "@/components/ds/forms/Input";
+import { Icon } from "@/components/ds/core/Icon";
 import styles from "./WoningFlow.module.css";
 
 // Zelfde patroon als EMAIL in lib/opslag-hulp.ts: dat bestand is "server-only" en kan dus niet
 // rechtstreeks in deze client-component worden geïmporteerd.
 const EMAIL_PATROON = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ONTGRENDEL_FOUT = "Kon niet worden opgeslagen. Probeer het opnieuw of bel Gijs.";
+
+const CHECKLIST = [
+  { icon: "wallet", tekst: "Geschatte investeringskosten" },
+  { icon: "percent", tekst: "Mogelijke subsidies voor jouw woning" },
+  { icon: "trending-up", tekst: "Mogelijke stijging van je woningwaarde" },
+  { icon: "piggy-bank", tekst: "Verwachte besparing en terugverdientijd" },
+] as const;
 
 // De gate voor het uitgebreide woningplan: e-mailadres verplicht, telefoonnummer optioneel —
 // geen energiescan-aanvraag. Ontgrendelt de subsidieregelingen (RegelingenInScan) in WoningFlow;
@@ -50,11 +58,22 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
 
   return (
     <section className={styles.gate}>
-      <h3 className={styles.planTitel}>Welke subsidies gelden er voor jouw plan?</h3>
+      <h3 className={styles.planTitel}>Ontdek wat verduurzamen jou financieel kan opleveren</h3>
       <p className={styles.uitleg}>
-        Je hebt gezien welke maatregelen bij je woning passen. Laat je e-mailadres achter en bekijk direct welke subsidies en regelingen
-        voor jouw gemeente en jouw gekozen maatregelen gelden, met de actuele bedragen en voorwaarden.
+        Je hebt ontdekt welke maatregelen bij jouw woning passen. Bekijk nu ook wat ze ongeveer kosten, welke subsidies mogelijk zijn en hoeveel je kunt besparen.
       </p>
+      <div className={styles.gateChecklist}>
+        <p className={styles.gateChecklistKop}>Dit ontdek je in jouw volledige woningplan:</p>
+        <ul>
+          {CHECKLIST.map(p => (
+            <li key={p.tekst}>
+              <span className={styles.gateIcon}><Icon name={p.icon} size="sm" /></span>
+              {p.tekst}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className={styles.gateVraag}>Waar mogen we jouw woningplan aan koppelen?</p>
       <form onSubmit={versturen} noValidate data-clarity-mask="True" data-cs-mask="">
         {/* Honeypot: zelfde patroon als het aanvraagformulier verderop in WoningFlow.tsx. */}
         <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
@@ -71,11 +90,11 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
               value={telefoon} onChange={e => { setTelefoon(e.target.value); setFout(f => ({ ...f, telefoon: undefined })); }} />
           </Field>
         </div>
-        <Button type="submit" variant="primary" size="lg" loading={bezig} disabled={bezig}>{bezig ? "Bezig…" : "Bekijk mijn subsidieoverzicht"}</Button>
+        <Button type="submit" variant="primary" size="lg" loading={bezig} disabled={bezig}>{bezig ? "Bezig…" : "Bekijk mijn volledige woningplan"}</Button>
         <p className={styles.kleineNoot}>
-          Dit is geen aanvraag voor een energiescan. Gijs gebruikt je gegevens om je dit overzicht te tonen en kan contact met je opnemen
-          over de mogelijkheden voor jouw woning — telefonisch als je een nummer invult, anders per e-mail. Lees hoe we met je gegevens omgaan
-          in onze <a href="/avg-verklaring" target="_blank" rel="noopener noreferrer" className="underline">privacyverklaring</a>.
+          Vrijblijvend. Je vraagt hiermee nog geen energiescan aan. Je resultaten verschijnen direct na het invullen. Gijs kan contact met je opnemen over
+          de mogelijkheden voor jouw woning — telefonisch als je een nummer invult, anders per e-mail. Lees hoe we met je gegevens omgaan in onze{" "}
+          <a href="/avg-verklaring" target="_blank" rel="noopener noreferrer" className="underline">privacyverklaring</a>.
         </p>
       </form>
     </section>
