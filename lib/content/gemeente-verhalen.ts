@@ -3080,6 +3080,14 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
     { naam: "Verduurzamen in Overijssel", href: "/regio/overijssel" },
   ],
+  partner: {
+    naam: "Berkum Energieneutraal (BEN)",
+    logo: "/images/partners/ben-logo.png",
+    url: "https://www.berkumenergieneutraal.nl",
+    urlLabel: "berkumenergieneutraal.nl",
+    tagline: "Gijs werkt samen met BEN, de bewonerscoöperatie die verduurzaming in Berkum organiseert.",
+    display: 'hero',
+  },
 };
 
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 23 oktober 2026.
