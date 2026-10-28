@@ -833,11 +833,11 @@ const ALLE_BRONGEMEENTEN: { naam: string; kernen: { naam: string; bord?: string 
 // totdat er unieke, geverifieerde inhoud per gemeente beschikbaar is.
 const GELDERLAND_GEMEENTEN_NAMEN = [
   "Aalten", "Apeldoorn", "Arnhem", "Barneveld", "Berg en Dal", "Berkelland",
-  "Beuningen", "Bronckhorst", "Brummen", "Buren", "Culemborg",
-  "Doetinchem", "Druten", "Duiven", "Ede", "Epe", "Ermelo",
-  "Harderwijk", "Heumen", "Lingewaard",
-  "Maasdriel", "Montferland", "Mook en Middelaar", "Neder-Betuwe", "Nijkerk",
-  "Nijmegen", "Nunspeet", "Oost Gelre", "Oude IJsselstreek",
+  "Beuningen", "Bronckhorst", "Brummen", "Buren", "Culemborg", "Doesburg",
+  "Doetinchem", "Druten", "Duiven", "Ede", "Elburg", "Epe", "Ermelo",
+  "Harderwijk", "Hattem", "Heerde", "Heumen", "Lingewaard", "Lochem",
+  "Maasdriel", "Montferland", "Neder-Betuwe", "Nijkerk",
+  "Nijmegen", "Nunspeet", "Oldebroek", "Oost Gelre", "Oude IJsselstreek",
   "Overbetuwe", "Putten", "Renkum", "Rheden", "Rozendaal", "Scherpenzeel",
   "Tiel", "Voorst", "Wageningen", "West Betuwe", "West Maas en Waal",
   "Westervoort", "Wijchen", "Winterswijk", "Zaltbommel", "Zevenaar", "Zutphen",
