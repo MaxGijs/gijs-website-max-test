@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ontgrendelWoningplan } from "@/lib/woningdossier-opslag";
 import { track, logError } from "@/lib/analytics";
 import { geldigTelefoonnummer } from "@/lib/telefoon";
@@ -34,6 +34,12 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
   const honeypotRef = useRef<HTMLInputElement>(null);
   const fieldId = "woningplan-gate-email";
 
+  // Vuur woningplan_unlock_started eenmalig zodra de gate zichtbaar wordt.
+  // Eén keer per mount, niet bij re-renders.
+  useEffect(() => {
+    track({ name: "woningplan_unlock_started" });
+  }, []);
+
   async function versturen(e: React.FormEvent) {
     e.preventDefault();
     const emailWaarde = email.trim();
@@ -48,7 +54,11 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
       .catch((error) => { logError("woningplan_ontgrendeling", error); return { ontgrendeld: false, fout: ONTGRENDEL_FOUT }; });
     setBezig(false);
     if (ontgrendeld) {
+      // woningplan_uitgebreid_ontgrendeld: historische naam behouden voor bestaande GTM-triggers.
+      // woningplan_unlocked: nieuwe, canonieke naam voor GA4-rapportage (gebruik díe als conversie).
+      // Beide vuren op hetzelfde moment — zet maar één als GA4-conversie in.
       track({ name: "woningplan_uitgebreid_ontgrendeld" });
+      track({ name: "woningplan_unlocked" });
       track({ name: "lead_created", source: "woningscan_email" });
       onOntgrendeld(emailWaarde, telefoonWaarde);
       return;

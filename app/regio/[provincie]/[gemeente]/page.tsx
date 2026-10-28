@@ -11,6 +11,7 @@ import { getGemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
 import { GemeenteVerhaalPagina, type VerhaalKern } from "@/components/regio/GemeenteVerhaalPagina";
 import { GemeenteKaart } from "@/components/regio/RegioDrilldown";
 import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, WoningenInGemeente, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
+import { RegioWoningscanKnop } from "@/components/regio/RegioWoningscanKnop";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { Button } from "@/components/ds/core/Button";
@@ -129,7 +130,7 @@ export default async function GemeentePage({ params }: Props) {
               );
             })()}
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
-              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <RegioWoningscanKnop provincie={p.slug} gemeente={g.slug} />
               <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
               <Button href="#gemeentelijke-subsidies" variant="secondary" size="lg">Gemeentelijke subsidies</Button>
             </div>
@@ -223,7 +224,7 @@ export default async function GemeentePage({ params }: Props) {
           </div>
         </section>
 
-        <RegioCta titel={`Je woning isoleren in ${g.naam}?`} />
+        <RegioCta titel={`Je woning isoleren in ${g.naam}?`} provincie={p.slug} gemeente={g.slug} />
       </RegioMain>
       <Footer />
     </>

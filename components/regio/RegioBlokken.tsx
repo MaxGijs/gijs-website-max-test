@@ -210,7 +210,22 @@ export function EnergiescanBlok() {
   );
 }
 
-export function RegioCta({ titel, tekst }: { titel: string; tekst?: string }) {
+// Importeer lazily om de server-component grens niet te overschrijden.
+// RegioWoningscanKnop is een client-component, maar mag gewoon in een server-component gebruikt worden.
+import { RegioWoningscanKnop, RegioProvincieWoningscanKnop } from "@/components/regio/RegioWoningscanKnop";
+
+export function RegioCta({
+  titel,
+  tekst,
+  provincie,
+  gemeente,
+}: {
+  titel: string;
+  tekst?: string;
+  /** Wanneer provincie + gemeente bekend zijn, wordt de woningscan-knop getrackt als regio-instroom. */
+  provincie?: string;
+  gemeente?: string;
+}) {
   return (
     <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
       <div className="max-w-xl min-w-0 [&_h2]:[hyphens:auto]">
@@ -218,7 +233,13 @@ export function RegioCta({ titel, tekst }: { titel: string; tekst?: string }) {
         <p className="text-zinc-700">{tekst ?? "Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."}</p>
       </div>
       <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-        <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right" className="w-full md:w-auto">Start de woningscan</Button>
+        {provincie && gemeente ? (
+          <RegioWoningscanKnop provincie={provincie} gemeente={gemeente} className="w-full md:w-auto" />
+        ) : provincie ? (
+          <RegioProvincieWoningscanKnop provincie={provincie} className="w-full md:w-auto" />
+        ) : (
+          <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right" className="w-full md:w-auto">Start de woningscan</Button>
+        )}
         <Button href="/contact" variant="secondary" size="lg" className="w-full md:w-auto">Neem contact op</Button>
       </div>
     </section>

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { createMetadata } from "@/lib/seo";
 import { REGIO_PROVINCIES, getProvincie, regioPad } from "@/lib/content/regio";
+import { RegioProvincieWoningscanKnop } from "@/components/regio/RegioWoningscanKnop";
 import { RegioBreadcrumb, RegioMain, H2, RegioCta } from "@/components/regio/RegioBlokken";
 import { ProvincieKaart } from "@/components/regio/RegioDrilldown";
 import { RegioKaartInteractief } from "@/components/regio/RegioKaartInteractief";
@@ -56,9 +57,7 @@ export default async function ProvinciePage({ params }: Props) {
               allebei: van de eerste isolatiemaatregel tot een volledig verduurzaamde woning.
             </p>
             <div className="mt-2">
-              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">
-                Start de woningscan
-              </Button>
+              <RegioProvincieWoningscanKnop provincie={p.slug} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center" />
             </div>
           </div>
           <RegioKaartInteractief provincie={p.slug} />
@@ -163,6 +162,7 @@ export default async function ProvinciePage({ params }: Props) {
         <RegioCta
           titel="Klaar om jouw woning te verduurzamen?"
           tekst="Ontdek welke isolatiemaatregelen en installaties bij jouw woning passen. Gijs helpt je graag op weg."
+          provincie={p.slug}
         />
       </RegioMain>
       <Footer />

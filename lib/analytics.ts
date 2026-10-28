@@ -18,6 +18,14 @@ import { pushToDataLayer } from "@/lib/consent/dataLayer";
 // postcode+huisnummer samen, of vrije tekst (bericht/opmerking). Alleen het
 // eventtype en de hieronder expliciet getypeerde, niet-herleidbare properties.
 
+// Regioparameters: worden optioneel meegegeven aan scan- en lead-events wanneer de bezoeker
+// aantoonbaar vanuit een regiopagina is doorgestroomd. Nooit persoonsgebonden.
+export type RegioParams = {
+  source_region_page: string;   // bv. "/regio/gelderland/arnhem"
+  source_province: string;      // bv. "gelderland"
+  source_municipality: string;  // bv. "arnhem"
+};
+
 export type AnalyticsEvent =
   // Bestaande events (ongewijzigd, voor compatibiliteit met waar ze al gebruikt worden).
   | { name: "scan_started" }
@@ -26,19 +34,32 @@ export type AnalyticsEvent =
   | { name: "scan_completed" }
   | { name: "energy_scan_requested" }
   | { name: "contact_form_submitted" }
-  // Nieuw, voor de klantreis website → lead (zie het analytics-rapport voor de GTM/GA4-koppeling).
-  | { name: "woningscan_started" }
+  // Regio → scan doorstroom.
+  // region_to_scan = CTA-klik op een regiopagina.
+  // region_arrived = daadwerkelijke aankomst op /woning met een regioherkomst (apart event, zodat
+  //   klikken, bezoeken en scanstarts los te meten zijn).
+  | ({ name: "region_to_scan" } & RegioParams)
+  | ({ name: "region_arrived" } & RegioParams)
+  // Woningscan-funnel (regioparams optioneel, alleen bij regio-instroom).
+  | ({ name: "woningscan_started" } & Partial<RegioParams>)
   | { name: "woningscan_step_viewed"; step: number; step_name: string }
   | { name: "woningscan_step_completed"; step: number; step_name: string }
-  | { name: "woningscan_completed" }
+  | ({ name: "woningscan_completed" } & Partial<RegioParams>)
+  // Woningplan preview (zelfde moment als woningscan_completed, aparte naam voor GA4-trechter).
+  | ({ name: "woningplan_preview_viewed" } & Partial<RegioParams>)
+  // Bestaande naam behouden voor backwards compat met bestaande GTM-triggers.
   | { name: "woningplan_viewed" }
+  // Uitgebreid woningplan ontgrendelen.
+  | { name: "woningplan_unlock_started" }
   // Het e-mailadres voor het uitgebreide woningplan (subsidieregelingen): een eigen event naast
   // "lead_created" met bron "woningscan_email", zodat dit in rapportages te onderscheiden blijft
   // van de volledige energiescan-aanvraag (bron "woningscan") — wél een lead, wél een interne
   // meldmail naar Gijs, maar zonder naam/telefoon, dus niet hetzelfde als die aanvraag.
   | { name: "woningplan_uitgebreid_ontgrendeld" }
+  // Nieuwe naam naast de bestaande; beide GTM-triggers kunnen zo onafhankelijk worden ingericht.
+  | { name: "woningplan_unlocked" }
   | { name: "contact_form_started" }
-  | { name: "lead_created"; source: "woningscan" | "woningscan_email" | "contactformulier" }
+  | ({ name: "lead_created"; source: "woningscan" | "woningscan_email" | "contactformulier" } & Partial<RegioParams>)
   | { name: "whatsapp_clicked"; plaats: string }
   | { name: "cta_clicked"; cta: string };
 

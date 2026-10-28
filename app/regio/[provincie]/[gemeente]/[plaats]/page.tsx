@@ -12,6 +12,7 @@ import { FAQAccordion } from "@/components/measures/FAQAccordion";
 import { LokalePagina } from "@/components/regio/LokalePagina";
 import { GemeenteVerhaalPagina, type VerhaalKern } from "@/components/regio/GemeenteVerhaalPagina";
 import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, EnergiescanBlok, RegioCta } from "@/components/regio/RegioBlokken";
+import { RegioWoningscanKnop } from "@/components/regio/RegioWoningscanKnop";
 import { Alineas } from "@/components/regio/LokalePagina";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { Button } from "@/components/ds/core/Button";
@@ -127,7 +128,7 @@ export default async function PlaatsPage({ params }: Props) {
               subsidies en regelingen controleer je bij je eigen gemeente.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
-              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <RegioWoningscanKnop provincie={p.slug} gemeente={g.slug} plaats={k.slug} />
               <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
             </div>
           </div>
@@ -180,7 +181,7 @@ export default async function PlaatsPage({ params }: Props) {
         </section>
 
         <EnergiescanBlok />
-        <RegioCta titel={`Je woning isoleren in ${k.naam}?`} />
+        <RegioCta titel={`Je woning isoleren in ${k.naam}?`} provincie={p.slug} gemeente={g.slug} />
       </RegioMain>
       <Footer />
     </>
