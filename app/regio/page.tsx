@@ -30,14 +30,14 @@ export default function RegioPage() {
         </header>
 
         <section id="provincies" className="scroll-mt-40 mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-[180px_1fr] sm:grid-cols-[260px_1fr] md:grid-cols-[300px_1fr] gap-6 md:gap-12 items-start">
             {/* Kaart — links */}
-            <div className="w-full max-w-[300px]">
+            <div className="w-full">
               <RegioNlKaart />
             </div>
 
             {/* Provincie-kaarten — rechts, naast elkaar */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
               {[
                 { slug: "overijssel", naam: "Overijssel", gemeenten: overijsselGemeenten },
                 { slug: "gelderland", naam: "Gelderland", gemeenten: gelderlandGemeenten },
