@@ -35,7 +35,7 @@ function Reeks({ fotos, verborgen }: { fotos: StrookFoto[]; verborgen?: boolean 
  * vegen (en met de pijltjestoetsen bewegen); daarna schuift hij rustig verder. Met de muis erop
  * staat hij stil. De rij staat er twee keer in, zodat hij zonder naad rondloopt.
  */
-export function FotoStrook({ fotos, duur = 40 }: { fotos: StrookFoto[]; duur?: number }) {
+export function FotoStrook({ fotos, duur = 40, hoogte }: { fotos: StrookFoto[]; duur?: number; hoogte?: number }) {
   const vensterRef = useRef<HTMLDivElement>(null);
   const rijRef = useRef<HTMLDivElement>(null);
 
@@ -173,6 +173,7 @@ export function FotoStrook({ fotos, duur = 40 }: { fotos: StrookFoto[]; duur?: n
       role="region"
       aria-roledescription="fotostrook"
       aria-label="Foto's, sleep of gebruik de pijltjestoetsen om te schuiven"
+      style={hoogte ? ({ "--strook-hoogte": `${hoogte}px` } as React.CSSProperties) : undefined}
     >
       <div ref={rijRef} className={styles.rij}>
         <Reeks fotos={fotos} />

@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { GemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
+import { gemeenteHeroAfbeeldingen } from "@/lib/content/gemeente-hero-images";
 import { RegioBreadcrumb, RegioMain, H2, RegioCta, WoningenInGemeente } from "./RegioBlokken";
 import { Alineas } from "./LokalePagina";
 import { IsolatieInstallatiesSectie } from "./IsolatieInstallatiesSectie";
@@ -46,52 +47,47 @@ export function GemeenteVerhaalPagina({
   officieleSubsidieUrl?: string;
 }) {
   const naamVoorKop = plaatsnaam ?? gemeente;
-  const hoofdkern = kernen[0];
   const partnerDisplay = v.partner?.display ?? 'hero';
   // Alleen kernen met een bord-afbeelding in het hoofdraster; rest in het dropdown-menu.
   const hoofdkernen = kernen.filter(k => k.afbeelding && v.lokaal.kernTekst[k.slug] !== undefined);
   const buurtschappen = [...kernen.filter(k => !k.afbeelding || v.lokaal.kernTekst[k.slug] === undefined)]
     .sort((a, b) => a.naam.localeCompare(b.naam, "nl"));
+  // Hero-afbeelding: alleen de kern die de gemeente zelf vertegenwoordigt (geen eigen subpagina).
+  // Willekeurige plaatsnaamborden van kleine kernen zijn niet representatief voor de gemeente.
+  const heroKern = kernen.find(k => !k.href && k.afbeelding) ?? null;
+  // Wikimedia-foto heeft prioriteit boven het plaatsnaambord: persoonlijker beeld van de gemeente.
+  const heroFoto = gemeenteSlug ? (gemeenteHeroAfbeeldingen[gemeenteSlug] ?? null) : null;
+  const heeftHeroVisueel = heroFoto !== null || heroKern !== null;
+  // Eerste 6 buurtschappen direct zichtbaar, rest in <details> (blijft in HTML voor zoekmachines).
+  const INLINE_MAX = 6;
+  const buurtschappenInline = buurtschappen.slice(0, INLINE_MAX);
+  const buurtschappenIngeklapt = buurtschappen.slice(INLINE_MAX);
 
   return (
     <RegioMain>
       <RegioBreadcrumb crumbs={crumbs} />
 
       {/* Lokale hero */}
-      <header className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-center mb-20">
+      <header className={`grid grid-cols-1 ${heeftHeroVisueel ? "lg:grid-cols-[3fr_2fr]" : ""} gap-10 items-center mb-20`}>
         <div className="flex flex-col gap-4 max-w-2xl">
           <p className={EYEBROW}>{v.kicker}</p>
           <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">{v.h1}</h1>
           <Alineas alineas={v.intro} />
-          <details className="group">
-            <summary className="list-none cursor-pointer flex items-center gap-2 text-[15px] font-semibold text-[var(--gijs-donkergroen)] hover:text-[var(--accent-700)] transition-colors select-none">
-              <Icon name="map-pin" size="sm" className="text-[var(--accent-700)] shrink-0" />
-              <span>{kernen.length} kernen in gemeente {gemeente}</span>
-              <Icon name="chevron-down" size="sm" className="shrink-0 transition-transform group-open:rotate-180 text-[var(--accent-700)]" />
-            </summary>
-            <ul className={`mt-3 pt-3 border-t border-[var(--border-default)] gap-2 grid ${kernen.length >= 30 ? "grid-cols-4 sm:grid-cols-6 lg:grid-cols-8" : kernen.length >= 15 ? "grid-cols-3 sm:grid-cols-5" : "grid-cols-2 sm:grid-cols-4"}`}>
-              {[...kernen].sort((a, b) => a.naam.localeCompare(b.naam, "nl")).map(k => {
-                const klein = kernen.length >= 15;
-                const card = (
-                  <div className="flex flex-col gap-1 p-1.5 rounded-lg hover:bg-[var(--surface-tint)] transition-colors">
-                    {k.afbeelding ? (
-                      <div className="relative w-full overflow-hidden rounded-md" style={{ aspectRatio: klein ? "4/3" : "16/7" }}>
-                        <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes={klein ? "(max-width: 640px) 33vw, 120px" : "(max-width: 640px) 50vw, 180px"} className="object-cover" />
-                      </div>
-                    ) : (
-                      <div className="w-full rounded-md bg-[var(--surface-tint)]" style={{ aspectRatio: klein ? "4/3" : "16/7" }} />
-                    )}
-                    <span className="text-xs font-semibold text-[var(--gijs-donkergroen)] leading-tight px-0.5">{k.naam}</span>
-                  </div>
-                );
-                return (
-                  <li key={k.slug}>
-                    {k.href ? <Link href={k.href} className="no-underline block">{card}</Link> : card}
-                  </li>
-                );
-              })}
-            </ul>
-          </details>
+          {/* Compacte kernenlijst in de hero — alle links in de HTML voor zoekmachines, zonder bordenraster */}
+          {kernen.filter(k => k.href).length > 0 && (
+            <p className="text-sm text-zinc-600 flex items-start gap-1.5 flex-wrap">
+              <Icon name="map-pin" size="sm" className="text-[var(--accent-700)] shrink-0 mt-0.5" />
+              <span>
+                Ook in:{" "}
+                {kernen.filter(k => k.href).map((k, i) => (
+                  <Fragment key={k.slug}>
+                    {i > 0 && <span className="text-zinc-400">, </span>}
+                    <Link href={k.href!} className="text-[var(--accent-700)] hover:underline">{k.naam}</Link>
+                  </Fragment>
+                ))}
+              </span>
+            </p>
+          )}
           <div className="flex flex-col sm:flex-row gap-3 mt-2">
             <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
             <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
@@ -105,9 +101,17 @@ export function GemeenteVerhaalPagina({
             </a>
           )}
         </div>
-        {hoofdkern?.afbeelding && (
-          <Image src={hoofdkern.afbeelding} alt={`Plaatsnaambord ${hoofdkern.naam}`} width={1366} height={329} priority sizes="(max-width: 1024px) 100vw, 520px" className="w-full h-auto rounded-[var(--radius-xl)]" />
-        )}
+        {heroFoto ? (
+          <div className="relative w-full overflow-hidden rounded-[var(--radius-xl)]" style={{ aspectRatio: "4/3" }}>
+            <Image src={heroFoto.src} alt={gemeente} fill priority sizes="(max-width: 1024px) 100vw, 520px" className="object-cover" />
+            <a href={heroFoto.licenseUrl} target="_blank" rel="noopener noreferrer"
+              className="absolute bottom-2 right-2 text-[10px] text-white/60 hover:text-white/90 transition-colors no-underline leading-none">
+              © {heroFoto.author}
+            </a>
+          </div>
+        ) : heroKern ? (
+          <Image src={heroKern.afbeelding!} alt={`Plaatsnaambord ${gemeente}`} width={1366} height={329} priority sizes="(max-width: 1024px) 100vw, 520px" className="w-full h-auto rounded-[var(--radius-xl)]" />
+        ) : null}
       </header>
 
       {/* BEN-samenwerking als hero: direct na de lokale header, voor het woningverhaal */}
@@ -226,14 +230,18 @@ export function GemeenteVerhaalPagina({
             return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
           })}
         </ul>
+        {/* Buurtschappen / overige kernen: eerste 6 direct zichtbaar, rest in uitklapbare sectie.
+            Alle links blijven in de HTML aanwezig, ook wanneer ingeklapt, zodat zoekmachines ze vinden. */}
         {buurtschappen.length > 0 && (
-          <details className="mt-6 group">
-            <summary className="list-none cursor-pointer inline-flex items-center gap-2 text-sm font-semibold text-[var(--gijs-donkergroen)] hover:text-[var(--accent-700)] transition-colors select-none mb-4">
-              Buurtschappen en gehuchten ({buurtschappen.length})
-              <Icon name="chevron-down" size="sm" className="transition-transform group-open:rotate-180 text-[var(--accent-700)]" />
-            </summary>
+          <div className="mt-6">
+            {/* Label boven de compacte kaartjes: "Buurtschappen" bij Overijssel, "Andere kernen" bij Gelderland */}
+            {buurtschappenInline.length > 0 && (
+              <p className="text-sm font-semibold text-zinc-500 mb-3">
+                {hoofdkernen.length > 0 ? `Buurtschappen en gehuchten` : `Andere kernen in gemeente ${gemeente}`}
+              </p>
+            )}
             <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              {buurtschappen.map(k => {
+              {buurtschappenInline.map(k => {
                 const inhoud = (
                   <Card className="h-full flex flex-col gap-2 !p-3 transition-shadow group-hover:shadow-[var(--shadow-2)]">
                     {k.afbeelding && (
@@ -248,7 +256,31 @@ export function GemeenteVerhaalPagina({
                 return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
               })}
             </ul>
-          </details>
+            {buurtschappenIngeklapt.length > 0 && (
+              <details className="mt-4 group">
+                <summary className="list-none cursor-pointer inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] transition-colors select-none mb-4">
+                  Bekijk alle {buurtschappen.length} plaatsen in {gemeente}
+                  <Icon name="chevron-down" size="sm" className="transition-transform group-open:rotate-180" />
+                </summary>
+                <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                  {buurtschappenIngeklapt.map(k => {
+                    const inhoud = (
+                      <Card className="h-full flex flex-col gap-2 !p-3 transition-shadow group-hover:shadow-[var(--shadow-2)]">
+                        {k.afbeelding && (
+                          <div className="relative w-full overflow-hidden rounded-lg" style={{ aspectRatio: "3/2" }}>
+                            <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 200px" className="object-cover" />
+                          </div>
+                        )}
+                        <span className="font-semibold text-sm leading-tight text-[var(--gijs-donkergroen)]">{k.naam}</span>
+                        {k.href && <span className="mt-auto inline-flex items-center gap-1 rounded-full bg-[var(--gijs-donkergroen)] px-3 py-1 text-xs font-semibold text-white">Bekijk <Icon name="arrow-right" size="sm" /></span>}
+                      </Card>
+                    );
+                    return <li key={k.slug}>{k.href ? <Link href={k.href} className="no-underline group block h-full">{inhoud}</Link> : inhoud}</li>;
+                  })}
+                </ul>
+              </details>
+            )}
+          </div>
         )}
         {v.lokaal.wijken && (
           <div className="mt-12">

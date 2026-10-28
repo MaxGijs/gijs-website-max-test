@@ -41,7 +41,7 @@
 
 .beeld {
   position: relative;
-  height: 220px;
+  height: var(--strook-hoogte, 220px);
   border-radius: var(--radius-card);
   overflow: hidden;
   background: var(--surface-muted);
@@ -68,6 +68,6 @@
 }
 
 @media (min-width: 640px) {
-  .beeld { height: 300px; }
+  .beeld { height: var(--strook-hoogte-sm, var(--strook-hoogte, 300px)); }
   .reeks { gap: 1.5rem; padding-right: 1.5rem; }
 }

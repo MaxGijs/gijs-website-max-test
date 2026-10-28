@@ -46,7 +46,7 @@ export const slugify = (naam: string) =>
 
 export const REGIO_PROVINCIES: RegioProvincie[] = [
   { slug: "overijssel", naam: "Overijssel", gepubliceerd: true, indexeerbaar: true },
-  { slug: "gelderland", naam: "Gelderland", gepubliceerd: true, indexeerbaar: false },
+  { slug: "gelderland", naam: "Gelderland", gepubliceerd: true, indexeerbaar: true },
 ];
 
 // Welke gemeenten en plaatsen live staan. Sleutel = gemeente-slug.
