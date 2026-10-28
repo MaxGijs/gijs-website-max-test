@@ -2,13 +2,16 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { pageMetadata } from "@/lib/seo";
-import { gemeentenVan, plaatsenVan, regioPad } from "@/lib/content/regio";
-import { RegioKaartInteractief } from "@/components/regio/RegioKaartInteractief";
+import { gemeentenVan, regioPad } from "@/lib/content/regio";
+import { RegioNlKaart } from "@/components/regio/RegioNlKaart";
 import { RegioBreadcrumb, RegioMain, EnergiescanBlok, H2 } from "@/components/regio/RegioBlokken";
 
 export const metadata = pageMetadata("/regio");
 
 export default function RegioPage() {
+  const overijsselGemeenten = gemeentenVan("overijssel");
+  const gelderlandGemeenten = gemeentenVan("gelderland");
+
   return (
     <>
       <Header />
@@ -25,46 +28,75 @@ export default function RegioPage() {
             eigen gemeente.
           </p>
         </header>
-        <section id="provincies" className="scroll-mt-40 mb-14">
-          <h2 className={H2 + " mb-2"}>Kies je provincie</h2>
-          <p className="text-zinc-600 mb-6 max-w-2xl">
-            Klik op de kaart op je provincie. Voor nu is alleen Overijssel beschikbaar; andere provincies volgen
-            later. Klik daarna op een gemeente om er meer over te lezen.
-          </p>
-          <RegioKaartInteractief />
 
-          {/* Gewone, server-gerenderde links naar alleen bestaande gemeente-/
-              plaatsroutes: de interactieve kaart hierboven is een client-
-              component met kaartstatus, dus niet vanzelf crawlbaar. */}
-          <nav aria-label="Gemeenten en plaatsen in Overijssel" className="mt-8">
-            <ul className="flex flex-col gap-2">
-              {gemeentenVan("overijssel").map(g => {
-                const plaatsen = plaatsenVan(g.provincie, g.slug).filter(k => k.gepubliceerd && k.slug !== g.slug);
-                return (
-                  <li key={g.slug}>
-                    <Link href={regioPad(g.provincie, g.slug)} className="font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] underline underline-offset-2">
-                      {g.naam}
-                    </Link>
-                    {plaatsen.length > 0 && (
-                      <ul className="flex flex-wrap gap-x-3 gap-y-1 mt-1 ml-4 text-sm">
-                        {plaatsen.map(k => (
-                          <li key={k.slug}>
-                            <Link href={regioPad(k.provincie, k.gemeente, k.slug)} className="text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] underline underline-offset-2">
-                              {k.naam}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+        <section id="provincies" className="scroll-mt-40 mb-16">
+          <h2 className={H2 + " mb-6"}>Kies je provincie</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-10 items-start">
+            <RegioNlKaart />
+            <div className="flex flex-col gap-3 lg:pt-10">
+              {[
+                { slug: "overijssel", naam: "Overijssel", aantal: overijsselGemeenten.length },
+                { slug: "gelderland", naam: "Gelderland", aantal: gelderlandGemeenten.length },
+              ].map(p => (
+                <Link
+                  key={p.slug}
+                  href={`/regio/${p.slug}`}
+                  className="group flex items-center justify-between gap-4 border border-[var(--border-default)] rounded-[var(--radius-card)] px-5 py-4 bg-[var(--surface-page)] no-underline hover:border-[var(--gijs-accentgroen)] hover:bg-[var(--surface-muted)] transition-colors"
+                >
+                  <div>
+                    <p className="font-semibold text-[var(--gijs-donkergroen)] group-hover:text-[var(--accent-700)]">{p.naam}</p>
+                    <p className="text-sm text-zinc-500">{p.aantal} gemeenten</p>
+                  </div>
+                  <span className="text-[var(--accent-700)] group-hover:translate-x-1 transition-transform" aria-hidden="true">→</span>
+                </Link>
+              ))}
+            </div>
+          </div>
         </section>
+
+        {/* Crawlbare SEO-links per provincie */}
+        <section aria-label="Gemeenten per provincie" className="mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+            <GemeentenLijst provincie="overijssel" naam="Overijssel" gemeenten={overijsselGemeenten} />
+            <GemeentenLijst provincie="gelderland" naam="Gelderland" gemeenten={gelderlandGemeenten} />
+          </div>
+        </section>
+
         <EnergiescanBlok />
       </RegioMain>
       <Footer />
     </>
+  );
+}
+
+function GemeentenLijst({
+  provincie,
+  naam,
+  gemeenten,
+}: {
+  provincie: string;
+  naam: string;
+  gemeenten: { slug: string; naam: string; provincie: string }[];
+}) {
+  return (
+    <div>
+      <h3 className="font-semibold text-[var(--gijs-donkergroen)] mb-4">
+        <Link href={`/regio/${provincie}`} className="hover:text-[var(--accent-700)] no-underline">
+          {naam}
+        </Link>
+      </h3>
+      <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-2">
+        {gemeenten.map(g => (
+          <li key={g.slug}>
+            <Link
+              href={regioPad(g.provincie, g.slug)}
+              className="text-sm text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] underline underline-offset-2"
+            >
+              {g.naam}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

@@ -64,36 +64,35 @@ export default async function ProvinciePage({ params }: Props) {
           <RegioKaartInteractief provincie={p.slug} />
         </header>
 
-        {/* Samenwerkingen: één rustig kader met drie gelijke vakken en de echte logo's. Alleen
-            Energieloket Twente is een bevestigde samenwerking (zelfde bron als /zo-werkt-gijs); Jouw
-            Energieloket en Digitaal Energieloket zijn losse, bestaande energieloketten en worden als
-            zodanig genoemd, zonder claim van officiële erkenning of exclusiviteit. */}
-        <section className="mb-16">
-          <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)] mb-4">Samen maken we verduurzamen makkelijker</p>
-          <Card className="!p-0 overflow-hidden">
-            <ul className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border-default)]">
-              {[
-                { naam: "Energieloket Twente", logo: "/images/shared/partners/energieloket-twente.png", href: "https://energieloket-twente.nl" },
-                { naam: "Jouw Energieloket", logo: "/images/shared/partners/jouw-energieloket.png", href: "https://www.jouw-energieloket.nl/overijssel/hengelo" },
-                { naam: "Digitaal Energieloket", logo: "/images/shared/partners/digitaal-energieloket.svg", href: "https://www.digitaal-energieloket.nl/" },
-              ].map(l => (
-                <li key={l.naam}>
-                  <a href={l.href} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-4 p-8 md:p-10 no-underline group transition-colors hover:bg-[var(--surface-muted)]">
-                    <Image src={l.logo} alt={l.naam} width={64} height={64} className="h-16 w-16 object-contain" />
-                    <span className="font-semibold text-[var(--gijs-donkergroen)] group-hover:text-[var(--accent-700)]">
-                      {l.naam}<span className="sr-only"> (opent in nieuw tabblad)</span>
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </Card>
-          <p className="text-sm text-zinc-500 mt-3 max-w-2xl">
-            Voor de energiescan aan huis werkt Gijs samen met Energieloket Twente. Jouw Energieloket en Digitaal
-            Energieloket zijn losse energieloketten die ook in Overijssel een goede aanvulling kunnen zijn bij het
-            verduurzamen van je woning.
-          </p>
-        </section>
+        {/* Samenwerkingen: alleen zichtbaar voor Overijssel (Energieloket Twente is Overijssel-specifiek). */}
+        {p.slug === "overijssel" && (
+          <section className="mb-16">
+            <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)] mb-4">Samen maken we verduurzamen makkelijker</p>
+            <Card className="!p-0 overflow-hidden">
+              <ul className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[var(--border-default)]">
+                {[
+                  { naam: "Energieloket Twente", logo: "/images/shared/partners/energieloket-twente.png", href: "https://energieloket-twente.nl" },
+                  { naam: "Jouw Energieloket", logo: "/images/shared/partners/jouw-energieloket.png", href: "https://www.jouw-energieloket.nl/overijssel/hengelo" },
+                  { naam: "Digitaal Energieloket", logo: "/images/shared/partners/digitaal-energieloket.svg", href: "https://www.digitaal-energieloket.nl/" },
+                ].map(l => (
+                  <li key={l.naam}>
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-4 p-8 md:p-10 no-underline group transition-colors hover:bg-[var(--surface-muted)]">
+                      <Image src={l.logo} alt={l.naam} width={64} height={64} className="h-16 w-16 object-contain" />
+                      <span className="font-semibold text-[var(--gijs-donkergroen)] group-hover:text-[var(--accent-700)]">
+                        {l.naam}<span className="sr-only"> (opent in nieuw tabblad)</span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+            <p className="text-sm text-zinc-500 mt-3 max-w-2xl">
+              Voor de energiescan aan huis werkt Gijs samen met Energieloket Twente. Jouw Energieloket en Digitaal
+              Energieloket zijn losse energieloketten die ook in Overijssel een goede aanvulling kunnen zijn bij het
+              verduurzamen van je woning.
+            </p>
+          </section>
+        )}
 
         {/* Gemeenten in Overijssel: de bestaande ProvincieKaart, ongewijzigd (zelfde component als
             voorheen op deze pagina en op /regio/overijssel vóór dit herontwerp). */}
@@ -127,7 +126,7 @@ export default async function ProvinciePage({ params }: Props) {
               <p className="text-zinc-700">
                 Vul je postcode en huisnummer in en zie direct alle landelijke en gemeentelijke regelingen voor jouw adres.
               </p>
-              <SubsidiecheckStart idPrefix="sc-overijssel" />
+              <SubsidiecheckStart idPrefix={`sc-${p.slug}`} />
             </Card>
           </div>
         </section>
