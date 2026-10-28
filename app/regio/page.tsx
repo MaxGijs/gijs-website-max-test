@@ -36,8 +36,8 @@ export default function RegioPage() {
               <RegioNlKaart />
             </div>
 
-            {/* Provincie-kaarten — rechts */}
-            <div className="flex flex-col gap-4">
+            {/* Provincie-kaarten — rechts, naast elkaar */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {[
                 { slug: "overijssel", naam: "Overijssel", gemeenten: overijsselGemeenten },
                 { slug: "gelderland", naam: "Gelderland", gemeenten: gelderlandGemeenten },
@@ -45,7 +45,7 @@ export default function RegioPage() {
                 <Link
                   key={p.slug}
                   href={`/regio/${p.slug}`}
-                  className="group inline-flex items-center justify-between gap-4 border border-[var(--border-default)] rounded-[var(--radius-card)] px-5 py-3 bg-[var(--surface-page)] no-underline hover:border-[var(--gijs-accentgroen)] hover:bg-[var(--surface-muted)] transition-colors w-full max-w-sm"
+                  className="group inline-flex items-center justify-between gap-4 border border-[var(--border-default)] rounded-[var(--radius-card)] px-5 py-3 bg-[var(--surface-page)] no-underline hover:border-[var(--gijs-accentgroen)] hover:bg-[var(--surface-muted)] transition-colors w-full"
                 >
                   <div>
                     <p className="font-semibold text-[var(--gijs-donkergroen)] group-hover:text-[var(--accent-700)]">{p.naam}</p>
@@ -59,8 +59,8 @@ export default function RegioPage() {
         </section>
 
         <RegioCta
-          titel="Klaar om jouw woning te verduurzamen?"
-          tekst="Ontdek welke isolatiemaatregelen en installaties bij jouw woning passen. Gijs helpt je graag op weg."
+          titel="Verduurzamen in jouw regio?"
+          tekst="Ontdek welke isolatiemaatregelen en installaties bij jouw woning passen. Kies je provincie of gemeente hierboven."
         />
       </RegioMain>
       <Footer />
