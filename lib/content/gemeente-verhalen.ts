@@ -2992,7 +2992,7 @@ const ZWOLLE: GemeenteVerhaal = {
   ],
   partner: {
     naam: "Berkum Energieneutraal (BEN)",
-    logo: "/images/partners/ben-logo.png",
+    logo: "/Logo-BEN-275x300.png",
     url: "https://www.berkumenergieneutraal.nl",
     urlLabel: "berkumenergieneutraal.nl",
     tagline: "Gijs werkt samen met BEN, de bewonerscoöperatie die verduurzaming in Berkum organiseert.",
@@ -3082,7 +3082,7 @@ const BERKUM_ZWOLLE: GemeenteVerhaal = {
   ],
   partner: {
     naam: "Berkum Energieneutraal (BEN)",
-    logo: "/images/partners/ben-logo.png",
+    logo: "/Logo-BEN-275x300.png",
     url: "https://www.berkumenergieneutraal.nl",
     urlLabel: "berkumenergieneutraal.nl",
     tagline: "Gijs werkt samen met BEN, de bewonerscoöperatie die verduurzaming in Berkum organiseert.",

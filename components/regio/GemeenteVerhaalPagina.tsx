@@ -119,7 +119,7 @@ export function GemeenteVerhaalPagina({
         <section id="samenwerking" className="mb-20 rounded-[var(--radius-xl)] overflow-hidden border border-[var(--border-default)] bg-[var(--surface-muted)]">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-10 md:p-14">
             <a href={v.partner.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
-              <Image src={v.partner.logo} alt={`Logo van ${v.partner.naam}`} width={120} height={132} className="rounded-2xl" />
+              <Image src={v.partner.logo} alt={`Logo van ${v.partner.naam}`} width={120} height={131} sizes="120px" className="rounded-2xl" />
             </a>
             <div className="flex flex-col gap-4">
               <p className="text-[var(--accent-700)] text-[15px] font-semibold tracking-[-0.01em]">Lokale samenwerking</p>
