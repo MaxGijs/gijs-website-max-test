@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { NL_PROVINCIES, NL_LABELPUNTEN } from "@/lib/content/nl-provincies";
+import { NL_PROVINCIES } from "@/lib/content/nl-provincies";
 import { RegioKaartInteractief } from "./RegioKaartInteractief";
 
 const ACTIEVE_PROVINCIES: Record<string, { naam: string; slug: string }> = {
@@ -31,11 +31,11 @@ export function RegioNlKaart() {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full">
       <p className="text-sm font-semibold text-[var(--gijs-donkergroen)] mb-3 min-h-[20px]" aria-live="polite">
         {hover
           ? `Klik om in te zoomen op ${ACTIEVE_PROVINCIES[hover]?.naam ?? hover}`
-          : "Klik op een groene provincie om in te zoomen"}
+          : "Klik op een groene provincie"}
       </p>
       <svg
         viewBox="0 0 612.54211 723.61865"
@@ -46,7 +46,6 @@ export function RegioNlKaart() {
         {NL_PROVINCIES.map(p => {
           const actief = ACTIEVE_PROVINCIES[p.id];
           const isHover = hover === p.id;
-          const label = NL_LABELPUNTEN[p.id];
 
           return (
             <g key={p.slug}>
@@ -76,20 +75,6 @@ export function RegioNlKaart() {
                   }
                 }}
               />
-              {actief && label && (
-                <text
-                  x={label.x}
-                  y={label.y}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontSize={16}
-                  fontWeight={600}
-                  fill="white"
-                  style={{ pointerEvents: "none", userSelect: "none" }}
-                >
-                  {p.naam}
-                </text>
-              )}
             </g>
           );
         })}
