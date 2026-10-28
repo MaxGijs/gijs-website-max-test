@@ -113,7 +113,12 @@ export function LandelijkeSubsidies() {
 // als er voor deze gemeente geen data is (zie lib/content/regio-woningvoorraad.ts).
 export function WoningenInGemeente({ gemeente, slug }: { gemeente: string; slug: string }) {
   const data = WONINGVOORRAAD_GEMEENTEN[slug];
-  if (!data) return null;
+  if (!data) return (
+    <p className="text-zinc-600 max-w-2xl">
+      Het bouwjaar zegt veel over hoe een woning gebouwd is — en hoeveel winst er nog te halen valt met isolatie.
+      Tijdens de gratis energiescan aan huis kijkt een adviseur van Gijs precies wat er bij jouw woning speelt.
+    </p>
+  );
   const voor1975 = Math.round((data.percentageVoor1975 / 100) * data.totaalWoningen).toLocaleString("nl-NL");
   return (
     <section id="woningen-in-gemeente" className="scroll-mt-40 mb-14">

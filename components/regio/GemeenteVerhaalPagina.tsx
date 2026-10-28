@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { GemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
-import { RegioBreadcrumb, RegioMain, H2, RegioCta } from "./RegioBlokken";
+import { RegioBreadcrumb, RegioMain, H2, RegioCta, WoningenInGemeente } from "./RegioBlokken";
 import { Alineas } from "./LokalePagina";
 import { IsolatieInstallatiesSectie } from "./IsolatieInstallatiesSectie";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
@@ -28,6 +28,7 @@ const BALKKLEUR = ["bg-[var(--gijs-donkergroen)]", "bg-[var(--accent-700)]", "bg
 export function GemeenteVerhaalPagina({
   verhaal: v,
   gemeente,
+  gemeenteSlug,
   plaatsnaam,
   crumbs,
   kernen,
@@ -36,6 +37,8 @@ export function GemeenteVerhaalPagina({
   verhaal: GemeenteVerhaal;
   /** De gemeente (altijd), gebruikt voor subsidies-API en teksten die de gemeente bedoelen. */
   gemeente: string;
+  /** Slug van de gemeente, voor WoningenInGemeente wanneer woningen ontbreekt in het verhaal. */
+  gemeenteSlug?: string;
   /** Optioneel: de plaatsnaam voor koppen en FAQ, als de pagina over een dorp gaat (niet de gemeente zelf). */
   plaatsnaam?: string;
   crumbs: { naam: string; url: string }[];
@@ -134,46 +137,54 @@ export function GemeenteVerhaalPagina({
         ...(v.partner && partnerDisplay === 'hero' ? [{ id: "samenwerking", label: "Samenwerking" }] : []),
         { id: "maatregelen", label: "Maatregelen" },
         { id: "subsidies", label: "Subsidies" },
-        { id: "natuurvriendelijk-isoleren", label: "Natuur" },
+        ...(v.natuur ? [{ id: "natuurvriendelijk-isoleren", label: "Natuur" }] : []),
         { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
       ]} />
 
       {/* Het woningverhaal */}
       <section id="woningen" className={SECTIE}>
-        <p className={EYEBROW + " mb-2"}>Het woningverhaal van {naamVoorKop}</p>
-        <h2 className={H2 + " mb-3"}>Wat vertelt het bouwjaar over jouw woning?</h2>
-        <p className="text-zinc-600 max-w-2xl mb-8">{v.woningen.lead}</p>
-
-        <dl className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {v.woningen.kerncijfers.map(c => (
-            <div key={c.label} className="flex flex-col-reverse gap-1">
-              <dt className="text-sm text-zinc-600">{c.label}</dt>
-              <dd className="text-[clamp(2rem,1.5rem+1.5vw,2.75rem)] font-bold leading-none tracking-[-0.03em] text-[var(--gijs-donkergroen)]">{c.waarde}</dd>
+        {v.woningen ? (
+          <>
+            <p className={EYEBROW + " mb-2"}>Het woningverhaal van {naamVoorKop}</p>
+            <h2 className={H2 + " mb-3"}>Wat vertelt het bouwjaar over jouw woning?</h2>
+            <p className="text-zinc-600 max-w-2xl mb-8">{v.woningen.lead}</p>
+            <dl className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {v.woningen.kerncijfers.map(c => (
+                <div key={c.label} className="flex flex-col-reverse gap-1">
+                  <dt className="text-sm text-zinc-600">{c.label}</dt>
+                  <dd className="text-[clamp(2rem,1.5rem+1.5vw,2.75rem)] font-bold leading-none tracking-[-0.03em] text-[var(--gijs-donkergroen)]">{c.waarde}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="flex h-3 w-full overflow-hidden rounded-full mb-6" role="img"
+              aria-label={`Bouwperiodes: ${v.woningen.bouwperiodes.map(b => `${b.label} ${b.percentage}%`).join(", ")}`}>
+              {v.woningen.bouwperiodes.map((b, i) => (
+                <span key={b.label} className={BALKKLEUR[i % BALKKLEUR.length]} style={{ width: `${b.percentage}%` }} />
+              ))}
             </div>
-          ))}
-        </dl>
-
-        <div className="flex h-3 w-full overflow-hidden rounded-full mb-6" role="img"
-          aria-label={`Bouwperiodes: ${v.woningen.bouwperiodes.map(b => `${b.label} ${b.percentage}%`).join(", ")}`}>
-          {v.woningen.bouwperiodes.map((b, i) => (
-            <span key={b.label} className={BALKKLEUR[i % BALKKLEUR.length]} style={{ width: `${b.percentage}%` }} />
-          ))}
-        </div>
-        <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {v.woningen.bouwperiodes.map((b, i) => (
-            <li key={b.label} className="flex flex-col gap-1.5">
-              <span className="flex items-center gap-2 text-sm font-semibold text-[var(--gijs-donkergroen)]">
-                <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-full ${BALKKLEUR[i % BALKKLEUR.length]}`} />
-                {b.label}
-              </span>
-              <span className="text-2xl font-bold tracking-[-0.02em] text-[var(--gijs-donkergroen)]">{b.percentage}%</span>
-              <span className="text-sm text-zinc-600">{b.tekst}</span>
-            </li>
-          ))}
-        </ol>
-        <p className="text-sm text-zinc-500 mt-6 max-w-3xl">
-          {v.woningen.voetnoot} Bron: <a href={v.woningen.bron.url} target="_blank" rel="noopener noreferrer" className="underline">{v.woningen.bron.naam}</a>.
-        </p>
+            <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {v.woningen.bouwperiodes.map((b, i) => (
+                <li key={b.label} className="flex flex-col gap-1.5">
+                  <span className="flex items-center gap-2 text-sm font-semibold text-[var(--gijs-donkergroen)]">
+                    <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-full ${BALKKLEUR[i % BALKKLEUR.length]}`} />
+                    {b.label}
+                  </span>
+                  <span className="text-2xl font-bold tracking-[-0.02em] text-[var(--gijs-donkergroen)]">{b.percentage}%</span>
+                  <span className="text-sm text-zinc-600">{b.tekst}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="text-sm text-zinc-500 mt-6 max-w-3xl">
+              {v.woningen.voetnoot} Bron: <a href={v.woningen.bron.url} target="_blank" rel="noopener noreferrer" className="underline">{v.woningen.bron.naam}</a>.
+            </p>
+          </>
+        ) : (
+          <>
+            <p className={EYEBROW + " mb-2"}>Woningverhaal van {naamVoorKop}</p>
+            <h2 className={H2 + " mb-6"}>Wat vertelt het bouwjaar over jouw woning?</h2>
+            <WoningenInGemeente gemeente={gemeente} slug={gemeenteSlug ?? gemeente.toLowerCase()} />
+          </>
+        )}
       </section>
 
       {/* De kernen */}
@@ -302,30 +313,32 @@ export function GemeenteVerhaalPagina({
       </section>
 
       {/* Lokaal onderwerp: natuurvriendelijk isoleren */}
-      <section id="natuurvriendelijk-isoleren" className={SECTIE}>
-        <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-10 md:px-12 md:py-12 grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10">
-          <div className="flex flex-col gap-4">
-            <p className={EYEBROW}>Goed om te weten</p>
-            <h2 className={H2}>{v.natuur.titel}</h2>
-            <p className="text-zinc-700">{v.natuur.lead}</p>
-            <p className="text-sm text-zinc-600">{v.natuur.zelf}</p>
-            <p className="text-sm text-zinc-500">
-              Bron: <a href={v.natuur.bron.url} target="_blank" rel="noopener noreferrer" className="underline">{v.natuur.bron.naam}</a>.
-            </p>
+      {v.natuur && (
+        <section id="natuurvriendelijk-isoleren" className={SECTIE}>
+          <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-10 md:px-12 md:py-12 grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10">
+            <div className="flex flex-col gap-4">
+              <p className={EYEBROW}>Goed om te weten</p>
+              <h2 className={H2}>{v.natuur.titel}</h2>
+              <p className="text-zinc-700">{v.natuur.lead}</p>
+              <p className="text-sm text-zinc-600">{v.natuur.zelf}</p>
+              <p className="text-sm text-zinc-500">
+                Bron: <a href={v.natuur.bron.url} target="_blank" rel="noopener noreferrer" className="underline">{v.natuur.bron.naam}</a>.
+              </p>
+            </div>
+            <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 content-start">
+              {v.natuur.stappen.map(s => (
+                <li key={s.titel} className="flex flex-col gap-3 rounded-[var(--radius-card)] bg-white p-5">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-tint)] text-[var(--accent-700)]">
+                    <Icon name={s.icon} size="md" />
+                  </span>
+                  <span className="font-semibold text-[var(--gijs-donkergroen)]">{s.titel}</span>
+                  <span className="text-sm text-zinc-600">{s.tekst}</span>
+                </li>
+              ))}
+            </ol>
           </div>
-          <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4 content-start">
-            {v.natuur.stappen.map(s => (
-              <li key={s.titel} className="flex flex-col gap-3 rounded-[var(--radius-card)] bg-white p-5">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-tint)] text-[var(--accent-700)]">
-                  <Icon name={s.icon} size="md" />
-                </span>
-                <span className="font-semibold text-[var(--gijs-donkergroen)]">{s.titel}</span>
-                <span className="text-sm text-zinc-600">{s.tekst}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section id="veelgestelde-vragen" className={SECTIE}>
         <h2 className={H2 + " mb-6"}>Veelgestelde vragen over verduurzamen in {naamVoorKop}</h2>

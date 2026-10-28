@@ -13,7 +13,7 @@ export type GemeenteVerhaal = {
   intro: Alinea[];
   /** Slugs van de kernen (lib/content/regio.ts), in deze volgorde getoond. */
   kernen: string[];
-  woningen: {
+  woningen?: {
     lead: string;
     kerncijfers: { waarde: string; label: string }[];
     /** Opeenvolgende bouwperiodes; de percentages tellen op tot (ongeveer) 100. */
@@ -30,7 +30,7 @@ export type GemeenteVerhaal = {
     wijken?: { titel: string; intro: string; lijst: { naam: string; woningen: number; periode: string; tijdvak: number | null; type: string }[]; bron: { naam: string; url: string } };
     ontwikkeling: { titel: string; tekst: string };
   };
-  natuur: {
+  natuur?: {
     titel: string;
     lead: string;
     stappen: { icon: string; titel: string; tekst: string }[];
@@ -4783,6 +4783,40 @@ const ZWARTEWATERLAND: GemeenteVerhaal = {
   ],
 };
 
+function gelderlandVerhaal(naam: string): GemeenteVerhaal {
+  return {
+    seo: {
+      title: `Isoleren in ${naam} | Gijs`,
+      description: `Wil je je woning isoleren in ${naam}? Gijs geeft onafhankelijk advies over spouwmuurisolatie, dakisolatie, vloerisolatie en zonnepanelen. Bekijk welke subsidies er nu gelden.`,
+    },
+    kicker: `Gemeente ${naam}`,
+    h1: `Isoleren in ${naam}`,
+    intro: [
+      [`Woon je in de gemeente ${naam} of een van de kernen? Hier lees je welke isolatiemaatregelen er zijn, hoe de woningvoorraad in de gemeente eruitziet en welke subsidies en regelingen er nu gelden.`],
+      [`Gijs geeft onafhankelijk advies. Tijdens een gratis energiescan aan huis kijkt een adviseur wat er technisch bij jouw woning past, en welke stap het meeste oplevert.`],
+    ],
+    kernen: [],
+    lokaal: {
+      titel: `Kernen van gemeente ${naam}`,
+      alineas: [
+        [`De gemeente ${naam} bestaat uit meerdere kernen en buurtschappen. Klik op een kern om te zien welke isolatiemogelijkheden en subsidies er specifiek voor die plaats gelden.`],
+      ],
+      kernTekst: {},
+      ontwikkeling: {
+        titel: "Woningverbetering in Gelderland",
+        tekst: `Gelderland heeft veel woningen uit de jaren zestig en zeventig, die met relatief eenvoudige stappen goed te verbeteren zijn. De provincie en gemeenten ondersteunen eigenaren met advies en subsidies.`,
+      },
+    },
+    faq: [
+      { question: `Welke gemeentelijke subsidies gelden in ${naam}?`, answer: `Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Controleer de actuele mogelijkheden bij de gemeente ${naam} zelf of via de Energiesubsidiewijzer van Milieu Centraal.` },
+      { question: "Welke isolatie past bij mijn woning?", answer: "Dat hangt af van je woning. Tijdens de gratis energiescan aan huis bekijkt een adviseur van Gijs wat technisch bij je woning past." },
+      { question: "Is de energiescan aan huis gratis en vrijblijvend?", answer: "Ja. De energiescan is gratis en vrijblijvend, ter waarde van €349. Je bespreekt je woning en wensen met een adviseur." },
+      { question: "Moet ik eerst de digitale woningscan doen?", answer: "Nee. Je kunt direct contact opnemen. De digitale woningscan is een optionele voorbereiding, geen technische beoordeling." },
+    ],
+    verwant: [],
+  };
+}
+
 const VERHALEN: Record<string, GemeenteVerhaal> = {
   borne: BORNE,
   hengelo: HENGELO,
@@ -4809,6 +4843,58 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
   staphorst: STAPHORST,
   steenwijkerland: STEENWIJKERLAND,
   zwartewaterland: ZWARTEWATERLAND,
+  // Gelderland — template-verhalen (opmaak GemeenteVerhaalPagina, woningen via CBS-component)
+  aalten: gelderlandVerhaal("Aalten"),
+  apeldoorn: gelderlandVerhaal("Apeldoorn"),
+  arnhem: gelderlandVerhaal("Arnhem"),
+  barneveld: gelderlandVerhaal("Barneveld"),
+  "berg-en-dal": gelderlandVerhaal("Berg en Dal"),
+  berkelland: gelderlandVerhaal("Berkelland"),
+  beuningen: gelderlandVerhaal("Beuningen"),
+  bronckhorst: gelderlandVerhaal("Bronckhorst"),
+  brummen: gelderlandVerhaal("Brummen"),
+  buren: gelderlandVerhaal("Buren"),
+  culemborg: gelderlandVerhaal("Culemborg"),
+  doesburg: gelderlandVerhaal("Doesburg"),
+  doetinchem: gelderlandVerhaal("Doetinchem"),
+  druten: gelderlandVerhaal("Druten"),
+  duiven: gelderlandVerhaal("Duiven"),
+  ede: gelderlandVerhaal("Ede"),
+  elburg: gelderlandVerhaal("Elburg"),
+  epe: gelderlandVerhaal("Epe"),
+  ermelo: gelderlandVerhaal("Ermelo"),
+  harderwijk: gelderlandVerhaal("Harderwijk"),
+  hattem: gelderlandVerhaal("Hattem"),
+  heerde: gelderlandVerhaal("Heerde"),
+  heumen: gelderlandVerhaal("Heumen"),
+  lingewaard: gelderlandVerhaal("Lingewaard"),
+  lochem: gelderlandVerhaal("Lochem"),
+  maasdriel: gelderlandVerhaal("Maasdriel"),
+  montferland: gelderlandVerhaal("Montferland"),
+  "neder-betuwe": gelderlandVerhaal("Neder-Betuwe"),
+  nijkerk: gelderlandVerhaal("Nijkerk"),
+  nijmegen: gelderlandVerhaal("Nijmegen"),
+  nunspeet: gelderlandVerhaal("Nunspeet"),
+  oldebroek: gelderlandVerhaal("Oldebroek"),
+  "oost-gelre": gelderlandVerhaal("Oost Gelre"),
+  "oude-ijsselstreek": gelderlandVerhaal("Oude IJsselstreek"),
+  overbetuwe: gelderlandVerhaal("Overbetuwe"),
+  putten: gelderlandVerhaal("Putten"),
+  renkum: gelderlandVerhaal("Renkum"),
+  rheden: gelderlandVerhaal("Rheden"),
+  rozendaal: gelderlandVerhaal("Rozendaal"),
+  scherpenzeel: gelderlandVerhaal("Scherpenzeel"),
+  tiel: gelderlandVerhaal("Tiel"),
+  voorst: gelderlandVerhaal("Voorst"),
+  wageningen: gelderlandVerhaal("Wageningen"),
+  "west-betuwe": gelderlandVerhaal("West Betuwe"),
+  "west-maas-en-waal": gelderlandVerhaal("West Maas en Waal"),
+  westervoort: gelderlandVerhaal("Westervoort"),
+  wijchen: gelderlandVerhaal("Wijchen"),
+  winterswijk: gelderlandVerhaal("Winterswijk"),
+  zaltbommel: gelderlandVerhaal("Zaltbommel"),
+  zevenaar: gelderlandVerhaal("Zevenaar"),
+  zutphen: gelderlandVerhaal("Zutphen"),
 };
 
 const PLAATS_VERHALEN: Record<string, Record<string, GemeenteVerhaal>> = {

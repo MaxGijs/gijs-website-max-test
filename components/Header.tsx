@@ -43,7 +43,7 @@ const VERDUURZAMEN_FOOTER_LINKS: NavLink[] = [
 const NAV: NavEntry[] = [
   { type: "link", label: "Home", href: "/" },
   { type: "verduurzamen", label: "Verduurzamen" },
-  { type: "link", label: "Isoleren in Overijssel", href: "/regio/overijssel" },
+  { type: "link", label: "Isoleren in jouw regio", href: "/regio" },
   { type: "link", label: "Over Gijs", href: "/over-gijs" },
   { type: "link", label: "Contact", href: "/contact" },
 ];

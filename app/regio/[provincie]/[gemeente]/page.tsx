@@ -14,6 +14,7 @@ import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, W
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { Button } from "@/components/ds/core/Button";
+import Link from "next/link";
 
 type Props = { params: Promise<{ provincie: string; gemeente: string }> };
 export const dynamicParams = false;
@@ -59,7 +60,8 @@ export default async function GemeentePage({ params }: Props) {
 
   const verhaal = getGemeenteVerhaal(g.slug);
   if (verhaal) {
-    const kernen: VerhaalKern[] = verhaal.kernen.flatMap(slug => {
+    const kernSlugs = verhaal.kernen.length > 0 ? verhaal.kernen : plaatsen.map(k => k.slug);
+    const kernen: VerhaalKern[] = kernSlugs.flatMap(slug => {
       const k = plaatsen.find(pl => pl.slug === slug);
       if (!k) return [];
       const href = k.slug !== g.slug && k.gepubliceerd ? regioPad(p.slug, g.slug, k.slug) : undefined;
@@ -68,7 +70,7 @@ export default async function GemeentePage({ params }: Props) {
     return (
       <>
         <Header />
-        <GemeenteVerhaalPagina verhaal={verhaal} gemeente={g.naam} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
+        <GemeenteVerhaalPagina verhaal={verhaal} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
         <Footer />
       </>
     );
@@ -111,10 +113,21 @@ export default async function GemeentePage({ params }: Props) {
             <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">
               Isoleren in {g.naam}
             </h1>
-            <p className="text-zinc-600">
-              Wil je je woning in {g.naam} beter isoleren? Hier lees je welke isolatiemaatregelen er zijn en welke
-              subsidies en regelingen er in {g.naam} gelden.
-            </p>
+            {(() => {
+              const introKernen = plaatsen.filter(k => k.slug !== g.slug && k.gepubliceerd).slice(0, 3);
+              return (
+                <p className="text-zinc-600">
+                  Woon je in de gemeente {g.naam}{introKernen.length > 0 && (
+                    <>, in {introKernen.map((k, i) => (
+                      <span key={k.slug}>
+                        {i > 0 && (i === introKernen.length - 1 ? " of " : ", ")}
+                        <Link href={regioPad(p.slug, g.slug, k.slug)} className="text-[var(--accent-700)] hover:underline">{k.naam}</Link>
+                      </span>
+                    ))}</>
+                  )} of de omgeving? Hier lees je welke isolatiemaatregelen er zijn en welke subsidies en regelingen er in {g.naam} gelden.
+                </p>
+              );
+            })()}
             <div className="flex flex-col sm:flex-row gap-3 mt-2">
               <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
               <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
@@ -135,6 +148,61 @@ export default async function GemeentePage({ params }: Props) {
         </header>
 
         <WoningenInGemeente gemeente={g.naam} slug={g.slug} />
+
+        {(() => {
+          const alleKernen = plaatsen.filter(k => k.slug !== g.slug && k.gepubliceerd);
+          if (alleKernen.length === 0) return null;
+          const metBord = alleKernen.filter(k => k.afbeelding);
+          const zonder = alleKernen.filter(k => !k.afbeelding);
+          return (
+            <section className="mb-14">
+              <h2 className={H2 + " mb-6"}>Kernen en plaatsen in {g.naam}</h2>
+              {metBord.length > 0 && (
+                <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                  {metBord.map(k => (
+                    <li key={k.slug}>
+                      <Link
+                        href={regioPad(p.slug, g.slug, k.slug)}
+                        className="group flex flex-col items-center gap-2 no-underline"
+                      >
+                        <div className="w-full overflow-hidden rounded-[var(--radius-media)] bg-[var(--surface-muted)]">
+                          <Image
+                            src={k.afbeelding!}
+                            alt={`Plaatsnaambord ${k.naam}`}
+                            width={480}
+                            height={116}
+                            className="w-full h-auto group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <span className="text-sm font-semibold text-[var(--gijs-donkergroen)] group-hover:text-[var(--accent-700)] text-center">{k.naam}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {zonder.length > 0 && (
+                <details className="group border border-[var(--border-default)] rounded-[var(--radius-card)] overflow-hidden">
+                  <summary className="cursor-pointer px-5 py-4 font-semibold text-[var(--gijs-donkergroen)] list-none flex items-center justify-between select-none hover:bg-[var(--surface-muted)] transition-colors">
+                    <span>Meer plaatsen in {g.naam} ({zonder.length})</span>
+                    <span className="text-[var(--accent-700)] group-open:rotate-180 transition-transform" aria-hidden="true">↓</span>
+                  </summary>
+                  <ul className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-2 px-5 py-4 border-t border-[var(--border-default)]">
+                    {zonder.map(k => (
+                      <li key={k.slug}>
+                        <Link
+                          href={regioPad(p.slug, g.slug, k.slug)}
+                          className="text-sm text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] underline underline-offset-2"
+                        >
+                          {k.naam}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+            </section>
+          );
+        })()}
 
         <IsolatieMaatregelen
           titel="Welke isolatiemaatregelen zijn er?"
