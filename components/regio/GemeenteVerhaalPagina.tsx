@@ -116,17 +116,17 @@ export function GemeenteVerhaalPagina({
 
       {/* BEN-samenwerking als hero: direct na de lokale header, voor het woningverhaal */}
       {v.partner && partnerDisplay === 'hero' && (
-        <section id="samenwerking" className="mb-20 rounded-[var(--radius-xl)] overflow-hidden bg-[var(--gijs-donkergroen)]">
+        <section id="samenwerking" className="mb-20 rounded-[var(--radius-xl)] overflow-hidden border border-[var(--border-default)] bg-[var(--surface-muted)]">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-8 p-10 md:p-14">
             <a href={v.partner.url} target="_blank" rel="noopener noreferrer" className="shrink-0">
               <Image src={v.partner.logo} alt={`Logo van ${v.partner.naam}`} width={120} height={132} className="rounded-2xl" />
             </a>
-            <div className="flex flex-col gap-4 text-white">
-              <p className="text-[var(--accent-300)] text-[15px] font-semibold tracking-[-0.01em]">Lokale samenwerking</p>
-              <h2 className="text-[clamp(1.75rem,1.4rem+1.5vw,2.25rem)] font-bold leading-tight">{v.partner.naam}</h2>
-              <p className="text-white/80 max-w-2xl">{v.partner.tagline}</p>
+            <div className="flex flex-col gap-4">
+              <p className="text-[var(--accent-700)] text-[15px] font-semibold tracking-[-0.01em]">Lokale samenwerking</p>
+              <h2 className="text-[clamp(1.75rem,1.4rem+1.5vw,2.25rem)] font-bold leading-tight text-[var(--gijs-donkergroen)]">{v.partner.naam}</h2>
+              <p className="text-zinc-600 max-w-2xl">{v.partner.tagline}</p>
               <a href={v.partner.url} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-300)] underline">
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--accent-700)] underline">
                 {v.partner.urlLabel}
                 <Icon name="external-link" size="sm" />
               </a>

@@ -1428,12 +1428,12 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
   "/regio/overijssel/hof-van-twente/bentelo": {
     seo: {
       title: "Woning isoleren in Bentelo | Gijs",
-      description: "Isoleren in Bentelo, gemeente Hof van Twente? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+      description: "Isoleren in Bentelo, gemeente Hof van Twente? Klein agrarisch dorp met veel vrijstaande woningen en voormalige boerderijen. Lees hoe Gijs je helpt.",
     },
     kicker: "Bentelo, gemeente Hof van Twente",
     h1: "Je woning isoleren in Bentelo",
     intro: [
-      ["Bentelo is een van de dorpen van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
+      ["Bentelo is een van de kleinste dorpen van de gemeente Hof van Twente, met een uitgesproken agrarisch karakter. Je vindt er vrijstaande woningen, twee-onder-een-kapwoningen en voormalige boerderijen die nu als woning worden gebruikt."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
@@ -1441,13 +1441,15 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
     secties: [
       {
         id: "vrijstaand-isoleren",
-        titel: "Veel vrijstaande woningen",
+        titel: "Vrijstaande woningen en voormalige boerderijen",
         alineas: [
           ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+          ["In Bentelo staan ook voormalige agrarische gebouwen die nu als woning worden gebruikt. Die hebben soms een andere isolatievraag: denk aan oudere muren zonder spouw, grote onverwarmde bijruimten of een rieten dak. Gijs kijkt bij de energiescan naar wat realistisch is voor jouw specifieke huis."],
         ],
         kaartenTitel: "Waar is Bentelo bekend van?",
         kaarten: [
-          { icon: "church", titel: "O.L.V. van Altijddurende Bijstand", tekst: "De kerk uit de jaren vijftig is het herkenbare middelpunt van het dorp." },
+          { icon: "church", titel: "O.L.V. van Altijddurende Bijstand", tekst: "De rooms-katholieke kerk uit 1954 is het herkenbare middelpunt van het dorp." },
+          { icon: "wheat", titel: "Agrarisch landschap", tekst: "Bentelo ligt midden in het Twentse boerenland, omringd door akkers en weiden." },
         ],
       },
     ],
@@ -1479,12 +1481,12 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
   "/regio/overijssel/hof-van-twente/hengevelde": {
     seo: {
       title: "Woning isoleren in Hengevelde | Gijs",
-      description: "Isoleren in Hengevelde, gemeente Hof van Twente? Lees hoe Gijs je helpt, met aandacht voor vrijstaande en twee-onder-een-kapwoningen.",
+      description: "Isoleren in Hengevelde, gemeente Hof van Twente? Klein kerkdorp met veel vrijstaande woningen en een gemengd woningbestand. Lees hoe Gijs je helpt.",
     },
     kicker: "Hengevelde, gemeente Hof van Twente",
     h1: "Je woning isoleren in Hengevelde",
     intro: [
-      ["Hengevelde is een van de dorpen van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
+      ["Hengevelde is een kerkdorp in de gemeente Hof van Twente. Het dorp is iets groter dan het nabijgelegen Bentelo en heeft naast vrijstaande woningen ook twee-onder-een-kapwoningen en een enkele tussenwoning."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
@@ -1492,13 +1494,15 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
     secties: [
       {
         id: "vrijstaand-isoleren",
-        titel: "Veel vrijstaande woningen",
+        titel: "Gemengd woningbestand in een klein dorp",
         alineas: [
-          ["Een vrijstaand huis heeft aan alle kanten buitenmuur en vaak een groot dak. Het verliest daardoor meer warmte dan een rijwoning van dezelfde grootte, dus goed isoleren levert relatief veel op."],
+          ["Hengevelde heeft een gemengd woningbestand: vrijstaande huizen, twee-onder-een-kapwoningen en een beperkt aantal rijwoningen. Vrijstaande en twee-onder-een-kapwoningen verliezen per vierkante meter meer warmte dan rijwoningen — bij die woningtypen levert isoleren relatief het meest op."],
+          ["De meeste woningen in Hengevelde zijn gebouwd vóór de jaren negentig. Dat betekent dat dak, spouwmuur en vloer bij veel huizen nog ruimte voor verbetering bieden."],
         ],
         kaartenTitel: "Waar is Hengevelde bekend van?",
         kaarten: [
-          { icon: "church", titel: "H.H. Petrus en Paulus", tekst: "De kerk in het dorpscentrum is het herkenningspunt van Hengevelde." },
+          { icon: "church", titel: "H.H. Petrus en Paulus", tekst: "De rooms-katholieke kerk in het dorpscentrum — gebouwd rond 1910 — is het herkenningsteken van Hengevelde." },
+          { icon: "map-pin", titel: "Kerkdorp in Hof van Twente", tekst: "Hengevelde ligt in het groene buitengebied tussen Delden en Diepenheim." },
         ],
       },
     ],
@@ -2820,11 +2824,78 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
   },
 };
 
+const GELDERLAND_DORPEN: Record<string, LokaleInhoud> = {
+  "/regio/gelderland/apeldoorn/beekbergen": {
+    seo: {
+      title: "Woning isoleren in Beekbergen | Gijs",
+      description: "Isoleren in Beekbergen, gemeente Apeldoorn? Veel huizen hier zijn vrijstaand en gebouwd voor de jaren tachtig. Lees hoe Gijs je helpt een warmere, zuinigere woning te krijgen.",
+    },
+    kicker: "Beekbergen, gemeente Apeldoorn",
+    h1: "Je woning isoleren in Beekbergen",
+    intro: [
+      ["Beekbergen is een dorp aan de rand van de Veluwe, in de gemeente Apeldoorn. De meeste woningen zijn vrijstaand of twee-onder-een-kap en zijn gebouwd voor de jaren tachtig — ver vóór de huidige isolatienormen."],
+      ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
+    ],
+    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    secties: [
+      {
+        id: "vrijstaand-veluwe",
+        titel: "Vrijstaand wonen aan de Veluwe",
+        alineas: [
+          ["Beekbergen heeft relatief veel vrijstaande woningen in een bosrijke omgeving. Vrijstaande huizen hebben aan alle kanten buitenmuur en vaak een groot dak. Ze verliezen daardoor meer warmte per vierkante meter dan een rijwoning — dus isoleren levert hier extra veel op."],
+          ["Veel woningen in Beekbergen zijn gebouwd in de jaren vijftig tot zeventig, toen er nauwelijks isolatienormen bestonden. Dat betekent dat er in veel huizen nog warmte verloren gaat via het dak, de spouwmuur of de vloer."],
+        ],
+        kaartenTitel: "Waar is Beekbergen bekend om?",
+        kaarten: [
+          { icon: "trees", titel: "Beekbergerwoud", tekst: "Het nationaal bosreservaat naast het dorp is een van de oudste aaneengesloten loofbossen van Nederland." },
+          { icon: "home", titel: "Villadorp op de Veluwe", tekst: "Beekbergen staat bekend om zijn groene uitstraling en vrijstaande woningen in bosrijke omgeving." },
+        ],
+      },
+    ],
+    maatregelen: {
+      titel: "Isolatie bij een oudere vrijstaande woning",
+      intro: "In Beekbergen komen deze maatregelen het vaakst aan bod bij vrijstaande en twee-onder-een-kapwoningen.",
+      items: [
+        { slug: "dakisolatie", naam: "Dakisolatie", tekst: "Bij vrijstaande woningen is het dak het grootste oppervlak waarlangs warmte ontsnapt. Vaak de eerste stap." },
+        { slug: "spouwmuurisolatie", naam: "Spouwmuurisolatie", tekst: "Bij woningen van vóór 1975 is de spouw vaak nog leeg of beperkt gevuld. Controleer of je woning dit heeft." },
+        { slug: "vloerisolatie", naam: "Vloerisolatie", tekst: "Een kruipruimte kan van onderaf worden geïsoleerd. Dat maakt de vloer aangenamer en scheelt energie." },
+        { slug: "isolatieglas", naam: "Isolatieglas", tekst: "Oudere kozijnen met enkel of oud dubbelglas zijn een duidelijk aandachtspunt bij woningen uit de jaren zestig en zeventig." },
+      ],
+    },
+    gijs: {
+      id: "zo-helpt-gijs",
+      titel: "Zo helpt Gijs je in Beekbergen",
+      alineas: [
+        ["Begin met de digitale woningscan en zie welke maatregelen bij je woningtype passen."],
+        ["Voor advies over je eigen woning komt een adviseur van Gijs langs voor de gratis energiescan. Wat je daarmee doet, bepaal je zelf."],
+      ],
+    },
+    subsidies: [
+      SUBSIDIE_TIJDLOOS,
+      ["Beekbergen valt onder de gemeente Apeldoorn. Welke regelingen er beschikbaar zijn, vind je bij de gemeente Apeldoorn."],
+    ],
+    faq: [
+      { question: "Hoort Beekbergen bij de gemeente Apeldoorn?", answer: "Ja. Beekbergen is een dorp in de gemeente Apeldoorn, in de provincie Gelderland." },
+      { question: "Mijn huis staat in het bos. Heeft dat gevolgen voor isolatie?", answer: "Niet voor de technische mogelijkheden, maar soms voor de regelgeving rondom beschermde natuur of monumenten. Een adviseur kan dit meenemen in het advies." },
+      { question: "Komt Gijs ook bij mij thuis in Beekbergen?", answer: "Ja. De gratis energiescan vindt bij je thuis plaats, ook in Beekbergen." },
+    ],
+    verwant: {
+      titel: "Ook interessant",
+      links: [
+        { naam: "Isoleren in Apeldoorn", href: "/regio/gelderland/apeldoorn", tekst: "Overzicht van isoleren in de gemeente Apeldoorn." },
+        { naam: "Zo werkt de woningscan", href: "/woning", tekst: "Ontdek welke maatregelen bij jouw woningtype passen." },
+      ],
+    },
+    werkgebied: [["Gijs helpt bewoners in heel Beekbergen en de rest van de gemeente Apeldoorn."]],
+  },
+};
+
 /** Sleutel = regiopad (zie regioPad in lib/content/regio.ts). */
 export const REGIO_LOKAAL: Record<string, LokaleInhoud> = {
   ...ZWOLLE, ...TWENTE, ...TWENTE_RONDE_2, ...HENGELO_BECKUM, ...ENSCHEDE_DORPEN,
   ...BORNE_DORPEN, ...HOF_VAN_TWENTE_DORPEN, ...ALMELO_DORPEN,
-  ...RIJSSEN_HOLTEN, ...HELLENDOORN, ...TWENTERAND,
+  ...RIJSSEN_HOLTEN, ...HELLENDOORN, ...TWENTERAND, ...GELDERLAND_DORPEN,
 };
 
 export const getLokaleInhoud = (pad: string): LokaleInhoud | undefined => REGIO_LOKAAL[pad];
