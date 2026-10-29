@@ -219,12 +219,15 @@ export function RegioCta({
   tekst,
   provincie,
   gemeente,
+  plaats,
 }: {
   titel: string;
   tekst?: string;
   /** Wanneer provincie + gemeente bekend zijn, wordt de woningscan-knop getrackt als regio-instroom. */
   provincie?: string;
   gemeente?: string;
+  /** Alleen relevant op woonplaatspagina's: zorgt dat de herkomst naar de plaats-URL verwijst, niet naar de gemeente-URL. */
+  plaats?: string;
 }) {
   return (
     <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
@@ -234,7 +237,7 @@ export function RegioCta({
       </div>
       <div className="flex flex-col sm:flex-row gap-3 shrink-0">
         {provincie && gemeente ? (
-          <RegioWoningscanKnop provincie={provincie} gemeente={gemeente} className="w-full md:w-auto" />
+          <RegioWoningscanKnop provincie={provincie} gemeente={gemeente} plaats={plaats} className="w-full md:w-auto" />
         ) : provincie ? (
           <RegioProvincieWoningscanKnop provincie={provincie} className="w-full md:w-auto" />
         ) : (

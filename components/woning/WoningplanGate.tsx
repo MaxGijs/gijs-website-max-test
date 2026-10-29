@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ontgrendelWoningplan } from "@/lib/woningdossier-opslag";
 import { track, logError } from "@/lib/analytics";
+import { leesRegioHerkomst } from "@/lib/regio-source";
 import { geldigTelefoonnummer } from "@/lib/telefoon";
 import { Button } from "@/components/ds/core/Button";
 import { Field } from "@/components/ds/forms/Field";
@@ -57,9 +58,12 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
       // woningplan_uitgebreid_ontgrendeld: historische naam behouden voor bestaande GTM-triggers.
       // woningplan_unlocked: nieuwe, canonieke naam voor GA4-rapportage (gebruik díe als conversie).
       // Beide vuren op hetzelfde moment — zet maar één als GA4-conversie in.
+      // Regioherkomst nog niet gewist op dit punt (dat gebeurt pas bij de volledige energiescan-
+      // aanvraag), dus net als bij de andere lead_created-call hier ook meesturen.
+      const h = leesRegioHerkomst();
       track({ name: "woningplan_uitgebreid_ontgrendeld" });
-      track({ name: "woningplan_unlocked" });
-      track({ name: "lead_created", source: "woningscan_email" });
+      track({ name: "woningplan_unlocked", ...(h ?? {}) });
+      track({ name: "lead_created", source: "woningscan_email", ...(h ?? {}) });
       onOntgrendeld(emailWaarde, telefoonWaarde);
       return;
     }

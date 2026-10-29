@@ -71,7 +71,7 @@ export default async function GemeentePage({ params }: Props) {
     return (
       <>
         <Header />
-        <GemeenteVerhaalPagina verhaal={verhaal} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
+        <GemeenteVerhaalPagina verhaal={verhaal} provincie={p.slug} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
         <Footer />
       </>
     );
@@ -89,6 +89,8 @@ export default async function GemeentePage({ params }: Props) {
           officieleSubsidieUrl={g.officieleSubsidieUrl}
           gemeenteNaam={g.naam}
           woningvoorraad={{ gemeente: g.naam, slug: g.slug }}
+          provincie={p.slug}
+          gemeenteSlug={g.slug}
         />
         <Footer />
       </>

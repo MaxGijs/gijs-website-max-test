@@ -57,7 +57,7 @@ export type AnalyticsEvent =
   // meldmail naar Gijs, maar zonder naam/telefoon, dus niet hetzelfde als die aanvraag.
   | { name: "woningplan_uitgebreid_ontgrendeld" }
   // Nieuwe naam naast de bestaande; beide GTM-triggers kunnen zo onafhankelijk worden ingericht.
-  | { name: "woningplan_unlocked" }
+  | ({ name: "woningplan_unlocked" } & Partial<RegioParams>)
   | { name: "contact_form_started" }
   | ({ name: "lead_created"; source: "woningscan" | "woningscan_email" | "contactformulier" } & Partial<RegioParams>)
   | { name: "whatsapp_clicked"; plaats: string }

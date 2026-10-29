@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Alinea, LokaleInhoud, LokaleSectie } from "@/lib/content/regio-lokaal";
 import { RegioBreadcrumb, RegioMain, WoningenInGemeente, H2 } from "@/components/regio/RegioBlokken";
+import { RegioWoningscanKnop, RegioProvincieWoningscanKnop } from "@/components/regio/RegioWoningscanKnop";
 import { FAQAccordion } from "@/components/measures/FAQAccordion";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
@@ -123,6 +124,9 @@ export function LokalePagina({
   officieleSubsidieUrl,
   gemeenteNaam,
   woningvoorraad,
+  provincie,
+  gemeenteSlug,
+  plaatsSlug,
 }: {
   inhoud: LokaleInhoud;
   crumbs: { naam: string; url: string }[];
@@ -131,8 +135,21 @@ export function LokalePagina({
   gemeenteNaam: string;
   /** Bronvermelde CBS/Kadaster-cijfers (lib/content/regio-woningvoorraad.ts); alleen op gemeenteniveau. */
   woningvoorraad?: { gemeente: string; slug: string };
+  /** Onderstaande drie: alleen nodig om de "Start de woningscan"-CTA als regio-instroom te tracken. */
+  provincie?: string;
+  gemeenteSlug?: string;
+  plaatsSlug?: string;
 }) {
   const { uitgelicht, maatregelen, gijs, subsidies, faq } = inhoud;
+  // ctaPrimair wijst soms naar iets anders dan de woningscan (bv. een link naar de gemeentepagina
+  // bij Berkum) — alleen bij "/woning" vervangen we 'm door de trackbare regio-knop.
+  const woningscanCta = inhoud.ctaPrimair.href === "/woning" && provincie ? (
+    gemeenteSlug ? (
+      <RegioWoningscanKnop provincie={provincie} gemeente={gemeenteSlug} plaats={plaatsSlug} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center" />
+    ) : (
+      <RegioProvincieWoningscanKnop provincie={provincie} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center" />
+    )
+  ) : null;
   return (
     <RegioMain>
       <RegioBreadcrumb crumbs={crumbs} />
@@ -145,7 +162,9 @@ export function LokalePagina({
           </h1>
           <Alineas alineas={inhoud.intro} />
           <div className="flex flex-col sm:flex-row gap-3 mt-2">
-            <Button href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</Button>
+            {woningscanCta ?? (
+              <Button href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</Button>
+            )}
             <Button href={inhoud.ctaSecundair.href} variant="secondary" size="lg">{inhoud.ctaSecundair.tekst}</Button>
           </div>
         </div>
@@ -247,7 +266,9 @@ export function LokalePagina({
           <Alineas alineas={inhoud.werkgebied} />
         </div>
         <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-3 shrink-0">
-          <Button href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</Button>
+          {woningscanCta ?? (
+            <Button href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</Button>
+          )}
           <Button href="/contact" variant="secondary" size="lg">Neem contact op</Button>
         </div>
       </section>

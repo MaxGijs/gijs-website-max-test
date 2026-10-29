@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { GemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
 import { gemeenteHeroAfbeeldingen } from "@/lib/content/gemeente-hero-images";
 import { RegioBreadcrumb, RegioMain, H2, RegioCta, WoningenInGemeente } from "./RegioBlokken";
+import { RegioWoningscanKnop, RegioProvincieWoningscanKnop } from "./RegioWoningscanKnop";
 import { Alineas } from "./LokalePagina";
 import { IsolatieInstallatiesSectie } from "./IsolatieInstallatiesSectie";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
@@ -28,20 +29,26 @@ const BALKKLEUR = ["bg-[var(--gijs-donkergroen)]", "bg-[var(--accent-700)]", "bg
 
 export function GemeenteVerhaalPagina({
   verhaal: v,
+  provincie,
   gemeente,
   gemeenteSlug,
   plaatsnaam,
+  plaatsSlug,
   crumbs,
   kernen,
   officieleSubsidieUrl,
 }: {
   verhaal: GemeenteVerhaal;
+  /** Slug van de provincie, nodig om de woningscan-CTA's als regio-instroom te tracken. */
+  provincie: string;
   /** De gemeente (altijd), gebruikt voor subsidies-API en teksten die de gemeente bedoelen. */
   gemeente: string;
-  /** Slug van de gemeente, voor WoningenInGemeente wanneer woningen ontbreekt in het verhaal. */
+  /** Slug van de gemeente, voor WoningenInGemeente en de woningscan-tracking. */
   gemeenteSlug?: string;
   /** Optioneel: de plaatsnaam voor koppen en FAQ, als de pagina over een dorp gaat (niet de gemeente zelf). */
   plaatsnaam?: string;
+  /** Slug van de plaats, alleen gezet als de pagina over een dorp gaat (niet de gemeente zelf). */
+  plaatsSlug?: string;
   crumbs: { naam: string; url: string }[];
   kernen: VerhaalKern[];
   officieleSubsidieUrl?: string;
@@ -89,7 +96,11 @@ export function GemeenteVerhaalPagina({
             </p>
           )}
           <div className="flex flex-col sm:flex-row gap-3 mt-2">
-            <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+            {gemeenteSlug ? (
+              <RegioWoningscanKnop provincie={provincie} gemeente={gemeenteSlug} plaats={plaatsSlug} />
+            ) : (
+              <RegioProvincieWoningscanKnop provincie={provincie} />
+            )}
             <Button href="/contact#energiescan" variant="secondary" size="lg">Vraag een gratis energiescan aan</Button>
           </div>
           {v.partner && partnerDisplay === 'compact' && (
@@ -390,7 +401,13 @@ export function GemeenteVerhaalPagina({
         )}
       </section>
 
-      <RegioCta titel={`Klaar om je woning in ${naamVoorKop} te verduurzamen?`} tekst="Start de woningscan en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg." />
+      <RegioCta
+        titel={`Klaar om je woning in ${naamVoorKop} te verduurzamen?`}
+        tekst="Start de woningscan en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg."
+        provincie={provincie}
+        gemeente={gemeenteSlug}
+        plaats={plaatsSlug}
+      />
     </RegioMain>
   );
 }

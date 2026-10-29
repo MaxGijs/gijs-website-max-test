@@ -82,8 +82,11 @@ export default async function PlaatsPage({ params }: Props) {
         <Header />
         <GemeenteVerhaalPagina
           verhaal={plaatsVerhaal}
+          provincie={p.slug}
           gemeente={g.naam}
+          gemeenteSlug={g.slug}
           plaatsnaam={k.naam}
+          plaatsSlug={k.slug}
           crumbs={crumbs}
           kernen={verhaalKernen}
           officieleSubsidieUrl={g.officieleSubsidieUrl}
@@ -104,6 +107,9 @@ export default async function PlaatsPage({ params }: Props) {
           afbeelding={k.afbeelding ? { src: k.afbeelding, alt: `Plaatsnaambord ${k.naam}` } : undefined}
           officieleSubsidieUrl={g.officieleSubsidieUrl}
           gemeenteNaam={g.naam}
+          provincie={p.slug}
+          gemeenteSlug={g.slug}
+          plaatsSlug={k.slug}
         />
         <Footer />
       </>
@@ -181,7 +187,7 @@ export default async function PlaatsPage({ params }: Props) {
         </section>
 
         <EnergiescanBlok />
-        <RegioCta titel={`Je woning isoleren in ${k.naam}?`} provincie={p.slug} gemeente={g.slug} />
+        <RegioCta titel={`Je woning isoleren in ${k.naam}?`} provincie={p.slug} gemeente={g.slug} plaats={k.slug} />
       </RegioMain>
       <Footer />
     </>
