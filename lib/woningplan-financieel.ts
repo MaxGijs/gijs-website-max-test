@@ -125,7 +125,7 @@ function nietToepasbaarReden(id: IsolatieId, invoer: FinancieleInvoer): string |
   if (id === "gevelisolatie" && invoer.bouwjaar !== null && invoer.bouwjaar < SPOUWMUREN_VANAF)
     return `Volgens RVO werden tot circa ${SPOUWMUREN_VANAF} geen spouwmuren gebouwd, dus spouwmuurisolatie is waarschijnlijk niet mogelijk.`;
   if (id === "vloerisolatie" && invoer.kruipruimte === "nee")
-    return "Je gaf aan dat er geen kruipruimte is. De kosten van Milieu Centraal gaan uit van isoleren vanuit de kruipruimte.";
+    return "Je gaf aan dat er geen kruipruimte is. De kosten gaan uit van isoleren vanuit de kruipruimte.";
   return null;
 }
 
