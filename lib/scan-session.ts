@@ -162,6 +162,8 @@ export type ScanSession = {
   telefoon: string;
   /** Wanneer goed bereikbaar voor de energiescan-aanvraag; "" = niet gekozen. */
   voorkeursmoment: string;
+  /** Gijs mag over deze aanvraag ook via WhatsApp contact opnemen. Staat standaard aan; de bewoner kan het uitzetten. Geldt alleen voor berichten over de aanvraag, niet voor marketing. */
+  whatsappToestemming: boolean;
   /** Vrije toelichting bij de aanvraag, bv. "Alleen 's avonds bereikbaar". */
   opmerking: string;
 
@@ -233,6 +235,7 @@ export const freshScan = (postcode = "", huisnummer = "", houseType: HouseType =
   email: "",
   telefoon: "",
   voorkeursmoment: "",
+  whatsappToestemming: true,
   opmerking: "",
   dossierId: "",
   scanAfgerond: false,
@@ -313,6 +316,7 @@ export function readScan(raw: string | null): ScanSession | null {
       email: tekst(v.email, 254),
       telefoon: tekst(v.telefoon, 20),
       voorkeursmoment: typeof v.voorkeursmoment === "string" ? bereikbareDagen(v.voorkeursmoment).join(", ") : "",
+      whatsappToestemming: v.whatsappToestemming !== false,
       opmerking: tekst(v.opmerking, 500),
       dossierId: typeof v.dossierId === "string" && UUID.test(v.dossierId) ? v.dossierId : "",
       scanAfgerond: v.scanAfgerond === true,
@@ -350,6 +354,7 @@ export function scanMessage(s: ScanSession) {
     "E-mailadres: " + (s.email.trim() || "Niet ingevuld"),
     "Telefoonnummer: " + (s.telefoon.trim() || "Niet ingevuld"),
     "Wanneer bereikbaar: " + (s.voorkeursmoment || "Niet ingevuld"),
+    "Contact via WhatsApp: " + (s.whatsappToestemming ? "Ja, dat mag" : "Nee"),
     "Adres: " + (s.addressLabel || s.postcode + " " + s.huisnummer) + (s.manualAddress ? " (handmatig ingevuld)" : ""),
     "Woningtype: " + HOUSE_MODELS[s.houseType].label,
     "Bouwjaar: " + (s.bouwjaar || "Niet ingevuld"),

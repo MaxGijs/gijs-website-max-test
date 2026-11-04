@@ -42,6 +42,8 @@ type OverzichtRij = {
   naam: string | null; email: string | null; telefoon: string | null; voorkeursmoment: string | null; opmerking: string | null;
   // Kolommen uit supabase/migrations/20261013*.sql.
   voornaam?: string | null; achternaam?: string | null; wil_wijzigen?: boolean | null; wijzig_toelichting?: string | null;
+  // Uit de aanvraag zelf (de view kent deze kolom nog niet); zie verstuurEnergiescanMail.
+  whatsapp_toestemming?: boolean | null;
   adres?: string | null; hoek_zijde?: string | null; verwarmde_verdiepingen?: string | null;
   warmteverbruik?: number | null; warmteprijs?: number | null;
   vloeroppervlakte?: number | null; dakoppervlakte?: number | null; gevel_oppervlakte?: number | null;
@@ -119,6 +121,7 @@ function secties(r: OverzichtRij, adres: string) {
     ["E-mail", weergave(r.email)],
     ["Telefoon", weergave(r.telefoon)],
     ["Bereikbaar op", weergave(r.voorkeursmoment)],
+    ["Mag via WhatsApp benaderd worden", jaNee(r.whatsapp_toestemming)],
     ["Wil iets wijzigen aan wat er al is", wijzigen],
     ["Opmerking", weergave(r.opmerking)],
   ];
@@ -215,14 +218,14 @@ function bouwEmailText(r: OverzichtRij, datumTijd: string, adres: string) {
  * al veilig in Supabase voordat dit wordt aangeroepen, dus een mailfout mag
  * daar niets aan veranderen.
  */
-export async function verstuurEnergiescanMail(woningdossierId: string): Promise<{ verzonden: boolean }> {
+export async function verstuurEnergiescanMail(woningdossierId: string, extra: { whatsappToestemming?: boolean } = {}): Promise<{ verzonden: boolean }> {
   if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) { console.warn("[energiescan-mail] SUPABASE_SECRET_KEY ontbreekt; kon dossier niet ophalen."); return { verzonden: false }; }
   if (!RESEND_API_KEY || !EMAIL_TO || !EMAIL_FROM) { console.warn("[energiescan-mail] RESEND_API_KEY, ENERGIESCAN_EMAIL_TO of ENERGIESCAN_EMAIL_FROM ontbreekt; mail niet verstuurd."); return { verzonden: false }; }
   try {
     const db = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY, { auth: { persistSession: false } });
     const { data, error } = await db.from("woningdossier_overzicht").select("*").eq("id", woningdossierId).maybeSingle();
     if (error || !data) { console.error("[energiescan-mail] kon woningdossier_overzicht niet ophalen:", error?.message ?? "geen rij gevonden"); return { verzonden: false }; }
-    const rij = data as OverzichtRij;
+    const rij: OverzichtRij = { ...(data as OverzichtRij), whatsapp_toestemming: extra.whatsappToestemming ?? (data as OverzichtRij).whatsapp_toestemming ?? null };
     const datumTijd = new Date().toLocaleString("nl-NL", { dateStyle: "long", timeStyle: "short", timeZone: "Europe/Amsterdam" });
     const adres = adresWeergave(rij);
 

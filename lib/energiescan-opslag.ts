@@ -6,6 +6,7 @@ import { readScan, UUID } from "@/lib/scan-session";
 import { slaWoningdossierOp } from "@/lib/woningdossier-opslag";
 import { EMAIL, schrijfMetOntbrekendeKolommen } from "@/lib/opslag-hulp";
 import { verstuurEnergiescanMail } from "@/lib/energiescan-mail";
+import { stuurLeadDoor } from "@/lib/lead-doorsturen";
 import { magDoorgaan } from "@/lib/rate-limit";
 import { geldigTelefoonnummer } from "./telefoon";
 const TELEFOON_FOUT = "Vul een geldig telefoonnummer in, bijvoorbeeld 06 12345678.";
@@ -67,6 +68,9 @@ export async function verstuurEnergiescanAanvraag(ruweSessie: string, honeypot?:
       email: email || null,
       telefoon: telefoon || null,
       voorkeursmoment: s.voorkeursmoment || null,
+      // Kolom uit supabase/migrations/20261030_whatsapp_toestemming.sql. Bestaat die nog niet,
+      // dan slaat schrijfMetOntbrekendeKolommen de rest gewoon op (en staat het wel in de mail).
+      whatsapp_toestemming: s.whatsappToestemming,
       wil_wijzigen: s.advice,
       wijzig_toelichting: wijziging || null,
       opmerking: s.opmerking.trim() || null,
@@ -79,8 +83,12 @@ export async function verstuurEnergiescanAanvraag(ruweSessie: string, honeypot?:
     // hier bewust op (in plaats van "fire and forget"), zodat de server-
     // functie niet eindigt terwijl het versturen nog bezig is. Lukt de mail
     // niet, dan wordt dat alleen gelogd — de aanvraag blijft "verstuurd".
-    await verstuurEnergiescanMail(s.dossierId).catch((e) => {
+    await verstuurEnergiescanMail(s.dossierId, { whatsappToestemming: s.whatsappToestemming }).catch((e) => {
       console.error("[energiescanaanvraag] interne mail kon niet worden verstuurd:", e);
+    });
+    // Zelfde afweging voor Teamleader: doet alleen iets als LEAD_WEBHOOK_URL/-TOKEN gezet zijn.
+    await stuurLeadDoor(s).catch((e) => {
+      console.error("[energiescanaanvraag] doorsturen naar Teamleader mislukt:", e);
     });
     return { verstuurd: true };
   } catch (e) {
