@@ -9,6 +9,7 @@ import { getLokaleInhoud } from "@/lib/content/regio-lokaal";
 import { LokalePagina } from "@/components/regio/LokalePagina";
 import { getGemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
 import { GemeenteVerhaalPagina, type VerhaalKern } from "@/components/regio/GemeenteVerhaalPagina";
+import { LokaalProfielPagina } from "@/components/regio/LokaalProfielPagina";
 import { GemeenteKaart } from "@/components/regio/RegioDrilldown";
 import { RegioBreadcrumb, RegioMain, IsolatieMaatregelen, LandelijkeSubsidies, WoningenInGemeente, ZoWerktGijsKort, EnergiescanBlok, RegioCta, H2 } from "@/components/regio/RegioBlokken";
 import { RegioWoningscanKnop } from "@/components/regio/RegioWoningscanKnop";
@@ -68,6 +69,16 @@ export default async function GemeentePage({ params }: Props) {
       const href = k.slug !== g.slug && k.gepubliceerd ? regioPad(p.slug, g.slug, k.slug) : undefined;
       return [{ slug: k.slug, naam: k.naam, afbeelding: k.afbeelding, href }];
     });
+    const lokaalProfiel = verhaal.lokaalProfiel;
+    if (lokaalProfiel) {
+      return (
+        <>
+          <Header />
+          <LokaalProfielPagina verhaal={{ ...verhaal, lokaalProfiel }} provincie={p.slug} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
+          <Footer />
+        </>
+      );
+    }
     return (
       <>
         <Header />

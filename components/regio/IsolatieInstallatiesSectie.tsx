@@ -33,7 +33,7 @@ const BOUWDEEL: Record<string, Sleutel> = {
 const TABS: MeasureGroupId[] = ["isolatie", "installaties"];
 const groep = (id: MeasureGroupId) => MEASURE_GROUPS.find(g => g.id === id)!;
 
-export function IsolatieInstallatiesSectie() {
+export function IsolatieInstallatiesSectie({ cta }: { cta?: React.ReactNode } = {}) {
   const [tab, setTab] = useState<MeasureGroupId>("isolatie");
   const [actief, setActief] = useState<string | null>(null);
 
@@ -77,8 +77,8 @@ export function IsolatieInstallatiesSectie() {
                     type="button"
                     onClick={() => setActief(isActief ? null : m.id)}
                     aria-pressed={isActief}
-                    className={`flex w-full items-center gap-4 rounded-[var(--radius-card)] border bg-white px-4 py-3 pr-24 text-left transition-colors ${
-                      isActief ? "border-[var(--gijs-accentgroen)] shadow-[var(--shadow-1)]" : "border-transparent hover:border-[var(--border-default)]"
+                    className={`flex w-full items-center gap-4 rounded-[var(--radius-card)] border bg-white px-4 py-3 pr-32 text-left transition-all duration-500 ease-out ${
+                      isActief ? "border-[var(--gijs-accentgroen)] shadow-[var(--shadow-1)]" : "border-transparent hover:border-[var(--border-default)] hover:-translate-y-0.5 hover:shadow-[0_4px_16px_-4px_rgba(0,0,0,0.06)]"
                     }`}
                   >
                     <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors ${isActief ? "bg-[var(--gijs-accentgroen)] text-white" : "bg-[var(--surface-tint)] text-[var(--accent-700)]"}`}>
@@ -90,8 +90,8 @@ export function IsolatieInstallatiesSectie() {
                     </span>
                   </button>
                   {t?.slug && (
-                    <Link href={`/maatregelen/${t.slug}`} className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-[var(--accent-700)] underline">
-                      Meer info<span className="sr-only"> over {(t.naam).toLowerCase()}</span>
+                    <Link href={`/maatregelen/${t.slug}`} className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center gap-0.5 rounded-full bg-[var(--accent-050)] px-3 py-1.5 text-[13px] font-semibold text-[var(--accent-700)] no-underline transition-colors duration-[var(--dur-base)] hover:bg-[var(--accent-100)] hover:text-[var(--gijs-donkergroen)]">
+                      Meer info<span className="sr-only"> over {(t.naam).toLowerCase()}</span> <Icon name="arrow-right" size="sm" />
                     </Link>
                   )}
                 </li>
@@ -102,6 +102,8 @@ export function IsolatieInstallatiesSectie() {
           <Link href={`/maatregelen#${tab}`} className="text-sm font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] inline-flex items-center gap-1 no-underline">
             {tab === "isolatie" ? "Bekijk alle isolaties" : "Bekijk alle installaties"} <Icon name="arrow-right" size="sm" />
           </Link>
+
+          {cta && <div className="mt-4 border-t border-[var(--accent-100)] pt-6">{cta}</div>}
         </div>
       </div>
     </div>

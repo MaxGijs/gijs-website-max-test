@@ -4,35 +4,48 @@
 
 import type { HouseType } from "../woning-types";
 
-// ── Milieu Centraal: kosten en gasbesparing per woningtype ─────────────────────────────────────
+// ── Kosten per woningtype: Gijs-tarieven (Thom, oktober 2026) ────────────────────────────────
+// Bruto investeringskosten afgeleid uit de netto-kostentabel van Thom (netto = bruto − ISDE).
+// De bruto per maatregel is teruggerekend door bij de netto (enkelvoudig ISDE-tarief) de
+// geschatte ISDE-subsidie op te tellen; de som per woningtype klopt exact met de bruto die
+// Thom's gecombineerde kolom impliceert (netto + ISDE bij dubbel tarief):
+//   tussenwoning € 5.700, hoekwoning € 7.140, 2^1-kap € 8.390, vrijstaand € 11.200.
+//
+// Thom's netto-kostentabel (ter referentie):
+//   Met ISDE        | Spouw los | Vloer los | Dak los | Alle drie (dubbel ISDE)
+//   Tussenwoning    | € 1.430   | € 1.710   | € 1.200 | € 3.000 (ISDE € 2.700)
+//   Hoekwoning      | € 2.440   | € 1.900   | € 1.200 | € 3.960 (ISDE € 3.180)
+//   2-onder-1-kap   | € 2.820   | € 2.090   | € 1.530 | € 4.510 (ISDE € 3.880)
+//   Vrijstaand      | € 3.960   | € 2.850   | € 1.860 | € 6.140 (ISDE € 5.060)
+//
+// ── Gasbesparing per woningtype: Milieu Centraal ────────────────────────────────────────────
 // Pagina's "laatst gewijzigd 14 oktober 2026", gecontroleerd 27 oktober 2026:
-// - https://www.milieucentraal.nl/energie-besparen/isoleren-en-besparen/dakisolatie/ (schuin dak, Rd 3,8)
+// - https://www.milieucentraal.nl/energie-besparen/isoleren-en-besparen/dakisolatie/
 // - https://www.milieucentraal.nl/energie-besparen/isoleren-en-besparen/spouwmuurisolatie/
-// - https://www.milieucentraal.nl/energie-besparen/isoleren-en-besparen/vloerisolatie/ (Rd 3,5, uitbesteed)
-// Besparing = "van geen naar goede isolatie" met een hr-ketel. Milieu Centraal's subsidiebedragen worden
-// bewust niet gebruikt: de subsidie wordt hieronder met de RVO-tarieven en oppervlakten berekend.
+// - https://www.milieucentraal.nl/energie-besparen/isoleren-en-besparen/vloerisolatie/
+// Besparing = "van geen naar goede isolatie" met een hr-ketel.
 
 export type McKengetal = { kosten: number; besparingGasM3: number };
 export type BouwdeelMaatregel = "dakisolatie" | "gevelisolatie" | "vloerisolatie";
 
 export const MC_KENGETALLEN: Record<BouwdeelMaatregel, Record<HouseType, McKengetal>> = {
   gevelisolatie: {
-    tussenwoning: { kosten: 800, besparingGasM3: 180 },
-    hoekwoning: { kosten: 1800, besparingGasM3: 400 },
-    "twee-onder-een-kap": { kosten: 1900, besparingGasM3: 400 },
-    vrijstaand: { kosten: 2700, besparingGasM3: 600 },
+    tussenwoning: { kosten: 1630, besparingGasM3: 180 },
+    hoekwoning: { kosten: 2910, besparingGasM3: 400 },
+    "twee-onder-een-kap": { kosten: 3340, besparingGasM3: 400 },
+    vrijstaand: { kosten: 4640, besparingGasM3: 600 },
   },
   dakisolatie: {
-    tussenwoning: { kosten: 6000, besparingGasM3: 320 },
-    hoekwoning: { kosten: 6500, besparingGasM3: 340 },
-    "twee-onder-een-kap": { kosten: 6500, besparingGasM3: 360 },
-    vrijstaand: { kosten: 10000, besparingGasM3: 550 },
+    tussenwoning: { kosten: 2090, besparingGasM3: 320 },
+    hoekwoning: { kosten: 2020, besparingGasM3: 340 },
+    "twee-onder-een-kap": { kosten: 2600, besparingGasM3: 360 },
+    vrijstaand: { kosten: 3220, besparingGasM3: 550 },
   },
   vloerisolatie: {
-    tussenwoning: { kosten: 2150, besparingGasM3: 80 },
-    hoekwoning: { kosten: 2240, besparingGasM3: 130 },
-    "twee-onder-een-kap": { kosten: 2900, besparingGasM3: 170 },
-    vrijstaand: { kosten: 4200, besparingGasM3: 250 },
+    tussenwoning: { kosten: 1980, besparingGasM3: 80 },
+    hoekwoning: { kosten: 2210, besparingGasM3: 130 },
+    "twee-onder-een-kap": { kosten: 2450, besparingGasM3: 170 },
+    vrijstaand: { kosten: 3340, besparingGasM3: 250 },
   },
 };
 
@@ -132,6 +145,7 @@ export const RVO_REFERENTIEWONINGEN: Record<HouseType, Bouwperiode[]> = {
 export const SPOUWMUREN_VANAF = 1930;
 
 export const FINANCIEEL_BRONNEN = {
+  gijsTarieven: { naam: "Gijs-tarieven (Thom)", peildatum: "oktober 2026" },
   milieuCentraal: { naam: "Milieu Centraal", peildatum: "14 oktober 2026", url: "https://www.milieucentraal.nl/energie-besparen/isoleren-en-besparen/" },
   rvoIsde: { naam: "RVO (ISDE)", peildatum: "27 oktober 2026", url: "https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/isolatiemaatregelen" },
   rvoVoorbeeldwoningen: { naam: "RVO Voorbeeldwoningen 2022", url: "https://www.rvo.nl/sites/default/files/2023-01/brochure-voorbeeldwoningen-bestaande-bouw-2022.pdf" },

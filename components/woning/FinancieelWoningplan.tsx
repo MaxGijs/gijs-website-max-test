@@ -58,7 +58,7 @@ export function FinancieelWoningplan({ invoer, naamVan, postcode, huisnummer, ge
                 </p>
               )}
               <p className={styles.nietMee}>
-                Investeringskosten op basis van Milieu Centraal-gemiddelden per woningtype; de werkelijke prijs hangt af van het oppervlak van jouw woning.
+                Investeringskosten op basis van Gijs-tarieven per woningtype; de werkelijke prijs hangt af van de specifieke situatie van jouw woning.
                 Woninggerichte indicatie: gebaseerd op het oppervlak van een vergelijkbare RVO-referentiewoning, niet op een meting van jouw
                 woning. De daadwerkelijke subsidie hangt af van de werkzaamheden die je laat uitvoeren en wordt pas na goedkeuring door RVO
                 definitief.
@@ -205,7 +205,8 @@ export function FinancieelWoningplan({ invoer, naamVan, postcode, huisnummer, ge
       <details className={styles.noot}>
         <summary>Bronnen, aannames en beperkingen</summary>
         <p>
-          Kosten en gasbesparing per woningtype: <a href={FINANCIEEL_BRONNEN.milieuCentraal.url} target="_blank" rel="noopener noreferrer">Milieu Centraal</a>,
+          Investeringskosten per woningtype: {FINANCIEEL_BRONNEN.gijsTarieven.naam}, {FINANCIEEL_BRONNEN.gijsTarieven.peildatum}.
+          Gasbesparing per woningtype: <a href={FINANCIEEL_BRONNEN.milieuCentraal.url} target="_blank" rel="noopener noreferrer">Milieu Centraal</a>,
           peildatum {FINANCIEEL_BRONNEN.milieuCentraal.peildatum}. Subsidie: <a href={FINANCIEEL_BRONNEN.rvoIsde.url} target="_blank" rel="noopener noreferrer">ISDE-tarieven van RVO</a>{" "}
           voor woningeigenaren, geldig voor uitvoering in 2025 of later (laatst gecontroleerd 27-10-2026) × het oppervlak van een{" "}
           <a href={FINANCIEEL_BRONNEN.rvoVoorbeeldwoningen.url} target="_blank" rel="noopener noreferrer">vergelijkbare RVO-referentiewoning</a> — een woninggerichte
