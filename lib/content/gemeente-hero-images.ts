@@ -3,6 +3,12 @@ export type GemeenteHeroAfbeelding = {
   author: string;
   license: string;
   licenseUrl: string;
+  /** Wikimedia Commons bestandspagina — primaire bronlink voor attributie */
+  sourceUrl?: string;
+  /** Beschrijving van eventuele bewerkingen t.o.v. het origineel (bijgesneden, etc.) */
+  modifications?: string;
+  /** "verified": bronpagina gevonden en gecontroleerd. "needs_review": handmatige controle nodig. */
+  verificationStatus?: "verified" | "needs_review";
 };
 
 export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = {
@@ -29,6 +35,7 @@ export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = 
     author: "Onbekend",
     license: "Public domain",
     licenseUrl: "",
+    verificationStatus: "needs_review",
   },
   "barneveld": {
     src: "/images/regio/gemeenten/barneveld/hero.jpg",
@@ -128,9 +135,10 @@ export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = 
   },
   "ede": {
     src: "/images/regio/gemeenten/ede/hero.jpg",
-    author: "No machine-readable author provided. Rasbak assumed (based on copyright claims).",
+    author: "Rasbak",
     license: "CC BY-SA 3.0",
     licenseUrl: "http://creativecommons.org/licenses/by-sa/3.0/",
+    verificationStatus: "needs_review",
   },
   "elburg": {
     src: "/images/regio/gemeenten/elburg/hero.jpg",
@@ -164,7 +172,7 @@ export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = 
   },
   "hardenberg": {
     src: "/images/regio/gemeenten/hardenberg/hero.jpg",
-    author: "Milliped href=\"//commons.wikimedia.org/wiki/User:Milliped\" title=\"User:Milliped\"",
+    author: "Milliped",
     license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
@@ -206,7 +214,7 @@ export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = 
   },
   "hof-van-twente": {
     src: "/images/regio/gemeenten/hof-van-twente/hero.jpg",
-    author: "Jürgen Eissink",
+    author: "Agnes Monkelbaan",
     license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
   },
@@ -429,8 +437,9 @@ export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = 
   "winterswijk": {
     src: "/images/regio/gemeenten/winterswijk/hero.jpg",
     author: "Naaldenberg",
-    license: "Attribution",
-    licenseUrl: "",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0",
+    verificationStatus: "needs_review",
   },
   "zaltbommel": {
     src: "/images/regio/gemeenten/zaltbommel/hero.jpg",

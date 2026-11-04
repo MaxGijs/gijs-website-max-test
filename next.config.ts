@@ -11,6 +11,13 @@ export default function nextConfig(phase: string): NextConfig {
       // lijnen, waar de standaard WebP/AVIF-compressie (kwaliteit 75)
       // zichtbaar zachtere randen geeft dan de originele PNG.
       qualities: [75, 100],
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "images.pexels.com",
+          pathname: "/photos/**",
+        },
+      ],
     },
     async redirects() {
       return [

@@ -15,7 +15,7 @@ import { EnergiescanUitleg } from "@/components/home/EnergiescanUitleg";
 // pagina's, zo-werkt-gijs, energiescan). Geen lokale claims, bedragen of
 // regelingen: die verschillen per gemeente en worden niet op de site gezet.
 
-export const H2 = "text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]";
+export const H2 = "text-[clamp(1.75rem,1.2rem+1.9vw,2.75rem)] font-bold leading-[1.08] tracking-[-0.03em] text-[var(--gijs-donkergroen)] [text-wrap:balance]";
 const LINK = "underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]";
 
 export function RegioMain({ children }: { children: React.ReactNode }) {
@@ -230,10 +230,10 @@ export function RegioCta({
   plaats?: string;
 }) {
   return (
-    <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-10 sm:px-10 md:px-14 md:py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
       <div className="max-w-xl min-w-0 [&_h2]:[hyphens:auto]">
-        <h2 className={H2 + " mb-2"}>{titel}</h2>
-        <p className="text-zinc-700">{tekst ?? "Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."}</p>
+        <h2 className={H2 + " mb-3"}>{titel}</h2>
+        <p className="text-[17px] leading-relaxed text-zinc-700 [text-wrap:pretty]">{tekst ?? "Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."}</p>
       </div>
       <div className="flex flex-col sm:flex-row gap-3 shrink-0">
         {provincie && gemeente ? (
