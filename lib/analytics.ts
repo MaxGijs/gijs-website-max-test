@@ -43,6 +43,9 @@ export type AnalyticsEvent =
   // Woningscan-funnel (regioparams optioneel, alleen bij regio-instroom).
   | ({ name: "woningscan_started" } & Partial<RegioParams>)
   | { name: "woningscan_step_viewed"; step: number; step_name: string }
+  | { name: "woningscan_step_1_viewed" }
+  | { name: "woningscan_step_2_viewed" }
+  | { name: "woningscan_step_3_viewed" }
   | { name: "woningscan_step_completed"; step: number; step_name: string }
   | ({ name: "woningscan_completed" } & Partial<RegioParams>)
   // Woningplan preview (zelfde moment als woningscan_completed, aparte naam voor GA4-trechter).
@@ -51,6 +54,7 @@ export type AnalyticsEvent =
   | { name: "woningplan_viewed" }
   // Uitgebreid woningplan ontgrendelen.
   | { name: "woningplan_unlock_started" }
+  | { name: "extra_gegevens_achtergelaten" }
   // Het e-mailadres voor het uitgebreide woningplan (subsidieregelingen): een eigen event naast
   // "lead_created" met bron "woningscan_email", zodat dit in rapportages te onderscheiden blijft
   // van de volledige energiescan-aanvraag (bron "woningscan") — wél een lead, wél een interne

@@ -161,6 +161,9 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
   useEffect(() => {
     if (!ready) return;
     track({ name: "woningscan_step_viewed", step: scan.step + 1, step_name: SCAN_STAPPEN[scan.step] });
+    if (scan.step === STAP.woning) track({ name: "woningscan_step_1_viewed" });
+    else if (scan.step === STAP.gegevens) track({ name: "woningscan_step_2_viewed" });
+    else if (scan.step === STAP.plan) track({ name: "woningscan_step_3_viewed" });
   }, [ready, scan.step]);
 
   // Supabase-opslag bij elke stapwissel (en bij het terugladen): steeds hetzelfde dossier bijwerken.

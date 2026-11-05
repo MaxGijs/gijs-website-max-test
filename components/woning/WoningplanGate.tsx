@@ -63,6 +63,7 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
       const h = leesRegioHerkomst();
       track({ name: "woningplan_uitgebreid_ontgrendeld" });
       track({ name: "woningplan_unlocked", ...(h ?? {}) });
+      track({ name: "extra_gegevens_achtergelaten" });
       track({ name: "lead_created", source: "woningscan_email", ...(h ?? {}) });
       onOntgrendeld(emailWaarde, telefoonWaarde);
       return;
