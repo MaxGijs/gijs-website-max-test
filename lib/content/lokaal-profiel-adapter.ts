@@ -40,6 +40,7 @@ export function leidProfielAf(v: GemeenteVerhaal, opties: {
   // Op de gemeentepagina (naam === gemeente) en als de gemeentenaam geen echte plaatsnaam is,
   // gebruik de opgegeven naamDisplay (bijv. "de gemeente Noordoostpolder") in template-zinnen.
   const naamVoorTekst = (naam === gemeente && v.naamDisplay) ? v.naamDisplay : naam;
+  const vz = v.voorzetsel ?? "in";
   const w = v.woningen;
   const blok = v.woningInzichtenBlok;
   const advies = v.persoonlijkAdviesBlok;
@@ -73,17 +74,17 @@ export function leidProfielAf(v: GemeenteVerhaal, opties: {
         ? { h3: advies.h2, tekst: advies.alineas, adviseur: _isNaud ? "naud" : "thom" }
         : typeAdvies
           ? {
-              h3: `Naud kijkt graag even mee in ${naamVoorTekst}`,
+              h3: `Naud kijkt graag even mee ${vz} ${naamVoorTekst}`,
               adviseur: "naud",
               tekst: [
-                [`Twijfel je of jouw woning geschikt is voor spouwmuurisolatie, of heb je toch liever vloerverwarming of zonnepanelen? Naud komt graag bij je langs in ${naamVoorTekst} voor een gratis en vrijblijvende energiescan. Samen kijken jullie naar jouw woning, wat er mogelijk is en welke maatregelen echt bij je passen.`],
+                [`Twijfel je of jouw woning geschikt is voor spouwmuurisolatie, of heb je toch liever vloerverwarming of zonnepanelen? Naud komt graag bij je langs ${vz} ${naamVoorTekst} voor een gratis en vrijblijvende energiescan. Samen kijken jullie naar jouw woning, wat er mogelijk is en welke maatregelen echt bij je passen.`],
                 ["Wil je daarna verder verduurzamen? Gijs begeleidt en ontzorgt je van A tot Z."],
               ],
             }
           : {
-              h3: `${_voornaam} komt graag langs in ${naamVoorTekst}`,
+              h3: `${_voornaam} komt graag langs ${vz} ${naamVoorTekst}`,
               adviseur: _isNaud ? "naud" : "thom",
-              tekst: [[`Tijdens een gratis energiescan aan huis kijkt ${_voornaam} precies wat er bij jouw woning in ${naamVoorTekst} technisch mogelijk is en welke stap het meeste oplevert. ${_voornaam} ontzorgt je van A tot Z.`]],
+              tekst: [[`Tijdens een gratis energiescan aan huis kijkt ${_voornaam} precies wat er bij jouw woning ${vz} ${naamVoorTekst} technisch mogelijk is en welke stap het meeste oplevert. ${_voornaam} ontzorgt je van A tot Z.`]],
             };
 
     inzichten = {
@@ -105,12 +106,12 @@ export function leidProfielAf(v: GemeenteVerhaal, opties: {
       foto: opties.foto,
       intro: v.intro,
       layout: "portret",
-      kernenZin: `Gijs werkt in ${naamVoorTekst} en in`,
+      kernenZin: `Gijs werkt ${vz} ${naamVoorTekst} en in`,
     },
     inzichten,
     buurtschappen: { eyebrow: "In de buurt", h2: `Plaatsen in de gemeente ${gemeente}` },
     afsluiting: {
-      tekst: `Klaar om je woning in ${naamVoorTekst} te verduurzamen? Start de woningscan en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg.`,
+      tekst: `Klaar om je woning ${vz} ${naamVoorTekst} te verduurzamen? Start de woningscan en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg.`,
       scanKnop: true,
     },
   };

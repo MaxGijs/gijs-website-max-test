@@ -1432,6 +1432,7 @@ export const VERHALEN_UTRECHT_FLEVOLAND: Record<string, GemeenteVerhaal> = {
     seo: { title: "Je huis verduurzamen op Urk | Gijs", description: "Urk was tot 1939 een eiland en heeft een beschermde oude kern. Gijs bekijkt onafhankelijk welke isolatie bij jouw woning past. Gratis energiescan." },
     kicker: "Gemeente Urk",
     h1: "Je woning verduurzamen op Urk",
+    voorzetsel: "op",
     intro: [
       ["Urk was een eiland in de Zuiderzee, later het IJsselmeer. Pas in 1939 kwam er een dijk naar Lemmer, voor de aanleg van de Noordoostpolder, en in 1948 kreeg het dorp een wegverbinding. De oude dorpskern is nu beschermd dorpsgezicht. Daaromheen groeide Urk na de oorlog snel: tussen 1945 en 2000 werden er duizenden woningen gebouwd."],
       ["Gijs geeft onafhankelijk advies en komt gratis langs voor een energiescan. We kijken wat technisch bij jouw huis past, of dat nu in de oude kern staat of in een nieuwere wijk. Bij oudere woningen gaat het vaak om ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, " en ", { tekst: "isolatieglas", href: "/maatregelen/isolatieglas" }, ". Bij een jonger huis passen een ", { tekst: "warmtepomp", href: "/maatregelen/warmtepomp" }, " of ", { tekst: "zonnepanelen", href: "/maatregelen/zonnepanelen" }, " soms beter."],

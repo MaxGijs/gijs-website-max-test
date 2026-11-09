@@ -77,6 +77,8 @@ export type GemeenteVerhaal = {
    *  echte plaatsnaam is — bijv. "de gemeente Noordoostpolder". Niet invullen als de gemeentenaam
    *  ook de naam van de hoofdplaats is (Dronten, Lelystad). */
   naamDisplay?: string;
+  /** Voorzetsel voor locatie-zinnen: "op" voor eilanden/dijken (Urk), anders "in" (standaard). */
+  voorzetsel?: "in" | "op";
   /** Slugs van de kernen (lib/content/regio.ts), in deze volgorde getoond. */
   kernen: string[];
   woningen?: {
