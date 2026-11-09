@@ -88,7 +88,7 @@ const GEMEENTE_PEXELS: Record<string, { id: string; alt: string }> = {
   lelystad:              { id: "33730665", alt: "Hollands polderlandschap met open velden en water bij Lelystad" },
   noordoostpolder:       { id: "38524983", alt: "Zomerse poldergracht met eenden in Noordoostpolder" },
   urk:                   { id: "16423703", alt: "Pier met houten golfbrekers in het historische vissersdorp Urk" },
-  zeewolde:              { id: "40161165", alt: "Zonsondergang over poldergracht bij Zeewolde" },
+  zeewolde:              { id: "12290874", alt: "Houten steiger bij het Wolderwijd in Zeewolde" },
   // ── Overijssel ──
   almelo:               { id: "33574641", alt: "Historisch plein met kerk in Almelo" },
   borne:                { id: "40491143", alt: "Groen weiland in Twente" },
