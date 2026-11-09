@@ -60,23 +60,30 @@ export function leidProfielAf(v: GemeenteVerhaal, opties: {
           ]
         : kaartenUitBouwperiodes(naamVoorTekst, w.bouwperiodes);
 
+    // Deterministische afwisseling Thom/Naud op basis van gemeentenaam (elke gemeente krijgt altijd
+    // dezelfde adviseur, maar buurge­meenten wisselen af zodat het niet overal Thom is).
+    let _h = 0;
+    for (const c of gemeente) _h = (_h * 31 + c.charCodeAt(0)) >>> 0;
+    const _isNaud = _h % 2 === 1;
+    const _voornaam = _isNaud ? "Naud" : "Thom";
+
     const adviseur: NonNullable<LokaalProfiel["inzichten"]>["adviseur"] = blok
       ? { h3: blok.adviseur.h3, tekst: [blok.adviseur.tekst], adviseur: blok.adviseur.naam }
       : advies
-        ? { h3: advies.h2, tekst: advies.alineas, adviseur: "thom" }
+        ? { h3: advies.h2, tekst: advies.alineas, adviseur: _isNaud ? "naud" : "thom" }
         : typeAdvies
           ? {
-              h3: "Naud kijkt graag even met je mee",
+              h3: `Naud kijkt graag even mee in ${naamVoorTekst}`,
               adviseur: "naud",
               tekst: [
-                ["Twijfel je of jouw woning geschikt is voor spouwmuurisolatie, of heb je toch liever vloerverwarming of zonnepanelen? Onze adviseur Naud komt graag bij je langs voor een gratis en vrijblijvende energiescan. Samen kijken jullie naar jouw woning, wat er mogelijk is en welke maatregelen echt bij je passen."],
+                [`Twijfel je of jouw woning geschikt is voor spouwmuurisolatie, of heb je toch liever vloerverwarming of zonnepanelen? Naud komt graag bij je langs in ${naamVoorTekst} voor een gratis en vrijblijvende energiescan. Samen kijken jullie naar jouw woning, wat er mogelijk is en welke maatregelen echt bij je passen.`],
                 ["Wil je daarna verder verduurzamen? Gijs begeleidt en ontzorgt je van A tot Z."],
               ],
             }
           : {
-              h3: `Weten wat er bij jouw woning in ${naamVoorTekst} past?`,
-              adviseur: "thom",
-              tekst: [["Tijdens een gratis energiescan aan huis kijkt een adviseur van Gijs wat er technisch bij jouw woning past, en welke stap het meeste oplevert."]],
+              h3: `${_voornaam} komt graag langs in ${naamVoorTekst}`,
+              adviseur: _isNaud ? "naud" : "thom",
+              tekst: [[`Tijdens een gratis energiescan aan huis kijkt ${_voornaam} precies wat er bij jouw woning in ${naamVoorTekst} technisch mogelijk is en welke stap het meeste oplevert. ${_voornaam} ontzorgt je van A tot Z.`]],
             };
 
     inzichten = {
