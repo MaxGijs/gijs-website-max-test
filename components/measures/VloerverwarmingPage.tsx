@@ -22,6 +22,7 @@ import {
 } from "@/lib/content/vloerverwarming-data";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { MeasureCta } from "@/components/measures/MeasureCta";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
@@ -93,7 +94,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
     { question: "Moet ik een speciale verdeler hebben voor mijn warmtepomp?", answer: "Ja. Bij een cv-ketel is de watertemperatuur naar de vloerverwarming instelbaar tussen 20 en 50°C; bij een warmtepomp regelt de warmtepomp zelf de temperatuur. Gijs kiest de juiste verdeler bij je warmtebron." },
     { question: "Kan vloerverwarming ook koelen?", answer: "Bij een warmtepomp met een geschikte verdeler kan de vloer ook passief koelen. Bij een verdeler voor een cv-ketel is dat niet het geval." },
     { question: "Is het opstartprotocol verplicht?", answer: "Het wordt aanbevolen om het opstartprotocol minimaal één keer volledig te doorlopen vóór de vloer verder wordt afgewerkt. Dit verkort de droogtijd en helpt spanningen in de vloer te verminderen, die anders tot scheurvorming zouden kunnen leiden." },
-    { question: "Wat is een verdeler?", answer: "De verdeler is de kast die de watertemperatuur naar elke kamer regelt: bij een cv-ketel instelbaar tussen 20-50°C, bij een warmtepomp automatisch door de warmtepomp zelf — zodat de vloer overal gelijkmatig warm wordt." },
+    { question: "Wat is een verdeler?", answer: "De verdeler is de kast die de watertemperatuur naar elke kamer regelt: bij een cv-ketel instelbaar tussen 20-50°C, bij een warmtepomp automatisch door de warmtepomp zelf, zodat de vloer overal gelijkmatig warm wordt." },
     { question: "Wat betekent laag temperatuur verwarming?", answer: "Dit is verwarming die werkt met een lagere watertemperatuur dan een traditionele cv-ketel, zoals bij een warmtepomp. Vloerverwarming is hier goed geschikt voor." },
     { question: item.question, answer: item.answer },
     {
@@ -428,17 +429,11 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         </section>
       </div>
 
-      <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div className="flex items-start gap-4 max-w-xl">
-          <div className="min-w-0 [&_h2]:[hyphens:auto]">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past vloerverwarming bij jouw woning?</h2>
-            <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
-          </div>
-        </div>
-        <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right" className="shrink-0 w-full md:w-auto">
-          Start de woningscan
-        </Button>
-      </section>
+      <MeasureCta
+        titel="Past vloerverwarming bij jouw woning?"
+        tekst="Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."
+        primaryHref={startScanHref}
+      />
     </main>
   );
 }

@@ -6,6 +6,7 @@ import { VLOER_PRODUCTS } from "@/lib/content/vloerisolatie-products";
 import { CONTACT } from "@/lib/content/contact";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { MeasureCta } from "@/components/measures/MeasureCta";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
@@ -176,7 +177,8 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
         <MeasureSectionNav sections={sections} />
 
         <section id="wat-is-het" className="scroll-mt-40 mt-12 mb-14">
-        <div className="flex flex-col gap-4 max-w-3xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:items-center">
+        <div className="flex flex-col gap-4">
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Wat is vloerisolatie?</h2>
           <p className="text-lg font-medium text-[var(--gijs-donkergroen)]">
             Zie vloerisolatie als warme sokken voor je vloer. Je woning verliest minder warmte via de begane
@@ -193,7 +195,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
             goed die bereikbaar is, en bespreekt welke oplossing past.
           </p>
         </div>
-        <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] mt-8 max-w-[820px] mx-auto">
+        <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
           {/* PNG vervangen door SVG: zelfde crop/inhoud (ratio geverifieerd),
               de opdrachtgever heeft alleen de hoekafronding van de
               labels/badges aangepast (uitlegvisuals.zip). */}
@@ -205,6 +207,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
             quality={100}
             className="w-full h-auto"
           />
+        </div>
         </div>
 
         <div className="mt-10">
@@ -245,9 +248,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
 
       <section id="voordelen" className="scroll-mt-40 mb-14">
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-        <div className="max-w-2xl">
-          <FeatureList columns={2} items={VOORDELEN} />
-        </div>
+        <FeatureList columns={2} items={VOORDELEN} />
       </section>
 
       <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
@@ -319,17 +320,11 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
       </section>
       </div>
 
-      <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div className="flex items-start gap-4 max-w-xl">
-          <div className="min-w-0 [&_h2]:[hyphens:auto]">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past vloerisolatie bij jouw woning?</h2>
-            <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
-          </div>
-        </div>
-        <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right" className="shrink-0 w-full md:w-auto">
-          Start de woningscan
-        </Button>
-      </section>
+      <MeasureCta
+        titel="Past vloerisolatie bij jouw woning?"
+        tekst="Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."
+        primaryHref={startScanHref}
+      />
 
       <MeasureRegioLink />
     </main>

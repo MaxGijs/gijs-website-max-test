@@ -47,6 +47,8 @@ export const slugify = (naam: string) =>
 export const REGIO_PROVINCIES: RegioProvincie[] = [
   { slug: "overijssel", naam: "Overijssel", gepubliceerd: true, indexeerbaar: true },
   { slug: "gelderland", naam: "Gelderland", gepubliceerd: true, indexeerbaar: true },
+  { slug: "utrecht", naam: "Utrecht", gepubliceerd: true, indexeerbaar: true },
+  { slug: "flevoland", naam: "Flevoland", gepubliceerd: true, indexeerbaar: true },
 ];
 
 // Welke gemeenten en plaatsen live staan. Sleutel = gemeente-slug.
@@ -1721,6 +1723,51 @@ const GELDERLAND_BRONGEMEENTEN: { naam: string; kernen: { naam: string; bord: st
   ]},
 ];
 
+// Utrecht: alle 26 gemeenten. Plaatsen = steden, dorpen en de grotere woonplaatsen uit
+// nl.wikipedia.org/wiki/Lijst_van_steden_en_dorpen_in_Utrecht; buurtschappen, huizengroepen en
+// voormalige dorpen zijn bewust weggelaten. Plaatsnaamborden volgen later (zelf gemaakt,
+// zelfde padconventie als Gelderland); zonder `bord` toont de pagina de plaats als tekstlink.
+const UTRECHT_BRONGEMEENTEN: { naam: string; kernen: { naam: string; bord?: string }[] }[] = [
+  { naam: "Amersfoort", kernen: [{ naam: "Amersfoort" }, { naam: "Hoogland" }, { naam: "Hooglanderveen" }] },
+  { naam: "Baarn", kernen: [{ naam: "Baarn" }, { naam: "Lage Vuursche" }, { naam: "Eembrugge" }] },
+  { naam: "Bunnik", kernen: [{ naam: "Bunnik" }, { naam: "Odijk" }, { naam: "Werkhoven" }] },
+  { naam: "Bunschoten", kernen: [{ naam: "Bunschoten" }, { naam: "Spakenburg" }] },
+  { naam: "De Bilt", kernen: [{ naam: "De Bilt" }, { naam: "Bilthoven" }, { naam: "Groenekan" }, { naam: "Hollandsche Rading" }, { naam: "Maartensdijk" }, { naam: "Westbroek" }] },
+  { naam: "De Ronde Venen", kernen: [{ naam: "Mijdrecht" }, { naam: "Vinkeveen" }, { naam: "Waverveen" }, { naam: "Wilnis" }, { naam: "Abcoude" }, { naam: "Amstelhoek" }, { naam: "Baambrugge" }] },
+  { naam: "Eemnes", kernen: [{ naam: "Eemnes" }] },
+  { naam: "Houten", kernen: [{ naam: "Houten" }, { naam: "Schalkwijk" }, { naam: "'t Goy" }, { naam: "Tull en 't Waal" }] },
+  { naam: "IJsselstein", kernen: [{ naam: "IJsselstein" }] },
+  { naam: "Leusden", kernen: [{ naam: "Leusden" }, { naam: "Leusden-Zuid" }, { naam: "Stoutenburg" }, { naam: "Achterveld" }] },
+  { naam: "Lopik", kernen: [{ naam: "Lopik" }, { naam: "Benschop" }, { naam: "Cabauw" }, { naam: "Polsbroek" }, { naam: "Polsbroekerdam" }, { naam: "Uitweg" }, { naam: "Willige Langerak" }] },
+  { naam: "Montfoort", kernen: [{ naam: "Montfoort" }, { naam: "Blokland" }, { naam: "Linschoten" }, { naam: "Willeskop" }] },
+  { naam: "Nieuwegein", kernen: [{ naam: "Nieuwegein" }] },
+  { naam: "Oudewater", kernen: [{ naam: "Oudewater" }, { naam: "Hekendorp" }, { naam: "Papekop" }] },
+  { naam: "Renswoude", kernen: [{ naam: "Renswoude" }] },
+  { naam: "Rhenen", kernen: [{ naam: "Rhenen" }, { naam: "Achterberg" }, { naam: "Elst" }] },
+  { naam: "Soest", kernen: [{ naam: "Soest" }, { naam: "Soestdijk" }, { naam: "Soesterberg" }] },
+  { naam: "Stichtse Vecht", kernen: [{ naam: "Maarssen" }, { naam: "Breukelen" }, { naam: "Loenen aan de Vecht" }, { naam: "Loenersloot" }, { naam: "Nieuwersluis" }, { naam: "Kockengen" }, { naam: "Nigtevecht" }, { naam: "Nieuwer Ter Aa" }, { naam: "Oud-Zuilen" }, { naam: "Tienhoven" }, { naam: "Vreeland" }] },
+  { naam: "Utrecht", kernen: [{ naam: "Utrecht" }, { naam: "De Meern" }, { naam: "Vleuten" }, { naam: "Haarzuilens" }] },
+  { naam: "Utrechtse Heuvelrug", kernen: [{ naam: "Doorn" }, { naam: "Driebergen-Rijsenburg" }, { naam: "Leersum" }, { naam: "Maarn" }, { naam: "Maarsbergen" }, { naam: "Amerongen" }, { naam: "Overberg" }] },
+  { naam: "Veenendaal", kernen: [{ naam: "Veenendaal" }] },
+  { naam: "Vijfheerenlanden", kernen: [{ naam: "Vianen" }, { naam: "Leerdam" }, { naam: "Ameide" }, { naam: "Meerkerk" }, { naam: "Lexmond" }, { naam: "Everdingen" }, { naam: "Hagestein" }, { naam: "Hei- en Boeicop" }, { naam: "Hoef en Haag" }, { naam: "Kedichem" }, { naam: "Leerbroek" }, { naam: "Nieuwland" }, { naam: "Schoonrewoerd" }, { naam: "Tienhoven aan de Lek" }, { naam: "Zijderveld" }] },
+  { naam: "Wijk bij Duurstede", kernen: [{ naam: "Wijk bij Duurstede" }, { naam: "Cothen" }, { naam: "Langbroek" }] },
+  { naam: "Woerden", kernen: [{ naam: "Woerden" }, { naam: "Harmelen" }, { naam: "Kamerik" }, { naam: "Kanis" }, { naam: "Zegveld" }] },
+  { naam: "Woudenberg", kernen: [{ naam: "Woudenberg" }] },
+  { naam: "Zeist", kernen: [{ naam: "Zeist" }, { naam: "Austerlitz" }, { naam: "Bosch en Duin" }, { naam: "Den Dolder" }, { naam: "Huis ter Heide" }] },
+];
+
+// Flevoland: alle 6 gemeenten. Plaatsen uit nl.wikipedia.org/wiki/Lijst_van_steden_en_dorpen_in_Flevoland
+// (stadsdelen van Almere, steden en dorpen; buurtschappen en gehuchten weggelaten, ook Almere Pampus,
+// dat nog geen woonwijk is). Plaatsnaamborden volgen later, zoals bij Utrecht.
+const FLEVOLAND_BRONGEMEENTEN: { naam: string; kernen: { naam: string; bord?: string }[] }[] = [
+  { naam: "Almere", kernen: [{ naam: "Almere" }, { naam: "Almere Stad" }, { naam: "Almere Haven" }, { naam: "Almere Buiten" }, { naam: "Almere Hout" }, { naam: "Almere Poort" }] },
+  { naam: "Dronten", kernen: [{ naam: "Dronten" }, { naam: "Biddinghuizen" }, { naam: "Swifterbant" }] },
+  { naam: "Lelystad", kernen: [{ naam: "Lelystad" }] },
+  { naam: "Noordoostpolder", kernen: [{ naam: "Emmeloord" }, { naam: "Bant" }, { naam: "Creil" }, { naam: "Ens" }, { naam: "Espel" }, { naam: "Kraggenburg" }, { naam: "Luttelgeest" }, { naam: "Marknesse" }, { naam: "Nagele" }, { naam: "Rutten" }, { naam: "Schokland" }, { naam: "Tollebeek" }] },
+  { naam: "Urk", kernen: [{ naam: "Urk" }] },
+  { naam: "Zeewolde", kernen: [{ naam: "Zeewolde" }] },
+];
+
 // Geverifieerde officiële subsidiepagina's per gemeente (zelf nagekeken,
 // geen bedragen of voorwaarden overgenomen — zie RegioGemeente.officieleSubsidieUrl).
 const OFFICIELE_SUBSIDIE_URL: Record<string, string> = {
@@ -1732,6 +1779,41 @@ const OFFICIELE_SUBSIDIE_URL: Record<string, string> = {
   "rijssen-holten": "https://www.rijssen-holten.nl/duurzaam/subsidie-laten-isoleren-door-een-bedrijf/",
   hellendoorn: "https://www.hellendoorn.nl/direct-regelen/belastingen-en-subsidies/subsidies-2/subsidie-woningisolatie/",
   twenterand: "https://www.twenterand.nl/isoleren?origin=%2Fduurzaamheidssubsidie",
+  // Utrecht en Flevoland: op 9 november 2026 geopend en gecontroleerd. Uitzonderingen op het eigen
+  // domein: Utrecht (loket.digitaal.utrecht.nl), Veenendaal (duurzaamveenendaal.nl, gelinkt vanaf
+  // veenendaal.nl), Woudenberg (duurzaam.woudenberg.nl), Lelystad (gemeentelelystad.nl). Zeewolde
+  // verwijst naar de duurzaamheidslening; Noordoostpolder ontbreekt (site niet bereikbaar).
+  almere: "https://www.almere.nl/duurzaamheid/energie/isoleren",
+  amersfoort: "https://www.amersfoort.nl/energie-besparen-voor-woningeigenaren",
+  baarn: "https://www.baarn.nl/subsidies-verduurzaming",
+  "de-bilt": "https://www.debilt.nl/duurzaamheid/isoleren",
+  bunnik: "https://www.bunnik.nl/wonen-en-leefomgeving/duurzaamheid/duurzaam-wonen/isolatiesubsidie-en-inkoopactie",
+  bunschoten: "https://www.bunschoten.nl/isolatie",
+  dronten: "https://www.dronten.nl/direct-regelen/belastingen-en-subsidies/thema-subsidies/isoleren",
+  eemnes: "https://www.eemnes.nl/meld-u-aan-voor-de-isolatieactie",
+  houten: "https://www.houten.nl/subsidies-en-vergoedingen/duurzaamheidssubsidies/subsidies-en-leningen-voor-inwoners",
+  ijsselstein: "https://www.ijsselstein.nl/isolatieactie-voor-woningeigenaren",
+  lelystad: "https://www.gemeentelelystad.nl/4/subsidieregeling-laat-het-doen-isolatiesubsidie.html",
+  leusden: "https://www.leusden.nl/duurzaamheid/isolatieactie-voor-woningeigenaren",
+  lopik: "https://www.lopik.nl/subsidie-voor-het-isoleren-van-uw-koopwoning",
+  montfoort: "https://www.montfoort.nl/Alle_onderwerpen/Duurzaamheid_en_klimaat/Isolatieactie_woningeigenaren_Winst_uit_je_Woning",
+  nieuwegein: "https://www.nieuwegein.nl/subsidies-en-leningen/duurzame-subsidies/subsidie-verduurzamen-woningen",
+  oudewater: "https://www.oudewater.nl/Subsidie/Isolatiesubsidie_koopwoningen",
+  renswoude: "https://www.renswoude.nl/isoleren",
+  rhenen: "https://www.rhenen.nl/info-over-de-gemeente/duurzaamheid/woning-verduurzamen",
+  "de-ronde-venen": "https://www.derondevenen.nl/Wonen_en_leven/Wonen_groen_en_duurzaamheid/Duurzaamheid/Duurzaam_wonen/Acties",
+  soest: "https://www.soest.nl/soest-duurzamer/duurzaam-wonen-en-vergroenen/subsidies-voor-woningeigenaren",
+  "stichtse-vecht": "https://stichtsevecht.nl/onderwerp/10719/isoleer-je-woning-en-bespaar-direct",
+  urk: "https://www.urk.nl/aan-de-slag-met-mijn-woning",
+  utrecht: "https://loket.digitaal.utrecht.nl/nl/producten/woning-isoleren-subsidie-aanvragen",
+  "utrechtse-heuvelrug": "https://www.heuvelrug.nl/isoleren",
+  veenendaal: "https://www.duurzaamveenendaal.nl/in-en-om-je-huis/huis/isolatie/veense-isolatie-actie",
+  vijfheerenlanden: "https://www.vijfheerenlanden.nl/isoleren",
+  "wijk-bij-duurstede": "https://www.wijkbijduurstede.nl/isoleren",
+  woerden: "https://www.woerden.nl/Subsidie/Isolatiesubsidie_koopwoningen",
+  woudenberg: "https://duurzaam.woudenberg.nl/energie-besparen-start-hier/woningeigenaar-isolatie-subsidie",
+  zeewolde: "https://www.zeewolde.nl/duurzaamheidslening-aanvragen",
+  zeist: "https://www.zeist.nl/isolatie",
 };
 
 // Alle gemeenten in de Gemeenteborden-set liggen in Twente; Zwolle ligt ook in Overijssel.
@@ -1757,6 +1839,24 @@ export const REGIO_GEMEENTEN: RegioGemeente[] = [
     gepubliceerd: true,
     indexeerbaar: true,
   })),
+  ...UTRECHT_BRONGEMEENTEN.map(g => ({
+    slug: slugify(g.naam),
+    naam: g.naam,
+    provincie: "utrecht",
+    plaatsen: g.kernen.map(k => slugify(k.naam)),
+    officieleSubsidieUrl: OFFICIELE_SUBSIDIE_URL[slugify(g.naam)],
+    gepubliceerd: true,
+    indexeerbaar: true,
+  })),
+  ...FLEVOLAND_BRONGEMEENTEN.map(g => ({
+    slug: slugify(g.naam),
+    naam: g.naam,
+    provincie: "flevoland",
+    plaatsen: g.kernen.map(k => slugify(k.naam)),
+    officieleSubsidieUrl: OFFICIELE_SUBSIDIE_URL[slugify(g.naam)],
+    gepubliceerd: true,
+    indexeerbaar: true,
+  })),
 ];
 
 export const REGIO_PLAATSEN: RegioPlaats[] = [
@@ -1775,6 +1875,30 @@ export const REGIO_PLAATSEN: RegioPlaats[] = [
       naam: k.naam,
       gemeente,
       provincie: "gelderland",
+      afbeelding: k.bord,
+      gepubliceerd: true,
+      indexeerbaar: true,
+    }));
+  }),
+  ...UTRECHT_BRONGEMEENTEN.flatMap(g => {
+    const gemeente = slugify(g.naam);
+    return g.kernen.map(k => ({
+      slug: slugify(k.naam),
+      naam: k.naam,
+      gemeente,
+      provincie: "utrecht",
+      afbeelding: k.bord,
+      gepubliceerd: true,
+      indexeerbaar: true,
+    }));
+  }),
+  ...FLEVOLAND_BRONGEMEENTEN.flatMap(g => {
+    const gemeente = slugify(g.naam);
+    return g.kernen.map(k => ({
+      slug: slugify(k.naam),
+      naam: k.naam,
+      gemeente,
+      provincie: "flevoland",
       afbeelding: k.bord,
       gepubliceerd: true,
       indexeerbaar: true,

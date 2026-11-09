@@ -33,8 +33,8 @@ const BOUWDEEL: Record<string, Sleutel> = {
 const TABS: MeasureGroupId[] = ["isolatie", "installaties"];
 const groep = (id: MeasureGroupId) => MEASURE_GROUPS.find(g => g.id === id)!;
 
-export function IsolatieInstallatiesSectie({ cta }: { cta?: React.ReactNode } = {}) {
-  const [tab, setTab] = useState<MeasureGroupId>("isolatie");
+export function IsolatieInstallatiesSectie({ cta, defaultTab }: { cta?: React.ReactNode; defaultTab?: MeasureGroupId } = {}) {
+  const [tab, setTab] = useState<MeasureGroupId>(defaultTab ?? "isolatie");
   const [actief, setActief] = useState<string | null>(null);
 
   function kiesTab(id: MeasureGroupId) {

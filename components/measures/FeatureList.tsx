@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Card } from "@/components/ds/core/Card";
 import { Icon } from "@/components/ds/core/Icon";
+import { KAART_HOVER } from "@/components/regio/regio-template-styles";
 
 export type Feature = {
   icon?: string;
@@ -27,7 +28,7 @@ export function FeatureList({ items, columns = 3 }: { items: Feature[]; columns?
     <ul className={`grid ${COLS[columns]} gap-3 sm:gap-6`}>
       {items.map((item, i) => (
         <li key={i} className="h-full">
-          <Card variant="tint" className="flex h-full flex-col gap-2 !p-3 sm:!p-5">
+          <Card variant="tint" className={`flex h-full flex-col gap-2 !p-3 sm:!p-5 ${KAART_HOVER}`}>
             {item.icon && <Icon name={item.icon} size="md" className="text-[var(--accent-700)]" />}
             <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">{item.title}</h3>
             {item.text && <p className="text-sm text-zinc-600 leading-relaxed">{item.text}</p>}

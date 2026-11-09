@@ -41,7 +41,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return createMetadata(
     pad,
     `Isolatie in ${k.naam} | Gijs`,
-    `Je woning isoleren in ${k.naam}, gemeente ${g.naam}? Lees welke isolatiemaatregelen er zijn. Gemeentelijke subsidies controleer je bij de gemeente ${g.naam}.`,
+    // Eén vermelding van de gemeentenaam (niet twee): de algemene "isoleren in {gemeente}"-zoekintentie
+    // hoort bij de gemeentepagina zelf. Deze pagina draait om {k.naam}, met een verwijzing naar de
+    // gemeentepagina voor de bredere informatie (subsidies, overige wijken).
+    `Woning isoleren in ${k.naam}? Bekijk de isolatiemaatregelen en de subsidies die gelden in de gemeente ${g.naam}.`,
     k.indexeerbaar && g.indexeerbaar,
     ogBeeld,
   );

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Button } from "@/components/ds/core/Button";
 import MeasureImage from "@/components/MeasureImage";
+import { EYEBROW, HERO_H1, HERO_INTRO } from "@/components/regio/regio-template-styles";
 
 type CTA = { label: string; href: string };
 
@@ -39,14 +40,12 @@ export function MeasureHero({
   secondaryCta?: CTA;
 }) {
   return (
-    <header className="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] gap-10 items-start py-6 md:py-8">
+    <header className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-stretch pt-2 lg:pt-6 py-6 md:py-8">
       <div className="flex flex-col gap-3">
-        <p className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">{label}</p>
-        <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">
-          {title}
-        </h1>
+        <p className={EYEBROW}>{label}</p>
+        <h1 className={HERO_H1}>{title}</h1>
         {subtitle && <p className="text-[var(--fs-500)] font-semibold text-[var(--accent-700)]">{subtitle}</p>}
-        {intro && <p className="text-[var(--fs-400)] text-zinc-600 max-w-prose mt-1">{intro}</p>}
+        {intro && <p className={`${HERO_INTRO} mt-1`}>{intro}</p>}
         {primaryCta && (
           <div className="flex flex-wrap gap-3 mt-2">
             <Button href={primaryCta.href} variant="accent" size="lg" iconRight="arrow-right">
@@ -60,9 +59,11 @@ export function MeasureHero({
           </div>
         )}
       </div>
-      <div className={`relative ${overlayCard ? "pb-10 md:pb-14" : ""}`}>
-        <div className="relative rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
-          <MeasureImage image={image} name={imageAlt} priority />
+      <div className={`relative group/hero ${overlayCard ? "pb-10 md:pb-14" : ""}`}>
+        <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
+          <div className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]">
+            <MeasureImage image={image} name={imageAlt} priority fill />
+          </div>
           {imageCaption && (
             <span className="absolute left-4 top-4 max-w-[80%] rounded-[var(--radius-pill)] bg-[var(--green-900)]/90 text-white text-xs font-semibold px-4 py-2">
               {imageCaption}

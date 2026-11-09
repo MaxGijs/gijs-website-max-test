@@ -29,14 +29,14 @@ export function NederlandKaart() {
     <section id="provincies" className={"scroll-mt-40 mb-14 " + styles.stage}>
       <h2 className={H2 + " mb-2"}>Kies je provincie</h2>
       <p className="text-zinc-600 mb-6 max-w-2xl">
-        Klik op de kaart op je provincie. Voor nu is alleen Overijssel beschikbaar; andere provincies volgen later.
+        Klik op de kaart op je provincie. Overijssel, Gelderland, Utrecht en Flevoland zijn beschikbaar; andere provincies volgen later.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-8 items-center">
         <svg
           viewBox="0 0 1000 1000"
           className="w-full h-auto max-w-[440px] mx-auto md:mx-0"
           role="img"
-          aria-label="Kaart van Nederland met de provincies. Overijssel is aanklikbaar, de overige provincies volgen later."
+          aria-label="Kaart van Nederland met de provincies. Overijssel, Gelderland, Utrecht en Flevoland zijn aanklikbaar, overige provincies volgen later."
         >
           {NL_PROVINCIES.map(p => {
             const provincie = getProvincie(p.slug);

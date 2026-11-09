@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Card } from "@/components/ds/core/Card";
 import { Icon } from "@/components/ds/core/Icon";
 import { Badge } from "@/components/ds/core/Badge";
+import { KAART_HOVER } from "@/components/regio/regio-template-styles";
 
 // Eén materiaalvariant: naam + korte, bronbestendige omschrijving + een
 // paar scanbare kernvoordelen (zie lib/content/spouw-products.ts) + de
@@ -32,7 +33,7 @@ export function MaterialCard({
   className?: string;
 }) {
   return (
-    <Card variant={highlight ? "tint" : "default"} className={`flex flex-col gap-4 ${className}`.trim()}>
+    <Card variant={highlight ? "tint" : "default"} className={`flex flex-col gap-4 ${KAART_HOVER} ${className}`.trim()}>
       {image && (
         <div className="rounded-[var(--radius-md)] overflow-hidden bg-[var(--surface-muted)] aspect-square flex items-center justify-center">
           <Image src={image} alt={imageAlt} width={600} height={600} className="max-w-[90%] max-h-[90%] object-contain" />

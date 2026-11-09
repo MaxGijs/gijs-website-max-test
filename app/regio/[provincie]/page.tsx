@@ -11,6 +11,7 @@ import { RegioBreadcrumb, RegioMain, H2, RegioCta } from "@/components/regio/Reg
 import { ProvincieKaart } from "@/components/regio/RegioDrilldown";
 import { RegioKaartInteractief } from "@/components/regio/RegioKaartInteractief";
 import { IsolatieInstallatiesSectie } from "@/components/regio/IsolatieInstallatiesSectie";
+import { FlevolandDataKaarten } from "@/components/regio/FlevolandDataKaarten";
 import { SubsidiecheckStart } from "@/components/subsidie/SubsidiecheckStart";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
@@ -50,12 +51,22 @@ export default async function ProvinciePage({ params }: Props) {
             <h1 className="text-[var(--fs-display-1)] font-bold leading-[var(--lh-tight)] tracking-[var(--ls-display)] text-[var(--gijs-donkergroen)]">
               Isoleren en verduurzamen in {p.naam}
             </h1>
-            <p className="text-zinc-600">
-              Verduurzamen begint meestal bij isoleren: minder warmteverlies via dak, muren, vloer en ramen, voor
-              meer comfort en een lagere energierekening. Daarna wordt het vaak aantrekkelijk om ook installaties
-              toe te voegen, zoals een warmtepomp of zonnepanelen. Gijs helpt woningeigenaren in heel {p.naam} bij
-              allebei: van de eerste isolatiemaatregel tot een volledig verduurzaamde woning.
-            </p>
+            {p.slug === "flevoland" ? (
+              <p className="text-zinc-600">
+                Flevoland is de jongste provincie van Nederland. Bijna alle woningen zijn gebouwd nadat de polders
+                werden drooggelegd, en in steden als Almere en Lelystad zijn er geen woningen van voor 1975. Isolatie
+                is daardoor bij velen al aanwezig — de vraag is eerder wat de logische volgende stap is. Denk aan
+                zonnepanelen, een warmtepomp of slimmer gebruik van zelf opgewekte stroom. Gijs kijkt onafhankelijk
+                wat bij jouw woning past.
+              </p>
+            ) : (
+              <p className="text-zinc-600">
+                Verduurzamen begint meestal bij isoleren: minder warmteverlies via dak, muren, vloer en ramen, voor
+                meer comfort en een lagere energierekening. Daarna wordt het vaak aantrekkelijk om ook installaties
+                toe te voegen, zoals een warmtepomp of zonnepanelen. Gijs helpt woningeigenaren in heel {p.naam} bij
+                allebei: van de eerste isolatiemaatregel tot een volledig verduurzaamde woning.
+              </p>
+            )}
             <div className="mt-2">
               <RegioProvincieWoningscanKnop provincie={p.slug} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center" />
             </div>
@@ -100,7 +111,8 @@ export default async function ProvinciePage({ params }: Props) {
         {/* Isolatie en installaties: de woning als centraal, klikbaar beeld, geen rij grote kaarten. */}
         <section id="isolatie-en-installaties" className="scroll-mt-40 mb-16">
           <h2 className={H2 + " mb-8"}>Isolatie en installaties voor jouw woning</h2>
-          <IsolatieInstallatiesSectie />
+          {p.slug === "flevoland" && <FlevolandDataKaarten />}
+          <IsolatieInstallatiesSectie defaultTab={p.slug === "flevoland" ? "installaties" : "isolatie"} />
         </section>
 
         {/* Subsidies: uitleg links, rechts de subsidiecheck met postcode en huisnummer, die direct naar de

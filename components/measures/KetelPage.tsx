@@ -6,6 +6,7 @@ import { CONTACT } from "@/lib/content/contact";
 import { KETELS } from "@/lib/content/ketel-producten";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { MeasureCta } from "@/components/measures/MeasureCta";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
@@ -206,17 +207,11 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
         </section>
       </div>
 
-      <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div className="flex items-start gap-4 max-w-xl">
-          <div className="min-w-0 [&_h2]:[hyphens:auto]">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Wat betekent dit voor jouw woning?</h2>
-            <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
-          </div>
-        </div>
-        <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right" className="shrink-0 w-full md:w-auto">
-          Start de woningscan
-        </Button>
-      </section>
+      <MeasureCta
+        titel="Wat betekent dit voor jouw woning?"
+        tekst="Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."
+        primaryHref={startScanHref}
+      />
     </main>
   );
 }
