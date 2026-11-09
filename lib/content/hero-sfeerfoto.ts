@@ -81,14 +81,14 @@ const GEMEENTE_PEXELS: Record<string, { id: string; alt: string }> = {
   "wijk-bij-duurstede":  { id: "29927587", alt: "Historische kerktoren in Wijk bij Duurstede" },
   woerden:               { id: "39101913", alt: "Luchtfoto historisch Nederlands dorp met klokkentoren" },
   woudenberg:            { id: "34340969", alt: "Schilderachtig bospad op de Utrechtse Heuvelrug bij Woudenberg" },
-  zeist:                 { id: "35604064", alt: "Winters besneeuwd landschap in Zeist" },
+  zeist:                 { id: "32062427", alt: "Zonnig parklandschap met groene bomen in Zeist" },
   // ── Flevoland ──
-  almere:                { id: "10481129", alt: "Moderne gebouwen bij kunstmatig meer in Almere" },
+  almere:                { id: "40737388", alt: "Herfstgracht met kleurrijke bomen in Almere" },
   dronten:               { id: "2480070",  alt: "Luchtfoto groen akkerland in Flevoland" },
   lelystad:              { id: "33730665", alt: "Hollands polderlandschap met open velden en water bij Lelystad" },
-  noordoostpolder:       { id: "19957166", alt: "Besneeuwde boom en bankje in Emmeloord, Noordoostpolder" },
+  noordoostpolder:       { id: "38524983", alt: "Zomerse poldergracht met eenden in Noordoostpolder" },
   urk:                   { id: "16423703", alt: "Pier met houten golfbrekers in het historische vissersdorp Urk" },
-  zeewolde:              { id: "7917087",  alt: "Roze tulpenveld in de polder bij Zeewolde" },
+  zeewolde:              { id: "40161165", alt: "Zonsondergang over poldergracht bij Zeewolde" },
   // ── Overijssel ──
   almelo:               { id: "33574641", alt: "Historisch plein met kerk in Almelo" },
   borne:                { id: "40491143", alt: "Groen weiland in Twente" },
