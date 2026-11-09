@@ -16,6 +16,13 @@ export const SECTIE_BASE = "scroll-mt-52 mb-16 md:mb-24";
 /** Leadtekst onder een sectietitel. */
 export const LEAD = "text-[clamp(17px,1rem+0.35vw,21px)] leading-[1.55] text-[var(--text-muted)] max-w-2xl [text-wrap:pretty]";
 
+/** Hero-titel (H1): groot, met een subtiele hover-schaal — het "Apple-achtige" accent
+ *  dat de regiopagina's en (sinds kort) de maatregelpagina's delen. */
+export const HERO_H1 = "text-[clamp(2.5rem,1.4rem+3.6vw,4.75rem)] font-bold leading-[1.02] tracking-[-0.045em] text-[var(--gijs-donkergroen)] [text-wrap:balance] origin-left transition-transform duration-500 ease-out hover:scale-[1.015] cursor-default";
+
+/** Introtekst direct onder de hero-titel. */
+export const HERO_INTRO = "text-[clamp(18px,1.05rem+0.4vw,21px)] leading-[1.5] text-[var(--text-muted)] [text-wrap:pretty]";
+
 /** Lopende tekst. */
 export const TEKST = "text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.65] text-zinc-700 [text-wrap:pretty]";
 

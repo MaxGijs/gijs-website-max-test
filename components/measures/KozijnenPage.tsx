@@ -6,6 +6,7 @@ import { HR_ISOFRAME_TIERS, KUNSTSTOF_PROFIELEN, SCHUIFPUI_PROFIELEN } from "@/l
 import { CONTACT } from "@/lib/content/contact";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { MeasureCta } from "@/components/measures/MeasureCta";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
@@ -122,7 +123,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
   // daar nooit als aparte vraag uitgelicht: de profielkeuze-per-toepassing
   // en de kleurmogelijkheden (RAL/houtlook).
   const faqItems: FAQItem[] = [
-    { question: "Gebruik ik voor elk kozijn hetzelfde profiel?", answer: "Niet per se. Een raam of deur kan bijvoorbeeld het kunststofprofiel in 70, 85 of 120 mm gebruiken, en een schuifpui de Comfort- of Premium-uitvoering — afhankelijk van de toepassing." },
+    { question: "Gebruik ik voor elk kozijn hetzelfde profiel?", answer: "Niet per se. Een raam of deur kan bijvoorbeeld het kunststofprofiel in 70, 85 of 120 mm gebruiken, en een schuifpui de Comfort- of Premium-uitvoering, afhankelijk van de toepassing." },
     { question: "In welke kleuren zijn kozijnen leverbaar?", answer: "Kunststof en aluminium kozijnen zijn leverbaar in alle RAL-kleuren of in houtlook." },
     { question: "Hoe wordt een kozijn ingemeten?", answer: "De ramen worden ingemeten, zodat het nieuwe kozijn op maat gemaakt kan worden." },
     { question: "Waarom geen houten kozijnen?", answer: "Gijs plaatst kunststof en aluminium kozijnen, geen houten kozijnen. Wil je wel de uitstraling van hout? Beide zijn ook leverbaar in houtlook." },
@@ -166,7 +167,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         <MeasureSectionNav sections={sections} />
 
         <section id="wat-zijn-het" className="scroll-mt-40 mt-12 mb-14">
-          <div className="flex flex-col gap-4 max-w-2xl">
+          <div className="flex flex-col gap-4 max-w-2xl mx-auto">
             <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Wat zijn goede kozijnen?</h2>
             <p className="text-lg font-medium text-[var(--gijs-donkergroen)]">
               Goede kozijnen houden kou en tocht beter buiten.
@@ -467,17 +468,11 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         </section>
       </div>
 
-      <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div className="flex items-start gap-4 max-w-xl">
-          <div className="min-w-0 [&_h2]:[hyphens:auto]">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Welke kozijnen passen bij jouw woning?</h2>
-            <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
-          </div>
-        </div>
-        <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right" className="shrink-0 w-full md:w-auto">
-          Start de woningscan
-        </Button>
-      </section>
+      <MeasureCta
+        titel="Welke kozijnen passen bij jouw woning?"
+        tekst="Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."
+        primaryHref={startScanHref}
+      />
 
       <MeasureRegioLink />
     </main>

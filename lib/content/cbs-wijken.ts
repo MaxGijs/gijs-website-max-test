@@ -4,6 +4,8 @@
 // intern bewaard). Opnieuw genereren: zie het eenmalige scriptje dat dit bestand produceerde
 // (niet in de repo opgenomen als build-dependency).
 
+import { CBS_WIJKEN_UTRECHT_FLEVOLAND } from "./cbs-wijken-utrecht-flevoland";
+
 export type CbsWijk = { naam: string; cbsCode: string };
 
 export const CBS_WIJKEN: Record<string, CbsWijk[]> = {
@@ -783,7 +785,7 @@ export const CBS_WIJKEN: Record<string, CbsWijk[]> = {
 };
 
 export function cbsWijkenVoor(gemeenteSlug: string): CbsWijk[] {
-  return CBS_WIJKEN[gemeenteSlug] ?? [];
+  return CBS_WIJKEN[gemeenteSlug] ?? CBS_WIJKEN_UTRECHT_FLEVOLAND[gemeenteSlug] ?? [];
 }
 
 /** Normaliseert een wijknaam voor het koppelen aan bestaande, handgeschreven wijkdata:

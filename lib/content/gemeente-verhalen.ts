@@ -1,6 +1,6 @@
 import type { Alinea } from "./regio-lokaal";
 import type { FAQItem } from "@/components/measures/FAQAccordion";
-import { VERHALEN_UTRECHT_FLEVOLAND } from "./gemeente-verhalen-utrecht-flevoland";
+import { VERHALEN_UTRECHT_FLEVOLAND, PLAATSVERHALEN_FLEVOLAND } from "./gemeente-verhalen-utrecht-flevoland";
 
 // Gemeentepagina's als "lokale verduurzamingspagina" (zie het rapport "Lokale SEO voor Gijs: van
 // plaatsnaam-pagina naar lokale verduurzamingspagina"): vaste opbouw, maar per gemeente eigen,
@@ -9180,6 +9180,7 @@ const PLAATS_VERHALEN: Record<string, Record<string, GemeenteVerhaal>> = {
     herfte: HERFTE,
     haerst: HAERST,
   },
+  ...PLAATSVERHALEN_FLEVOLAND,
 };
 
 export const getGemeenteVerhaal = (gemeenteSlug: string): GemeenteVerhaal | undefined =>

@@ -3,11 +3,15 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { OVERIJSSEL_GEMEENTEN_VORMEN, OVERIJSSEL_GEMEENTEN_CROP_VIEWBOX } from "@/lib/content/overijssel-gemeenten-shapes";
 import { GELDERLAND_GEMEENTEN_VORMEN, GELDERLAND_GEMEENTEN_CROP_VIEWBOX } from "@/lib/content/gelderland-gemeenten-shapes";
+import { UTRECHT_GEMEENTEN_VORMEN, UTRECHT_GEMEENTEN_CROP_VIEWBOX } from "@/lib/content/utrecht-gemeenten-shapes";
+import { FLEVOLAND_GEMEENTEN_VORMEN, FLEVOLAND_GEMEENTEN_CROP_VIEWBOX } from "@/lib/content/flevoland-gemeenten-shapes";
 import { getGemeente, slugify, regioPad } from "@/lib/content/regio";
 
 const PROVINCIE_VORMEN: Record<string, { vormen: { naam: string; d: string }[]; viewBox: string }> = {
   overijssel: { vormen: OVERIJSSEL_GEMEENTEN_VORMEN, viewBox: OVERIJSSEL_GEMEENTEN_CROP_VIEWBOX },
   gelderland: { vormen: GELDERLAND_GEMEENTEN_VORMEN, viewBox: GELDERLAND_GEMEENTEN_CROP_VIEWBOX },
+  utrecht: { vormen: UTRECHT_GEMEENTEN_VORMEN, viewBox: UTRECHT_GEMEENTEN_CROP_VIEWBOX },
+  flevoland: { vormen: FLEVOLAND_GEMEENTEN_VORMEN, viewBox: FLEVOLAND_GEMEENTEN_CROP_VIEWBOX },
 };
 
 export function RegioKaartInteractief({ provincie = "overijssel" }: { provincie?: string }) {
@@ -15,7 +19,8 @@ export function RegioKaartInteractief({ provincie = "overijssel" }: { provincie?
   const [hoverGemeente, setHoverGemeente] = useState<string | null>(null);
   const [actieveGemeente, setActieveGemeente] = useState<string | null>(null);
 
-  const config = PROVINCIE_VORMEN[provincie] ?? PROVINCIE_VORMEN.overijssel;
+  const config = PROVINCIE_VORMEN[provincie] ?? null;
+  if (!config) return null;
 
   function kiesGemeente(naam: string, slug: string) {
     setActieveGemeente(naam);

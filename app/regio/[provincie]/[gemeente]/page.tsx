@@ -161,7 +161,7 @@ export default async function GemeentePage({ params }: Props) {
           )}
         </header>
 
-        <WoningenInGemeente gemeente={g.naam} slug={g.slug} />
+        <WoningenInGemeente gemeente={g.naam} slug={g.slug} profiel />
 
         {(() => {
           const alleKernen = plaatsen.filter(k => k.slug !== g.slug && k.gepubliceerd);

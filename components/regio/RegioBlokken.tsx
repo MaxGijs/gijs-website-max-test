@@ -7,7 +7,7 @@ import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import { Badge } from "@/components/ds/core/Badge";
 import { StatRow } from "@/components/measures/StatRow";
-import { WONINGVOORRAAD_GEMEENTEN } from "@/lib/content/regio-woningvoorraad";
+import { WONINGVOORRAAD_GEMEENTEN, type WoningvoorraadGemeente } from "@/lib/content/regio-woningvoorraad";
 import { EnergiescanUitleg } from "@/components/home/EnergiescanUitleg";
 
 // Gedeelde blokken voor de regio-templates (provincie, gemeente, plaats).
@@ -111,11 +111,41 @@ export function LandelijkeSubsidies() {
 // veranderen niet elke maand) — zorgt voor een feitelijk verschil tussen
 // gemeentepagina's in plaats van alleen een andere plaatsnaam. Toont niets
 // als er voor deze gemeente geen data is (zie lib/content/regio-woningvoorraad.ts).
-export function WoningenInGemeente({ gemeente, slug }: { gemeente: string; slug: string }) {
+// Leidt uit de eigen cijfers van de gemeente af waar de isolatiewinst waarschijnlijk zit. Alleen
+// vergelijkingen met de getoonde bronwaarden, geen aannames over bepaalde wijken of woningen.
+function woningProfiel(gemeente: string, d: WoningvoorraadGemeente): string[] {
+  const huur = 100 - d.percentageKoopwoningen;
+  const type = d.meestVoorkomendType.toLowerCase();
+  const regels: string[] = [];
+  if (d.percentageVoor1975 >= 55) {
+    regels.push(`Meer dan de helft van de woningen in ${gemeente} is van vóór 1975. Daar zit meestal de meeste isolatiewinst: een lege spouw, een niet-geïsoleerd dak of een koude vloer is dan gewoon de eerste stap.`);
+  } else if (d.percentageVoor1975 >= 40) {
+    regels.push(`In ${gemeente} is bijna de helft van de woningen van vóór 1975. Bij die oudere huizen is isoleren vaak het slimste beginpunt; bij de nieuwere helft zit de winst vaker in beter glas, zonnepanelen of een warmtepomp.`);
+  } else if (d.percentageVoor1975 >= 25) {
+    regels.push(`Ongeveer een derde van de woningen in ${gemeente} is van vóór 1975. Die huizen zijn vaak de beste kandidaat voor spouw-, dak- of vloerisolatie; de rest is later gebouwd en meestal al deels geïsoleerd.`);
+  } else if (d.percentageVoor1975 < 2) {
+    regels.push(`Vrijwel alle woningen in ${gemeente} zijn na 1975 gebouwd, in een tijd dat isolatie al gangbaar was. De winst zit vaker in zonnepanelen, een warmtepomp of het bijwerken van oudere isolatie en beglazing dan in de eerste isolatielaag.`);
+  } else {
+    regels.push(`${gemeente} is grotendeels na 1975 gebouwd (slechts ${d.percentageVoor1975}% is ouder). Die woningen hebben meestal al isolatie, dus de winst zit vaker in dunne of oude isolatielagen bijwerken, isolatieglas, zonnepanelen of een warmtepomp.`);
+  }
+  if (type.startsWith("appartement")) {
+    regels.push(`Het meest voorkomende woningtype is het appartement. Bij een appartement beslis je vaak samen met een VvE over gevel, dak of glas; binnen je eigen woning kun je meestal wel zelf aan de slag met glas en ventilatie.`);
+  } else if (type.startsWith("vrijstaand")) {
+    regels.push(`Het meest voorkomende woningtype is de vrijstaande woning. Zo'n woning heeft veel buitenmuur en dakoppervlak, waardoor isolatie extra merkbaar is in warmteverlies.`);
+  } else {
+    regels.push(`Het meest voorkomende woningtype is de ${type}. Bij een tussenwoning verlies je minder warmte via de zijmuren, dus dak, vloer en glas leveren vaak het meest op.`);
+  }
+  if (huur >= 40) {
+    regels.push(`Met ${huur}% huurwoningen is in ${gemeente} een flink deel van de woningen niet van de bewoner zelf. Ben je huurder, praat dan eerst met je verhuurder; ben je eigenaar, dan beslis je zelf.`);
+  }
+  return regels;
+}
+
+export function WoningenInGemeente({ gemeente, slug, profiel = false }: { gemeente: string; slug: string; profiel?: boolean }) {
   const data = WONINGVOORRAAD_GEMEENTEN[slug];
   if (!data) return (
     <p className="text-zinc-600 max-w-2xl">
-      Het bouwjaar zegt veel over hoe een woning gebouwd is — en hoeveel winst er nog te halen valt met isolatie.
+      Het bouwjaar zegt veel over hoe een woning gebouwd is, en hoeveel winst er nog te halen valt met isolatie.
       Tijdens de gratis energiescan aan huis kijkt een adviseur van Gijs precies wat er bij jouw woning speelt.
     </p>
   );
@@ -125,8 +155,10 @@ export function WoningenInGemeente({ gemeente, slug }: { gemeente: string; slug:
       <h2 className={H2 + " mb-2"}>Woningen in {gemeente}</h2>
       <p className="text-zinc-600 max-w-2xl mb-6">
         Gemeente {gemeente} telt {data.totaalWoningen.toLocaleString("nl-NL")} woningen, waarvan {data.percentageKoopwoningen}%
-        koopwoning. Ongeveer {data.percentageVoor1975}% ({voor1975} woningen) is gebouwd vóór 1975. Woningen van die
-        leeftijd hebben vaak nog geen of weinig isolatie, omdat spouwmuurisolatie pas vanaf de jaren zeventig gangbaar werd.
+        koopwoning.{" "}
+        {data.percentageVoor1975 < 2
+          ? "Vrijwel geen woning is gebouwd vóór 1975, het jaar waarna isolatie gangbaar werd."
+          : `Ongeveer ${data.percentageVoor1975}% (${voor1975} woningen) is gebouwd vóór 1975. Woningen van die leeftijd hebben vaak nog geen of weinig isolatie, omdat spouwmuurisolatie pas vanaf de jaren zeventig gangbaar werd.`}
       </p>
       <StatRow
         items={[
@@ -136,6 +168,11 @@ export function WoningenInGemeente({ gemeente, slug }: { gemeente: string; slug:
           { label: "Gemiddelde WOZ-waarde", value: data.gemiddeldeWozWaarde },
         ]}
       />
+      {profiel && (
+        <div className="mt-6 flex flex-col gap-3 text-zinc-600 max-w-2xl">
+          {woningProfiel(gemeente, data).map(r => <p key={r}>{r}</p>)}
+        </div>
+      )}
       <p className="text-xs text-zinc-500 mt-4">
         Bron: <a href={data.bronUrl} target="_blank" rel="noopener noreferrer" className={LINK}>CBS/Kadaster-cijfers via AlleCijfers.nl</a>, peildatum {data.peildatum}.
       </p>

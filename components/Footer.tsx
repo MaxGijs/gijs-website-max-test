@@ -32,7 +32,7 @@ export default function Footer() {
             <li><Link href="/maatregelen#isolatie" className="no-underline hover:text-white">Isolaties</Link></li>
             <li><Link href="/maatregelen#installaties" className="no-underline hover:text-white">Installaties</Link></li>
             <li><Link href="/maatregelen" className="no-underline hover:text-white">Alle maatregelen</Link></li>
-            <li><Link href="/regio" className="no-underline hover:text-white">Isoleren in jouw regio</Link></li>
+            <li><Link href="/regio" className="no-underline hover:text-white">Jouw regio</Link></li>
           </ul>
         </div>
 

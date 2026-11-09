@@ -14,7 +14,7 @@ import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import styles from "./regio.module.css";
-import { EYEBROW, SECTIE_BASE, LEAD, TEKST, BRON, BRONLINK, WIT_BLOK, GijsWatermark, RijkeTekst, RASTER, RASTER_CEL } from "./regio-template-styles";
+import { EYEBROW, SECTIE_BASE, LEAD, TEKST, BRON, BRONLINK, WIT_BLOK, HERO_H1, HERO_INTRO, GijsWatermark, RijkeTekst, RASTER, RASTER_CEL } from "./regio-template-styles";
 
 const SECTIE = `${SECTIE_BASE} ${styles.opkomen}`;
 
@@ -66,8 +66,6 @@ function Kernenregel({ zin, kernen, className }: { zin: string; kernen: VerhaalK
     </p>
   );
 }
-
-const HERO_INTRO = "text-[clamp(18px,1.05rem+0.4vw,21px)] leading-[1.5] text-[var(--text-muted)] [text-wrap:pretty]";
 
 function HeroIntro({ intro }: { intro: string | Alinea[] }) {
   if (typeof intro === "string") return <p className={HERO_INTRO}>{intro}</p>;
@@ -165,7 +163,11 @@ function KernRij({ k, tekst }: { k: VerhaalKern; tekst?: string }) {
     <>
       {k.afbeelding && (
         <div className="relative aspect-[3/2] w-[88px] shrink-0 self-stretch overflow-hidden bg-[var(--grey-050)] min-h-[58px]">
-          <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes="88px" className="object-cover" />
+          {/* self-stretch maakt deze box vaak hoger dan de aspect-[3/2]-breedte doet vermoeden
+              (de rij volgt de hoogte van de tekst ernaast). Bij object-cover wordt het bronbeeld
+              dan sterker uitvergroot dan de 88px-breedte van sizes doet vermoeden — tot ruim 2x
+              bij een rij met een lange omschrijving. Een ruimere sizes-waarde voorkomt een wazige crop. */}
+          <Image src={k.afbeelding} alt={`Plaatsnaambord ${k.naam}`} fill sizes="200px" className="object-cover" />
         </div>
       )}
       <span className={`flex flex-1 flex-col gap-0.5 py-3 ${k.afbeelding ? "" : "pl-5"}`}>
@@ -268,8 +270,6 @@ export function LokaalProfielPagina({
       </Link>
     </div>
   );
-  const H1 = "text-[clamp(2.5rem,1.4rem+3.6vw,4.75rem)] font-bold leading-[1.02] tracking-[-0.045em] text-[var(--gijs-donkergroen)] [text-wrap:balance]";
-
   return (
     <RegioMain>
       <RegioBreadcrumb crumbs={crumbs} />
@@ -279,7 +279,7 @@ export function LokaalProfielPagina({
           <p className={EYEBROW + " mb-4"}>{v.kicker}</p>
           <div className={`grid grid-cols-1 ${foto ? "lg:grid-cols-2" : ""} gap-8 lg:gap-12 lg:items-stretch`}>
             <div className="flex flex-col gap-5">
-              <h1 className={H1 + " origin-left transition-transform duration-500 ease-out hover:scale-[1.015] cursor-default"}>{v.h1}</h1>
+              <h1 className={HERO_H1}>{v.h1}</h1>
               <HeroIntro intro={p.hero.intro} />
               {contactRegel}
               <Kernenregel zin={kernenZin} kernen={buurtschapLinks} className="mt-2 text-[15px] leading-relaxed text-[var(--text-muted)]" />
@@ -292,7 +292,7 @@ export function LokaalProfielPagina({
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] gap-6 lg:gap-16 lg:items-end mb-8 lg:mb-10">
             <div className="flex flex-col gap-5">
               <p className={EYEBROW}>{v.kicker}</p>
-              <h1 className={H1}>{v.h1}</h1>
+              <h1 className={HERO_H1}>{v.h1}</h1>
             </div>
             <div className="flex flex-col gap-6 lg:pb-2">
               <HeroIntro intro={p.hero.intro} />

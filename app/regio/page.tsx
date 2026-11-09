@@ -41,6 +41,8 @@ export default function RegioPage() {
               {[
                 { slug: "overijssel", naam: "Overijssel", gemeenten: overijsselGemeenten },
                 { slug: "gelderland", naam: "Gelderland", gemeenten: gelderlandGemeenten },
+                { slug: "utrecht", naam: "Utrecht", gemeenten: gemeentenVan("utrecht") },
+                { slug: "flevoland", naam: "Flevoland", gemeenten: gemeentenVan("flevoland") },
               ].map(p => (
                 <Link
                   key={p.slug}
