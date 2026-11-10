@@ -223,7 +223,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
         subtitle="Hybride warmtepomp plaatsen in één dag"
         intro="Een hybride warmtepomp werkt samen met je cv-ketel: de warmtepomp haalt warmte uit de buitenlucht, de cv-ketel springt bij wanneer dat nodig is. Gijs werkt hiervoor samen met een vaste warmtepomppartner."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }}
         image="/images/maatregelen/warmtepomp/warmtepomp-hero.png"
         imageAlt="Een Gijs-installateur plaatst een hybride warmtepomp tegen de gevel van een woning"
       />
@@ -494,7 +494,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
+              <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

@@ -100,7 +100,7 @@ const ZWOLLE: Record<string, LokaleInhoud> = {
       ["In Berkum wordt al jaren samen gewerkt aan een wijk die minder energie gebruikt en straks zonder aardgas kan. Dat begint bij je eigen huis: hoe goed is het geïsoleerd, en wat is een logische volgende stap?"],
       ["Gijs helpt bewoners van Berkum om daar rustig en zonder verplichtingen achter te komen. Met een gratis energiescan krijg je inzicht in je woning en een helder beeld van wat er kan."],
     ],
-    ctaPrimair: { tekst: "Vraag de gratis energiescan voor Berkum aan", href: "/contact#energiescan" },
+    ctaPrimair: { tekst: "Vraag de gratis energiescan voor Berkum aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     ctaSecundair: { tekst: "Start de woningscan", href: "/woning" },
     uitgelicht: {
       id: "gijs-en-ben",
@@ -190,7 +190,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is. Rustig, en zonder dat je ergens aan vastzit."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "bouwjaar",
@@ -281,7 +281,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
       ["Gijs helpt je dat voor jouw woning uit te zoeken en laat zien welke stap daarna logisch is."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "herkenningspunten",
@@ -377,7 +377,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
       ["Gijs helpt je kijken naar jouw eigen woning: wat is er al gedaan, waar lekt warmte weg en wat is een haalbare volgende stap?"],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "textielstad",
@@ -481,7 +481,7 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt, en in welke volgorde je het beste kunt beginnen."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-en-twee-onder-een-kap",
@@ -570,7 +570,7 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
       ["Gijs helpt je om die eerste stap concreet te maken: wat kan er bij jouw huis, en waar begin je?"],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "wijk-voor-wijk",
@@ -660,7 +660,7 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
       ["Gijs helpt je dat voor jouw eigen huis uit te zoeken, zodat je weet welke stap het meeste oplevert."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "plechelmusbasiliek",
@@ -758,7 +758,7 @@ const HENGELO_BECKUM: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -821,7 +821,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -884,7 +884,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -946,7 +946,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -1008,7 +1008,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -1072,7 +1072,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -1137,7 +1137,7 @@ const BORNE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -1202,7 +1202,7 @@ const BORNE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -1283,7 +1283,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-isoleren",
@@ -1334,7 +1334,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-isoleren",
@@ -1385,7 +1385,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-isoleren",
@@ -1437,7 +1437,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-isoleren",
@@ -1490,7 +1490,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-isoleren",
@@ -1543,7 +1543,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-isoleren",
@@ -1597,7 +1597,7 @@ const ALMELO_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk",
@@ -1660,7 +1660,7 @@ const ALMELO_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk",
@@ -1723,7 +1723,7 @@ const ALMELO_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk",
@@ -1795,7 +1795,7 @@ const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt bewoners in de hele gemeente met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "rijssen-of-holten",
@@ -1871,7 +1871,7 @@ const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je dat uit te zoeken, zodat je weet welke stap echt zin heeft."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "woningtype",
@@ -1946,7 +1946,7 @@ const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
       ["Of je nu in het dorp zelf woont of net erbuiten: Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-aan-de-rand",
@@ -2021,7 +2021,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Gijs helpt bewoners in de hele gemeente met isoleren, van Nijverdal tot de kleinere dorpen."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "nijverdal-en-hellendoorn",
@@ -2096,7 +2096,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["In Nijverdal zelf is de tussenwoning het meest voorkomende woningtype; ongeveer 71% van de woningen is een koopwoning. Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt, ongeacht in welke wijk je woont."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "woningtype",
@@ -2170,7 +2170,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -2233,7 +2233,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -2296,7 +2296,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -2361,7 +2361,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Gijs helpt bewoners in de hele gemeente met isoleren. Lees meer over ", { tekst: "Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen" }, " of ", { tekst: "Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop" }, "."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vriezenveen-en-vroomshoop",
@@ -2435,7 +2435,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "woningtype",
@@ -2509,7 +2509,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "woningtype",
@@ -2583,7 +2583,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Net als in de rest van de gemeente is de vrijstaande woning hier naar verwachting het meest voorkomende type. Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -2646,7 +2646,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -2709,7 +2709,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -2772,7 +2772,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "natuurvriendelijk-isoleren",
@@ -2837,7 +2837,7 @@ const GELDERLAND_DORPEN: Record<string, LokaleInhoud> = {
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
     ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
-    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "/contact#energiescan" },
+    ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" },
     secties: [
       {
         id: "vrijstaand-veluwe",

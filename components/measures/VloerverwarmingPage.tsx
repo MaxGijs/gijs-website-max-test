@@ -135,7 +135,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         subtitle="Comfortabele warmte vanuit de vloer, zonder radiatoren"
         intro="Vloerverwarming verdeelt warmte vanuit je vloer, via leidingen die zijn ingefreesd in een geschikte bestaande vloer of ingebouwd in een nieuwe vloeropbouw. Voor de dekvloer boven de leidingen werkt Gijs onder meer met een gietdekvloer die snel droogt en goed geschikt is voor vloerverwarming."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }}
         image="/images/maatregelen/vloerverwarming/vloerverwarming-hero.png"
         imageAlt="Een Gijs-installateur giet de dekvloer over de vloerverwarmingsleidingen"
       />
@@ -420,7 +420,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
+              <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

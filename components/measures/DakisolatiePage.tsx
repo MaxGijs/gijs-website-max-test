@@ -180,7 +180,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
         subtitle="Meer wooncomfort, minder warmteverlies via het dak"
         intro="Gijs isoleert het dak aan de binnenzijde. Hieronder lees je hoe het werkt, welk systeem bij jouw dakconstructie past en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }}
         image="/images/maatregelen/dakisolatie/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png"
         imageAlt="Plaatsen van dakisolatie aan de binnenzijde van een woning"
         imageCaption="Isolatiemateriaal wordt tussen de dakconstructie aangebracht"
@@ -337,7 +337,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
+            <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>

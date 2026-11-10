@@ -162,7 +162,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
         subtitle="Een warmere vloer, minder warmteverlies"
         intro="Gijs brengt vloerisolatie aan de onderzijde van de begane grondvloer aan, vanuit de kruipruimte. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }}
         image="/images/maatregelen/vloerisolatie/hero_vloerisolatie.png"
         imageAlt="Vloerisolatie wordt vanuit de kruipruimte tegen de onderzijde van de vloer aangebracht"
         imageCaption="Isolatiemateriaal wordt tegen de onderzijde van de vloer aangebracht"
@@ -311,7 +311,7 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
+            <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>

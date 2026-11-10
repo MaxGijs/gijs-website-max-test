@@ -238,7 +238,7 @@ export function EnergiescanBlok() {
         <p className="max-w-xl text-zinc-700">
           Een adviseur van Gijs bekijkt je woning en bespreekt met je welke maatregelen technisch passen.
         </p>
-        <Button href="/contact#energiescan" variant="secondary" size="lg" iconRight="arrow-right">
+        <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary" size="lg" iconRight="arrow-right">
           Vraag een gratis energiescan aan
         </Button>
         <EnergiescanUitleg className="max-w-md" />

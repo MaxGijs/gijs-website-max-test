@@ -595,13 +595,13 @@ const HENGELO: GemeenteVerhaal = {
     h2: "Thom komt graag even langs om je te helpen",
     alineas: [
       ["Woon je in Tuindorp, Groot Driene, Hasseler Es, Slangenbeek of ergens anders in Hengelo? De wijkcijfers geven een eerste indruk, maar jouw woning verdient persoonlijk advies. Wat is er al verbeterd en waar valt nog winst te behalen?"],
-      ["Thom komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "/contact#energiescan" }, " energiescan. Samen kijken jullie naar jouw woning, jouw wensen en de verduurzamingsmaatregelen die daarbij passen."],
+      ["Thom komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }, " energiescan. Samen kijken jullie naar jouw woning, jouw wensen en de verduurzamingsmaatregelen die daarbij passen."],
       ["Wil je daarna verder verduurzamen? Gijs begeleidt en ontzorgt je van A tot Z. Van het eerste advies tot het regelen en begeleiden van de uitvoering, zodat je er zelf zo min mogelijk omkijken naar hebt."],
     ],
     foto: "/images/over-gijs/thom/thom-portret.png",
     fotoAlt: "Thom, adviseur bij Gijs in Hengelo",
     ctaLabel: "Plan jouw gratis energiescan",
-    ctaHref: "/contact#energiescan",
+    ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen",
   },
   natuur: {
     titel: "Beschermde dieren bij isolatie in Hengelo",
@@ -949,13 +949,13 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
     label: "Persoonlijk advies in Hof van Twente",
     h2: "Gijs kijkt graag even met je mee",
     alineas: [
-      ["Twijfel je of jouw dak, spouwmuur of vloer goed geïsoleerd is, of ben je juist benieuwd of een warmtepomp of vloerverwarming bij jouw woning past? Gijs komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "/contact#energiescan" }, " energiescan. Samen kijken we naar jouw woning, wat er al aanwezig is en welke verduurzamingsmaatregelen voor jou interessant zijn."],
+      ["Twijfel je of jouw dak, spouwmuur of vloer goed geïsoleerd is, of ben je juist benieuwd of een warmtepomp of vloerverwarming bij jouw woning past? Gijs komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }, " energiescan. Samen kijken we naar jouw woning, wat er al aanwezig is en welke verduurzamingsmaatregelen voor jou interessant zijn."],
       ["Wil je daarna verder verduurzamen? Gijs begeleidt en ontzorgt je van A tot Z. Van het eerste advies tot het regelen en begeleiden van de uitvoering, zodat je er zelf zo min mogelijk omkijken naar hebt."],
     ],
     foto: "/images/over-gijs/thom/thom-portret.png",
     fotoAlt: "Thom, adviseur bij Gijs",
     ctaLabel: "Plan jouw gratis energiescan",
-    ctaHref: "/contact#energiescan",
+    ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen",
   },
   natuur: {
     titel: "Beschermde dieren bij isolatie in Hof van Twente",
@@ -2250,7 +2250,7 @@ const DELDEN: GemeenteVerhaal = {
     bodytekst: "Een oudere woning heeft vaak eigenschappen die je juist wilt behouden. Denk aan de gevel, karakteristieke ramen of andere bouwdetails. Tegelijk wil je prettig wonen, zonder koude vloeren of onnodig warmteverlies. Bij het isoleren van oudere woningen is het daarom belangrijk om te kijken naar de bestaande constructie en eventuele eerdere verbouwingen. Niet iedere isolatieoplossing is voor elk gebouw geschikt. Met een zorgvuldige aanpak kun je het comfort verbeteren en tegelijk rekening houden met vocht, ventilatie en de uitstraling van je woning.",
     kaarten: [
       { icon: "home", titel: "Welke isolatie past bij mijn oudere woning?", tekst: "Bekijk hoe dak-, vloer- en glasisolatie kunnen bijdragen aan meer comfort. De bouwkundige situatie bepaalt welke oplossingen technisch verstandig zijn.", href: "/maatregelen/dakisolatie", linkTekst: "Bekijk isolatiemogelijkheden" },
-      { icon: "clipboard-check", titel: "Wat moet ik vooraf laten controleren?", tekst: "Bij oudere of beschermde woningen kunnen aanvullende aandachtspunten gelden. Denk aan de gevelconstructie, ventilatie en eventuele vergunningen. Goede voorbereiding voorkomt onnodige problemen.", href: "/contact#energiescan", linkTekst: "Plan een energiescan" },
+      { icon: "clipboard-check", titel: "Wat moet ik vooraf laten controleren?", tekst: "Bij oudere of beschermde woningen kunnen aanvullende aandachtspunten gelden. Denk aan de gevelconstructie, ventilatie en eventuele vergunningen. Goede voorbereiding voorkomt onnodige problemen.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen", linkTekst: "Plan een energiescan" },
     ],
     adviseur: { naam: "thom", h3: "Thom kijkt graag met je mee", tekst: "Wil je jouw woning in Delden verduurzamen, maar het karakter en de bestaande constructie behouden? Thom kijkt naar eerdere renovaties, de technische mogelijkheden en jouw wensen. Zo krijg je advies dat bij de woning past. Gijs helpt vervolgens bij het voorbereiden en begeleiden van de uitvoering." },
   },
@@ -3137,7 +3137,7 @@ const VRIEZENVEEN: GemeenteVerhaal = {
     percentageTekst: "van de woningen in Vriezenveen is gebouwd vóór 1975",
     bodytekst: "Misschien zijn de ramen al vervangen of is het dak jaren geleden geïsoleerd. Maar weet je ook wat er onder de vloer zit en of de gevel al is aangepakt? Zonder goed overzicht van eerdere verbeteringen is het lastig om te bepalen welke maatregelen nog waarde toevoegen. Door eerst de bestaande isolatie in kaart te brengen, voorkom je dubbel werk en kun je gerichter investeren. Dat geeft rust en duidelijkheid voordat je aan nieuwe werkzaamheden begint.",
     kaarten: [
-      { icon: "clipboard-check", titel: "Hoe controleer ik de bestaande isolatie?", tekst: "Bouwdocumenten, eerdere werkzaamheden en een beoordeling van dak, vloer en gevel kunnen helpen om de huidige situatie inzichtelijk te maken.", href: "/contact#energiescan", linkTekst: "Plan een energiescan" },
+      { icon: "clipboard-check", titel: "Hoe controleer ik de bestaande isolatie?", tekst: "Bouwdocumenten, eerdere werkzaamheden en een beoordeling van dak, vloer en gevel kunnen helpen om de huidige situatie inzichtelijk te maken.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen", linkTekst: "Plan een energiescan" },
       { icon: "list-ordered", titel: "Welke maatregel moet ik als eerste nemen?", tekst: "De juiste volgorde hangt af van warmteverlies, kosten, comfort en jouw plannen. Kies op basis van de woning, niet van een standaardlijst.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Bekijk isolatiemaatregelen" },
     ],
     adviseur: { naam: "naud", h3: "Naud kijkt graag met je mee", tekst: "Heb je in Vriezenveen geen volledig beeld van wat er al is geïsoleerd? Naud helpt de bestaande situatie te beoordelen en welke verbeteringen nog zinvol kunnen zijn. Gijs begeleidt je bij het uitvoeren van de gekozen maatregelen." },
@@ -9064,7 +9064,7 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
       percentageTekst: "Ruim 1 op de 3 woningen in Zevenaar is gebouwd tussen 1965 en 1975",
       bodytekst: "Veel bewoners in Zevenaar hebben de afgelopen jaren al een eerste stap gezet: nieuwe ramen, een geïsoleerd dak of spouwmuurisolatie. Maar is het genoeg? En wat is nu de verstandige vervolgstap? Dat hangt af van wat er al is gedaan en hoe de woning als geheel presteert. Gijs brengt de huidige staat in kaart en adviseert je over de maatregel die nu het meeste oplevert.",
       kaarten: [
-        { icon: "clipboard-check", titel: "Wat is er al gedaan?", tekst: "Veel woningen uit deze periode zijn deels verbeterd, maar niet altijd op het niveau van nu. Gijs kijkt wat er al zit en wat de volgende stap is.", href: "/contact#energiescan", linkTekst: "Plan een energiescan" },
+        { icon: "clipboard-check", titel: "Wat is er al gedaan?", tekst: "Veel woningen uit deze periode zijn deels verbeterd, maar niet altijd op het niveau van nu. Gijs kijkt wat er al zit en wat de volgende stap is.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen", linkTekst: "Plan een energiescan" },
         { icon: "thermometer", titel: "Van isolatie naar installatie", tekst: "Bij een goed geïsoleerde woning wordt een warmtepomp interessant. De juiste volgorde bespaart geld en maakt de overstap eenvoudiger.", href: "/maatregelen/warmtepomp", linkTekst: "Lees over warmtepompen" },
       ],
       adviseur: { naam: "naud", h3: "Naud helpt je verder in Zevenaar", tekst: "In Zevenaar zijn veel woningen al deels verbeterd. Naud kijkt naar wat er is gedaan, wat nog ontbreekt en welke stap nu het meest oplevert." },

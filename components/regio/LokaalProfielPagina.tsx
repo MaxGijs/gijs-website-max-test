@@ -355,7 +355,7 @@ export function LokaalProfielPagina({
           <p className="max-w-xl text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.6] text-zinc-700 [text-wrap:pretty]">{p.afsluiting.tekst}</p>
           <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
             {p.afsluiting.scanKnop && scanKnop()}
-            <Button href="/contact#energiescan" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className="self-start shrink-0">Plan een gratis energiescan</Button>
+            <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className="self-start shrink-0">Plan een gratis energiescan</Button>
           </div>
         </div>
       </section>

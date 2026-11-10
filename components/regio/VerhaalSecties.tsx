@@ -38,7 +38,7 @@ export function AdviseurBlok({ foto, titel, knopTekst = "Plan jouw gratis energi
         <p className="text-[15px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Persoonlijk advies van Gijs</p>
         <h3 className="text-[clamp(1.25rem,1.05rem+0.6vw,1.625rem)] font-bold leading-[1.2] tracking-[-0.02em] text-[var(--gijs-donkergroen)] [text-wrap:balance]">{titel}</h3>
         {children}
-        <Button href="/contact#energiescan" size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</Button>
+        <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</Button>
       </div>
     </div>
   );

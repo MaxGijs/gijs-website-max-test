@@ -142,7 +142,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
         subtitle="Meer wooncomfort, minder geluid van buiten"
         intro="Spouwmuurisolatie maakt je woning comfortabeler en energiezuiniger door de spouw te vullen met isolatiemateriaal. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }}
         image="/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png"
         imageAlt="Spouwmuurisolatie wordt via een boorgat in de gevel aangebracht"
         imageCaption="Isolatiemateriaal wordt via een boorgat aangebracht"
@@ -275,7 +275,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
+            <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>
