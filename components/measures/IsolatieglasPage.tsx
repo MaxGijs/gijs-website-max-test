@@ -1,89 +1,43 @@
-import Link from "next/link";
 import Image from "next/image";
-import { JsonLd } from "@/components/SeoSchema";
-import { SITE_URL } from "@/lib/seo";
+import Link from "next/link";
 import { GLASSOORTEN, GLASSOORTEN_HIGHLIGHT } from "@/lib/content/isolatieglas-glassoorten";
-import { CONTACT } from "@/lib/content/contact";
-import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
-import { MeasureHero } from "@/components/measures/MeasureHero";
+import { WhatsAppTrackedButton, WhatsAppTrackedLink } from "@/components/regio/WhatsAppTrackedButton";
+import { RegioBreadcrumb, RegioMain, H2 } from "@/components/regio/RegioBlokken";
+import { AdviseurBlok, ADVISEUR_FOTO } from "@/components/regio/VerhaalSecties";
+import { SubsidiecheckStart } from "@/components/subsidie/SubsidiecheckStart";
+import { EYEBROW, SECTIE_BASE, LEAD, TEKST, BRON, WIT_BLOK, GRIJS_BLOK, HERO_H1, HERO_INTRO, GijsWatermark, RASTER, RASTER_CEL, TEKSTLINK } from "@/components/regio/regio-template-styles";
+import regioStyles from "@/components/regio/regio.module.css";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { IsolatieglasInstallatieAnimatie } from "@/components/measures/IsolatieglasInstallatieAnimatie";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
-import { FeatureList } from "@/components/measures/FeatureList";
-import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
-import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
 import { MeasureRegioLink } from "@/components/measures/MeasureRegioLink";
+import { ENERGIESCAN_HREF } from "@/lib/seo";
+import { CONTACT } from "@/lib/content/contact";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
 
-// Isolatieglaspagina, gebouwd op de vloerisolatiepagina als template
-// (zelfde structuur, componenten, spacing en stijl). Alleen de inhoud gaat
-// over isolatieglas.
+// Isolatieglaspagina in de opbouw en stijl van de regiopagina's (LokaalProfielPagina /
+// Winterswijk-sjabloon): dezelfde hero, sectiekoppen (eyebrow + H2 + lead), grijze blokken met
+// witte kaarten, het adviseurblok van Thom en de afsluitende strook. Stijlen komen uit
+// regio-template-styles, zodat een wijziging daar ook hier doorwerkt.
 //
-// Bron: "Informatie isolatieglas van Gijs met aanvullende voorwaarden.pdf"
-// (3 pagina's) — pagina 1 (uitvoeringsstappen), pagina 2 (aanvullende
-// voorwaarden + subsidie-informatie), pagina 3 (glassoorten-schema "HR
-// EcoGlazz" met U-waarden en bouwjaar-indicatie, zie
-// lib/content/isolatieglas-glassoorten.ts). De hero is een echte
-// Gijs-uitvoeringsfoto (isolatieglas.png).
+// Inhoud richt zich op de zoekwoorden uit Search Console (nov. 2026): "isolatieglas (laten)
+// plaatsen/zetten", "glasisolatie", "woning isoleren met glas" en HR++ versus triple glas.
 //
-// De opbouw-uitleg bij "Wat is isolatieglas?" gebruikt sinds de
-// uitlegvisual-vervangingsronde de nieuwe, door Gijs aangeleverde
-// afbeelding isolatieglas-uitlegvisual.png ("isolatieglasv2.1.png" uit de
-// aangeleverde ZIP) — vervangt de eerdere isolatiegrlas_hout_voorbeeld.png
-// (verwijderd, nergens anders gebruikt). De nieuwe afbeelding bevat de
-// legenda (meerdere glaslagen/speciale coating/isolerende vulling/
-// afstandhouder) al zelf; deze wordt daarom als geheel getoond (geen
-// losse HTML-legenda erover/eronder gebouwd). Het bestaande 4-koloms
-// iconenblok direct onder de afbeelding bevat aanvullende, per-glassoort
-// technische details (HR+++/driedubbel glas, gasvulling bij HR+, HR++(G)
-// kunststof afstandhouder) die niet in de nieuwe afbeelding staan — dit
-// blok is daarom ongewijzigd gelaten (geen tekst herschreven/verwijderd,
-// buiten scope van de uitlegvisual-vervanging).
-//
-// De enige uitzondering op "alleen Gijs-bronnen" is het infoblok "Wat
-// betekent de U-waarde?" direct onder de tabel: dat is op expliciet
-// verzoek gebaseerd op https://www.glaswebwinkel.nl/kennisbank/dubbelglas/
-// wat-is-de-u-waarde-van-glas/ (geen Gijs-bron, geen formule, geen
-// extra claims toegevoegd).
-// UITVOERINGSVISUAL — PROCES V2: de eerdere set losse SVG's is volledig
-// vervangen door de definitieve "proces v2"-set (submap "Isolatieglas"):
-// elk bestand bevat nu icoon + nummerbadge + titel + een korte uitlegzin.
-// Alle 6 bestanden zijn hernoemd naar isolatieglas-stap-1.svg t/m
-// -stap-6.svg; de vorige bestanden (stap-1/2/5/6.svg,
-// stap-3/4-isolatieglas.svg) zijn verwijderd. Titel van stap 3 is in deze
-// aanlevering weer "Verwijderen oud" (dichter bij de oorspronkelijke
-// "Oude beglazing verwijderen" dan de vorige, generieke "Voorbereiden").
-//
-// GECORRIGEERD — fout in het aangeleverde bestand (herbevestigd, zie het
-// gesprek): isolatieglas-stap-5.svg (badge "5", titel "Controle", icoon
-// = checklist-tablet) heeft de ingebakken uitlegzin "Het werk wordt
-// netjes afgerond" — dat is de Oplevering-zin. isolatieglas-stap-6.svg
-// (badge "6", titel "Oplevering", icoon = vinkje) heeft de ingebakken
-// zin "De bestaande ramen en kozijne worden ingemeten" — een inmeet-zin
-// die letterlijk overeenkomt met kozijnen-stap-1.svg en nergens in het
-// isolatieglas-proces thuishoort. Icoon, badge en titel kloppen in beide
-// bestanden wél; alleen de tekst in het lichtgroene vlak is verwisseld/
-// fout. Omdat die tekst als vectorpaden in de afbeelding zelf zit (geen
-// bewerkbare tekst, geen <text>-elementen), kan dit niet ter plekke
-// worden gecorrigeerd zonder de afbeelding zelf na te tekenen — dat wil
-// ik niet doen (geen AI-gegenereerde vervangende iconen/tekst). In
-// plaats daarvan wordt hier alleen het onderste (foute) deel van beide
-// afbeeldingen verborgen en vervangen door een HTML-vlak in dezelfde
-// stijl (zie UitvoeringStappen.tsx, `uitlegOverride`), met tekst die al
-// elders voor isolatieglas is vastgelegd: "Het werk wordt netjes
-// afgerond" staat letterlijk (maar verkeerd geplaatst) al in stap-5.svg
-// zelf; "Het werk wordt nagelopen" komt uit de eerder goedgekeurde
-// isolatieglas-tekst ("...waarna het werk wordt nagelopen en
-// opgeleverd"). Geen nieuwe tekst verzonnen, niets van een andere
-// maatregelpagina geleend.
+// Bron voor alle feiten: "Informatie isolatieglas van Gijs met aanvullende voorwaarden.pdf"
+// - p. 1: de zes stappen van de plaatsingsdag (IsolatieglasInstallatieAnimatie);
+// - p. 2: aanvullende voorwaarden (VOORWAARDEN) en de rol van Gijs bij de subsidieaanvraag;
+// - p. 3: productblad HR EcoGlazz met U-waarden (GLASSOORTEN) en de temperatuur van het glas
+//   aan de binnenzijde bij 0 °C buiten en 20 °C binnen (GLASTEMPERATUUR).
+// Subsidiebedragen uit p. 2 staan bewust niet op de pagina: die wijzigen, zie SubsidieSectie.tsx.
+// Het adviseurblok hergebruikt de goedgekeurde regiotekst (gratis energiescan t.w.v. €349,
+// begeleiding van de uitvoering).
 
-// Aanvullende voorwaarden — pagina 2 van de brochure. Deze gelden, anders
-// dan bij vloerisolatie, voor alle isolatieglas-plaatsingen (geen
-// materiaalafhankelijk onderscheid in de bron).
+const SECTIE = `${SECTIE_BASE} ${regioStyles.opkomen}`;
+
 const VOORWAARDEN = [
   "De te isoleren oppervlaktes zijn bereikbaar en toegankelijk, en vrij van vitrage, rolluiken, planten en gordijnen",
   "Het glas wordt vooraf ingemeten; hiervoor neemt de inmeter telefonisch contact op",
@@ -94,40 +48,40 @@ const VOORWAARDEN = [
   "Er is een toilet beschikbaar voor de uitvoerende partij",
 ];
 
-// Drie voordelen, elk direct te herleiden tot de brochure: de U-waarde-
-// vergelijking (minder warmteverlies), de temperatuurindicatie bij het
-// glasoppervlak op pagina 3 (warmer bij het raam) en de afsluitende
-// tekst bij stap 6 ("Geniet van je isolatieglas en je lage
-// energierekening!").
-const VOORDELEN = [
-  { icon: "wind", title: "Minder warmteverlies", text: "Isolatieglas heeft een lagere U-waarde dan enkel- of gewoon dubbelglas, waardoor er minder warmte via het glas verloren gaat." },
-  { icon: "thermometer", title: "Warmer bij het raam", text: "Naarmate het glas beter isoleert, voelt het glasoppervlak aan de binnenzijde warmer aan." },
-  { icon: "piggy-bank", title: "Lagere energierekening", text: "Minder warmteverlies via het glas draagt bij aan een lagere energierekening." },
+// Productblad p. 3: temperatuur van het glasoppervlak aan de binnenkant (0 °C buiten, 20 °C binnen).
+const GLASTEMPERATUUR = [
+  { waarde: "6,9 °C", label: "Gewoon dubbelglas" },
+  { waarde: "17 °C", label: "HR++ glas" },
+  { waarde: "18,9 °C", label: "HR+++ of triple glas" },
 ];
 
-export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
-  const title = "Isolatieglas";
-  const sections = [
-    { id: "wat-is-het", label: "Wat is het?" },
-    { id: "glassoorten", label: "Glassoorten" },
-    { id: "voordelen", label: "Voordelen" },
-    { id: "hoe-werkt-het", label: "Hoe werkt het?" },
-    { id: "subsidie", label: "Subsidie" },
-    { id: "veelgestelde-vragen", label: "Veelgestelde vragen" },
-  ];
+const OPBOUW = [
+  { icon: "layers", title: "Meerdere glaslagen", text: "Isolatieglas bestaat uit meerdere lagen glas met een tussenruimte. Bij HR+++ zijn dat drie lagen (driedubbel glas)." },
+  { icon: "sparkles", title: "Speciale coating", text: "Op het glas zit een coating die warmte terugkaatst. HR++ heeft een verbeterde coating, HR+++ een dubbele." },
+  { icon: "wind", title: "Isolerende vulling", text: "Vanaf HR+ zit er een gasvulling in de spouw tussen de glaslagen." },
+  { icon: "ruler", title: "Afstandhouder", text: "De afstandhouder houdt de glaslagen op de juiste afstand. Bij HR++ (G) is deze van kunststof." },
+];
 
-  // FAQ herzien (zie eindverslag): drie vragen zijn verwijderd omdat ze
-  // vrijwel woordelijk een bestaande sectie herhaalden zonder verdieping
-  // toe te voegen — "Wat is het verschil tussen HR++, HR+++..." (dubbel
-  // met de Glassoorten-tabel + U-waarde-uitleg direct op de pagina),
-  // "Hoe verloopt de plaatsing?" (dubbel met de iconenrij hierboven) en
-  // "Kan ik subsidie krijgen voor isolatieglas?" (dubbel met de
-  // Subsidie-sectie). De losse, generieke vraag ("Hoe lang duurt het
-  // plaatsen van isolatieglas?") is ook weggelaten op deze pagina: die
-  // herhaalt letterlijk de herotitel/-intro ("Isolatieglas plaatsen in
-  // één dag"). Overige vragen behouden en herordend op klantprioriteit.
+function Kop({ eyebrow, titel, lead }: { eyebrow: string; titel: string; lead?: string }) {
+  return (
+    <div className="flex flex-col gap-4 mb-10 md:mb-12 max-w-3xl">
+      <p className={EYEBROW}>{eyebrow}</p>
+      <h2 className={H2}>{titel}</h2>
+      {lead && <p className={LEAD}>{lead}</p>}
+    </div>
+  );
+}
+
+const H3_GROOT = "text-[clamp(1.375rem,1.1rem+0.9vw,1.875rem)] font-bold leading-[1.15] tracking-[-0.025em] text-[var(--gijs-donkergroen)] [text-wrap:balance]";
+const KAARTKOP = "text-[19px] font-semibold leading-snug tracking-[-0.015em] text-[var(--gijs-donkergroen)] [text-wrap:balance]";
+const KAARTTEKST = "text-[15px] leading-relaxed text-[var(--text-muted)] [text-wrap:pretty]";
+const UITKLAP = "flex cursor-pointer list-none items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-white px-5 py-3 text-[15px] font-semibold text-[var(--gijs-donkergroen)] transition-colors duration-[var(--dur-base)] hover:border-[var(--accent-700)] hover:text-[var(--accent-700)] focus-visible:outline-none focus-visible:shadow-[var(--shadow-focus)] [&::-webkit-details-marker]:hidden";
+
+export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
+  const startScanHref = "/woning?maatregel=" + item.id;
+
   const faqItems: FAQItem[] = [
-    { question: "Welk isolatieglas past bij mijn woning?", answer: "Dat hangt af van je huidige glas en kozijnen. Gijs plaatst isolatieglas van HR tot HR+++, met bij HR+++ zelfs driedubbel glas; tijdens de energiescan bepaalt Gijs welk type bij jouw woning past." },
+    { question: "Welk isolatieglas past bij mijn woning?", answer: "Dat hangt af van je huidige glas en kozijnen. Gijs plaatst isolatieglas van HR tot HR+++, met bij HR+++ driedubbel (triple) glas. Tijdens de energiescan bepaalt Gijs welk type bij jouw woning past." },
     { question: "Hoe wordt het glas ingemeten?", answer: "Voor aanvang van de werkzaamheden wordt het glas ingemeten. Hiervoor neemt de inmeter telefonisch contact met je op." },
     { question: "Wat gebeurt er bij houtrot?", answer: "Bij onverwachte houtrot tijdens de plaatsing laat Gijs het glas achter, maar wordt het niet geplaatst. Eerst wordt reparatie geadviseerd." },
     { question: "Wie schildert de glaslatten?", answer: "De glaslatten worden in grondverf afgeleverd. Je zorgt zelf voor het schilderwerk." },
@@ -138,230 +92,292 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
     },
   ];
 
-  const startScanHref = "/woning?maatregel=" + item.id;
+  const plaatsKaarten = [
+    {
+      icon: "snowflake",
+      titel: "Wanneer is vervangen interessant?",
+      tekst: <>Heb je nog enkelglas, gewoon dubbelglas of ouder HR-glas, of voelt het koud bij het raam? Gewoon dubbelglas heeft een U-waarde van 2,9, ruim twee keer zo hoog als HR++ (1,2). Daar valt dan winst te halen.</>,
+    },
+    {
+      icon: "app-window",
+      titel: "In je bestaande kozijnen",
+      tekst: <>Het nieuwe glas komt in je huidige kozijn, dat dan wel in goede staat moet zijn. Bij houtrot adviseert Gijs eerst reparatie. Is het kozijn zelf aan vervanging toe? Kijk dan naar <Link href="/maatregelen/kozijnen" className={TEKSTLINK}>nieuwe kozijnen</Link>.</>,
+    },
+    {
+      icon: "user-check",
+      titel: "Gijs regelt het traject",
+      tekst: <>Tijdens de gratis energiescan bekijkt een adviseur je ramen en bespreekt welk glas past. Daarna plant Gijs het inmeten en de plaatsing in. Je hebt één vast aanspreekpunt.</>,
+    },
+  ];
 
   return (
-    <main className="mx-auto px-6" style={{ maxWidth: "var(--container-wide)", paddingBottom: "var(--section-y)" }}>
-      <JsonLd data={{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { name: "Home", url: "/" },
-          { name: "Maatregelen", url: "/maatregelen" },
-          { name: title, url: "/maatregelen/" + item.slug },
-        ].map((crumb, i) => ({ "@type": "ListItem", position: i + 1, name: crumb.name, item: SITE_URL + crumb.url })),
-      }} />
+    <RegioMain>
+      <RegioBreadcrumb crumbs={[
+        { naam: "Home", url: "/" },
+        { naam: "Maatregelen", url: "/maatregelen" },
+        { naam: "Isolatieglas", url: "/maatregelen/" + item.slug },
+      ]} />
 
-      <nav aria-label="Broodkruimel" className="flex flex-wrap gap-2 text-sm py-6">
-        <Link href="/" className="underline underline-offset-2">Home</Link>
-        <span aria-hidden="true">/</span>
-        <Link href="/maatregelen" className="underline underline-offset-2">Maatregelen</Link>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">{title}</span>
-      </nav>
-
-      <MeasureHero
-        label="Maatregel"
-        title={title}
-        subtitle="Isolatieglas plaatsen in één dag"
-        intro="Gijs plaatst isolatieglas in één dag. Hieronder lees je hoe het werkt, welke glassoorten er zijn en hoe de uitvoering en de energiescan verlopen."
-        primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
-        image="/images/maatregelen/glas/isolatieglas.png"
-        imageAlt="Monteur van Gijs plaatst isolatieglas in een raam"
-      />
-
-      {/* Eén gedeelde wrapper om subnav + secties: zie vloerisolatiepagina
-          voor de toelichting op deze structuur (sticky subnav). */}
-      <div>
-        <MeasureSectionNav sections={sections} />
-
-        <section id="wat-is-het" className="scroll-mt-40 mt-12 mb-14">
-          <div className="flex flex-col gap-4 max-w-3xl">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)]">Wat is isolatieglas?</h2>
-            <p className="text-lg font-medium text-[var(--gijs-donkergroen)]">
-              Zie isolatieglas als een warme deken voor je ramen. Het glas beperkt warmteverlies via het raam en
-              voelt aan de binnenkant warmer aan.
+      <header className="pt-2 lg:pt-6 mb-14 md:mb-20">
+        <p className={EYEBROW + " mb-4"}>Isolatieglas</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-stretch">
+          <div className="flex flex-col gap-5">
+            <h1 className={HERO_H1}>Isolatieglas laten plaatsen in je bestaande kozijnen</h1>
+            <p className={HERO_INTRO}>
+              Last van kou bij je ramen? Met isolatieglas gaat er minder warmte verloren via het raam. Gijs helpt je
+              kiezen tussen HR++ en triple glas en regelt de plaatsing in één dag, met één vast aanspreekpunt van de
+              eerste vraag tot en met de uitvoering.
             </p>
-            <p className="text-zinc-600">
-              Gijs plaatst hiervoor isolatieglas. Er bestaan verschillende soorten isolatieglas, van enkelglas tot
-              HR+++. Hoe beter het glas isoleert, hoe minder warmte er via het glas verloren gaat.
-            </p>
-            <p className="text-zinc-600">
-              Welk glas past, hangt af van het glas en de kozijnen die je nu hebt. Daar hoef je zelf niet technisch
-              uit te komen: tijdens een energiescan aan huis bekijkt een expert van Gijs je bestaande ramen en
-              kozijnen, en bespreekt welke oplossing past.
-            </p>
-          </div>
-          <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] mt-8 max-w-[820px] mx-auto">
-            {/* PNG vervangen door SVG: zelfde crop/inhoud (ratio geverifieerd),
-                de opdrachtgever heeft alleen de hoekafronding van de
-                labels/badges aangepast (uitlegvisuals.zip). SVG met een
-                .svg-extensie wordt door next/image automatisch als
-                unoptimized behandeld, dus geen dangerouslyAllowSVG nodig. */}
-            <Image
-              src="/images/maatregelen/glas/isolatieglas-uitlegvisual.svg"
-              alt="Uitleg van glaslagen, coating, isolerende vulling en afstandhouder bij isolatieglas"
-              width={4384}
-              height={2853}
-              quality={100}
-              className="w-full h-auto"
-            />
-          </div>
-
-          <div className="mt-8 grid grid-cols-2 gap-4">
-            {[
-              { icon: "layers", title: "Meerdere glaslagen", text: "Isolatieglas bestaat uit meerdere lagen glas met een tussenruimte. Bij HR+++ gebruikt Gijs zelfs drie lagen glas (driedubbel glas)." },
-              { icon: "sparkles", title: "Speciale coating", text: "Op het glas zit een speciale coating. Bij HR is dit een warmtereflecterende coating, bij HR++ een verbeterde coating." },
-              { icon: "wind", title: "Isolerende vulling", text: "Bij HR+ zit er een gasvulling in de spouw tussen de glaslagen." },
-              { icon: "ruler", title: "Afstandhouder", text: "De afstandhouder houdt de glaslagen op de juiste afstand van elkaar. Bij HR++ (G) is deze van kunststof." },
-            ].map(deel => (
-              <Card key={deel.title} variant="tint" className="flex flex-col gap-2 !p-5">
-                <Icon name={deel.icon} size="md" className="text-[var(--accent-700)]" />
-                <p className="font-bold text-lg text-[var(--gijs-donkergroen)]">{deel.title}</p>
-                <p className="text-sm text-zinc-600">{deel.text}</p>
-              </Card>
-            ))}
-          </div>
-
-          <Card variant="tint" className="mt-8 flex flex-col md:flex-row md:items-center gap-6 !p-8">
-            <div className="md:flex-1 flex flex-col gap-1">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">Past isolatieglas bij mijn woning?</h3>
-              <p className="text-sm text-zinc-600">Tijdens de energiescan wordt bekeken welk glas je nu hebt en welke isolatieglas-opties passen.</p>
+            <div className="flex flex-wrap items-center gap-3">
+              <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
+              <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
             </div>
-            <ul className="md:flex-[1.6] grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <li className="flex items-start gap-2 text-sm text-zinc-700">
-                <Icon name="search" size="sm" className="mt-0.5 text-[var(--accent-600)] shrink-0" />
-                <span>De ramen zijn bereikbaar en toegankelijk</span>
-              </li>
-              <li className="flex items-start gap-2 text-sm text-zinc-700">
-                <Icon name="search" size="sm" className="mt-0.5 text-[var(--accent-600)] shrink-0" />
-                <span>Het glas wordt vooraf ingemeten</span>
-              </li>
-              <li className="flex items-start gap-2 text-sm text-zinc-700">
-                <Icon name="search" size="sm" className="mt-0.5 text-[var(--accent-600)] shrink-0" />
-                <span>Van HR++ tot HR+++ zijn er meerdere opties mogelijk</span>
-              </li>
-            </ul>
-            <Button href={startScanHref} variant="accent" className="shrink-0">Start de woningscan</Button>
-          </Card>
-        </section>
+            <p className="text-[15px] leading-relaxed text-[var(--text-muted)]">
+              Of <Link href="/contact" className={TEKSTLINK}>neem gewoon contact op</Link>, of bel{" "}
+              <a href={CONTACT.phoneHref} className={TEKSTLINK}>{CONTACT.phone}</a>.
+            </p>
+          </div>
+          <figure className="m-0 group/hero">
+            <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full overflow-hidden rounded-[var(--radius-xl)] bg-[var(--grey-050)]">
+              <Image src="/images/maatregelen/glas/isolatieglas.png" alt="Monteur van Gijs plaatst isolatieglas in een raam" fill priority
+                sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]" />
+            </div>
+          </figure>
+        </div>
+      </header>
 
-        <section id="glassoorten" className="scroll-mt-40 mb-14">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Welke soorten isolatieglas zijn er?</h2>
-          <p className="text-zinc-600 mb-8 max-w-2xl">
-            Van enkelglas tot HR+++: hoe lager de U-waarde, hoe beter het glas isoleert.
-          </p>
+      <MeasureSectionNav sections={[
+        { id: "wat-is-het", label: "Waarom" },
+        { id: "glassoorten", label: "Glassoorten" },
+        { id: "hoe-werkt-het", label: "Plaatsen" },
+        { id: "subsidie", label: "Subsidie" },
+        { id: "veelgestelde-vragen", label: "Vragen" },
+      ]} />
 
-          <div className="rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)] mb-8">
-            <Image
-              src="/images/maatregelen/glas/isolatieglas-glassoorten-overzicht.png"
-              alt="Overzicht van de soorten isolatieglas met U-waarden, kenmerken en bouwjaar-indicatie, van enkelglas tot HR+++"
-              width={842}
-              height={595}
-              quality={100}
-              className="w-full h-auto"
-            />
+      <section id="wat-is-het" className={SECTIE + " mt-8 lg:mt-12"}>
+        <div className={GRIJS_BLOK}>
+          <div className="flex mb-10">
+            <div className="flex flex-col gap-4 max-w-3xl">
+              <p className={EYEBROW}>Waarom isolatieglas?</p>
+              <h2 className={H2}>Last van kou bij je ramen?</h2>
+              <p className={TEKST}>
+                Zie isolatieglas als een warme deken voor je ramen. Het glas beperkt warmteverlies via het raam en voelt
+                aan de binnenkant warmer aan. Isolatieglas, ook wel glasisolatie genoemd, is er in verschillende soorten,
+                van HR tot HR+++.
+              </p>
+              <p className={TEKST}>
+                Voelt een kamer met oud dubbelglas toch koud? Dat komt doordat het glas zelf koud wordt. Bij 0 °C buiten
+                is gewoon dubbelglas aan de binnenkant maar 6,9 °C. HR++ glas blijft dan 17 °C. Dat verschil merk je vooral
+                als je dicht bij het raam zit.
+              </p>
+            </div>
+            <GijsWatermark />
           </div>
 
-          <div className="overflow-x-auto rounded-[var(--radius-card)] border border-[var(--border-default)]">
-            <table className="w-full text-left border-collapse min-w-[440px]">
-              <thead>
-                <tr className="border-b border-[var(--border-default)]">
-                  <th scope="col" className="px-6 py-5 text-sm font-bold text-[var(--gijs-donkergroen)]">Glassoort</th>
-                  <th scope="col" className="px-6 py-5 text-sm font-bold text-[var(--gijs-donkergroen)]">U-waarde</th>
-                  <th scope="col" className="px-6 py-5 text-sm font-bold text-[var(--gijs-donkergroen)]">Kenmerk</th>
+          <div className="rounded-[var(--radius-lg)] bg-white px-6 py-7 sm:px-8 sm:py-8 mb-4 lg:mb-5 transition-shadow duration-500 ease-out hover:shadow-[0_8px_32px_-2px_rgba(0,0,0,0.18)]">
+            <p className="text-[15px] font-semibold tracking-[-0.01em] text-[var(--accent-700)] mb-6">Temperatuur van het glas aan de binnenkant</p>
+            <dl className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6">
+              {GLASTEMPERATUUR.map(c => (
+                <div key={c.label} className="flex flex-col-reverse gap-1.5">
+                  <dt className="text-[15px] leading-snug text-[var(--text-muted)]">{c.label}</dt>
+                  <dd className="text-[clamp(2.25rem,1.8rem+1.6vw,3rem)] font-bold leading-none tracking-[-0.04em] text-[var(--gijs-donkergroen)]">{c.waarde}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className={BRON + " mt-6"}>Bij 0 °C buiten en 20 °C binnen. Bron: productblad isolatieglas HR EcoGlazz van Gijs.</p>
+          </div>
+
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5 mb-4 lg:mb-5">
+            <li className={WIT_BLOK + " flex flex-col gap-3"}>
+              <h3 className={KAARTKOP}>Minder warmteverlies, lagere energierekening</h3>
+              <p className={KAARTTEKST}>
+                Isolatieglas heeft een lagere U-waarde dan enkel- of gewoon dubbelglas. Er gaat minder warmte via het glas
+                verloren, en dat draagt bij aan een lagere energierekening.
+              </p>
+            </li>
+            <li className={WIT_BLOK + " flex flex-col gap-3"}>
+              <h3 className={KAARTKOP}>Warmer en comfortabeler bij het raam</h3>
+              <p className={KAARTTEKST}>
+                Naarmate het glas beter isoleert, voelt het glasoppervlak aan de binnenkant warmer aan. Zo wordt de plek
+                bij het raam weer een fijne plek om te zitten.
+              </p>
+            </li>
+          </ul>
+
+          <AdviseurBlok foto={ADVISEUR_FOTO.thom} titel="Thom kijkt graag met je mee" plaats="maatregelpagina_adviseurblok">
+            <p className="text-[15px] leading-relaxed text-zinc-700 [text-wrap:pretty]">
+              Twijfel je of je glas aan vervanging toe is? Thom komt langs voor een{" "}
+              <strong className="font-bold text-[var(--accent-700)]">gratis en vrijblijvende energiescan ter waarde van €349</strong>{" "}
+              en bekijkt je ramen en kozijnen. Gijs helpt je met passend advies en begeleidt de uitvoering, zodat je het
+              traject niet zelf hoeft te organiseren.
+            </p>
+          </AdviseurBlok>
+        </div>
+      </section>
+
+      <section id="glassoorten" className={SECTIE}>
+        <Kop eyebrow="Glassoorten" titel="Welke soorten isolatieglas zijn er?"
+          lead="Van enkelglas tot HR+++: hoe lager de U-waarde, hoe beter het glas isoleert. De U-waarde geeft aan hoeveel warmte er door het glas verloren gaat." />
+
+        {/* Productblad (brochure p. 3) zichtbaar naast de tabel: zo is het beeld kleiner dan op volle
+            breedte, en vullen beeld en tabel samen de rij. Op mobiel onder elkaar. */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 lg:items-center">
+        <div className="rounded-[var(--radius-lg)] overflow-hidden bg-[var(--grey-050)]">
+          <Image src="/images/maatregelen/glas/isolatieglas-glassoorten-overzicht.png"
+            alt="Productblad isolatieglas HR EcoGlazz: U-waarden en temperatuur van het glas aan de binnenkant, van enkelglas tot HR+++"
+            width={842} height={595} sizes="(max-width: 1024px) 100vw, 640px" className="w-full h-auto" />
+        </div>
+        <div className="overflow-x-auto rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-white">
+          <table className="w-full text-left border-collapse min-w-[440px]">
+            <thead>
+              <tr className="border-b border-[var(--border-default)]">
+                <th scope="col" className="px-5 py-3.5 whitespace-nowrap text-sm font-bold text-[var(--gijs-donkergroen)]">Glassoort</th>
+                <th scope="col" className="px-5 py-3.5 whitespace-nowrap text-sm font-bold text-[var(--gijs-donkergroen)]">U-waarde</th>
+                <th scope="col" className="px-5 py-3.5 whitespace-nowrap text-sm font-bold text-[var(--gijs-donkergroen)]">Kenmerk</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--border-default)]">
+              {GLASSOORTEN.map(soort => (
+                <tr key={soort.naam} className={GLASSOORTEN_HIGHLIGHT.has(soort.naam) ? "bg-[var(--accent-050)]" : undefined}>
+                  <td className="px-5 py-3 font-bold text-[var(--gijs-donkergroen)] whitespace-nowrap">{soort.naam}</td>
+                  <td className="px-5 py-3 text-zinc-700 whitespace-nowrap">{soort.uWaarde}</td>
+                  <td className="px-5 py-3 text-zinc-600">{soort.uitleg}</td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--border-default)]">
-                {GLASSOORTEN.map(soort => (
-                  <tr key={soort.naam} className={GLASSOORTEN_HIGHLIGHT.has(soort.naam) ? "bg-[var(--accent-050)]" : undefined}>
-                    <td className="px-6 py-5 font-bold text-[var(--gijs-donkergroen)] whitespace-nowrap">{soort.naam}</td>
-                    <td className="px-6 py-5 text-zinc-700 whitespace-nowrap">{soort.uWaarde}</td>
-                    <td className="px-6 py-5 text-zinc-600">{soort.uitleg}</td>
-                  </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        </div>
+        <p className={BRON + " mt-3"}>
+          Gemarkeerde rijen isoleren het best. Tijdens de energiescan bespreken we of hiervoor op dat moment subsidie
+          beschikbaar is.
+        </p>
+
+        <div className={GRIJS_BLOK + " mt-10"}>
+          <h3 className={H3_GROOT + " mb-8 max-w-3xl"}>HR++ of triple glas: wat is het verschil?</h3>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-5">
+            <li className={WIT_BLOK + " flex flex-col gap-3"}>
+              <h4 className={KAARTKOP}>HR++ glas</h4>
+              <p className={KAARTTEKST}>
+                Twee glasplaten met een verbeterde coating, U-waarde 1,2. In de uitvoering HR++ (G), met een kunststof
+                afstandhouder, komt de U-waarde op 0,8.
+              </p>
+            </li>
+            <li className={WIT_BLOK + " flex flex-col gap-3"}>
+              <h4 className={KAARTKOP}>HR+++ of triple glas</h4>
+              <p className={KAARTTEKST}>
+                Drie glasplaten (driedubbel glas) met een dubbele coating, U-waarde 0,7. Dit is de beste isolatiewaarde in
+                het overzicht.
+              </p>
+            </li>
+          </ul>
+          <p className={TEKST + " mt-6 max-w-3xl"}>
+            Welke van de twee bij jouw ramen past, hangt vooral af van je kozijnen. Dat bekijkt Gijs samen met jou tijdens
+            de energiescan.
+          </p>
+
+          <details className="group mt-8">
+            <summary className={UITKLAP}>
+              <span className="group-open:hidden">Bekijk hoe isolatieglas is opgebouwd</span>
+              <span className="hidden group-open:inline">Verberg de opbouw van isolatieglas</span>
+              <Icon name="chevron-down" size="sm" className="transition-transform group-open:rotate-180" />
+            </summary>
+            <div className="pt-8 flex flex-col gap-4 lg:gap-5">
+              <div className="rounded-[var(--radius-lg)] overflow-hidden bg-white">
+                <Image src="/images/maatregelen/glas/isolatieglas-uitlegvisual.svg"
+                  alt="Uitleg van glaslagen, coating, isolerende vulling en afstandhouder bij isolatieglas"
+                  width={4384} height={2853} className="w-full h-auto" />
+              </div>
+              <ul className={RASTER + " gap-4 lg:gap-5"}>
+                {OPBOUW.map((deel, i) => (
+                  <li key={deel.title} className={WIT_BLOK + " flex flex-col gap-2 " + RASTER_CEL(OPBOUW.length, i)}>
+                    <Icon name={deel.icon} size="md" className="text-[var(--accent-700)]" />
+                    <h4 className={KAARTKOP}>{deel.title}</h4>
+                    <p className={KAARTTEKST}>{deel.text}</p>
+                  </li>
                 ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="text-xs text-zinc-500 mt-3">
-            Gemarkeerde rijen isoleren het best. Tijdens de energiescan bespreken we of hiervoor op dat moment
-            subsidie beschikbaar is.
-          </p>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </section>
 
-          {/* Volle breedte (niet een half blok naast een lege kolom): uitleg links, de kernregel rechts. */}
-          <Card variant="tint" className="mt-6 !p-6 grid gap-4 md:grid-cols-[1.6fr_1fr] md:items-center md:gap-10">
-            <div>
-              <h3 className="text-xl font-bold text-[var(--gijs-donkergroen)] mb-2">Wat betekent de U-waarde?</h3>
-              <p className="text-sm text-zinc-700">
-                De U-waarde geeft aan hoeveel warmte er door het glas verloren gaat. Een lage U-waarde betekent dat er
-                weinig warmte door het glas ontsnapt; een hoge U-waarde betekent dat je warmte via het raam naar
-                buiten verliest.
+      <section id="hoe-werkt-het" className={SECTIE}>
+        <Kop eyebrow="Isolatieglas plaatsen" titel="Isolatieglas laten plaatsen: hoe werkt dat?"
+          lead="Bij isolatieglas vervang je alleen het glas. Je kozijnen blijven zitten, dus het werk is overzichtelijk en in één dag klaar." />
+
+        <ul className={RASTER + " gap-4 lg:gap-5 mb-14"}>
+          {plaatsKaarten.map((k, i) => (
+            <li key={k.titel} className={"flex flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-white p-6 sm:p-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:border-transparent hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)] " + RASTER_CEL(plaatsKaarten.length, i)}>
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-tint)] text-[var(--accent-700)]">
+                <Icon name={k.icon} size="md" />
+              </span>
+              <h3 className={KAARTKOP}>{k.titel}</h3>
+              <p className={KAARTTEKST}>{k.tekst}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex flex-col gap-4 mb-10 max-w-3xl">
+          <h3 className={H3_GROOT}>Zo verloopt de dag van plaatsing</h3>
+          <p className={LEAD}>Gijs werkt volgens een vaste aanpak. Zo weet je precies wat je kunt verwachten.</p>
+        </div>
+        <IsolatieglasInstallatieAnimatie />
+      </section>
+
+      <section id="subsidie" className={SECTIE}>
+        <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-9 sm:px-10 lg:px-12 lg:py-11">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+            <div className="flex flex-col gap-4 text-zinc-600">
+              <p className={EYEBROW}>Subsidie</p>
+              <h2 className={H2}>Subsidie bij isolatieglas</h2>
+              <p>
+                Voor isolatieglas kan subsidie beschikbaar zijn. De voorwaarden en bedragen kunnen wijzigen. Tijdens de
+                energiescan bespreken we welke mogelijkheden op dat moment voor jouw woning gelden. Gijs kan je daarna
+                helpen met de subsidieaanvraag.
+              </p>
+              <p className="text-sm">
+                Meer weten over de landelijke ISDE-regeling? Bekijk de{" "}
+                <a href="https://www.rvo.nl/subsidies-financiering/isde" target="_blank" rel="noopener noreferrer" className={TEKSTLINK}>
+                  officiële ISDE-pagina van RVO<span className="sr-only"> (opent in nieuw tabblad)</span>
+                </a>{" "}
+                of plan een{" "}
+                <WhatsAppTrackedLink plaats="maatregelpagina_subsidiesectie" href={ENERGIESCAN_HREF} className={TEKSTLINK}>gratis energiescan aan huis</WhatsAppTrackedLink>.
               </p>
             </div>
-            <p className="text-lg font-bold text-[var(--gijs-donkergroen)] md:border-l md:border-[var(--accent-200)] md:pl-8">
-              Hoe lager de U-waarde, hoe beter het glas isoleert.
-            </p>
-          </Card>
-
-          <p className="text-sm text-zinc-500 mt-4 max-w-2xl">
-            Ook kozijnen vervangen? Bekijk{" "}
-            <Link href="/maatregelen/kozijnen" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">kozijnen</Link>.
-          </p>
-        </section>
-
-        <section id="voordelen" className="scroll-mt-40 mb-14">
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">De voordelen</h2>
-          <FeatureList columns={3} items={VOORDELEN} />
-        </section>
-
-        <section id="hoe-werkt-het" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Hoe verloopt de uitvoering?</h2>
-          <p className="text-zinc-600 mb-10 max-w-2xl">Gijs werkt volgens een vaste aanpak. Zo weet je precies wat je kunt verwachten.</p>
-          <IsolatieglasInstallatieAnimatie />
-        </section>
-
-        <SubsidieSectie titel="Subsidie bij isolatieglas" />
-
-        <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
-          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>
-          <div className="grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 items-start">
-            <div>
-              <FAQAccordion
-                items={faqItems}
-                className="[&_.gijs-accordion__trigger]:py-6 [&_.gijs-accordion__trigger]:text-base md:[&_.gijs-accordion__trigger]:text-lg"
-              />
-              <Link href="/kennis#veelgestelde-vragen" className="mt-4 text-sm font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] inline-flex items-center gap-1 no-underline">
-                Bekijk alle veelgestelde vragen <Icon name="arrow-right" size="sm" />
-              </Link>
+            <div className="flex flex-col gap-4 lg:pt-10">
+              <h3 className="text-lg font-bold text-[var(--gijs-donkergroen)]">Welke subsidies passen bij jouw woning?</h3>
+              <p className="text-zinc-700">Vul je postcode en huisnummer in en zie direct alle regelingen voor jouw adres.</p>
+              <SubsidiecheckStart idPrefix="sc-isolatieglas" />
             </div>
-            <Card variant="tint" className="flex flex-col gap-4">
-              <h3 className="font-bold text-lg text-[var(--gijs-donkergroen)]">Nog een vraag?</h3>
-              <p className="text-sm text-zinc-600">
-                Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
-              </p>
-              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
-              <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
-                Bel {CONTACT.phone}
-              </a>
-            </Card>
-          </div>
-        </section>
-      </div>
-
-      <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-8 md:px-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div className="flex items-start gap-4 max-w-xl">
-          <div className="min-w-0 [&_h2]:[hyphens:auto]">
-            <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-2">Past isolatieglas bij jouw woning?</h2>
-            <p className="text-zinc-700">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
           </div>
         </div>
-        <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right" className="shrink-0 w-full md:w-auto">
-          Start de woningscan
-        </Button>
+      </section>
+
+      <section id="veelgestelde-vragen" className={SECTIE}>
+        <h2 className={H2 + " mb-8 max-w-3xl"}>Veelgestelde vragen over isolatieglas</h2>
+        <div className="max-w-3xl">
+          <FAQAccordion items={faqItems} className="[&_.gijs-accordion__trigger]:py-6 [&_.gijs-accordion__trigger]:text-base md:[&_.gijs-accordion__trigger]:text-lg" />
+          <Link href="/kennis#veelgestelde-vragen" className="mt-6 text-[15px] font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)] inline-flex items-center gap-1 no-underline">
+            Bekijk alle veelgestelde vragen <Icon name="arrow-right" size="sm" />
+          </Link>
+        </div>
+      </section>
+
+      <section className={`scroll-mt-52 ${regioStyles.opkomen}`}>
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-7 sm:px-10 sm:py-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)]">
+          <p className="max-w-xl text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.6] text-zinc-700 [text-wrap:pretty]">
+            Wil je isolatieglas laten plaatsen? Vraag een gratis energiescan aan, of ontdek eerst zelf in de woningscan
+            welke maatregelen bij jouw huis passen.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
+            <Button href={startScanHref} variant="accent" size="md" iconRight="arrow-right">Start de woningscan</Button>
+            <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een energiescan aan</WhatsAppTrackedButton>
+          </div>
+        </div>
       </section>
 
       <MeasureRegioLink />
-    </main>
+    </RegioMain>
   );
 }

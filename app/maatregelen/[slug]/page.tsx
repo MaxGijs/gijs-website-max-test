@@ -60,8 +60,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (item.slug === "isolatieglas") {
     return createMetadata(
       "/maatregelen/isolatieglas",
-      "Isolatieglas voor jouw woning | Gijs",
-      "Ontdek welke soorten isolatieglas er zijn, van HR++ glas tot HR+++ glas, en hoe Gijs het glas vervangen verzorgt. Start de woningscan of plan een energiescan.",
+      // SEO-ronde nov. 2026: GSC toont de meeste kansen rond "isolatieglas
+      // (laten) plaatsen" (pos. 19-25) en HR++/triple glas; title en
+      // description volgen nu die plaatsingsintentie en de rol van Gijs.
+      "Isolatieglas laten plaatsen: HR++ of triple glas | Gijs",
+      "Last van kou bij je ramen? Gijs helpt je kiezen tussen HR++ en triple glas en regelt het plaatsen in je bestaande kozijnen, met één vast aanspreekpunt.",
       true,
       { path: "/images/maatregelen/glas/isolatieglas.png", alt: "Monteur van Gijs plaatst isolatieglas in een raam" }
     );
