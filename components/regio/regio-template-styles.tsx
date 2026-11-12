@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Alinea } from "@/lib/content/regio-lokaal";
 import gijsBeeldmerk from "@/app/icon.png";
+import { H2 } from "./RegioBlokken";
 
 // Gedeelde visuele constanten voor alle regio-templates (LokaalProfielPagina
 // en GemeenteVerhaalPagina). Eén plek om typografie, spacing en hover-effecten
@@ -41,6 +42,9 @@ export const STAT_HOVER = "transition-shadow duration-500 ease-out hover:shadow-
 /** Bronvermelding onder een sectie. */
 export const BRON = "text-[13px] leading-relaxed text-zinc-500";
 export const BRONLINK = "underline underline-offset-2 hover:text-[var(--gijs-donkergroen)]";
+
+/** Interne tekstlink (plaatsen, maatregelen): groen, onderstreept, duidelijke focusring. */
+export const TEKSTLINK = "rounded-sm font-semibold text-[var(--accent-700)] underline underline-offset-[3px] decoration-[var(--accent-200)] transition-colors hover:text-[var(--gijs-donkergroen)] hover:decoration-[var(--accent-700)] focus-visible:outline-none focus-visible:shadow-[var(--shadow-focus)]";
 
 /** Gijs-beeldmerk als subtiel watermark (alleen desktop, 6% opacity). */
 export function GijsWatermark({ size = 220 }: { size?: number }) {
@@ -90,4 +94,27 @@ export function RASTER_CEL(n: number, i: number): string {
     start += rij;
   }
   return "md:col-span-2";
+}
+
+/** Grote tussenkop binnen een sectie (H3), net onder de H2 uit RegioBlokken. */
+export const H3_GROOT = "text-[clamp(1.375rem,1.1rem+0.9vw,1.875rem)] font-bold leading-[1.15] tracking-[-0.025em] text-[var(--gijs-donkergroen)] [text-wrap:balance]";
+
+/** Kop van een witte kaart (WIT_BLOK). */
+export const KAARTKOP = "text-[19px] font-semibold leading-snug tracking-[-0.015em] text-[var(--gijs-donkergroen)] [text-wrap:balance]";
+
+/** Tekst in een witte kaart (WIT_BLOK). */
+export const KAARTTEKST = "text-[15px] leading-relaxed text-[var(--text-muted)] [text-wrap:pretty]";
+
+/** <summary> van een uitklapper: pilvorm, gecentreerd, zonder eigen driehoekje. */
+export const UITKLAP = "flex cursor-pointer list-none items-center justify-center gap-2 rounded-full border border-[var(--border-default)] bg-white px-5 py-3 text-[15px] font-semibold text-[var(--gijs-donkergroen)] transition-colors duration-[var(--dur-base)] hover:border-[var(--accent-700)] hover:text-[var(--accent-700)] focus-visible:outline-none focus-visible:shadow-[var(--shadow-focus)] [&::-webkit-details-marker]:hidden";
+
+/** Standaard sectiekop: eyebrow, H2 en een optionele leadtekst. */
+export function Kop({ eyebrow, titel, lead }: { eyebrow: string; titel: string; lead?: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-4 mb-10 md:mb-12 max-w-3xl">
+      <p className={EYEBROW}>{eyebrow}</p>
+      <h2 className={H2}>{titel}</h2>
+      {lead && <p className={LEAD}>{lead}</p>}
+    </div>
+  );
 }

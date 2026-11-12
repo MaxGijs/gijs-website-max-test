@@ -2,11 +2,12 @@ import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { H2 } from "./RegioBlokken";
-import { Button } from "@/components/ds/core/Button";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
 import { SubsidiecheckStart } from "@/components/subsidie/SubsidiecheckStart";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { Card } from "@/components/ds/core/Card";
+import { Button } from "@/components/ds/core/Button";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 const EYEBROW = "text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]";
 const LINK = "underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]";
@@ -25,10 +26,13 @@ export function AdviseurFoto({ src, alt, className }: { src: string; alt: string
   );
 }
 
-export function AdviseurBlok({ foto, titel, knopTekst = "Plan jouw gratis energiescan", children }: {
+export function AdviseurBlok({ foto, titel, knopTekst = "Plan jouw gratis energiescan", plaats, children }: {
   foto: { src: string; alt: string };
   titel: string;
   knopTekst?: string;
+  /** Met plaats: knop naar WhatsApp, gemeten als whatsapp_clicked met dit herkomstlabel (maatregelpagina's).
+   *  Zonder plaats: de bestaande knop naar /contact#energiescan, zoals op de regiopagina's. */
+  plaats?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -38,18 +42,52 @@ export function AdviseurBlok({ foto, titel, knopTekst = "Plan jouw gratis energi
         <p className="text-[15px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Persoonlijk advies van Gijs</p>
         <h3 className="text-[clamp(1.25rem,1.05rem+0.6vw,1.625rem)] font-bold leading-[1.2] tracking-[-0.02em] text-[var(--gijs-donkergroen)] [text-wrap:balance]">{titel}</h3>
         {children}
-        <Button href="/contact#energiescan" size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</Button>
+        {plaats
+          ? <WhatsAppTrackedButton plaats={plaats} href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</WhatsAppTrackedButton>
+          : <Button href="/contact#energiescan" size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</Button>}
       </div>
     </div>
   );
 }
 
-export function SubsidieSectie({ naamVoorKop, gemeente, officieleSubsidieUrl, className = "scroll-mt-40 mb-6" }: {
+export function SubsidieSectie({ naamVoorKop, gemeente, officieleSubsidieUrl, className = "scroll-mt-40 mb-6", rustig = false }: {
   naamVoorKop: string;
   gemeente: string;
   officieleSubsidieUrl?: string;
   className?: string;
+  /** Eén lichtgroen vlak met de subsidiecheck erin, zonder losse kaart. */
+  rustig?: boolean;
 }) {
+  if (rustig) return (
+    <section id="subsidies" className={className}>
+      <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-9 sm:px-10 lg:px-12 lg:py-11">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <div className="flex flex-col gap-4 text-zinc-600">
+            <p className={EYEBROW}>Subsidies</p>
+            <h2 className={H2}>Actuele subsidies in {naamVoorKop}</h2>
+            <p>
+              Hieronder staan de regelingen die nu voor de gemeente {gemeente} in de Energiesubsidiewijzer van Milieu Centraal
+              staan. Regelingen veranderen regelmatig. Wil je weten wat er voor jouw adres geldt, ook landelijk? Doe de subsidiecheck.
+            </p>
+            {officieleSubsidieUrl && (
+              <p className="text-sm">
+                Kijk voor de voorwaarden ook bij de{" "}
+                <a href={officieleSubsidieUrl} target="_blank" rel="noopener noreferrer" className={LINK}>gemeente {gemeente}<span className="sr-only"> (opent in nieuw tabblad)</span></a>.
+              </p>
+            )}
+          </div>
+          <div className="flex flex-col gap-4 lg:pt-10">
+            <h3 className="text-lg font-bold text-[var(--gijs-donkergroen)]">Welke subsidies passen bij jouw woning?</h3>
+            <p className="text-zinc-700">Vul je postcode en huisnummer in en zie direct alle regelingen voor jouw adres.</p>
+            <SubsidiecheckStart idPrefix="sc-gemeente" />
+          </div>
+        </div>
+      </div>
+      <div className="mt-10 empty:hidden">
+        <RegelingenInGemeente gemeente={gemeente} officieleUrl={officieleSubsidieUrl} toonKop={false} terugvalInhoud={null} />
+      </div>
+    </section>
+  );
   return (
     <section id="subsidies" className={className}>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-10 items-start mb-10">

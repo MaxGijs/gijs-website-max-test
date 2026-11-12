@@ -3,6 +3,8 @@ export type GoogleReview = {
   rating: number;
   originalText?: { text?: string };
   relativePublishTimeDescription?: string;
+  /** ISO-tijdstip van de review, door Places API (New) meegeleverd in het veld "reviews". */
+  publishTime?: string;
   googleMapsUri?: string;
   authorAttribution: { displayName: string; uri?: string; photoUri?: string };
 };

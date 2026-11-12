@@ -1,8 +1,9 @@
 "use client";
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { verstuurContactMail } from "@/lib/contact-mail";
 import { Button } from "@/components/ds/core/Button";
 import { track, logError } from "@/lib/analytics";
+import { adviesBerichtVoorModel } from "@/lib/content/warmtepomp-voorbeelden";
 
 export default function ContactForm() {
   const [message, setMessage] = useState("");
@@ -10,6 +11,15 @@ export default function ContactForm() {
   const [verstuurd, setVerstuurd] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const begonnen = useRef(false);
+  const vraag = useRef<HTMLTextAreaElement>(null);
+
+  // Vanaf de warmtepomppagina (/contact?onderwerp=warmtepomp&model=...) het bericht alvast invullen.
+  // Alleen bekende modellen uit lib/content/warmtepomp-voorbeelden.ts; nooit vrije tekst uit de URL.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const bericht = adviesBerichtVoorModel(params.get("onderwerp"), params.get("model"));
+    if (bericht && vraag.current && !vraag.current.value) vraag.current.value = bericht;
+  }, []);
 
   function meldBegin() {
     if (begonnen.current) return;
@@ -60,7 +70,7 @@ export default function ContactForm() {
     <label className="grid gap-2 font-semibold" htmlFor="contact-name">Naam<input id="contact-name" name="name" autoComplete="name" required maxLength={100} className={field}/></label>
     <label className="grid gap-2 font-semibold" htmlFor="contact-email">E-mailadres<input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} className={field}/></label>
     <label className="grid gap-2 font-semibold" htmlFor="contact-phone">Telefoonnummer (optioneel)<input id="contact-phone" name="phone" type="tel" autoComplete="tel" maxLength={40} className={field}/></label>
-    <label className="grid gap-2 font-semibold" htmlFor="contact-question">Waar kunnen we je mee helpen?<textarea id="contact-question" name="message" required maxLength={5000} rows={4} className={field}/></label>
+    <label className="grid gap-2 font-semibold" htmlFor="contact-question">Waar kunnen we je mee helpen?<textarea ref={vraag} id="contact-question" name="message" required maxLength={5000} rows={4} className={field}/></label>
     <p className="text-sm">Je hoeft nog geen maatregel of merk te kiezen.</p>
     <p className="text-sm">We gebruiken je gegevens alleen om contact met je op te nemen over je aanvraag. Lees hoe we met je gegevens omgaan in onze <a href="/avg-verklaring" target="_blank" rel="noopener noreferrer" className="underline">privacyverklaring</a>.</p>
     <Button type="submit" variant="accent" size="lg" loading={versturen} disabled={versturen} className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{versturen ? "Bericht versturen…" : "Verstuur bericht"}</Button>

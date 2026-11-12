@@ -103,6 +103,17 @@ export function track(event: AnalyticsEvent) {
   try { ACTIVE_PROVIDER.track(event); } catch { /* analytics mag de app nooit breken */ }
 }
 
+/**
+ * Voor knoppen/links waarvan de bestemming (`href`) uit content of CTA-data komt en dus niet altijd
+ * naar WhatsApp wijst (bv. soms "/woning", soms een wa.me-link). Geeft alleen een onClick terug als
+ * het écht een WhatsApp-link is, zodat nooit een niet-WhatsApp-klik als "whatsapp_clicked" meetelt.
+ * `plaats` beschrijft de rol/positie van de knop (bv. "regio_hero"), niet de individuele pagina —
+ * welke pagina het was, levert GA4 zelf al via page_location.
+ */
+export function trackIfWhatsApp(href: string | undefined, plaats: string): (() => void) | undefined {
+  return href?.startsWith("https://wa.me/") ? () => track({ name: "whatsapp_clicked", plaats }) : undefined;
+}
+
 export function logError(context: AnalyticsErrorContext, error: unknown) {
   try { ACTIVE_PROVIDER.logError(context, error instanceof Error ? error.message : String(error)); } catch { /* analytics mag de app nooit breken */ }
 }
