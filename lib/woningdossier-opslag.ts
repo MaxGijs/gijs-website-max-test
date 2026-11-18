@@ -8,6 +8,7 @@ import { EMAIL, schrijfMetOntbrekendeKolommen } from "@/lib/opslag-hulp";
 import { magDoorgaan } from "@/lib/rate-limit";
 import { verstuurWoningplanInteresseMail } from "@/lib/energiescan-mail";
 import { geldigTelefoonnummer } from "@/lib/telefoon";
+import { isLokaleOmgeving, meldGeblokkeerd } from "@/lib/lokale-omgeving";
 
 // Slaat de woningscan op in Supabase: de vaste woning-/energiegegevens in
 // public.woningdossier (één rij per scan, upsert op id — nooit een nieuwe
@@ -169,6 +170,8 @@ export async function slaWoningdossierOp(ruweSessie: string, afgerond: boolean):
   // Nooit de browser vertrouwen: dezelfde validatie als bij het inlezen van sessionStorage.
   const s = readScan(ruweSessie);
   if (!s || !UUID.test(s.dossierId) || !s.woningBevestigd) return { opgeslagen: false };
+  // Lokaal geen rij in de echte Supabase; sessionStorage blijft de bron tijdens de scan.
+  if (await isLokaleOmgeving()) { meldGeblokkeerd("Woningdossier opslaan (Supabase)"); return { opgeslagen: true }; }
   const db = client();
   if (!db) { console.warn("[woningdossier] SUPABASE_SECRET_KEY ontbreekt; niets opgeslagen (zie lib/woningdossier-opslag.ts)."); return { opgeslagen: false }; }
   try {
@@ -199,7 +202,7 @@ const ONTGRENDEL_FOUT = "Kon niet worden opgeslagen. Probeer het opnieuw of bel 
  * lichte interne meldmail naar Gijs (verstuurWoningplanInteresseMail) zodat iemand het echt kan
  * oppakken — telefonisch als er een nummer is, anders per e-mail.
  */
-export async function ontgrendelWoningplan(ruweSessie: string, emailIn: string, telefoonIn: string, honeypot?: string): Promise<{ ontgrendeld: boolean; fout?: string }> {
+export async function ontgrendelWoningplan(ruweSessie: string, emailIn: string, telefoonIn: string, honeypot?: string): Promise<{ ontgrendeld: boolean; fout?: string; lokaal?: boolean }> {
   // Honeypot: zelfde patroon als bij de energiescan-aanvraag (zie WoningFlow.tsx/WoningplanGate.tsx).
   if (typeof honeypot === "string" && honeypot.trim()) return { ontgrendeld: true };
   if (!(await magDoorgaan("woningplan-ontgrendeling"))) return { ontgrendeld: false, fout: "Je hebt net veel aanvragen gedaan. Probeer het over een paar minuten opnieuw." };
@@ -211,6 +214,8 @@ export async function ontgrendelWoningplan(ruweSessie: string, emailIn: string, 
   const telefoon = typeof telefoonIn === "string" ? telefoonIn.trim() : "";
   if (telefoon && !geldigTelefoonnummer(telefoon)) return { ontgrendeld: false, fout: "Vul een geldig telefoonnummer in, bijvoorbeeld 06 12345678." };
 
+  // Lokaal: geen opslag en geen meldmail aan Gijs, wel het woningplan tonen (met lokale melding).
+  if (await isLokaleOmgeving()) { meldGeblokkeerd("Woningplan ontgrendelen (Supabase, meldmail aan Gijs)"); return { ontgrendeld: true, lokaal: true }; }
   const { opgeslagen } = await slaWoningdossierOp(JSON.stringify({ ...s, email, telefoon, uitgebreidOntgrendeld: true }), s.scanAfgerond);
   if (!opgeslagen) return { ontgrendeld: false, fout: ONTGRENDEL_FOUT };
 

@@ -32,8 +32,12 @@ export function useWhatsAppLink() {
   };
 }
 
-/** Alleen tellen als het ook echt naar WhatsApp gaat — de fallback naar /contact is geen WhatsApp-klik. */
-function meldWhatsAppKlik(nieuwTabblad: boolean, plaats: string) {
+/**
+ * Alleen tellen als het ook echt naar WhatsApp gaat — de fallback naar /contact is geen
+ * WhatsApp-klik. Geëxporteerd zodat andere WhatsApp-links (bv. het icoon in Header.tsx) dezelfde
+ * meting en dezelfde "telt dit als WhatsApp?"-check hergebruiken, in plaats van los te meten.
+ */
+export function meldWhatsAppKlik(nieuwTabblad: boolean, plaats: string) {
   if (nieuwTabblad) track({ name: "whatsapp_clicked", plaats });
 }
 
@@ -47,10 +51,13 @@ export default function WhatsAppButton() {
       rel={nieuwTabblad ? "noopener noreferrer" : undefined}
       aria-label={label}
       onClick={() => meldWhatsAppKlik(nieuwTabblad, "zwevende_knop")}
-      className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex items-center gap-2 h-11 md:h-12 pl-3.5 pr-4 md:pl-4 md:pr-5 rounded-[var(--radius-pill)] bg-[#25D366] text-white font-semibold text-[13px] md:text-sm shadow-[var(--shadow-3)] no-underline"
+      // Onder 768px een smal lipje van 24px breed tegen de rechterrand: dat past precies in de
+      // paginamarge (px-6), zodat de knop nooit over tekst, knoppen, velden of de animatie valt.
+      // Een ronde knop van 44px steekt altijd 20 tot 36px de inhoud in. Vanaf md de bekende pil.
+      className="fixed z-50 flex items-center justify-center bg-[#25D366] text-white font-semibold no-underline max-md:right-0 max-md:bottom-24 max-md:w-6 max-md:h-14 max-md:rounded-l-[10px] max-md:shadow-[var(--shadow-1)] max-md:[&_svg]:w-4 max-md:[&_svg]:h-4 md:bottom-6 md:right-6 md:gap-2 md:h-12 md:pl-4 md:pr-5 md:rounded-[var(--radius-pill)] md:text-sm md:shadow-[var(--shadow-3)]"
     >
       <WhatsAppIcon />
-      Stel je vraag
+      <span className="hidden md:inline">Stel je vraag</span>
     </a>
   );
 }

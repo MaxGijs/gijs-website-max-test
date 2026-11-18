@@ -8,8 +8,9 @@ Alleen voor isolatie: dak, spouwmuur, vloer en HR++-glas. Installaties krijgen g
 
 | Wat | Bron | Peildatum |
 |---|---|---|
-| Kosten en gasbesparing dak, spouwmuur, vloer per woningtype | Milieu Centraal, pagina's per maatregel | laatst gewijzigd 14-10-2026 |
-| Glas: € 4.700 en 70 m³ voor 22 m² HR++ (i.p.v. dubbel glas), hoekwoning | Milieu Centraal, "Triple-, hr++- of vacuümglas" | 14-10-2026 |
+| Kosten dak, spouwmuur, vloer per woningtype | **Tarieven van Gijs (Thom), leidend** | oktober 2026 |
+| Gasbesparing dak, spouwmuur, vloer per woningtype | Milieu Centraal, pagina's per maatregel | laatst gewijzigd 14-10-2026 |
+| Glas: alleen de besparing (70 m³ voor 22 m² HR++ i.p.v. dubbel glas, hoekwoning); géén prijs | Milieu Centraal, "Triple-, hr++- of vacuümglas" | 14-10-2026 |
 | ISDE-tarieven per m², minimum/maximum m², verdubbeling | RVO, ISDE isolatiemaatregelen woningeigenaren | geraadpleegd 27-10-2026 |
 | Oppervlakten per woningtype en bouwperiode; bouwjaren van isolatie-eisen | RVO, Voorbeeldwoningen bestaande bouw 2022 | 2022 |
 | Gemiddeld gasverbruik goed geïsoleerde woning (bovengrens besparing) | Milieu Centraal, tabel in `lib/content/milieu-centraal.ts` | 28-09-2026 |
@@ -22,7 +23,8 @@ Alleen voor isolatie: dak, spouwmuur, vloer en HR++-glas. Installaties krijgen g
 
 ## Methode
 
-- **Investering.** Dak, spouwmuur en vloer: het Milieu Centraal-bedrag voor het woningtype. Glas: de Milieu Centraal-prijs per m² (€ 4.700 / 22 m²) maal het raamoppervlak van de RVO-referentiewoning. Volgens Milieu Centraal schalen de kosten mee met het aantal ramen. Glas wordt afgerond op € 100.
+- **Investering.** De tarieven van Thom zijn leidend (Max, 18-11-2026); de kostenbedragen van Milieu Centraal zijn volgens Thom aan de lage kant en worden niet getoond. Dak, spouwmuur en vloer: de bruto prijs per woningtype uit Thoms netto-tabel (netto + geschatte ISDE), zie `lib/content/verduurzaming-financieel.ts`. Glas: geen tarief van Thom, dus geen prijs en geen terugverdientijd ("Rekent je adviseur uit"); alleen de Milieu Centraal-besparing wordt getoond. Voor de volgorde van de kansen dient de Milieu Centraal-glasprijs intern als ondergrens (nergens zichtbaar).
+- **Subsidie in de weergave.** Het woningrapport en het woningplan tonen geen zelf berekende ISDE-bedragen meer (18-11-2026); subsidie komt uitsluitend uit de Energiesubsidiewijzer-API. De ISDE-berekening hieronder wordt alleen nog gebruikt om Thoms netto-tabel terug te rekenen naar bruto.
 - **Subsidie (ISDE).** Het tarief per m² maal de oppervlakte van de RVO-referentiewoning (dak = hellend dak, gevel = dichte gevel, vloer = begane grondvloer, glas = ramen), begrensd op het maximum. Onder het minimum is de subsidie € 0. Het tarief verdubbelt bij twee of meer isolatiemaatregelen, of isolatie samen met een warmtepomp, zonneboiler of warmtenetaansluiting (RVO; Milieu Centraal bevestigt dat glas daarbij meetelt). Afgerond op € 10. Gemeentelijke regelingen uit de bestaande Energiesubsidiewijzer-API worden apart getoond en niet opgeteld, omdat de voorwaarden nog gecontroleerd moeten worden. De oppervlakte is een schatting uit een referentiewoning, geen meting; de daadwerkelijke subsidie hangt af van de uitgevoerde werkzaamheden en wordt pas na goedkeuring door RVO definitief.
 - **Bandbreedte.** Bij een onbekend bouwjaar worden alle bouwperioden van het woningtype doorgerekend (ook voor de besparing, want het raamoppervlak voor glas verschilt per periode) en wordt de laagste en hoogste uitkomst getoond.
 - **Niet toepasbaar.** Spouwmuurisolatie bij bouwjaar vóór 1930 (RVO: daarvóór geen spouwmuren — een bouwkundig gegeven, geen isolatiestatus). Vloerisolatie als de bezoeker "geen kruipruimte" opgeeft (Milieu Centraal rekent met isoleren vanuit de kruipruimte).
@@ -33,7 +35,7 @@ Alleen voor isolatie: dak, spouwmuur, vloer en HR++-glas. Installaties krijgen g
 ## Aannames en beperkingen
 
 - Oppervlakten zijn medianen van RVO-referentiewoningen, geen metingen van de woning zelf.
-- De kosten van dak, spouwmuur en vloer zijn landelijke gemiddelden per woningtype, geen prijzen van Gijs. Of ze inclusief btw zijn, staat niet bij de bron.
+- De kosten van dak, spouwmuur en vloer zijn de tarieven van Gijs (Thom) per woningtype. Nog te bevestigen door Thom: inclusief btw en actueel. Een glastarief van Gijs ontbreekt nog.
 - **Optelmethode besparing — verdedigbaarheid.** Voor een gemiddelde hoekwoning komt de som van de losse besparingen (dak 340 + spouw 400 + vloer 130 + enkel→HR++ glas 260 = 1.130 m³) overeen met de ~1.100 m³ die Milieu Centraal noemt voor "van geen naar goede isolatie" van de hele woning. Die validatie is er alleen voor de hoekwoning; voor andere woningtypen publiceert Milieu Centraal geen vergelijkbaar totaalcijfer. Simpelweg optellen van vier onafhankelijke metingen is als basisfysica (vier aparte warmteverliespaden) een redelijke aanname, maar houdt geen rekening met interactie-effecten tussen maatregelen (in de praktijk vaak een iets lagere gecombineerde besparing dan de som). Daarom: wel tonen, altijd gelabeld als optelling, maar geen persoonlijke terugverdientijd bij combinaties (zie Methode hierboven). Er is geen eigen correctiefactor toegevoegd: die zou net zo min onderbouwd zijn als de optelling zelf.
 - Bij glas wordt uitgegaan van dubbel glas: bij enkel glas is de besparing ruim drie keer zo hoog (gebruikt niet in deze berekening, enkel vermeld als beperking).
 - Hybride warmtepomp, volledige warmtepomp en stadsverwarming krijgen geen besparing in euro's: de bronnen gelden voor een cv-ketel.

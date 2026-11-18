@@ -8,6 +8,7 @@ import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 // Presentatie van plaatsgerichte regio-inhoud (lib/content/regio-lokaal.ts). Volledig
 // server-gerenderd; alle tekst komt uit de databron, deze component bepaalt alleen opbouw en stijl.
@@ -163,9 +164,9 @@ export function LokalePagina({
           <Alineas alineas={inhoud.intro} />
           <div className="flex flex-col sm:flex-row gap-3 mt-2">
             {woningscanCta ?? (
-              <Button href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</Button>
+              <WhatsAppTrackedButton plaats="regio_hero" href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</WhatsAppTrackedButton>
             )}
-            <Button href={inhoud.ctaSecundair.href} variant="secondary" size="lg">{inhoud.ctaSecundair.tekst}</Button>
+            <WhatsAppTrackedButton plaats="regio_hero" href={inhoud.ctaSecundair.href} variant="secondary" size="lg">{inhoud.ctaSecundair.tekst}</WhatsAppTrackedButton>
           </div>
         </div>
         {afbeelding && (
@@ -267,7 +268,7 @@ export function LokalePagina({
         </div>
         <div className="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-3 shrink-0">
           {woningscanCta ?? (
-            <Button href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</Button>
+            <WhatsAppTrackedButton plaats="regio_afsluiting" href={inhoud.ctaPrimair.href} variant="accent" size="lg" iconRight="arrow-right" className="max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center">{inhoud.ctaPrimair.tekst}</WhatsAppTrackedButton>
           )}
           <Button href="/contact" variant="secondary" size="lg">Neem contact op</Button>
         </div>

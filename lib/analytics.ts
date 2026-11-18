@@ -65,6 +65,9 @@ export type AnalyticsEvent =
   | { name: "contact_form_started" }
   | ({ name: "lead_created"; source: "woningscan" | "woningscan_email" | "contactformulier" } & Partial<RegioParams>)
   | { name: "whatsapp_clicked"; plaats: string }
+  // Afsluitende CTA in een kennisartikel (/kennis/[slug]). artikel = slug, bestemming = "whatsapp"
+  // of het interne pad (bv. "/woning").
+  | { name: "kennis_artikel_cta_clicked"; artikel: string; bestemming: string }
   | { name: "cta_clicked"; cta: string };
 
 export type AnalyticsErrorContext =

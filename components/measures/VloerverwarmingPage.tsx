@@ -22,6 +22,7 @@ import {
 } from "@/lib/content/vloerverwarming-data";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 import { MeasureCta } from "@/components/measures/MeasureCta";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
@@ -129,13 +130,13 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         <span aria-current="page">{title}</span>
       </nav>
 
-      <MeasureHero
+      <MeasureHero overgang={item.slug}
         label="Installaties"
         title="Vloerverwarming voor jouw woning"
         subtitle="Comfortabele warmte vanuit de vloer, zonder radiatoren"
         intro="Vloerverwarming verdeelt warmte vanuit je vloer, via leidingen die zijn ingefreesd in een geschikte bestaande vloer of ingebouwd in een nieuwe vloeropbouw. Voor de dekvloer boven de leidingen werkt Gijs onder meer met een gietdekvloer die snel droogt en goed geschikt is voor vloerverwarming."
         primaryCta={{ label: "Start de woningscan", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "/contact#energiescan" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }}
         image="/images/maatregelen/vloerverwarming/vloerverwarming-hero.png"
         imageAlt="Een Gijs-installateur giet de dekvloer over de vloerverwarmingsleidingen"
       />
@@ -420,7 +421,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="/contact#energiescan" variant="secondary">Vraag een gratis energiescan aan</Button>
+              <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

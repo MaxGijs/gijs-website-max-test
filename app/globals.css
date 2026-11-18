@@ -444,3 +444,22 @@ hr{border:0;border-top:var(--border-hairline);margin:var(--space-8) 0}
 .woning-hotspot{transition:transform var(--dur-fast) var(--ease-standard),box-shadow var(--dur-fast) var(--ease-standard)}
 .woning-hotspot:hover,.woning-hotspot:focus-visible{transform:scale(1.08)}
 }
+
+/* Foto-overgang: van een kaart (artikel op /kennis, maatregel op /maatregelen) naar de pagina zelf.
+   Links met transitionTypes={OVERGANG_TYPES}; kaart en pagina delen de overgangsnaam van foto en
+   titel (lib/overgang.ts). De kaartfoto en -titel schuiven naar hun plek op de nieuwe
+   pagina; de inhoud (<main>) schuift van onderen in beeld en wordt van boven naar beneden
+   zichtbaar (geen infaden). Sitekop en footer wisselen direct. */
+:root:active-view-transition-type(foto-open) main{view-transition-name:pagina-inhoud}
+::view-transition-group(pagina-inhoud){animation:none}
+::view-transition-old(pagina-inhoud){display:none}
+::view-transition-new(pagina-inhoud){animation:pagina-in 700ms cubic-bezier(.22,1,.36,1) 80ms both}
+::view-transition-group(.foto-overgang){animation-duration:700ms;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+::view-transition-image-pair(.foto-overgang){overflow:hidden;border-radius:var(--radius-xl)}
+::view-transition-old(.foto-overgang),::view-transition-new(.foto-overgang){height:100%;object-fit:cover;animation:none}
+::view-transition-old(.foto-overgang){display:none}
+/* De kaarttitel groeit mee naar de H1 van de pagina (zelfde tempo als de foto). */
+::view-transition-group(.titel-overgang){animation-duration:700ms;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+::view-transition-old(.titel-overgang),::view-transition-new(.titel-overgang){height:100%;width:auto;animation-duration:700ms}
+@keyframes pagina-in{from{transform:translateY(64px);clip-path:inset(0 0 100% 0)}to{transform:translateY(0);clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none !important}}

@@ -6,7 +6,6 @@ import { RegelingenInGemeente } from "@/components/subsidie/RegelingenInGemeente
 import { SubsidiecheckStart } from "@/components/subsidie/SubsidiecheckStart";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { Card } from "@/components/ds/core/Card";
-import { Button } from "@/components/ds/core/Button";
 import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 import { ENERGIESCAN_HREF } from "@/lib/seo";
 
@@ -27,12 +26,11 @@ export function AdviseurFoto({ src, alt, className }: { src: string; alt: string
   );
 }
 
-export function AdviseurBlok({ foto, titel, knopTekst = "Plan jouw gratis energiescan", plaats, children }: {
+export function AdviseurBlok({ foto, titel, knopTekst = "Vraag een energiescan aan", plaats = "regio_adviseurblok", children }: {
   foto: { src: string; alt: string };
   titel: string;
   knopTekst?: string;
-  /** Met plaats: knop naar WhatsApp, gemeten als whatsapp_clicked met dit herkomstlabel (maatregelpagina's).
-   *  Zonder plaats: de bestaande knop naar /contact#energiescan, zoals op de regiopagina's. */
+  /** Herkomstlabel voor het whatsapp_clicked-event; regiopagina's houden de standaardwaarde. */
   plaats?: string;
   children: React.ReactNode;
 }) {
@@ -43,9 +41,7 @@ export function AdviseurBlok({ foto, titel, knopTekst = "Plan jouw gratis energi
         <p className="text-[15px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Persoonlijk advies van Gijs</p>
         <h3 className="text-[clamp(1.25rem,1.05rem+0.6vw,1.625rem)] font-bold leading-[1.2] tracking-[-0.02em] text-[var(--gijs-donkergroen)] [text-wrap:balance]">{titel}</h3>
         {children}
-        {plaats
-          ? <WhatsAppTrackedButton plaats={plaats} href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</WhatsAppTrackedButton>
-          : <Button href="/contact#energiescan" size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</Button>}
+        <WhatsAppTrackedButton plaats={plaats} href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</WhatsAppTrackedButton>
       </div>
     </div>
   );

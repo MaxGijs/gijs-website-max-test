@@ -4,11 +4,12 @@ import Link from "next/link";
 import { MEASURE_PAGES } from "@/lib/content/measure-pages";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { pageMetadata } from "@/lib/seo";
+import { ArtikelKaarten } from "@/components/kennis/ArtikelKaarten";
 import styles from "@/components/MeasureExplorer.module.css";
 export const metadata=pageMetadata("/kennis");
 // Scanbaarheid: korte in-paginanavigatie, zelfde herbruikbare component als op elke
 // maatregelpagina (ook al mobielvriendelijk: horizontaal scrollende rij, geen overflow).
-const SECTIONS=[{id:"keuzehulpen",label:"Waar begin je?"},{id:"veelgestelde-vragen",label:"Veelgestelde vragen"},{id:"subsidies",label:"Subsidies"}];
+const SECTIONS=[{id:"artikelen",label:"Artikelen"},{id:"keuzehulpen",label:"Waar begin je?"},{id:"veelgestelde-vragen",label:"Veelgestelde vragen"},{id:"subsidies",label:"Subsidies"}];
 // Sommige maatregelen delen letterlijk dezelfde FAQ-tekst (bv. ketel/warmtepomp: "moet mijn
 // cv-ketel weg?"). Op de eigen maatregelpagina hoort die vraag thuis, maar in déze
 // verzamellijst zou hetzelfde antwoord twee keer op één pagina staan. Hier dus eenmalig
@@ -17,6 +18,7 @@ const FAQ_MAATREGELEN=MEASURE_PAGES.filter((m,i)=>MEASURE_PAGES.findIndex(x=>x.q
 export default function Kennis(){return <><Header/><main className={styles.page}>
  <header className={styles.overviewHero}><p className={styles.eyebrow}>Kennis en vragen</p><h1>Je huis verduurzamen begint met begrijpen.</h1><p>Je hoeft geen expert te zijn. Hieronder vind je uitleg over maatregelen en het adviesgesprek met Gijs.</p></header>
  <MeasureSectionNav sections={SECTIONS} />
+ <section id="artikelen" className="scroll-mt-40 mt-10 mb-16"><h2 className="text-[clamp(1.75rem,1.2rem+1.9vw,2.75rem)] font-bold leading-[1.08] tracking-[-0.03em] text-[var(--gijs-donkergroen)] mb-6">Artikelen</h2><ArtikelKaarten /></section>
  <div className={styles.article}>
  <section id="keuzehulpen"><h2>Waar begin je?</h2><p>Kijk eerst naar wat je wilt verbeteren: tocht, een koude vloer, minder gas gebruiken of zelf stroom opwekken. Je hoeft niet alles tegelijk te doen.</p><Link href="/maatregelen">Lees over isolaties en installaties →</Link><p>In de <Link href="/woning">digitale woningscan</Link> verzamel je wensen op een voorbeeldwoning. Gijs beoordeelt later wat technisch bij je huis past.</p></section>
  <section id="veelgestelde-vragen"><h2>Veelgestelde vragen</h2>

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { titelOvergang } from "@/lib/overgang";
+import { FotoOvergang } from "@/components/FotoOvergang";
 import { GLASSOORTEN, GLASSOORTEN_HIGHLIGHT } from "@/lib/content/isolatieglas-glassoorten";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
@@ -108,7 +110,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
         <p className={EYEBROW + " mb-4"}>Isolatieglas</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-stretch">
           <div className="flex flex-col gap-5">
-            <h1 className={HERO_H1}>Isolatieglas laten plaatsen in je bestaande kozijnen</h1>
+            <h1 className={HERO_H1} style={titelOvergang("maatregel-" + item.slug)}>Isolatieglas laten plaatsen in je bestaande kozijnen</h1>
             <p className={HERO_INTRO}>
               Last van kou bij je ramen? Met isolatieglas gaat er minder warmte verloren via het raam. Gijs helpt je
               kiezen tussen HR++ en triple glas en regelt de plaatsing in één dag, met één vast aanspreekpunt van de
@@ -124,10 +126,12 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
             </p>
           </div>
           <figure className="m-0 group/hero">
-            <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full overflow-hidden rounded-[var(--radius-xl)] bg-[var(--grey-050)]">
-              <Image src="/images/maatregelen/glas/isolatieglas.png" alt="Monteur van Gijs plaatst isolatieglas in een raam" fill priority
-                sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]" />
-            </div>
+            <FotoOvergang id={"maatregel-" + item.slug}>
+              <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full overflow-hidden rounded-[var(--radius-xl)] bg-[var(--grey-050)]">
+                <Image src="/images/maatregelen/glas/isolatieglas.png" alt="Monteur van Gijs plaatst isolatieglas in een raam" fill priority
+                  sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]" />
+              </div>
+            </FotoOvergang>
           </figure>
         </div>
       </header>
@@ -190,7 +194,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
             </li>
           </ul>
 
-          <AdviseurBlok foto={ADVISEUR_FOTO.thom} titel="Thom kijkt graag met je mee" knopTekst="Vraag een energiescan aan" plaats="maatregelpagina_adviseurblok">
+          <AdviseurBlok foto={ADVISEUR_FOTO.thom} titel="Thom kijkt graag met je mee" plaats="maatregelpagina_adviseurblok">
             <p className="text-[15px] leading-relaxed text-zinc-700 [text-wrap:pretty]">
               Twijfel je of je glas aan vervanging toe is? Thom komt langs voor een{" "}
               <strong className="font-bold text-[var(--accent-700)]">gratis en vrijblijvende energiescan ter waarde van €349</strong>{" "}

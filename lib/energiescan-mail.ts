@@ -2,6 +2,7 @@
 import "server-only";
 
 import { Resend } from "resend";
+import { isLokaleOmgeving, meldGeblokkeerd } from "@/lib/lokale-omgeving";
 import { createClient } from "@supabase/supabase-js";
 import { SCAN_MEASURES } from "@/lib/scan-session";
 
@@ -219,6 +220,7 @@ function bouwEmailText(r: OverzichtRij, datumTijd: string, adres: string) {
  * daar niets aan veranderen.
  */
 export async function verstuurEnergiescanMail(woningdossierId: string, extra: { whatsappToestemming?: boolean } = {}): Promise<{ verzonden: boolean }> {
+  if (await isLokaleOmgeving()) { meldGeblokkeerd("Interne energiescan-mail (Resend)"); return { verzonden: false }; }
   if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) { console.warn("[energiescan-mail] SUPABASE_SECRET_KEY ontbreekt; kon dossier niet ophalen."); return { verzonden: false }; }
   if (!RESEND_API_KEY || !EMAIL_TO || !EMAIL_FROM) { console.warn("[energiescan-mail] RESEND_API_KEY, ENERGIESCAN_EMAIL_TO of ENERGIESCAN_EMAIL_FROM ontbreekt; mail niet verstuurd."); return { verzonden: false }; }
   try {
@@ -253,6 +255,7 @@ export async function verstuurEnergiescanMail(woningdossierId: string, extra: { 
  * compactere mail met alleen wat er op dit punt al bekend is. Faalt altijd stil, net als hierboven.
  */
 export async function verstuurWoningplanInteresseMail(woningdossierId: string, email: string, telefoon = ""): Promise<{ verzonden: boolean }> {
+  if (await isLokaleOmgeving()) { meldGeblokkeerd("Meldmail woningplan-interesse (Resend)"); return { verzonden: false }; }
   if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) { console.warn("[energiescan-mail] SUPABASE_SECRET_KEY ontbreekt; kon dossier niet ophalen."); return { verzonden: false }; }
   if (!RESEND_API_KEY || !EMAIL_TO || !EMAIL_FROM) { console.warn("[energiescan-mail] RESEND_API_KEY, ENERGIESCAN_EMAIL_TO of ENERGIESCAN_EMAIL_FROM ontbreekt; mail niet verstuurd."); return { verzonden: false }; }
   try {

@@ -1,5 +1,6 @@
 export type GemeenteHeroAfbeelding = {
   src: string;
+  alt?: string;
   author: string;
   license: string;
   licenseUrl: string;
@@ -297,10 +298,11 @@ export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = 
     licenseUrl: "http://creativecommons.org/licenses/by-sa/3.0/",
   },
   "ommen": {
-    src: "/images/regio/gemeenten/ommen/hero.jpg",
-    author: "Michielverbeek",
-    license: "CC BY-SA 4.0",
-    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    src: "https://images.pexels.com/photos/33328627/pexels-photo-33328627.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    alt: "Groen kanaal met bomen in het Vechtdal",
+    author: "",
+    license: "",
+    licenseUrl: "",
   },
   "oost-gelre": {
     src: "/images/regio/gemeenten/oost-gelre/hero.jpg",
@@ -446,6 +448,13 @@ export const gemeenteHeroAfbeeldingen: Record<string, GemeenteHeroAfbeelding> = 
     author: "Michiel1972",
     license: "CC BY-SA 4.0",
     licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+  },
+  "zeewolde": {
+    src: "https://images.pexels.com/photos/11086199/pexels-photo-11086199.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    alt: "Poldervaart door open land bij Zeewolde",
+    author: "",
+    license: "",
+    licenseUrl: "",
   },
   "zevenaar": {
     src: "/images/regio/gemeenten/zevenaar/hero.jpg",

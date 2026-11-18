@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { titelOvergang } from "@/lib/overgang";
+import { FotoOvergang } from "@/components/FotoOvergang";
 import { JsonLd } from "@/components/SeoSchema";
 import { SITE_URL, ENERGIESCAN_HREF } from "@/lib/seo";
 import { CONTACT } from "@/lib/content/contact";
@@ -172,7 +174,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
         <p className={EYEBROW + " mb-4"}>Warmtepomp</p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-stretch">
           <div className="flex flex-col gap-5">
-            <h1 className={HERO_H1}>Een warmtepomp in je bestaande woning</h1>
+            <h1 className={HERO_H1} style={titelOvergang("maatregel-" + item.slug)}>Een warmtepomp in je bestaande woning</h1>
             <p className={HERO_INTRO}>
               Een warmtepomp haalt warmte uit de buitenlucht en verwarmt daarmee je huis. Je gebruikt flink minder gas
               en het wordt er comfortabeler van. Gijs adviseert én voert uit, met één aanspreekpunt van advies tot
@@ -188,12 +190,14 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             </p>
           </div>
           <figure className="m-0 group/hero">
-            <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full overflow-hidden rounded-[var(--radius-xl)] bg-[var(--grey-050)]">
-              <Image src="/images/maatregelen/warmtepomp/warmtepomp-hero.png"
-                alt="Een installateur van Gijs plaatst een warmtepomp tegen de gevel van een woning" fill priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]" />
-            </div>
+            <FotoOvergang id={"maatregel-" + item.slug}>
+              <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full overflow-hidden rounded-[var(--radius-xl)] bg-[var(--grey-050)]">
+                <Image src="/images/maatregelen/warmtepomp/warmtepomp-hero.png"
+                  alt="Een installateur van Gijs plaatst een warmtepomp tegen de gevel van een woning" fill priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]" />
+              </div>
+            </FotoOvergang>
           </figure>
         </div>
       </header>
@@ -490,6 +494,10 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
                 Voor een warmtepomp kun je ISDE-subsidie aanvragen. Hoeveel je krijgt, hangt af van het type warmtepomp,
                 en de voorwaarden kunnen wijzigen. Tijdens de energiescan bespreken we wat er op dat moment voor jouw
                 woning geldt. Gijs kan je daarna helpen met de subsidieaanvraag.
+              </p>
+              <p>
+                Vanaf 2027 verandert de ISDE voor warmtepompen naar verwachting. Lees{" "}
+                <Link href="/kennis/slimme-warmtepomp-subsidie-2027" className={TEKSTLINK}>wat er verandert voor slimme warmtepompen</Link>.
               </p>
               <p className="text-sm">
                 Meer weten over de landelijke ISDE-regeling? Bekijk de{" "}

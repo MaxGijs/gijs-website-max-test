@@ -48,6 +48,10 @@ const LICHT_KLEUR = new Color("#3fd18f");
 const GEEN: string[] = [];
 /** Twee rustige pulsen bij het oplichten, daarna een vaste zachte gloed. */
 const LICHT_PULS = 2400;
+/** Beeldverhouding (breedte/hoogte) waarvoor de camerastanden zijn gemaakt; smaller = camera iets terug. */
+const BREED_KADER = 0.95;
+/** Hoe ver de camera hooguit terug mag: net genoeg om afsnijden te voorkomen, de woning blijft groot in beeld. */
+const MAX_TERUG = 1.25;
 const MAATREGELEN = ["zonnepanelen", "warmtepomp", "dakisolatie", "gevelisolatie", "vloerisolatie", "glas-kozijnen", "vloerverwarming", "thuisbatterij"];
 
 /**
@@ -63,6 +67,8 @@ type Props = {
   replayCrew?: number;
   /** 0 = geen dakkapel, 1 of 2 = zoveel dakkapellen tonen. */
   dakkapelAantal?: number;
+  /** Bij één dakkapel: aan welk dakvlak. Standaard achter; de woningscan zet hem voor, zodat hij in beeld is. */
+  dakkapelZijde?: "voor" | "achter";
   /** Standaard true; heeft alleen zichtbaar effect bij een vrijstaand-achtig woningtype (de garage-groep). */
   garageAanwezig?: boolean;
   /** Standaard false: de illustratieve aanbouw tegen de achtergevel, alleen in de scan. */
@@ -87,6 +93,8 @@ type Props = {
   onBekijkWoning?: () => void;
   /** Vult de hele (sticky) kolom zoals de homepage-woning, zonder kaart eromheen. */
   vol?: boolean;
+  /** Zonder de scan-extra's (monteur-knop en vóór/na-vergelijking), bijv. op de regiopagina's. */
+  zonderExtras?: boolean;
   /**
    * Rondom: de hele woning blijft in beeld; de camera draait eromheen naar het onderdeel van `focus`
    * en dat onderdeel licht op, in plaats van in te zoomen.
@@ -96,11 +104,23 @@ type Props = {
   verwarming?: string[];
   /** Gekozen warmteafgifte (AFGIFTE_OPTIES): convectorputten verschijnen, radiatoren lichten op. */
   afgifte?: string[];
+  /**
+   * Zonder monteur (woningscan, Max 17-11-2026): spouwisolatie is meteen gevuld, er rijdt geen bus en er
+   * staat geen monteur; de camera zoomt direct in op de opengeschoven muur.
+   */
+  zonderMonteur?: boolean;
+  /** Op een gekleurd paneel (stap 2 van de scan): geen wit vlak achter de woning, alleen een zachte gloed. */
+  opPaneel?: boolean;
+  /** Kleiner kader (woningrapport): de woning ondersteunt, het rapport staat voorop. */
+  klein?: boolean;
+  /** Het onderdeel van `focus` licht ook op bij inzoomen (niet alleen bij rondom): stap 2 van de scan. */
+  oplichten?: boolean;
 };
 
 type ModelProps = Props & { onLoaded: () => void };
 
-function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 1, garageAanwezig = true, aanbouwAanwezig = false, hoekZijde, cutawayOpen = true, focus = null, kruipruimte = null, spouwmuur = null, rondom = false, verwarming = GEEN, afgifte = GEEN }: ModelProps) {
+function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 1, garageAanwezig = true, aanbouwAanwezig = false, dakkapelZijde = "achter", hoekZijde, cutawayOpen = true, focus = null, kruipruimte = null, spouwmuur = null, rondom = false, verwarming = GEEN, afgifte = GEEN, zonderMonteur = false, oplichten = false }: ModelProps) {
+  const monteur = !zonderMonteur;
   const { draft } = useWoningDraft();
   const type = draft.houseType;
   const gltf = useLoader(GLTFLoader, HOUSE_MODELS[type].url);
@@ -238,7 +258,7 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
   const initialized = useRef(false);
   const reduced = useRef(false);
   const glasKleur = useMemo(() => new Color("#6eb5cd"), []);
-  const { camera, invalidate } = useThree();
+  const { camera, invalidate, size } = useThree();
 
   // Wat er nu in de woning staat: gekozen/aanwezige maatregelen, plus de maatregel die je net bekijkt
   // (via een vraag of een vinkje) — die verschijnt dan alvast, zoals bij de homepage-hoofdstukken.
@@ -261,17 +281,20 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
   const camKey = focus === "dakkapel" && dakkapelAantal >= 2 ? "dakkapellen" : focus === "pomp" && aanbouwAanwezig ? "pompAanbouw"
     : focus === "batterij" && batterijOpZolder ? "batterijZolder" : focus ?? "overview";
   const camRondom = rondom && focus !== null;
-  const lichtRe = camRondom && focus ? LICHT[voorbeeld ?? focus] : undefined;
+  // Oplichten: bij rondom altijd, en bij inzoomen als de scan daarom vraagt (aangevinkt onderdeel in stap 2).
+  const licht = camRondom || (oplichten && focus !== null);
+  const lichtRe = licht && focus ? LICHT[voorbeeld ?? focus] : undefined;
   const lichtStart = useRef(0);
   useEffect(() => { lichtStart.current = performance.now(); invalidate(); }, [lichtRe, invalidate]);
   useEffect(() => {
     const o = overgang.current;
-    const naar = (camRondom ? route.rondom : route.standen)[camKey];
+    // Zonder monteur: bij spouwisolatie meteen naar het zijaanzicht van de opengeschoven muur.
+    const naar = (camRondom ? route.rondom : route.standen)[!monteur && camKey === "spouw" && !camRondom ? "spouwmuur" : camKey];
     // Snel achter elkaar klikken: de lopende beweging gaat vloeiend over in een kortere nieuwe.
     const snel = o.tl !== null;
     o.tl?.cancel();
     o.tl = null;
-    o.vervolg = camKey === "spouw" && !camRondom ? { naar: route.standen.spouwmuur, op: performance.now() + SPOUW_VOL_MS } : null;
+    o.vervolg = monteur && camKey === "spouw" && !camRondom ? { naar: route.standen.spouwmuur, op: performance.now() + SPOUW_VOL_MS } : null;
     if (o.route !== route || reduced.current) {
       o.route = route;
       if (o.vervolg && reduced.current) { o.van = o.naar = o.vervolg.naar; o.vervolg = null; o.huidig.pos.copy(o.naar.pos); o.huidig.look.copy(o.naar.look); cam.current.t = 1; invalidate(); return; }
@@ -290,7 +313,7 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
       o.start = performance.now();
     }
     invalidate();
-  }, [camKey, camRondom, route, invalidate]);
+  }, [camKey, camRondom, route, invalidate, monteur]);
 
   // Eigen beweging per maatregel: dezelfde gelaagde timing als bouwOvergang op de homepage
   // (uit elkaar: buitenste laag eerst; terug: binnenste laag eerst).
@@ -305,7 +328,7 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
     } else {
       const tl = createTimeline({ autoplay: false, composition: false, defaults: { composition: "none", ease: "inOutCubic" } });
       // Bij spouwisolatie pas openschuiven als de spouw vol is (de monteur is na ~3 s klaar).
-      const wacht = focus === "spouw" ? SPOUW_VOL_MS : 0;
+      const wacht = monteur && focus === "spouw" ? SPOUW_VOL_MS : 0;
       for (const l of route.lagen) {
         const doel = l.groep === actieveGroep ? 1 : 0;
         if (doel === l.v) continue;
@@ -317,7 +340,7 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
       o.lagenStart = performance.now();
     }
     invalidate();
-  }, [actieveGroep, focus, route, invalidate]);
+  }, [actieveGroep, focus, route, invalidate, monteur]);
 
   // Vloerverwarming: de leidingen komen van boven en worden óp de begane-grondvloer gelegd; bij een
   // ander onderdeel zakken ze terug in de vloer (daar zitten ze in het echt, onder de afwerkvloer).
@@ -346,17 +369,17 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
   useEffect(() => {
     const c = crewToestand.current;
     if ((spouwAan && !c.aan) || replayCrew !== c.replay || (focus === "spouw" && c.focus !== "spouw")) crewTime.current = 0;
-    if (!spouwAan) crewTime.current = 3.4;
+    if (!spouwAan || !monteur) crewTime.current = 3.4;
     c.aan = spouwAan; c.replay = replayCrew; c.focus = focus;
     invalidate();
-  }, [spouwAan, replayCrew, focus, invalidate]);
+  }, [spouwAan, replayCrew, focus, invalidate, monteur]);
   useEffect(() => {
     const media = matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => { reduced.current = media.matches; invalidate(); };
     update(); media.addEventListener("change", update);
     return () => media.removeEventListener("change", update);
   }, [invalidate]);
-  useEffect(() => { invalidate(); }, [selectedMeasureIds, dakkapelAantal, garageAanwezig, aanbouwAanwezig, cutawayOpen, kruipruimte, spouwmuur, verwarming, invalidate]);
+  useEffect(() => { invalidate(); }, [selectedMeasureIds, dakkapelAantal, dakkapelZijde, garageAanwezig, aanbouwAanwezig, cutawayOpen, kruipruimte, spouwmuur, verwarming, invalidate]);
 
   useFrame((_, rawDelta) => {
     let moving = false;
@@ -384,12 +407,18 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
     if (o.van && o.naar) mengStanden(o.van, o.naar, cam.current.t, route.midden, o.huidig.pos, o.huidig.look);
     camera.position.copy(o.huidig.pos);
     if (cam.current.t > 0 && cam.current.t < 1) camera.position.sub(o.huidig.look).multiplyScalar(1 + 0.22 * Math.sin(Math.PI * cam.current.t)).add(o.huidig.look);
+    o.weergave.copy(camera.position);
+    // Smal of staand kader (de linkerkolom van de scan, het zijpaneel van het woningrapport): de standen
+    // zijn gemaakt voor een breder beeld, dus de woning viel links en rechts buiten beeld. Bij een smaller
+    // kader zet de camera evenredig een stap terug, zodat de hele woning in beeld blijft. Na o.weergave,
+    // anders telt de correctie bij de volgende beweging dubbel.
+    const terug = Math.min(MAX_TERUG, Math.max(1, BREED_KADER / (size.width / Math.max(1, size.height))));
+    if (terug > 1) camera.position.sub(o.huidig.look).multiplyScalar(terug).add(o.huidig.look);
     camera.lookAt(o.huidig.look);
     camera.updateMatrixWorld();
-    o.weergave.copy(camera.position);
 
     // 3. Woningstate: onderdelen rustig in- en uitfaden (begrensde delta, zie MAX_DT).
-    crewTime.current = reduced.current ? 3.4 : Math.min(3.4, crewTime.current + delta * CREW_TEMPO);
+    crewTime.current = reduced.current || !monteur ? 3.4 : Math.min(3.4, crewTime.current + delta * CREW_TEMPO);
     const t = crewTime.current;
     const filling = spouwAan && t < 3;
     const fill = spouwAan ? Math.max(0, Math.min(1, (t - 1) / 2)) : 0;
@@ -405,8 +434,9 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
     // De grond in de kruipruimte zakt weg bij "Kruipruimte: ja" en als je naar de vloer kijkt (daar zakken
     // de vloerlagen in).
     naar("kruip", kruipruimte === "ja" || actieveGroep === "vloer" ? 1 : 0, 5);
-    naar("kapelAchter", dakkapelAantal >= 1 ? 1 : 0, 5);
-    naar("kapelVoor", dakkapelAantal >= 2 ? 1 : 0, 5);
+    const eenVoor = dakkapelAantal === 1 && dakkapelZijde === "voor";
+    naar("kapelAchter", dakkapelAantal >= 2 || (dakkapelAantal === 1 && !eenVoor) ? 1 : 0, 5);
+    naar("kapelVoor", dakkapelAantal >= 2 || eenVoor ? 1 : 0, 5);
     const sinds = nu - lichtStart.current;
     const puls = reduced.current || sinds > LICHT_PULS ? 0 : 0.5 - 0.5 * Math.cos((sinds / LICHT_PULS) * 4 * Math.PI);
     if (lichtRe && puls > 0) moving = true;
@@ -520,14 +550,14 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
     }
     for (const deel of model.plantVoor) deel.visible = !kachelAan;
     // Radiatoren lichten op bij de afgiftekeuze "Normale radiatoren".
-    naar("licht:radiatoren", camRondom && focus === "radiatoren" ? 1 : 0, 6);
+    naar("licht:radiatoren", licht && focus === "radiatoren" ? 1 : 0, 6);
     const radLicht = a["licht:radiatoren"] * (0.4 + 0.3 * puls);
     for (const r of model.radiatoren) {
       r.mat.emissive.copy(r.emissive);
       r.mat.emissiveIntensity = r.intensiteit;
       if (radLicht > .001) { r.mat.emissive.lerp(LICHT_KLEUR, radLicht); r.mat.emissiveIntensity = Math.max(r.intensiteit, 1); }
     }
-    if (camRondom && focus === "radiatoren" && puls > 0) moving = true;
+    if (licht && focus === "radiatoren" && puls > 0) moving = true;
     // Meterkast: dicht, behalve bij stads- of blokverwarming (dan zie je de afleverset erin).
     naar("meterkastDeur", verwarming.includes("Stads- of blokverwarming") || verwarmingVoorbeeld === "Stads- of blokverwarming" ? 1 : 0, 5);
     if (model.meterkastDeur) model.meterkastDeur.rotation.y = -1.75 * a.meterkastDeur;
@@ -546,14 +576,14 @@ function Model({ selectedMeasureIds, onLoaded, replayCrew = 0, dakkapelAantal = 
     }
 
     // 4. De monteur (spouwisolatie).
-    crew.crew.visible = spouwAan && t < 3.4 && !reduced.current;
+    crew.crew.visible = monteur && spouwAan && t < 3.4 && !reduced.current;
     crew.truck.position.x = crew.truckX + (t < 1 ? (1 - t) * -2.4 : t > 3 ? (t - 3) / .4 * 2.4 : 0);
     crew.worker.visible = t >= .4 && t < 3;
     crew.worker.position.z = crew.workerZ + Math.max(0, 1 - (t - .4) / .6) * 1.1;
     crew.pipe.visible = t >= 1 && t < 3; crew.particles.visible = crew.pipe.visible;
     crew.truck.traverse(part => { if ((part as Mesh).isMesh) { const mesh = part as Mesh; for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) { material.transparent = t > 3; material.opacity = t > 3 ? Math.max(0, 1 - (t - 3) / .4) : 1; } } });
     crew.particles.children.forEach((particle, i) => { particle.position.z = .08 + ((t * 3 + i * .17) % 1) * .2; });
-    if (spouwAan && t < 3.4 && !reduced.current) moving = true;
+    if (monteur && spouwAan && t < 3.4 && !reduced.current) moving = true;
 
     if (moving) invalidate();
   });
@@ -579,7 +609,7 @@ const FOCUS_LABEL: Record<Exclude<HouseFocus, null>, string> = {
   cvketel: "de cv-ketel", stadsverwarming: "de aansluiting op stads- of blokverwarming", openhaard: "de open haard of kachel", luchtverwarming: "de luchtverwarming", radiatoren: "de radiatoren", convectorputten: "de convectorputten",
 };
 
-export function HouseViewer({ compact = false, vol = false, onBekijkWoning, ...props }: Props) {
+export function HouseViewer({ compact = false, vol = false, zonderExtras = false, opPaneel = false, klein = false, onBekijkWoning, ...props }: Props) {
   const { draft } = useWoningDraft();
   const [loaded, setLoaded] = useState("");
   const [touch, setTouch] = useState(false);
@@ -597,7 +627,7 @@ export function HouseViewer({ compact = false, vol = false, onBekijkWoning, ...p
     return () => media.removeEventListener("change", update);
   }, []);
   const zijdeLabel = openSide === "links" ? "linkerzijgevel" : openSide === "rechts" ? "rechterzijgevel" : "voorgevel";
-  return <div className={`${styles.viewer} ${compact ? styles.compact : ""} ${vol ? styles.vol : ""} ${props.className ?? ""}`}>
+  return <div className={`${styles.viewer} ${compact ? styles.compact : ""} ${vol ? styles.vol : ""} ${opPaneel ? styles.opPaneel : ""} ${klein ? styles.klein : ""} ${props.className ?? ""}`}>
     <h2 className="sr-only">Illustratieve woningweergave</h2>
     <p className="sr-only" role="status">{HOUSE_MODELS[draft.houseType].label}, schuine doorsnede{cutawayOpen ? `, ${zijdeLabel} geopend` : ", gesloten"}.{props.focus ? ` Weergave gericht op ${FOCUS_LABEL[props.focus]}.` : ""}</p>
     <ViewerBoundary>
@@ -608,7 +638,7 @@ export function HouseViewer({ compact = false, vol = false, onBekijkWoning, ...p
           <Suspense fallback={null}><Model {...props} cutawayOpen={cutawayOpen} focus={props.focus} selectedMeasureIds={compareOriginal ? props.selectedMeasureIds.filter(id => id !== "glas-kozijnen") : props.selectedMeasureIds} replayCrew={replayCrew} onLoaded={onLoaded} /></Suspense>
         </Canvas>
         {loaded !== draft.houseType && <p className={styles.loading} role="status">Je woning wordt geladen…</p>}
-        {!compact && props.selectedMeasureIds.includes("gevelisolatie") && <button type="button" className={styles.crewButton} onClick={() => setReplayCrew(i => i + 1)}>Bekijk de monteur · 2 sec.</button>}
+        {!compact && !zonderExtras && !props.zonderMonteur && props.selectedMeasureIds.includes("gevelisolatie") && <button type="button" className={styles.crewButton} onClick={() => setReplayCrew(i => i + 1)}>Bekijk de monteur · 2 sec.</button>}
         {compact && <button type="button" className={styles.bekijkKnop} onClick={onBekijkWoning}>Bekijk woning</button>}
       </div>
       {!compact && <div className={styles.controls} aria-label="Woning bekijken">
@@ -617,6 +647,6 @@ export function HouseViewer({ compact = false, vol = false, onBekijkWoning, ...p
       </div>}
     </ViewerBoundary>
     {!compact && <p className={styles.caption}><strong>{HOUSE_MODELS[draft.houseType].label}</strong> · Dit is een illustratieve weergave: ze laat zien waar onderdelen ongeveer zitten, maar is geen exacte kopie van jouw eigen woning.{(draft.houseType === "tussenwoning" || draft.houseType === "twee-onder-een-kap" || (draft.houseType === "hoekwoning" && props.hoekZijde)) && " De grijze muur is de gedeelde muur met de buren."}</p>}
-    {!compact && props.selectedMeasureIds.includes("glas-kozijnen") && <details className={styles.profileDetail} onToggle={e => { if (!e.currentTarget.open) setCompareOriginal(false); }}><summary>Bekijk vóór en na →</summary><p>Zo ziet je woning eruit met nieuwe ramen en kozijnen. Wissel hieronder: de kijkhoek blijft hetzelfde.</p><div className={styles.controls}><button aria-pressed={compareOriginal} onClick={() => setCompareOriginal(true)}>Bestaand</button><button aria-pressed={!compareOriginal} onClick={() => setCompareOriginal(false)}>Nieuw</button></div><div className={styles.profileComparison}><div><span className={styles.oldProfile}>Glas</span><strong>Bestaand</strong><p>Een eenvoudig bestaand profiel.</p></div><div><span className={styles.newProfile}>Glas</span><strong>Nieuw · kunststof kozijn</strong><p>Witte profielen met meer diepte en zichtbare glasrubbers.</p></div></div><p>Schematisch detail; kleur en uitvoering bespreek je met Gijs.</p></details>}
+    {!compact && !zonderExtras && props.selectedMeasureIds.includes("glas-kozijnen") && <details className={styles.profileDetail} onToggle={e => { if (!e.currentTarget.open) setCompareOriginal(false); }}><summary>Bekijk vóór en na →</summary><p>Zo ziet je woning eruit met nieuwe ramen en kozijnen. Wissel hieronder: de kijkhoek blijft hetzelfde.</p><div className={styles.controls}><button aria-pressed={compareOriginal} onClick={() => setCompareOriginal(true)}>Bestaand</button><button aria-pressed={!compareOriginal} onClick={() => setCompareOriginal(false)}>Nieuw</button></div><div className={styles.profileComparison}><div><span className={styles.oldProfile}>Glas</span><strong>Bestaand</strong><p>Een eenvoudig bestaand profiel.</p></div><div><span className={styles.newProfile}>Glas</span><strong>Nieuw · kunststof kozijn</strong><p>Witte profielen met meer diepte en zichtbare glasrubbers.</p></div></div><p>Schematisch detail; kleur en uitvoering bespreek je met Gijs.</p></details>}
   </div>;
 }

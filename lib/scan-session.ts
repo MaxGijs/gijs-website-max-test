@@ -162,7 +162,7 @@ export type ScanSession = {
   telefoon: string;
   /** Wanneer goed bereikbaar voor de energiescan-aanvraag; "" = niet gekozen. */
   voorkeursmoment: string;
-  /** Gijs mag over deze aanvraag ook via WhatsApp contact opnemen. Staat standaard aan; de bewoner kan het uitzetten. Geldt alleen voor berichten over de aanvraag, niet voor marketing. */
+  /** Gijs mag over deze aanvraag ook via WhatsApp contact opnemen. Staat standaard uit; de bewoner vinkt het bewust aan. Geldt alleen voor berichten over de aanvraag, niet voor marketing. */
   whatsappToestemming: boolean;
   /** Vrije toelichting bij de aanvraag, bv. "Alleen 's avonds bereikbaar". */
   opmerking: string;
@@ -235,7 +235,7 @@ export const freshScan = (postcode = "", huisnummer = "", houseType: HouseType =
   email: "",
   telefoon: "",
   voorkeursmoment: "",
-  whatsappToestemming: true,
+  whatsappToestemming: false,
   opmerking: "",
   dossierId: "",
   scanAfgerond: false,
@@ -316,7 +316,7 @@ export function readScan(raw: string | null): ScanSession | null {
       email: tekst(v.email, 254),
       telefoon: tekst(v.telefoon, 20),
       voorkeursmoment: typeof v.voorkeursmoment === "string" ? bereikbareDagen(v.voorkeursmoment).join(", ") : "",
-      whatsappToestemming: v.whatsappToestemming !== false,
+      whatsappToestemming: v.whatsappToestemming === true,
       opmerking: tekst(v.opmerking, 500),
       dossierId: typeof v.dossierId === "string" && UUID.test(v.dossierId) ? v.dossierId : "",
       scanAfgerond: v.scanAfgerond === true,

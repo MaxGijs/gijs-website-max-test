@@ -8,13 +8,17 @@ import { RegioWoningscanKnop } from "./RegioWoningscanKnop";
 import { IsolatieInstallatiesSectie } from "./IsolatieInstallatiesSectie";
 import { Woningcijfers } from "./Woningcijfers";
 import { SubsidieSectie, FaqSectie, AdviseurBlok, ADVISEUR_FOTO } from "./VerhaalSecties";
-import { LokaalVerhaalSectie, IsolatieKaartenSectie, PartnerSectie, NatuurSectie } from "./LokaleSecties";
+import { LokaalVerhaalSectie, LokaalRedactioneelSectie, IsolatieKaartenSectie, PartnerSectie, NatuurSectie } from "./LokaleSecties";
+import { WoningsituatieKaartenSectie } from "./WoningsituatieKaartenSectie";
+import { ThomStrook, WoningKeuzeSectie } from "./CompacteSecties";
+import type { PlaatsPagina } from "./plaats-groepen";
 import type { VerhaalKern } from "./GemeenteVerhaalPagina";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
-import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
 import styles from "./regio.module.css";
-import { EYEBROW, SECTIE_BASE, LEAD, TEKST, BRON, BRONLINK, WIT_BLOK, HERO_H1, HERO_INTRO, GijsWatermark, RijkeTekst, RASTER, RASTER_CEL } from "./regio-template-styles";
+import { EYEBROW, SECTIE_BASE, LEAD, TEKST, BRON, BRONLINK, WIT_BLOK, HERO_H1, HERO_INTRO, GijsWatermark, RijkeTekst, RASTER, RASTER_CEL, TEKSTLINK } from "./regio-template-styles";
+import { ENERGIESCAN_HREF } from "@/lib/seo";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 const SECTIE = `${SECTIE_BASE} ${styles.opkomen}`;
 
@@ -102,7 +106,7 @@ function AdviseurTekst({ tekst }: { tekst: Inzichten["adviseur"]["tekst"] }) {
 
 /** Eén sectie met alle woninginformatie: het lokale verhaal, de cijfers (met uitklap voor de
  *  verdieping), de twee keuzekaarten en direct daaronder het persoonlijke adviesblok. */
-function InzichtenSectie({ i, naam }: { i: Inzichten; naam: string }) {
+function InzichtenSectie({ i, naam, skipAdviseur = false }: { i: Inzichten; naam: string; skipAdviseur?: boolean }) {
   return (
     <section id="woninginzichten" className={SECTIE + " mt-8 lg:mt-12"}>
       <div className="rounded-[var(--radius-xl)] bg-[var(--grey-050)] px-4 py-8 sm:p-10 lg:p-10">
@@ -143,9 +147,11 @@ function InzichtenSectie({ i, naam }: { i: Inzichten; naam: string }) {
           ))}
         </ul>
 
-        <AdviseurBlok foto={ADVISEUR_FOTO[i.adviseur.adviseur ?? "thom"]} titel={i.adviseur.h3} knopTekst="Plan een gratis energiescan">
-          <AdviseurTekst tekst={i.adviseur.tekst} />
-        </AdviseurBlok>
+        {!skipAdviseur && (
+          <AdviseurBlok foto={ADVISEUR_FOTO[i.adviseur.adviseur ?? "thom"]} titel={i.adviseur.h3} knopTekst="Vraag een energiescan aan">
+            <AdviseurTekst tekst={i.adviseur.tekst} />
+          </AdviseurBlok>
+        )}
 
         {i.vergunning && (
           <p className="mt-5 text-[14px] leading-relaxed text-[var(--text-muted)] max-w-3xl">
@@ -236,6 +242,7 @@ export function LokaalProfielPagina({
   plaatsSlug,
   crumbs,
   kernen,
+  plaatsPaginas = [],
   officieleSubsidieUrl,
   eigenSecties = false,
 }: {
@@ -250,6 +257,8 @@ export function LokaalProfielPagina({
   plaatsSlug?: string;
   crumbs: { naam: string; url: string }[];
   kernen: VerhaalKern[];
+  /** Alle gepubliceerde plaatspagina's van de gemeente (uit de routebron), voor de plaatsenkiezer. */
+  plaatsPaginas?: PlaatsPagina[];
   officieleSubsidieUrl?: string;
   /** Toont daarnaast de eigen lokale onderdelen van het verhaal (lokaal verhaal, wijken, natuur, kernen met omschrijving). */
   eigenSecties?: boolean;
@@ -261,13 +270,12 @@ export function LokaalProfielPagina({
   const heeftKernen = !!p.buurtschappen && kernen.some(k => k.href || (eigenSecties && v.lokaal.kernTekst[k.slug]));
   const kernenZin = p.hero.kernenZin ?? `Gijs werkt in het dorp ${gemeente} en in`;
   const foto = p.hero.foto;
+  const heeftKaarten = eigenSecties && !!v.woningsituatieKaarten;
   const scanKnop = (className?: string) => <RegioWoningscanKnop provincie={provincie} gemeente={gemeenteSlug} plaats={plaatsSlug} className={className} />;
   const contactRegel = (
-    <div className="flex flex-col items-start gap-4">
+    <div className="flex flex-wrap items-center gap-3">
+      <WhatsAppTrackedButton plaats="regio_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
       {scanKnop()}
-      <Link href="/contact" className="text-[15px] text-[var(--text-muted)] hover:text-[var(--gijs-donkergroen)] no-underline">
-        Liever eerst even overleggen? <span className="font-semibold text-[var(--accent-700)] underline underline-offset-4">Neem contact op</span>
-      </Link>
     </div>
   );
   return (
@@ -310,21 +318,30 @@ export function LokaalProfielPagina({
       )}
 
       <MeasureSectionNav sections={[
+        ...(heeftKaarten || v.compacteOpzet?.woningKeuze ? [{ id: "jouw-woning", label: "Jouw woning" }] : []),
+        { id: "maatregelen", label: "Maatregelen" },
         ...(p.inzichten ? [{ id: "woninginzichten", label: "Woninginzichten" }] : []),
         ...(eigenSecties && v.partner ? [{ id: "samenwerking", label: "Samenwerking" }] : []),
         ...(eigenSecties ? [{ id: "lokaal", label: "Lokaal" }] : []),
-        { id: "maatregelen", label: "Maatregelen" },
         { id: "subsidies", label: "Subsidies" },
         ...(eigenSecties && v.natuur ? [{ id: "natuurvriendelijk-isoleren", label: "Natuur" }] : []),
         ...(heeftKernen ? [{ id: "buurtschappen", label: eigenSecties ? "Plaatsen" : "Buurtschappen" }] : []),
         ...(v.faq.length > 0 ? [{ id: "veelgestelde-vragen", label: "Vragen" }] : []),
       ]} />
 
-      {p.inzichten && <InzichtenSectie i={p.inzichten} naam={naam} />}
-
-      {eigenSecties && v.partner && <PartnerSectie partner={v.partner} className={SECTIE} />}
-      {eigenSecties && <LokaalVerhaalSectie v={v} naam={naam} gemeenteSlug={gemeenteSlug} className={SECTIE} />}
-      {eigenSecties && v.isolatieKaarten && <IsolatieKaartenSectie k={v.isolatieKaarten} className={SECTIE} />}
+      {heeftKaarten && (
+        <WoningsituatieKaartenSectie kaarten={v.woningsituatieKaarten!} naam={naam} gemeente={gemeente} provincie={provincie} gemeenteSlug={gemeenteSlug} plaatsSlug={plaatsSlug} className={SECTIE}>
+          {v.compacteOpzet?.thom && <ThomStrook t={v.compacteOpzet.thom} scanKnop={v.compacteOpzet.thom.alleenEnergiescan ? undefined : scanKnop()} />}
+        </WoningsituatieKaartenSectie>
+      )}
+      {!heeftKaarten && v.compacteOpzet?.woningKeuze && (
+        <WoningKeuzeSectie k={v.compacteOpzet.woningKeuze} naam={naam} scanKnop={scanKnop()} className={SECTIE} />
+      )}
+      {!heeftKaarten && v.compacteOpzet?.thom && (
+        <div className={SECTIE}>
+          <ThomStrook t={v.compacteOpzet.thom} scanKnop={v.compacteOpzet.thom.alleenEnergiescan ? undefined : scanKnop()} />
+        </div>
+      )}
 
       <section id="maatregelen" className={SECTIE}>
         <Kop eyebrow="Van lokale kennis naar actie" titel="Welke maatregelen passen bij jouw woning?"
@@ -339,9 +356,21 @@ export function LokaalProfielPagina({
         } />
       </section>
 
-      <SubsidieSectie naamVoorKop={naam} gemeente={gemeente} officieleSubsidieUrl={officieleSubsidieUrl} className={SECTIE} />
+      {p.inzichten && <InzichtenSectie i={p.inzichten} naam={naam} skipAdviseur={heeftKaarten} />}
 
-      {eigenSecties && v.natuur && <NatuurSectie natuur={v.natuur} className={SECTIE} />}
+      {eigenSecties && (
+        <>
+          {v.partner && <PartnerSectie partner={v.partner} className={SECTIE} />}
+          {v.compacteOpzet?.lokaalAlineas
+            ? <LokaalRedactioneelSectie v={v} alineas={v.compacteOpzet.lokaalAlineas} naam={naam} gemeenteSlug={gemeenteSlug} className={SECTIE} />
+            : <LokaalVerhaalSectie v={v} naam={naam} gemeenteSlug={gemeenteSlug} className={SECTIE} />}
+          {v.isolatieKaarten && <IsolatieKaartenSectie k={v.isolatieKaarten} className={SECTIE} />}
+        </>
+      )}
+
+      <SubsidieSectie naamVoorKop={naam} gemeente={gemeente} officieleSubsidieUrl={officieleSubsidieUrl} className={SECTIE} rustig={heeftKaarten} />
+
+      {eigenSecties && v.natuur && <NatuurSectie natuur={v.natuur} className={SECTIE} rustig={heeftKaarten} />}
 
       {p.buurtschappen && heeftKernen && (
         <Kernen b={p.buurtschappen} kernen={kernen} eyebrow={p.buurtschappen.eyebrow ?? `Rond het dorp ${gemeente}`}
@@ -355,7 +384,7 @@ export function LokaalProfielPagina({
           <p className="max-w-xl text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.6] text-zinc-700 [text-wrap:pretty]">{p.afsluiting.tekst}</p>
           <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
             {p.afsluiting.scanKnop && scanKnop()}
-            <Button href="/contact#energiescan" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className="self-start shrink-0">Plan een gratis energiescan</Button>
+            <WhatsAppTrackedButton plaats="regio_afsluiting" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className="self-start shrink-0">Vraag een energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
-import { Button } from "@/components/ds/core/Button";
 import { Badge } from "@/components/ds/core/Badge";
 import { Icon } from "@/components/ds/core/Icon";
 import { EnergiescanUitleg } from "@/components/home/EnergiescanUitleg";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 export default function EnergyScanCTA() {
   return (
@@ -24,9 +24,9 @@ export default function EnergyScanCTA() {
           Bespreek je huis en je wensen met een adviseur van Gijs. Je digitale
           woningplan helpt je om het gesprek voor te bereiden.
         </p>
-        <Button href="/contact#energiescan" variant="secondary" size="lg" iconRight="arrow-right">
+        <WhatsAppTrackedButton plaats="homepage_energiescan" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" variant="secondary" size="lg" iconRight="arrow-right">
           Vraag een gratis energiescan aan
-        </Button>
+        </WhatsAppTrackedButton>
         <EnergiescanUitleg className="max-w-md" />
       </div>
     </section>

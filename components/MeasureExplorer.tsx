@@ -1,5 +1,7 @@
 import Link from "next/link";
 import MeasureImage from "./MeasureImage";
+import { OVERGANG_TYPES, titelOvergang } from "@/lib/overgang";
+import { FotoOvergang } from "./FotoOvergang";
 import { MEASURE_PAGES } from "@/lib/content/measure-pages";
 import styles from "./MeasureExplorer.module.css";
 
@@ -34,12 +36,29 @@ export default function MeasureExplorer() {
       <p>Warmte binnenhouden, anders verwarmen of zelf stroom opwekken. Lees wat de mogelijkheden zijn en wat Gijs samen met jou bekijkt.</p>
       {/* UX-CORRECTIERONDE: de losse "Isolatie ↓ / Installaties ↓"
           quick-links die hier stonden, zijn verwijderd — de keuzehulp
-          direct hieronder ("Waar wil je iets aan doen?") vervult dezelfde
+          onderaan ("Waar wil je iets aan doen?") vervult dezelfde
           functie (naar dezelfde #isolatie/#installaties-anchors), maar
           met meer context per vraag. Twee concurrerende manieren om te
           beginnen leidde tot een minder duidelijke eerste indruk; nu is
           er nog maar één duidelijke ingang. */}
     </header>
+    {/* UX-CORRECTIERONDE: subtekst iets herformuleerd zodat het verschil
+        tussen de twee categorieën direct duidelijk is ("houdt warmte
+        binnen" vs. "helpt bij") — zelfde feiten/scope als voorheen (dak/
+        muren/vloer/ramen; opwekken/bewaren/verwarmen), geen nieuwe claim
+        toegevoegd. */}
+    {[
+      { id: "isolatie", title: "Isolaties", text: "Isolaties houden warmte beter binnen via dak, muren, vloer en ramen." },
+      { id: "installaties", title: "Installaties", text: "Installaties helpen je bij verwarmen, zelf stroom opwekken of stroom bewaren." },
+    ].map(group => <section key={group.id} id={group.id} className={styles.category}>
+      <h2>{group.title}</h2><p>{group.text}</p>
+      <div className={styles.cards}>{MEASURE_PAGES.filter(item => item.category === group.id).map(item => <Link id={item.slug} key={item.slug} href={"/maatregelen/"+item.slug} transitionTypes={OVERGANG_TYPES} className={styles.card}>
+        <FotoOvergang id={"maatregel-"+item.slug}><div className={styles.cardImage}><MeasureImage image={item.image} name={item.name}/></div></FotoOvergang>
+        <div className={styles.cardBody}><h3 style={titelOvergang("maatregel-"+item.slug)}>{item.name}</h3><p>{item.result}</p><span>Lees meer over {item.name.toLowerCase()} <span aria-hidden="true">→</span></span></div>
+      </Link>)}</div>
+    </section>)}
+    {/* Keuzehulp onderaan (op verzoek van Max): eerst direct de isolaties en installaties,
+        daarna voor wie nog twijfelt deze ingang per wens. */}
     <div className={styles.orientation}>
       <h2>Waar wil je iets aan doen?</h2>
       <div className={styles.orientationGrid}>
@@ -53,21 +72,6 @@ export default function MeasureExplorer() {
         ))}
       </div>
     </div>
-    {/* UX-CORRECTIERONDE: subtekst iets herformuleerd zodat het verschil
-        tussen de twee categorieën direct duidelijk is ("houdt warmte
-        binnen" vs. "helpt bij") — zelfde feiten/scope als voorheen (dak/
-        muren/vloer/ramen; opwekken/bewaren/verwarmen), geen nieuwe claim
-        toegevoegd. */}
-    {[
-      { id: "isolatie", title: "Isolaties", text: "Isolaties houden warmte beter binnen via dak, muren, vloer en ramen." },
-      { id: "installaties", title: "Installaties", text: "Installaties helpen je bij verwarmen, zelf stroom opwekken of stroom bewaren." },
-    ].map(group => <section key={group.id} id={group.id} className={styles.category}>
-      <h2>{group.title}</h2><p>{group.text}</p>
-      <div className={styles.cards}>{MEASURE_PAGES.filter(item => item.category === group.id).map(item => <Link id={item.slug} key={item.slug} href={"/maatregelen/"+item.slug} className={styles.card}>
-        <div className={styles.cardImage}><MeasureImage image={item.image} name={item.name}/></div>
-        <div className={styles.cardBody}><h3>{item.name}</h3><p>{item.result}</p><span>Lees meer over {item.name.toLowerCase()} <span aria-hidden="true">→</span></span></div>
-      </Link>)}</div>
-    </section>)}
     <section className={styles.cta}><div><h2>Twijfel je wat past?</h2><p>Je hoeft nog geen maatregel of merk te kiezen. Start de woningscan en ontdek wat bij jouw woning past.</p></div><Link className={styles.button} href="/woning">Start de woningscan →</Link></section>
   </div>;
 }

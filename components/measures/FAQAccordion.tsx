@@ -1,8 +1,33 @@
+import { Fragment } from "react";
+import Link from "next/link";
 import { Accordion } from "@/components/ds/navigation/Accordion";
 import { JsonLd } from "@/components/SeoSchema";
 
-/** punten: optionele opsomming onder het antwoord (bv. voorbereiding en voorwaarden). */
-export type FAQItem = { question: string; answer: string; punten?: string[] };
+/** punten: optionele opsomming onder het antwoord (bv. voorbereiding en voorwaarden).
+ *  links: optionele interne links onder het antwoord (niet in de structured data). */
+export type FAQItem = { question: string; answer: string; punten?: string[]; links?: { tekst: string; href: string }[] };
+
+const LINK = "text-[var(--accent-700)] underline underline-offset-2 decoration-[var(--accent-200)] hover:decoration-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]";
+
+function Antwoord({ item }: { item: FAQItem }) {
+  return (
+    <>
+      <p>{item.answer}</p>
+      {!!item.punten?.length && <ul className="mt-3 flex list-disc flex-col gap-2 pl-5">{item.punten.map(punt => <li key={punt}>{punt}</li>)}</ul>}
+      {!!item.links?.length && (
+        <p className="mt-3">
+          Bekijk ook:{" "}
+          {item.links.map((l, i) => (
+            <Fragment key={l.href}>
+              {i > 0 && (i === item.links!.length - 1 ? " en " : ", ")}
+              <Link href={l.href} className={LINK}>{l.tekst}</Link>
+            </Fragment>
+          ))}.
+        </p>
+      )}
+    </>
+  );
+}
 
 // Dunne wrapper om de bestaande GIJS Design System Accordion — geen
 // nieuwe visuele stijl, alleen een simpeler {question, answer}[]-contract
@@ -32,9 +57,7 @@ export function FAQAccordion({ items, className }: { items: FAQItem[]; className
         items={items.map((item, i) => ({
           id: `faq-${i}`,
           question: item.question,
-          answer: item.punten?.length
-            ? <><p>{item.answer}</p><ul className="mt-3 flex list-disc flex-col gap-2 pl-5">{item.punten.map(punt => <li key={punt}>{punt}</li>)}</ul></>
-            : <p>{item.answer}</p>,
+          answer: <Antwoord item={item} />,
         }))}
       />
     </>

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ds/core/Badge";
 import { StatRow } from "@/components/measures/StatRow";
 import { WONINGVOORRAAD_GEMEENTEN, type WoningvoorraadGemeente } from "@/lib/content/regio-woningvoorraad";
 import { EnergiescanUitleg } from "@/components/home/EnergiescanUitleg";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 // Gedeelde blokken voor de regio-templates (provincie, gemeente, plaats).
 // Alle teksten komen uit bestaande, bevestigde Gijs-content (maatregel-
@@ -238,9 +239,9 @@ export function EnergiescanBlok() {
         <p className="max-w-xl text-zinc-700">
           Een adviseur van Gijs bekijkt je woning en bespreekt met je welke maatregelen technisch passen.
         </p>
-        <Button href="/contact#energiescan" variant="secondary" size="lg" iconRight="arrow-right">
+        <WhatsAppTrackedButton plaats="regio_energiescan_blok" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" variant="secondary" size="lg" iconRight="arrow-right">
           Vraag een gratis energiescan aan
-        </Button>
+        </WhatsAppTrackedButton>
         <EnergiescanUitleg className="max-w-md" />
       </div>
     </section>

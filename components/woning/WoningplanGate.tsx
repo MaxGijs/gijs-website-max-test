@@ -16,7 +16,7 @@ const EMAIL_PATROON = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const ONTGRENDEL_FOUT = "Kon niet worden opgeslagen. Probeer het opnieuw of bel Gijs.";
 
 const CHECKLIST = [
-  { icon: "wallet", tekst: "Geschatte investeringskosten" },
+  { icon: "wallet", tekst: "Prijsindicatie per maatregel" },
   { icon: "percent", tekst: "Mogelijke subsidies voor jouw woning" },
   { icon: "trending-up", tekst: "Mogelijke stijging van je woningwaarde" },
   { icon: "piggy-bank", tekst: "Verwachte besparing en terugverdientijd" },
@@ -51,9 +51,11 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
     if (Object.keys(nieuweFouten).length) { setFout(nieuweFouten); return; }
     setBezig(true);
     setFout({});
-    const { ontgrendeld, fout: serverFout } = await ontgrendelWoningplan(sessieJson(), emailWaarde, telefoonWaarde, honeypotRef.current?.value)
-      .catch((error) => { logError("woningplan_ontgrendeling", error); return { ontgrendeld: false, fout: ONTGRENDEL_FOUT }; });
+    const { ontgrendeld, fout: serverFout, lokaal } = await ontgrendelWoningplan(sessieJson(), emailWaarde, telefoonWaarde, honeypotRef.current?.value)
+      .catch((error): { ontgrendeld: boolean; fout?: string; lokaal?: boolean } => { logError("woningplan_ontgrendeling", error); return { ontgrendeld: false, fout: ONTGRENDEL_FOUT }; });
     setBezig(false);
+    // Lokale test (localhost of next dev): niets opgeslagen en geen meldmail, dus ook geen lead-events.
+    if (ontgrendeld && lokaal) { console.info("[lokaal] Woningplan ontgrendeld zonder opslag of meldmail."); onOntgrendeld(emailWaarde, telefoonWaarde); return; }
     if (ontgrendeld) {
       // woningplan_uitgebreid_ontgrendeld: historische naam behouden voor bestaande GTM-triggers.
       // woningplan_unlocked: nieuwe, canonieke naam voor GA4-rapportage (gebruik díe als conversie).
@@ -107,8 +109,9 @@ export function WoningplanGate({ sessieJson, onOntgrendeld }: { sessieJson: () =
         </div>
         <Button type="submit" variant="primary" size="lg" loading={bezig} disabled={bezig}>{bezig ? "Bezig…" : "Bekijk mijn volledige woningplan"}</Button>
         <p className={styles.kleineNoot}>
-          Vrijblijvend. Je vraagt hiermee nog geen energiescan aan. Je resultaten verschijnen direct na het invullen. Gijs kan contact met je opnemen over
-          de mogelijkheden voor jouw woning — telefonisch als je een nummer invult, anders per e-mail. Lees hoe we met je gegevens omgaan in onze{" "}
+          Vrijblijvend: je vraagt hiermee nog geen energiescan aan en je woningplan staat direct hieronder. Geen nieuwsbrief en geen spam. Gijs kan
+          contact met je opnemen over de mogelijkheden voor jouw woning, telefonisch als je een nummer invult en anders per e-mail. Lees hoe we met je
+          gegevens omgaan in onze{" "}
           <a href="/avg-verklaring" target="_blank" rel="noopener noreferrer" className="underline">privacyverklaring</a>.
         </p>
       </form>

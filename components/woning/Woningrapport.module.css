@@ -1,0 +1,82 @@
+/* Woningrapport (stap 3). Basis uit WoningFlow.module.css (zelfde koppen, grijze kaarten, rijen met foto);
+   hier alleen wat het rapport zelf nodig heeft. Tegels en kolommen altijd even groot. */
+.rapport { display:flex; flex-direction:column; gap:20px; }
+.hoofdKop { margin:0; font-size:clamp(1.5rem,1.2rem+1vw,2rem); font-weight:700; line-height:1.15; letter-spacing:-0.025em; color:var(--gijs-donkergroen); text-wrap:balance; }
+.rapport > .hoofdKop + p { margin-top:-12px; }
+.eyebrow { margin:0; font-size:15px; font-weight:600; letter-spacing:-0.01em; color:var(--accent-700); }
+.blokKop { margin:0; font-size:21px; font-weight:700; letter-spacing:-0.02em; color:var(--gijs-donkergroen); }
+
+/* Compact eerste advies boven de vertrouwde maatregelenlijst van de live scan. */
+.adviesKern { display:grid; gap:16px; padding:24px; border-radius:24px; background:var(--grey-050); }
+.adviesKop { display:flex; align-items:center; gap:16px; }
+.adviesBeeld { width:96px; height:96px; border-radius:12px; object-fit:cover; flex-shrink:0; }
+.adviesNaam { margin:3px 0 0; font-size:23px; font-weight:700; line-height:1.2; letter-spacing:-.02em; color:var(--gijs-donkergroen); }
+.adviesTekst { margin:0; font-size:16px; line-height:1.6; color:var(--grey-800); }
+.adviesTegels { margin:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.adviesTegels>div { padding:12px 14px; border-radius:14px; background:#fff; }
+.adviesTegels dt { font-size:12px; line-height:1.35; color:var(--text-muted); }
+.adviesTegels dd { margin:3px 0 0; font-size:14px; font-weight:700; line-height:1.35; color:var(--gijs-donkergroen); }
+
+/* De belangrijkste kans, standaard open. */
+.hoofdKans { display:flex; flex-direction:column; gap:20px; padding:24px; border-radius:24px; background:var(--grey-050); }
+.hoofdKansKop { display:flex; align-items:center; gap:18px; }
+.hoofdKansBeeld { width:80px; height:80px; border-radius:16px; object-fit:cover; flex-shrink:0; }
+.hoofdKansNaam { margin:2px 0 0; font-size:26px; font-weight:700; letter-spacing:-0.025em; line-height:1.15; color:var(--gijs-donkergroen); }
+.subKop { margin:0 0 6px; font-size:15px; font-weight:700; color:var(--gijs-donkergroen); }
+.waaromTekst { margin:0; font-size:16px; line-height:1.6; color:var(--grey-800); }
+.tegels { margin:0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); grid-auto-rows:1fr; gap:8px; }
+.tegel { display:flex; flex-direction:column; gap:4px; padding:14px; border-radius:16px; background:#fff; }
+.tegel dt { font-size:13px; line-height:1.3; color:var(--text-muted); }
+.tegel dd { margin:0; font-size:16px; font-weight:700; line-height:1.3; letter-spacing:-0.01em; color:var(--gijs-donkergroen); }
+.afgifte { display:flex; gap:10px; align-items:flex-start; margin:0; padding:12px 14px; border-radius:14px; background:#fff; font-size:14px; line-height:1.5; color:var(--gijs-donkergroen); }
+.afgifte :global(.gijs-icon) { margin-top:2px; flex-shrink:0; color:var(--accent-700); }
+.meerLink { display:inline-block; margin-top:8px; font-size:14px; font-weight:600; color:var(--accent-700); text-decoration:underline; }
+.kies :global(.gijs-check) { min-height:52px; align-items:center; background:#fff; }
+
+/* CTA met Thom en Naud. */
+.cta { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:20px; padding:24px; border-radius:24px; background:var(--accent-100); scroll-margin-top:110px; }
+.portretten { display:flex; }
+.portretten .portret + .portret { margin-left:-16px; }
+/* De groene rand zit in het portret zelf; object-contain zodat die zichtbaar blijft. */
+.portret { position:relative; display:block; width:80px; height:80px; border-radius:999px; overflow:hidden; background:#fff; box-shadow:var(--shadow-1); }
+.ctaTekst { display:flex; flex-direction:column; gap:6px; min-width:0; }
+.ctaTekst p { margin:0; font-size:15px; line-height:1.55; color:var(--grey-800); }
+.ctaTekst .ctaKop { font-size:19px; font-weight:700; line-height:1.3; letter-spacing:-0.01em; color:var(--gijs-donkergroen); }
+/* Overige kansen. */
+.kans { display:flex; flex-direction:column; gap:4px; }
+.waarom { margin:0 0 4px; font-size:14px; line-height:1.55; color:var(--grey-800); }
+.waarom summary { cursor:pointer; min-height:36px; display:flex; align-items:center; font-size:14px; font-weight:600; color:var(--accent-700); }
+.waarom > p { margin:4px 0 8px; }
+.waarom dl div { grid-template-columns:116px 1fr; }
+.later { margin-top:14px; }
+
+/* Waarom eerst integraal advies: kort, twee even brede kolommen. */
+.integraal { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+.integraalIntro { margin:0; font-size:16px; line-height:1.6; color:var(--grey-800); }
+.vergelijking { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+.kolomLos, .kolomGijs { padding:18px; border-radius:20px; }
+.kolomLos { background:var(--grey-050); }
+.kolomGijs { background:var(--accent-100); }
+.kolomKop { margin:0 0 10px; font-size:16px; font-weight:700; color:var(--gijs-donkergroen); }
+.vergelijking ul { list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.vergelijking li { display:flex; gap:10px; align-items:flex-start; font-size:15px; line-height:1.45; color:var(--grey-800); }
+.streep, .vink { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:999px; flex-shrink:0; margin-top:1px; }
+.streep { background:#fff; color:var(--text-muted); }
+.vink { background:var(--gijs-accentgroen, var(--accent-600)); color:#fff; }
+
+.rapport summary:focus-visible, .rapport a:focus-visible { outline:3px solid var(--accent-600); outline-offset:3px; }
+
+@media (max-width:640px) {
+  .tegels { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .cta { grid-template-columns:1fr; }
+  .vergelijking { grid-template-columns:1fr; }
+  .hoofdKans { padding:18px; }
+}
+@media (min-width:641px) and (max-width:900px) {
+  .tegels { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+/* Bredere hoofdkolom (18-11-2026): tegels en kop van het eerste advies iets groter. */
+.adviesNaam { font-size:26px; }
+.adviesTegels > div { padding:14px 16px; }
+.adviesTegels dt { font-size:13px; }
+.adviesTegels dd { font-size:17px; }

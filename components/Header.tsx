@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ds/core/Icon";
 import { Button } from "@/components/ds/core/Button";
 import SocialLinks from "@/components/SocialLinks";
-import WhatsAppButton, { WhatsAppIcon, useWhatsAppLink } from "@/components/WhatsAppButton";
+import WhatsAppButton, { WhatsAppIcon, useWhatsAppLink, meldWhatsAppKlik } from "@/components/WhatsAppButton";
 import styles from "./Header.module.css";
 
 type NavLink = { label: string; href: string; external?: boolean };
@@ -301,6 +301,7 @@ export default function Header() {
         <div className={styles.social}>
           <SocialLinks />
           <a href={whatsapp.href} target={whatsapp.nieuwTabblad ? "_blank" : undefined} rel={whatsapp.nieuwTabblad ? "noopener noreferrer" : undefined} aria-label={whatsapp.label}
+            onClick={() => meldWhatsAppKlik(whatsapp.nieuwTabblad, "header")}
             className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-current hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2">
             <WhatsAppIcon size={22} />
           </a>
@@ -408,6 +409,7 @@ export default function Header() {
           <div className="mt-4 flex items-center gap-3">
             <SocialLinks />
             <a href={whatsapp.href} target={whatsapp.nieuwTabblad ? "_blank" : undefined} rel={whatsapp.nieuwTabblad ? "noopener noreferrer" : undefined} aria-label={whatsapp.label}
+              onClick={() => meldWhatsAppKlik(whatsapp.nieuwTabblad, "header")}
               className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-current hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2">
               <WhatsAppIcon size={22} />
             </a>

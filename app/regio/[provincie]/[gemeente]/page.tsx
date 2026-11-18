@@ -69,12 +69,13 @@ export default async function GemeentePage({ params }: Props) {
       const href = k.slug !== g.slug && k.gepubliceerd ? regioPad(p.slug, g.slug, k.slug) : undefined;
       return [{ slug: k.slug, naam: k.naam, afbeelding: k.afbeelding, href }];
     });
+    const plaatsPaginas = plaatsen.filter(k => k.slug !== g.slug && k.gepubliceerd).map(k => ({ slug: k.slug, naam: k.naam, href: regioPad(p.slug, g.slug, k.slug) }));
     const lokaalProfiel = verhaal.lokaalProfiel;
     if (lokaalProfiel) {
       return (
         <>
           <Header />
-          <LokaalProfielPagina verhaal={{ ...verhaal, lokaalProfiel }} provincie={p.slug} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
+          <LokaalProfielPagina verhaal={{ ...verhaal, lokaalProfiel }} provincie={p.slug} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} plaatsPaginas={plaatsPaginas} officieleSubsidieUrl={g.officieleSubsidieUrl} />
           <Footer />
         </>
       );
@@ -82,7 +83,7 @@ export default async function GemeentePage({ params }: Props) {
     return (
       <>
         <Header />
-        <GemeenteVerhaalPagina verhaal={verhaal} provincie={p.slug} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} officieleSubsidieUrl={g.officieleSubsidieUrl} />
+        <GemeenteVerhaalPagina verhaal={verhaal} provincie={p.slug} gemeente={g.naam} gemeenteSlug={g.slug} crumbs={crumbs} kernen={kernen} plaatsPaginas={plaatsPaginas} officieleSubsidieUrl={g.officieleSubsidieUrl} />
         <Footer />
       </>
     );

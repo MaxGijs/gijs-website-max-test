@@ -2,9 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { GemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
 import { cbsWijkenVoor, normaliseerWijknaam } from "@/lib/content/cbs-wijken";
+import { gemeenteHeroAfbeeldingen } from "@/lib/content/gemeente-hero-images";
 import { H2 } from "./RegioBlokken";
 import { Icon } from "@/components/ds/core/Icon";
-import { EYEBROW, LEAD, TEKST, BRON, BRONLINK, GRIJS_BLOK, WIT_BLOK, KAART_HOVER, RijkeTekst, RASTER, RASTER_CEL } from "./regio-template-styles";
+import type { Alinea } from "@/lib/content/regio-lokaal";
+import { EYEBROW, LEAD, TEKST, BRON, BRONLINK, GRIJS_BLOK, WIT_BLOK, KAART_HOVER, TEKSTLINK, RijkeTekst, RASTER, RASTER_CEL } from "./regio-template-styles";
 
 // De eigen lokale onderdelen van een gemeente- of plaatsverhaal, in het ontwerp van de
 // gedeelde lokale pagina. Alles komt uit het verhaal zelf; ontbreekt een onderdeel, dan wordt het niet getoond.
@@ -227,6 +229,42 @@ export function LokaalVerhaalSectie({ v, naam, gemeenteSlug, className }: { v: G
   );
 }
 
+/** Rustige variant van het lokale verhaal: lopende tekst met een foto, en daaronder alle kernen en
+ *  wijken als één compacte lijst (vervangt de bekend-van-kaarten, wijkkaarten en de aparte plaatsenlijst). */
+export function LokaalRedactioneelSectie({ v, alineas, naam, gemeenteSlug, className }: {
+  v: GemeenteVerhaal;
+  alineas: Alinea[];
+  naam: string;
+  gemeenteSlug: string;
+  className: string;
+}) {
+  const foto = gemeenteHeroAfbeeldingen[gemeenteSlug];
+  return (
+    <section id="lokaal" className={className}>
+      <div className={`grid grid-cols-1 gap-10 ${foto ? "lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16 lg:items-stretch" : ""}`}>
+        <div className="flex flex-col gap-5 max-w-2xl">
+          <p className={EYEBROW}>Lokaal in {naam}</p>
+          <h2 className={H2}>{v.lokaal.titel}</h2>
+          {alineas.map((a, n) => <RijkeTekst key={n} alinea={a} className={TEKST} />)}
+        </div>
+        {foto && (
+          <figure className="m-0 flex flex-col">
+            <div className="relative aspect-[4/3] lg:aspect-auto lg:flex-1 lg:min-h-[340px] w-full overflow-hidden rounded-[var(--radius-xl)] bg-[var(--grey-050)]">
+              <Image src={foto.src} alt={foto.alt ?? `Sfeerbeeld van ${naam}`} fill sizes="(max-width: 1024px) 100vw, 40vw" className="object-cover" style={{ objectPosition: "50% 55%" }} />
+            </div>
+            {foto.author && (
+              <figcaption className="mt-3 text-[12px] text-zinc-500">
+                Foto: {foto.author}{foto.license && <>, {foto.licenseUrl ? <a href={foto.licenseUrl} target="_blank" rel="noopener noreferrer" className={BRONLINK}>{foto.license}</a> : foto.license}</>}
+              </figcaption>
+            )}
+          </figure>
+        )}
+      </div>
+
+    </section>
+  );
+}
+
 /** Vier isolatiekaarten met foto, direct na het lokale verhaal. */
 export function IsolatieKaartenSectie({ k, className }: { k: NonNullable<GemeenteVerhaal["isolatieKaarten"]>; className: string }) {
   return (
@@ -279,7 +317,35 @@ export function PartnerSectie({ partner, className }: { partner: NonNullable<Gem
 }
 
 /** Lokaal onderwerp: natuurvriendelijk isoleren. */
-export function NatuurSectie({ natuur, className }: { natuur: NonNullable<GemeenteVerhaal["natuur"]>; className: string }) {
+export function NatuurSectie({ natuur, className, rustig = false }: { natuur: NonNullable<GemeenteVerhaal["natuur"]>; className: string; rustig?: boolean }) {
+  if (rustig) return (
+    <section id="natuurvriendelijk-isoleren" className={className}>
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] gap-10 lg:gap-16 items-start">
+        <div className="flex flex-col gap-4">
+          <p className={EYEBROW}>Natuurvriendelijk isoleren</p>
+          <h2 className={H2}>{natuur.titel}</h2>
+          <p className={TEKST}>{natuur.lead}</p>
+        </div>
+        <div>
+          <ol className="flex flex-col border-t border-[var(--border-default)]">
+            {natuur.stappen.map((s, n) => (
+              <li key={s.titel} className="grid grid-cols-[2rem_1fr] gap-x-3 border-b border-[var(--border-default)] py-4">
+                <span className="text-[15px] font-semibold tabular-nums text-[var(--accent-700)]">{n + 1}.</span>
+                <span className="flex flex-col gap-1">
+                  <span className="text-[17px] font-semibold tracking-[-0.01em] text-[var(--gijs-donkergroen)]">{s.titel}</span>
+                  <span className={KAARTTEKST}>{s.tekst}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+          <p className={KAARTTEKST + " mt-5"}>{natuur.zelf}</p>
+          <p className={BRON + " mt-3"}>
+            Bron: <a href={natuur.bron.url} target="_blank" rel="noopener noreferrer" className={BRONLINK}>{natuur.bron.naam}</a>.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
   return (
     <section id="natuurvriendelijk-isoleren" className={className}>
       <div className={GRIJS_BLOK + " grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-10 items-start"}>

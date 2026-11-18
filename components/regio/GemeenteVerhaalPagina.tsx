@@ -2,6 +2,7 @@ import type { GemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
 import { sfeerFoto } from "@/lib/content/hero-sfeerfoto";
 import { leidProfielAf } from "@/lib/content/lokaal-profiel-adapter";
 import { LokaalProfielPagina } from "./LokaalProfielPagina";
+import type { PlaatsPagina } from "./plaats-groepen";
 
 export type VerhaalKern = { slug: string; naam: string; afbeelding?: string; href?: string };
 
@@ -16,6 +17,7 @@ export function GemeenteVerhaalPagina({
   plaatsSlug,
   crumbs,
   kernen,
+  plaatsPaginas,
   officieleSubsidieUrl,
 }: {
   verhaal: GemeenteVerhaal;
@@ -27,6 +29,7 @@ export function GemeenteVerhaalPagina({
   plaatsSlug?: string;
   crumbs: { naam: string; url: string }[];
   kernen: VerhaalKern[];
+  plaatsPaginas?: PlaatsPagina[];
   officieleSubsidieUrl?: string;
 }) {
   const naam = plaatsnaam ?? gemeente;
@@ -47,6 +50,7 @@ export function GemeenteVerhaalPagina({
       plaatsSlug={plaatsSlug}
       crumbs={crumbs}
       kernen={kernen}
+      plaatsPaginas={plaatsPaginas}
       officieleSubsidieUrl={officieleSubsidieUrl}
       eigenSecties
     />
