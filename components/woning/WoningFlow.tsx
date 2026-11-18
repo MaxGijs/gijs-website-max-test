@@ -684,7 +684,8 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               <div className={styles.directContact}>
                 <p className={styles.directContactLabel}>Liever direct contact?</p>
                 <a className={styles.directContactBel} href={CONTACT.phoneHref}>Bel {CONTACT.phone}</a>
-                {WHATSAPP_NUMMER && <a className={styles.whatsappLink} href={`https://wa.me/${WHATSAPP_NUMMER}`} target="_blank" rel="noopener noreferrer">Of stuur een bericht via WhatsApp</a>}
+                {/* Deze tekst start de Huisscan-flow in CommuniQate (route "website van Gijs"); gelijk houden met ENERGIESCAN_HREF in lib/seo.ts. */}
+                {WHATSAPP_NUMMER && <a className={styles.whatsappLink} href={`https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een gratis energiescan plannen via de website van Gijs")}`} target="_blank" rel="noopener noreferrer">Of stuur een bericht via WhatsApp</a>}
               </div>
             </section>
               }

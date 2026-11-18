@@ -35,7 +35,7 @@ export default function Contact() {
               plaats="contactpagina_energiescan"
               tekst="Plan via WhatsApp"
               className="gijs-btn gijs-btn--secondary gijs-btn--lg max-w-full !h-auto min-h-[var(--control-h-lg)] py-3 !whitespace-normal text-center"
-              href={WHATSAPP_NUMMER ? `https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een energiescan plannen.")}` : undefined}
+              href={WHATSAPP_NUMMER ? `https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een gratis energiescan plannen via de website van Gijs")}` : undefined}
             />
           </div>
           <EnergiescanUitleg className="max-w-md mt-6" />

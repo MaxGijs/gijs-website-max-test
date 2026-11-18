@@ -239,7 +239,7 @@ export function EnergiescanBlok() {
         <p className="max-w-xl text-zinc-700">
           Een adviseur van Gijs bekijkt je woning en bespreekt met je welke maatregelen technisch passen.
         </p>
-        <WhatsAppTrackedButton plaats="regio_energiescan_blok" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary" size="lg" iconRight="arrow-right">
+        <WhatsAppTrackedButton plaats="regio_energiescan_blok" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" variant="secondary" size="lg" iconRight="arrow-right">
           Vraag een gratis energiescan aan
         </WhatsAppTrackedButton>
         <EnergiescanUitleg className="max-w-md" />

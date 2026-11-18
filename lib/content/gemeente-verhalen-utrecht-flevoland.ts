@@ -1981,7 +1981,7 @@ export const VERHALEN_UTRECHT_FLEVOLAND: Record<string, GemeenteVerhaal> = {
           foto: { src: "https://images.pexels.com/photos/14220363/pexels-photo-14220363.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Vrijstaande woningen in het open polderlandschap" },
         },
         {
-          type: "tussenwoning",
+          type: "rijtjes",
           naam: "Tussenwoning",
           tekst: "Je deelt muren met de buren, maar via het dak en de vloer kan nog warmte verdwijnen. Isolatie helpt je comfortabeler wonen.",
           cta: "Minder warmteverlies",

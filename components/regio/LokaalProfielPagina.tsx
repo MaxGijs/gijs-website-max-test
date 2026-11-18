@@ -384,7 +384,7 @@ export function LokaalProfielPagina({
           <p className="max-w-xl text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.6] text-zinc-700 [text-wrap:pretty]">{p.afsluiting.tekst}</p>
           <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
             {p.afsluiting.scanKnop && scanKnop()}
-            <WhatsAppTrackedButton plaats="regio_afsluiting" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className="self-start shrink-0">Vraag een energiescan aan</WhatsAppTrackedButton>
+            <WhatsAppTrackedButton plaats="regio_afsluiting" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className="self-start shrink-0">Vraag een energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>
       </section>

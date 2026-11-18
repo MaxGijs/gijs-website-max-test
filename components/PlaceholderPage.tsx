@@ -72,7 +72,7 @@ export default function PlaceholderPage({
             <h2>Even samen naar je huis kijken?</h2>
             <p>Bespreek een gratis en vrijblijvende energiescan aan huis, ter waarde van &euro;349.</p>
           </div>
-          <WhatsAppTrackedLink plaats="placeholder_pagina" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" className={styles.secondary}>Vraag een gratis energiescan aan &rarr;</WhatsAppTrackedLink>
+          <WhatsAppTrackedLink plaats="placeholder_pagina" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" className={styles.secondary}>Vraag een gratis energiescan aan &rarr;</WhatsAppTrackedLink>
         </section>
       </main>
       <Footer />

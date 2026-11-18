@@ -25,7 +25,7 @@ export function SubsidieSectie({ titel }: { titel: string }) {
           officiële ISDE-pagina van RVO
         </a>{" "}
         of bekijk de{" "}
-        <WhatsAppTrackedLink plaats="maatregelpagina_subsidiesectie" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">gratis energiescan aan huis</WhatsAppTrackedLink>.
+        <WhatsAppTrackedLink plaats="maatregelpagina_subsidiesectie" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">gratis energiescan aan huis</WhatsAppTrackedLink>.
         {" "}Benieuwd wat er voor jouw woning mogelijk is? Bekijk de{" "}
         <Link href="/subsidiecheck" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">subsidiecheck</Link>.
       </p>

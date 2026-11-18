@@ -9,7 +9,6 @@ export default function ContactForm() {
   const [message, setMessage] = useState("");
   const [versturen, setVersturen] = useState(false);
   const [verstuurd, setVerstuurd] = useState(false);
-  const [lokaal, setLokaal] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const begonnen = useRef(false);
   const vraag = useRef<HTMLTextAreaElement>(null);
@@ -34,21 +33,17 @@ export default function ContactForm() {
     setVersturen(true);
     setMessage("");
     const data = new FormData(event.currentTarget);
-    const { verstuurd: ok, fout, lokaal } = await verstuurContactMail({
+    const { verstuurd: ok, fout } = await verstuurContactMail({
       naam: data.get("name"),
       email: data.get("email"),
       telefoon: data.get("phone"),
       bericht: data.get("message"),
       bedrijf: data.get("company"),
-    }).catch((error): { verstuurd: boolean; fout?: string; lokaal?: boolean } => { logError("contact_form", error); return { verstuurd: false, fout: "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks." }; });
+    }).catch((error) => { logError("contact_form", error); return { verstuurd: false, fout: "Je bericht kon niet worden verstuurd. Bel of mail Gijs rechtstreeks." }; });
     setVersturen(false);
     if (ok) {
-      // Lokale test (localhost/next dev): er is niets verstuurd, dus ook geen lead-event meten.
-      setLokaal(!!lokaal);
-      if (!lokaal) {
-        track({ name: "contact_form_submitted" });
-        track({ name: "lead_created", source: "contactformulier" });
-      }
+      track({ name: "contact_form_submitted" });
+      track({ name: "lead_created", source: "contactformulier" });
       setVerstuurd(true);
       form.current?.reset();
       return;
@@ -61,9 +56,7 @@ export default function ContactForm() {
 
   if (verstuurd) {
     return <div role="status" className="rounded-[var(--radius-md)] bg-white/70 p-6 text-center">
-      {lokaal
-        ? <p className="font-semibold text-[var(--gijs-donkergroen)]">Lokale test geslaagd. Er is niets verstuurd: geen mail en geen lead.</p>
-        : <p className="font-semibold text-[var(--gijs-donkergroen)]">Bedankt voor je bericht. Gijs neemt zo snel mogelijk contact met je op.</p>}
+      <p className="font-semibold text-[var(--gijs-donkergroen)]">Bedankt voor je bericht. Gijs neemt zo snel mogelijk contact met je op.</p>
     </div>;
   }
 

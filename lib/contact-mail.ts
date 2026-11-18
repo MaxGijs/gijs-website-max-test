@@ -2,9 +2,9 @@
 import "server-only";
 
 import { Resend } from "resend";
-import { isLokaleOmgeving, meldGeblokkeerd } from "@/lib/lokale-omgeving";
 import { EMAIL } from "@/lib/opslag-hulp";
 import { magDoorgaan } from "@/lib/rate-limit";
+import { stuurContactDoor } from "@/lib/lead-doorsturen";
 
 // Stuurt het contactformulier (app/contact/page.tsx -> components/ContactForm.tsx) als één
 // interne e-mail naar Gijs. Zelfde architectuur als de energiescanaanvraag
@@ -29,7 +29,7 @@ const escapeHtml = (v: string): string =>
 
 export type ContactInvoer = { naam: unknown; email: unknown; telefoon: unknown; bericht: unknown; bedrijf?: unknown };
 
-export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ verstuurd: boolean; fout?: string; lokaal?: boolean }> {
+export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ verstuurd: boolean; fout?: string }> {
   // Honeypot: "bedrijf" is een veld dat voor mensen onzichtbaar is (zie ContactForm.tsx) maar dat
   // formulier-bots vaak automatisch invullen. Gevuld = bot: doe alsof het gelukt is (geen hint
   // voor de bot dat hij geblokkeerd is), maar verstuur niets.
@@ -45,10 +45,22 @@ export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ vers
   if (!naam) return { verstuurd: false, fout: "Vul je naam in." };
   if (!EMAIL.test(email)) return { verstuurd: false, fout: "Vul een geldig e-mailadres in." };
   if (!bericht) return { verstuurd: false, fout: "Vul je bericht in." };
-  if (await isLokaleOmgeving()) { meldGeblokkeerd("Contactformulier (Resend)"); return { verstuurd: true, lokaal: true }; }
+
+  // Parallel aan de mail ook naar Teamleader (via Make). Doet alleen iets als LEAD_WEBHOOK_URL/-TOKEN
+  // gezet zijn. Komt het bericht via één van beide kanalen aan, dan is het niet verloren en krijgt de
+  // bezoeker geen foutmelding (anders verstuurt hij het nog eens en ontstaat er een dubbele deal).
+  const naarTeamleader = stuurContactDoor({ naam, email, telefoon, bericht }).catch((e) => {
+    console.error("[contact-mail] doorsturen naar Teamleader mislukt:", e);
+    return { doorgestuurd: false };
+  });
+  const uitkomst = async (mailOk: boolean): Promise<{ verstuurd: boolean; fout?: string }> => {
+    const { doorgestuurd } = await naarTeamleader;
+    return mailOk || doorgestuurd ? { verstuurd: true } : { verstuurd: false, fout: OPSLAGFOUT };
+  };
+
   if (!RESEND_API_KEY || !EMAIL_TO || !EMAIL_FROM) {
     console.warn("[contact-mail] RESEND_API_KEY, CONTACT_EMAIL_TO of ENERGIESCAN_EMAIL_FROM ontbreekt; mail niet verstuurd.");
-    return { verstuurd: false, fout: OPSLAGFOUT };
+    return uitkomst(false);
   }
 
   try {
@@ -91,10 +103,10 @@ export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ vers
       html,
       text,
     });
-    if (error) { console.error("[contact-mail] Resend gaf een fout:", error.message); return { verstuurd: false, fout: OPSLAGFOUT }; }
-    return { verstuurd: true };
+    if (error) { console.error("[contact-mail] Resend gaf een fout:", error.message); return uitkomst(false); }
+    return uitkomst(true);
   } catch (e) {
     console.error("[contact-mail] onverwachte fout:", e);
-    return { verstuurd: false, fout: OPSLAGFOUT };
+    return uitkomst(false);
   }
 }
