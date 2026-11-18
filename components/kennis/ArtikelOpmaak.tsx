@@ -29,3 +29,23 @@ export function ArtikelH2({ id, children }: { id: string; children: ReactNode })
     </h2>
   );
 }
+
+export function ArtikelH3({ children }: { children: ReactNode }) {
+  return <h3 className="mt-8 mb-2 text-[clamp(1.125rem,1.05rem+0.4vw,1.375rem)] font-bold leading-snug tracking-[-0.015em] text-[var(--gijs-donkergroen)]">{children}</h3>;
+}
+
+const LINK = "rounded-sm font-semibold text-[var(--accent-700)] underline underline-offset-[3px] decoration-[var(--accent-200)] transition-colors hover:text-[var(--gijs-donkergroen)] hover:decoration-[var(--accent-700)]";
+
+/** Link naar een externe bron: opent in een nieuw tabblad. */
+export function ExterneLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={LINK}>
+      {children}<span className="sr-only"> (opent in nieuw tabblad)</span>
+    </a>
+  );
+}
+
+/** Bronregel onder een sectie, zoals in de PDF: cursief, kleiner. */
+export function Bron({ children }: { children: ReactNode }) {
+  return <p className="text-[15px] italic text-zinc-600">{children}</p>;
+}

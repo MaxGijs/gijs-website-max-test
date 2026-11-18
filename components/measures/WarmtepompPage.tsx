@@ -16,6 +16,7 @@ import {
   RASTER, RASTER_CEL, TEKSTLINK, H3_GROOT, KAARTKOP, KAARTTEKST, UITKLAP, Kop,
 } from "@/components/regio/regio-template-styles";
 import regioStyles from "@/components/regio/regio.module.css";
+import { ArtikelKaarten } from "@/components/kennis/ArtikelKaarten";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { MeasureRegioLink } from "@/components/measures/MeasureRegioLink";
 import { WarmtepompInstallatieAnimatie } from "@/components/measures/WarmtepompInstallatieAnimatie";
@@ -495,10 +496,6 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
                 en de voorwaarden kunnen wijzigen. Tijdens de energiescan bespreken we wat er op dat moment voor jouw
                 woning geldt. Gijs kan je daarna helpen met de subsidieaanvraag.
               </p>
-              <p>
-                Vanaf 2027 verandert de ISDE voor warmtepompen naar verwachting. Lees{" "}
-                <Link href="/kennis/slimme-warmtepomp-subsidie-2027" className={TEKSTLINK}>wat er verandert voor slimme warmtepompen</Link>.
-              </p>
               <p className="text-sm">
                 Meer weten over de landelijke ISDE-regeling? Bekijk de{" "}
                 <a href="https://www.rvo.nl/subsidies-financiering/isde" target="_blank" rel="noopener noreferrer" className={TEKSTLINK}>
@@ -513,6 +510,12 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Kennisartikel over de ISDE-wijzigingen voor 2027, als dezelfde kaart als op /kennis. */}
+      <section id="kennis" className={SECTIE}>
+        <Kop eyebrow="Kennis" titel="Subsidie voor slimme warmtepompen in 2027" />
+        <ArtikelKaarten slugs={["slimme-warmtepomp-subsidie-2027"]} />
       </section>
 
       <section id="veelgestelde-vragen" className={SECTIE}>

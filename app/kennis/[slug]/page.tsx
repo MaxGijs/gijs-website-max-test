@@ -8,6 +8,7 @@ import { RegioBreadcrumb, RegioMain } from "@/components/regio/RegioBlokken";
 import { EYEBROW, HERO_INTRO } from "@/components/regio/regio-template-styles";
 import { ARTIKEL_TEKST, ArtikelFoto } from "@/components/kennis/ArtikelOpmaak";
 import { SlimmeWarmtepompSubsidie2027, SlimmeWarmtepompInleiding } from "@/components/kennis/SlimmeWarmtepompSubsidie2027";
+import { SalderenThuisbatterij2027, SalderenInleiding } from "@/components/kennis/SalderenThuisbatterij2027";
 import { KENNIS_ARTIKELEN, kennisArtikelPad, artikelOvergangId, formatteerDatum } from "@/lib/content/kennis-artikelen";
 import { createMetadata, SITE_URL } from "@/lib/seo";
 import { titelOvergang } from "@/lib/overgang";
@@ -16,6 +17,7 @@ import { titelOvergang } from "@/lib/overgang";
 // component in components/kennis/, en hier koppelen.
 const INHOUD: Record<string, { inleiding: ComponentType<{ className?: string }>; tekst: ComponentType<{ slug: string }> }> = {
   "slimme-warmtepomp-subsidie-2027": { inleiding: SlimmeWarmtepompInleiding, tekst: SlimmeWarmtepompSubsidie2027 },
+  "salderen-stopt-2027-thuisbatterij": { inleiding: SalderenInleiding, tekst: SalderenThuisbatterij2027 },
 };
 
 type Props = { params: Promise<{ slug: string }> };

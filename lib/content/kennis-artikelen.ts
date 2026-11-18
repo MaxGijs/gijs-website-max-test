@@ -17,6 +17,16 @@ export type KennisArtikel = {
 
 export const KENNIS_ARTIKELEN: KennisArtikel[] = [
   {
+    slug: "salderen-stopt-2027-thuisbatterij",
+    titel: "Salderen stopt in 2027, dus een thuisbatterij kopen? Of toch niet?",
+    seoTitel: "Salderen stopt in 2027: thuisbatterij kopen? | Gijs",
+    beschrijving: "Salderen stopt op 1 januari 2027. Is een thuisbatterij dan slim, of bespaar je meer met een andere maatregel? Lees waar je op let.",
+    intro: "Salderen stopt op 1 januari 2027 en steeds meer mensen overwegen een thuisbatterij. Maar levert diezelfde investering elders misschien meer op?",
+    // LET OP: zet dit op de echte livegangdatum als het artikel later dan vandaag online gaat.
+    gepubliceerd: "2026-11-18",
+    afbeelding: { path: "/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png", alt: "Een Gijs-installateur sluit een thuisbatterij aan" },
+  },
+  {
     slug: "slimme-warmtepomp-subsidie-2027",
     titel: "Slimme warmtepomp subsidie vanaf 2027: wat verandert er?",
     seoTitel: "Slimme warmtepomp subsidie 2027: wat verandert er? | Gijs",

@@ -33,8 +33,11 @@ function Kaart({ a, breed }: { a: KennisArtikel; breed: boolean }) {
   );
 }
 
-export function ArtikelKaarten() {
-  const artikelen = [...KENNIS_ARTIKELEN].sort((x, y) => y.gepubliceerd.localeCompare(x.gepubliceerd));
+/** Alle artikelen (op /kennis), of alleen de opgegeven slugs (bijvoorbeeld op een maatregelpagina). */
+export function ArtikelKaarten({ slugs }: { slugs?: string[] } = {}) {
+  const artikelen = KENNIS_ARTIKELEN
+    .filter(a => !slugs || slugs.includes(a.slug))
+    .sort((x, y) => y.gepubliceerd.localeCompare(x.gepubliceerd));
   const n = artikelen.length;
   return (
     <ul className={RASTER + " gap-4 lg:gap-5 list-none p-0 m-0"}>

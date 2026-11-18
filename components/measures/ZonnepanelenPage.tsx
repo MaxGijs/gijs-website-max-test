@@ -10,6 +10,7 @@ import { Button } from "@/components/ds/core/Button";
 import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
+import { ArtikelKaarten } from "@/components/kennis/ArtikelKaarten";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { TechnicalDetails } from "@/components/measures/TechnicalDetails";
@@ -594,6 +595,12 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
           <h2 className={`${H2} mb-2`}>Hoe verloopt de uitvoering?</h2>
           <p className="text-zinc-600 mb-10 max-w-2xl">Gijs plaatst zonnepanelen in één dag, volgens een vaste aanpak.</p>
           <ZonnepanelenInstallatieAnimatie />
+        </section>
+
+        {/* Kennisartikel over het einde van salderen, als dezelfde kaart als op /kennis. */}
+        <section id="kennis" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${styles.opkomen}`}>
+          <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Zonnepanelen en het einde van salderen</h2>
+          <ArtikelKaarten slugs={["salderen-stopt-2027-thuisbatterij"]} />
         </section>
 
         <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER} ${styles.opkomen}`}>
