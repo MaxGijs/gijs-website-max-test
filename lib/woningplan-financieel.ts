@@ -57,7 +57,8 @@ export type FinancieleMaatregel = {
   bouwdeel: keyof Oppervlakten;
   /** Oppervlakte van de RVO-referentiewoning, in m². Bandbreedte als het bouwjaar onbekend is. */
   oppervlakte: Bereik;
-  kosten: Bereik;
+  /** null: geen tarief van Gijs voor deze maatregel (glas): de prijs rekent de adviseur uit. */
+  kosten: Bereik | null;
   subsidie: Bereik;
   /** null: geen onderbouwde besparing voor dit bouwdeel. Anders een bandbreedte (bouwjaar onbekend: per bouwperiode). */
   besparingGasM3: Bereik | null;
@@ -80,7 +81,10 @@ export type FinancieelOverzicht = {
   nogNietBerekenbaar: string[];
   /** Bouwperiode van de referentiewoning; null als het bouwjaar onbekend is (dan bandbreedtes). */
   periode: string | null;
+  /** Investering van de maatregelen mét een tarief van Gijs; maatregelen in zonderPrijs tellen niet mee. */
   bruto: Bereik;
+  /** Maatregelen zonder tarief van Gijs (nu: isolatieglas en kozijnen): wel besparing, geen prijs. */
+  zonderPrijs: IsolatieId[];
   subsidie: Bereik;
   netto: Bereik;
   combinatieTarief: boolean;
@@ -93,7 +97,6 @@ export type FinancieelOverzicht = {
 };
 
 const opTien = (n: number) => Math.round(n / 10) * 10;
-const opHonderd = (n: number) => Math.round(n / 100) * 100;
 const bereik = (waarden: number[]): Bereik => ({ min: Math.min(...waarden), max: Math.max(...waarden) });
 const optelBereik = (a: Bereik, b: Bereik): Bereik => ({ min: a.min + b.min, max: a.max + b.max });
 const isIsolatie = (id: string): id is IsolatieId => (ISOLATIE as string[]).includes(id);
@@ -104,9 +107,14 @@ function referentieperioden(houseType: HouseType, bouwjaar: number | null): Bouw
   return gevonden ? [gevonden] : alle;
 }
 
-function kostenVoor(id: IsolatieId, houseType: HouseType, p: Bouwperiode): number {
-  if (id === "glas-kozijnen") return opHonderd((MC_GLAS.kosten / MC_GLAS.referentieM2) * p.raam);
-  return MC_KENGETALLEN[id][houseType].kosten;
+// De tarieven van Thom zijn leidend (Max, 18-11-2026); de kostenbedragen van Milieu Centraal zijn volgens
+// Thom aan de lage kant. Voor glas heeft Thom (nog) geen tarief aangeleverd, dus daar geen prijs: die rekent de
+// adviseur uit. De gasbesparing van glas komt wel van Milieu Centraal; dat is geen prijs.
+const ZONDER_GIJS_TARIEF: IsolatieId[] = ["glas-kozijnen"];
+
+function kostenVoor(id: IsolatieId, houseType: HouseType): number | null {
+  if (ZONDER_GIJS_TARIEF.includes(id)) return null;
+  return MC_KENGETALLEN[id as BouwdeelMaatregel][houseType].kosten;
 }
 
 function subsidieVoor(id: IsolatieId, m2: number, dubbel: boolean): number {
@@ -150,16 +158,16 @@ export function berekenFinancieelOverzicht(invoer: FinancieleInvoer): Financieel
   const perioden = referentieperioden(houseType, bouwjaar);
   const scenario = (p: Bouwperiode) => ids.map(id => {
     const m2 = p[BOUWDEEL[id]];
-    return { id, m2, kosten: kostenVoor(id, houseType, p), subsidie: subsidieVoor(id, m2, combinatieTarief), besparingGasM3: besparingVoor(id, houseType, p) };
+    return { id, m2, kosten: kostenVoor(id, houseType), subsidie: subsidieVoor(id, m2, combinatieTarief), besparingGasM3: besparingVoor(id, houseType, p) };
   });
   const scenarios = perioden.map(scenario);
-  const totaal = (s: ReturnType<typeof scenario>, veld: "kosten" | "subsidie") => s.reduce((t, m) => t + m[veld], 0);
+  const totaal = (s: ReturnType<typeof scenario>, veld: "kosten" | "subsidie") => s.reduce((t, m) => t + (m[veld] ?? 0), 0);
 
   const maatregelen: FinancieleMaatregel[] = ids.map((id, i) => ({
     id,
     bouwdeel: BOUWDEEL[id],
     oppervlakte: bereik(scenarios.map(s => s[i].m2)),
-    kosten: bereik(scenarios.map(s => s[i].kosten)),
+    kosten: ZONDER_GIJS_TARIEF.includes(id) ? null : bereik(scenarios.map(s => s[i].kosten ?? 0)),
     subsidie: bereik(scenarios.map(s => s[i].subsidie)),
     besparingGasM3: bereik(scenarios.map(s => s[i].besparingGasM3)),
   }));
@@ -170,10 +178,10 @@ export function berekenFinancieelOverzicht(invoer: FinancieleInvoer): Financieel
   // als "al gedaan" is aangevinkt — die filtering gebeurt vóór dit bestand, in de woningscan zelf).
   let besparingReden: string | undefined;
   const pv = primaireVerwarming(invoer.verwarming);
-  if (!gebruiktGas(invoer.verwarming)) besparingReden = "Je woning gebruikt geen aardgas. Wat isoleren op je energierekening scheelt, hangt af van je installatie.";
-  else if (pv === "Hybride warmtepomp") besparingReden = "Met een hybride warmtepomp hangt de besparing af van de verdeling tussen gas en stroom. Die rekenen we door tijdens de energiescan.";
-  else if (pv !== "Cv-ketel") besparingReden = "De besparingscijfers van Milieu Centraal gelden voor een woning met een cv-ketel.";
-  else if (invoer.gasverbruik === null || invoer.gasprijs === null) besparingReden = "Je gasverbruik of gasprijs ontbreekt.";
+  if (!gebruiktGas(invoer.verwarming)) besparingReden = "Je woning gebruikt geen aardgas. Wat isoleren dan scheelt, hangt af van je installatie; dat rekent je adviseur voor je uit.";
+  else if (pv === "Hybride warmtepomp") besparingReden = "Met een hybride warmtepomp hangt de besparing af van de verdeling tussen gas en stroom; die rekent je adviseur voor je uit.";
+  else if (pv !== "Cv-ketel") besparingReden = "Voor jouw manier van verwarmen rekent je adviseur de besparing voor je uit.";
+  else if (invoer.gasverbruik === null || invoer.gasprijs === null) besparingReden = "Zonder gasverbruik rekent je adviseur de besparing voor je uit.";
 
   let besparing: Besparing | null = null;
   if (!besparingReden && ids.length) {
@@ -181,7 +189,7 @@ export function berekenFinancieelOverzicht(invoer: FinancieleInvoer): Financieel
     // Bovengrens uit het eigen verbruik: na isoleren gaat de woning niet onder het gemiddelde verbruik
     // van een goed geïsoleerde woning van hetzelfde type met cv-ketel (Milieu Centraal, verwarming + warm water).
     const ruimte = invoer.gasverbruik! - MC_VERWARMING[houseType].goed.cvKetel.gas;
-    if (ruimte <= 0) besparingReden = "Je gasverbruik ligt al op of onder het gemiddelde van een goed geïsoleerde woning van dit type, dus een extra besparing is niet te onderbouwen.";
+    if (ruimte <= 0) besparingReden = "Je gasverbruik is al laag voor dit woningtype. Of isoleren nog loont, bekijkt je adviseur bij de woningopname.";
     else {
       const begrensd = (n: number) => Math.min(n, ruimte);
       const gasM3 = { min: opTien(begrensd(somGasM3.min)), max: opTien(begrensd(somGasM3.max)) };
@@ -207,13 +215,15 @@ export function berekenFinancieelOverzicht(invoer: FinancieleInvoer): Financieel
   // maatregel (waar het cijfer rechtstreeks van Milieu Centraal komt, zonder optelling).
   let terugverdientijdJaren: number | null = null;
   let terugverdientijdReden: string | undefined;
-  if (!besparing || besparing.euro.max <= 0) terugverdientijdReden = "Zonder onderbouwde besparing is geen terugverdientijd te berekenen.";
+  const zonderPrijs = ids.filter(id => ZONDER_GIJS_TARIEF.includes(id));
+  if (zonderPrijs.length) terugverdientijdReden = "De prijs van een of meer maatregelen rekent je adviseur uit, en daarmee ook de terugverdientijd.";
+  else if (!besparing || besparing.euro.max <= 0) terugverdientijdReden = "Zonder onderbouwde besparing is geen terugverdientijd te berekenen.";
   else terugverdientijdJaren = Math.max(1, Math.round(netto.min / besparing.euro.min));
 
   return {
     maatregelen, nietToepasbaar, nogNietBerekenbaar,
     periode: perioden.length === 1 ? perioden[0].label : null,
-    bruto, subsidie, netto, combinatieTarief,
+    bruto, zonderPrijs, subsidie, netto, combinatieTarief,
     besparing, besparingReden,
     terugverdientijdJaren, terugverdientijdReden,
   };

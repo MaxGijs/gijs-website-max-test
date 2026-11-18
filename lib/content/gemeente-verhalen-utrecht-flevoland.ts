@@ -1960,7 +1960,76 @@ export const VERHALEN_UTRECHT_FLEVOLAND: Record<string, GemeenteVerhaal> = {
       { question: "Is de energiescan aan huis gratis en vrijblijvend?", answer: "Ja. De energiescan is gratis en vrijblijvend, ter waarde van €349. Je bespreekt je woning en wensen met een adviseur." },
       { question: "Moet ik eerst de digitale woningscan doen?", answer: "Nee. Je kunt direct contact opnemen. De digitale woningscan is een optionele voorbereiding, geen technische beoordeling." },
     ],
+    woningsituatieKaarten: {
+      h2: "Wat past bij jouw woning in Zeewolde?",
+      intro: "Zeewolde is jong, maar ook een huis uit de jaren tachtig kan beter. Het bouwjaar en wat er al gedaan is bepalen waar de winst zit.",
+      kaarten: [
+        {
+          type: "ouder",
+          naam: "Gebouwd in de jaren tachtig of negentig",
+          tekst: "De eerste generatie Zeewolde-woningen. Er zit isolatie in, maar dunner dan nu gebruikelijk. Bijisoleren maakt een merkbaar verschil.",
+          cta: "Beter isoleren",
+          href: "/maatregelen/dakisolatie",
+          foto: { src: "/images/regio/woningsituaties/ouder-26950500.jpg", alt: "Bakstenen woning uit de jaren tachtig in een woonstraat" },
+        },
+        {
+          type: "vrijstaand",
+          naam: "Vrijstaande woning",
+          tekst: "Bij een vrijstaand huis kan warmte via alle buitenmuren ontsnappen. Goede isolatie helpt je woning warm te houden en energie te besparen.",
+          cta: "Bekijk de isolatiemogelijkheden",
+          href: "/maatregelen/spouwmuurisolatie",
+          foto: { src: "https://images.pexels.com/photos/14220363/pexels-photo-14220363.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Vrijstaande woningen in het open polderlandschap" },
+        },
+        {
+          type: "tussenwoning",
+          naam: "Tussenwoning",
+          tekst: "Je deelt muren met de buren, maar via het dak en de vloer kan nog warmte verdwijnen. Isolatie helpt je comfortabeler wonen.",
+          cta: "Minder warmteverlies",
+          href: "/maatregelen/vloerisolatie",
+          foto: { src: "/images/regio/woningsituaties/modern-14128509.jpg", alt: "Moderne bakstenen tussenwoningen in een woonwijk" },
+        },
+        {
+          type: "goed-geisoleerd",
+          naam: "Al goed geïsoleerd",
+          tekst: "Dan kun je verder kijken dan isolatie. Met een warmtepomp gebruik je minder gas en met zonnepanelen wek je zelf stroom op.",
+          cta: "De volgende stap",
+          href: "/maatregelen/warmtepomp",
+        },
+      ],
+    },
     verwant: [],
+    compacteOpzet: {
+      woningKeuze: {
+        h2: "Wat past bij jouw woning in Zeewolde?",
+        intro: "Zeewolde is jong, maar ook een huis uit de jaren tachtig kan beter. Het bouwjaar en wat er al gedaan is bepalen waar de winst zit.",
+        rijen: [
+          {
+            titel: "Gebouwd in de jaren tachtig of negentig",
+            tekst: "De eerste generatie Zeewolde-woningen. Er zit isolatie in, maar dunner dan nu gebruikelijk. Bijisoleren maakt een merkbaar verschil.",
+            links: [{ tekst: "Dakisolatie", href: "/maatregelen/dakisolatie" }, { tekst: "Isolatieglas", href: "/maatregelen/isolatieglas" }],
+          },
+          {
+            titel: "Vrijstaand of tussenwoning",
+            tekst: "Bij een vrijstaand huis kan warmte via alle buitenmuren ontsnappen; bij een tussenwoning via dak en vloer. Goede isolatie helpt je woning warm te houden.",
+            links: [{ tekst: "Spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, { tekst: "Vloerisolatie", href: "/maatregelen/vloerisolatie" }],
+          },
+          {
+            titel: "Al goed geïsoleerd",
+            tekst: "Dan kun je verder kijken dan isolatie. Met een warmtepomp gebruik je minder gas en met zonnepanelen wek je zelf stroom op.",
+            links: [{ tekst: "Warmtepomp", href: "/maatregelen/warmtepomp" }, { tekst: "Zonnepanelen", href: "/maatregelen/zonnepanelen" }],
+          },
+        ],
+      },
+      thom: {
+        titel: "Thom komt graag bij je langs.",
+        tekst: "Twijfel je wat verstandig is voor jouw woning? Thom kijkt met je mee en helpt je met de volgende stap.",
+        alleenEnergiescan: true,
+      },
+      lokaalAlineas: [
+        ["Zeewolde heeft 9.858 woningen. Vrijwel geen daarvan is van voor 1975: 45 procent is gebouwd tussen 1975 en 1995 en 55 procent daarna. Omdat de eerste bewoners in 1984 kwamen, gaat het bij die eerste groep om huizen uit de jaren tachtig en het begin van de jaren negentig. Die kregen bij de bouw al isolatie, maar minder dik dan wat nu gebruikelijk is."],
+        ["Van de Flevolandse gemeenten heeft Zeewolde het hoogste aandeel woningen met zonnestroom: 57 procent. Daarnaast is 23 procent van de woningen aangesloten op stadsverwarming. Voor die huizen ligt een warmtepomp minder voor de hand. Bij de andere woningen kan het juist een logische stap zijn, zeker als het huis goed geïsoleerd is."],
+      ],
+    },
   },
   "zeist": {
     seo: { title: "Woning verduurzamen in Zeist | Gijs", description: "In Zeist is 57% van de woningen van voor 1975 en bijna de helft een appartement. Gijs kijkt onafhankelijk wat bij jouw huis past. Gratis scan." },

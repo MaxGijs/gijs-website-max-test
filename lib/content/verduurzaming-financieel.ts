@@ -145,7 +145,7 @@ export const RVO_REFERENTIEWONINGEN: Record<HouseType, Bouwperiode[]> = {
 export const SPOUWMUREN_VANAF = 1930;
 
 export const FINANCIEEL_BRONNEN = {
-  gijsTarieven: { naam: "Gijs-tarieven (Thom)", peildatum: "oktober 2026" },
+  gijsTarieven: { naam: "Tarieven van Gijs", peildatum: "oktober 2026" },
   milieuCentraal: { naam: "Milieu Centraal", peildatum: "14 oktober 2026", url: "https://www.milieucentraal.nl/energie-besparen/isoleren-en-besparen/" },
   rvoIsde: { naam: "RVO (ISDE)", peildatum: "27 oktober 2026", url: "https://www.rvo.nl/subsidies-financiering/isde/woningeigenaren/isolatiemaatregelen" },
   rvoVoorbeeldwoningen: { naam: "RVO Voorbeeldwoningen 2022", url: "https://www.rvo.nl/sites/default/files/2023-01/brochure-voorbeeldwoningen-bestaande-bouw-2022.pdf" },

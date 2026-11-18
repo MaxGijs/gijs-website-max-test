@@ -9,6 +9,7 @@ import { verstuurEnergiescanMail } from "@/lib/energiescan-mail";
 import { stuurLeadDoor } from "@/lib/lead-doorsturen";
 import { magDoorgaan } from "@/lib/rate-limit";
 import { geldigTelefoonnummer } from "./telefoon";
+import { isLokaleOmgeving, meldGeblokkeerd } from "@/lib/lokale-omgeving";
 const TELEFOON_FOUT = "Vul een geldig telefoonnummer in, bijvoorbeeld 06 12345678.";
 
 // Slaat de aanvraag voor een gratis energiescan op in public.energiescanaanvraag,
@@ -31,7 +32,7 @@ const URL_ = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "";
 const SECRET_KEY = process.env.SUPABASE_SECRET_KEY ?? "";
 const OPSLAGFOUT = "De aanvraag kon niet worden opgeslagen. Bel of mail Gijs voor een echte afspraak.";
 
-export async function verstuurEnergiescanAanvraag(ruweSessie: string, honeypot?: string): Promise<{ verstuurd: boolean; fout?: string }> {
+export async function verstuurEnergiescanAanvraag(ruweSessie: string, honeypot?: string): Promise<{ verstuurd: boolean; fout?: string; lokaal?: boolean }> {
   // Honeypot: "honeypot" is een veld dat voor mensen onzichtbaar is (zie WoningFlow.tsx) maar dat
   // formulier-bots vaak automatisch invullen. Gevuld = bot: doe alsof het gelukt is (geen hint
   // voor de bot dat hij geblokkeerd is), maar sla niets op.
@@ -50,6 +51,9 @@ export async function verstuurEnergiescanAanvraag(ruweSessie: string, honeypot?:
   if (!voornaam || !achternaam) return { verstuurd: false, fout: "Vul je voornaam en achternaam in." };
   if (!EMAIL.test(email)) return { verstuurd: false, fout: "Vul een geldig e-mailadres in." };
   if (!geldigTelefoonnummer(telefoon)) return { verstuurd: false, fout: TELEFOON_FOUT };
+  // Lokaal: dezelfde validatie als hierboven, maar geen Supabase-rij, geen mail aan Gijs en geen
+  // Teamleader-lead. De interface toont dan een lokale succesmelding (lokaal: true).
+  if (await isLokaleOmgeving()) { meldGeblokkeerd("Energiescan-aanvraag (Supabase, interne mail, Teamleader)"); return { verstuurd: true, lokaal: true }; }
   if (!URL_ || !SECRET_KEY) { console.warn("[energiescanaanvraag] SUPABASE_SECRET_KEY ontbreekt; niets opgeslagen."); return { verstuurd: false, fout: OPSLAGFOUT }; }
 
   // Zorg dat het woningdossier (en de gekoppelde wensen/maatregelen) up-to-date en "afgerond" zijn

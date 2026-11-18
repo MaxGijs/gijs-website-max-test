@@ -14,6 +14,7 @@
 import "server-only";
 
 import { scanMessage, type ScanSession } from "@/lib/scan-session";
+import { isLokaleOmgeving, meldGeblokkeerd } from "@/lib/lokale-omgeving";
 
 const WEBHOOK_URL = process.env.LEAD_WEBHOOK_URL ?? "";
 const WEBHOOK_TOKEN = process.env.LEAD_WEBHOOK_TOKEN ?? "";
@@ -21,6 +22,8 @@ const WEBHOOK_TOKEN = process.env.LEAD_WEBHOOK_TOKEN ?? "";
 const isMobiel = (nummer: string) => /^(\+31|0031|0)6/.test(nummer.replace(/[\s()-]/g, ""));
 
 export async function stuurLeadDoor(s: ScanSession): Promise<{ doorgestuurd: boolean }> {
+  // Lokaal (localhost of next dev) nooit naar Teamleader, ook niet als de webhook-sleutels lokaal gezet zijn.
+  if (await isLokaleOmgeving()) { meldGeblokkeerd("Teamleader-lead (Make-webhook)"); return { doorgestuurd: false }; }
   if (!WEBHOOK_URL || !WEBHOOK_TOKEN) return { doorgestuurd: false };
 
   const voornaam = s.name.trim();

@@ -19,7 +19,7 @@ export default async function WoningPagina({
             scanstap (zie ook WoningFlow.tsx: de bestaande stap-1-intro is
             hierdoor teruggezet naar een h2, voor precies één h1 per pagina).
             Tekst is de al bestaande, goedgekeurde introtekst van stap 1. */}
-        <div className="max-w-[640px] mx-auto px-6 pt-8">
+        <div className="woning-intro max-w-[640px] mx-auto px-6 pt-8">
           <h1 className="text-[clamp(26px,3vw,40px)] leading-[1.2] font-bold text-[var(--green-900)]">
             Van jouw woning naar een plan.
           </h1>

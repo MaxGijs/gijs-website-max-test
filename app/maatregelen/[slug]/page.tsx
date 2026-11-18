@@ -60,8 +60,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (item.slug === "isolatieglas") {
     return createMetadata(
       "/maatregelen/isolatieglas",
-      "Isolatieglas voor jouw woning | Gijs",
-      "Ontdek welke soorten isolatieglas er zijn, van HR++ glas tot HR+++ glas, en hoe Gijs het glas vervangen verzorgt. Start de woningscan of plan een energiescan.",
+      // SEO-ronde nov. 2026: GSC toont de meeste kansen rond "isolatieglas
+      // (laten) plaatsen" (pos. 19-25) en HR++/triple glas; title en
+      // description volgen nu die plaatsingsintentie en de rol van Gijs.
+      "Isolatieglas laten plaatsen: HR++ of triple glas | Gijs",
+      "Last van kou bij je ramen? Gijs helpt je kiezen tussen HR++ en triple glas en regelt het plaatsen in je bestaande kozijnen, met één vast aanspreekpunt.",
       true,
       { path: "/images/maatregelen/glas/isolatieglas.png", alt: "Monteur van Gijs plaatst isolatieglas in een raam" }
     );
@@ -87,10 +90,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (item.slug === "warmtepomp") {
     return createMetadata(
       "/maatregelen/warmtepomp",
-      "Hybride warmtepomp: besparing, kosten en subsidie | Gijs",
-      "Hoe werkt een hybride warmtepomp, hoeveel gas bespaar je en welke subsidie is er? Gijs plaatst hem in één dag, na een gratis energiescan aan huis.",
+      // Title en description zoals vastgesteld door Max (12-11-2026). De zoektermen (hybride en
+      // volledig elektrische warmtepomp, laten plaatsen, installatie, subsidie, geschiktheid, gas
+      // besparen) staan op natuurlijke wijze in de koppen en teksten van WarmtepompPage.tsx.
+      "Warmtepomp bestaande woning: advies & plaatsing | Gijs",
+      "Ontdek welke warmtepomp bij je bestaande woning past, hoeveel gas je kunt besparen en wat er nodig is. Gijs adviseert én verzorgt de uitvoering.",
       true,
-      { path: "/images/maatregelen/warmtepomp/warmtepomp-hero.png", alt: "Een Gijs-installateur plaatst een hybride warmtepomp tegen de gevel van een woning" }
+      { path: "/images/maatregelen/warmtepomp/warmtepomp-hero.png", alt: "Een installateur van Gijs plaatst een warmtepomp tegen de gevel van een woning" }
     );
   }
   if (item.slug === "thuisbatterij") {

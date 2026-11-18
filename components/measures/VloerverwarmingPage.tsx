@@ -22,6 +22,7 @@ import {
 } from "@/lib/content/vloerverwarming-data";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 import { MeasureCta } from "@/components/measures/MeasureCta";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
@@ -129,7 +130,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
         <span aria-current="page">{title}</span>
       </nav>
 
-      <MeasureHero
+      <MeasureHero overgang={item.slug}
         label="Installaties"
         title="Vloerverwarming voor jouw woning"
         subtitle="Comfortabele warmte vanuit de vloer, zonder radiatoren"
@@ -420,7 +421,7 @@ export function VloerverwarmingPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
+              <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

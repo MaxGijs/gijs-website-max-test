@@ -1,4 +1,4 @@
-import { Button } from "@/components/ds/core/Button";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 type CTA = { label: string; href: string };
 
@@ -22,12 +22,12 @@ export function MeasurePlanCTA({
         <p className="text-zinc-700">{text}</p>
       </div>
       <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-        <Button href={primaryCta.href} variant="accent" size="lg" iconRight="arrow-right">
+        <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={primaryCta.href} variant="accent" size="lg" iconRight="arrow-right">
           {primaryCta.label}
-        </Button>
-        <Button href={secondaryCta.href} variant="secondary" size="lg">
+        </WhatsAppTrackedButton>
+        <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={secondaryCta.href} variant="secondary" size="lg">
           {secondaryCta.label}
-        </Button>
+        </WhatsAppTrackedButton>
       </div>
     </section>
   );

@@ -81,9 +81,9 @@
 .kosten{margin-top:18px!important;font-size:clamp(30px,3.5vw,40px);font-weight:700;letter-spacing:-0.03em;color:var(--gijs-donkergroen);line-height:1.1}
 .kosten span{font-size:17px;font-weight:600;color:var(--text-muted);letter-spacing:0}
 
-/* Stap 3 "Jouw woningplan": samenvatting rechts (op mobiel bovenaan), keuzes en aanvraag links. */
+/* Stap 3 behoudt de rustige live-structuur: advies links, samenvatting rechts. */
 .plan{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"hoofd zij";gap:48px;align-items:start}
-.planHoofd{grid-area:hoofd;min-width:0;max-width:640px}
+.planHoofd{grid-area:hoofd;min-width:0;max-width:680px}
 .planZij{grid-area:zij;display:grid;gap:16px;position:sticky;top:96px}
 .samenvatting{padding:20px 22px;border-radius:24px;background:var(--grey-050)}
 .samenvattingKop{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
@@ -120,7 +120,7 @@
 .gateChecklist li{display:flex;align-items:center;gap:12px;font-size:16px;font-weight:600;color:var(--gijs-donkergroen)}
 .gateIcon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;border-radius:50%;background:var(--grey-100);color:var(--gijs-donkergroen)}
 .gateVraag{font-size:15px;font-weight:700;color:var(--gijs-donkergroen);margin:0 0 10px}
-.aanvraag{margin-top:48px;padding:28px;border-radius:28px;background:var(--grey-050);scroll-margin-top:96px}
+.aanvraag{margin-top:48px;padding:32px;border-radius:28px;background:var(--grey-050);scroll-margin-top:96px}
 .aanvraag .field input{background:#fff}
 .aanvraagVelden{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:16px}
 .woningSamenvatting{padding:16px 18px;margin-bottom:16px;border-radius:16px;background:#fff}
@@ -135,4 +135,85 @@
 .directContactBel{font-size:22px;font-weight:700;color:var(--gijs-donkergroen);text-decoration:none}
 .directContactBel:hover{text-decoration:underline}
 .whatsappLink{font-size:15px;font-weight:600;color:var(--accent-700);text-decoration:underline;width:fit-content}
-@media(max-width:900px){.plan{grid-template-columns:1fr;grid-template-areas:"zij" "hoofd";gap:28px}.planZij{position:static}.planHoofd{max-width:none}.aanvraag{padding:22px}.gate{padding:22px}}
+@media(max-width:900px){.plan{grid-template-columns:1fr;grid-template-areas:"zij" "hoofd";gap:28px}.planHoofd{max-width:none}.planZij{position:static}.aanvraag{padding:22px}.gate{padding:22px}}
+
+/* Compacte conversiestap: belofte en contactformulier naast elkaar, zonder woninguitleg. */
+.aanvraagKnop{width:100%;justify-content:center}
+.scanDetails{margin-top:8px;padding:16px 18px;border:1px solid var(--border-default);border-radius:18px;background:#fff}
+.scanDetails>summary{cursor:pointer;font-size:15px;font-weight:600;color:var(--accent-700)}
+.scanDetails[open]>summary{margin-bottom:12px}
+@media(max-width:800px){.aanvraagRaster{grid-template-columns:1fr}.aanvraagBelofte{padding:22px}.aanvraagFormulier{padding:20px}}
+.zijAdres{margin:12px 0 0;font-size:16px;font-weight:700;line-height:1.45;color:var(--gijs-donkergroen)}
+.zijDetails{margin-top:14px;font-size:14px;color:var(--grey-800)}
+.zijDetails>summary{cursor:pointer;font-weight:600;color:var(--accent-700)}
+.zijDetails[open]>summary{margin-bottom:10px}
+
+/* ── Stap 2 "Wat is al aan je woning gedaan?" (november 2026): verder de bestaande klassen ── */
+.warmtepompSoort{margin-top:14px;max-width:360px}
+.wijzigSectie{margin-top:32px}
+.aanwezigKaart{display:contents}
+.volleBreedte{grid-column:1 / -1}
+.andersVeld{margin-top:14px;max-width:360px}
+/* Stap 2 als het maatregelenblok van de regiopagina's: paneel over de volle breedte, daaronder gegevens en verbruik. */
+.stap2{display:flex;flex-direction:column;gap:8px}
+.stap2Onder{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px;align-items:start}
+.stap2Onder > .sectie{margin-top:40px}
+@media(max-width:900px){.stap2Onder{grid-template-columns:1fr}}
+.stap2Blok{margin:24px 0 32px}
+.stap2Blok + .stap2Blok{margin-top:40px}
+.gelijkRaster{display:grid;grid-template-columns:repeat(var(--kolommen,2),minmax(0,1fr));gap:18px 24px;margin-top:16px;align-items:start}
+.bronRaster{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start;margin-top:18px}
+.bronRaster > .bron{margin-top:0}
+@media(max-width:700px){.gelijkRaster,.bronRaster{grid-template-columns:1fr}}
+/* Scanmodus vanaf stap 2: minder ruimte boven de eigenlijke vraag. */
+.flowCompact{padding-top:16px}
+.flowCompact .stepper{margin:8px 0 12px}
+.flowCompact .heading{margin:4px 0 16px}
+.planDetails{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start;margin-top:12px}
+@media(max-width:700px){.planDetails{grid-template-columns:1fr}}
+.aanwezigDetails{margin-top:12px;font-size:14px;line-height:1.5;color:var(--grey-800)}
+.aanwezigDetails summary{cursor:pointer;font-weight:600;color:var(--accent-700)}
+.aanwezigDetails p{margin:6px 0 0}
+
+/* Aanvraag in stap 3, in de stijl van het adviseursblok op de regiopagina's (18-11-2026): portretten links,
+   groen label in zinsnaamval, rustige kop; daaronder de bestaande checklist en een wit formuliervlak. */
+.aanvraagKop{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:22px;margin-bottom:6px}
+.aanvraagKop p{margin:8px 0 0;font-size:16px;line-height:1.6;color:var(--grey-800)}
+.aanvraagPortretten{display:flex}
+.aanvraagPortretten span{position:relative;display:block;width:96px;height:96px;border-radius:999px;overflow:hidden;background:#fff;box-shadow:var(--shadow-1)}
+.aanvraagPortretten span + span{margin-left:-18px}
+.aanvraagEyebrow{margin:0!important;font-size:15px!important;font-weight:600;letter-spacing:-0.01em;color:var(--accent-700)!important}
+.aanvraagTitel{margin:4px 0 0;font-size:clamp(1.25rem,1.05rem+0.6vw,1.625rem);font-weight:700;line-height:1.2;letter-spacing:-0.02em;color:var(--gijs-donkergroen);text-wrap:balance}
+.aanvraagFormulier{padding:22px;border-radius:20px;background:#fff}
+.aanvraagFormulier .bron{background:var(--grey-050);margin:4px 0 18px}
+.formOptioneelInhoud{display:grid;gap:18px;margin-top:16px}
+.formOptioneelInhoud .wijzigBlok{margin-top:0;background:#fff}
+@media(max-width:600px){.aanvraagKop{grid-template-columns:1fr}.aanvraagPortretten span{width:80px;height:80px}.aanvraagFormulier{padding:18px}}
+.gegevensWaarom{margin:-4px 0 16px;font-size:14px;line-height:1.5;color:var(--text-muted)}
+.aanvraagScore{margin-top:10px}.aanvraagScore p{margin:0}
+.whatsappKeuze{margin:4px 0 14px}
+/* Energiekosten nu en straks (stap 3). */
+.nuStraks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 0}
+.nuStraks div{display:flex;flex-direction:column;justify-content:flex-end;gap:2px}
+.nuStraks dt{font-size:13px;line-height:1.3;color:var(--text-muted)}
+.nuStraks dd{margin:0;font-size:24px;font-weight:700;letter-spacing:-0.02em;color:var(--gijs-donkergroen)}
+.nuStraks .straks dd{color:var(--accent-700)}
+.balken{display:grid;gap:6px;margin:12px 0 0}
+.balken span{display:block;height:8px;border-radius:999px;background:var(--grey-300,#cfd6d3)}
+.balken .balkStraks{background:var(--accent-600)}
+.verschil{margin:10px 0 0!important;font-size:16px;font-weight:700;color:var(--gijs-donkergroen)}
+.planVoor{margin:0 0 14px;padding:12px 14px;border-radius:14px;background:var(--grey-050);font-size:14px;line-height:1.5;color:var(--grey-800)}
+.planVoor p{margin:0}
+.planVoor p + p{margin-top:4px}
+.planVoor strong{color:var(--gijs-donkergroen)}
+/* Stap 3 (18-11-2026): zijbalk kleiner en compacter, het rapport krijgt de ruimte. */
+@media(min-width:901px){
+  .plan{grid-template-columns:minmax(0,1fr) 260px;gap:40px}
+  .planHoofd{max-width:none}
+  .planZij .samenvatting{padding:16px 18px;border-radius:20px}
+  .planZij .samenvattingKop h3{font-size:15px}
+  .planZij .nuStraks dd{font-size:19px}
+  .planZij .nuStraks dt,.planZij .kleineNoot{font-size:12px}
+  .planZij .verschil{font-size:14px}
+  .planZij .zijAdres{font-size:14px}
+}

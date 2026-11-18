@@ -51,3 +51,11 @@
 .profileDetail summary:focus-visible { outline:3px solid #35ad83; outline-offset:4px; }
 .profileDetail[open] summary { margin-bottom:20px; }
 .controls button[aria-pressed=true]{background:var(--accent-700);color:white}
+
+/* Op een gekleurd paneel (woningscan stap 2, zelfde als het maatregelenblok van de regiopagina's): geen wit
+   vlak achter de woning, alleen een zachte witte gloed die in het paneel overloopt. */
+.opPaneel .scene { background:radial-gradient(ellipse at 50% 55%, rgba(255,255,255,.85) 0%, rgba(255,255,255,.4) 45%, rgba(255,255,255,0) 72%); }
+.opPaneel .scene::before { display:none; }
+/* Klein (woningrapport): de woning ondersteunt het rapport. */
+.klein .scene { height:clamp(220px,32svh,300px); }
+.klein .caption { display:none; }

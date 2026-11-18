@@ -127,6 +127,34 @@ export type GemeenteVerhaal = {
     intro: string;
     kaarten: { naam: string; icon: string; tekst: string; href: string; afbeelding?: string }[];
   };
+  /** Optioneel: vier woningsituatiekaarten. */
+  woningsituatieKaarten?: {
+    h2: string;
+    intro: string;
+    kaarten: {
+      type: "ouder" | "vrijstaand" | "rijtjes" | "twee-onder-een-kap" | "goed-geisoleerd";
+      naam: string;
+      tekst: string;
+      /** Tekst van de klikbare CTA onderaan de kaart (bijv. "Minder stoken en meer comfort"). */
+      cta: string;
+      /** Bestemming van de klikbare kaart en de CTA-link. */
+      href: string;
+      /** Vaste foto voor deze kaart; zonder deze kiest de fotopool per type. */
+      foto?: { src: string; alt: string; positie?: string };
+    }[];
+  };
+  /** Optioneel (test, alleen Ommen): compacte opbouw met plaatsenkiezer, keuzeblok, Thom-strook en rustige lokale secties. */
+  compacteOpzet?: {
+    woningKeuze: {
+      h2: string;
+      intro: string;
+      rijen: { titel: string; tekst: string; links: { tekst: string; href: string }[] }[];
+    };
+    thom: { titel: string; tekst: string; alleenEnergiescan?: boolean };
+    lokaalAlineas: Alinea[];
+  };
+  /** Optioneel: type per plaats-slug, alleen waar een bron het type expliciet noemt. Wijken komen uit de CBS-lijst. */
+  plaatsTypen?: Record<string, "dorp" | "buurtschap">
   /** Optioneel: persoonlijk adviesblok met adviseur-foto, tekst en CTA. Afwijkend van woningtypeAdvies:
    *  kan op elke pagina staan, los van de "oudere/nieuwere woning"-logica. */
   persoonlijkAdviesBlok?: {
@@ -600,7 +628,7 @@ const HENGELO: GemeenteVerhaal = {
     ],
     foto: "/images/over-gijs/thom/thom-portret.png",
     fotoAlt: "Thom, adviseur bij Gijs in Hengelo",
-    ctaLabel: "Plan jouw gratis energiescan",
+    ctaLabel: "Vraag een energiescan aan",
     ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen",
   },
   natuur: {
@@ -954,7 +982,7 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
     ],
     foto: "/images/over-gijs/thom/thom-portret.png",
     fotoAlt: "Thom, adviseur bij Gijs",
-    ctaLabel: "Plan jouw gratis energiescan",
+    ctaLabel: "Vraag een energiescan aan",
     ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen",
   },
   natuur: {
@@ -5461,6 +5489,74 @@ const OMMEN: GemeenteVerhaal = {
     { naam: "Woning verduurzamen in Hardenberg", href: "/regio/overijssel/hardenberg" },
     { naam: "Woning verduurzamen in Zwolle", href: "/regio/overijssel/zwolle" },
   ],
+  woningsituatieKaarten: {
+    h2: "Wat past bij jouw woning in Ommen?",
+    intro: "Iedere woning is anders. Het bouwjaar, het type woning en wat er al gedaan is bepalen samen waar de meeste winst zit.",
+    kaarten: [
+      {
+        type: "ouder",
+        naam: "Gebouwd voor 1975",
+        tekst: "Veel oudere woningen zijn gebouwd met weinig isolatie. Daardoor moet je vaak meer stoken om het warm te houden. Met isolatie blijft warmte langer binnen.",
+        cta: "Minder stoken, meer comfort",
+        href: "/maatregelen/spouwmuurisolatie",
+      },
+      {
+        type: "vrijstaand",
+        naam: "Vrijstaande woning",
+        tekst: "Bij een vrijstaand huis kan warmte via alle buitenmuren ontsnappen. Goede isolatie helpt je woning warm te houden en energie te besparen.",
+        cta: "Bekijk de isolatiemogelijkheden",
+        href: "/maatregelen/dakisolatie",
+      },
+      {
+        type: "twee-onder-een-kap",
+        naam: "Twee-onder-een-kap",
+        tekst: "Je deelt een muur met de buren, maar via het dak, de vloer en de buitenmuren kan nog warmte verdwijnen. Isolatie helpt je comfortabeler wonen.",
+        cta: "Minder warmteverlies",
+        href: "/maatregelen/vloerisolatie",
+      },
+      {
+        type: "goed-geisoleerd",
+        naam: "Al goed geïsoleerd",
+        tekst: "Dan kun je verder kijken dan isolatie. Met een warmtepomp gebruik je minder gas en met zonnepanelen wek je zelf stroom op.",
+        cta: "De volgende stap",
+        href: "/maatregelen/warmtepomp",
+        foto: { src: "/images/regio/woningsituaties/modern-20433822.jpg", alt: "Moderne goed geïsoleerde woningen met zonnepanelen aan het water" },
+      },
+    ],
+  },
+  plaatsTypen: { vilsteren: "dorp", beerze: "dorp", stegeren: "dorp", varsen: "dorp", giethmen: "buurtschap" },
+  compacteOpzet: {
+    woningKeuze: {
+      h2: "Wat past bij jouw woning in Ommen?",
+      intro: "Iedere woning is anders. Het bouwjaar, het type woning en wat er al gedaan is bepalen samen waar de meeste winst zit.",
+      rijen: [
+        {
+          titel: "Gebouwd vóór 1975",
+          tekst: "Oudere woningen zijn vaak minder goed geïsoleerd. Je verliest sneller warmte en moet daardoor meer stoken.",
+          links: [{ tekst: "Spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, { tekst: "Dakisolatie", href: "/maatregelen/dakisolatie" }],
+        },
+        {
+          titel: "Vrijstaand of twee-onder-een-kap",
+          tekst: "Een vrijstaande woning staat aan alle kanten bloot aan de kou. Deel je één muur met de buren, dan kan er via het dak, de andere muren en de vloer nog warmte ontsnappen.",
+          links: [{ tekst: "Dakisolatie", href: "/maatregelen/dakisolatie" }, { tekst: "Spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, { tekst: "Vloerisolatie", href: "/maatregelen/vloerisolatie" }],
+        },
+        {
+          titel: "Al goed geïsoleerd",
+          tekst: "Dan kun je verder verduurzamen. Denk aan een warmtepomp om minder gas te gebruiken of zonnepanelen om zelf stroom op te wekken.",
+          links: [{ tekst: "Warmtepomp", href: "/maatregelen/warmtepomp" }, { tekst: "Zonnepanelen", href: "/maatregelen/zonnepanelen" }],
+        },
+      ],
+    },
+    thom: {
+      titel: "Thom komt graag bij je langs.",
+      tekst: "Twijfel je wat verstandig is voor jouw woning? Thom kijkt met je mee en helpt je met de volgende stap.",
+      alleenEnergiescan: true,
+    },
+    lokaalAlineas: [
+      ["Ommen is een van de oudste steden van Overijssel en ontving al in 1248 stadsrechten. De rivier de Vecht bepaalt het landschap: het Vechtdal trekt wandelaars, fietsers en kanoërs en grenst aan Nationaal Park Sallandse Heuvelrug. Rond de stad liggen kleine kernen met een hecht gemeenschapskarakter, zoals ", { tekst: "Vilsteren", href: "/regio/overijssel/ommen/vilsteren" }, " en ", { tekst: "Beerze", href: "/regio/overijssel/ommen/beerze" }, "."],
+      ["In Ommen zelf staan veel woningen uit de jaren vijftig tot zeventig met spouwmuren. In de dorpen en het buitengebied tref je vaker vrijstaande woningen en voormalige boerderijen die verbouwd zijn tot woonboerderij. Juist bij oudere en vrijstaande woningen is er vaak nog winst te halen met isolatie. Gijs kijkt per woning wat de logische volgorde is."],
+    ],
+  },
 };
 
 // CBS/BAG-cijfers via AlleCijfers.nl, peiljaar 2026, gecontroleerd op 27 oktober 2026.

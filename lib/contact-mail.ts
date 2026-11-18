@@ -2,6 +2,7 @@
 import "server-only";
 
 import { Resend } from "resend";
+import { isLokaleOmgeving, meldGeblokkeerd } from "@/lib/lokale-omgeving";
 import { EMAIL } from "@/lib/opslag-hulp";
 import { magDoorgaan } from "@/lib/rate-limit";
 
@@ -28,7 +29,7 @@ const escapeHtml = (v: string): string =>
 
 export type ContactInvoer = { naam: unknown; email: unknown; telefoon: unknown; bericht: unknown; bedrijf?: unknown };
 
-export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ verstuurd: boolean; fout?: string }> {
+export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ verstuurd: boolean; fout?: string; lokaal?: boolean }> {
   // Honeypot: "bedrijf" is een veld dat voor mensen onzichtbaar is (zie ContactForm.tsx) maar dat
   // formulier-bots vaak automatisch invullen. Gevuld = bot: doe alsof het gelukt is (geen hint
   // voor de bot dat hij geblokkeerd is), maar verstuur niets.
@@ -44,6 +45,7 @@ export async function verstuurContactMail(invoer: ContactInvoer): Promise<{ vers
   if (!naam) return { verstuurd: false, fout: "Vul je naam in." };
   if (!EMAIL.test(email)) return { verstuurd: false, fout: "Vul een geldig e-mailadres in." };
   if (!bericht) return { verstuurd: false, fout: "Vul je bericht in." };
+  if (await isLokaleOmgeving()) { meldGeblokkeerd("Contactformulier (Resend)"); return { verstuurd: true, lokaal: true }; }
   if (!RESEND_API_KEY || !EMAIL_TO || !EMAIL_FROM) {
     console.warn("[contact-mail] RESEND_API_KEY, CONTACT_EMAIL_TO of ENERGIESCAN_EMAIL_FROM ontbreekt; mail niet verstuurd.");
     return { verstuurd: false, fout: OPSLAGFOUT };

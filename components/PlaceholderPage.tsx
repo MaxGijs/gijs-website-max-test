@@ -2,6 +2,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CONTACT } from "@/lib/content/contact";
+import { WhatsAppTrackedLink } from "@/components/regio/WhatsAppTrackedButton";
 import styles from "@/components/MeasureExplorer.module.css";
 
 export type VervolgRoute = { href: string; titel: string; tekst: string };
@@ -71,7 +72,7 @@ export default function PlaceholderPage({
             <h2>Even samen naar je huis kijken?</h2>
             <p>Bespreek een gratis en vrijblijvende energiescan aan huis, ter waarde van &euro;349.</p>
           </div>
-          <Link href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" className={styles.secondary}>Vraag een gratis energiescan aan &rarr;</Link>
+          <WhatsAppTrackedLink plaats="placeholder_pagina" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" className={styles.secondary}>Vraag een gratis energiescan aan &rarr;</WhatsAppTrackedLink>
         </section>
       </main>
       <Footer />

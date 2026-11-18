@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
-import { Button } from "@/components/ds/core/Button";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 import MeasureImage from "@/components/MeasureImage";
 import { EYEBROW, HERO_H1, HERO_INTRO } from "@/components/regio/regio-template-styles";
+import { titelOvergang } from "@/lib/overgang";
+import { FotoOvergang } from "@/components/FotoOvergang";
 
 type CTA = { label: string; href: string };
 
@@ -27,6 +29,7 @@ export function MeasureHero({
   overlayCard,
   primaryCta,
   secondaryCta,
+  overgang,
 }: {
   label: string;
   title: string;
@@ -38,38 +41,44 @@ export function MeasureHero({
   overlayCard?: ReactNode;
   primaryCta?: CTA;
   secondaryCta?: CTA;
+  /** Maatregel-slug: foto en titel krijgen de overgangsnaam van de kaart op /maatregelen. */
+  overgang?: string;
 }) {
+  const foto = (
+    <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
+      <div className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]">
+        <MeasureImage image={image} name={imageAlt} priority fill />
+      </div>
+      {imageCaption && (
+        <span className="absolute left-4 top-4 max-w-[80%] rounded-[var(--radius-pill)] bg-[var(--green-900)]/90 text-white text-xs font-semibold px-4 py-2">
+          {imageCaption}
+        </span>
+      )}
+    </div>
+  );
   return (
     <header className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-stretch pt-2 lg:pt-6 py-6 md:py-8">
       <div className="flex flex-col gap-3">
         <p className={EYEBROW}>{label}</p>
-        <h1 className={HERO_H1}>{title}</h1>
+        <h1 className={HERO_H1} style={overgang ? titelOvergang("maatregel-" + overgang) : undefined}>{title}</h1>
         {subtitle && <p className="text-[var(--fs-500)] font-semibold text-[var(--accent-700)]">{subtitle}</p>}
         {intro && <p className={`${HERO_INTRO} mt-1`}>{intro}</p>}
         {primaryCta && (
           <div className="flex flex-wrap gap-3 mt-2">
-            <Button href={primaryCta.href} variant="accent" size="lg" iconRight="arrow-right">
+            <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={primaryCta.href} variant="accent" size="lg" iconRight="arrow-right">
               {primaryCta.label}
-            </Button>
+            </WhatsAppTrackedButton>
             {secondaryCta && (
-              <Button href={secondaryCta.href} variant="secondary" size="lg">
+              <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={secondaryCta.href} variant="secondary" size="lg">
                 {secondaryCta.label}
-              </Button>
+              </WhatsAppTrackedButton>
             )}
           </div>
         )}
       </div>
       <div className={`relative group/hero ${overlayCard ? "pb-10 md:pb-14" : ""}`}>
-        <div className="relative aspect-[3/2] lg:aspect-auto lg:h-full rounded-[var(--radius-card)] overflow-hidden bg-[var(--surface-muted)]">
-          <div className="absolute inset-0 transition-transform duration-700 ease-out will-change-transform group-hover/hero:scale-[1.03]">
-            <MeasureImage image={image} name={imageAlt} priority fill />
-          </div>
-          {imageCaption && (
-            <span className="absolute left-4 top-4 max-w-[80%] rounded-[var(--radius-pill)] bg-[var(--green-900)]/90 text-white text-xs font-semibold px-4 py-2">
-              {imageCaption}
-            </span>
-          )}
-        </div>
+        {/* Met `overgang` schuift de kaartfoto van /maatregelen hierheen (components/FotoOvergang). */}
+        {overgang ? <FotoOvergang id={"maatregel-" + overgang}>{foto}</FotoOvergang> : foto}
         {overlayCard && (
           <div className="absolute left-4 right-4 md:left-auto md:right-6 bottom-0 md:w-80">{overlayCard}</div>
         )}

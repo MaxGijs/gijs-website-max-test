@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { MEASURE_PAGES } from "./content/measure-pages";
 import { REGIO_INDEXEERBARE_PADEN } from "./content/regio";
+import { KENNIS_ARTIKELEN, kennisArtikelPad } from "./content/kennis-artikelen";
 // Primaire productie-URL: groeninjestraat.nl stuurt met een 308 door naar www, dus canonicals,
 // sitemap en structured data moeten de www-versie gebruiken.
 export const SITE_URL = "https://www.groeninjestraat.nl";
@@ -33,4 +34,7 @@ export function createMetadata(path:string,title:string,description:string,index
  return {title,description,alternates:{canonical:url},robots:{index:SEO_INDEXABLE&&index,follow:true},openGraph:{type:"website",locale:"nl_NL",siteName:"Gijs",url,title,description,images:[image]},twitter:{card:"summary_large_image",title,description,images:[image.url]}};
 }
 export function pageMetadata(path:string):Metadata {const p=PAGE_SEO[path];return createMetadata(path,p.title,p.description,p.index!==false);}
-export const PUBLIC_PATHS=[...Object.keys(PAGE_SEO).filter(path=>PAGE_SEO[path].index!==false),...MEASURE_PAGES.map(m=>"/maatregelen/"+m.slug),...REGIO_INDEXEERBARE_PADEN.filter(path=>path!=="/regio")];
+export const PUBLIC_PATHS=[...Object.keys(PAGE_SEO).filter(path=>PAGE_SEO[path].index!==false),...MEASURE_PAGES.map(m=>"/maatregelen/"+m.slug),...KENNIS_ARTIKELEN.map(a=>kennisArtikelPad(a.slug)),...REGIO_INDEXEERBARE_PADEN.filter(path=>path!=="/regio")];
+// Echte laatste-wijzigingsdatum per pad, alleen waar die bekend is (kennisartikelen). Andere paden
+// krijgen in de sitemap bewust géén lastModified in plaats van een verzonnen datum.
+export const LAATST_GEWIJZIGD:Record<string,string>=Object.fromEntries(KENNIS_ARTIKELEN.map(a=>[kennisArtikelPad(a.slug),a.gewijzigd??a.gepubliceerd]));

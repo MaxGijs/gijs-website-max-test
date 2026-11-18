@@ -1925,5 +1925,5 @@ export const REGIO_INDEXEERBARE_PADEN = [
   "/regio",
   ...REGIO_PROVINCIES.filter(p => p.gepubliceerd && p.indexeerbaar).map(p => regioPad(p.slug)),
   ...REGIO_GEMEENTEN.filter(g => g.gepubliceerd && g.indexeerbaar).map(g => regioPad(g.provincie, g.slug)),
-  ...REGIO_PLAATSEN.filter(p => p.gepubliceerd && p.indexeerbaar).map(p => regioPad(p.provincie, p.gemeente, p.slug)),
+  ...REGIO_PLAATSEN.filter(p => p.gepubliceerd && p.indexeerbaar && p.slug !== p.gemeente).map(p => regioPad(p.provincie, p.gemeente, p.slug)),
 ];

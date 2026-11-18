@@ -6,6 +6,7 @@ import { HR_ISOFRAME_TIERS, KUNSTSTOF_PROFIELEN, SCHUIFPUI_PROFIELEN } from "@/l
 import { CONTACT } from "@/lib/content/contact";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 import { MeasureCta } from "@/components/measures/MeasureCta";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
@@ -152,7 +153,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         <span aria-current="page">{title}</span>
       </nav>
 
-      <MeasureHero
+      <MeasureHero overgang={item.slug}
         label="Maatregel"
         title={title}
         subtitle="Kunststof en aluminium kozijnen"
@@ -414,8 +415,8 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
           </div>
 
           <p className="text-sm text-zinc-500 mt-8 max-w-2xl">
-            Alleen het glas verbeteren? Bekijk{" "}
-            <Link href="/maatregelen/isolatieglas" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">isolatieglas</Link>.
+            Alleen het glas verbeteren? Lees hoe je{" "}
+            <Link href="/maatregelen/isolatieglas" className="underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">isolatieglas laat plaatsen in je bestaande kozijnen</Link>.
           </p>
         </section>
 
@@ -459,7 +460,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
               <p className="text-sm text-zinc-600">
                 Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
               </p>
-              <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
+              <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
               <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
                 Bel {CONTACT.phone}
               </a>

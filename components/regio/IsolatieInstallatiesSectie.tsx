@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Icon } from "@/components/ds/core/Icon";
 import { MEASURE_GROUPS, measuresForGroup, type MeasureGroupId } from "@/lib/measures";
 import { SCAN_TITELS } from "@/lib/content/maatregel-titels";
-import type { Sleutel } from "@/components/home/cutaway/stappen";
-import { OverijsselWoning } from "./OverijsselWoning";
+import { MAATREGEL_STAAT } from "@/components/woning/scan-camera";
+import type { HouseFocus } from "@/components/woning/HouseViewer";
 
-// Zelfde maatregelen, groepen en namen als de woningscan ("Wat kun je nog doen?", zie lib/measures.ts),
-// met een pictogram in plaats van een foto. Klikken zoomt de homepage-woning in op het bijbehorende
-// bouwdeel. Vloerverwarming heeft in die woning (nog) geen eigen staat: dan blijft het overzicht staan.
+// Dezelfde 3D-woning, camerastanden en maatregelbeelden als de woningscan (HouseViewer): de batterij
+// via de open zijgevel, vloerverwarming in de vloer. Maatregelen, groepen en namen ook als de scan
+// ("Wat kun je nog doen?", zie lib/measures.ts), met een pictogram in plaats van een foto.
+const HouseViewer = dynamic(() => import("@/components/woning/HouseViewer").then(m => m.HouseViewer), { ssr: false });
+
 const PICTOGRAM: Record<string, string> = {
   dakisolatie: "house",
   gevelisolatie: "brick-wall",
@@ -20,15 +23,6 @@ const PICTOGRAM: Record<string, string> = {
   warmtepomp: "fan",
   vloerverwarming: "waves",
   thuisbatterij: "battery-charging",
-};
-const BOUWDEEL: Record<string, Sleutel> = {
-  dakisolatie: "dak",
-  gevelisolatie: "spouw",
-  vloerisolatie: "vloer",
-  "glas-kozijnen": "kozijn",
-  zonnepanelen: "zon",
-  warmtepomp: "pomp",
-  thuisbatterij: "batterij",
 };
 const TABS: MeasureGroupId[] = ["isolatie", "installaties"];
 const groep = (id: MeasureGroupId) => MEASURE_GROUPS.find(g => g.id === id)!;
@@ -45,7 +39,15 @@ export function IsolatieInstallatiesSectie({ cta, defaultTab }: { cta?: React.Re
   return (
     <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-10 md:px-10 md:py-12">
       <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-10 items-center">
-        <OverijsselWoning focus={actief ? BOUWDEEL[actief] ?? null : null} />
+        <div className="flex flex-col lg:h-[580px]">
+          <HouseViewer
+            vol
+            zonderExtras
+            selectedMeasureIds={measuresForGroup(tab).map(m => m.id)}
+            focus={actief ? (MAATREGEL_STAAT[actief] as HouseFocus) ?? null : null}
+            onFocusChange={f => { if (!f) setActief(null); }}
+          />
+        </div>
 
         <div className="flex min-w-0 flex-col gap-4">
           <div role="tablist" aria-label="Soort maatregel" className="inline-flex self-start rounded-full bg-white p-1 shadow-[var(--shadow-1)]">

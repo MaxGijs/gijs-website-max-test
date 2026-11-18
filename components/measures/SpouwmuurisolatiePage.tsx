@@ -6,6 +6,7 @@ import { SPOUW_PRODUCTS } from "@/lib/content/spouw-products";
 import { CONTACT } from "@/lib/content/contact";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
+import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 import { Icon } from "@/components/ds/core/Icon";
 import { MeasureHero } from "@/components/measures/MeasureHero";
 import { MeasureSectionNav } from "@/components/measures/MeasureSectionNav";
@@ -136,7 +137,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
         <span aria-current="page">{title}</span>
       </nav>
 
-      <MeasureHero
+      <MeasureHero overgang={item.slug}
         label="Maatregel"
         title={title}
         subtitle="Meer wooncomfort, minder geluid van buiten"
@@ -275,7 +276,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <Button href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</Button>
+            <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>

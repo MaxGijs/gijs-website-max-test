@@ -157,18 +157,19 @@ export function OptieToggle({ vraag, uitleg, opties, waarde, onChange, namelijk,
  * Verplicht verbruiksveld met "Help me schatten": vult een voorstel in dat
  * de bewoner daarna nog kan aanpassen.
  */
-export function VerbruikVeld({ id, label, eenheid, waarde, onChange, schatting, fout }: { id: string; label: string; eenheid: string; waarde: string; onChange: (v: string) => void; schatting: number | null; fout?: string }) {
+export function VerbruikVeld({ id, label, eenheid, waarde, onChange, schatting, fout, toelichting }: { id: string; label: string; eenheid: string; waarde: string; onChange: (v: string) => void; schatting: number | null; fout?: string; /** Korte hulptekst onder het veld, bv. de bandbreedte van de schatting. */ toelichting?: string }) {
   return (
     <div className="gijs-field-wrap">
       <label className="gijs-label" htmlFor={id}>{label}</label>
       <span className="gijs-input-group">
-        <input id={id} className={`gijs-input pr-[92px] ${fout ? "gijs-input--invalid" : ""}`} inputMode="numeric" required aria-invalid={fout ? true : undefined} aria-describedby={fout ? `${id}-fout` : undefined} value={waarde} onChange={e => onChange(e.target.value)} />
+        <input id={id} className={`gijs-input pr-[92px] ${fout ? "gijs-input--invalid" : ""}`} inputMode="numeric" required aria-invalid={fout ? true : undefined} aria-describedby={[fout ? `${id}-fout` : "", toelichting ? `${id}-toelichting` : ""].filter(Boolean).join(" ") || undefined} value={waarde} onChange={e => onChange(e.target.value)} />
         <span className="gijs-input-group__suffix">{eenheid}</span>
       </span>
       {fout && <span id={`${id}-fout`} className="gijs-error">{fout}</span>}
+      {toelichting && <span id={`${id}-toelichting`} className="text-[13px] leading-snug text-[var(--text-muted)]">{toelichting}</span>}
       {schatting !== null && (
         <button type="button" className="self-start min-h-11 text-[15px] font-semibold text-[var(--accent-700)] underline" onClick={() => onChange(String(schatting))}>
-          Help me schatten
+          Help mij schatten<span className="sr-only"> ({label.toLowerCase()})</span>
         </button>
       )}
     </div>
