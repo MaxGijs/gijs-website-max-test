@@ -29,7 +29,7 @@ const ISOLATIE_ITEMS: NavLink[] = [
 ];
 const INSTALLATIES_ITEMS: NavLink[] = [
   { label: "Zonnepanelen", href: "/maatregelen/zonnepanelen" },
-  { label: "Hybride warmtepomp", href: "/maatregelen/warmtepomp" },
+  { label: "Warmtepomp", href: "/maatregelen/warmtepomp" },
   { label: "Vloerverwarming", href: "/maatregelen/vloerverwarming" },
   { label: "Thuisbatterij", href: "/maatregelen/thuisbatterij" },
   { label: "Ketel", href: "/maatregelen/ketel" },

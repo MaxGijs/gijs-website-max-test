@@ -1,18 +1,22 @@
-import { Fragment } from "react";
+import { Fragment, type ReactNode } from "react";
 import Link from "next/link";
 import { Accordion } from "@/components/ds/navigation/Accordion";
 import { JsonLd } from "@/components/SeoSchema";
 
 /** punten: optionele opsomming onder het antwoord (bv. voorbereiding en voorwaarden).
  *  links: optionele interne links onder het antwoord (niet in de structured data). */
-export type FAQItem = { question: string; answer: string; punten?: string[]; links?: { tekst: string; href: string }[] };
+export type FAQItem = {
+  question: string; answer: string; punten?: string[]; links?: { tekst: string; href: string }[];
+  /** Optioneel opgemaakt antwoord (bijvoorbeeld met een link in de zin). `answer` blijft de platte tekst voor de structured data. */
+  antwoord?: ReactNode;
+};
 
 const LINK = "text-[var(--accent-700)] underline underline-offset-2 decoration-[var(--accent-200)] hover:decoration-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]";
 
 function Antwoord({ item }: { item: FAQItem }) {
   return (
     <>
-      <p>{item.answer}</p>
+      {item.antwoord ?? <p>{item.answer}</p>}
       {!!item.punten?.length && <ul className="mt-3 flex list-disc flex-col gap-2 pl-5">{item.punten.map(punt => <li key={punt}>{punt}</li>)}</ul>}
       {!!item.links?.length && (
         <p className="mt-3">
