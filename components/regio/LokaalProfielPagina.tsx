@@ -18,6 +18,7 @@ import { Icon } from "@/components/ds/core/Icon";
 import styles from "./regio.module.css";
 import { EYEBROW, SECTIE_BASE, LEAD, TEKST, BRON, BRONLINK, WIT_BLOK, HERO_H1, HERO_INTRO, GijsWatermark, RijkeTekst, RASTER, RASTER_CEL, TEKSTLINK } from "./regio-template-styles";
 import { ENERGIESCAN_HREF } from "@/lib/seo";
+import { RegioArtikelen } from "./RegioArtikelen";
 import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 const SECTIE = `${SECTIE_BASE} ${styles.opkomen}`;
@@ -376,6 +377,8 @@ export function LokaalProfielPagina({
         <Kernen b={p.buurtschappen} kernen={kernen} eyebrow={p.buurtschappen.eyebrow ?? `Rond het dorp ${gemeente}`}
           kernTekst={v.lokaal.kernTekst} metBeschrijving={eigenSecties} />
       )}
+
+      <RegioArtikelen gemeenteSlug={gemeenteSlug} plaatsSlug={plaatsSlug} className={SECTIE} />
 
       {v.faq.length > 0 && <FaqSectie naamVoorKop={naam} faq={v.faq} verwant={v.verwant} className={SECTIE} />}
 

@@ -8,13 +8,14 @@ import { ArtikelCtaKnop } from "@/components/kennis/ArtikelCtaKnop";
  * energiescan en het telefoonnummer. Eén component voor alle artikelen: de klik meet via
  * ArtikelCtaKnop als `kennis_artikel_cta_clicked` met de slug van het artikel.
  */
-export function ArtikelCta({ slug, titel }: { slug: string; titel: string }) {
+export function ArtikelCta({ slug, titel, regel }: { slug: string; titel: string; regel?: string }) {
   return (
     <aside aria-label="Contact met Gijs" className="mt-12 rounded-[var(--radius-xl)] bg-[var(--gijs-donkergroen)] px-6 py-9 sm:px-10 sm:py-11 text-white">
       <Image src="/images/shared/logo/logo-white.png" alt="Gijs" width={912} height={520} className="h-auto w-[84px] sm:w-[96px]" />
       <p className="!mt-6 !mb-0 font-bold tracking-[-0.02em] text-white text-[clamp(1.25rem,1.05rem+0.6vw,1.625rem)] leading-[1.3] [text-wrap:balance]">
         {titel}
       </p>
+      {regel && <p className="!mt-3 !mb-0 text-[17px] text-white/85">{regel}</p>}
       <div className="mt-7 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
         <ArtikelCtaKnop artikel={slug} href={ENERGIESCAN_HREF} variant="inverse" size="lg" iconRight="arrow-right" className="w-full sm:w-auto justify-center !whitespace-normal !h-auto min-h-[52px] py-3 text-center">
           Vraag een gratis energiescan aan
