@@ -12,10 +12,22 @@ export type KennisArtikel = {
   intro: string;          // korte tekst voor de kaart op /kennis
   gepubliceerd: string;
   gewijzigd?: string;
+  /** Lokaal artikel: alleen als kaart op de eigen regiopagina, niet op /kennis. */
+  alleenRegio?: boolean;
   afbeelding: { path: string; alt: string };
 };
 
 export const KENNIS_ARTIKELEN: KennisArtikel[] = [
+  {
+    slug: "warmtenet-kerschoten-verduurzamen-apeldoorn",
+    titel: "Warmtenet Kerschoten onzeker: waar begin je met verduurzamen in Apeldoorn?",
+    seoTitel: "Warmtenet Kerschoten onzeker: verduurzamen in Apeldoorn | Gijs",
+    beschrijving: "Het warmtenet in Kerschoten gaat niet door. Moet je wachten met verduurzamen in Apeldoorn? Lees waar je begint en waar je op let.",
+    intro: "Het warmtenet in Kerschoten gaat voorlopig niet door. Moet je daarom wachten met het verduurzamen van je woning in Apeldoorn?",
+    gepubliceerd: "2026-11-19",
+    alleenRegio: true,
+    afbeelding: { path: "/images/maatregelen/dakisolatie/praktijk/tijdens-het-werk.jpg", alt: "Een Gijs-vakspecialist isoleert het dak van een woning" },
+  },
   {
     slug: "salderen-stopt-2027-thuisbatterij",
     titel: "Salderen stopt in 2027, dus een thuisbatterij kopen? Of toch niet?",

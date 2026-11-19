@@ -16,6 +16,8 @@ import { SubsidiecheckStart } from "@/components/subsidie/SubsidiecheckStart";
 import { Card } from "@/components/ds/core/Card";
 import { Button } from "@/components/ds/core/Button";
 import { Icon } from "@/components/ds/core/Icon";
+import { ALGEMENE_ARTIKELEN } from "@/components/regio/RegioArtikelen";
+import { ArtikelKaarten } from "@/components/kennis/ArtikelKaarten";
 import { HOOFDSTUKKEN } from "@/lib/content/zo-werkt-gijs";
 
 type Props = { params: Promise<{ provincie: string }> };
@@ -141,6 +143,13 @@ export default async function ProvinciePage({ params }: Props) {
             </Card>
           </div>
         </section>
+
+        {p.slug === "gelderland" && (
+          <section id="kennis" className="scroll-mt-40 mb-16">
+            <h2 className={H2 + " mb-8"}>Goed om te weten voor je begint</h2>
+            <ArtikelKaarten slugs={ALGEMENE_ARTIKELEN} compact />
+          </section>
+        )}
 
         {/* Zo werkt Gijs: rustige verticale tijdlijn, geen vijf grote stappenkaarten. */}
         <section id="zo-werkt-gijs" className="scroll-mt-40 mb-16">
