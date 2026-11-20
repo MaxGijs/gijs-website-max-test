@@ -37,12 +37,12 @@ const INSTALLATIES_ITEMS: NavLink[] = [
 // Overige "Verduurzamen"-links, ongewijzigd t.o.v. de oorspronkelijke navigatie.
 const VERDUURZAMEN_FOOTER_LINKS: NavLink[] = [
   { label: "Zo werkt Gijs", href: "/zo-werkt-gijs" },
-  { label: "Kennis", href: "/kennis" },
 ];
 
 const NAV: NavEntry[] = [
   { type: "link", label: "Home", href: "/" },
   { type: "verduurzamen", label: "Verduurzamen" },
+  { type: "link", label: "Kennis", href: "/kennis" },
   { type: "link", label: "Jouw regio", href: "/regio" },
   { type: "link", label: "Over Gijs", href: "/over-gijs" },
   { type: "link", label: "Contact", href: "/contact" },
