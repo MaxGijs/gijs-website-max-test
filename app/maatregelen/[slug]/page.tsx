@@ -120,9 +120,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (item.slug === "ketel") {
     return createMetadata(
       "/maatregelen/ketel",
-      "Ketel voor jouw woning | Gijs",
-      "Ontdek wat een cv-ketel doet en hoe deze samenwerkt met een hybride warmtepomp of vloerverwarming. Start de woningscan of plan een energiescan.",
-      true
+      // SEO-ronde 20-11-2026: de pagina stond op "Gevonden, momenteel niet geïndexeerd". Title op de
+      // vervangingsintentie; de hybride-zoektermen (kosten, subsidie) horen bij /maatregelen/warmtepomp.
+      "Cv-ketel vervangen: nieuwe hr-ketel laten plaatsen | Gijs",
+      "Is je cv-ketel aan vervanging toe? Gijs kijkt met je mee welke ketel past, of een hybride warmtepomp slimmer is, en regelt de plaatsing van A tot Z.",
+      true,
+      { path: "/images/maatregelen/ketel/ketel-hero.png", alt: "Een installateur van Gijs sluit een nieuwe cv-ketel aan" }
     );
   }
   return createMetadata("/maatregelen/"+item.slug,item.name+" voor je woning | Mogelijkheden en advies van Gijs",item.intro+" Ontdek de mogelijkheden bij Gijs.");

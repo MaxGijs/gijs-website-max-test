@@ -19,6 +19,15 @@ export type KennisArtikel = {
 
 export const KENNIS_ARTIKELEN: KennisArtikel[] = [
   {
+    slug: "cv-ketel-vervangen-2029-gas-of-warmtepomp",
+    titel: "Cv-ketel vervangen vóór 2029: kies je nog voor gas of een warmtepomp?",
+    seoTitel: "Cv-ketel vervangen vóór 2029: gas of warmtepomp? | Gijs",
+    beschrijving: "Vanaf 2029 wil het kabinet bij vervanging van de cv-ketel een slimme hybride warmtepomp als standaard. Lees wat er verandert en wat je nu kunt doen.",
+    intro: "Het kabinet wil vanaf 2029 bij vervanging van de cv-ketel een slimme hybride warmtepomp als standaard. Wat betekent dat voor jouw woning en wat kun je nu het beste doen?",
+    gepubliceerd: "2026-11-20",
+    afbeelding: { path: "/images/kennis/cv-ketel/slimme-thermostaat.jpg", alt: "Een hand bedient een slimme thermostaat aan de muur" },
+  },
+  {
     slug: "warmtenet-kerschoten-verduurzamen-apeldoorn",
     titel: "Warmtenet Kerschoten onzeker: waar begin je met verduurzamen in Apeldoorn?",
     seoTitel: "Warmtenet Kerschoten onzeker: verduurzamen in Apeldoorn | Gijs",

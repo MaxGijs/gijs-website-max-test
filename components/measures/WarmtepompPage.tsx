@@ -514,8 +514,8 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
 
       {/* Kennisartikel over de ISDE-wijzigingen voor 2027, als dezelfde kaart als op /kennis. */}
       <section id="kennis" className={SECTIE}>
-        <Kop eyebrow="Kennis" titel="Subsidie voor slimme warmtepompen in 2027" />
-        <ArtikelKaarten slugs={["slimme-warmtepomp-subsidie-2027"]} />
+        <Kop eyebrow="Kennis" titel="Warmtepomp: subsidie en nieuwe regels" />
+        <ArtikelKaarten slugs={["cv-ketel-vervangen-2029-gas-of-warmtepomp", "slimme-warmtepomp-subsidie-2027"]} />
       </section>
 
       <section id="veelgestelde-vragen" className={SECTIE}>

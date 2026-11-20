@@ -130,7 +130,7 @@ export function basisPagina(opties: {
 }): { verhaal: GemeenteVerhaal; profiel: LokaalProfiel } {
   const { plaats, gemeente } = opties;
   const intro: Alinea[] = [
-    [`${plaats} hoort bij de gemeente `, { tekst: gemeente, href: opties.gemeenteHref }, `. Wil je je woning in ${plaats} beter isoleren? Hieronder vind je de isolatiemaatregelen. Gemeentelijke subsidies en regelingen controleer je bij je eigen gemeente.`],
+    [`${plaats} hoort bij de gemeente ${gemeente}. Wil je je woning in ${plaats} beter isoleren? Hieronder vind je de isolatiemaatregelen. Welke subsidies en regelingen in de hele gemeente gelden, lees je op de pagina over `, { tekst: `huis isoleren in de gemeente ${gemeente}`, href: opties.gemeenteHref }, `.`],
     ...(opties.gemeenteIntro ?? []),
   ];
   const verhaal: GemeenteVerhaal = {
