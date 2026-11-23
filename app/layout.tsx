@@ -13,6 +13,7 @@ import { ClarityLoader } from "@/components/consent/ClarityLoader";
 import { ContentsquareLoader } from "@/components/consent/ContentsquareLoader";
 import { VercelAnalyticsLoader } from "@/components/consent/VercelAnalyticsLoader";
 import { PageViewTracker } from "@/components/consent/PageViewTracker";
+import { PhoneClickTracker } from "@/components/analytics/PhoneClickTracker";
 
 // Zelf-gehost via next/font (geen externe fontrequest nodig tijdens
 // runtime). Blootgesteld als CSS-variabele --font-open-sans, die
@@ -52,6 +53,7 @@ export default function RootLayout({
           <ContentsquareLoader />
           <VercelAnalyticsLoader />
           <PageViewTracker />
+          <PhoneClickTracker />
         </ConsentProvider>
       </body>
     </html>
