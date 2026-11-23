@@ -22,7 +22,7 @@ import { berekenFinancieelOverzicht, type IsolatieId } from "./woningplan-financ
 import { gebruiktGas, type Antwoord } from "./scan-session";
 import { bouwperiodeVan, geschatIsolatieniveau, type Bouwperiode } from "./energie-schatting";
 import { WARMTEPOMP_GASBESPARING, WARMTEPOMP_STROOM_ERBIJ } from "./content/warmtepomp-besparing";
-import { MC_KENGETALLEN, MC_GLAS, RVO_REFERENTIEWONINGEN } from "./content/verduurzaming-financieel";
+import { MC_KENGETALLEN, MC_GLAS, GLAS_OPPERVLAKTE } from "./content/verduurzaming-financieel";
 
 export type KansId = "dakisolatie" | "gevelisolatie" | "vloerisolatie" | "glas-kozijnen" | "warmtepomp" | "zonnepanelen" | "vloerverwarming" | "thuisbatterij";
 
@@ -132,18 +132,9 @@ const VOORWAARDEN: Record<KansId, string[]> = {
 
 const WAARDE_LABEL = "Kan bijdragen aan een beter energielabel, wat je woning aantrekkelijker kan maken. Een persoonlijke waardestijging rekenen we niet uit.";
 
-/** Gemiddeld raamoppervlak van de RVO-referentiewoningen van dit type (m²). */
-function gemiddeldRaam(houseType: HouseType): number {
-  const ramen = RVO_REFERENTIEWONINGEN[houseType].map(p => p.raam);
-  return ramen.reduce((a, b) => a + b, 0) / ramen.length;
-}
-
 /** Gasbesparing van Milieu Centraal voor dit woningtype, alleen om de isolatiemaatregelen te ordenen. */
 function sorteerwaarde(id: IsolatieId, houseType: HouseType): number {
-  if (id === "glas-kozijnen") {
-    const ramen = RVO_REFERENTIEWONINGEN[houseType].map(p => p.raam);
-    return (MC_GLAS.besparingGasM3 / MC_GLAS.referentieM2) * (ramen.reduce((a, b) => a + b, 0) / ramen.length);
-  }
+  if (id === "glas-kozijnen") return (MC_GLAS.besparingGasM3 / MC_GLAS.referentieM2) * GLAS_OPPERVLAKTE[houseType];
   return MC_KENGETALLEN[id][houseType].besparingGasM3;
 }
 
@@ -203,7 +194,7 @@ export function maakWoningrapport(invoer: RapportInvoer): Woningrapport {
     // Voor de volgorde bij glas (geen tarief van Gijs): de Milieu Centraal-prijs als ondergrens. Volgens Thom is
     // die aan de lage kant, dus de echte terugverdientijd is eerder langer. Alleen intern, nergens getoond.
     const ondergrensJaren = id === "glas-kozijnen" && o.besparing && o.besparing.euro.min > 0
-      ? Math.round(((MC_GLAS.kosten / MC_GLAS.referentieM2) * gemiddeldRaam(houseType)) / o.besparing.euro.min)
+      ? Math.round(((MC_GLAS.kosten / MC_GLAS.referentieM2) * GLAS_OPPERVLAKTE[houseType]) / o.besparing.euro.min)
       : null;
     const traag = (jaren ?? ondergrensJaren) !== null && (jaren ?? ondergrensJaren)! > MAX_TERUGVERDIENTIJD_BOVENAAN;
     const kort = {

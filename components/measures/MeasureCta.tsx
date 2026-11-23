@@ -10,7 +10,7 @@ export function MeasureCta({
   titel,
   tekst,
   primaryHref,
-  primaryLabel = "Start de woningscan",
+  primaryLabel = "Ik wil mijn woning verduurzamen",
 }: {
   titel: string;
   tekst: string;

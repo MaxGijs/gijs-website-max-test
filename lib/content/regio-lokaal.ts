@@ -101,7 +101,7 @@ const ZWOLLE: Record<string, LokaleInhoud> = {
       ["Gijs helpt bewoners van Berkum om daar rustig en zonder verplichtingen achter te komen. Met een gratis energiescan krijg je inzicht in je woning en een helder beeld van wat er kan."],
     ],
     ctaPrimair: { tekst: "Vraag de gratis energiescan voor Berkum aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
-    ctaSecundair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaSecundair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     uitgelicht: {
       id: "gijs-en-ben",
       titel: "Gijs en BEN helpen Berkum vooruit",
@@ -189,7 +189,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
       ["Borne is een compacte gemeente: de kern Borne, de dorpen ", { tekst: "Zenderen", href: "/regio/overijssel/borne/zenderen" }, " en ", { tekst: "Hertme", href: "/regio/overijssel/borne/hertme" }, " en het buitengebied eromheen. Een groot deel van de woningen is gebouwd vóór de jaren negentig. Juist bij die huizen valt vaak nog winst te halen met isolatie."],
       ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is. Rustig, en zonder dat je ergens aan vastzit."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -280,7 +280,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
       ["Hengelo telt ruim 40.000 woningen. Een groot deel daarvan is gebouwd in de tweede helft van de vorige eeuw, toen er heel anders werd gebouwd dan nu. Het bouwjaar van je huis zegt daarom veel over waar het warmte verliest."],
       ["Gijs helpt je dat voor jouw woning uit te zoeken en laat zien welke stap daarna logisch is."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -376,7 +376,7 @@ const TWENTE: Record<string, LokaleInhoud> = {
       ["Enschede is de grootste gemeente van Twente, met bijna 78.000 woningen. Die lopen sterk uiteen: van vooroorlogse huizen tot appartementen. Er is dus ook niet één isolatieadvies dat voor iedereen klopt."],
       ["Gijs helpt je kijken naar jouw eigen woning: wat is er al gedaan, waar lekt warmte weg en wat is een haalbare volgende stap?"],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -480,7 +480,7 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
       ["Hof van Twente is een gemeente van dorpen en buitengebied: ", { tekst: "Goor", href: "/regio/overijssel/hof-van-twente/goor" }, ", ", { tekst: "Delden", href: "/regio/overijssel/hof-van-twente/delden" }, ", ", { tekst: "Markelo", href: "/regio/overijssel/hof-van-twente/markelo" }, ", ", { tekst: "Diepenheim", href: "/regio/overijssel/hof-van-twente/diepenheim" }, ", ", { tekst: "Hengevelde", href: "/regio/overijssel/hof-van-twente/hengevelde" }, " en ", { tekst: "Bentelo", href: "/regio/overijssel/hof-van-twente/bentelo" }, ". Veel mensen wonen hier in een eigen huis met een tuin eromheen. Dat merk je ook aan de isolatievraag."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt, en in welke volgorde je het beste kunt beginnen."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -569,7 +569,7 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
       ["Almelo telt bijna 35.000 woningen. De gemeente werkt wijk voor wijk aan de overstap naar duurzame warmte, en noemt isoleren daarbij nadrukkelijk als eerste stap. Dat geldt voor elke wijk, ook als jouw buurt nog niet aan de beurt is."],
       ["Gijs helpt je om die eerste stap concreet te maken: wat kan er bij jouw huis, en waar begin je?"],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -659,7 +659,7 @@ const TWENTE_RONDE_2: Record<string, LokaleInhoud> = {
       ["Oldenzaal telt bijna 15.000 woningen. De grootste groep daarvan zijn tussenwoningen: huizen met aan twee kanten buren. Dat bepaalt voor een deel waar je huis warmte verliest, en dus waar je het beste kunt beginnen."],
       ["Gijs helpt je dat voor jouw eigen huis uit te zoeken, zodat je weet welke stap het meeste oplevert."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -757,7 +757,7 @@ const HENGELO_BECKUM: Record<string, LokaleInhoud> = {
       ["Beckum is het enige kerkdorp binnen de gemeente Hengelo, los van de stad zelf."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -820,7 +820,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Boekelo is een van de dorpen van de gemeente Enschede."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -883,7 +883,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Glanerbrug ligt tegen de Duitse grens aan, bij de Glanerbeek."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -945,7 +945,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Lonneker is een van de dorpen van de gemeente Enschede."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1007,7 +1007,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Usselo is een van de dorpen van de gemeente Enschede."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1071,7 +1071,7 @@ const ENSCHEDE_DORPEN: Record<string, LokaleInhoud> = {
       ["Twekkelo is een buurtschap van de gemeente Enschede."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1136,7 +1136,7 @@ const BORNE_DORPEN: Record<string, LokaleInhoud> = {
       ["Hertme is, naast Zenderen, een van de twee dorpen van de gemeente Borne. Een groot deel van de woningen in de gemeente is gebouwd vóór de jaren negentig, en dat geldt ook voor veel huizen in en rond Hertme."],
       ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1201,7 +1201,7 @@ const BORNE_DORPEN: Record<string, LokaleInhoud> = {
       ["Zenderen is, naast Hertme, een van de twee dorpen van de gemeente Borne. Een groot deel van de woningen in de gemeente is gebouwd vóór de jaren negentig, en dat geldt ook voor veel huizen in en rond Zenderen."],
       ["Gijs helpt je uitzoeken waar jouw huis warmte verliest en welke stap logisch is."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1282,7 +1282,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Goor is de grootste kern van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen, en is de woningvoorraad gemiddeld wat ouder."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1333,7 +1333,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Delden heeft een eigen, karakteristieke dorpskern binnen de gemeente Hof van Twente. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1384,7 +1384,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Diepenheim is een van de kleinere kernen van de gemeente Hof van Twente, omringd door landgoederen en buitengebied. Net als in de rest van de gemeente staan er relatief veel vrijstaande woningen."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1436,7 +1436,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Bentelo is een van de kleinste dorpen van de gemeente Hof van Twente, met een uitgesproken agrarisch karakter. Je vindt er vrijstaande woningen, twee-onder-een-kapwoningen en voormalige boerderijen die nu als woning worden gebruikt."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1489,7 +1489,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Hengevelde is een kerkdorp in de gemeente Hof van Twente. Het dorp is iets groter dan het nabijgelegen Bentelo en heeft naast vrijstaande woningen ook twee-onder-een-kapwoningen en een enkele tussenwoning."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1542,7 +1542,7 @@ const HOF_VAN_TWENTE_DORPEN: Record<string, LokaleInhoud> = {
       ["Markelo is een van de dorpen van de gemeente Hof van Twente. Net als in de rest van de gemeente staan er in Markelo relatief veel vrijstaande woningen en twee-onder-een-kapwoningen."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1596,7 +1596,7 @@ const ALMELO_DORPEN: Record<string, LokaleInhoud> = {
       ["Aadorp ligt aan het kanaal Almelo-De Haandrik en hoort sinds 2001 bij de gemeente Almelo, los van de stad zelf. In Aadorp is de vrijstaande woning het meest voorkomende type, ruim de helft van de woningen; ongeveer 80% is een koopwoning."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1659,7 +1659,7 @@ const ALMELO_DORPEN: Record<string, LokaleInhoud> = {
       ["In Bornerbroek is de vrijstaande woning het meest voorkomende woningtype, ongeveer de helft van de woningen; zo'n 78% is een koopwoning."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1722,7 +1722,7 @@ const ALMELO_DORPEN: Record<string, LokaleInhoud> = {
       ["Harbrinkhoek-Mariaparochie ligt op de grens van de gemeenten Almelo en Tubbergen."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1794,7 +1794,7 @@ const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
       ["Rijssen-Holten is één gemeente, maar ", { tekst: "Rijssen", href: "/regio/overijssel/rijssen-holten/rijssen" }, " en ", { tekst: "Holten", href: "/regio/overijssel/rijssen-holten/holten" }, " voelen voor de meeste inwoners als twee eigen plaatsen. Daaromheen liggen kleinere buurtschappen zoals Dijkerhoek, Espelo, Beuseberg, Ligtenberg en Neerdorp."],
       ["Gijs helpt bewoners in de hele gemeente met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1870,7 +1870,7 @@ const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
       ["Rijssen is de grootste kern van de gemeente Rijssen-Holten. In Rijssen zelf is de tussenwoning het meest voorkomende woningtype, ruim 2.600 van de woningen; ongeveer twee derde is een koopwoning. Welke isolatie het meeste oplevert, hangt vooral af van je eigen huis en wat daar al aan is gedaan."],
       ["Gijs helpt je dat uit te zoeken, zodat je weet welke stap echt zin heeft."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -1937,7 +1937,7 @@ const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
   "/regio/overijssel/rijssen-holten/holten": {
     seo: {
       title: "Woning isoleren in Holten | Gijs",
-      description: "Isoleren in Holten, aan de voet van de Holterberg? Lees hoe Gijs je helpt van woningscan tot energiescan aan huis.",
+      description: "Isoleren in Holten, aan de voet van de Holterberg? Gijs helpt je met gratis advies, van energiescan aan huis tot uitvoering.",
     },
     kicker: "Holten, gemeente Rijssen-Holten",
     h1: "Je woning isoleren in Holten",
@@ -1945,7 +1945,7 @@ const RIJSSEN_HOLTEN: Record<string, LokaleInhoud> = {
       ["Holten ligt aan de voet van de Holterberg en is een eigen plaats binnen de gemeente Rijssen-Holten, met buurtschappen als Dijkerhoek en Espelo eromheen."],
       ["Of je nu in het dorp zelf woont of net erbuiten: Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2020,7 +2020,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["De gemeente Hellendoorn bestaat uit het dorp Hellendoorn zelf en het grotere ", { tekst: "Nijverdal", href: "/regio/overijssel/hellendoorn/nijverdal" }, ", met daaromheen de kleinere kernen ", { tekst: "Daarle", href: "/regio/overijssel/hellendoorn/daarle" }, ", ", { tekst: "Daarlerveen", href: "/regio/overijssel/hellendoorn/daarlerveen" }, " en ", { tekst: "Haarle", href: "/regio/overijssel/hellendoorn/haarle" }, "."],
       ["Gijs helpt bewoners in de hele gemeente met isoleren, van Nijverdal tot de kleinere dorpen."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2095,7 +2095,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Nijverdal is de grootste kern van de gemeente Hellendoorn en ligt tegen de Sallandse Heuvelrug aan."],
       ["In Nijverdal zelf is de tussenwoning het meest voorkomende woningtype; ongeveer 71% van de woningen is een koopwoning. Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt, ongeacht in welke wijk je woont."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2169,7 +2169,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Daarle is een van de kleinere kernen van de gemeente Hellendoorn. In Daarle is de vrijstaande woning het meest voorkomende type, ruim de helft van de woningen; ongeveer 82% is een koopwoning."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2232,7 +2232,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Daarlerveen is een van de kleinere kernen van de gemeente Hellendoorn, ontstaan als veenontginningsnederzetting. In Daarlerveen is de vrijstaande woning het meest voorkomende type, de helft van de woningen; ongeveer 80% is een koopwoning."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2295,7 +2295,7 @@ const HELLENDOORN: Record<string, LokaleInhoud> = {
       ["Haarle is een van de kleinere kernen van de gemeente Hellendoorn. Net als in de rest van de gemeente is de vrijstaande woning hier het meest voorkomende type."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2360,7 +2360,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["De gemeente Twenterand ontstond in 2001 uit de fusie van de voormalige gemeenten Den Ham en Vriezenveen, en bestaat uit meerdere kernen, met Vriezenveen en Vroomshoop als de twee grootste. Daarnaast liggen er kernen als ", { tekst: "Den Ham", href: "/regio/overijssel/twenterand/den-ham" }, ", ", { tekst: "Geerdijk", href: "/regio/overijssel/twenterand/geerdijk" }, ", ", { tekst: "De Pollen", href: "/regio/overijssel/twenterand/de-pollen" }, " en ", { tekst: "Westerhaar-Vriezenveensewijk", href: "/regio/overijssel/twenterand/westerhaar-vriezenveensewijk" }, "."],
       ["Gijs helpt bewoners in de hele gemeente met isoleren. Lees meer over ", { tekst: "Vriezenveen", href: "/regio/overijssel/twenterand/vriezenveen" }, " of ", { tekst: "Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop" }, "."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2434,7 +2434,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Vriezenveen is de grootste kern van de gemeente Twenterand en heeft van oudsher een lintvormige dorpsstructuur, met bebouwing langs één hoofdstraat."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2500,7 +2500,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
   "/regio/overijssel/twenterand/vroomshoop": {
     seo: {
       title: "Woning isoleren in Vroomshoop | Gijs",
-      description: "Isoleren in Vroomshoop, ontstaan bij het Overijssels Kanaal? Lees hoe Gijs je helpt van woningscan tot energiescan aan huis.",
+      description: "Isoleren in Vroomshoop, ontstaan bij het Overijssels Kanaal? Gijs helpt je met gratis advies, van energiescan aan huis tot uitvoering.",
     },
     kicker: "Vroomshoop, gemeente Twenterand",
     h1: "Je woning isoleren in Vroomshoop",
@@ -2508,7 +2508,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Vroomshoop is ontstaan als veenkolonie langs het Kanaal Almelo-De Haandrik. Het dorp is nu een van de twee grootste kernen van de gemeente Twenterand."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2582,7 +2582,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Den Ham wordt al in 1333 genoemd, in een leenakte als parochie van de heer van Egede."],
       ["Net als in de rest van de gemeente is de vrijstaande woning hier naar verwachting het meest voorkomende type. Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2645,7 +2645,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["De Pollen is een van de kernen van de gemeente Twenterand, tussen Vriezenveen en Den Ham. Net als in de rest van de gemeente is de vrijstaande woning hier naar verwachting het meest voorkomende type."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2708,7 +2708,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Geerdijk is een van de kernen van de gemeente Twenterand, ontstaan halverwege de negentiende eeuw als veenkoloniale nederzetting langs het Kanaal Almelo-De Haandrik. In Geerdijk is de vrijstaande woning verreweg het meest voorkomende type, 75% van de woningen; ongeveer 89% is een koopwoning."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2771,7 +2771,7 @@ const TWENTERAND: Record<string, LokaleInhoud> = {
       ["Westerhaar-Vriezenveensewijk is een van de kernen van de gemeente Twenterand, ontstaan rond 1890 als veenkolonie bij de afgraving van de Engbertsdijksvenen. Net als in de rest van de gemeente is de vrijstaande woning hier het meest voorkomende type."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {
@@ -2836,7 +2836,7 @@ const GELDERLAND_DORPEN: Record<string, LokaleInhoud> = {
       ["Beekbergen is een dorp aan de rand van de Veluwe, in de gemeente Apeldoorn. De meeste woningen zijn vrijstaand of twee-onder-een-kap en zijn gebouwd voor de jaren tachtig — ver vóór de huidige isolatienormen."],
       ["Gijs helpt je uitzoeken wat er bij jouw huis te winnen valt met isoleren."],
     ],
-    ctaPrimair: { tekst: "Start de woningscan", href: "/woning" },
+    ctaPrimair: { tekst: "Ik wil mijn woning verduurzamen", href: "/woning" },
     ctaSecundair: { tekst: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" },
     secties: [
       {

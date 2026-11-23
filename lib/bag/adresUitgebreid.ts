@@ -3,8 +3,7 @@
 import type { HouseType } from "@/lib/woning-types";
 
 // Aanvullende woninggegevens via de BAG API Individuele Bevragingen
-// (Kadaster), zodat bouwjaar, woonoppervlakte en enkele richtwaarden voor
-// isolatiematen al bekend kunnen zijn.
+// (Kadaster), zodat bouwjaar en woonoppervlakte al bekend kunnen zijn.
 //
 // Sleutel is nog fictief: BAG_API_KEY is een echte, gratis aan te vragen
 // sleutel via https://formulieren.kadaster.nl/aanvraag_bag_api_individuele_bevragingen_productie
@@ -13,61 +12,30 @@ import type { HouseType } from "@/lib/woning-types";
 // gewoon met alleen het PDOK-adres, zoals nu.
 const BAG_API_KEY = process.env.BAG_API_KEY ?? "";
 const ADRESSEN_URL = "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/adressenuitgebreid";
-const PANDEN_URL = "https://api.bag.kadaster.nl/lvbag/individuelebevragingen/v2/panden";
 const HEADERS = { Accept: "application/hal+json", "Accept-Crs": "epsg:28992", "X-Api-Key": BAG_API_KEY };
 
 export type BagGegevens = {
   bouwjaar: string;
   woonoppervlakte: string;
-  /** Werkelijke oppervlakte van de begane grond, uit de kadastrale plattegrond (pand-geometrie). Leeg als de plattegrond niet kon worden opgehaald. */
+  /** Richtwaarde voor het vloeroppervlak (isoleerbaar), gemiddelde per woningtype van Gijs. */
   vloeroppervlakte: string;
-  /** Richtwaarde voor het dakoppervlak: plattegrond x standaard hellingsfactor. Geen exacte meting (dakhelling staat niet in de BAG). */
+  /** Richtwaarde voor het dakoppervlak (isolatie aan de binnenzijde), gemiddelde per woningtype van Gijs. */
   dakoppervlakte: string;
-  /** Richtwaarde voor het buitengeveloppervlak: omtrek x aangenomen bouwhoogte, min. gedeelde muren met de buren. Geen exacte meting (bouwhoogte staat niet in de BAG). */
+  /** Richtwaarde voor het spouwmuuroppervlak, gemiddelde per woningtype van Gijs. */
   gevelOppervlakte: string;
 };
 
-/** Oppervlakte (m², shoelace-formule) en omtrek (m) van een gesloten veelhoek in RD-coördinaten (meters). */
-function veelhoekMaten(ring: [number, number][]) {
-  let oppervlakte = 0;
-  let omtrek = 0;
-  for (let i = 0; i < ring.length - 1; i++) {
-    const [x1, y1] = ring[i];
-    const [x2, y2] = ring[i + 1];
-    oppervlakte += x1 * y2 - x2 * y1;
-    omtrek += Math.hypot(x2 - x1, y2 - y1);
-  }
-  return { oppervlakte: Math.abs(oppervlakte) / 2, omtrek };
-}
-
-/** Standaard dakhellingsfactor (plattegrond → dakvlak) en aangenomen bouwhoogte: de BAG kent geen dakhelling of bouwhoogte, dit zijn richtwaarden. */
-const DAK_HELLINGSFACTOR = 1.3;
-const AANGENOMEN_BOUWHOOGTE = 5.4;
-/** Aandeel van de omtrek dat een gedeelde muur met de buren is (niet te isoleren), per woningtype. */
-const GEDEELDE_MUUR_AANDEEL: Record<HouseType, number> = {
-  hoekwoning: 0.2,
-  tussenwoning: 0.4,
-  "twee-onder-een-kap": 0.2,
-  vrijstaand: 0,
+// Gemiddelde isolatie-oppervlakten per woningtype (Max, 23-11-2026): leidend boven een schatting uit de
+// kadastrale plattegrond (pand-geometrie) of andere metingen. Eerder werden vloer-, dak- en geveloppervlak
+// berekend uit de pandvorm in de BAG (omtrek/oppervlak van het pand, met aannames voor dakhelling en
+// bouwhoogte); die aanpak gaf er geregeld ~15-30% naast (bijv. een garage vlak bij een vrijstaande woning,
+// zie project-woningtype-geometrie). Deze vaste gemiddeldes vervangen die berekening volledig.
+const RICHTWAARDE_OPPERVLAK: Record<HouseType, { vloer: number; dak: number; gevel: number }> = {
+  tussenwoning: { gevel: 50, dak: 55, vloer: 40 },
+  hoekwoning: { gevel: 80, dak: 55, vloer: 45 },
+  "twee-onder-een-kap": { gevel: 90, dak: 60, vloer: 55 },
+  vrijstaand: { gevel: 130, dak: 100, vloer: 90 },
 };
-
-async function haalPandGeometrieOp(pandIdentificatie: string) {
-  const response = await fetch(`${PANDEN_URL}/${encodeURIComponent(pandIdentificatie)}`, { headers: HEADERS, cache: "no-store" });
-  if (!response.ok) return null;
-  const data = await response.json();
-  const ring = data?.pand?.geometrie?.coordinates?.[0] as [number, number, number][] | undefined;
-  if (!ring || ring.length < 4) return null;
-  return veelhoekMaten(ring.map(([x, y]) => [x, y]));
-}
-
-/** Sommige (met name oudere) panden omvatten meerdere woningen; deel de plattegrond dan door het aantal adressen. */
-async function telAdressenPerPand(pandIdentificatie: string): Promise<number> {
-  const response = await fetch(`${ADRESSEN_URL}?pandIdentificatie=${encodeURIComponent(pandIdentificatie)}`, { headers: HEADERS, cache: "no-store" });
-  if (!response.ok) return 1;
-  const data = await response.json();
-  const lijst = data?._embedded?.adressen;
-  return Array.isArray(lijst) && lijst.length > 0 ? lijst.length : 1;
-}
 
 /**
  * Haalt bouwjaar, woonoppervlakte en richtwaarden voor vloer-, dak- en
@@ -89,20 +57,13 @@ export async function haalBagGegevensOp(nummeraanduidingId: string, houseType: H
     const woonoppervlakte = typeof adres.oppervlakte === "number" ? String(adres.oppervlakte) : "";
     if (!bouwjaar && !woonoppervlakte) return null;
 
-    const gegevens: BagGegevens = { bouwjaar, woonoppervlakte, vloeroppervlakte: "", dakoppervlakte: "", gevelOppervlakte: "" };
-    const pandId = Array.isArray(adres.pandIdentificaties) ? adres.pandIdentificaties[0] : undefined;
-    if (typeof pandId === "string") {
-      const [geometrie, aantalAdressen] = await Promise.all([haalPandGeometrieOp(pandId), telAdressenPerPand(pandId)]);
-      if (geometrie) {
-        const vloerM2 = geometrie.oppervlakte / aantalAdressen;
-        const omtrekPerAdres = geometrie.omtrek / aantalAdressen;
-        const gedeeld = GEDEELDE_MUUR_AANDEEL[houseType] ?? 0;
-        gegevens.vloeroppervlakte = String(Math.round(vloerM2));
-        gegevens.dakoppervlakte = String(Math.round(vloerM2 * DAK_HELLINGSFACTOR));
-        gegevens.gevelOppervlakte = String(Math.round(omtrekPerAdres * AANGENOMEN_BOUWHOOGTE * (1 - gedeeld)));
-      }
-    }
-    return gegevens;
+    const richtwaarde = RICHTWAARDE_OPPERVLAK[houseType];
+    return {
+      bouwjaar, woonoppervlakte,
+      vloeroppervlakte: String(richtwaarde.vloer),
+      dakoppervlakte: String(richtwaarde.dak),
+      gevelOppervlakte: String(richtwaarde.gevel),
+    };
   } catch {
     return null;
   }

@@ -512,11 +512,10 @@ export function KetelPage({ item }: { item: MeasurePageItem }) {
       <section className={`scroll-mt-52 ${regioStyles.opkomen}`}>
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-7 sm:px-10 sm:py-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)]">
           <p className="max-w-xl text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.6] text-zinc-700 [text-wrap:pretty]">
-            Is je cv-ketel aan vervanging toe? Vraag een gratis energiescan aan, of ontdek eerst zelf in de woningscan
-            welke maatregelen bij jouw huis passen.
+            Is je cv-ketel aan vervanging toe? Bespreek gratis en vrijblijvend wat de beste optie is voor jouw woning.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
-            <Button href={startScanHref} variant="accent" size="md" iconRight="arrow-right">Start de woningscan</Button>
+            <Button href={startScanHref} variant="accent" size="md" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
             <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>

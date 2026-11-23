@@ -64,6 +64,28 @@ const OPBOUW = [
   { icon: "ruler", title: "Afstandhouder", text: "De afstandhouder houdt de glaslagen op de juiste afstand. Bij HR++ (G) is deze van kunststof." },
 ];
 
+// Condens: waar het vocht zit, zegt iets over de oorzaak. Tekst aangeleverd door Max (nov. 2026).
+const CONDENS = [
+  {
+    icon: "cloud-snow",
+    plek: "Aan de buitenkant",
+    duiding: "Vaak een goed teken",
+    tekst: "Bij goed isolerend HR++ of triple glas kan condens aan de buitenkant juist een positief teken zijn. Omdat het glas de warmte binnenhoudt, blijft de buitenste glasplaat relatief koud. Op vochtige, koude ochtenden kunnen daardoor waterdruppels ontstaan. Bij vorst kan dit vocht zelfs bevriezen. Dat betekent niet dat je isolatieglas kapot is. Het laat juist zien dat er weinig warmte via het glas naar buiten ontsnapt.",
+  },
+  {
+    icon: "house",
+    plek: "Aan de binnenkant",
+    duiding: "Vraagt om meer aandacht",
+    tekst: "Warme, vochtige lucht uit je woning slaat neer op koude oppervlakken. Vooral bij enkelglas en ouder dubbelglas gebeurt dit sneller, omdat de binnenste glasplaat relatief koud blijft. HR++ glas vermindert de kans op condens doordat de binnenruit warmer blijft. Toch kan ook bij goed isolatieglas vocht ontstaan wanneer de luchtvochtigheid hoog is of de ventilatie onvoldoende werkt.",
+  },
+  {
+    icon: "layers",
+    plek: "Tussen de glasplaten",
+    duiding: "Afdichting waarschijnlijk lek",
+    tekst: "Zie je vocht tussen de glasplaten dat je niet kunt wegvegen? Dan is de afdichting waarschijnlijk lek en kan vervanging van de ruit nodig zijn.",
+  },
+];
+
 
 export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
   const startScanHref = "/woning?maatregel=" + item.id;
@@ -118,7 +140,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
-              <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
             </div>
             <p className="text-[15px] leading-relaxed text-[var(--text-muted)]">
               Of <Link href="/contact" className={TEKSTLINK}>neem gewoon contact op</Link>, of bel{" "}
@@ -139,6 +161,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
       <MeasureSectionNav sections={[
         { id: "wat-is-het", label: "Waarom" },
         { id: "glassoorten", label: "Glassoorten" },
+        { id: "condens", label: "Condens" },
         { id: "hoe-werkt-het", label: "Plaatsen" },
         { id: "subsidie", label: "Subsidie" },
         { id: "veelgestelde-vragen", label: "Vragen" },
@@ -292,6 +315,52 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
         </div>
       </section>
 
+      <section id="condens" className={SECTIE}>
+        {/* Twee kolommen zodat de hele sectie op desktop in één scherm past: links de uitleg,
+            rechts de drie plekken onder elkaar in één witte kaart. */}
+        <div className={GRIJS_BLOK + " grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:items-center"}>
+          <div className="flex flex-col gap-4">
+            <p className={EYEBROW}>Condens op je ramen</p>
+            <h2 className={H2}>Condens of ijs op je ramen: wat zegt het over je glas?</h2>
+            <p className={KAARTTEKST + " !text-[16px]"}>
+              Word je &apos;s ochtends wakker met beslagen ramen of zelfs een laagje ijs op je dubbel glas? Dan vraag je je
+              misschien af of je ramen nog wel goed isoleren. Condens betekent echter niet automatisch dat je glas aan
+              vervanging toe is.{" "}
+              <strong className="font-semibold text-[var(--gijs-donkergroen)]">
+                Het belangrijkste is waar het vocht ontstaat: aan de buitenkant, binnenkant of tussen de glasplaten.
+              </strong>{" "}
+              Dat vertelt je vaak al veel over de oorzaak.
+            </p>
+            <h3 className={KAARTKOP + " mt-2"}>Blijven je ramen regelmatig nat?</h3>
+            <p className={KAARTTEKST + " !text-[16px]"}>
+              Dan kan het water zich ophopen bij de glaslatten en kozijnen. Vooral houten kozijnen kunnen hierdoor op termijn
+              beschadigd raken. Langdurige vochtbelasting vergroot de kans op schimmelvorming, loslatende verf en uiteindelijk
+              houtrot. Het is daarom verstandig om niet alleen de condens te verwijderen, maar ook de oorzaak aan te pakken.
+              Soms helpt betere ventilatie, terwijl in andere gevallen het vervangen van oud dubbelglas door HR++ glas een
+              passende oplossing is. Gijs kijkt tijdens een gratis energiescan naar je glas, kozijnen en de rest van je woning
+              om te bepalen welke verbetering verstandig is.
+            </p>
+          </div>
+
+          <ul className="rounded-[var(--radius-lg)] bg-white px-6 sm:px-8 divide-y divide-[var(--border-default)]">
+            {CONDENS.map(c => (
+              <li key={c.plek} className="flex gap-4 py-5">
+                <span className="hidden sm:flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--surface-tint)] text-[var(--accent-700)]">
+                  <Icon name={c.icon} size="md" />
+                </span>
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+                    <span className={KAARTKOP}>{c.plek}</span>
+                    <span className="text-[15px] font-semibold text-[var(--accent-700)]">{c.duiding}</span>
+                  </h3>
+                  <p className={KAARTTEKST}>{c.tekst}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section id="hoe-werkt-het" className={SECTIE}>
         <Kop eyebrow="Isolatieglas plaatsen" titel="Isolatieglas laten plaatsen: hoe werkt dat?"
           lead="Bij isolatieglas vervang je alleen het glas. Je kozijnen blijven zitten, dus het werk is overzichtelijk en in één dag klaar." />
@@ -357,11 +426,10 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
       <section className={`scroll-mt-52 ${regioStyles.opkomen}`}>
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-7 sm:px-10 sm:py-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)]">
           <p className="max-w-xl text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.6] text-zinc-700 [text-wrap:pretty]">
-            Wil je isolatieglas laten plaatsen? Vraag een gratis energiescan aan, of ontdek eerst zelf in de woningscan
-            welke maatregelen bij jouw huis passen.
+            Isolatieglas laten plaatsen? Vraag gratis en vrijblijvend persoonlijk advies aan.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
-            <Button href={startScanHref} variant="accent" size="md" iconRight="arrow-right">Start de woningscan</Button>
+            <Button href={startScanHref} variant="accent" size="md" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
             <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>

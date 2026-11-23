@@ -35,7 +35,7 @@ export default function DigitalHomeExplanation() {
         </div>
 
         <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">
-          Start de woningscan
+          Ik wil mijn woning verduurzamen
         </Button>
       </div>
     </section>

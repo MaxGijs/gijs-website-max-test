@@ -18,7 +18,7 @@ import { freshScan, SCAN_KEY } from "@/lib/scan-session";
 // knoptekst gewijzigd van "Doe nu de scan" naar "Start met mijn woning"
 // (hero-sectie van de opdracht). Het oude, ongebruikte
 // components/WoningScan.tsx is inmiddels opgeruimd.
-export default function AddressScan({ className = "", onNavigate }: { className?: string; onNavigate?: () => void }) {
+export default function AddressScan({ className = "", onNavigate, knopTekst = "Ik wil mijn woning verduurzamen" }: { className?: string; onNavigate?: () => void; knopTekst?: string }) {
   const router = useRouter();
   const id = useId();
   const { draft, setDraft } = useWoningDraft();
@@ -72,7 +72,7 @@ export default function AddressScan({ className = "", onNavigate }: { className?
           scan (dubbel). Beide zijn weggehaald; privacy, voorwaarden en
           Cyclomedia-gebruik worden later juridisch beoordeeld. */}
       <Button type="submit" variant="accent" size="lg" fullWidth iconRight="arrow-right">
-        Start de woningscan
+        {knopTekst}
       </Button>
     </form>
   );

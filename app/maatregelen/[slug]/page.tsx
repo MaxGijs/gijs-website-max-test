@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return createMetadata(
       "/maatregelen/spouwmuurisolatie",
       "Spouwmuurisolatie voor jouw woning | Gijs",
-      "Ontdek hoe spouwmuurisolatie werkt, welke materialen Gijs gebruikt en hoe de uitvoering verloopt. Start de woningscan of plan een energiescan.",
+      "Ontdek hoe spouwmuurisolatie werkt, welke materialen Gijs gebruikt en hoe de uitvoering verloopt. Vraag gratis en vrijblijvend advies aan.",
       true,
       { path: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png", alt: "Spouwmuurisolatie wordt via een boorgat in de gevel aangebracht" }
     );
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return createMetadata(
       "/maatregelen/dakisolatie",
       "Dakisolatie voor jouw woning | Gijs",
-      "Ontdek hoe dakisolatie werkt, welke materialen Gijs gebruikt en hoe de uitvoering verloopt. Start de woningscan of plan een energiescan.",
+      "Ontdek hoe dakisolatie werkt, welke materialen Gijs gebruikt en hoe de uitvoering verloopt. Vraag gratis en vrijblijvend advies aan.",
       true,
       { path: "/images/maatregelen/dakisolatie/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png", alt: "Dakisolatie wordt tussen de dakconstructie aangebracht" }
     );
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return createMetadata(
       "/maatregelen/vloerisolatie",
       "Vloerisolatie voor jouw woning | Gijs",
-      "Ontdek hoe vloerisolatie werkt, welke materialen Gijs gebruikt en hoe de uitvoering verloopt. Start de woningscan of plan een energiescan.",
+      "Ontdek hoe vloerisolatie werkt, welke materialen Gijs gebruikt en hoe de uitvoering verloopt. Vraag gratis en vrijblijvend advies aan.",
       true,
       { path: "/images/maatregelen/vloerisolatie/hero_vloerisolatie.png", alt: "Vloerisolatie wordt vanuit de kruipruimte tegen de onderzijde van de vloer aangebracht" }
     );
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return createMetadata(
       "/maatregelen/kozijnen",
       "Kozijnen voor jouw woning | Gijs",
-      "Ontdek welke kunststof en aluminium kozijnen Gijs plaatst, inclusief deuren en schuifpuien. Start de woningscan of plan een energiescan.",
+      "Ontdek welke kunststof en aluminium kozijnen Gijs plaatst, inclusief deuren en schuifpuien. Vraag gratis en vrijblijvend advies aan.",
       true,
       { path: "/images/maatregelen/kozijnen/kozijnen-hero.jpg", alt: "Nieuw geplaatst kozijn met raam en voordeur" }
     );
@@ -82,7 +82,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return createMetadata(
       "/maatregelen/zonnepanelen",
       "Zonnepanelen voor jouw woning | Gijs",
-      "Ontdek welke zonnepanelen Gijs plaatst en hoe de installatie in één dag verloopt. Start de woningscan of plan een energiescan.",
+      "Ontdek welke zonnepanelen Gijs plaatst en hoe de installatie in één dag verloopt. Vraag gratis en vrijblijvend advies aan.",
       true,
       { path: "/images/maatregelen/zonnepanelen/zonnepanelen-hero-v4.jpeg", alt: "Een installateur van Gijs plaatst, met valbeveiliging, een zonnepaneel op een schuin dak" }
     );

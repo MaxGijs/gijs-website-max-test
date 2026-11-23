@@ -356,13 +356,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
       {/* Scanmodus vanaf stap 2: de pagina-intro (H1) blijft in de HTML, maar neemt geen ruimte meer in, zodat
           de eigenlijke vraag hoger op het scherm begint. */}
       {scan.step !== STAP.woning && <style href="woningscan-compact" precedence="default">{`.woning-intro{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}`}</style>}
-      {/* Titel en basisuitleg staan nu server-side in app/woning/page.tsx (vóór
-          deze client-component), zodat ze altijd in de HTML staan, ongeacht
-          scanstap. Dit kickertje met icoon blijft hier, om duplicatie van die
-          tekst te voorkomen. */}
-      {scan.step === STAP.woning && <header className={styles.intro}>
-        <p className="font-semibold">Jouw digitale woningscan</p>
-      </header>}
+      {/* Kicker, titel en basisuitleg staan server-side in app/woning/page.tsx, in de opmaak van de overige pagina's. */}
       <Stepper steps={[...SCAN_STAPPEN]} current={scan.step} className={styles.stepper} />
       <p className={styles.stapTeller}>Stap {scan.step + 1} van {SCAN_STAPPEN.length}</p>
       {/* Stap 1: geen zichtbare kop "Jouw woning" (na "Stap 1 van 3" volgt direct "Gevonden! Is dit jouw

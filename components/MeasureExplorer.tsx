@@ -72,6 +72,6 @@ export default function MeasureExplorer() {
         ))}
       </div>
     </div>
-    <section className={styles.cta}><div><h2>Twijfel je wat past?</h2><p>Je hoeft nog geen maatregel of merk te kiezen. Start de woningscan en ontdek wat bij jouw woning past.</p></div><Link className={styles.button} href="/woning">Start de woningscan →</Link></section>
+    <section className={styles.cta}><div><h2>Twijfel je wat past?</h2><p>Je hoeft nog geen maatregel of merk te kiezen. Ontdek wat bij jouw woning past.</p></div><Link className={styles.button} href="/woning">Ik wil mijn woning verduurzamen →</Link></section>
   </div>;
 }

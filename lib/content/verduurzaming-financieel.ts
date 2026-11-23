@@ -134,6 +134,16 @@ export const RVO_REFERENTIEWONINGEN: Record<HouseType, Bouwperiode[]> = {
   ],
 };
 
+// Gemiddeld glasoppervlak per woningtype (Max, 23-11-2026): leidend voor isolatieglas in de besparings-
+// en subsidieberekening, in plaats van de "raam"-waarde hierboven uit de RVO-referentiewoningen (die
+// blijft staan voor andere doeleinden, maar isolatieglas rekent voortaan met dit vaste gemiddelde).
+export const GLAS_OPPERVLAKTE: Record<HouseType, number> = {
+  tussenwoning: 10,
+  hoekwoning: 10,
+  "twee-onder-een-kap": 12,
+  vrijstaand: 20,
+};
+
 // Tot circa 1930 werden geen spouwmuren toegepast (RVO-brochure); dit is een bouwkundig gegeven over
 // of een spouw bestáát, geen uitspraak over de huidige isolatiestatus. Spouwmuurisolatie wordt daarom
 // alleen bij een ouder bouwjaar als "niet toepasbaar" uitgesloten. Of een bouwdeel al geïsoleerd ís,

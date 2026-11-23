@@ -35,7 +35,7 @@ const WHATSAPP_VRAAG = WHATSAPP_NUMMER
   : undefined;
 
 const WHATSAPP_SCAN = WHATSAPP_NUMMER
-  ? `https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een energiescan plannen.")}`
+  ? `https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een gratis energiescan plannen via de website van Gijs")}`
   : undefined;
 
 const KAART = "flex flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-white p-6 sm:p-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:border-transparent hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)]";
@@ -219,7 +219,7 @@ export default function Contact() {
                 is geen verplichte voorbereiding: je kunt ook direct contact opnemen.
               </p>
               <div>
-                <Button variant="accent" size="md" href="/woning" iconRight="arrow-right">Start de woningscan</Button>
+                <Button variant="accent" size="md" href="/woning" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
               </div>
             </div>
           </div>

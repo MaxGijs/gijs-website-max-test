@@ -111,7 +111,7 @@ export function leidProfielAf(v: GemeenteVerhaal, opties: {
     inzichten,
     buurtschappen: { eyebrow: "In de buurt", h2: `Plaatsen in de gemeente ${gemeente}` },
     afsluiting: {
-      tekst: `Klaar om je woning ${vz} ${naamVoorTekst} te verduurzamen? Start de woningscan en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg.`,
+      tekst: `Klaar om je woning ${vz} ${naamVoorTekst} te verduurzamen? Vul je adres in en zie welke isolatie en installaties bij jouw woning passen. Gijs helpt je graag op weg.`,
       scanKnop: true,
     },
   };
@@ -150,7 +150,7 @@ export function basisPagina(opties: {
       layout: "portret",
     },
     afsluiting: {
-      tekst: `Je woning isoleren in ${plaats}? Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.`,
+      tekst: `Je woning isoleren in ${plaats}? Ontdek welke mogelijkheden bij jouw woning passen.`,
       scanKnop: true,
     },
   };

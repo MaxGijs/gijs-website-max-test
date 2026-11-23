@@ -16,14 +16,14 @@ export const SEO_INDEXABLE = process.env.SEO_INDEXABLE === "true";
 // (standaard) betekent: geen verificatietag, precies zoals vóór deze wijziging.
 export const GOOGLE_SITE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? "";
 export const PAGE_SEO: Record<string,{title:string;description:string;index?:boolean}> = {
- "/":{title:"Woning verduurzamen | Ontdek wat bij jouw woning past | Gijs",description:"Ontdek welke verduurzaming bij jouw woning past. Doe de digitale woningscan en plan een gratis energiescan aan huis, ter waarde van €349."},
+ "/":{title:"Woning verduurzamen | Gratis persoonlijk advies | Gijs",description:"Woning verduurzamen? Vraag gratis en vrijblijvend persoonlijk advies aan. Een adviseur van Gijs kijkt wat bij jouw woning past. Van advies tot uitvoering."},
  "/maatregelen":{title:"Isolaties en installaties voor je woning | Gijs",description:"Lees over dak-, spouw- en vloerisolatie, glas, zonnepanelen, warmtepompen, vloerverwarming en thuisbatterijen. Ontdek wat Gijs voor jouw huis bekijkt."},
  "/contact":{title:"Contact met Gijs | Advies over je woning",description:"Vragen over verduurzamen? Neem contact op met Gijs via 074 - 234 0 777 of info@groeninjestraat.nl. Telefonisch bereikbaar van 08:30 tot 17:30."},
- "/zo-werkt-gijs":{title:"Zo werkt Gijs | Van woningplan naar persoonlijk advies",description:"Kies je woning, verken je wensen en bereid je adviesgesprek voor. Lees hoe de digitale woningscan en gratis energiescan aan huis bij Gijs werken."},
+ "/zo-werkt-gijs":{title:"Zo werkt Gijs | Van woningplan naar persoonlijk advies",description:"Van gratis persoonlijk advies tot de uitvoering. Lees hoe Gijs met je meekijkt welke maatregelen bij je woning passen, met één vast aanspreekpunt."},
  "/kennis":{title:"Huis verduurzamen: uitleg en veelgestelde vragen | Gijs",description:"Antwoorden over isolatie, warmtepompen, zonnepanelen en je woningplan. Lees wat je kunt verwachten van de gratis energiescan aan huis."},
  "/over-gijs":{title:"Over Gijs | Iedereen kent wel een Gijs",description:"Iedereen kent wel iemand die luistert, normaal uitlegt en meedenkt. Lees over het idee achter Gijs, over Thom en over de mensen achter het advies."},
  "/regio":{title:"Isoleren en verduurzamen per regio | Gijs",description:"Kies je provincie en gemeente. Lees over isolatiemaatregelen, landelijke subsidies en hoe Gijs uitzoekt welke gemeentelijke regelingen mogelijk gelden."},
- "/woning":{title:"Jouw digitale woningscan | Gijs",description:"Verken je wensen en maatregelen op een voorbeeldwoning en bereid een adviesgesprek met Gijs voor.",index:false},
+ "/woning":{title:"Vraag gratis advies aan voor je woning | Gijs",description:"Bevestig je woning, zie wat er mogelijk is en vraag een gratis en vrijblijvend adviesgesprek aan huis aan.",index:false},
  "/subsidiecheck":{title:"Subsidiecheck: alle subsidies voor jouw adres | Gijs",description:"Vul je postcode in en zie alle subsidies, leningen en regelingen van je gemeente, provincie en het Rijk voor isolatie, warmtepomp en zonnepanelen. Actueel via Milieu Centraal."},
  "/cookies":{title:"Cookiebeleid | Gijs",description:"Informatie over het cookiebeleid van Gijs.",index:false},
  "/disclaimer":{title:"Disclaimer | Gijs",description:"Informatie over de disclaimer van Gijs.",index:false},

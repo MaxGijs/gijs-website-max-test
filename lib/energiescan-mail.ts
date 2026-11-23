@@ -144,7 +144,7 @@ function secties(r: OverzichtRij, adres: string) {
     ["Aanbouw", weergave(r.aanbouw)],
     ["Kruipruimte", antwoordWeergave(r.kruipruimte)],
     ["Spouwmuur", antwoordWeergave(r.spouwmuur)],
-    ["Vloer begane grond (Kadaster)", getal(r.vloeroppervlakte, "m²")],
+    ["Vloeroppervlak (richtwaarde)", getal(r.vloeroppervlakte, "m²")],
     ["Dakoppervlak (richtwaarde)", getal(r.dakoppervlakte, "m²")],
     ["Geveloppervlak (richtwaarde)", getal(r.gevel_oppervlakte, "m²")],
   ];

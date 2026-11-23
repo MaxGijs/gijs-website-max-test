@@ -198,7 +198,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
         title="Thuisbatterij voor jouw woning"
         subtitle="Sla je energie op voor later gebruik"
         intro="Een thuisbatterij slaat elektriciteit op. Je energiegebruik en wat je wilt bereiken vormen het vertrekpunt voor het advies. Gijs plaatst hiervoor een modulaire thuisbatterij."
-        primaryCta={{ label: "Start de woningscan", href: startScanHref }}
+        primaryCta={{ label: "Ik wil mijn woning verduurzamen", href: startScanHref }}
         secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }}
         image="/images/maatregelen/thuisbatterij/thuisbatterij-hero-v2.png"
         imageAlt="Een Gijs-installateur sluit een thuisbatterij aan"
@@ -282,7 +282,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
                 <span>De locatie en bereikbaarheid van de meterkast</span>
               </li>
             </ul>
-            <Button href={startScanHref} variant="accent" className="shrink-0">Start de woningscan</Button>
+            <Button href={startScanHref} variant="accent" className="shrink-0">Ik wil mijn woning verduurzamen</Button>
           </Card>
         </section>
 
@@ -373,7 +373,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
         {/* Kennisartikel over het einde van salderen, als dezelfde kaart als op /kennis. */}
         <section id="kennis" className={`scroll-mt-40 ${HOOFDSTUK_MB}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Thuisbatterij en het einde van salderen</h2>
-          <ArtikelKaarten slugs={["salderen-stopt-2027-thuisbatterij"]} />
+          <ArtikelKaarten slugs={["salderen-stopt-2027-thuisbatterij", "zonnepanelen-rendabel-zonder-salderen"]} />
         </section>
 
         <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
@@ -404,7 +404,7 @@ export function ThuisbatterijPage({ item }: { item: MeasurePageItem }) {
 
       <MeasureCta
         titel="Past een thuisbatterij bij jouw woning?"
-        tekst="Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."
+        tekst="Een thuisbatterij voor jouw woning? Bespreek gratis en vrijblijvend wat er mogelijk is."
         primaryHref={startScanHref}
       />
     </main>

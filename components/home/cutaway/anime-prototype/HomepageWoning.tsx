@@ -100,16 +100,16 @@ export default function HomepageWoning({ children }: { children?: ReactNode }) {
         </aside>
         <div className={basis.narrative}>
           {/* Staat 0, gesloten woning: de hero zoals de huidige homepage, met direct de woningscan. */}
-          <section className={basis.panel} data-staat={0}>
+          <section className={`${basis.panel} ${basis.heroPanel}`} data-staat={0}>
             <p className={basis.eyebrow}>Groen in je straat</p>
-            <h1 className={basis.title}><span className={basis.regel}>Verduurzaam</span> <span className={`${basis.regel} ${basis.regelJ}`}>je woning.</span></h1>
-            <p className={basis.description}>Lagere energiekosten, meer wooncomfort en zo energieneutraal mogelijk wonen? Ontdek stap voor stap welke maatregelen daarbij kunnen helpen.</p>
+            <h1 className={`${basis.title} ${basis.heroTitel}`}><span className={basis.regel}>Woning verduurzamen?</span> <span className={basis.regel}>Vraag gratis advies aan.</span></h1>
+            <p className={basis.description}>Ontdek hoe je energie kunt besparen en comfortabeler kunt wonen. Met een gratis energiescan aan huis (t.w.v. €349) kijkt een adviseur van Gijs naar je hele woning. Je ontdekt welke maatregelen bij jouw huis passen en welke subsidies mogelijk zijn. Van advies tot uitvoering: Gijs regelt het van A tot Z.</p>
             <div className={basis.scanCard}>
-              <h2 className={basis.scanCardTitle}>Start de digitale woningscan</h2>
-              <p className={basis.scanCardIntro}>Vul je adres in en ontdek in een paar minuten wat er mogelijk is voor jouw woning.</p>
-              <AddressScan />
+              <h2 className={basis.scanCardTitle}>Jouw gratis advies begint hier</h2>
+              <p className={basis.scanCardIntro}>Vul je adres in. We plannen daarna samen een gratis gesprek aan huis.</p>
+              <AddressScan knopTekst="Ik wil mijn woning verduurzamen" />
             </div>
-            <p className={basis.checkNote}>Daarna plan je een gratis energiescan aan huis, ter waarde van €349. Je woningtype wordt in de scan automatisch opgehaald.</p>
+            <p className={basis.checkNote}>Je woningtype wordt automatisch opgehaald.</p>
             <TrustStrip className="mt-4" />
           </section>
           {/* Staat 1, open homepage_woning. */}
@@ -119,7 +119,7 @@ export default function HomepageWoning({ children }: { children?: ReactNode }) {
             <p className={basis.description}>Waar verlies je warmte? Via je dak, muren, vloer en ramen kan warmte ontsnappen. Isolatie helpt die binnen te houden.</p>
             <p className={basis.description}>Zelf stroom opwekken? Dat doen je zonnepanelen door middel van zonlicht. Een warmtepomp gebruikt warme buitenlucht om binnen te verwarmen.</p>
             <p className={basis.description}>Kijk mee in de woning. Zo ontdek je waar iedere oplossing zit en wat jij ervan merkt.</p>
-            <button type="button" className={basis.inlineScan} onClick={openScan}>Liever meteen jouw woning bekijken? Start de woningscan →</button>
+            <button type="button" className={basis.inlineScan} onClick={openScan}>Liever meteen jouw woning bekijken? Ik wil mijn woning verduurzamen →</button>
           </section>
           {/* Staten 2-9: de 8 maatregelen. Bestaande teksten uit stappen.ts. */}
           {HOOFDSTUKKEN.map((m, i) => (
@@ -148,7 +148,7 @@ export default function HomepageWoning({ children }: { children?: ReactNode }) {
       <div id="na-de-woning" className={basis.support}>{children}</div>
       <div className={basis.scanBar} hidden={!balk}>
         <span>Wat kan er met jouw woning?</span>
-        <button type="button" onClick={openScan}>Start de woningscan <span aria-hidden="true">→</span></button>
+        <button type="button" onClick={openScan}>Ik wil mijn woning verduurzamen <span aria-hidden="true">→</span></button>
       </div>
       <dialog ref={dialoog} className={basis.dialog} aria-labelledby="anime-scan-titel" onClose={() => { document.body.style.overflow = vorigeOverflow.current; }} onClick={e => { if (e.target === dialoog.current) dialoog.current?.close(); }}>
         <div className={basis.dialogBody}>
