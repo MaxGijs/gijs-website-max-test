@@ -296,7 +296,7 @@ export default function ZoWerktGijs() {
             <p className={tekst}>{EN_DAARNA}</p>
             <h2 className={kopGroot}>Ontdek wat logisch is voor jouw woning.</h2>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
               <Link href="/contact" className="inline-flex min-h-11 items-center font-semibold text-[var(--accent-700)] underline underline-offset-4">Neem contact op</Link>
             </div>
           </div>

@@ -59,7 +59,7 @@ export async function RegelingenInGemeente({
               r={r}
               actie={
                 <Button href={r.voor.length === 1 ? `/woning?maatregel=${r.voor[0]}` : "/woning"} size="sm" variant="primary" iconRight="arrow-right">
-                  Start de woningscan
+                  Ik wil mijn woning verduurzamen
                 </Button>
               }
             />
@@ -74,7 +74,7 @@ export async function RegelingenInGemeente({
             toekenning niet garanderen.
           </p>
         </div>
-        <Button href="/woning" variant="primary" iconRight="arrow-right">Start de woningscan</Button>
+        <Button href="/woning" variant="primary" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
       </div>
       <div className="max-w-2xl flex flex-col gap-3 text-zinc-600">
         <p>

@@ -271,7 +271,7 @@ export function RegioCta({
     <section className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-10 sm:px-10 md:px-14 md:py-14 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
       <div className="max-w-xl min-w-0 [&_h2]:[hyphens:auto]">
         <h2 className={H2 + " mb-3"}>{titel}</h2>
-        <p className="text-[17px] leading-relaxed text-zinc-700 [text-wrap:pretty]">{tekst ?? "Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."}</p>
+        <p className="text-[17px] leading-relaxed text-zinc-700 [text-wrap:pretty]">{tekst ?? "Vraag gratis en vrijblijvend persoonlijk advies aan voor het verduurzamen van jouw woning."}</p>
       </div>
       <div className="flex flex-col sm:flex-row gap-3 shrink-0">
         {provincie && gemeente ? (
@@ -279,7 +279,7 @@ export function RegioCta({
         ) : provincie ? (
           <RegioProvincieWoningscanKnop provincie={provincie} className="w-full md:w-auto" />
         ) : (
-          <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right" className="w-full md:w-auto">Start de woningscan</Button>
+          <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right" className="w-full md:w-auto">Ik wil mijn woning verduurzamen</Button>
         )}
         <Button href="/contact" variant="secondary" size="lg" className="w-full md:w-auto">Neem contact op</Button>
       </div>

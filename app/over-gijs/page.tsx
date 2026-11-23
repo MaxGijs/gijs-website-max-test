@@ -230,7 +230,7 @@ export default function OverGijs() {
           <div className={`max-w-5xl mx-auto px-6 py-[clamp(6rem,14vw,12rem)] flex flex-col items-start gap-10 ${styles.opkomen}`}>
             <h2 className={kopGroot}>Benieuwd wat logisch is voor jouw woning?</h2>
             <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
-              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Start de woningscan</Button>
+              <Button href="/woning" variant="accent" size="lg" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
               <Link href="/contact" className="inline-flex min-h-11 items-center font-semibold text-[var(--accent-700)] underline underline-offset-4">Neem contact op</Link>
             </div>
             <p className="max-w-md text-[15px] leading-relaxed text-[var(--text-muted)]">

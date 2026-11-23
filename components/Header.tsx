@@ -339,11 +339,12 @@ export default function Header() {
         })}
 
         <div className="ml-auto">
-          {/* Primaire CTA van de site: "Start de woningscan". De energiescan
-              blijft beschikbaar via /contact#energiescan en losse secties
-              op de pagina's zelf, maar krijgt daar een secundaire stijl. */}
+          {/* Primaire CTA van de site: eerst alleen hier en in de homepage-hero aangepast (Max,
+              23-11-2026) van "Start de woningscan" naar deze meer uitnodigende, emotionele tekst.
+              De energiescan blijft beschikbaar via /contact#energiescan en losse secties op de
+              pagina's zelf, maar krijgt daar een secundaire stijl. */}
           <Button href="/woning" variant="accent" size="sm">
-            Start de woningscan
+            Ik wil mijn woning verduurzamen
           </Button>
         </div>
       </nav>
@@ -405,7 +406,7 @@ export default function Header() {
               </div>
             );
           })}
-          <div onClick={() => setMobileOpen(false)}><Button href="/woning" variant="accent" size="md" fullWidth className="mt-3">Start de woningscan</Button></div>
+          <div onClick={() => setMobileOpen(false)}><Button href="/woning" variant="accent" size="md" fullWidth className="mt-3">Ik wil mijn woning verduurzamen</Button></div>
           <div className="mt-4 flex items-center gap-3">
             <SocialLinks />
             <a href={whatsapp.href} target={whatsapp.nieuwTabblad ? "_blank" : undefined} rel={whatsapp.nieuwTabblad ? "noopener noreferrer" : undefined} aria-label={whatsapp.label}

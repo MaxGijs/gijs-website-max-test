@@ -19,6 +19,15 @@ export type KennisArtikel = {
 
 export const KENNIS_ARTIKELEN: KennisArtikel[] = [
   {
+    slug: "zonnepanelen-rendabel-zonder-salderen",
+    titel: "Is zonnepanelen kopen nog wel rendabel zonder salderingsregeling?",
+    seoTitel: "Zonnepanelen zonder salderen: nog rendabel? | Gijs",
+    beschrijving: "Salderen stopt op 1 januari 2027. Verdien je zonnepanelen dan nog terug? Lees wat ze kosten, wat ze opleveren en wanneer ze bij je woning passen.",
+    intro: "De zonnepaneelmarkt krimpt en salderen stopt op 1 januari 2027. Verdien je zonnepanelen dan nog terug, en wanneer past het bij jouw woning?",
+    gepubliceerd: "2026-11-23",
+    afbeelding: { path: "/images/kennis/zonnepanelen/zonnepanelen-blauwe-lucht.jpg", alt: "Zonnepanelen op een dak tegen een blauwe lucht met wolken" },
+  },
+  {
     slug: "cv-ketel-vervangen-2029-gas-of-warmtepomp",
     titel: "Cv-ketel vervangen vóór 2029: kies je nog voor gas of een warmtepomp?",
     seoTitel: "Cv-ketel vervangen vóór 2029: gas of warmtepomp? | Gijs",

@@ -158,7 +158,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
         title={title}
         subtitle="Kunststof en aluminium kozijnen"
         intro="Gijs plaatst kunststof en aluminium kozijnen, inclusief deuren en schuifpuien. Hieronder lees je welke profielen en producten er zijn en hoe de plaatsing verloopt."
-        primaryCta={{ label: "Start de woningscan", href: startScanHref }}
+        primaryCta={{ label: "Ik wil mijn woning verduurzamen", href: startScanHref }}
         secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }}
         image="/images/maatregelen/kozijnen/kozijnen-hero.jpg"
         imageAlt="Nieuw geplaatst kozijn met raam en voordeur"
@@ -205,7 +205,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
                 <span>Aluminium is lichter en geschikter voor grote constructies</span>
               </li>
             </ul>
-            <Button href={startScanHref} variant="accent" className="shrink-0">Start de woningscan</Button>
+            <Button href={startScanHref} variant="accent" className="shrink-0">Ik wil mijn woning verduurzamen</Button>
           </Card>
         </section>
 
@@ -471,7 +471,7 @@ export function KozijnenPage({ item }: { item: MeasurePageItem }) {
 
       <MeasureCta
         titel="Welke kozijnen passen bij jouw woning?"
-        tekst="Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."
+        tekst="Nieuwe kozijnen of HR++-glas? Vraag gratis en vrijblijvend persoonlijk advies aan."
         primaryHref={startScanHref}
       />
 

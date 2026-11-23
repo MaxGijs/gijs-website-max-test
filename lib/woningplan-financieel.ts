@@ -2,7 +2,7 @@ import type { HouseType } from "./woning-types";
 import { gebruiktGas, primaireVerwarming, type Antwoord } from "./scan-session";
 import { MC_VERWARMING } from "./content/milieu-centraal";
 import {
-  MC_KENGETALLEN, MC_GLAS, ISDE_ISOLATIE, RVO_REFERENTIEWONINGEN, SPOUWMUREN_VANAF,
+  MC_KENGETALLEN, MC_GLAS, ISDE_ISOLATIE, RVO_REFERENTIEWONINGEN, GLAS_OPPERVLAKTE, SPOUWMUREN_VANAF,
   type BouwdeelMaatregel, type Bouwperiode, type Oppervlakten,
 } from "./content/verduurzaming-financieel";
 
@@ -124,8 +124,8 @@ function subsidieVoor(id: IsolatieId, m2: number, dubbel: boolean): number {
 }
 
 /** Besparing bij "van geen naar goede isolatie" (glas: van dubbel naar HR++); zie kengetallenbestand. */
-function besparingVoor(id: IsolatieId, houseType: HouseType, p: Bouwperiode): number {
-  if (id === "glas-kozijnen") return (MC_GLAS.besparingGasM3 / MC_GLAS.referentieM2) * p.raam;
+function besparingVoor(id: IsolatieId, houseType: HouseType): number {
+  if (id === "glas-kozijnen") return (MC_GLAS.besparingGasM3 / MC_GLAS.referentieM2) * GLAS_OPPERVLAKTE[houseType];
   return MC_KENGETALLEN[id][houseType].besparingGasM3;
 }
 
@@ -157,8 +157,8 @@ export function berekenFinancieelOverzicht(invoer: FinancieleInvoer): Financieel
   // bouwjaar bepaalt via de RVO-referentiewoning ook het glasoppervlak, en daarmee de glasbesparing).
   const perioden = referentieperioden(houseType, bouwjaar);
   const scenario = (p: Bouwperiode) => ids.map(id => {
-    const m2 = p[BOUWDEEL[id]];
-    return { id, m2, kosten: kostenVoor(id, houseType), subsidie: subsidieVoor(id, m2, combinatieTarief), besparingGasM3: besparingVoor(id, houseType, p) };
+    const m2 = id === "glas-kozijnen" ? GLAS_OPPERVLAKTE[houseType] : p[BOUWDEEL[id]];
+    return { id, m2, kosten: kostenVoor(id, houseType), subsidie: subsidieVoor(id, m2, combinatieTarief), besparingGasM3: besparingVoor(id, houseType) };
   });
   const scenarios = perioden.map(scenario);
   const totaal = (s: ReturnType<typeof scenario>, veld: "kosten" | "subsidie") => s.reduce((t, m) => t + (m[veld] ?? 0), 0);

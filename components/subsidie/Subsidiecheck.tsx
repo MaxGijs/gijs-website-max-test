@@ -139,7 +139,7 @@ export function Subsidiecheck() {
               </p>
             </div>
             <Button variant="inverse" size="lg" iconRight="arrow-right" onClick={() => naarScan("start_woningscan_subsidiecheck_boven")}>
-              Start de woningscan
+              Ik wil mijn woning verduurzamen
             </Button>
           </div>
 
@@ -179,7 +179,7 @@ export function Subsidiecheck() {
                       r={r}
                       actie={
                         <Button size="sm" variant="primary" iconRight="arrow-right" onClick={() => naarScan("start_woningscan_subsidiekaart", maatregelVan(r))}>
-                          Start de woningscan
+                          Ik wil mijn woning verduurzamen
                         </Button>
                       }
                     />
@@ -197,7 +197,7 @@ export function Subsidiecheck() {
                 Tijdens de gratis energiescan aan huis kijken we welke regelingen echt bij jouw woning passen. Gijs helpt bij de aanvraag, maar kan toekenning niet garanderen.
               </p>
             </div>
-            <Button variant="primary" iconRight="arrow-right" onClick={() => naarScan("start_woningscan_subsidiecheck_onder")}>Start de woningscan</Button>
+            <Button variant="primary" iconRight="arrow-right" onClick={() => naarScan("start_woningscan_subsidiecheck_onder")}>Ik wil mijn woning verduurzamen</Button>
           </div>
 
           <p className="text-sm text-zinc-500">

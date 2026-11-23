@@ -358,7 +358,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
         title={title}
         subtitle="Zonnepanelen plaatsen in één dag"
         intro="Gijs plaatst verschillende soorten zonnepanelen. Hieronder lees je hoe zonnepanelen werken, welke panelen Gijs gebruikt en hoe de installatie verloopt."
-        primaryCta={{ label: "Start de woningscan", href: startScanHref }}
+        primaryCta={{ label: "Ik wil mijn woning verduurzamen", href: startScanHref }}
         secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }}
         image="/images/maatregelen/zonnepanelen/zonnepanelen-hero-v4.jpeg"
         imageAlt="Een installateur van Gijs plaatst, met valbeveiliging, een zonnepaneel op een schuin dak"
@@ -446,7 +446,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
                 <span>De meterkast</span>
               </li>
             </ul>
-            <Button href={startScanHref} variant="accent" className="shrink-0">Start de woningscan</Button>
+            <Button href={startScanHref} variant="accent" className="shrink-0">Ik wil mijn woning verduurzamen</Button>
           </Card>
         </section>
 
@@ -600,7 +600,7 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
         {/* Kennisartikel over het einde van salderen, als dezelfde kaart als op /kennis. */}
         <section id="kennis" className={`scroll-mt-40 ${HOOFDSTUK_MB} ${styles.opkomen}`}>
           <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Zonnepanelen en het einde van salderen</h2>
-          <ArtikelKaarten slugs={["salderen-stopt-2027-thuisbatterij"]} />
+          <ArtikelKaarten slugs={["zonnepanelen-rendabel-zonder-salderen", "salderen-stopt-2027-thuisbatterij"]} />
         </section>
 
         <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER} ${styles.opkomen}`}>
@@ -632,10 +632,10 @@ export function ZonnepanelenPage({ item }: { item: MeasurePageItem }) {
       <section className="rounded-[var(--radius-xl)] bg-[var(--gijs-donkergroen)] px-6 py-10 md:px-12 md:py-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="min-w-0 max-w-xl [&_h2]:[hyphens:auto]">
           <h2 className="text-[var(--fs-display-3)] font-bold leading-tight text-white mb-2">Passen zonnepanelen bij jouw woning?</h2>
-          <p className="text-white/80">Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen.</p>
+          <p className="text-white/80">Zonnepanelen voor jouw woning? Ontdek gratis en vrijblijvend wat er mogelijk is.</p>
         </div>
         <Button href={startScanHref} variant="inverse" size="lg" iconRight="arrow-right" className="shrink-0 w-full md:w-auto">
-          Start de woningscan
+          Ik wil mijn woning verduurzamen
         </Button>
       </section>
     </main>

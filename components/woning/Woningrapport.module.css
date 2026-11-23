@@ -80,3 +80,8 @@
 .adviesTegels > div { padding:14px 16px; }
 .adviesTegels dt { font-size:13px; }
 .adviesTegels dd { font-size:17px; }
+/* Subsidies bovenaan stap 3 (19-11-2026). RegelingenInScan heeft zelf al een kaart met marge; hier alleen de
+   ruimte eromheen en de regel voor als de koppeling geen antwoord geeft. */
+.subsidieBovenaan > :global(.gijs-card) { margin:0 !important; }
+.subsidieLeeg { margin:0; padding:14px 16px; border-radius:16px; background:var(--accent-050); font-size:15px; line-height:1.5; color:var(--grey-800); }
+.subsidieLeeg strong { color:var(--gijs-donkergroen); }

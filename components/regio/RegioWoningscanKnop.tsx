@@ -48,7 +48,7 @@ export function RegioWoningscanKnop({
       className={className}
       onClick={handleKlik}
     >
-      Start de woningscan
+      Ik wil mijn woning verduurzamen
     </Button>
   );
 }
@@ -83,7 +83,7 @@ export function RegioProvincieWoningscanKnop({
       className={className}
       onClick={handleKlik}
     >
-      Start de woningscan
+      Ik wil mijn woning verduurzamen
     </Button>
   );
 }

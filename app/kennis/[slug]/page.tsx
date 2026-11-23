@@ -11,6 +11,7 @@ import { SlimmeWarmtepompSubsidie2027, SlimmeWarmtepompInleiding } from "@/compo
 import { SalderenThuisbatterij2027, SalderenInleiding } from "@/components/kennis/SalderenThuisbatterij2027";
 import { WarmtenetKerschotenApeldoorn, WarmtenetKerschotenInleiding } from "@/components/kennis/WarmtenetKerschotenApeldoorn";
 import { CvKetelVervangen2029, CvKetelInleiding } from "@/components/kennis/CvKetelVervangen2029";
+import { ZonnepanelenZonderSaldering, ZonnepanelenZonderSalderingInleiding } from "@/components/kennis/ZonnepanelenZonderSaldering";
 import { KENNIS_ARTIKELEN, kennisArtikelPad, artikelOvergangId, formatteerDatum } from "@/lib/content/kennis-artikelen";
 import { createMetadata, SITE_URL } from "@/lib/seo";
 import { titelOvergang } from "@/lib/overgang";
@@ -19,6 +20,7 @@ import { titelOvergang } from "@/lib/overgang";
 // component in components/kennis/, en hier koppelen.
 const INHOUD: Record<string, { inleiding: ComponentType<{ className?: string }>; tekst: ComponentType<{ slug: string }> }> = {
   "slimme-warmtepomp-subsidie-2027": { inleiding: SlimmeWarmtepompInleiding, tekst: SlimmeWarmtepompSubsidie2027 },
+  "zonnepanelen-rendabel-zonder-salderen": { inleiding: ZonnepanelenZonderSalderingInleiding, tekst: ZonnepanelenZonderSaldering },
   "cv-ketel-vervangen-2029-gas-of-warmtepomp": { inleiding: CvKetelInleiding, tekst: CvKetelVervangen2029 },
   "warmtenet-kerschoten-verduurzamen-apeldoorn": { inleiding: WarmtenetKerschotenInleiding, tekst: WarmtenetKerschotenApeldoorn },
   "salderen-stopt-2027-thuisbatterij": { inleiding: SalderenInleiding, tekst: SalderenThuisbatterij2027 },

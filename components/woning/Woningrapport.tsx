@@ -31,7 +31,8 @@ const KANS_GROEPEN = [
   { label: "Isolaties", ids: ["dakisolatie", "gevelisolatie", "vloerisolatie", "glas-kozijnen"] },
 ];
 
-/** Subsidies en regelingen voor dit adres uit de Energiesubsidiewijzer; null = (nog) niet beschikbaar. */
+/** Subsidies en regelingen voor dit adres uit de Energiesubsidiewijzer. regelingen null = (nog) niet beschikbaar;
+ *  geladen = de koppeling gaf antwoord (ook "geen data" of een storing telt). Eén opvraging per adres. */
 function useRegelingen(postcode: string, huisnummer: string) {
   const [uitkomst, setUitkomst] = useState<{ voor: string; regelingen: SubsidieRegeling[] | null } | null>(null);
   const sleutel = `${postcode}|${huisnummer}`;
@@ -43,7 +44,8 @@ function useRegelingen(postcode: string, huisnummer: string) {
       .catch(() => { if (!weg) setUitkomst({ voor: sleutel, regelingen: null }); });
     return () => { weg = true; };
   }, [postcode, huisnummer, sleutel]);
-  return uitkomst && uitkomst.voor === sleutel ? uitkomst.regelingen : null;
+  const actueel = uitkomst && uitkomst.voor === sleutel ? uitkomst : null;
+  return { regelingen: actueel ? actueel.regelingen : null, geladen: actueel !== null };
 }
 
 export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBekijk, woningplan, formulier, postcode, huisnummer }: {
@@ -63,7 +65,7 @@ export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBe
   huisnummer: string;
 }) {
   const eerste = rapport.kansen.find(k => k.aanbevolen) ?? rapport.kansen[0];
-  const regelingen = useRegelingen(postcode, huisnummer);
+  const { regelingen, geladen: regelingenGeladen } = useRegelingen(postcode, huisnummer);
   const regelingenVoor = (id: string) => (regelingen ?? []).filter(r => r.voor.includes(id));
   const eersteRegelingen = eerste && regelingen ? regelingenVoor(eerste.id) : null;
   const adviesTegels = eerste ? [
@@ -81,6 +83,21 @@ export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBe
           ? "Dit zijn de kansen die nu het meest logisch zijn om te onderzoeken. Vink aan waar je meer over wilt weten; Gijs controleert wat echt past en welke combinatie het meeste oplevert."
           : "Gijs denkt graag met je mee over de volgende stap, bijvoorbeeld het verbeteren of slim combineren van bestaande maatregelen."}
       </p>
+
+      {/* Bovenaan (Max, 19-11-2026): de subsidies en regelingen voor dit adres, rechtstreeks uit de
+          Energiesubsidiewijzer van Milieu Centraal. Gijs rekent zelf geen subsidiebedragen uit. Zonder antwoord
+          van de koppeling (bv. lokaal zonder API-sleutel) een korte regel dat de adviseur het uitzoekt. */}
+      {postcode && rapport.kansen.length > 0 && (
+        <section aria-label="Subsidies voor jouw adres" className={styles.subsidieBovenaan}>
+          <RegelingenInScan
+            postcode={postcode} huisnummer={huisnummer} mogelijk={rapport.kansen.map(k => k.id)} gekozen={gekozen}
+            toelichting="Uit de Energiesubsidiewijzer van Milieu Centraal. Of je voor een regeling in aanmerking komt, hangt af van de voorwaarden; die controleert je adviseur voordat je iets aanvraagt."
+          />
+          {regelingen === null && regelingenGeladen && (
+            <p className={styles.subsidieLeeg}><strong>Subsidies voor jouw adres:</strong> welke regelingen er voor jouw woning gelden, zoekt je adviseur voor je uit.</p>
+          )}
+        </section>
+      )}
 
       {eerste && (
         <section className={styles.adviesKern} aria-labelledby="eerste-advies">
@@ -146,16 +163,7 @@ export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBe
         <p key={n.id} className={flow.kleineNoot}><strong>{naamVan(n.id)}</strong> staat er niet tussen. {n.reden}</p>
       ))}
 
-      {postcode && rapport.kansen.length > 0 && (
-        <details className={flow.bron}>
-          <summary>Alle subsidies en regelingen voor jouw adres</summary>
-          <RegelingenInScan
-            postcode={postcode} huisnummer={huisnummer} mogelijk={rapport.kansen.map(k => k.id)} gekozen={gekozen}
-            toelichting="Of je voor een regeling in aanmerking komt, hangt af van de voorwaarden. Die controleert Gijs voordat je iets aanvraagt."
-          />
-          {regelingen === null && <p>Je adviseur bekijkt welke regelingen er voor jouw adres zijn.</p>}
-        </details>
-      )}
+
 
       <details className={flow.bron}>
         <summary>Waar komen deze cijfers vandaan?</summary>

@@ -106,3 +106,14 @@
   }
 }
 @keyframes opkomen { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+/* Hero-titel: "Woning verduurzamen?" altijd op één regel. De tekst is ~10,2× zo breed als de lettergrootte,
+   dus schaalt de titel mee met de kolombreedte (cqi) en blijft de adreskaart hoger in beeld. */
+.heroPanel { container-type: inline-size; }
+.title.heroTitel { font-size: clamp(1.75rem, 9.2cqi, 3.5rem); }
+.heroTitel .regel:first-child { white-space: nowrap; }
+/* Hero op desktop compacter, zodat de adreskaart zonder scrollen helemaal in beeld staat (ook op ~800px hoog). */
+@media (min-width: 768px) {
+  .panel.heroPanel { padding-top: 40px; }
+  .heroPanel .description { max-width: 50ch; font-size: clamp(18px, 1.25vw, 20px); margin-top: 20px; }
+  .heroPanel .scanCard { margin-top: 24px; }
+}

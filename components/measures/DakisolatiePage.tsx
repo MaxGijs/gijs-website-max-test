@@ -180,7 +180,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
         title={title}
         subtitle="Meer wooncomfort, minder warmteverlies via het dak"
         intro="Gijs isoleert het dak aan de binnenzijde. Hieronder lees je hoe het werkt, welk systeem bij jouw dakconstructie past en hoe de uitvoering en de energiescan verlopen."
-        primaryCta={{ label: "Start de woningscan", href: startScanHref }}
+        primaryCta={{ label: "Ik wil mijn woning verduurzamen", href: startScanHref }}
         secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }}
         image="/images/maatregelen/dakisolatie/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png"
         imageAlt="Plaatsen van dakisolatie aan de binnenzijde van een woning"
@@ -264,7 +264,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
               <span>De eventuele binnenafwerking is een apart aandachtspunt</span>
             </li>
           </ul>
-          <Button href={startScanHref} variant="accent" className="shrink-0">Start de woningscan</Button>
+          <Button href={startScanHref} variant="accent" className="shrink-0">Ik wil mijn woning verduurzamen</Button>
         </Card>
       </section>
 
@@ -349,7 +349,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
 
       <MeasureCta
         titel="Past dakisolatie bij jouw woning?"
-        tekst="Start de woningscan en ontdek welke mogelijkheden bij jouw woning passen."
+        tekst="Je dak laten isoleren? Vraag gratis en vrijblijvend persoonlijk advies aan."
         primaryHref={startScanHref}
       />
 
