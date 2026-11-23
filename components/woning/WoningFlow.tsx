@@ -344,7 +344,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
       // Herkomst wissen: de scan is volledig afgerond. Een eventuele volgende directe scan
       // in dezelfde tab krijgt geen verouderde regio-attributie.
       wisRegioHerkomst();
-      setScan({ ...sessieMetAfgerond, name: "", achternaam: "", email: "", telefoon: "", opmerking: "", whatsappToestemming: false });
+      setScan({ ...sessieMetAfgerond, name: "", achternaam: "", email: "", telefoon: "", opmerking: "", whatsappToestemming: true });
       return;
     }
     logError("energiescan_aanvraag", fout ?? "onbekende fout");
@@ -610,8 +610,9 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                         </Field>
                       </div>
 
-                      {/* Zichtbaar onder de velden, niet in de uitklapper. Staat standaard uit: de bezoeker vinkt het
-                          bewust aan (AVG). Alleen over deze aanvraag, geen marketing. */}
+                      {/* Zichtbaar onder de velden, niet in de uitklapper. Staat standaard aan; de bewoner kan het
+                          uitzetten (Thom, 30-10). Alleen over deze aanvraag, geen marketing: daarvoor is een vooraf
+                          aangevinkt vakje onder de AVG geen toestemming. */}
                       <div className={styles.whatsappKeuze}>
                         <Checkbox card label="Je mag me ook via WhatsApp benaderen"
                           description="Neem ik niet op, dan stuurt Gijs een berichtje. Alleen over deze aanvraag."
