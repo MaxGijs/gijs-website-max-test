@@ -24,7 +24,7 @@ export default function EnergyScanCTA() {
           Bespreek je huis en je wensen met een adviseur van Gijs. Je digitale
           woningplan helpt je om het gesprek voor te bereiden.
         </p>
-        <WhatsAppTrackedButton plaats="homepage_energiescan" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" variant="secondary" size="lg" iconRight="arrow-right">
+        <WhatsAppTrackedButton plaats="homepage_energiescan" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary" size="lg" iconRight="arrow-right">
           Vraag een gratis energiescan aan
         </WhatsAppTrackedButton>
         <EnergiescanUitleg className="max-w-md" />

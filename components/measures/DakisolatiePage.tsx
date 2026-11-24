@@ -181,7 +181,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
         subtitle="Meer wooncomfort, minder warmteverlies via het dak"
         intro="Gijs isoleert het dak aan de binnenzijde. Hieronder lees je hoe het werkt, welk systeem bij jouw dakconstructie past en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Ik wil mijn woning verduurzamen", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }}
         image="/images/maatregelen/dakisolatie/57bfad47-7c34-4f85-80dd-7b3f2f1bf8a4.png"
         imageAlt="Plaatsen van dakisolatie aan de binnenzijde van een woning"
         imageCaption="Isolatiemateriaal wordt tussen de dakconstructie aangebracht"
@@ -338,7 +338,7 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
+            <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>
@@ -353,7 +353,20 @@ export function DakisolatiePage({ item }: { item: MeasurePageItem }) {
         primaryHref={startScanHref}
       />
 
-      <MeasureRegioLink />
+      <MeasureRegioLink voorbeeld={[
+        "Dakisolatie in je eigen gemeente? In Apeldoorn is 46% van de woningen gebouwd vóór 1975. Lees wat ",
+        { tekst: "dakisolatie in Apeldoorn", href: "/regio/gelderland/apeldoorn#isoleren" },
+        " daar betekent.",
+      ]} regios={{
+        kop: "Dakisolatie in de regio",
+        links: [
+          { tekst: "Dakisolatie in Kampen", href: "/regio/overijssel/kampen#isoleren" },
+          { tekst: "Het dak isoleren in Almelo", href: "/regio/overijssel/almelo#isoleren" },
+          { tekst: "Dakisolatie in Enschede", href: "/regio/overijssel/enschede#lokaal" },
+          { tekst: "Bijisoleren van het dak in Zeewolde", href: "/regio/flevoland/zeewolde#isoleren" },
+          { tekst: "Dak en spouw in Doetinchem", href: "/regio/gelderland/doetinchem#isoleren" },
+        ],
+      }} />
     </main>
   );
 }

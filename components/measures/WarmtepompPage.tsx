@@ -183,7 +183,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
             </p>
             <GoogleScore />
             <div className="flex flex-wrap items-center gap-3">
-              <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
+              <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
             </div>
             <p className="text-[15px] leading-relaxed text-[var(--text-muted)]">
               <Link href="/contact" className={TEKSTLINK}>Neem contact op</Link>, of bel{" "}
@@ -248,7 +248,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
               uitvoering.
             </p>
             <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-2">
-              <WhatsAppTrackedButton plaats="maatregelpagina_waarom_gijs" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
+              <WhatsAppTrackedButton plaats="maatregelpagina_waarom_gijs" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
               <p className="text-[15px] text-zinc-700">
                 of <Link href="/contact" className={TEKSTLINK}>neem contact op</Link>
               </p>
@@ -362,7 +362,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
                 is en welke stap het meeste oplevert.
               </p>
             </div>
-            <WhatsAppTrackedButton plaats="maatregelpagina_besparing" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" className="self-start md:self-center shrink-0">Vraag een energiescan aan</WhatsAppTrackedButton>
+            <WhatsAppTrackedButton plaats="maatregelpagina_besparing" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" className="self-start md:self-center shrink-0">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>
       </section>
@@ -535,7 +535,7 @@ export function WarmtepompPage({ item }: { item: MeasurePageItem }) {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
             <Button href={startScanHref} variant="accent" size="md" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
-            <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een energiescan aan</WhatsAppTrackedButton>
+            <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>
       </section>

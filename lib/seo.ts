@@ -5,8 +5,7 @@ import { KENNIS_ARTIKELEN, kennisArtikelPad } from "./content/kennis-artikelen";
 // Primaire productie-URL: groeninjestraat.nl stuurt met een 308 door naar www, dus canonicals,
 // sitemap en structured data moeten de www-versie gebruiken.
 export const SITE_URL = "https://www.groeninjestraat.nl";
-// Deze tekst start de Huisscan-flow in CommuniQate (route "website van Gijs", label WEB - Energiescan). Niet aanpassen zonder de flow mee te wijzigen.
-export const ENERGIESCAN_HREF = "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs";
+export const ENERGIESCAN_HREF = "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen";
 // Enable only in the public production build; previews stay out of search.
 export const SEO_INDEXABLE = process.env.SEO_INDEXABLE === "true";
 // Google Search Console-verificatiecode (HTML-tagmethode). Haal 'm op in Search Console:

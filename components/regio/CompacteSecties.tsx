@@ -89,7 +89,7 @@ export function ThomStrook({ t, scanKnop }: { t: Compact["thom"]; scanKnop?: Rea
       </div>
       <div className="flex flex-wrap gap-3 md:shrink-0">
         {scanKnop}
-        <WhatsAppTrackedButton plaats="regio_thomstrook" href={ENERGIESCAN_HREF} size="lg" variant={scanKnop ? "secondary" : undefined} iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
+        <WhatsAppTrackedButton plaats="regio_thomstrook" href={ENERGIESCAN_HREF} size="lg" variant={scanKnop ? "secondary" : undefined} iconRight="arrow-right" className="max-w-full max-sm:!px-4">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
       </div>
     </div>
   );

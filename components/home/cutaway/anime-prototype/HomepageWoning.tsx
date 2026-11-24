@@ -138,6 +138,7 @@ export default function HomepageWoning({ children }: { children?: ReactNode }) {
           <section className={basis.options} data-staat={STATEN.length - 1}>
             <h2 className={basis.title}>Ontdek wat er mogelijk is voor jouw situatie</h2>
             <p className={basis.description}>Vul je adres in. In de woningscan zie je in een paar minuten wat er voor jouw woning kan. Daarna plan je een <strong className={nadruk.nadruk}>gratis energiescan</strong> aan huis, ter waarde van €349.</p>
+            <p className={basis.description}>Gijs is gevestigd in Hengelo en adviseert ook in de gemeenten daaromheen. Lees bijvoorbeeld over <Link className={styles.regioLink} href="/regio/overijssel/borne">isolatie, zonnepanelen of een warmtepomp in Borne</Link>, of bekijk <Link className={styles.regioLink} href="/regio">alle regio&apos;s</Link>.</p>
             <div className={basis.scanCard}>
               <h3 className={basis.scanCardTitle}>Start de woningscan</h3>
               <AddressScan />

@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import type { GemeenteVerhaal, LokaalProfiel, ProfielFoto } from "@/lib/content/gemeente-verhalen";
 import type { Alinea } from "@/lib/content/regio-lokaal";
+import { standaardAdviseur } from "@/lib/content/lokaal-profiel-adapter";
 import { RegioBreadcrumb, RegioMain, H2 } from "./RegioBlokken";
 import { RegioWoningscanKnop } from "./RegioWoningscanKnop";
 import { IsolatieInstallatiesSectie } from "./IsolatieInstallatiesSectie";
 import { Woningcijfers } from "./Woningcijfers";
 import { SubsidieSectie, FaqSectie, AdviseurBlok, ADVISEUR_FOTO } from "./VerhaalSecties";
-import { LokaalVerhaalSectie, LokaalRedactioneelSectie, IsolatieKaartenSectie, PartnerSectie, NatuurSectie } from "./LokaleSecties";
+import { LokaalVerhaalSectie, LokaalRedactioneelSectie, IsolatieKaartenSectie, IsolatieAntwoordSectie, PartnerSectie, NatuurSectie } from "./LokaleSecties";
 import { WoningsituatieKaartenSectie } from "./WoningsituatieKaartenSectie";
 import { ThomStrook, WoningKeuzeSectie } from "./CompacteSecties";
 import type { PlaatsPagina } from "./plaats-groepen";
@@ -22,6 +23,8 @@ import { RegioArtikelen } from "./RegioArtikelen";
 import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
 
 const SECTIE = `${SECTIE_BASE} ${styles.opkomen}`;
+// Op een smal scherm mag een lange knoptekst afbreken in plaats van buiten de kolom te steken.
+const knopBreekt = (h: "md" | "lg") => `max-w-full max-sm:!h-auto max-sm:py-2.5 max-sm:!whitespace-normal max-sm:text-center max-sm:leading-snug max-sm:!px-4 ${h === "lg" ? "max-sm:min-h-[var(--control-h-lg)]" : "max-sm:min-h-[var(--control-h-md)]"}`;
 
 /** Toont alleen een credit bij Wikimedia (verplicht); een Pexels-foto heeft geen attributie nodig. */
 function FotoBron({ foto }: { foto: ProfielFoto }) {
@@ -149,7 +152,7 @@ function InzichtenSectie({ i, naam, skipAdviseur = false }: { i: Inzichten; naam
         </ul>
 
         {!skipAdviseur && (
-          <AdviseurBlok foto={ADVISEUR_FOTO[i.adviseur.adviseur ?? "thom"]} titel={i.adviseur.h3} knopTekst="Vraag een energiescan aan">
+          <AdviseurBlok foto={ADVISEUR_FOTO[i.adviseur.adviseur ?? "thom"]} titel={i.adviseur.h3} knopTekst="Vraag een gratis energiescan aan">
             <AdviseurTekst tekst={i.adviseur.tekst} />
           </AdviseurBlok>
         )}
@@ -272,11 +275,22 @@ export function LokaalProfielPagina({
   const kernenZin = p.hero.kernenZin ?? `Gijs werkt in het dorp ${gemeente} en in`;
   const foto = p.hero.foto;
   const heeftKaarten = eigenSecties && !!v.woningsituatieKaarten;
+  // Met een eigen isolatieantwoord volgt de subsidiecheck daar direct op, vóór de woninginzichten.
+  // Ook op een basispagina zonder eigen secties, als die een eigen isolatieantwoord meekrijgt (Huissen).
+  const isolatieAntwoord = v.isolatieAntwoord;
+  // Met een isolatieantwoord staat het adviseurblok direct onder die uitleg (tenzij de Thom-strook dat al doet).
+  const adviseurNaUitleg = !!isolatieAntwoord && !heeftKaarten && !v.compacteOpzet?.thom;
+  const uitlegAdviseur = p.inzichten?.adviseur ?? standaardAdviseur(gemeente, naam, v.voorzetsel);
+  const subsidieNav = { id: "subsidies", label: "Subsidies" };
+  const subsidies = (
+    <SubsidieSectie naamVoorKop={naam} gemeente={gemeente} officieleSubsidieUrl={officieleSubsidieUrl} className={SECTIE} rustig={heeftKaarten}
+      antwoord={eigenSecties ? v.subsidieAntwoord : undefined} />
+  );
   const scanKnop = (className?: string) => <RegioWoningscanKnop provincie={provincie} gemeente={gemeenteSlug} plaats={plaatsSlug} className={className} />;
   const contactRegel = (
     <div className="flex flex-wrap items-center gap-3">
-      <WhatsAppTrackedButton plaats="regio_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
-      {scanKnop()}
+      <WhatsAppTrackedButton plaats="regio_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right" className={knopBreekt("lg")}>Vraag een gratis energiescan aan</WhatsAppTrackedButton>
+      {scanKnop(knopBreekt("lg"))}
     </div>
   );
   return (
@@ -319,16 +333,27 @@ export function LokaalProfielPagina({
       )}
 
       <MeasureSectionNav sections={[
+        ...(isolatieAntwoord ? [{ id: "isoleren", label: "Isoleren" }] : []),
         ...(heeftKaarten || v.compacteOpzet?.woningKeuze ? [{ id: "jouw-woning", label: "Jouw woning" }] : []),
         { id: "maatregelen", label: "Maatregelen" },
+        ...(isolatieAntwoord ? [subsidieNav] : []),
         ...(p.inzichten ? [{ id: "woninginzichten", label: "Woninginzichten" }] : []),
         ...(eigenSecties && v.partner ? [{ id: "samenwerking", label: "Samenwerking" }] : []),
         ...(eigenSecties ? [{ id: "lokaal", label: "Lokaal" }] : []),
-        { id: "subsidies", label: "Subsidies" },
+        ...(isolatieAntwoord ? [] : [subsidieNav]),
         ...(eigenSecties && v.natuur ? [{ id: "natuurvriendelijk-isoleren", label: "Natuur" }] : []),
         ...(heeftKernen ? [{ id: "buurtschappen", label: eigenSecties ? "Plaatsen" : "Buurtschappen" }] : []),
         ...(v.faq.length > 0 ? [{ id: "veelgestelde-vragen", label: "Vragen" }] : []),
       ]} />
+
+      {/* Eerst de uitleg wat Gijs doet, met de adviseur erbij; daarna pas de maatregelen. */}
+      {isolatieAntwoord && (
+        <IsolatieAntwoordSectie a={isolatieAntwoord} className={SECTIE} naast={adviseurNaUitleg ? (
+          <AdviseurBlok compact foto={ADVISEUR_FOTO[uitlegAdviseur.adviseur ?? "thom"]} titel={uitlegAdviseur.h3} knopTekst="Vraag een gratis energiescan aan">
+            <AdviseurTekst tekst={uitlegAdviseur.tekst} />
+          </AdviseurBlok>
+        ) : undefined} />
+      )}
 
       {heeftKaarten && (
         <WoningsituatieKaartenSectie kaarten={v.woningsituatieKaarten!} naam={naam} gemeente={gemeente} provincie={provincie} gemeenteSlug={gemeenteSlug} plaatsSlug={plaatsSlug} className={SECTIE}>
@@ -352,12 +377,14 @@ export function LokaalProfielPagina({
             <p className="text-[15px] leading-relaxed text-zinc-700">
               <span className="font-semibold text-[var(--gijs-donkergroen)]">Bekijk jouw eigen woning.</span> Vul je adres in en zie welke maatregelen bij jouw huis passen.
             </p>
-            {scanKnop("self-start")}
+            {scanKnop(`self-start ${knopBreekt("lg")}`)}
           </div>
         } />
       </section>
 
-      {p.inzichten && <InzichtenSectie i={p.inzichten} naam={naam} skipAdviseur={heeftKaarten} />}
+      {isolatieAntwoord && subsidies}
+
+      {p.inzichten && <InzichtenSectie i={p.inzichten} naam={naam} skipAdviseur={heeftKaarten || adviseurNaUitleg} />}
 
       {eigenSecties && (
         <>
@@ -369,7 +396,7 @@ export function LokaalProfielPagina({
         </>
       )}
 
-      <SubsidieSectie naamVoorKop={naam} gemeente={gemeente} officieleSubsidieUrl={officieleSubsidieUrl} className={SECTIE} rustig={heeftKaarten} />
+      {!isolatieAntwoord && subsidies}
 
       {eigenSecties && v.natuur && <NatuurSectie natuur={v.natuur} className={SECTIE} rustig={heeftKaarten} />}
 
@@ -385,9 +412,9 @@ export function LokaalProfielPagina({
       <section className={`scroll-mt-52 ${styles.opkomen}`}>
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-7 sm:px-10 sm:py-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)]">
           <p className="max-w-xl text-[clamp(16px,0.95rem+0.2vw,18px)] leading-[1.6] text-zinc-700 [text-wrap:pretty]">{p.afsluiting.tekst}</p>
-          <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
-            {p.afsluiting.scanKnop && scanKnop()}
-            <WhatsAppTrackedButton plaats="regio_afsluiting" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className="self-start shrink-0">Vraag een energiescan aan</WhatsAppTrackedButton>
+          <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0 max-w-full">
+            {p.afsluiting.scanKnop && scanKnop(knopBreekt("lg"))}
+            <WhatsAppTrackedButton plaats="regio_afsluiting" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" size="md" iconRight="arrow-right" variant={p.afsluiting.scanKnop ? "secondary" : undefined} className={`self-start shrink-0 ${knopBreekt("md")}`}>Vraag een gratis energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>
       </section>

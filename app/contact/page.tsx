@@ -35,7 +35,7 @@ const WHATSAPP_VRAAG = WHATSAPP_NUMMER
   : undefined;
 
 const WHATSAPP_SCAN = WHATSAPP_NUMMER
-  ? `https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een gratis energiescan plannen via de website van Gijs")}`
+  ? `https://wa.me/${WHATSAPP_NUMMER}?text=${encodeURIComponent("Ik wil graag een energiescan plannen.")}`
   : undefined;
 
 const KAART = "flex flex-col gap-3 rounded-[var(--radius-lg)] border border-[var(--border-default)] bg-white p-6 sm:p-8 transition-all duration-500 ease-out hover:-translate-y-1 hover:border-transparent hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)]";
@@ -168,7 +168,7 @@ export default function Contact() {
                 de uitvoering blijft hij je aanspreekpunt.
               </p>
               <div className="mt-auto pt-1">
-                <WhatsAppTrackedButton plaats="contactpagina_adviseurblok" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
+                <WhatsAppTrackedButton plaats="contactpagina_adviseurblok" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
               </div>
             </aside>
           </div>
@@ -208,7 +208,7 @@ export default function Contact() {
               <h3 className={H3_GROOT}>Wat je aan de scan hebt</h3>
               <EnergiescanUitleg />
               <div className="flex flex-wrap gap-3 pt-1">
-                <WhatsAppTrackedButton plaats="contactpagina_energiescan" href={WHATSAPP_SCAN ?? ENERGIESCAN_HREF} size="md" iconRight="arrow-right">Plan een energiescan</WhatsAppTrackedButton>
+                <WhatsAppTrackedButton plaats="contactpagina_energiescan" href={WHATSAPP_SCAN ?? ENERGIESCAN_HREF} size="md" iconRight="arrow-right">Plan een gratis energiescan</WhatsAppTrackedButton>
                 <Button variant="secondary" size="md" href={CONTACT.phoneHref} iconLeft="phone">Bel {CONTACT.phone}</Button>
               </div>
             </div>
@@ -279,7 +279,7 @@ export default function Contact() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
               <Button href={CONTACT.phoneHref} variant="accent" size="md" iconLeft="phone">Bel {CONTACT.phone}</Button>
-              <WhatsAppTrackedButton plaats="contactpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een energiescan aan</WhatsAppTrackedButton>
+              <WhatsAppTrackedButton plaats="contactpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
             </div>
           </div>
         </section>

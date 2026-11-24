@@ -7,7 +7,8 @@ import { SubsidiecheckStart } from "@/components/subsidie/SubsidiecheckStart";
 import { FAQAccordion, type FAQItem } from "@/components/measures/FAQAccordion";
 import { Card } from "@/components/ds/core/Card";
 import { WhatsAppTrackedButton } from "@/components/regio/WhatsAppTrackedButton";
-import { ENERGIESCAN_HREF } from "@/lib/seo";
+import type { Alinea } from "@/lib/content/regio-lokaal";
+import { RijkeTekst } from "./regio-template-styles";
 
 const EYEBROW = "text-[17px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]";
 const LINK = "underline text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]";
@@ -26,35 +27,40 @@ export function AdviseurFoto({ src, alt, className }: { src: string; alt: string
   );
 }
 
-export function AdviseurBlok({ foto, titel, knopTekst = "Vraag een energiescan aan", plaats = "regio_adviseurblok", children }: {
+export function AdviseurBlok({ foto, titel, knopTekst = "Vraag een gratis energiescan aan", plaats = "regio_adviseurblok", compact = false, children }: {
   foto: { src: string; alt: string };
   titel: string;
   knopTekst?: string;
   /** Herkomstlabel voor het whatsapp_clicked-event; regiopagina's houden de standaardwaarde. */
   plaats?: string;
+  /** Smallere variant met kleinere foto, voor naast een tekstkolom; vult de hoogte van die kolom. */
+  compact?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-[auto_1fr] items-center gap-6 lg:gap-10 rounded-[var(--radius-lg)] bg-[var(--accent-100)] p-6 sm:p-7 lg:p-10 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_20px_-6px_rgba(0,0,0,0.06)]">
-      <AdviseurFoto src={foto.src} alt={foto.alt} className="size-24 sm:size-28 lg:size-36" />
+    <div className={`grid grid-cols-1 items-center rounded-[var(--radius-lg)] bg-[var(--accent-100)] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-[0_4px_20px_-6px_rgba(0,0,0,0.06)] ${compact ? "w-full sm:grid-cols-[auto_1fr] gap-6 p-6 sm:p-7 lg:p-8" : "sm:grid-cols-[auto_1fr] gap-6 lg:gap-10 p-6 sm:p-7 lg:p-10"}`}>
+      <AdviseurFoto src={foto.src} alt={foto.alt} className={compact ? "size-24 sm:size-28" : "size-24 sm:size-28 lg:size-36"} />
       <div className="flex flex-col gap-3 max-w-2xl">
         <p className="text-[15px] font-semibold tracking-[-0.01em] text-[var(--accent-700)]">Persoonlijk advies van Gijs</p>
         <h3 className="text-[clamp(1.25rem,1.05rem+0.6vw,1.625rem)] font-bold leading-[1.2] tracking-[-0.02em] text-[var(--gijs-donkergroen)] [text-wrap:balance]">{titel}</h3>
         {children}
-        <WhatsAppTrackedButton plaats={plaats} href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</WhatsAppTrackedButton>
+        <WhatsAppTrackedButton plaats={plaats} href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" size="md" iconRight="arrow-right" className="self-start mt-2">{knopTekst}</WhatsAppTrackedButton>
       </div>
     </div>
   );
 }
 
-export function SubsidieSectie({ naamVoorKop, gemeente, officieleSubsidieUrl, className = "scroll-mt-40 mb-6", rustig = false }: {
+export function SubsidieSectie({ naamVoorKop, gemeente, officieleSubsidieUrl, className = "scroll-mt-40 mb-6", rustig = false, antwoord }: {
   naamVoorKop: string;
   gemeente: string;
   officieleSubsidieUrl?: string;
   className?: string;
   /** Eén lichtgroen vlak met de subsidiecheck erin, zonder losse kaart. */
   rustig?: boolean;
+  /** Direct antwoord op de lokale subsidievraag, boven de standaardtekst. */
+  antwoord?: Alinea[];
 }) {
+  const antwoordTekst = antwoord?.map((a, n) => <RijkeTekst key={n} alinea={a} className="text-zinc-700" />);
   if (rustig) return (
     <section id="subsidies" className={className}>
       <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-6 py-9 sm:px-10 lg:px-12 lg:py-11">
@@ -62,6 +68,7 @@ export function SubsidieSectie({ naamVoorKop, gemeente, officieleSubsidieUrl, cl
           <div className="flex flex-col gap-4 text-zinc-600">
             <p className={EYEBROW}>Subsidies</p>
             <h2 className={H2}>Actuele subsidies in {naamVoorKop}</h2>
+            {antwoordTekst}
             <p>
               Hieronder staan de regelingen die nu voor de gemeente {gemeente} in de Energiesubsidiewijzer van Milieu Centraal
               staan. Regelingen veranderen regelmatig. Wil je weten wat er voor jouw adres geldt, ook landelijk? Doe de subsidiecheck.
@@ -91,6 +98,7 @@ export function SubsidieSectie({ naamVoorKop, gemeente, officieleSubsidieUrl, cl
         <div className="flex flex-col gap-4 text-zinc-600">
           <p className={EYEBROW}>Subsidies</p>
           <h2 className={H2}>Actuele subsidies in {naamVoorKop}</h2>
+          {antwoordTekst}
           <p>
             Hieronder staan de regelingen die nu voor de gemeente {gemeente} in de Energiesubsidiewijzer van Milieu Centraal
             staan. Regelingen veranderen regelmatig. Wil je weten wat er voor jouw adres geldt, ook landelijk? Doe de subsidiecheck.

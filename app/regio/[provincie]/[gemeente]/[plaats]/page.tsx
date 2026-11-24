@@ -10,6 +10,7 @@ import { LokalePagina } from "@/components/regio/LokalePagina";
 import { LokaalProfielPagina } from "@/components/regio/LokaalProfielPagina";
 import { sfeerFoto } from "@/lib/content/hero-sfeerfoto";
 import { basisPagina } from "@/lib/content/lokaal-profiel-adapter";
+import { PLAATS_ISOLATIE_ANTWOORD } from "@/lib/content/isolatie-regio";
 import { GemeenteVerhaalPagina, type VerhaalKern } from "@/components/regio/GemeenteVerhaalPagina";
 
 type Props = { params: Promise<{ provincie: string; gemeente: string; plaats: string }> };
@@ -121,6 +122,7 @@ export default async function PlaatsPage({ params }: Props) {
     gemeenteHref: gemeenteUrl,
     foto: sfeerFoto(`${g.slug}/${k.slug}`),
     faq: [],
+    isolatieAntwoord: PLAATS_ISOLATIE_ANTWOORD[`${g.slug}/${k.slug}`],
   });
   return (
     <>

@@ -90,7 +90,7 @@ const GEMEENTE_PEXELS: Record<string, { id: string; alt: string }> = {
   urk:                   { id: "16423703", alt: "Pier met houten golfbrekers in het historische vissersdorp Urk" },
   zeewolde:              { id: "12290874", alt: "Houten steiger bij het Wolderwijd in Zeewolde" },
   // ── Overijssel ──
-  almelo:               { id: "33574641", alt: "Historisch plein met kerk in Almelo" },
+  almelo:               { id: "32298063", alt: "Regenboog boven een kerktoren in Almelo" },
   borne:                { id: "40491143", alt: "Groen weiland in Twente" },
   dalfsen:              { id: "30519576", alt: "Kanaalpolder met verre molen bij Dalfsen" },
   deventer:             { id: "28799666", alt: "Historische binnenstad langs de IJssel in Deventer" },

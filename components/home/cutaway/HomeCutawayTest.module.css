@@ -10,6 +10,8 @@
 /* Korte aanvulling onder de uitleg van een maatregel (bv. bodemisolatie bij vloerisolatie). */
 .notitie { margin-top: 14px; max-width: 44ch; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
 .meerLink { gap: 6px; }
+.regioLink { color: var(--accent-700); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--accent-200); }
+.regioLink:hover { color: var(--gijs-donkergroen); text-decoration-color: var(--accent-700); }
 @media (max-width: 767px) {
   /* Woning op mobiel groter in beeld dan op de huidige homepage (34svh), zodat doorsnede en labels leesbaar zijn. */
   aside.beeldKolom { height: 46svh; min-height: 280px; }

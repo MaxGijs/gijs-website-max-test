@@ -127,6 +127,16 @@ export type GemeenteVerhaal = {
     intro: string;
     kaarten: { naam: string; icon: string; tekst: string; href: string; afbeelding?: string }[];
   };
+  /** Optioneel: direct antwoord op de lokale isolatievraag (eigen H2, eventueel met H3-onderdelen per
+   *  maatregel), na het lokale verhaal. Title en H1 blijven ongewijzigd. */
+  isolatieAntwoord?: {
+    eyebrow: string;
+    h2: string;
+    alineas: Alinea[];
+    onderdelen?: { h3: string; alineas: Alinea[] }[];
+  };
+  /** Optioneel: direct antwoord bovenaan de subsidiesectie, vóór de standaardtekst. */
+  subsidieAntwoord?: Alinea[];
   /** Optioneel: vier woningsituatiekaarten. */
   woningsituatieKaarten?: {
     h2: string;
@@ -322,6 +332,7 @@ const BORNE: GemeenteVerhaal = {
     { question: "Kan ik een gemeentelijke subsidie combineren met de ISDE?", answer: "Vaak wel, maar dat hangt af van de voorwaarden van beide regelingen. Gijs bekijkt dat met je tijdens de energiescan en helpt bij de aanvraag. Gijs kan toekenning niet garanderen." },
     { question: "Mijn huis is gebouwd vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer, maar het hangt af van wat er al is gedaan. Veel oudere woningen zijn al deels verbeterd. Tijdens de energiescan kijken we wat er nog te winnen valt." },
     { question: "Kijkt Gijs ook naar een warmtepomp of zonnepanelen?", answer: "Ja. Gijs kijkt naar isolatie én installaties, zoals een warmtepomp, zonnepanelen of een thuisbatterij, en naar de volgorde die bij jouw woning past." },
+    { question: "Is Gijs een isolatiebedrijf in Borne?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Borne. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, tot de uitvoering helemaal is afgerond." },
     { question: "Helpt Gijs ook in Zenderen, Hertme en het buitengebied?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Borne, dus ook in de dorpen en daarbuiten." },
   ],
   verwant: [
@@ -623,13 +634,13 @@ const HENGELO: GemeenteVerhaal = {
     h2: "Thom komt graag even langs om je te helpen",
     alineas: [
       ["Woon je in Tuindorp, Groot Driene, Hasseler Es, Slangenbeek of ergens anders in Hengelo? De wijkcijfers geven een eerste indruk, maar jouw woning verdient persoonlijk advies. Wat is er al verbeterd en waar valt nog winst te behalen?"],
-      ["Thom komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }, " energiescan. Samen kijken jullie naar jouw woning, jouw wensen en de verduurzamingsmaatregelen die daarbij passen."],
+      ["Thom komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }, " energiescan. Samen kijken jullie naar jouw woning, jouw wensen en de verduurzamingsmaatregelen die daarbij passen."],
       ["Wil je daarna verder verduurzamen? Gijs begeleidt en ontzorgt je van A tot Z. Van het eerste advies tot het regelen en begeleiden van de uitvoering, zodat je er zelf zo min mogelijk omkijken naar hebt."],
     ],
     foto: "/images/over-gijs/thom/thom-portret.png",
     fotoAlt: "Thom, adviseur bij Gijs in Hengelo",
-    ctaLabel: "Vraag een energiescan aan",
-    ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs",
+    ctaLabel: "Vraag een gratis energiescan aan",
+    ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen",
   },
   natuur: {
     titel: "Beschermde dieren bij isolatie in Hengelo",
@@ -648,7 +659,7 @@ const HENGELO: GemeenteVerhaal = {
     { question: "Mijn huis in Hengelo is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer, maar het hangt af van wat er al is gedaan. Veel naoorlogse woningen zijn deels al verbeterd. Gijs kijkt wat er nog te winnen valt tijdens de energiescan." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In Hengelo wonen vleermuizen, huismussen en gierzwaluwen in spouwmuren en daken. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
     { question: "Kan ik een gemeentelijke subsidie combineren met de ISDE?", answer: "Vaak wel, maar dat hangt af van de voorwaarden. Gijs bekijkt dat met je tijdens de energiescan en helpt bij de aanvraag. Gijs kan toekenning niet garanderen." },
-    { question: "Is Gijs een isolatiebedrijf in Hengelo?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Hengelo. Vervolgens begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten. Je hoeft er zelf niet van wakker te liggen." },
+    { question: "Is Gijs een isolatiebedrijf in Hengelo?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Hengelo. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, tot de uitvoering helemaal is afgerond." },
     { question: "Helpt Gijs ook in Beckum?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hengelo, ook in het dorp Beckum." },
   ],
   verwant: [
@@ -662,7 +673,7 @@ const HENGELO: GemeenteVerhaal = {
 const ENSCHEDE: GemeenteVerhaal = {
   seo: {
     title: "Dakisolatie en vloerisolatie in Enschede | Gijs",
-    description: "Op zoek naar dakisolatie of vloerisolatie in Enschede? Gijs helpt je met alle isolatiemaatregelen en installeert zonnepanelen. Gratis energiescan aan huis.",
+    description: "Op zoek naar dakisolatie of vloerisolatie in Enschede? Gijs adviseert onafhankelijk over alle isolatiemaatregelen en regelt de uitvoering door vakspecialisten. Gratis energiescan aan huis.",
   },
   kicker: "Gemeente Enschede",
   h1: "Dakisolatie, vloerisolatie en meer in Enschede",
@@ -752,6 +763,15 @@ const ENSCHEDE: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een vergunning aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-en-landschap/ontheffing-flora-faunawet/" },
   },
+  // Alleen de uitleg over de aanpak: dak en vloer staan al in het lokale verhaal en de FAQ.
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Enschede",
+    h2: "Isolatieadvies en uitvoering in Enschede",
+    alineas: [
+      ["Wil je je woning in Enschede isoleren en zoek je één partij die het hele traject regelt? Gijs kijkt niet vanuit één isolatieproduct, maar vanuit de hele woning. Een dakisolateur beoordeelt vooral het dak, terwijl bij jouw huis de vloer of de spouwmuur misschien een betere eerste stap is."],
+      ["Tijdens een gratis energiescan aan huis vergelijkt een adviseur de mogelijkheden en zet de stappen op volgorde. Daarna regelt Gijs de uitvoering door vakspecialisten. Je hebt één aanspreekpunt, ook in Glanerbrug, Boekelo en Lonneker, tot het werk helemaal is afgerond."],
+    ],
+  },
   faq: [
     { question: "Welke subsidies zijn er nu in Enschede?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Enschede in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Ik woon in een VvE. Kan ik ook isoleren?", answer: "Ja, maar een VvE beslist collectief. Gijs kan je adviseren over wat er mogelijk is en hoe je het in de VvE bespreekbaar maakt." },
@@ -801,7 +821,6 @@ const ALMELO: GemeenteVerhaal = {
     alineas: [
       ["Almelo groeide groot als centrum van de Twentse textielindustrie. Na het verdwijnen van de industrie transformeerde de stad. De woningvoorraad weerspiegelt die geschiedenis: een mix van oudere arbeidswoningen, naoorlogse uitbreidingen en nieuwere wijken."],
       ["Tussenwoningen zijn het meest voorkomende type in Almelo. Dat maakt de aanpak per woning vrij uniform, maar de staat van isolatie loopt sterk uiteen. Gijs kijkt per huis wat er al is gedaan en wat de logische volgende stap is."],
-      ["Op zoek naar een isolatiebedrijf in Almelo? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     bekendVan: {
       titel: "Waar is Almelo bekend van?",
@@ -863,11 +882,37 @@ const ALMELO: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf laten onderzoeken of er beschermde dieren in je woning leven en een vergunning aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-en-landschap/ontheffing-flora-faunawet/" },
   },
+  // De bestaande Almelo-uitleg (eerder in het lokale verhaal) staat nu bovenaan, met dak en vloer eronder.
+  // Cijfers uit de woningcijfers op deze pagina.
+  isolatieAntwoord: {
+    eyebrow: "Isoleren in Almelo",
+    h2: "Isolatieadvies en uitvoering in Almelo",
+    alineas: [
+      ["Op zoek naar een isolatiebedrijf in Almelo? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
+      ["Woningen in Almelo zijn heel verschillend gebouwd: 17% is van vóór 1945, een kwart is naoorlogs en bijna een derde is van na 1995. Welke isolatie het eerst loont, verschilt daardoor per huis. Hieronder lees je wanneer het dak of de vloer een logische stap kan zijn."],
+    ],
+    onderdelen: [
+      {
+        h3: "Dakisolatie in Almelo",
+        alineas: [
+          ["Bij woningen van vóór 1975 is het dak vaak nog niet of maar dun geïsoleerd. Via een ongeïsoleerd dak gaat veel warmte verloren, omdat warme lucht opstijgt. Bij een schuin dak komt de isolatie meestal aan de binnenkant, tussen of tegen de dakspanten. Bij een plat dak komt de isolatie bovenop."],
+          ["Of het dak bij jouw huis de beste eerste stap is, hangt ook af van de spouw en de vloer. Lees meer over ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, "."],
+        ],
+      },
+      {
+        h3: "Vloerisolatie in Almelo",
+        alineas: [
+          ["Heeft je woning een kruipruimte, dan kan de vloer vaak van onderaf worden geïsoleerd. Bij oudere woningen zit er onder de begane grond meestal nog geen isolatie. Met vloerisolatie wordt de vloer warmer en komt er minder kou uit de kruipruimte."],
+          ["Of vloerisolatie kan, hangt af van de constructie, de bereikbaarheid en het vocht in de kruipruimte. Lees meer over ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, "."],
+        ],
+      },
+    ],
+  },
   faq: [
     { question: "Welke subsidies zijn er nu in Almelo?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Almelo in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn huis in Almelo is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is tijdens de energiescan." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. Vleermuizen, huismussen en gierzwaluwen komen voor in Almelo. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
-    { question: "Is Gijs een isolatiebedrijf in Almelo?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Almelo. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Aadorp en Bornerbroek. Je hoeft er zelf niet van wakker te liggen." },
+    { question: "Is Gijs een isolatiebedrijf in Almelo?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Almelo. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Aadorp en Bornerbroek, tot de uitvoering helemaal is afgerond." },
     { question: "Helpt Gijs ook in Aadorp en Bornerbroek?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Almelo, ook in de dorpen." },
   ],
   verwant: [
@@ -977,13 +1022,13 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
     label: "Persoonlijk advies in Hof van Twente",
     h2: "Gijs kijkt graag even met je mee",
     alineas: [
-      ["Twijfel je of jouw dak, spouwmuur of vloer goed geïsoleerd is, of ben je juist benieuwd of een warmtepomp of vloerverwarming bij jouw woning past? Gijs komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }, " energiescan. Samen kijken we naar jouw woning, wat er al aanwezig is en welke verduurzamingsmaatregelen voor jou interessant zijn."],
+      ["Twijfel je of jouw dak, spouwmuur of vloer goed geïsoleerd is, of ben je juist benieuwd of een warmtepomp of vloerverwarming bij jouw woning past? Gijs komt graag bij je langs voor een ", { tekst: "gratis en vrijblijvende", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }, " energiescan. Samen kijken we naar jouw woning, wat er al aanwezig is en welke verduurzamingsmaatregelen voor jou interessant zijn."],
       ["Wil je daarna verder verduurzamen? Gijs begeleidt en ontzorgt je van A tot Z. Van het eerste advies tot het regelen en begeleiden van de uitvoering, zodat je er zelf zo min mogelijk omkijken naar hebt."],
     ],
     foto: "/images/over-gijs/thom/thom-portret.png",
     fotoAlt: "Thom, adviseur bij Gijs",
-    ctaLabel: "Vraag een energiescan aan",
-    ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs",
+    ctaLabel: "Vraag een gratis energiescan aan",
+    ctaHref: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen",
   },
   natuur: {
     titel: "Beschermde dieren bij isolatie in Hof van Twente",
@@ -998,7 +1043,7 @@ const HOF_VAN_TWENTE: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-en-landschap/ontheffing-flora-faunawet/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Hof van Twente?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Hof van Twente. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Goor, Delden en Markelo." },
+    { question: "Is Gijs een isolatiebedrijf in Hof van Twente?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Hof van Twente. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Goor, Delden en Markelo, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er nu in Hof van Twente?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Hof van Twente in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn boerderij of vrijstaande woning is oud. Waar begin ik?", answer: "Bij vrijstaande woningen zijn dak, spouw en vloer bijna altijd de eerste stap. Hoe oud het gebouw is, maakt daarbij veel uit. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In de landelijke omgeving van Hof van Twente leven beschermde vogels en vleermuizen. Kies een isolatiebedrijf dat natuurvriendelijk werkt: dat regelt ook de melding bij de provincie." },
@@ -1232,7 +1277,7 @@ const HELLENDOORN: GemeenteVerhaal = {
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In de gemeente Hellendoorn wonen beschermde vleermuizen, huismussen en gierzwaluwen. Kies een isolatiebedrijf dat natuurvriendelijk werkt." },
     { question: "Kijkt Gijs ook naar een warmtepomp of zonnepanelen?", answer: "Ja. Gijs kijkt naar isolatie én installaties, in de volgorde die bij jouw woning past." },
     { question: "Helpt Gijs ook in Nijverdal, Haarle en Daarlerveen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hellendoorn, ook in alle dorpen." },
-    { question: "Is Gijs een isolatiebedrijf in Hellendoorn?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Vervolgens begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, zodat je er zelf niet van wakker hoeft te liggen." },
+    { question: "Is Gijs een isolatiebedrijf in Hellendoorn?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, tot de uitvoering helemaal is afgerond." },
   ],
   verwant: [
     { naam: "Woning verduurzamen in Rijssen-Holten", href: "/regio/overijssel/rijssen-holten" },
@@ -1249,7 +1294,7 @@ const HELLENDOORN: GemeenteVerhaal = {
       { icon: "banknote", titel: "Kom ik in aanmerking voor isolatiesubsidie?", tekst: "Controleer de actuele gemeentelijke en landelijke regelingen. De voorwaarden en vergoedingen kunnen veranderen en verschillen per woning.", href: "/kennis#subsidies", linkTekst: "Bekijk subsidiemogelijkheden" },
       { icon: "layers", titel: "Welke isolatie is de investering waard?", tekst: "De grootste verbetering hangt af van je woning en de bestaande isolatie. Vergelijk comfort, kosten en mogelijke besparing voordat je beslist.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Bekijk isolatiemaatregelen" },
     ],
-    adviseur: { naam: "thom", h3: "Thom kijkt graag met je mee", tekst: "Wil je jouw woning in Hellendoorn isoleren en weten welke financiële ondersteuning mogelijk is? Thom helpt je inzicht te krijgen in passende maatregelen en de aandachtspunten bij de investering. Gijs begeleidt je van de eerste keuzes tot de uitvoering." },
+    adviseur: { naam: "thom", h3: "Thom kijkt graag in Hellendoorn met je mee", tekst: "Wil je jouw woning in Hellendoorn isoleren en weten welke financiële ondersteuning mogelijk is? Thom helpt je inzicht te krijgen in passende maatregelen en de aandachtspunten bij de investering. Gijs begeleidt je van de eerste keuzes tot de uitvoering." },
   },
 };
 
@@ -1346,7 +1391,7 @@ const RIJSSEN_HOLTEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-en-landschap/ontheffing-flora-faunawet/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Rijssen-Holten?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, zowel in Rijssen als in Holten." },
+    { question: "Is Gijs een isolatiebedrijf in Rijssen-Holten?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, zowel in Rijssen als in Holten, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er nu in Rijssen-Holten?", answer: "Dat verandert regelmatig. Op deze pagina zie je de regelingen die nu voor Rijssen-Holten in de Energiesubsidiewijzer van Milieu Centraal staan. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Vaak bij de spouw, het dak of de vloer. Gijs kijkt wat er al is gedaan en wat de volgende logische stap is." },
     { question: "Moet ik bij isolatie rekening houden met beschermde dieren?", answer: "Ja. In Rijssen-Holten wonen beschermde vleermuizen, huismussen en gierzwaluwen. Kies een isolatiebedrijf dat natuurvriendelijk werkt." },
@@ -2172,6 +2217,15 @@ const GOOR: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Cijfers uit de woningcijfers op deze pagina (CBS/BAG via AlleCijfers.nl).
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Goor",
+    h2: "Je woning isoleren in Goor",
+    alineas: [
+      ["In Goor is 62% van de woningen gebouwd vóór 1975, en ruim een vijfde zelfs vóór 1945. In de naoorlogse uitbreidingswijken staan veel rijtjeswoningen. Daar is de spouwmuur vaak een logische eerste stap, maar dat geldt niet voor elk huis: soms levert het dak of de vloer meer op."],
+      ["Gijs kijkt daarom eerst onafhankelijk naar de hele woning en zet de mogelijke stappen op volgorde. Daarna regelt Gijs de uitvoering door vakspecialisten, met één aanspreekpunt van de eerste beoordeling tot en met de afgeronde werkzaamheden."],
+    ],
+  },
   faq: [
     { question: "Welke subsidies zijn er voor mijn woning in Goor?", answer: "Goor valt onder de gemeente Hof van Twente. De regelingen van Hof van Twente gelden in Goor." },
     { question: "Mijn naoorlogse woning in Goor heeft een lege spouw. Wat moet ik doen?", answer: "Spouwmuurisolatie is voor veel naoorlogse woningen de meest effectieve eerste stap. Gijs kijkt of dat bij jouw woning ook het geval is." },
@@ -2192,7 +2246,7 @@ const GOOR: GemeenteVerhaal = {
       { icon: "search", titel: "Welke isolatie heeft mijn woning nodig?", tekst: "Een koud vertrek kan verschillende oorzaken hebben. Bekijk hoe dak-, vloer- en spouwmuurisolatie helpen om warmteverlies te beperken en waarom de beste keuze afhangt van de bestaande constructie.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Bekijk isolatiemogelijkheden" },
       { icon: "calculator", titel: "Wat kost isolatie en wat levert het op?", tekst: "De kosten en mogelijke besparing verschillen per woning. Ontdek welke factoren invloed hebben op de investering, eventuele subsidies en de verbetering van je wooncomfort.", href: "/kennis#subsidies", linkTekst: "Bekijk kosten en subsidies" },
     ],
-    adviseur: { naam: "naud", h3: "Naud kijkt graag met je mee", tekst: "Heb je in Goor last van tocht, koude vloeren of hoge stookkosten? Naud bekijkt de bestaande isolatie en helpt bepalen welke verbeteringen passend zijn. Daarbij kijkt hij niet alleen naar afzonderlijke maatregelen, maar naar de woning als geheel. Gijs begeleidt vervolgens het traject van advies tot uitvoering." },
+    adviseur: { naam: "naud", h3: "Naud kijkt graag in Goor met je mee", tekst: "Heb je in Goor last van tocht, koude vloeren of hoge stookkosten? Naud bekijkt de bestaande isolatie en helpt bepalen welke verbeteringen passend zijn. Daarbij kijkt hij niet alleen naar afzonderlijke maatregelen, maar naar de woning als geheel. Gijs begeleidt vervolgens het traject van advies tot uitvoering." },
   },
 };
 
@@ -2262,6 +2316,15 @@ const DELDEN: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Cijfers uit de woningcijfers op deze pagina (CBS/BAG via AlleCijfers.nl).
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Delden",
+    h2: "Isolatieadvies en uitvoering in Delden",
+    alineas: [
+      ["Wil je je woning in Delden isoleren en zoek je één partij die het hele traject regelt? In Delden is 67% van de woningen gebouwd vóór 1975, van karakteristieke panden in het centrum tot naoorlogse woningen in de uitbreidingswijken. Welke isolatie het eerst loont, verschilt daardoor sterk per huis."],
+      ["Gijs begint daarom niet bij één maatregel, maar bij de hele woning. Tijdens een gratis energiescan aan huis vergelijkt een adviseur bijvoorbeeld ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, ", ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, ", en kijkt bij een historisch pand ook naar wat er mag. Daarna regelt Gijs de uitvoering door vakspecialisten. Je hebt één aanspreekpunt, tot het werk helemaal is afgerond."],
+    ],
+  },
   faq: [
     { question: "Welke subsidies zijn er voor mijn woning in Delden?", answer: "Delden valt onder de gemeente Hof van Twente. De regelingen van Hof van Twente gelden in Delden." },
     { question: "Mijn historische woning in Delden is bijzonder. Kan ik gewoon isoleren?", answer: "Bij historische panden gelden soms extra regels of beperkingen, afhankelijk van de monumentenstatus. Gijs kijkt wat mogelijk is en hoe je toch kunt verduurzamen." },
@@ -2278,9 +2341,9 @@ const DELDEN: GemeenteVerhaal = {
     bodytekst: "Een oudere woning heeft vaak eigenschappen die je juist wilt behouden. Denk aan de gevel, karakteristieke ramen of andere bouwdetails. Tegelijk wil je prettig wonen, zonder koude vloeren of onnodig warmteverlies. Bij het isoleren van oudere woningen is het daarom belangrijk om te kijken naar de bestaande constructie en eventuele eerdere verbouwingen. Niet iedere isolatieoplossing is voor elk gebouw geschikt. Met een zorgvuldige aanpak kun je het comfort verbeteren en tegelijk rekening houden met vocht, ventilatie en de uitstraling van je woning.",
     kaarten: [
       { icon: "home", titel: "Welke isolatie past bij mijn oudere woning?", tekst: "Bekijk hoe dak-, vloer- en glasisolatie kunnen bijdragen aan meer comfort. De bouwkundige situatie bepaalt welke oplossingen technisch verstandig zijn.", href: "/maatregelen/dakisolatie", linkTekst: "Bekijk isolatiemogelijkheden" },
-      { icon: "clipboard-check", titel: "Wat moet ik vooraf laten controleren?", tekst: "Bij oudere of beschermde woningen kunnen aanvullende aandachtspunten gelden. Denk aan de gevelconstructie, ventilatie en eventuele vergunningen. Goede voorbereiding voorkomt onnodige problemen.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs", linkTekst: "Plan een energiescan" },
+      { icon: "clipboard-check", titel: "Wat moet ik vooraf laten controleren?", tekst: "Bij oudere of beschermde woningen kunnen aanvullende aandachtspunten gelden. Denk aan de gevelconstructie, ventilatie en eventuele vergunningen. Goede voorbereiding voorkomt onnodige problemen.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen", linkTekst: "Plan een energiescan" },
     ],
-    adviseur: { naam: "thom", h3: "Thom kijkt graag met je mee", tekst: "Wil je jouw woning in Delden verduurzamen, maar het karakter en de bestaande constructie behouden? Thom kijkt naar eerdere renovaties, de technische mogelijkheden en jouw wensen. Zo krijg je advies dat bij de woning past. Gijs helpt vervolgens bij het voorbereiden en begeleiden van de uitvoering." },
+    adviseur: { naam: "thom", h3: "Thom kijkt graag in Delden met je mee", tekst: "Wil je jouw woning in Delden verduurzamen, maar het karakter en de bestaande constructie behouden? Thom kijkt naar eerdere renovaties, de technische mogelijkheden en jouw wensen. Zo krijg je advies dat bij de woning past. Gijs helpt vervolgens bij het voorbereiden en begeleiden van de uitvoering." },
   },
 };
 
@@ -2363,7 +2426,7 @@ const MARKELO: GemeenteVerhaal = {
       { icon: "search", titel: "Waar verliest mijn woning warmte?", tekst: "Ontdek welke rol dak-, gevel- en vloerisolatie spelen. Laat eerst bekijken wat al is geïsoleerd en waar verbetering zinvol is.", href: "/maatregelen/dakisolatie", linkTekst: "Bekijk dakisolatie" },
       { icon: "flame", titel: "Is mijn woning klaar voor een warmtepomp?", tekst: "Een warmtepomp moet passen bij de warmtebehoefte en het bestaande verwarmingssysteem. Onderzoek daarom eerst welke voorwaarden bij jouw woning van belang zijn.", href: "/maatregelen/warmtepomp", linkTekst: "Bekijk warmtepomp" },
     ],
-    adviseur: { naam: "naud", h3: "Naud kijkt graag met je mee", tekst: "Woon je vrijstaand in Markelo en wil je weten welke maatregelen werkelijk bij jouw woning passen? Naud beoordeelt de isolatie en verwarming in samenhang. Je krijgt overzicht over de mogelijkheden en de volgorde van verbeteringen. Gijs helpt daarna bij de uitvoering." },
+    adviseur: { naam: "naud", h3: "Naud kijkt graag in Markelo met je mee", tekst: "Woon je vrijstaand in Markelo en wil je weten welke maatregelen werkelijk bij jouw woning passen? Naud beoordeelt de isolatie en verwarming in samenhang. Je krijgt overzicht over de mogelijkheden en de volgorde van verbeteringen. Gijs helpt daarna bij de uitvoering." },
   },
 };
 
@@ -2451,7 +2514,7 @@ const DIEPENHEIM: GemeenteVerhaal = {
       { icon: "brick-wall", titel: "Welke isolatie is geschikt voor oude muren?", tekst: "Niet iedere gevel heeft een geschikte spouw. Bekijk waarom de constructie, ventilatie en vochthuishouding belangrijk zijn.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Bekijk spouwmuurisolatie" },
       { icon: "shield-check", titel: "Hoe verbeter ik comfort zonder onnodige risico's?", tekst: "Dak-, vloer- of glasisolatie kan interessant zijn. Welke maatregel passend is, hangt af van de bestaande bouw en eerdere renovaties.", href: "/maatregelen/dakisolatie", linkTekst: "Bekijk dakisolatie" },
     ],
-    adviseur: { naam: "thom", h3: "Thom kijkt graag met je mee", tekst: "Heb je een oudere woning in Diepenheim en wil je verantwoord isoleren? Thom kijkt naar de constructie, eventuele eerdere verbeteringen en mogelijke aandachtspunten. Zo krijg je een plan dat niet alleen het comfort verbetert, maar ook rekening houdt met de woning zelf. Gijs begeleidt de uitvoering." },
+    adviseur: { naam: "thom", h3: "Thom kijkt graag in Diepenheim met je mee", tekst: "Heb je een oudere woning in Diepenheim en wil je verantwoord isoleren? Thom kijkt naar de constructie, eventuele eerdere verbeteringen en mogelijke aandachtspunten. Zo krijg je een plan dat niet alleen het comfort verbetert, maar ook rekening houdt met de woning zelf. Gijs begeleidt de uitvoering." },
   },
 };
 
@@ -2533,7 +2596,7 @@ const BENTELO: GemeenteVerhaal = {
       { icon: "layers", titel: "Welke isolatie levert meer comfort op?", tekst: "Bekijk hoe dak-, gevel- en vloerisolatie kunnen helpen om de warmtevraag te beperken en welke onderdelen bij jouw woning aandacht verdienen.", href: "/maatregelen/dakisolatie", linkTekst: "Bekijk isolatiemaatregelen" },
       { icon: "sun", titel: "Zijn zonnepanelen interessant voor mijn dak?", tekst: "Dakruimte alleen is niet voldoende. De ligging, schaduw, investering en het eigen stroomverbruik bepalen mede de financiële waarde.", href: "/maatregelen/zonnepanelen", linkTekst: "Bekijk zonnepanelen" },
     ],
-    adviseur: { naam: "naud", h3: "Naud kijkt graag met je mee", tekst: "Woon je in het buitengebied van Bentelo en wil je jouw woning energiezuiniger maken? Naud kijkt naar de huidige isolatie, de mogelijkheden voor zonnepanelen en het verwarmingssysteem. Gijs helpt je om de maatregelen op elkaar af te stemmen en begeleidt de uitvoering." },
+    adviseur: { naam: "naud", h3: "Naud kijkt graag in Bentelo met je mee", tekst: "Woon je in het buitengebied van Bentelo en wil je jouw woning energiezuiniger maken? Naud kijkt naar de huidige isolatie, de mogelijkheden voor zonnepanelen en het verwarmingssysteem. Gijs helpt je om de maatregelen op elkaar af te stemmen en begeleidt de uitvoering." },
   },
 };
 
@@ -2615,7 +2678,7 @@ const HENGEVELDE: GemeenteVerhaal = {
       { icon: "flame", titel: "Is mijn woning geschikt voor een warmtepomp?", tekst: "Bekijk hoe isolatie, warmteafgifte en het bestaande verwarmingssysteem invloed hebben op de mogelijkheden.", href: "/maatregelen/warmtepomp", linkTekst: "Bekijk warmtepomp" },
       { icon: "battery-charging", titel: "Is energieopslag financieel interessant?", tekst: "Een thuisbatterij is niet voor iedere woning rendabel. Verbruik, zonnestroom, energietarieven en investeringskosten spelen een belangrijke rol.", href: "/maatregelen/zonnepanelen", linkTekst: "Bekijk zonnepanelen" },
     ],
-    adviseur: { naam: "thom", h3: "Thom kijkt graag met je mee", tekst: "Wil je in Hengevelde verder verduurzamen en twijfel je welke installatie bij jouw woning past? Thom bekijkt de huidige isolatie en het energieverbruik. Je krijgt inzicht in passende mogelijkheden, zodat je niet investeert in een oplossing die weinig toevoegt. Gijs begeleidt de volgende stappen." },
+    adviseur: { naam: "thom", h3: "Thom kijkt graag in Hengevelde met je mee", tekst: "Wil je in Hengevelde verder verduurzamen en twijfel je welke installatie bij jouw woning past? Thom bekijkt de huidige isolatie en het energieverbruik. Je krijgt inzicht in passende mogelijkheden, zodat je niet investeert in een oplossing die weinig toevoegt. Gijs begeleidt de volgende stappen." },
   },
 };
 
@@ -2953,7 +3016,7 @@ const RIJSSEN: GemeenteVerhaal = {
     ],
     kernTekst: {
       rijssen: "Je bent hier. Voornaamste kern van de gemeente.",
-      holten: "Dorp aan de Holterberg, in het zuiden van de gemeente.",
+      holten: "Dorp aan de Holterberg, in het zuiden van de gemeente. Ook daar begeleidt Gijs isolatie van advies tot uitvoering.",
     },
     ontwikkeling: {
       titel: "Wat speelt er in de gemeente Rijssen-Holten?",
@@ -2973,7 +3036,7 @@ const RIJSSEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Rijssen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Rijssen. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten." },
+    { question: "Is Gijs een isolatiebedrijf in Rijssen?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Rijssen. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Rijssen?", answer: "Rijssen valt onder de gemeente Rijssen-Holten. De regelingen van Rijssen-Holten gelden dus ook in Rijssen." },
     { question: "Mijn naoorlogse woning in Rijssen heeft een lege spouw. Wat doe ik?", answer: "Spouwmuurisolatie is voor veel naoorlogse woningen de meest effectieve eerste stap. Gijs kijkt of dat bij jouw woning ook het geval is." },
     { question: "Helpt Gijs ook in Rijssen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Rijssen-Holten, dus ook in Rijssen." },
@@ -2992,7 +3055,7 @@ const RIJSSEN: GemeenteVerhaal = {
       { icon: "thermometer", titel: "Warmtepomp en vloerverwarming", tekst: "Een warmtepomp werkt het efficiëntst bij lage aanvoertemperaturen. Vloerverwarming maakt dat mogelijk zonder grote radiatoren.", href: "/maatregelen/warmtepomp", linkTekst: "Lees over warmtepompen" },
       { icon: "layers", titel: "Eerst isoleren, dan verwarmen", tekst: "Goed geïsoleerde woningen hebben minder vermogen nodig. Dat maakt een kleinere warmtepomp mogelijk, met lagere kosten.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Lees over spouwmuurisolatie" },
     ],
-    adviseur: { naam: "thom", h3: "Thom kijkt mee naar jouw woning in Rijssen", tekst: "Vloerverwarming in een bestaande woning vraagt om een goede beoordeling van de vloerconstructie en de isolatiestaat. Thom bekijkt wat er bij jouw huis kan en adviseert je over de juiste volgorde." },
+    adviseur: { naam: "thom", h3: "Thom kijkt graag in Rijssen met je mee", tekst: "Vloerverwarming in een bestaande woning vraagt om een goede beoordeling van de vloerconstructie en de isolatiestaat. Thom bekijkt wat er bij jouw huis kan en adviseert je over de juiste volgorde." },
   },
 };
 
@@ -3059,10 +3122,10 @@ const HOLTEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Holten?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Holten. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten." },
+    { question: "Is Gijs een isolatiebedrijf in Holten?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Holten. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Holten?", answer: "Holten valt onder de gemeente Rijssen-Holten. De regelingen van Rijssen-Holten gelden dus ook in Holten." },
     { question: "Helpt Gijs ook in Holten?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Rijssen-Holten, dus ook in Holten." },
-    { question: "Kijkt Gijs ook naar zonnepanelen?", answer: "Ja. Ruime percelen aan de bosrand in Holten bieden goede condities voor zonnepanelen." },
+    { question: "Kijkt Gijs ook naar zonnepanelen?", answer: "Ja. Ruime percelen aan de bosrand in Holten bieden goede condities voor zonnepanelen.", links: [{ tekst: "Is zonnepanelen kopen nog wel rendabel zonder salderingsregeling?", href: "/kennis/zonnepanelen-rendabel-zonder-salderen" }] },
   ],
   verwant: [
     { naam: "Woning verduurzamen in Rijssen-Holten", href: "/regio/overijssel/rijssen-holten" },
@@ -3165,10 +3228,10 @@ const VRIEZENVEEN: GemeenteVerhaal = {
     percentageTekst: "van de woningen in Vriezenveen is gebouwd vóór 1975",
     bodytekst: "Misschien zijn de ramen al vervangen of is het dak jaren geleden geïsoleerd. Maar weet je ook wat er onder de vloer zit en of de gevel al is aangepakt? Zonder goed overzicht van eerdere verbeteringen is het lastig om te bepalen welke maatregelen nog waarde toevoegen. Door eerst de bestaande isolatie in kaart te brengen, voorkom je dubbel werk en kun je gerichter investeren. Dat geeft rust en duidelijkheid voordat je aan nieuwe werkzaamheden begint.",
     kaarten: [
-      { icon: "clipboard-check", titel: "Hoe controleer ik de bestaande isolatie?", tekst: "Bouwdocumenten, eerdere werkzaamheden en een beoordeling van dak, vloer en gevel kunnen helpen om de huidige situatie inzichtelijk te maken.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs", linkTekst: "Plan een energiescan" },
+      { icon: "clipboard-check", titel: "Hoe controleer ik de bestaande isolatie?", tekst: "Bouwdocumenten, eerdere werkzaamheden en een beoordeling van dak, vloer en gevel kunnen helpen om de huidige situatie inzichtelijk te maken.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen", linkTekst: "Plan een energiescan" },
       { icon: "list-ordered", titel: "Welke maatregel moet ik als eerste nemen?", tekst: "De juiste volgorde hangt af van warmteverlies, kosten, comfort en jouw plannen. Kies op basis van de woning, niet van een standaardlijst.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Bekijk isolatiemaatregelen" },
     ],
-    adviseur: { naam: "naud", h3: "Naud kijkt graag met je mee", tekst: "Heb je in Vriezenveen geen volledig beeld van wat er al is geïsoleerd? Naud helpt de bestaande situatie te beoordelen en welke verbeteringen nog zinvol kunnen zijn. Gijs begeleidt je bij het uitvoeren van de gekozen maatregelen." },
+    adviseur: { naam: "naud", h3: "Naud kijkt graag in Vriezenveen met je mee", tekst: "Heb je in Vriezenveen geen volledig beeld van wat er al is geïsoleerd? Naud helpt de bestaande situatie te beoordelen en welke verbeteringen nog zinvol kunnen zijn. Gijs begeleidt je bij het uitvoeren van de gekozen maatregelen." },
   },
 };
 
@@ -3231,6 +3294,15 @@ const VROOMSHOOP: GemeenteVerhaal = {
     ],
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
+  },
+  // Cijfers uit de woningcijfers op deze pagina (CBS/BAG via AlleCijfers.nl).
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Vroomshoop",
+    h2: "Isolatieadvies en uitvoering in Vroomshoop",
+    alineas: [
+      ["Bijna de helft van de woningen in Vroomshoop is gebouwd tussen 1945 en 1975. Bij huizen uit die periode is de spouw vaak nog leeg of maar deels gevuld. Toch is ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " niet altijd de beste eerste stap: in de oudere lintbebouwing kan juist het dak of de vloer meer opleveren."],
+      ["Gijs vergelijkt daarom eerst de mogelijkheden voor de hele woning, tijdens een gratis energiescan aan huis. Daarna regelt Gijs de uitvoering door vakspecialisten. Zo heb je één aanspreekpunt, van het advies tot en met de afgeronde werkzaamheden."],
+    ],
   },
   faq: [
     { question: "Welke subsidies zijn er voor mijn woning in Vroomshoop?", answer: "Vroomshoop valt onder de gemeente Twenterand. De regelingen van Twenterand gelden dus ook in Vroomshoop." },
@@ -4270,7 +4342,6 @@ const WIERDEN: GemeenteVerhaal = {
     alineas: [
       ["De gemeente Wierden bestaat uit de kern Wierden en de dorpen Enter, Hoge Hexel, Notter, Rectum, Zuna en IJpelo. De gemeente heeft een landelijk karakter met veel vrijstaande en twee-onder-één-kapwoningen. Enter is de grootste kern en heeft een eigen winkelcentrum en voorzieningen."],
       ["Met een WOZ-waarde van gemiddeld €410.000 en 73% koopwoningen is de woningmarkt stabiel. Juist bij vrijstaande woningen in de naoorlogse periode is er vaak nog winst te halen: meer buitenoppervlak betekent dat isolatie van dak, spouw en vloer verhoudingsgewijs meer oplevert."],
-      ["Op zoek naar een isolatiebedrijf in Wierden? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     kernTekst: {
       wierden: "De gemeentekern, met het gemeentehuis en de meeste voorzieningen.",
@@ -4317,8 +4388,17 @@ const WIERDEN: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Vervangt de eerdere isolatiebedrijf-alinea in het lokale verhaal. Cijfer uit de woningcijfers op deze pagina.
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Wierden",
+    h2: "Isolatieadvies en uitvoering in Wierden",
+    alineas: [
+      ["Zoek je een isolatiebedrijf in Wierden of Enter? Gijs kijkt niet vanuit één isolatieproduct, maar vanuit de hele woning. In de gemeente is ruim 40% van de woningen gebouwd tussen 1945 en 1975, maar ook binnen die groep verschilt per huis wat er al is gedaan en waar de meeste warmte weglekt."],
+      ["Een adviseur van Gijs vergelijkt tijdens een gratis energiescan aan huis bijvoorbeeld ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, ", ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, ". Zo voorkom je dat je in het dak investeert terwijl bij jouw huis de spouwmuur een betere eerste stap is. Na het advies regelt Gijs de uitvoering door vakspecialisten. Je hebt één aanspreekpunt, in Wierden en Enter en ook in Hoge Hexel, Notter, Rectum, Zuna en IJpelo, tot het werk helemaal is afgerond."],
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Wierden?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Enter en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Wierden?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Enter en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Wierden?", answer: "Op deze pagina zie je de regelingen die nu voor Wierden gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Mijn woning staat in Enter of een ander dorp van Wierden. Maakt dat wat uit?", answer: "Nee. Gijs werkt in de hele gemeente Wierden, van Enter en Hoge Hexel tot Notter, Rectum, Zuna en IJpelo. De meeste woningen in Enter zijn uit de naoorlogse periode en vergelijkbaar gebouwd als die in de kern Wierden. Gijs kijkt altijd naar jouw eigen huis." },
@@ -4340,7 +4420,7 @@ const TUBBERGEN: GemeenteVerhaal = {
   kicker: "Gemeente Tubbergen",
   h1: "Je woning isoleren en verduurzamen in Tubbergen",
   intro: [
-    ["Woon je in ", { tekst: "Tubbergen", href: "/regio/overijssel/tubbergen/tubbergen" }, ", Albergen, Geesteren of een van de andere dorpen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
+    ["Woon je in Tubbergen, Albergen, Geesteren of een van de andere dorpen van de gemeente? Gijs geeft onafhankelijk verduurzamingsadvies en begeleidt je van A tot Z, van de eerste keuzes tot en met de uitvoering door vakspecialisten."],
     ["In de gemeente Tubbergen is 40% van de woningvoorraad vrijstaand, het hoogste aandeel van de regio. Vrijstaande woningen hebben meer buitenoppervlak en daarmee meer verduurzamingspotentie. Gijs kijkt wat er al is gedaan en adviseert over de stap die het meest zinvol is."],
   ],
   kernen: ["tubbergen", "albergen", "geesteren", "vasse", "reutum", "langeveen", "fleringen", "hezingen", "manderveen", "mariaparochie", "harbrinkhoek"],
@@ -4366,7 +4446,6 @@ const TUBBERGEN: GemeenteVerhaal = {
     alineas: [
       ["De gemeente Tubbergen is een van de meest landelijke gemeenten van Overijssel. De gemeente bestaat uit de kern Tubbergen en een reeks kleinere dorpen: Albergen, Fleringen, Geesteren, Haarle, Harbrinkhoek, Hezingen, Langeveen, Mander, Manderveen, Mariaparochie, Reutum en Vasse. Het merendeel van de woningvoorraad is vrijstaand, aangevuld met twee-onder-één-kappers en boerderijen."],
       ["Met een gemiddelde WOZ-waarde van €432.000 en 73% koopwoningen is de woningmarkt robuust. De hoge WOZ-waarde en het grote aandeel vrijstaande woningen gaan hand in hand: isolatie van dak, spouw en vloer loont hier verhoudingsgewijs meer."],
-      ["Op zoek naar een isolatiebedrijf in Tubbergen? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     kernTekst: {
       tubbergen: "De hoofdkern van de gemeente, met het gemeentehuis en de meeste voorzieningen.",
@@ -4431,8 +4510,17 @@ const TUBBERGEN: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Vervangt de eerdere isolatiebedrijf-alinea in het lokale verhaal.
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Tubbergen",
+    h2: "Isolatie in Tubbergen en de dorpen",
+    alineas: [
+      ["Wil je je woning isoleren in Tubbergen, Albergen, Vasse, Hezingen of een van de andere dorpen van de gemeente? In elk dorp staan andere huizen, van boerderijen en twee-onder-een-kapwoningen tot nieuwbouw. Waar je het beste begint, verschilt daardoor per woning."],
+      ["Gijs begint niet bij één maatregel, maar bij de hele woning. Een adviseur vergelijkt tijdens een gratis energiescan aan huis ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, ", ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, " en zet de stappen op volgorde. Na het advies regelt Gijs de uitvoering door vakspecialisten. Zo heb je één aanspreekpunt, van de eerste beoordeling tot en met de afgeronde werkzaamheden."],
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Tubbergen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Albergen, Geesteren en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Tubbergen?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Albergen, Geesteren en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Tubbergen?", answer: "Op deze pagina zie je de regelingen die nu voor Tubbergen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn vrijstaande woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft. Bij vrijstaande woningen loont goede isolatie verhoudingsgewijs meer." },
     { question: "Heeft een vrijstaande woning een andere aanpak dan een rijtjeswoning?", answer: "Ja. Een vrijstaande woning heeft meer buitengevel en meer dakoppervlak dan een rijtjeswoning met dezelfde inhoud. Goede isolatie loont daardoor verhoudingsgewijs meer. Met het hoge aandeel vrijstaande woningen in Tubbergen is dat voor veel bewoners relevant. Gijs brengt dat in kaart tijdens de energiescan." },
@@ -4453,7 +4541,7 @@ const TUBBERGEN: GemeenteVerhaal = {
       { icon: "layers", titel: "Waar kan ik het beste beginnen met isoleren?", tekst: "Bekijk welke bouwdelen warmte verliezen en waarom de huidige isolatie bepaalt welke maatregel voorrang verdient.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Bekijk isolatiemaatregelen" },
       { icon: "calculator", titel: "Hoe verdeel ik de investeringen verstandig?", tekst: "Een duidelijk plan helpt om isolatie, installaties en beschikbare financiële mogelijkheden tegen elkaar af te wegen.", href: "/kennis#subsidies", linkTekst: "Bekijk financieringsmogelijkheden" },
     ],
-    adviseur: { naam: "thom", h3: "Thom kijkt graag met je mee", tekst: "Woon je vrijstaand in Tubbergen en zie je veel verduurzamingsmogelijkheden? Thom bekijkt de woning als geheel en helpt prioriteiten stellen. Gijs ondersteunt bij het kiezen van passende maatregelen en begeleidt de uitvoering." },
+    adviseur: { naam: "thom", h3: "Thom kijkt graag in Tubbergen met je mee", tekst: "Woon je vrijstaand in Tubbergen en zie je veel verduurzamingsmogelijkheden? Thom bekijkt de woning als geheel en helpt prioriteiten stellen. Gijs ondersteunt bij het kiezen van passende maatregelen en begeleidt de uitvoering." },
   },
 };
 
@@ -4492,7 +4580,6 @@ const DINKELLAND: GemeenteVerhaal = {
     alineas: [
       ["De gemeente Dinkelland bestaat uit twintig kernen, waarvan Ootmarsum en Denekamp de grootste zijn. De gemeente grenst aan Duitsland en heeft een uitgesproken landelijk karakter met veel vrijstaande woningen en boerderijen. De hoge WOZ-waarde (gemiddeld €424.000) en het grote aandeel koopwoningen (75%) weerspiegelen de sterke woningmarkt in dit deel van Overijssel."],
       ["Het grote aandeel naoorlogse woningen (44% gebouwd tussen 1945 en 1975) biedt veel verduurzamingspotentie. Bij vrijstaande woningen is er meer buitenoppervlak, wat betekent dat goede isolatie verhoudingsgewijs meer oplevert."],
-      ["Op zoek naar een isolatiebedrijf in Dinkelland? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     bekendVan: {
       titel: "Waar is Dinkelland bekend van?",
@@ -4570,8 +4657,17 @@ const DINKELLAND: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Uitleg verplaatst uit het lokale verhaal naar bovenaan de pagina.
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Dinkelland",
+    h2: "Isolatieadvies en uitvoering in Dinkelland",
+    alineas: [
+      ["Op zoek naar een isolatiebedrijf in Dinkelland? Gijs kijkt niet vanuit één isolatieproduct, maar vanuit de hele woning. Bij een vrijstaande woning in Denekamp of Weerselo kan het dak de beste eerste stap zijn, bij een ander huis juist de spouw of de vloer."],
+      ["Tijdens een gratis energiescan aan huis vergelijkt een adviseur daarom bijvoorbeeld ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, ", ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, ". Na het onafhankelijke advies regelt Gijs de uitvoering door vakspecialisten. Je hebt één aanspreekpunt, in Ootmarsum, Denekamp, Weerselo en de andere dorpen, tot het werk helemaal is afgerond."],
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Dinkelland?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Dinkelland. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Ootmarsum, Denekamp en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Dinkelland?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Dinkelland. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Ootmarsum, Denekamp en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Dinkelland?", answer: "Op deze pagina zie je de regelingen die nu voor Dinkelland gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft. Bij vrijstaande woningen loont goede isolatie verhoudingsgewijs meer." },
     { question: "Mijn woning is een monument in Ootmarsum. Mag ik wel isoleren?", answer: "Bij een gemeentelijk of rijksmonument gelden extra regels. Spouwmuurisolatie en dakisolatie zijn in principe mogelijk, maar de gemeente of Rijksdienst voor het Cultureel Erfgoed moet soms vooraf toestemming geven. Gijs helpt ook bij monumentale woningen: we beginnen met uitzoeken wat wel en niet mag, vóórdat er iets wordt gepland." },
@@ -4673,7 +4769,7 @@ const HAAKSBERGEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Haaksbergen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Haaksbergen. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Buurse en Sint Isidorushoeve." },
+    { question: "Is Gijs een isolatiebedrijf in Haaksbergen?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Haaksbergen. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Buurse en Sint Isidorushoeve, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Haaksbergen?", answer: "Op deze pagina zie je de regelingen die nu voor Haaksbergen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Loont spouwmuurisolatie ook als de spouw al gedeeltelijk gevuld is?", answer: "Dat hangt af van wat er al in de spouw zit en hoe dik. Een dunne laag uit de jaren tachtig voldoet meestal niet meer aan de huidige norm. Gijs kijkt of bijvulling of vervangende isolatie zinvol is, een bewering die je van buiten niet kunt doen zonder de spouw te inspecteren." },
@@ -4694,7 +4790,7 @@ const HAAKSBERGEN: GemeenteVerhaal = {
       { icon: "thermometer", titel: "Waarom voelt mijn vloer koud aan?", tekst: "Bekijk wanneer vloerisolatie kan helpen en welke rol de kruipruimte, ventilatie en bestaande vloerconstructie spelen.", href: "/maatregelen/vloerisolatie", linkTekst: "Bekijk vloerisolatie" },
       { icon: "flame", titel: "Moet ik eerst isoleren voor een warmtepomp?", tekst: "De geschiktheid hangt af van de warmtebehoefte en de huidige installatie. Ontdek welke controles belangrijk zijn voordat je overstapt.", href: "/maatregelen/warmtepomp", linkTekst: "Bekijk warmtepomp" },
     ],
-    adviseur: { naam: "thom", h3: "Thom kijkt graag met je mee", tekst: "Heb je in Haaksbergen last van koude ruimtes of tocht? Thom bekijkt waar warmte mogelijk verloren gaat en welke maatregelen het probleem kunnen aanpakken. Zo krijg je inzicht in de juiste oplossing, waarna Gijs helpt bij de uitvoering." },
+    adviseur: { naam: "thom", h3: "Thom kijkt graag in Haaksbergen met je mee", tekst: "Heb je in Haaksbergen last van koude ruimtes of tocht? Thom bekijkt waar warmte mogelijk verloren gaat en welke maatregelen het probleem kunnen aanpakken. Zo krijg je inzicht in de juiste oplossing, waarna Gijs helpt bij de uitvoering." },
   },
 };
 
@@ -4733,7 +4829,6 @@ const LOSSER: GemeenteVerhaal = {
     alineas: [
       ["De gemeente Losser bestaat uit de kern Losser en de dorpen De Lutte, Overdinkel, Beuningen en Glane. De gemeente grenst aan Duitsland en ligt aan de Dinkel, een van de ongerepte rivieren van Twente. De Lutte is een bekende recreatiegemeenschap met hotels en bungalowparken."],
       ["Met 15% woningen van vóór 1945 heeft de gemeente een relatief oud woningbestand. Dat biedt veel kansen: bij oudere woningen is er in bijna alle gevallen nog winst te halen met isolatie van spouw, dak of vloer."],
-      ["Op zoek naar een isolatiebedrijf in Losser? Gijs helpt bij het isoleren van je woning, maar voert de isolatiewerkzaamheden niet zelf uit. Eerst krijg je onafhankelijk advies over passende maatregelen. Daarna begeleidt Gijs het traject van A tot Z, inclusief de uitvoering door vakexperts."],
     ],
     bekendVan: {
       titel: "Waar is Losser bekend van?",
@@ -4782,8 +4877,17 @@ const LOSSER: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Uitleg verplaatst uit het lokale verhaal naar bovenaan de pagina.
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Losser",
+    h2: "Isolatieadvies en uitvoering in Losser",
+    alineas: [
+      ["Op zoek naar een isolatiebedrijf in Losser? Gijs begint niet bij één isolatieproduct, maar bij de hele woning. Bij de oudere huizen in Losser, De Lutte en Overdinkel kan de spouw, het dak of juist de vloer de beste eerste stap zijn."],
+      ["Tijdens een gratis energiescan aan huis vergelijkt een adviseur daarom bijvoorbeeld ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, ", ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, ". Na het onafhankelijke advies regelt Gijs de uitvoering door vakspecialisten. Je hebt één aanspreekpunt, ook in Beuningen en Glane, tot het werk helemaal is afgerond."],
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Losser?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning in Losser. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in De Lutte, Overdinkel en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Losser?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning in Losser. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in De Lutte, Overdinkel en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Losser?", answer: "Op deze pagina zie je de regelingen die nu voor Losser gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1945. Waar begin ik?", answer: "Bij oude woningen begint het bijna altijd bij de spouw, het dak of de vloer. Maar veel oudere woningen zijn later al deels verbeterd. Gijs kijkt tijdens de energiescan wat er al is gedaan en wat de logische volgende stap is." },
     { question: "Mijn woning heeft geen spouwmuur. Wat zijn de opties voor gevelisolatie?", answer: "Bij een woning zonder spouw zijn er twee alternatieven: binnenisolatie (minder oppervlak, geen vergunning) of buitengevelisolatie (vergunningsplichtig, meer impact). Welke aanpak het beste past, hangt af van de woningconstructie, het budget en de uitstraling. Gijs helpt je kiezen op basis van jouw specifieke huis." },
@@ -4803,7 +4907,7 @@ const LOSSER: GemeenteVerhaal = {
       { icon: "thermometer", titel: "Welke isolatie merk ik direct in huis?", tekst: "Een koude vloer of tocht kan verschillende oorzaken hebben. Bekijk hoe isolatie van vloer, dak en gevel het wooncomfort kan verbeteren.", href: "/maatregelen/vloerisolatie", linkTekst: "Bekijk vloerisolatie" },
       { icon: "trending-down", titel: "Wat betekent isolatie voor mijn energiekosten?", tekst: "De mogelijke besparing hangt af van de huidige situatie, het energieverbruik en de gekozen maatregel. Onderzoek wat realistisch is voor jouw woning.", href: "/maatregelen/spouwmuurisolatie", linkTekst: "Bekijk isolatiemaatregelen" },
     ],
-    adviseur: { naam: "naud", h3: "Naud kijkt graag met je mee", tekst: "Wil je comfortabeler wonen in Losser, maar weet je niet welke isolatiemaatregel bij jouw huis past? Naud kijkt naar de bestaande situatie en helpt de mogelijkheden te vergelijken. Gijs begeleidt je bij de uitvoering, zodat je een duidelijk traject hebt." },
+    adviseur: { naam: "naud", h3: "Naud kijkt graag in Losser met je mee", tekst: "Wil je comfortabeler wonen in Losser, maar weet je niet welke isolatiemaatregel bij jouw huis past? Naud kijkt naar de bestaande situatie en helpt de mogelijkheden te vergelijken. Gijs begeleidt je bij de uitvoering, zodat je een duidelijk traject hebt." },
   },
 };
 
@@ -4887,7 +4991,7 @@ const DALFSEN: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Dalfsen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Nieuwleusen, Lemelerveld en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Dalfsen?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Nieuwleusen, Lemelerveld en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Dalfsen?", answer: "Op deze pagina zie je de regelingen die nu voor Dalfsen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen in Dalfsen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Helpt Gijs ook in Nieuwleusen en Lemelerveld?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Dalfsen, dus ook in Nieuwleusen, Lemelerveld, Hoonhorst en het buitengebied." },
@@ -5005,7 +5109,7 @@ const DEVENTER: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Deventer?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Bathmen, Diepenveen en de andere kernen." },
+    { question: "Is Gijs een isolatiebedrijf in Deventer?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Bathmen, Diepenveen en de andere kernen, tot de uitvoering helemaal is afgerond." },
     { question: "Mijn huis in Deventer heeft een lekkend of tochtig dak. Is dakisolatie een optie?", answer: "In veel gevallen wel. Bij een hellend dak kan isolatiemateriaal tussen de sporen of aan de binnenzijde worden aangebracht; bij een plat dak ligt het meestal bovenop. Gijs kijkt tijdens de energiescan welke methode past bij jouw dakconstructie, ook bij oudere panden in de binnenstad." },
     { question: "Welke subsidies zijn er voor mijn woning in Deventer?", answer: "Op deze pagina zie je de regelingen die nu voor Deventer gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning staat in de binnenstad van Deventer. Kan ik toch isoleren?", answer: "Ja, maar bij monumenten en panden in beschermd stadsgezicht gelden soms beperkingen voor gevelisolatie of dakisolatie die de uitstraling verandert. Gijs kijkt welke maatregelen wel mogelijk zijn, binnenisolatie, vloerisolatie of glas zijn vaak een optie." },
@@ -5153,8 +5257,16 @@ const HARDENBERG: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Hardenberg",
+    h2: "Isolatieadvies en uitvoering in Hardenberg",
+    alineas: [
+      ["Zoek je een isolatiebedrijf in Hardenberg of Dedemsvaart? Gijs kijkt niet vanuit één isolatieproduct, maar vanuit de hele woning. Een dakisolateur beoordeelt vooral het dak, terwijl bij jouw huis de spouwmuur of de vloer misschien een betere eerste stap is. Gijs zet de mogelijkheden naast elkaar en adviseert welke aanpak het meeste oplevert."],
+      ["Na het advies regelt Gijs de uitvoering door vakspecialisten en verzorgt het traject eromheen. Je hebt één aanspreekpunt, van de eerste beoordeling tot en met de afgeronde werkzaamheden. Dat geldt in Hardenberg zelf, maar ook in Gramsbergen, Slagharen en de andere dorpen."],
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Hardenberg?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Dedemsvaart, Gramsbergen en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Hardenberg?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Dedemsvaart, Gramsbergen en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Hardenberg?", answer: "Op deze pagina zie je de regelingen die nu voor Hardenberg gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Helpt Gijs ook in Dedemsvaart, Gramsbergen en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Hardenberg, van Dedemsvaart en Gramsbergen tot Slagharen, Mariënberg en Balkbrug." },
@@ -5259,8 +5371,25 @@ const KAMPEN: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Cijfer uit de woningcijfers op deze pagina; dakopbouw zoals op /maatregelen/dakisolatie.
+  isolatieAntwoord: {
+    eyebrow: "Isoleren in Kampen",
+    h2: "Isolatieadvies en uitvoering in Kampen",
+    alineas: [
+      ["Wil je je woning in Kampen of IJsselmuiden isoleren en zoek je één partij voor het hele traject? Gijs kijkt niet vanuit één isolatieproduct, maar vanuit de hele woning. Na het onafhankelijke advies regelt Gijs de uitvoering door vakspecialisten, met één aanspreekpunt tot het werk helemaal is afgerond."],
+    ],
+    onderdelen: [
+      {
+        h3: "Dakisolatie in Kampen",
+        alineas: [
+          ["Bijna 44% van de woningen in Kampen is gebouwd vóór 1975. Huizen uit die tijd zijn vaak gebouwd met weinig of geen dakisolatie. Bij een schuin dak komt de isolatie meestal aan de binnenkant, tussen of tegen de dakspanten. Bij een plat dak komt de isolatie bovenop."],
+          ["In de historische binnenstad, met een beschermd stadsgezicht, is isoleren aan de binnenkant vaak de aangewezen weg, omdat de buitenkant dan niet verandert. Of het dak bij jouw woning de beste eerste stap is, beoordeelt een adviseur tijdens de energiescan. Lees meer over ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, "."],
+        ],
+      },
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Kampen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in IJsselmuiden en de andere kernen." },
+    { question: "Is Gijs een isolatiebedrijf in Kampen?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in IJsselmuiden en de andere kernen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Kampen?", answer: "Op deze pagina zie je de regelingen die nu voor Kampen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning staat in de binnenstad van Kampen. Kan ik toch isoleren?", answer: "Ja, maar bij monumenten en panden in beschermd stadsgezicht gelden soms beperkingen voor uitstraling. Gijs kijkt welke maatregelen wél mogelijk zijn, vloerisolatie, binnenisolatie en glas zijn vaak een optie." },
     { question: "Helpt Gijs ook in IJsselmuiden, Grafhorst en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Kampen, dus ook in IJsselmuiden, Grafhorst, Zalk, Wilsum en Kamperveen." },
@@ -5368,8 +5497,19 @@ const OLST_WIJHE: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Cijfers uit de woningcijfers op deze pagina. De plaatspagina's Olst en Wijhe staan op noindex; deze
+  // gemeentepagina is de doelpagina voor "isolatie olst" en "isolatie wijhe".
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Olst en Wijhe",
+    h2: "Je woning isoleren in Olst of Wijhe",
+    alineas: [
+      ["Woon je in Olst, Wijhe of een van de kleinere kernen en wil je je woning isoleren? Bijna de helft van de woningen in de gemeente is gebouwd vóór 1975, en ongeveer een derde is vrijstaand. Bij die huizen is vaak nog winst te halen, maar waar je het beste begint, verschilt per woning."],
+      ["Gijs kijkt daarom niet vanuit één isolatieproduct, maar vanuit de hele woning. Een adviseur vergelijkt tijdens een gratis energiescan aan huis bijvoorbeeld ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, ", ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, ". Zo voorkom je dat je in het dak investeert terwijl bij jouw huis de spouwmuur een betere eerste stap is."],
+      ["Na het advies regelt Gijs de uitvoering door vakspecialisten. Je hebt één aanspreekpunt, van de eerste beoordeling tot en met de afgeronde werkzaamheden."],
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Olst-Wijhe?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Wijhe en Wesepe." },
+    { question: "Is Gijs een isolatiebedrijf in Olst-Wijhe?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Wijhe en Wesepe, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Olst-Wijhe?", answer: "Op deze pagina zie je de regelingen die nu voor Olst-Wijhe gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Helpt Gijs ook in Olst en Wesepe?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Olst-Wijhe, dus ook in Olst, Wesepe en de buurtschappen in het buitengebied." },
@@ -5478,8 +5618,25 @@ const OMMEN: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Lokale feiten uit het verhaal hierboven (jaren vijftig tot zeventig, boerderijen in het buitengebied).
+  isolatieAntwoord: {
+    eyebrow: "Isoleren in Ommen",
+    h2: "Isolatieadvies en uitvoering in Ommen",
+    alineas: [
+      ["Zoek je een partij die je woning in Ommen laat isoleren? Gijs begint niet bij één product, maar bij de hele woning. Een specialist in spouwmuurisolatie kijkt vooral naar de spouw, terwijl bij jouw huis het dak of de vloer misschien meer oplevert. Na het onafhankelijke advies regelt Gijs de uitvoering door vakspecialisten, met één aanspreekpunt tot het werk helemaal is afgerond."],
+    ],
+    onderdelen: [
+      {
+        h3: "Spouwmuurisolatie in Ommen",
+        alineas: [
+          ["In Ommen zelf staan veel woningen uit de jaren vijftig tot zeventig met een spouwmuur. Bij huizen uit die tijd is de spouw vaak nog leeg of maar deels gevuld. Het isolatiemateriaal gaat dan via kleine boorgaten in de spouw, waarna de gaten weer worden dichtgemaakt."],
+          ["Of dat bij jouw woning kan, hangt af van de spouw en de staat van de gevel. Bij een voormalige boerderij in het buitengebied ligt de situatie vaak anders. Lees meer over ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, "."],
+        ],
+      },
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Ommen?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies over welke maatregelen passen bij jouw woning. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Vilsteren, Beerze en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Ommen?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Vilsteren, Beerze en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Ommen?", answer: "Op deze pagina zie je de regelingen die nu voor Ommen gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Helpt Gijs ook in Vilsteren, Beerze en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Ommen, van Vilsteren en Beerze tot Stegeren, Varsen en Giethmen." },
@@ -5548,7 +5705,7 @@ const OMMEN: GemeenteVerhaal = {
       ],
     },
     thom: {
-      titel: "Thom komt graag bij je langs.",
+      titel: "Thom kijkt graag in Ommen met je mee.",
       tekst: "Twijfel je wat verstandig is voor jouw woning? Thom kijkt met je mee en helpt je met de volgende stap.",
       alleenEnergiescan: true,
     },
@@ -5652,8 +5809,25 @@ const RAALTE: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Cijfers uit de woningcijfers op deze pagina.
+  isolatieAntwoord: {
+    eyebrow: "Isoleren in Raalte",
+    h2: "Isolatieadvies en uitvoering in Raalte",
+    alineas: [
+      ["Wil je je woning in Raalte of Heino isoleren en zoek je één partij voor het hele traject? Gijs begint met onafhankelijk advies over de hele woning, niet met één maatregel. Daarna regelt Gijs de uitvoering door vakspecialisten en blijft je aanspreekpunt, tot het werk helemaal is afgerond."],
+    ],
+    onderdelen: [
+      {
+        h3: "Spouwmuurisolatie in Raalte",
+        alineas: [
+          ["Ruim een derde van de woningen in Raalte is van vóór 1975 en een derde uit de jaren 1975 tot 1995. Bij veel van die huizen is spouwmuurisolatie een logische stap. Of de spouw te isoleren of bij te vullen is, hangt af van de breedte van de spouw, wat er al in zit en de staat van het voegwerk."],
+          ["Bij een vrijstaande woning in het buitengebied kan het dak of de vloer juist meer opleveren. Lees meer over ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, "."],
+        ],
+      },
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Raalte?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Heino, Heeten en de andere dorpen." },
+    { question: "Is Gijs een isolatiebedrijf in Raalte?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Heino, Heeten en de andere dorpen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Raalte?", answer: "Op deze pagina zie je de regelingen die nu voor Raalte gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Helpt Gijs ook in Heino, Heeten en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Raalte, dus ook in Heino, Heeten, Luttenberg, Mariënheem en Broekland." },
@@ -5761,8 +5935,16 @@ const STAPHORST: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Staphorst",
+    h2: "Isolatieadvies en uitvoering in Staphorst",
+    alineas: [
+      ["Wil je je woning in Staphorst, Rouveen of IJhorst isoleren? Veel huizen in de dorpslinten zijn vrijstaand en staan op een ruime kavel. Zo'n woning heeft aan alle kanten buitenmuur en een groot dakoppervlak, dus goede isolatie maakt er relatief veel verschil."],
+      ["Welke stap het eerst loont, hangt af van wat er al is gedaan. Gijs vergelijkt daarom de mogelijkheden voor de hele woning, van ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, " en ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " tot ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, ". Daarna regelt Gijs de uitvoering door vakspecialisten. Je houdt één aanspreekpunt, tot de uitvoering helemaal is afgerond."],
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Staphorst?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Rouveen, IJhorst en De Lichtmis." },
+    { question: "Is Gijs een isolatiebedrijf in Staphorst?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Rouveen, IJhorst en De Lichtmis, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Staphorst?", answer: "Op deze pagina zie je de regelingen die nu voor Staphorst gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen in Staphorst zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Helpt Gijs ook in Rouveen en IJhorst?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Staphorst, dus ook in Rouveen, IJhorst en De Lichtmis." },
@@ -5915,8 +6097,25 @@ const STEENWIJKERLAND: GemeenteVerhaal = {
     zelf: "Isoleer je zelf? Dan moet je zelf onderzoek laten doen naar beschermde soorten en een ontheffing aanvragen bij de provincie Overijssel.",
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
+  // Lokale feiten uit het verhaal hierboven (Steenwijk jaren vijftig tot tachtig, monumenten in de dorpen).
+  isolatieAntwoord: {
+    eyebrow: "Isolatie in Steenwijk",
+    h2: "Isolatieadvies en uitvoering in Steenwijk en omgeving",
+    alineas: [
+      ["Zoek je een isolatiebedrijf in Steenwijk? Gijs begint met onafhankelijk advies over de hele woning en vergelijkt bijvoorbeeld dak-, spouwmuur- en vloerisolatie. Zo kies je de stap die bij jouw huis het meeste oplevert. Daarna regelt Gijs de uitvoering door vakspecialisten, met één aanspreekpunt tot het werk helemaal is afgerond."],
+    ],
+    onderdelen: [
+      {
+        h3: "Spouwmuurisolatie in Steenwijk",
+        alineas: [
+          ["In Steenwijk staan veel woningen uit de jaren vijftig tot tachtig. Bij huizen van vóór 1975 is de spouw regelmatig nog leeg; bij latere woningen zit er vaak al een dunne laag isolatie in. Het isolatiemateriaal gaat via kleine boorgaten in de spouw, waarna de gaten weer worden dichtgemaakt."],
+          ["Of dat bij jouw woning kan, hangt af van de spouw en de staat van de gevel. In Giethoorn, Blokzijl of Vollenhove, waar panden soms een monumentale status hebben, ligt dat anders. Lees meer over ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, "."],
+        ],
+      },
+    ],
+  },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Steenwijkerland?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Giethoorn, Vollenhove en de andere kernen." },
+    { question: "Is Gijs een isolatiebedrijf in Steenwijkerland?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Giethoorn, Vollenhove en de andere kernen, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Steenwijkerland?", answer: "Op deze pagina zie je de regelingen die nu voor Steenwijkerland gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning staat in Giethoorn. Kan ik toch isoleren?", answer: "Ja, maar bij panden in beschermd dorpsgezicht of met monumentale status gelden soms beperkingen voor de uitstraling. Gijs kijkt welke maatregelen wél mogelijk zijn, vloerisolatie, binnenisolatie en glas zijn dan vaak een optie." },
     { question: "Helpt Gijs ook in Giethoorn, Vollenhove en de andere dorpen?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Steenwijkerland, van Steenwijk en Giethoorn tot Vollenhove, Blokzijl, Oldemarkt en Kuinre." },
@@ -6014,7 +6213,7 @@ const ZWARTEWATERLAND: GemeenteVerhaal = {
     bron: { naam: "Provincie Overijssel", url: "https://www.overijssel.nl/loket/natuur-flora-fauna/" },
   },
   faq: [
-    { question: "Is Gijs een isolatiebedrijf in Zwartewaterland?", answer: "Gijs is geen uitvoerend isolatiebedrijf, maar begeleidt je onafhankelijk door het hele verduurzamingstraject. Het begint met persoonlijk advies. Daarna begeleiden en ontzorgen we je bij de uitvoering door vakspecialisten, ook in Genemuiden, Zwartsluis en Mastenbroek." },
+    { question: "Is Gijs een isolatiebedrijf in Zwartewaterland?", answer: "Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Gijs geeft onafhankelijk advies over alle isolatie en installaties: wat het beste past bij jouw woning. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, ook in Genemuiden, Zwartsluis en Mastenbroek, tot de uitvoering helemaal is afgerond." },
     { question: "Welke subsidies zijn er voor mijn woning in Zwartewaterland?", answer: "Op deze pagina zie je de regelingen die nu voor Zwartewaterland gelden uit de Energiesubsidiewijzer van Milieu Centraal. Met de subsidiecheck zie je wat er voor jouw adres geldt, ook landelijk." },
     { question: "Mijn woning is van vóór 1975. Waar begin ik?", answer: "Dat hangt af van wat er al is gedaan. Veel woningen zijn later al verbeterd. Gijs kijkt tijdens de energiescan wat er al zit en welke stap de meeste winst geeft." },
     { question: "Helpt Gijs ook in Genemuiden, Zwartsluis en Mastenbroek?", answer: "Ja. Gijs helpt bewoners in de hele gemeente Zwartewaterland, dus ook in Genemuiden, Zwartsluis en Mastenbroek." },
@@ -6175,6 +6374,35 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
         tekst: "Gelderland heeft veel woningen uit de jaren zestig en zeventig, die met relatief eenvoudige stappen goed te verbeteren zijn. De provincie en gemeenten ondersteunen eigenaren met advies en subsidies.",
       },
     },
+    // Feiten hieronder komen uit de woningcijfers en wijken op deze pagina (CBS 2022) en uit de
+    // bestaande teksten op /maatregelen/dakisolatie en /maatregelen/spouwmuurisolatie.
+    isolatieAntwoord: {
+      eyebrow: "Isoleren in Apeldoorn",
+      h2: "Isolatiebedrijf in Apeldoorn: van advies tot uitvoering",
+      alineas: [
+        ["Zoek je een isolatiebedrijf in Apeldoorn? Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Tijdens een gratis energiescan aan huis bekijkt een adviseur van Gijs onafhankelijk wat het beste past bij jouw woning en in welke volgorde. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, tot de uitvoering helemaal is afgerond."],
+        ["In Apeldoorn is 46% van de woningen gebouwd vóór 1975. Die huizen zijn vaak gebouwd met weinig of geen isolatie. Daar leveren het dak en de spouwmuur meestal de eerste winst op."],
+      ],
+      onderdelen: [
+        {
+          h3: "Dakisolatie in Apeldoorn",
+          alineas: [
+            ["Warme lucht stijgt op, dus via een ongeïsoleerd dak gaat veel warmte verloren. Een isolatielaag werkt als een muts die de warmte binnenhoudt. Dat speelt bij de oudere woningen in de stad, maar ook bij de vrijstaande huizen in Beekbergen, Loenen en de bosrijke buitenwijken."],
+            ["Of en hoe je dak geïsoleerd kan worden, hangt af van de dakconstructie en de staat van het dak. Een adviseur van Gijs beoordeelt dat tijdens de energiescan. Lees meer over ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, "."],
+          ],
+        },
+        {
+          h3: "Spouwmuurisolatie in Apeldoorn",
+          alineas: [
+            ["In de stadswijken van Apeldoorn staan veel naoorlogse rijtjeswoningen. Bij huizen van vóór 1975 is de spouw regelmatig nog leeg. Het isolatiemateriaal wordt dan via kleine boorgaten in de spouw aangebracht, waarna de gaten weer netjes worden afgevoegd."],
+            ["Of dat kan, hangt af van de gevel en de spouw, bijvoorbeeld van de staat van het voegwerk. Lees meer over ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, "."],
+          ],
+        },
+      ],
+    },
+    subsidieAntwoord: [
+      ["Zoek je isolatiesubsidie in Apeldoorn? Landelijk kun je voor isolatie subsidie krijgen via de ISDE-regeling, en soms is die te combineren met een gemeentelijke regeling. Gijs bekijkt tijdens de energiescan welke subsidies voor jouw woning gelden en helpt je bij de aanvraag."],
+    ],
     faq: [
       { question: "Welke gemeentelijke subsidies gelden in Apeldoorn?", answer: "Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Controleer de actuele mogelijkheden bij de gemeente Apeldoorn zelf of via de Energiesubsidiewijzer van Milieu Centraal." },
       { question: "Welke isolatie past bij mijn woning?", answer: "Dat hangt af van je woning. Tijdens de gratis energiescan aan huis bekijkt een adviseur van Gijs wat technisch bij je woning past." },
@@ -6854,6 +7082,31 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
         titel: "Woningverbetering in Gelderland",
         tekst: "Gelderland heeft veel woningen uit de jaren zestig en zeventig, die met relatief eenvoudige stappen goed te verbeteren zijn. De provincie en gemeenten ondersteunen eigenaren met advies en subsidies.",
       },
+    },
+    // Cijfers uit de woningcijfers op deze pagina (CBS 2022); opbouw zoals bij Apeldoorn.
+    isolatieAntwoord: {
+      eyebrow: "Isoleren in Doetinchem",
+      h2: "Een isolatiebedrijf in Doetinchem kiezen",
+      alineas: [
+        ["Bij het kiezen van een isolatiebedrijf in Doetinchem helpt het als iemand naar de hele woning kijkt, niet alleen naar één product of specialisme. Een dakisolateur beoordeelt vooral het dak, terwijl bij jouw huis de spouwmuur of de vloer misschien een betere eerste stap is. Gijs bekijkt daarom eerst onafhankelijk wat er al zit en welke maatregelen het meeste opleveren."],
+        ["Daarna regelt Gijs de uitvoering met vakspecialisten en verzorgt het traject eromheen. Zo heb je één aanspreekpunt in Doetinchem, Gaanderen, Wehl en IJzevoorde, tot de uitvoering helemaal is afgerond."],
+      ],
+      onderdelen: [
+        {
+          h3: "Dakisolatie in Doetinchem",
+          alineas: [
+            ["In Doetinchem is 46% van de woningen gebouwd vóór 1975. Huizen uit die tijd zijn vaak gebouwd met weinig of geen isolatie. Via een ongeïsoleerd dak gaat veel warmte verloren, omdat warme lucht opstijgt."],
+            ["Of en hoe je dak geïsoleerd kan worden, hangt af van de dakconstructie en de staat van het dak. Een adviseur van Gijs beoordeelt dat tijdens de energiescan. Lees meer over ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, "."],
+          ],
+        },
+        {
+          h3: "Spouwmuurisolatie in Doetinchem",
+          alineas: [
+            ["Drie op de vier woningen in Doetinchem zijn eengezinswoningen. Bij eengezinswoningen van vóór 1975 is de spouw regelmatig nog leeg. Het isolatiemateriaal gaat dan via kleine boorgaten in de spouw, waarna de gaten weer worden dichtgemaakt."],
+            ["Of dat kan, hangt af van de spouw en de staat van de gevel, bijvoorbeeld van het voegwerk. Lees meer over ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, "."],
+          ],
+        },
+      ],
     },
     faq: [
       { question: "Welke gemeentelijke subsidies gelden in Doetinchem?", answer: "Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Controleer de actuele mogelijkheden bij de gemeente Doetinchem zelf of via de Energiesubsidiewijzer van Milieu Centraal." },
@@ -8950,7 +9203,7 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
           },
         ],
         adviseur: {
-          h3: "Thom kijkt graag met je mee",
+          h3: "Thom kijkt graag in Winterswijk met je mee",
           tekst: [
             "Wil je jouw woning in Winterswijk beter isoleren, maar weet je niet welke oplossing bij de bestaande bouw past? Thom komt langs voor een ",
             { nadruk: "gratis en vrijblijvende energiescan ter waarde van €349" },
@@ -9147,6 +9400,15 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
         tekst: "Gelderland heeft veel woningen uit de jaren zestig en zeventig, die met relatief eenvoudige stappen goed te verbeteren zijn. De provincie en gemeenten ondersteunen eigenaren met advies en subsidies.",
       },
     },
+    // Cijfers uit de woningcijfers op deze pagina (CBS 2022).
+    isolatieAntwoord: {
+      eyebrow: "Isolatie in Zevenaar",
+      h2: "Isolatieadvies en uitvoering in Zevenaar",
+      alineas: [
+        ["Wil je je woning in Zevenaar isoleren en zoek je één partij die het volledige traject regelt? Gijs begint met onafhankelijk advies over de hele woning. Bijna de helft van de woningen in de gemeente is gebouwd vóór 1975. Bij die huizen kan de spouw, het dak of de vloer de beste eerste stap zijn, en dat verschilt per woning."],
+        ["Zo voorkom je dat je investeert in dakisolatie terwijl bij jouw huis bijvoorbeeld ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " meer oplevert. Na het advies regelt Gijs de uitvoering door vakspecialisten. Je hebt één aanspreekpunt, in Zevenaar en ook in Angerlo, Babberich en Oud-Zevenaar, tot het werk helemaal is afgerond."],
+      ],
+    },
     faq: [
       { question: "Welke gemeentelijke subsidies gelden in Zevenaar?", answer: "Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Controleer de actuele mogelijkheden bij de gemeente Zevenaar zelf of via de Energiesubsidiewijzer van Milieu Centraal." },
       { question: "Welke isolatie past bij mijn woning?", answer: "Dat hangt af van je woning. Tijdens de gratis energiescan aan huis bekijkt een adviseur van Gijs wat technisch bij je woning past." },
@@ -9160,7 +9422,7 @@ const VERHALEN: Record<string, GemeenteVerhaal> = {
       percentageTekst: "Ruim 1 op de 3 woningen in Zevenaar is gebouwd tussen 1965 en 1975",
       bodytekst: "Veel bewoners in Zevenaar hebben de afgelopen jaren al een eerste stap gezet: nieuwe ramen, een geïsoleerd dak of spouwmuurisolatie. Maar is het genoeg? En wat is nu de verstandige vervolgstap? Dat hangt af van wat er al is gedaan en hoe de woning als geheel presteert. Gijs brengt de huidige staat in kaart en adviseert je over de maatregel die nu het meeste oplevert.",
       kaarten: [
-        { icon: "clipboard-check", titel: "Wat is er al gedaan?", tekst: "Veel woningen uit deze periode zijn deels verbeterd, maar niet altijd op het niveau van nu. Gijs kijkt wat er al zit en wat de volgende stap is.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs", linkTekst: "Plan een energiescan" },
+        { icon: "clipboard-check", titel: "Wat is er al gedaan?", tekst: "Veel woningen uit deze periode zijn deels verbeterd, maar niet altijd op het niveau van nu. Gijs kijkt wat er al zit en wat de volgende stap is.", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen", linkTekst: "Plan een energiescan" },
         { icon: "thermometer", titel: "Van isolatie naar installatie", tekst: "Bij een goed geïsoleerde woning wordt een warmtepomp interessant. De juiste volgorde bespaart geld en maakt de overstap eenvoudiger.", href: "/maatregelen/warmtepomp", linkTekst: "Lees over warmtepompen" },
       ],
       adviseur: { naam: "naud", h3: "Naud helpt je verder in Zevenaar", tekst: "In Zevenaar zijn veel woningen al deels verbeterd. Naud kijkt naar wat er is gedaan, wat nog ontbreekt en welke stap nu het meest oplevert." },

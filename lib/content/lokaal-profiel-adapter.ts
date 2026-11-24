@@ -30,6 +30,24 @@ function kaartenUitBouwperiodes(naam: string, perioden: { label: string; percent
   ];
 }
 
+// Deterministische afwisseling Thom/Naud op basis van gemeentenaam (elke gemeente krijgt altijd
+// dezelfde adviseur, maar buurgemeenten wisselen af zodat het niet overal Thom is).
+function isNaudVoor(gemeente: string) {
+  let h = 0;
+  for (const c of gemeente) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  return h % 2 === 1;
+}
+
+/** Standaard adviseurblok voor een plaats, ook bruikbaar op een basispagina zonder woningcijfers. */
+export function standaardAdviseur(gemeente: string, naam: string, vz: "in" | "op" = "in"): NonNullable<LokaalProfiel["inzichten"]>["adviseur"] {
+  const voornaam = isNaudVoor(gemeente) ? "Naud" : "Thom";
+  return {
+    h3: `${voornaam} kijkt graag ${vz} ${naam} met je mee`,
+    adviseur: voornaam === "Naud" ? "naud" : "thom",
+    tekst: [[`Tijdens een gratis energiescan aan huis kijkt ${voornaam} precies wat er bij jouw woning ${vz} ${naam} technisch mogelijk is en welke stap het meeste oplevert. ${voornaam} ontzorgt je van A tot Z.`]],
+  };
+}
+
 export function leidProfielAf(v: GemeenteVerhaal, opties: {
   /** Naam voor koppen: de plaats, of de gemeente als de pagina over de gemeente gaat. */
   naam: string;
@@ -61,31 +79,23 @@ export function leidProfielAf(v: GemeenteVerhaal, opties: {
           ]
         : kaartenUitBouwperiodes(naamVoorTekst, w.bouwperiodes);
 
-    // Deterministische afwisseling Thom/Naud op basis van gemeentenaam (elke gemeente krijgt altijd
-    // dezelfde adviseur, maar buurge­meenten wisselen af zodat het niet overal Thom is).
-    let _h = 0;
-    for (const c of gemeente) _h = (_h * 31 + c.charCodeAt(0)) >>> 0;
-    const _isNaud = _h % 2 === 1;
+    const _isNaud = isNaudVoor(gemeente);
     const _voornaam = _isNaud ? "Naud" : "Thom";
 
     const adviseur: NonNullable<LokaalProfiel["inzichten"]>["adviseur"] = blok
-      ? { h3: blok.adviseur.h3, tekst: [blok.adviseur.tekst], adviseur: blok.adviseur.naam }
+      ? { h3: `${blok.adviseur.naam === "naud" ? "Naud" : "Thom"} kijkt graag ${vz} ${naamVoorTekst} met je mee`, tekst: [blok.adviseur.tekst], adviseur: blok.adviseur.naam }
       : advies
-        ? { h3: advies.h2, tekst: advies.alineas, adviseur: _isNaud ? "naud" : "thom" }
+        ? { h3: `${_voornaam} kijkt graag ${vz} ${naamVoorTekst} met je mee`, tekst: advies.alineas, adviseur: _isNaud ? "naud" : "thom" }
         : typeAdvies
           ? {
-              h3: `Naud kijkt graag even mee ${vz} ${naamVoorTekst}`,
+              h3: `Naud kijkt graag ${vz} ${naamVoorTekst} met je mee`,
               adviseur: "naud",
               tekst: [
                 [`Twijfel je of jouw woning geschikt is voor spouwmuurisolatie, of heb je toch liever vloerverwarming of zonnepanelen? Naud komt graag bij je langs ${vz} ${naamVoorTekst} voor een gratis en vrijblijvende energiescan. Samen kijken jullie naar jouw woning, wat er mogelijk is en welke maatregelen echt bij je passen.`],
                 ["Wil je daarna verder verduurzamen? Gijs begeleidt en ontzorgt je van A tot Z."],
               ],
             }
-          : {
-              h3: `${_voornaam} komt graag langs ${vz} ${naamVoorTekst}`,
-              adviseur: _isNaud ? "naud" : "thom",
-              tekst: [[`Tijdens een gratis energiescan aan huis kijkt ${_voornaam} precies wat er bij jouw woning ${vz} ${naamVoorTekst} technisch mogelijk is en welke stap het meeste oplevert. ${_voornaam} ontzorgt je van A tot Z.`]],
-            };
+          : standaardAdviseur(gemeente, naamVoorTekst, vz);
 
     inzichten = {
       h2: blok ? blok.h2 : "Wat vertelt het bouwjaar over jouw woning?",
@@ -127,6 +137,8 @@ export function basisPagina(opties: {
   foto: ProfielFoto;
   gemeenteIntro?: Alinea[];
   faq: GemeenteVerhaal["faq"];
+  /** Alleen met eigen, plaatsgebonden inhoud (lib/content/isolatie-regio.ts). */
+  isolatieAntwoord?: GemeenteVerhaal["isolatieAntwoord"];
 }): { verhaal: GemeenteVerhaal; profiel: LokaalProfiel } {
   const { plaats, gemeente } = opties;
   const intro: Alinea[] = [
@@ -142,6 +154,7 @@ export function basisPagina(opties: {
     lokaal: { titel: "", alineas: [], kernTekst: {}, ontwikkeling: { titel: "", tekst: "" } },
     faq: opties.faq,
     verwant: [],
+    isolatieAntwoord: opties.isolatieAntwoord,
   };
   const profiel: LokaalProfiel = {
     hero: {

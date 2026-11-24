@@ -19,6 +19,7 @@ import { Icon } from "@/components/ds/core/Icon";
 import { ALGEMENE_ARTIKELEN } from "@/components/regio/RegioArtikelen";
 import { ArtikelKaarten } from "@/components/kennis/ArtikelKaarten";
 import { HOOFDSTUKKEN } from "@/lib/content/zo-werkt-gijs";
+import { ISOLATIE_REGIO_LINKS } from "@/lib/content/isolatie-regio";
 
 type Props = { params: Promise<{ provincie: string }> };
 export const dynamicParams = false;
@@ -109,6 +110,25 @@ export default async function ProvinciePage({ params }: Props) {
         {/* Gemeenten in Overijssel: de bestaande ProvincieKaart, ongewijzigd (zelfde component als
             voorheen op deze pagina en op /regio/overijssel vóór dit herontwerp). */}
         <ProvincieKaart provincie={p} />
+
+        {(() => {
+          const links = ISOLATIE_REGIO_LINKS.find(r => r.provincie === p.slug)?.links.filter(l => l.provinciepagina) ?? [];
+          if (links.length === 0) return null;
+          return (
+            <section className="-mt-6 mb-16">
+              <p className="text-[15px] font-semibold text-[var(--gijs-donkergroen)] mb-3">Isolatie per plaats</p>
+              <ul className="flex flex-wrap gap-2">
+                {links.map(l => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="gijs-tag no-underline inline-flex items-center gap-1 font-semibold text-[var(--accent-700)] hover:text-[var(--gijs-donkergroen)]">
+                      {l.tekst} <Icon name="arrow-right" size="sm" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })()}
 
         {/* Isolatie en installaties: de woning als centraal, klikbaar beeld, geen rij grote kaarten. */}
         <section id="isolatie-en-installaties" className="scroll-mt-40 mb-16">

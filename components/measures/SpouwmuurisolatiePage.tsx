@@ -143,7 +143,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
         subtitle="Meer wooncomfort, minder geluid van buiten"
         intro="Spouwmuurisolatie maakt je woning comfortabeler en energiezuiniger door de spouw te vullen met isolatiemateriaal. Hieronder lees je hoe het werkt, welke materialen Gijs gebruikt en hoe de uitvoering en de energiescan verlopen."
         primaryCta={{ label: "Ik wil mijn woning verduurzamen", href: startScanHref }}
-        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" }}
+        secondaryCta={{ label: "Vraag een gratis energiescan aan", href: "https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" }}
         image="/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png"
         imageAlt="Spouwmuurisolatie wordt via een boorgat in de gevel aangebracht"
         imageCaption="Isolatiemateriaal wordt via een boorgat aangebracht"
@@ -276,7 +276,7 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
             <p className="text-sm text-zinc-600">
               Kom je er niet helemaal uit? Bespreek het tijdens een gratis energiescan of neem direct contact op.
             </p>
-            <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20gratis%20energiescan%20plannen%20via%20de%20website%20van%20Gijs" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
+            <WhatsAppTrackedButton plaats="maatregelpagina_faq_kaart" href="https://wa.me/31742340777?text=Ik%20wil%20graag%20een%20energiescan%20plannen" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
             <a href={CONTACT.phoneHref} className="text-sm font-semibold text-[var(--green-800)] no-underline hover:underline">
               Bel {CONTACT.phone}
             </a>
@@ -291,7 +291,22 @@ export function SpouwmuurisolatiePage({ item }: { item: MeasurePageItem }) {
         primaryHref={startScanHref}
       />
 
-      <MeasureRegioLink />
+      <MeasureRegioLink voorbeeld={[
+        "Spouwmuurisolatie in je eigen gemeente? In Borne is ruim een derde van de woningen gebouwd vóór 1975, in Apeldoorn 46%. Lees meer over ",
+        { tekst: "spouwmuurisolatie in Apeldoorn", href: "/regio/gelderland/apeldoorn#isoleren" },
+        " en over ",
+        { tekst: "isolatie in Borne", href: "/regio/overijssel/borne" },
+        ".",
+      ]} regios={{
+        kop: "Spouwmuurisolatie in de regio",
+        links: [
+          { tekst: "Spouwmuurisolatie in Ommen", href: "/regio/overijssel/ommen#isoleren" },
+          { tekst: "De spouw isoleren in Raalte", href: "/regio/overijssel/raalte#isoleren" },
+          { tekst: "Spouwmuurisolatie in Steenwijk", href: "/regio/overijssel/steenwijkerland#isoleren" },
+          { tekst: "Isolatie in Delden", href: "/regio/overijssel/hof-van-twente/delden" },
+          { tekst: "Isolatie in Vroomshoop", href: "/regio/overijssel/twenterand/vroomshoop" },
+        ],
+      }} />
     </main>
   );
 }

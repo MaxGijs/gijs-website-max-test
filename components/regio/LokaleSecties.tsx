@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { GemeenteVerhaal } from "@/lib/content/gemeente-verhalen";
 import { cbsWijkenVoor, normaliseerWijknaam } from "@/lib/content/cbs-wijken";
 import { gemeenteHeroAfbeeldingen } from "@/lib/content/gemeente-hero-images";
@@ -261,6 +262,39 @@ export function LokaalRedactioneelSectie({ v, alineas, naam, gemeenteSlug, class
         )}
       </div>
 
+    </section>
+  );
+}
+
+/** Direct antwoord op de lokale isolatievraag; onderdelen staan naast elkaar (twee per rij). */
+export function IsolatieAntwoordSectie({ a, className, naast }: { a: NonNullable<GemeenteVerhaal["isolatieAntwoord"]>; className: string; naast?: ReactNode }) {
+  const onderdelen = a.onderdelen ?? [];
+  const tekst = (
+    <div className="flex flex-col gap-4 max-w-3xl">
+      <p className={EYEBROW}>{a.eyebrow}</p>
+      <h2 className={H2}>{a.h2}</h2>
+      {a.alineas.map((al, n) => <RijkeTekst key={n} alinea={al} className={TEKST} />)}
+    </div>
+  );
+  return (
+    <section id="isoleren" className={className}>
+      {naast ? (
+        // Zelfde twee kolommen als de onderdelen eronder, zodat alle blokken op één lijn staan.
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-5 lg:items-stretch">
+          {tekst}
+          <div className="flex">{naast}</div>
+        </div>
+      ) : tekst}
+      {onderdelen.length > 0 && (
+        <div className={`${naast ? "mt-8 lg:mt-5" : "mt-10 md:mt-12"} grid grid-cols-1 gap-4 lg:gap-5 ${onderdelen.length > 1 ? "md:grid-cols-2" : ""}`}>
+          {onderdelen.map(o => (
+            <div key={o.h3} className={`flex flex-col gap-3 rounded-[var(--radius-lg)] bg-[var(--grey-050)] p-6 sm:p-8 ${KAART_HOVER}`}>
+              <h3 className={KAARTTITEL}>{o.h3}</h3>
+              {o.alineas.map((al, n) => <RijkeTekst key={n} alinea={al} className={KAARTTEKST} />)}
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

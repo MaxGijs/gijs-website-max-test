@@ -759,6 +759,16 @@ export const VERHALEN_UTRECHT_FLEVOLAND: Record<string, GemeenteVerhaal> = {
       },
       ontwikkeling: {"titel":"Verduurzamen in Flevoland","tekst":"Flevoland is de jongste provincie van Nederland: bijna alle woningen zijn gebouwd nadat de polders waren drooggelegd. Isolatie is daardoor vaak al aanwezig, maar soms dunner dan nu gebruikelijk. De winst zit dan in bijisoleren, beter glas, zonnepanelen of een warmtepomp."},
     },
+    // Feiten uit de woningcijfers op deze pagina (CBS): 13% vóór 1975, 44% 1975-1985.
+    isolatieAntwoord: {
+      eyebrow: "Isolatie in Lelystad",
+      h2: "Je woning isoleren in Lelystad",
+      alineas: [
+        ["Wil je je huis isoleren in Lelystad? Bij 87% van de woningen gaat het om een huis van na 1975. Die woningen hebben meestal al een eerste isolatielaag in dak, muren en vloer, maar dunner dan nu gebruikelijk. Woningisolatie in Lelystad draait daarom vaak om bijisoleren: eerst kijken wat er al zit, dan aanvullen waar de meeste warmte weglekt."],
+        ["Bij de oudste woningen, van vóór 1975, ontbreekt ", { tekst: "spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " vaak; daar zijn het dak en de ", { tekst: "vloer", href: "/maatregelen/vloerisolatie" }, " meestal de eerste winst. In de woningen uit de grote bouwgolf van 1975 tot 1985 verdienen spouwmuur en dak aandacht."],
+        ["Gijs is geen isolatiebedrijf en dat is bewust. Een isolatiebedrijf kijkt vaak alleen naar zijn eigen specialisme, terwijl bijvoorbeeld vloerisolatie soms beter werkt dan dakisolatie. Tijdens een gratis energiescan aan huis kijkt een adviseur van Gijs onafhankelijk wat er al zit en welke isolatie het meeste oplevert. Vakspecialisten voeren het werk daarna uit; Gijs verzorgt dat traject en alles eromheen, tot de uitvoering helemaal is afgerond."],
+      ],
+    },
     faq: [
       { question: "Mijn huis staat in een van de schepenwijken. Wat is een goede eerste stap?", answer: "De schepenwijken zijn vooral gebouwd tussen eind jaren zeventig en eind jaren tachtig. Woningen uit die tijd hebben meestal al wat isolatie in dak, muren en vloer, maar dunner dan nu gebruikelijk. Welke stap het meest oplevert, verschilt per huis. Tijdens de energiescan bekijken we wat er nu zit en zetten we de mogelijke stappen op volgorde." },
       { question: "Welke gemeentelijke subsidies gelden in Lelystad?", answer: "Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Controleer de actuele mogelijkheden bij de gemeente Lelystad zelf of via de Energiesubsidiewijzer van Milieu Centraal." },
@@ -1529,6 +1539,31 @@ export const VERHALEN_UTRECHT_FLEVOLAND: Record<string, GemeenteVerhaal> = {
       },
       ontwikkeling: {"titel":"Verduurzamen in de provincie Utrecht","tekst":"In de provincie Utrecht staan historische binnensteden en dorpskernen naast grote uitbreidingswijken van na de jaren zeventig. Wat isolatie oplevert, verschilt daardoor sterk per wijk en per huis. Gijs kijkt daarom altijd eerst naar het bouwjaar en de staat van jouw woning."},
     },
+    // Cijfer uit de woningcijfers op deze pagina (CBS). Doelpagina voor de isolatiezoekwoorden rond de stad
+    // Utrecht; de provinciepagina linkt hierheen.
+    isolatieAntwoord: {
+      eyebrow: "Isoleren in Utrecht",
+      h2: "Je woning duurzaam isoleren in Utrecht",
+      alineas: [
+        ["Wil je je huis in Utrecht duurzaam isoleren? Gijs kijkt niet vanuit één isolatieproduct, maar vanuit de hele woning: welke delen al geïsoleerd zijn, waar de meeste warmte weglekt en wat je zelf kunt beslissen. Na het onafhankelijke advies regelt Gijs de uitvoering door vakspecialisten, met één aanspreekpunt tot het werk helemaal is afgerond."],
+      ],
+      onderdelen: [
+        {
+          h3: "Dak, zolder en plafond",
+          alineas: [
+            ["Bij een eengezinswoning gaat veel warmte via het dak verloren. Is de zolder onverwarmd, dan kan de isolatie ook op of tegen het zolderplafond, in plaats van tegen het dak. Woon je boven een koude berging of garage, dan kan juist het plafond van die ruimte worden geïsoleerd."],
+            ["Welke plek het meeste oplevert, hangt af van hoe je de ruimtes gebruikt. Lees meer over ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, "."],
+          ],
+        },
+        {
+          h3: "Spouwmuur en vloer",
+          alineas: [
+            ["De helft van de Utrechtse woningen is gebouwd vóór 1975. Bij eengezinswoningen uit die tijd is de spouw regelmatig nog leeg en is een vloer boven een kruipruimte vaak niet geïsoleerd. ", { tekst: "Spouwmuurisolatie", href: "/maatregelen/spouwmuurisolatie" }, " en ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, " zijn dan vaak goede stappen."],
+            ["In een appartement is de gevel van alle eigenaren samen. Spouwmuurisolatie loopt daar via een besluit van de VvE."],
+          ],
+        },
+      ],
+    },
     faq: [
       { question: "Mijn woning in Utrecht heeft stadsverwarming. Heeft een warmtepomp dan zin?", answer: "Ruim een derde van de Utrechtse woningen is aangesloten op stadsverwarming. Je huis wordt dan al verwarmd zonder eigen cv-ketel op gas. Een eigen warmtepomp ligt dan meestal minder voor de hand, en loskoppelen van het warmtenet kan ingewikkeld zijn. Isoleren helpt wel, want een beter geïsoleerd huis heeft minder warmte nodig. Twijfel je, dan kijken we samen naar jouw situatie." },
       { question: "Ik woon in een appartement in Utrecht. Wat kan ik zelf doen?", answer: "Bijna zes op de tien woningen in Utrecht zijn appartementen. Dak, gevel en vloer zijn daar meestal van alle eigenaren samen, dus de VvE beslist. De gemeente Utrecht heeft regelingen voor zowel kleine als grote VvE's. Binnen je eigen woning kun je vaak zelf beginnen, bijvoorbeeld met beter glas." },
@@ -1953,6 +1988,30 @@ export const VERHALEN_UTRECHT_FLEVOLAND: Record<string, GemeenteVerhaal> = {
       kernTekst: {},
       ontwikkeling: {"titel":"Verduurzamen in Flevoland","tekst":"Flevoland is de jongste provincie van Nederland: bijna alle woningen zijn gebouwd nadat de polders waren drooggelegd. Isolatie is daardoor vaak al aanwezig, maar soms dunner dan nu gebruikelijk. De winst zit dan in bijisoleren, beter glas, zonnepanelen of een warmtepomp."},
     },
+    // Lokale feiten uit het verhaal hierboven (eerste woningen jaren tachtig, isolatie dunner dan nu).
+    isolatieAntwoord: {
+      eyebrow: "Isoleren in Zeewolde",
+      h2: "Isolatieadvies en uitvoering in Zeewolde",
+      alineas: [
+        ["Zoek je een isolatiebedrijf in Zeewolde? Gijs kijkt niet vanuit één isolatieproduct, maar vanuit de hele woning. Bij een huis uit de jaren tachtig of negentig zit er al isolatie in, dus de vraag is waar bijisoleren het meeste oplevert: het dak, de vloer of het glas. Na het onafhankelijke advies regelt Gijs de uitvoering door vakspecialisten, met één aanspreekpunt tot het werk helemaal is afgerond."],
+      ],
+      onderdelen: [
+        {
+          h3: "Dakisolatie in Zeewolde",
+          alineas: [
+            ["Bij de eerste generatie woningen in Zeewolde is het dak bij de bouw geïsoleerd, maar met een dunnere laag dan nu gebruikelijk. Extra isolatie aan de binnenkant van een schuin dak, of bovenop een plat dak, beperkt het warmteverlies verder."],
+            ["Liggen er zonnepanelen op je dak, of wil je die nog laten plaatsen? Neem dat dan mee in dezelfde afweging. Lees meer over ", { tekst: "dakisolatie", href: "/maatregelen/dakisolatie" }, "."],
+          ],
+        },
+        {
+          h3: "Vloerisolatie in Zeewolde",
+          alineas: [
+            ["Heeft je woning een kruipruimte, dan kan de vloer vaak van onderaf worden geïsoleerd. Bij huizen uit de jaren tachtig en negentig zit er meestal al isolatie onder de vloer, maar dunner dan nu."],
+            ["Of extra vloerisolatie loont, hangt af van wat er al zit en van de bereikbaarheid van de kruipruimte. Lees meer over ", { tekst: "vloerisolatie", href: "/maatregelen/vloerisolatie" }, "."],
+          ],
+        },
+      ],
+    },
     faq: [
       { question: "Is mijn huis in Zeewolde niet te nieuw om nog te verduurzamen?", answer: "Ruim de helft van de woningen in Zeewolde is na 1995 gebouwd. Zulke huizen zijn bij de bouw al redelijk tot goed geïsoleerd, dus extra isoleren is daar minder vaak de eerste stap. De vraag is eerder of je verwarming, warm water of stroom slimmer kunt regelen, bijvoorbeeld met een warmtepomp. Bij een woning op stadsverwarming liggen de opties anders. Tijdens de energiescan kijken we wat er bij jouw huis kan." },
       { question: "Welke gemeentelijke subsidies gelden in Zeewolde?", answer: "Gemeenten kunnen eigen subsidies of regelingen hebben voor het verduurzamen van een woning. Controleer de actuele mogelijkheden bij de gemeente Zeewolde zelf of via de Energiesubsidiewijzer van Milieu Centraal." },
@@ -2021,7 +2080,7 @@ export const VERHALEN_UTRECHT_FLEVOLAND: Record<string, GemeenteVerhaal> = {
         ],
       },
       thom: {
-        titel: "Thom komt graag bij je langs.",
+        titel: "Thom kijkt graag in Zeewolde met je mee.",
         tekst: "Twijfel je wat verstandig is voor jouw woning? Thom kijkt met je mee en helpt je met de volgende stap.",
         alleenEnergiescan: true,
       },

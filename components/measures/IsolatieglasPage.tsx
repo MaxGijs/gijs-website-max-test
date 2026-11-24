@@ -139,7 +139,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
               eerste vraag tot en met de uitvoering.
             </p>
             <div className="flex flex-wrap items-center gap-3">
-              <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een energiescan aan</WhatsAppTrackedButton>
+              <WhatsAppTrackedButton plaats="maatregelpagina_hero" href={ENERGIESCAN_HREF} size="lg" iconRight="arrow-right">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
               <Button href={startScanHref} variant="accent" size="lg" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
             </div>
             <p className="text-[15px] leading-relaxed text-[var(--text-muted)]">
@@ -430,7 +430,7 @@ export function IsolatieglasPage({ item }: { item: MeasurePageItem }) {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 self-start shrink-0">
             <Button href={startScanHref} variant="accent" size="md" iconRight="arrow-right">Ik wil mijn woning verduurzamen</Button>
-            <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een energiescan aan</WhatsAppTrackedButton>
+            <WhatsAppTrackedButton plaats="maatregelpagina_afsluiting" href={ENERGIESCAN_HREF} size="md" iconRight="arrow-right" variant="secondary">Vraag een gratis energiescan aan</WhatsAppTrackedButton>
           </div>
         </div>
       </section>

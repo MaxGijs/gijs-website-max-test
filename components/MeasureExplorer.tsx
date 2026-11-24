@@ -3,6 +3,7 @@ import MeasureImage from "./MeasureImage";
 import { OVERGANG_TYPES, titelOvergang } from "@/lib/overgang";
 import { FotoOvergang } from "./FotoOvergang";
 import { MEASURE_PAGES } from "@/lib/content/measure-pages";
+import { ISOLATIE_REGIO_LINKS } from "@/lib/content/isolatie-regio";
 import styles from "./MeasureExplorer.module.css";
 
 // Eenvoudige keuzehulp ("Waar wil je iets aan doen?"), toegevoegd om
@@ -56,6 +57,21 @@ export default function MeasureExplorer() {
         <FotoOvergang id={"maatregel-"+item.slug}><div className={styles.cardImage}><MeasureImage image={item.image} name={item.name}/></div></FotoOvergang>
         <div className={styles.cardBody}><h3 style={titelOvergang("maatregel-"+item.slug)}>{item.name}</h3><p>{item.result}</p><span>Lees meer over {item.name.toLowerCase()} <span aria-hidden="true">→</span></span></div>
       </Link>)}</div>
+      {group.id === "isolatie" && <p className={styles.regioRegel}>
+        Welke isolatie het eerst loont, hangt ook af van waar en wanneer je huis is gebouwd. Lees bijvoorbeeld over{" "}
+        <Link href="/regio/overijssel/borne">isolatie in Borne</Link>, waar ruim een derde van de woningen van vóór 1975 is, over een{" "}
+        <Link href="/regio/overijssel/rijssen-holten/holten">isolatiebedrijf in Holten</Link> of over{" "}
+        <Link href="/regio/flevoland/lelystad">je woning isoleren in Lelystad</Link>, waar de meeste huizen na 1975 zijn gebouwd.
+      </p>}
+      {group.id === "isolatie" && <div className={styles.regioBlok}>
+        <h3>Isolatie in jouw regio</h3>
+        <dl className={styles.regioRijen}>
+          {ISOLATIE_REGIO_LINKS.map(p => <div key={p.provincie} className={styles.regioRij}>
+            <dt>{p.naam}</dt>
+            <dd><ul>{p.links.map(l => <li key={l.href}><Link href={l.href}>{l.tekst}</Link></li>)}</ul></dd>
+          </div>)}
+        </dl>
+      </div>}
     </section>)}
     {/* Keuzehulp onderaan (op verzoek van Max): eerst direct de isolaties en installaties,
         daarna voor wie nog twijfelt deze ingang per wens. */}

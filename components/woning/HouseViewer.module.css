@@ -45,6 +45,8 @@
 .vol { height:100%; display:flex; flex-direction:column; padding:0; border-radius:0; background:transparent; }
 .vol .scene { flex:1; height:auto; min-height:360px; border-radius:32px; background:radial-gradient(ellipse at 50% 55%, #e6eee5 0%, #eff3ee 45%, #fff 72%); }
 .vol .scene::before { display:none; }
+/* Onder lg heeft de ouder geen vaste hoogte; met alleen min-height valt het canvas (height:100%) terug op 150px. */
+@media (max-width:1023px) { .vol .scene { flex:none; height:clamp(320px,60vw,460px); } }
 
 .profileDetail summary { display:block; background:var(--accent-700); color:white; border-radius:var(--radius-control); padding:17px 24px; font-size:18px; font-weight:700; cursor:pointer; text-align:center; box-shadow:0 4px 12px #123a2420; }
 .profileDetail summary:hover { background:#104c3a; }
