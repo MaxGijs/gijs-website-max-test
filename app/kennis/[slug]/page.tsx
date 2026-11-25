@@ -12,6 +12,7 @@ import { SalderenThuisbatterij2027, SalderenInleiding } from "@/components/kenni
 import { WarmtenetKerschotenApeldoorn, WarmtenetKerschotenInleiding } from "@/components/kennis/WarmtenetKerschotenApeldoorn";
 import { CvKetelVervangen2029, CvKetelInleiding } from "@/components/kennis/CvKetelVervangen2029";
 import { ZonnepanelenZonderSaldering, ZonnepanelenZonderSalderingInleiding } from "@/components/kennis/ZonnepanelenZonderSaldering";
+import { UfSchuimSpouwmuur, UfSchuimInleiding } from "@/components/kennis/UfSchuimSpouwmuur";
 import { KENNIS_ARTIKELEN, kennisArtikelPad, artikelOvergangId, formatteerDatum } from "@/lib/content/kennis-artikelen";
 import { createMetadata, SITE_URL } from "@/lib/seo";
 import { titelOvergang } from "@/lib/overgang";
@@ -20,6 +21,7 @@ import { titelOvergang } from "@/lib/overgang";
 // component in components/kennis/, en hier koppelen.
 const INHOUD: Record<string, { inleiding: ComponentType<{ className?: string }>; tekst: ComponentType<{ slug: string }> }> = {
   "slimme-warmtepomp-subsidie-2027": { inleiding: SlimmeWarmtepompInleiding, tekst: SlimmeWarmtepompSubsidie2027 },
+  "uf-schuim-spouwmuurisolatie-risicos-alternatieven": { inleiding: UfSchuimInleiding, tekst: UfSchuimSpouwmuur },
   "zonnepanelen-rendabel-zonder-salderen": { inleiding: ZonnepanelenZonderSalderingInleiding, tekst: ZonnepanelenZonderSaldering },
   "cv-ketel-vervangen-2029-gas-of-warmtepomp": { inleiding: CvKetelInleiding, tekst: CvKetelVervangen2029 },
   "warmtenet-kerschoten-verduurzamen-apeldoorn": { inleiding: WarmtenetKerschotenInleiding, tekst: WarmtenetKerschotenApeldoorn },
@@ -92,7 +94,7 @@ export default async function KennisArtikelPagina({ params }: Props) {
             </p>
             <Inleiding className={HERO_INTRO + " mt-6"} />
           </header>
-          <ArtikelFoto src={a.afbeelding.path} alt={a.afbeelding.alt} priority overgang={artikelOvergangId(a.slug)} />
+          <ArtikelFoto src={a.afbeelding.path} alt={a.afbeelding.alt} priority overgang={artikelOvergangId(a.slug)} onderschrift={a.afbeelding.onderschrift} />
           <div className={ARTIKEL_TEKST}>
             <Tekst slug={a.slug} />
           </div>

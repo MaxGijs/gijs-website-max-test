@@ -33,8 +33,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (item.slug === "spouwmuurisolatie") {
     return createMetadata(
       "/maatregelen/spouwmuurisolatie",
-      "Spouwmuurisolatie voor jouw woning | Gijs",
-      "Ontdek hoe spouwmuurisolatie werkt, welke materialen Gijs gebruikt en hoe de uitvoering verloopt. Vraag gratis en vrijblijvend advies aan.",
+      // SEO-ronde 25-11-2026: GSC (7 dagen, filter +spouw) toont "spouwisolatie" (63
+      // vert., pos. 27,4) en "spouwmuurisolatie" (33 vert., pos. 46,9) als grootste
+      // generieke kansen; title/description dekken nu beide vormen.
+      "Spouwmuurisolatie (spouwisolatie) laten aanbrengen | Gijs",
+      "Spouw isoleren? Gijs beoordeelt of je spouwmuur geschikt is, welk materiaal past en regelt de uitvoering, met één vast aanspreekpunt van advies tot oplevering.",
       true,
       { path: "/images/maatregelen/spouwmuurisolatie/spouwmuurisolatie-aanbrengen-gijs.png", alt: "Spouwmuurisolatie wordt via een boorgat in de gevel aangebracht" }
     );
@@ -158,7 +161,7 @@ export default async function MeasurePage({ params }: Props) {
       </section>
       <section><h2>Wat bekijkt Gijs en hoe verloopt de uitvoering?</h2><p>{item.execution}</p>{item.category === "installaties" && <p>Als de installatie dat vraagt, bekijkt Gijs ook de elektrische aansluiting en beschikbare groepen.</p>}
       </section>
-      <section><h2>Veelgestelde vragen</h2><details className={styles.accordion}><summary>{item.question}</summary><p>{item.answer}</p></details><details className={styles.accordion}><summary>Moet ik eerst de digitale woningscan doen?</summary><p>Nee. Je kunt direct contact opnemen. De digitale woningscan is een optionele voorbereiding waarin je wensen verzamelt, geen technische beoordeling van je huis.</p></details><details className={styles.accordion}><summary>Is de energiescan aan huis vrijblijvend?</summary><p>Ja, de energiescan aan huis is gratis en vrijblijvend, ter waarde van €349. Je bespreekt je huis en je wensen met een adviseur van Gijs.</p></details></section>
+      <section><h2>Veelgestelde vragen</h2><details className={styles.accordion}><summary>{item.question}</summary><p>{item.answer}</p></details><details className={styles.accordion}><summary>Hoe vraag ik een gratis adviesgesprek aan?</summary><p>Je kunt direct contact opnemen voor een gratis energiescan aan huis. Dat gaat zonder verplichte voorbereiding, gratis en vrijblijvend, ter waarde van €349.</p></details><details className={styles.accordion}><summary>Is de energiescan aan huis vrijblijvend?</summary><p>Ja, de energiescan aan huis is gratis en vrijblijvend, ter waarde van €349. Je bespreekt je huis en je wensen met een adviseur van Gijs.</p></details></section>
       <section><h2>Bekijk ook</h2><div className={styles.related}>{MEASURE_PAGES.filter(other => other.category === item.category && other.slug !== item.slug).map(other => <Link key={other.slug} href={"/maatregelen/"+other.slug}>{other.name}</Link>)}</div></section>
     </div>
     <section className={styles.cta}><div><h2>Wat past bij jouw huis?</h2><p>Bespreek je vragen over {item.name.toLowerCase()} met Gijs.</p><Link className={styles.secondary} href={"/woning?maatregel="+item.id}>Liever eerst zelf ontdekken? Neem mee in mijn woningplan</Link></div><Link className={styles.button} href="/contact#energiescan">Bespreek het met Gijs →</Link></section>

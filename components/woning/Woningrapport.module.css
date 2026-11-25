@@ -85,3 +85,10 @@
 .subsidieBovenaan > :global(.gijs-card) { margin:0 !important; }
 .subsidieLeeg { margin:0; padding:14px 16px; border-radius:16px; background:var(--accent-050); font-size:15px; line-height:1.5; color:var(--grey-800); }
 .subsidieLeeg strong { color:var(--gijs-donkergroen); }
+/* Installaties en isolaties naast elkaar; compacte rijen zonder foto, "Meer info" rechtsonder in de kaart. */
+.kansKolommen { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px 20px; align-items:start; }
+.kansKolommen > div { margin-top:0; }
+.kansKolommen .kansRij :global(.gijs-check) { min-height:0; padding:12px 14px 30px; align-items:flex-start; }
+.kansKolommen .kansRij :global(.gijs-check__title) { font-size:15px; }
+.kansKolommen .kansRij :global(.gijs-check__desc) { font-size:12.5px; line-height:1.4; }
+.kansKolommen .kansRij > a { top:auto; bottom:10px; right:14px; transform:none; font-size:13px; }

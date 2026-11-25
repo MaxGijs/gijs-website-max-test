@@ -6,7 +6,7 @@ import { AFGIFTE_STAAT, HouseViewer, MAATREGEL_STAAT, type HouseFocus } from "./
 import { HOUSE_MODELS, type HouseType } from "@/lib/woning-types";
 import { StapBevestigen } from "./StapBevestigen";
 import { WoningtypeRegel, OptieToggle, VerbruikVeld } from "./ScanVragen";
-import { Woningrapport } from "./Woningrapport";
+import { KansenKeuze, Woningrapport } from "./Woningrapport";
 import { AanwezigVerkenner } from "./AanwezigVerkenner";
 import { GoogleScore } from "@/components/reviews/GoogleScore";
 import { CONTACT, WHATSAPP_NUMMER } from "@/lib/content/contact";
@@ -396,7 +396,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
 
       {scan.step === STAP.gegevens && (
         <div className={styles.stap2}>
-          <p className={styles.uitleg}>Vink aan wat je woning <strong>nu al heeft</strong>. Wat er nog niet is, laten we je in stap 3 zien als kans, met besparing en subsidie.</p>
+          <p className={styles.uitleg}>Vink aan wat je woning <strong>nu al heeft</strong>. Wat er nog niet is, kun je onderaan aanvinken als iets wat je wilt laten doen.</p>
 
           {/* Eerst de woninggegevens (die bepalen alles daarna), in gelijke kolommen. */}
           <section className={styles.stap2Blok}>
@@ -497,6 +497,24 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
               </div>
           </section>
 
+          {/* Wat de woning nog niet heeft, om aan te vinken (Max, 25-11-2026: verplaatst uit stap 3). Na het verbruik,
+              zodat de besparing per rij al op het eigen verbruik is gebaseerd. */}
+          {rapport.kansen.length > 0 && (
+            <section className={styles.stap2Blok}>
+              <h3 className={styles.sectieKop}>4. Wat wil je nog laten doen?</h3>
+              <p className={styles.uitleg}>Vink aan waar je meer over wilt weten. Gijs controleert wat echt past en welke combinatie het meeste oplevert.</p>
+              <KansenKeuze
+                rapport={rapport} postcode={scan.postcode} huisnummer={scan.huisnummer}
+                naamVan={id => AANWEZIG_LABEL[id] ?? titelVan(id).naam} slugVan={id => titelVan(id).slug}
+                gekozen={scan.measures} onKies={id => patch({ measures: toggleIn(scan.measures, id) })}
+                onBekijk={id => {
+                  const staat = id ? MAATREGEL_STAAT[id] as HouseFocus | undefined : null;
+                  if (staat !== undefined && (staat !== focus || kijk.rondom)) setFocus(staat);
+                }}
+              />
+            </section>
+          )}
+
             <div className={styles.stapActies}>
               <Button variant="primary" size="lg" iconRight="arrow-right" onClick={naarPlan}>{scan.terugNaarPlan ? "Terug naar mijn woningrapport" : "Bekijk mijn woningrapport"}</Button>
               {Object.values(fouten).some(Boolean) && <p className="gijs-error" role="alert">Vul de gemarkeerde velden in om je woningrapport te zien.</p>}
@@ -510,12 +528,58 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
           <div className={styles.planHoofd}>
             <Woningrapport
               rapport={rapport}
-              naamVan={id => AANWEZIG_LABEL[id] ?? titelVan(id).naam} slugVan={id => titelVan(id).slug}
-              gekozen={scan.measures} onKies={id => patch({ measures: toggleIn(scan.measures, id) })}
-              onBekijk={id => {
-                const staat = id ? MAATREGEL_STAAT[id] as HouseFocus | undefined : null;
-                if (staat !== undefined && (staat !== focus || kijk.rondom)) setFocus(staat);
-              }}
+              naamVan={id => AANWEZIG_LABEL[id] ?? titelVan(id).naam}
+              gekozen={scan.measures}
+              energiekosten={<>
+            {/* Nu en straks naast elkaar: het verschil is waar het om gaat (Max, 18-11-2026). "Straks" is de
+                aanbevolen isolatie samen (Milieu Centraal, begrensd op je eigen gasverbruik); zonder isolatiekans de
+                hybride warmtepomp (ervaringscijfers Gijs). Niet opgeteld: dat zou dubbel tellen. */}
+            <section className={styles.samenvatting}>
+              <div className={styles.samenvattingKop}>
+                <h3>Je energiekosten</h3>
+                <button type="button" className={styles.tekstLink} onClick={() => wijzig(STAP.gegevens)}>Wijzigen<span className="sr-only"> energiegegevens</span></button>
+              </div>
+              {kosten && (() => {
+                const iso = rapport.samenvatting.isolatieBesparing;
+                const wp = rapport.samenvatting.warmtepompBesparing;
+                const minder = iso ? iso.max : wp;
+                const straksLabel = iso ? "Na isolatie" : "Met warmtepomp";
+                const straks = minder ? Math.max(0, kosten.totaal - minder) : null;
+                return (
+                  <>
+                    <dl className={styles.nuStraks}>
+                      <div><dt>Nu</dt><dd>± {euro(kosten.totaal)}</dd></div>
+                      {straks !== null && <div className={styles.straks}><dt>{straksLabel}</dt><dd>± {euro(straks)}</dd></div>}
+                    </dl>
+                    {straks !== null && (
+                      <>
+                        <div className={styles.balken} aria-hidden="true">
+                          <span style={{ width: "100%" }} />
+                          <span className={styles.balkStraks} style={{ width: `${Math.max(8, Math.round((straks / kosten.totaal) * 100))}%` }} />
+                        </div>
+                        <p className={styles.verschil}>± {euro(minder!)} per jaar minder</p>
+                      </>
+                    )}
+                    <p className={styles.kleineNoot}>
+                      Per jaar, indicatie: je verbruik ({stroomGeschat ? `${schatting.stroom.min.toLocaleString("nl-NL")}–${schatting.stroom.max.toLocaleString("nl-NL")}` : aantal(scan.elektriciteitsverbruik)} kWh{gas ? `, ${aantal(scan.gasverbruik)} m³ gas` : ""}) keer de energieprijs, zonder vaste kosten.
+                      {straks !== null ? (iso ? " Met een warmtepomp of zonnepanelen kan het verder dalen." : "") : " Gijs rekent het verschil voor jouw woning uit."}
+                    </p>
+                  </>
+                );
+              })()}
+              <p className={styles.zijAdres}>{scan.addressLabel || `${scan.postcode} ${scan.huisnummer}`}</p>
+              <details className={styles.zijDetails}>
+                <summary>Bekijk ingevoerde gegevens</summary>
+                <dl className={styles.woningLijst}>
+                  <div><dt>Woning</dt><dd>{HOUSE_MODELS[scan.houseType].label}{dossier.bouwjaar.waarde ? `, ${dossier.bouwjaar.waarde}` : ""}</dd></div>
+                  {scan.woonoppervlakte && <div><dt>Oppervlakte</dt><dd>{scan.woonoppervlakte} m²</dd></div>}
+                  <div><dt>Energielabel</dt><dd>{scan.energielabel ? scan.energielabel.toUpperCase() : "Niet gevonden"}</dd></div>
+                  {scan.warmteafgifte.length > 0 && <div><dt>Afgifte</dt><dd>{scan.warmteafgifte.join(", ")}</dd></div>}
+                  <div><dt>Aanwezig</dt><dd>{scan.bestaandeMaatregelen.length ? scan.bestaandeMaatregelen.map(id => AANWEZIG_LABEL[id] ?? titelVan(id).naam).join(", ") : scan.aanwezigOnbekend ? "Weet ik niet precies" : "Nog niets aangevinkt"}</dd></div>
+                </dl>
+              </details>
+            </section>
+              </>}
               formulier={
             <section id={`${fieldId}-aanvraag`} className={styles.aanvraag}>
               {/* Zelfde opbouw als het adviseursblok op de regiopagina's: portretten links, tekst rechts. De groene
@@ -543,7 +607,6 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                     ["wallet", "Prijsindicatie per maatregel"],
                     ["piggy-bank", "Besparing en terugverdientijd"],
                     ["trending-up", "Mogelijke stijging van je woningwaarde"],
-                    ["percent", "Subsidieregelingen voor jouw adres"],
                   ] as const).map(([icoon, tekst]) => (
                     <li key={tekst}><span className={styles.gateIcon}><Icon name={icoon} size="sm" /></span>{tekst}</li>
                   ))}
@@ -666,7 +729,7 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
                         <div className={styles.planVoor}>
                           {planMetPrijs.length > 0 && <p><strong>Je krijgt een prijsindicatie voor:</strong> {naamLijst(planMetPrijs).toLowerCase()} {gekozenNieuw.length ? "(jouw keuze)" : "(aanbevolen voor jouw woning)"}.</p>}
                           {planZonderPrijs.length > 0 && <p>{naamLijst(planZonderPrijs)}: de prijs bepaalt Gijs bij de woningopname.</p>}
-                          {!gekozenNieuw.length && <p>Liever iets anders? Vink hierboven aan waar je meer over wilt weten.</p>}
+                          {!gekozenNieuw.length && <p>Liever iets anders? <button type="button" className={styles.tekstLink} onClick={() => wijzig(STAP.gegevens)}>Kies in stap 2 wat je wilt laten doen</button>.</p>}
                         </div>
                       )}
                       <Button type="submit" variant="primary" size="lg" loading={versturen} disabled={versturen} className={styles.aanvraagKnop}>{versturen ? "Bezig…" : "Bekijk wat het kost en oplevert"}</Button>
@@ -691,56 +754,6 @@ export function WoningFlow({ initialHouseType, initialPostcode, initialHuisnumme
             </div>
           </div>
 
-          <aside className={styles.planZij}>
-            {/* Nu en straks naast elkaar: het verschil is waar het om gaat (Max, 18-11-2026). "Straks" is de
-                aanbevolen isolatie samen (Milieu Centraal, begrensd op je eigen gasverbruik); zonder isolatiekans de
-                hybride warmtepomp (ervaringscijfers Gijs). Niet opgeteld: dat zou dubbel tellen. */}
-            <section className={styles.samenvatting}>
-              <div className={styles.samenvattingKop}>
-                <h3>Je energiekosten</h3>
-                <button type="button" className={styles.tekstLink} onClick={() => wijzig(STAP.gegevens)}>Wijzigen<span className="sr-only"> energiegegevens</span></button>
-              </div>
-              {kosten && (() => {
-                const iso = rapport.samenvatting.isolatieBesparing;
-                const wp = rapport.samenvatting.warmtepompBesparing;
-                const minder = iso ? iso.max : wp;
-                const straksLabel = iso ? "Na isolatie" : "Met warmtepomp";
-                const straks = minder ? Math.max(0, kosten.totaal - minder) : null;
-                return (
-                  <>
-                    <dl className={styles.nuStraks}>
-                      <div><dt>Nu</dt><dd>± {euro(kosten.totaal)}</dd></div>
-                      {straks !== null && <div className={styles.straks}><dt>{straksLabel}</dt><dd>± {euro(straks)}</dd></div>}
-                    </dl>
-                    {straks !== null && (
-                      <>
-                        <div className={styles.balken} aria-hidden="true">
-                          <span style={{ width: "100%" }} />
-                          <span className={styles.balkStraks} style={{ width: `${Math.max(8, Math.round((straks / kosten.totaal) * 100))}%` }} />
-                        </div>
-                        <p className={styles.verschil}>± {euro(minder!)} per jaar minder</p>
-                      </>
-                    )}
-                    <p className={styles.kleineNoot}>
-                      Per jaar, indicatie: je verbruik ({stroomGeschat ? `${schatting.stroom.min.toLocaleString("nl-NL")}–${schatting.stroom.max.toLocaleString("nl-NL")}` : aantal(scan.elektriciteitsverbruik)} kWh{gas ? `, ${aantal(scan.gasverbruik)} m³ gas` : ""}) keer de energieprijs, zonder vaste kosten.
-                      {straks !== null ? (iso ? " Met een warmtepomp of zonnepanelen kan het verder dalen." : "") : " Gijs rekent het verschil voor jouw woning uit."}
-                    </p>
-                  </>
-                );
-              })()}
-              <p className={styles.zijAdres}>{scan.addressLabel || `${scan.postcode} ${scan.huisnummer}`}</p>
-              <details className={styles.zijDetails}>
-                <summary>Bekijk ingevoerde gegevens</summary>
-                <dl className={styles.woningLijst}>
-                  <div><dt>Woning</dt><dd>{HOUSE_MODELS[scan.houseType].label}{dossier.bouwjaar.waarde ? `, ${dossier.bouwjaar.waarde}` : ""}</dd></div>
-                  {scan.woonoppervlakte && <div><dt>Oppervlakte</dt><dd>{scan.woonoppervlakte} m²</dd></div>}
-                  <div><dt>Energielabel</dt><dd>{scan.energielabel ? scan.energielabel.toUpperCase() : "Niet gevonden"}</dd></div>
-                  {scan.warmteafgifte.length > 0 && <div><dt>Afgifte</dt><dd>{scan.warmteafgifte.join(", ")}</dd></div>}
-                  <div><dt>Aanwezig</dt><dd>{scan.bestaandeMaatregelen.length ? scan.bestaandeMaatregelen.map(id => AANWEZIG_LABEL[id] ?? titelVan(id).naam).join(", ") : scan.aanwezigOnbekend ? "Weet ik niet precies" : "Nog niets aangevinkt"}</dd></div>
-                </dl>
-              </details>
-            </section>
-          </aside>
         </div>
       )}
 

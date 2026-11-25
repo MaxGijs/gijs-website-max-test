@@ -14,10 +14,19 @@ export type KennisArtikel = {
   gewijzigd?: string;
   /** Lokaal artikel: alleen als kaart op de eigen regiopagina, niet op /kennis. */
   alleenRegio?: boolean;
-  afbeelding: { path: string; alt: string };
+  afbeelding: { path: string; alt: string; onderschrift?: string };
 };
 
 export const KENNIS_ARTIKELEN: KennisArtikel[] = [
+  {
+    slug: "uf-schuim-spouwmuurisolatie-risicos-alternatieven",
+    titel: "UF-schuim bij spouwmuurisolatie: wat zijn de risico's en alternatieven?",
+    seoTitel: "UF-schuim in de spouwmuur: risico's en alternatieven | Gijs",
+    beschrijving: "De GGD raadt UF-schuim af en de subsidie is gestopt. Lees wat de risico's zijn, welke alternatieven er zijn en wat je met bestaande isolatie doet.",
+    intro: "De GGD raadt UF-schuim voor spouwmuurisolatie af. Wat zijn de risico's, welke alternatieven zijn er en wat doe je met bestaande isolatie?",
+    gepubliceerd: "2026-11-25",
+    afbeelding: { path: "/images/kennis/spouwmuur/bakstenen-woningen-straat.jpg", alt: "Bakstenen woningen in een Nederlandse straat met vlaggen aan de gevel", onderschrift: "Veel Nederlandse bakstenen woningen zoals deze hebben een spouwmuur." },
+  },
   {
     slug: "zonnepanelen-rendabel-zonder-salderen",
     titel: "Is zonnepanelen kopen nog wel rendabel zonder salderingsregeling?",

@@ -1,10 +1,8 @@
 "use client";
 import { useEffect, useState, type ReactNode } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import type { Kans, Woningrapport as Rapport } from "@/lib/woningrapport";
 import { BOUWPERIODE_LABEL } from "@/lib/energie-schatting";
-import { MAATREGEL_BEELD } from "@/lib/content/maatregel-beelden";
 import { FINANCIEEL_BRONNEN } from "@/lib/content/verduurzaming-financieel";
 import { MC_BRONNEN } from "@/lib/content/milieu-centraal";
 import { zoekSubsidies } from "@/app/subsidiecheck/actions";
@@ -17,12 +15,8 @@ import { Icon } from "@/components/ds/core/Icon";
 import flow from "./WoningFlow.module.css";
 import styles from "./Woningrapport.module.css";
 
-// Stap 3 van de woningscan: één verhaal (review 17-11-2026):
-//   1. dit is waarschijnlijk je volgende beste stap (de eerste kans, standaard open)
-//   2. waarom deze maatregel eerst
-//   3. wat het waarschijnlijk oplevert (indicaties) en mogelijke subsidie
-//   4. wil je de kosten weten? Gijs controleert de woning (CTA; het formulier opent pas na klikken)
-//   5. daarna: overige kansen, waarom integraal advies, woningdetails, bronnen
+// Stap 3 van de woningscan (25-11-2026): subsidies voor het adres, je energiekosten nu en na isolatie,
+// installaties en isolaties naast elkaar om aan te vinken, daarna het aanvraagformulier, waarom Gijs en bronnen.
 // Subsidie komt UITSLUITEND uit de koppeling met de Energiesubsidiewijzer van Milieu Centraal (zoekSubsidies,
 // per adres); Gijs rekent zelf geen subsidiebedragen uit. Geen investeringsprijzen: die volgen na controle.
 
@@ -48,7 +42,9 @@ function useRegelingen(postcode: string, huisnummer: string) {
   return { regelingen: actueel ? actueel.regelingen : null, geladen: actueel !== null };
 }
 
-export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBekijk, woningplan, formulier, postcode, huisnummer }: {
+/** Stap 2, onderdeel 4 (Max, 25-11-2026): installaties en isolaties die de woning nog niet heeft, om aan te
+ *  vinken wat de bewoner wil laten doen. Naast elkaar, compact en zonder foto. */
+export function KansenKeuze({ rapport, naamVan, slugVan, gekozen, onKies, onBekijk, postcode, huisnummer }: {
   rapport: Rapport;
   naamVan: (id: string) => string;
   slugVan: (id: string) => string;
@@ -57,6 +53,36 @@ export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBe
   onKies: (id: string) => void;
   /** Laat een kans in de 3D-woning zien (hover of toetsenbordfocus); null = hele woning. */
   onBekijk: (id: string | null) => void;
+  postcode: string;
+  huisnummer: string;
+}) {
+  const { regelingen } = useRegelingen(postcode, huisnummer);
+  const regelingenVoor = (id: string) => (regelingen ?? []).filter(r => r.voor.includes(id));
+  return (
+    <div className={styles.kansKolommen}>
+      {KANS_GROEPEN.map(groep => {
+        const kansen = rapport.kansen.filter(kans => groep.ids.includes(kans.id));
+        if (!kansen.length) return null;
+        return (
+          <div key={groep.label} className={flow.keuzeGroep} onPointerLeave={() => onBekijk(null)}>
+            <h4>{groep.label}</h4>
+            <ul className={flow.keuzeRijen}>
+              {kansen.map(kans => <KansRij key={kans.id} kans={kans} naam={naamVan(kans.id)} slug={slugVan(kans.id)} regelingen={regelingen ? regelingenVoor(kans.id) : null} gekozen={gekozen.includes(kans.id)} onKies={() => onKies(kans.id)} onBekijk={() => onBekijk(kans.id)} />)}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export function Woningrapport({ rapport, naamVan, gekozen, energiekosten, woningplan, formulier, postcode, huisnummer }: {
+  rapport: Rapport;
+  naamVan: (id: string) => string;
+  /** Kansen die de bewoner in stap 2 heeft gekozen (scan.measures). */
+  gekozen: string[];
+  /** Je energiekosten nu en na isolatie (uit WoningFlow), direct onder de subsidies. */
+  energiekosten?: ReactNode;
   /** Het woningplan achter de e-mailgate (uit WoningFlow): prijsindicatie, besparing, terugverdientijd. */
   woningplan?: ReactNode;
   /** De waardepropositie en het aanvraagformulier (uit WoningFlow), direct zichtbaar onder de CTA. */
@@ -64,24 +90,13 @@ export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBe
   postcode: string;
   huisnummer: string;
 }) {
-  const eerste = rapport.kansen.find(k => k.aanbevolen) ?? rapport.kansen[0];
   const { regelingen, geladen: regelingenGeladen } = useRegelingen(postcode, huisnummer);
-  const regelingenVoor = (id: string) => (regelingen ?? []).filter(r => r.voor.includes(id));
-  const eersteRegelingen = eerste && regelingen ? regelingenVoor(eerste.id) : null;
-  const adviesTegels = eerste ? [
-    { label: "Besparing", waarde: eerste.kort.besparing ?? "Rekent je adviseur uit" },
-    { label: "Subsidie voor jouw adres", waarde: subsidieTekst(eersteRegelingen) },
-    { label: "Comfort", waarde: eerste.comfortKort },
-    { label: "Terugverdientijd", waarde: eerste.kort.terugverdientijd ? `${eerste.kort.terugverdientijd} zonder subsidie` : "Rekent je adviseur uit" },
-  ] : [];
 
   return (
     <section className={styles.rapport}>
-      <h3 className={styles.hoofdKop}>Wat kun je nog doen?</h3>
+      <h3 className={styles.hoofdKop}>Wat levert verduurzamen jou op?</h3>
       <p className={flow.uitleg}>
-        {eerste
-          ? "Dit zijn de kansen die nu het meest logisch zijn om te onderzoeken. Vink aan waar je meer over wilt weten; Gijs controleert wat echt past en welke combinatie het meeste oplevert."
-          : "Gijs denkt graag met je mee over de volgende stap, bijvoorbeeld het verbeteren of slim combineren van bestaande maatregelen."}
+        De subsidies voor jouw adres en je energiekosten nu en na isolatie. Gijs controleert wat echt past en welke combinatie het meeste oplevert.
       </p>
 
       {/* Bovenaan (Max, 19-11-2026): de subsidies en regelingen voor dit adres, rechtstreeks uit de
@@ -99,34 +114,8 @@ export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBe
         </section>
       )}
 
-      {eerste && (
-        <section className={styles.adviesKern} aria-labelledby="eerste-advies">
-          <div className={styles.adviesKop}>
-            {MAATREGEL_BEELD[eerste.id] && <Image src={MAATREGEL_BEELD[eerste.id].src} alt={MAATREGEL_BEELD[eerste.id].alt} width={192} height={192} quality={100} className={styles.adviesBeeld} />}
-            <div>
-            <p className={styles.eyebrow}>Eerste advies</p>
-            <h4 id="eerste-advies" className={styles.adviesNaam}>Begin met {naamVan(eerste.id).toLowerCase()}</h4>
-            </div>
-          </div>
-          <p className={styles.adviesTekst}>{eerste.waarom}</p>
-          <dl className={styles.adviesTegels}>
-            {adviesTegels.map(tegel => <div key={tegel.label}><dt>{tegel.label}</dt><dd>{tegel.waarde}</dd></div>)}
-          </dl>
-        </section>
-      )}
-
-      {KANS_GROEPEN.map(groep => {
-        const kansen = rapport.kansen.filter(kans => groep.ids.includes(kans.id));
-        if (!kansen.length) return null;
-        return (
-          <div key={groep.label} className={flow.keuzeGroep} onPointerLeave={() => onBekijk(null)}>
-            <h4>{groep.label}</h4>
-            <ul className={flow.keuzeRijen}>
-              {kansen.map(kans => <KansRij key={kans.id} kans={kans} naam={naamVan(kans.id)} slug={slugVan(kans.id)} regelingen={regelingen ? regelingenVoor(kans.id) : null} gekozen={gekozen.includes(kans.id)} onKies={() => onKies(kans.id)} onBekijk={() => onBekijk(kans.id)} />)}
-            </ul>
-          </div>
-        );
-      })}
+      {/* Op de plek van het "Eerste advies" (Max, 25-11-2026): je energiekosten nu en na isolatie. */}
+      {energiekosten}
 
       {/* Eerst de kleine stap: alleen een e-mailadres voor het volledige woningplan (prijsindicatie, besparing,
           terugverdientijd, woningwaarde). Daarna de grotere: de energiescan aan huis. */}
@@ -183,9 +172,8 @@ export function Woningrapport({ rapport, naamVan, slugVan, gekozen, onKies, onBe
 const subsidieTekst = (regelingen: SubsidieRegeling[] | null) =>
   regelingen === null ? "Bekijkt je adviseur" : regelingen.length ? `${regelingen.length} ${regelingen.length === 1 ? "regeling" : "regelingen"} voor jouw adres` : "Geen regeling gevonden";
 
-/** Overige kansen: zelfde rij als de oude stap 3 (foto + aanvinkkaart + "Meer info"), uitleg uitklapbaar. */
+/** Overige kansen: compacte aanvinkkaart met "Meer info", zonder foto. */
 function KansRij({ kans, naam, slug, regelingen, gekozen, onKies, onBekijk }: { kans: Kans; naam: string; slug: string; regelingen: SubsidieRegeling[] | null; gekozen: boolean; onKies: () => void; onBekijk: () => void }) {
-  const beeld = MAATREGEL_BEELD[kans.id];
   const cijfers = [
     kans.kort.besparing ? `Indicatie: besparing ${kans.kort.besparing}${kans.voorbeeld ? " (voorbeeld)" : ""}` : "",
     kans.kort.terugverdientijd ? `terugverdientijd ${kans.kort.terugverdientijd}` : "",
@@ -193,8 +181,7 @@ function KansRij({ kans, naam, slug, regelingen, gekozen, onKies, onBekijk }: { 
   ].filter(Boolean).join(" · ");
   return (
     <li className={styles.kans} onPointerEnter={onBekijk} onFocus={onBekijk}>
-      <div className={flow.keuzeRij}>
-        {beeld && <Image src={beeld.src} alt={beeld.alt} width={224} height={224} quality={100} className={flow.keuzeBeeld} />}
+      <div className={`${flow.keuzeRij} ${styles.kansRij}`}>
         <Checkbox card label={naam} description={cijfers || undefined} checked={gekozen} onChange={onKies} />
         {slug && <Link className={flow.infoLink} href={`/maatregelen/${slug}`}>Meer info<span className="sr-only"> over {naam.toLowerCase()}</span></Link>}
       </div>
