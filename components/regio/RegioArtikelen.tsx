@@ -9,7 +9,7 @@ const ARTIKELEN_PER_PAGINA: Record<string, string[]> = {
   hardenberg: ALGEMENE_ARTIKELEN,
   nijkerk: ALGEMENE_ARTIKELEN,
   ijsselstein: ALGEMENE_ARTIKELEN,
-  hengelo: ALGEMENE_ARTIKELEN,
+  hengelo: [...ALGEMENE_ARTIKELEN, "uf-schuim-spouwmuurisolatie-risicos-alternatieven"],
   "overbetuwe/elst": ALGEMENE_ARTIKELEN,
   apeldoorn: ["warmtenet-kerschoten-verduurzamen-apeldoorn"],
 };

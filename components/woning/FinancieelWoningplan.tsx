@@ -167,7 +167,7 @@ export function FinancieelWoningplan({ invoer, naamVan, postcode, huisnummer, ge
           <div className={styles.hero}>
             {invoer.maatregelIds.length === 0 ? (
               <p className={styles.heroTekst}>
-                Vink hierboven een isolatiemaatregel aan (dak-, spouwmuur- of vloerisolatie, of glas) om die te laten doorrekenen. Voor
+                Vink in stap 2 een isolatiemaatregel aan (dak-, spouwmuur- of vloerisolatie, of glas) om die te laten doorrekenen. Voor
                 installaties zoals zonnepanelen of een warmtepomp bepalen we de kosten en opbrengst tijdens de energiescan.
               </p>
             ) : (

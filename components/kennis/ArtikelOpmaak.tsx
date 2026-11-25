@@ -4,7 +4,7 @@ import { FotoOvergang } from "@/components/FotoOvergang";
 
 // Foto binnen de artikeltekst: bestaande, goedgekeurde Gijs-beelden, vaste 3:2-uitsnede, afgeronde
 // hoeken zoals op de maatregelpagina's. `priority` alleen voor de bovenste foto.
-export function ArtikelFoto({ src, alt, priority = false, overgang }: { src: string; alt: string; priority?: boolean; overgang?: string }) {
+export function ArtikelFoto({ src, alt, priority = false, overgang, onderschrift }: { src: string; alt: string; priority?: boolean; overgang?: string; onderschrift?: string }) {
   const foto = (
     <div className="relative aspect-[3/2] overflow-hidden rounded-[var(--radius-xl)] bg-[var(--grey-050)]">
       <Image src={src} alt={alt} fill priority={priority} sizes="(max-width: 768px) 100vw, 720px" className="object-cover" />
@@ -13,6 +13,7 @@ export function ArtikelFoto({ src, alt, priority = false, overgang }: { src: str
   return (
     <figure className="mx-0 my-8">
       {overgang ? <FotoOvergang id={overgang}>{foto}</FotoOvergang> : foto}
+      {onderschrift && <figcaption className="mt-2 text-[13px] italic leading-relaxed text-zinc-500">{onderschrift}</figcaption>}
     </figure>
   );
 }

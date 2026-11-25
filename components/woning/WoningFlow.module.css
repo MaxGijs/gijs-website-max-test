@@ -217,3 +217,9 @@
   .planZij .verschil{font-size:14px}
   .planZij .zijAdres{font-size:14px}
 }
+/* Stap 3 (25-11-2026): geen zijbalk meer; "Je energiekosten" staat in het rapport op de plek van het eerste advies. */
+.plan{display:block}
+.planHoofd{max-width:880px}
+.plan .samenvatting{padding:22px 24px}
+.plan .samenvattingKop h3{font-size:19px}
+.plan .nuStraks dd{font-size:30px}
