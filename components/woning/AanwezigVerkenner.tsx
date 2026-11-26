@@ -83,16 +83,18 @@ export function AanwezigVerkenner({ woning, groepen, bestaande, onToggle, actief
   const onbekendAan = tab === "afgifte" ? afgifte.includes("Weet ik niet") : aanwezigOnbekend;
 
   return (
-    <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-5 py-8 md:px-10 md:py-10">
-      {/* items-start: de woning blijft op zijn plek als de rechterkolom per tab een andere hoogte heeft. */}
-      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-8 lg:gap-10 items-start">
-        <div className="flex flex-col h-[340px] md:h-[440px] lg:h-[580px] min-w-0">{woning}</div>
+    <div className="rounded-[var(--radius-xl)] bg-[var(--surface-tint)] px-4 py-8 sm:px-5 md:px-10 md:py-10">
+      {/* items-start: de woning blijft op zijn plek als de rechterkolom per tab een andere hoogte heeft.
+          Onder lg geen vaste hoogte: de woning (HouseViewer .vol) heeft daar zelf een vaste hoogte, en het bijschrift
+          eronder moet mee kunnen groeien, anders loopt het over de tabbladen heen. */}
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-6 lg:gap-10 items-start">
+        <div className="flex flex-col lg:h-[580px] min-w-0">{woning}</div>
 
         <div className="flex min-w-0 flex-col gap-4">
-          <div role="tablist" aria-label="Wat is er al aan je woning gedaan?" className="inline-flex self-start rounded-full bg-white p-1 shadow-[var(--shadow-1)]">
+          <div role="tablist" aria-label="Wat is er al aan je woning gedaan?" className="flex w-full sm:inline-flex sm:w-auto self-start rounded-full bg-white p-1 shadow-[var(--shadow-1)]">
             {VOLGORDE.map(id => (
               <button key={id} type="button" role="tab" aria-selected={tab === id} onClick={() => setTab(id)}
-                className={`rounded-full px-4 sm:px-5 py-2 text-sm font-semibold transition-colors ${tab === id ? "bg-[var(--gijs-donkergroen)] text-white" : "text-zinc-600 hover:text-[var(--gijs-donkergroen)]"}`}>
+                className={`flex-1 sm:flex-none inline-flex items-center justify-center whitespace-nowrap rounded-full px-2.5 sm:px-5 py-2 text-[13px] sm:text-sm font-semibold transition-colors ${tab === id ? "bg-[var(--gijs-donkergroen)] text-white" : "text-zinc-600 hover:text-[var(--gijs-donkergroen)]"}`}>
                 {TAB_INFO[id].label}
                 {aantal[id] > 0 && <span className={`ml-1.5 inline-flex min-w-5 h-5 items-center justify-center rounded-full px-1.5 text-[12px] font-bold ${tab === id ? "bg-white/20 text-white" : "bg-[var(--accent-100)] text-[var(--accent-700)]"}`}>{aantal[id]}<span className="sr-only"> gekozen</span></span>}
               </button>
@@ -140,7 +142,7 @@ function VerkennerRij({ rij, aan, actief, onClick, aanLabel = "Heb ik al" }: { r
           <span className="truncate text-[15px] font-semibold text-[var(--gijs-donkergroen)]">{rij.naam}</span>
           {rij.tekst && <span className="truncate text-[13px] text-zinc-600">{rij.tekst}</span>}
         </span>
-        {aan && aanLabel && <span className="shrink-0 text-[12px] font-semibold text-[var(--accent-700)]">{aanLabel}</span>}
+        {aan && aanLabel && <span className="hidden sm:inline shrink-0 text-[12px] font-semibold text-[var(--accent-700)]">{aanLabel}</span>}
         <span aria-hidden="true" className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${aan ? "border-[var(--gijs-accentgroen)] bg-[var(--gijs-accentgroen)] text-white" : "border-[var(--border-default)] bg-white text-transparent"}`}>
           <Icon name="check" size="sm" />
         </span>
