@@ -13,6 +13,10 @@ import { WarmtenetKerschotenApeldoorn, WarmtenetKerschotenInleiding } from "@/co
 import { CvKetelVervangen2029, CvKetelInleiding } from "@/components/kennis/CvKetelVervangen2029";
 import { ZonnepanelenZonderSaldering, ZonnepanelenZonderSalderingInleiding } from "@/components/kennis/ZonnepanelenZonderSaldering";
 import { UfSchuimSpouwmuur, UfSchuimInleiding } from "@/components/kennis/UfSchuimSpouwmuur";
+import { VochtigeKruipruimteIsoleren, VochtigeKruipruimteInleiding } from "@/components/kennis/VochtigeKruipruimteIsoleren";
+import { WaaromBlijftJeHuisKoud, WaaromBlijftJeHuisKoudInleiding } from "@/components/kennis/WaaromBlijftJeHuisKoud";
+import { WarmtepompRijtjeshuis, WarmtepompRijtjeshuisInleiding } from "@/components/kennis/WarmtepompRijtjeshuis";
+import { DynamischeNettarieven2029, DynamischeNettarievenInleiding } from "@/components/kennis/DynamischeNettarieven2029";
 import { KENNIS_ARTIKELEN, kennisArtikelPad, artikelOvergangId, formatteerDatum } from "@/lib/content/kennis-artikelen";
 import { createMetadata, SITE_URL } from "@/lib/seo";
 import { titelOvergang } from "@/lib/overgang";
@@ -20,6 +24,10 @@ import { titelOvergang } from "@/lib/overgang";
 // Artikeltekst per slug. Nieuw artikel: gegevens in lib/content/kennis-artikelen.ts, tekst als
 // component in components/kennis/, en hier koppelen.
 const INHOUD: Record<string, { inleiding: ComponentType<{ className?: string }>; tekst: ComponentType<{ slug: string }> }> = {
+  "dynamische-nettarieven-2029": { inleiding: DynamischeNettarievenInleiding, tekst: DynamischeNettarieven2029 },
+  "warmtepomp-rijtjeshuis-weinig-ruimte": { inleiding: WarmtepompRijtjeshuisInleiding, tekst: WarmtepompRijtjeshuis },
+  "waarom-blijft-mijn-huis-koud": { inleiding: WaaromBlijftJeHuisKoudInleiding, tekst: WaaromBlijftJeHuisKoud },
+  "vochtige-kruipruimte-isoleren": { inleiding: VochtigeKruipruimteInleiding, tekst: VochtigeKruipruimteIsoleren },
   "slimme-warmtepomp-subsidie-2027": { inleiding: SlimmeWarmtepompInleiding, tekst: SlimmeWarmtepompSubsidie2027 },
   "uf-schuim-spouwmuurisolatie-risicos-alternatieven": { inleiding: UfSchuimInleiding, tekst: UfSchuimSpouwmuur },
   "zonnepanelen-rendabel-zonder-salderen": { inleiding: ZonnepanelenZonderSalderingInleiding, tekst: ZonnepanelenZonderSaldering },

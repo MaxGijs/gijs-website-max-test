@@ -19,6 +19,58 @@ export type KennisArtikel = {
 
 export const KENNIS_ARTIKELEN: KennisArtikel[] = [
   {
+    slug: "dynamische-nettarieven-2029",
+    titel: "Wat betekenen dynamische nettarieven vanaf 2029 voor jou?",
+    seoTitel: "Wat betekenen dynamische nettarieven vanaf 2029 voor jou?",
+    beschrijving: "Wat veranderen dynamische nettarieven vanaf 2029 aan jouw energierekening? Ontdek wat je kunt verwachten en hoe je hierop kunt inspelen.",
+    intro: "Vanaf 2029 kan het moment waarop je stroom gebruikt invloed hebben op je energierekening. Wat verandert er en hoe speel je hierop in?",
+    gepubliceerd: "2026-11-26",
+    afbeelding: {
+      path: "/images/kennis/nettarieven/pexels-bryandijkh-20219148.jpg",
+      alt: "Bakstenen woning met verlichte ramen in de avondschemering",
+      onderschrift: "Juist 's avonds, als veel huishoudens tegelijk stroom gebruiken, is het elektriciteitsnet het drukst.",
+    },
+  },
+  {
+    slug: "warmtepomp-rijtjeshuis-weinig-ruimte",
+    titel: "Warmtepomp in een rijtjeshuis: kan dat als je weinig ruimte hebt?",
+    seoTitel: "Warmtepomp rijtjeshuis: mogelijkheden bij weinig ruimte | Gijs",
+    beschrijving: "Weinig ruimte voor een warmtepomp in een rijtjeshuis? Ontdek welke plaatsingsmogelijkheden er zijn en hoe je geluidsoverlast voorkomt.",
+    intro: "Weinig tuin en buren op korte afstand? Ontdek waar je een warmtepomp kunt plaatsen bij een rijtjeshuis en hoe je geluidsoverlast voorkomt.",
+    gepubliceerd: "2026-11-26",
+    afbeelding: {
+      path: "/images/kennis/warmtepomp-rijtjeshuis/rijtjeswoningen-laan.jpg",
+      alt: "Laan met bomen en Nederlandse rijtjeswoningen van baksteen op de achtergrond",
+      onderschrift: "Bij een rijtjeshuis zijn de plaatsingsmogelijkheden voor een warmtepomp beperkter, maar er zijn meer opties dan je misschien denkt.",
+    },
+  },
+  {
+    slug: "waarom-blijft-mijn-huis-koud",
+    titel: "Waarom blijft je huis koud en wat kun je eraan doen?",
+    seoTitel: "Waarom blijft mijn huis koud? Dit kun je doen | Gijs",
+    beschrijving: "Blijft je huis koud ondanks de verwarming? Ontdek hoe je comfortabeler kunt wonen en tegelijkertijd kunt besparen op je energierekening.",
+    intro: "Zit je 's avonds met een dekentje op de bank terwijl de verwarming aanstaat? Ontdek waarom je huis koud blijft en wat je eraan kunt doen.",
+    gepubliceerd: "2026-11-26",
+    afbeelding: {
+      path: "/images/kennis/cv-ketel/radiator-bakstenen-muur.jpg",
+      alt: "Witte radiator aan een bakstenen muur in een woning",
+      onderschrift: "Een goed werkende radiator is niet genoeg als de warmte via slecht geïsoleerde muren, dak of vloer verloren gaat.",
+    },
+  },
+  {
+    slug: "vochtige-kruipruimte-isoleren",
+    titel: "Kun je een vochtige kruipruimte zomaar isoleren?",
+    seoTitel: "Vochtige kruipruimte isoleren: waar je op moet letten | Gijs",
+    beschrijving: "Een vochtige kruipruimte is vaak geen belemmering voor vloerisolatie. Ontdek aan de hand van 6 stappen waar je op moet letten voordat je begint.",
+    intro: "Een vochtige kruipruimte hoeft je vloerisolatie niet in de weg te staan. Lees aan de hand van zes stappen waar je op moet letten voordat je begint.",
+    gepubliceerd: "2026-11-26",
+    afbeelding: {
+      path: "/images/kennis/kruipruimte/kruipruimte-kruipluik-open.webp",
+      alt: "Geopend kruipluik in een woonkamer met daarbinnen een kruipruimte met grind en leidingen",
+      onderschrift: "Een geopend kruipluik geeft direct zicht op de staat van je kruipruimte.",
+    },
+  },
+  {
     slug: "uf-schuim-spouwmuurisolatie-risicos-alternatieven",
     titel: "UF-schuim bij spouwmuurisolatie: wat zijn de risico's en alternatieven?",
     seoTitel: "UF-schuim in de spouwmuur: risico's en alternatieven | Gijs",

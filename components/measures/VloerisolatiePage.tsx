@@ -18,6 +18,7 @@ import { FeatureList } from "@/components/measures/FeatureList";
 import { HOOFDSTUK_MB, HOOFDSTUK_DIVIDER } from "@/components/measures/sectionRhythm";
 import { SubsidieSectie } from "@/components/measures/SubsidieSectie";
 import { MeasureRegioLink } from "@/components/measures/MeasureRegioLink";
+import { ArtikelKaarten } from "@/components/kennis/ArtikelKaarten";
 import type { MEASURE_PAGES } from "@/lib/content/measure-pages";
 
 type MeasurePageItem = (typeof MEASURE_PAGES)[number];
@@ -294,6 +295,10 @@ export function VloerisolatiePage({ item }: { item: MeasurePageItem }) {
       </section>
 
       <SubsidieSectie titel="Subsidie bij vloerisolatie" />
+
+      <section id="kennis" className={`${HOOFDSTUK_MB} ${HOOFDSTUK_DIVIDER}`}>
+        <ArtikelKaarten slugs={["vochtige-kruipruimte-isoleren"]} />
+      </section>
 
       <section id="veelgestelde-vragen" className={`scroll-mt-40 mb-10 sm:mb-14 lg:mb-16 ${HOOFDSTUK_DIVIDER}`}>
         <h2 className="text-[var(--fs-display-3)] font-bold text-[var(--gijs-donkergroen)] mb-6">Veelgestelde vragen</h2>

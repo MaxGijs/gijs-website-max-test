@@ -11,7 +11,7 @@ import { KAARTKOP, KAARTTEKST, RASTER, RASTER_CEL } from "@/components/regio/reg
 // artikel wordt het één brede kaart met de foto links.
 const KAART = "h-full flex overflow-hidden rounded-[var(--radius-lg)] bg-[var(--grey-050)] transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)]";
 
-function Kaart({ a, breed, compact = false }: { a: KennisArtikel; breed: boolean; compact?: boolean }) {
+export function Kaart({ a, breed, compact = false }: { a: KennisArtikel; breed: boolean; compact?: boolean }) {
   return (
     <Link href={kennisArtikelPad(a.slug)} transitionTypes={OVERGANG_TYPES} className="group no-underline block h-full">
       <div className={KAART + (breed ? " flex-col md:flex-row" : " flex-col")}>
@@ -34,10 +34,14 @@ function Kaart({ a, breed, compact = false }: { a: KennisArtikel; breed: boolean
 }
 
 /** Alle artikelen (op /kennis), of alleen de opgegeven slugs (bijvoorbeeld op een maatregelpagina). */
-export function ArtikelKaarten({ slugs, compact = false }: { slugs?: string[]; compact?: boolean } = {}) {
-  const artikelen = KENNIS_ARTIKELEN
+export function zichtbareArtikelen(slugs?: string[]) {
+  return KENNIS_ARTIKELEN
     .filter(a => (slugs ? slugs.includes(a.slug) : !a.alleenRegio))
     .sort((x, y) => y.gepubliceerd.localeCompare(x.gepubliceerd));
+}
+
+export function ArtikelKaarten({ slugs, compact = false }: { slugs?: string[]; compact?: boolean } = {}) {
+  const artikelen = zichtbareArtikelen(slugs);
   const n = artikelen.length;
   return (
     <ul className={RASTER + " gap-4 lg:gap-5 list-none p-0 m-0"}>
